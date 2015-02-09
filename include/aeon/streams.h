@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <vector>
 #include <fstream>
+#include <array>
 
 #include <boost/filesystem.hpp>
 
