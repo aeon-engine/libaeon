@@ -25,17 +25,18 @@ public:
         virtual void on_data(std::uint8_t *data, std::size_t size) = 0;
         virtual void on_error(boost::system::error_code ec) = 0;
 
-        void send(stream_ptr stream)
+        void send(aeon::streams::stream_ptr stream)
         {
             std::vector<std::uint8_t> buffer(
                 std::move(stream->read_to_vector()));
 
-            memory_stream_ptr memorystream =
-                std::make_shared<memory_stream>(std::move(buffer));
+            aeon::streams::memory_stream_ptr memorystream =
+                std::make_shared<aeon::streams::memory_stream>(
+                    std::move(buffer));
             send(memorystream);
         }
 
-		void send(memory_stream_ptr stream)
+        void send(aeon::streams::memory_stream_ptr stream)
         {
 			send_data_queue_.push(stream);
 
@@ -104,7 +105,7 @@ public:
 
         boost::asio::ip::tcp::socket socket_;
         std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
-		std::queue<aeon::memory_stream_ptr> send_data_queue_;
+		std::queue<aeon::streams::memory_stream_ptr> send_data_queue_;
     };
 
 public:

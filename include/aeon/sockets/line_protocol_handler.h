@@ -1,9 +1,6 @@
 #ifndef line_protocol_handler_h__
 #define line_protocol_handler_h__
 
-#include <aeon/streams/circular_buffer_stream.h>
-#include <aeonci/streams/stream_reader.h>
-
 namespace aeon
 {
 namespace sockets
