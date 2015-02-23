@@ -22,6 +22,7 @@ source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
 set(LIB_AEON_SOCKETS_SOURCE
     include/aeon/sockets.h
     include/aeon/sockets/config.h
+    include/aeon/sockets/line_protocol_handler.h
     include/aeon/sockets/tcp_server.h
 )
 

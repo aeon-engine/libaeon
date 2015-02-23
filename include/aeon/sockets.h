@@ -21,6 +21,7 @@
 /******************************************************************************/
 #include <aeon/sockets/config.h>
 #include <aeon/sockets/tcp_server.h>
+#include <aeon/sockets/line_protocol_handler.h>
 
 #endif // aeon_sockets_h__
 
