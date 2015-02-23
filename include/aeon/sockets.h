@@ -1,5 +1,5 @@
-#ifndef aeon_streams_h__
-#define aeon_streams_h__
+#ifndef aeon_sockets_h__
+#define aeon_sockets_h__
 
 /******************************************************************************/
 /* Standard headers                                                           */
@@ -8,25 +8,19 @@
 #include <cstdlib>
 #include <cstddef>
 #include <vector>
-#include <fstream>
 #include <array>
+#include <queue>
 
 /******************************************************************************/
 /* Boost headers                                                              */
 /******************************************************************************/
-#include <boost/filesystem.hpp>
+#include <boost/asio.hpp>
 
 /******************************************************************************/
 /* Aeon headers                                                               */
 /******************************************************************************/
-#include <aeon/streams/config.h>
-#include <aeon/streams/access_mode_mixin.h>
-#include <aeon/streams/stream.h>
-#include <aeon/streams/memory_stream.h>
-#include <aeon/streams/file_stream.h>
-#include <aeon/streams/circular_buffer_stream.h>
-#include <aeon/streams/stream_reader.h>
-#include <aeon/streams/stream_writer.h>
+#include <aeon/sockets/config.h>
+#include <aeon/sockets/tcp_server.h>
 
-#endif // aeon_streams_h__
+#endif // aeon_sockets_h__
 
