@@ -174,9 +174,21 @@ public:
         return true;
     }
 
-    virtual bool seek(std::ptrdiff_t,
-                      stream::seek_direction)
+    virtual bool seek(std::ptrdiff_t offset,
+                      stream::seek_direction direction)
     {
+        if (direction != stream::seek_direction::current)
+            return false;
+
+        if (offset <= 0)
+            return false;
+
+        if ((std::size_t) offset > size_)
+            return false;
+
+        tail_ += offset;
+        tail_ = tail_ % circular_buffer_size;
+
         return false;
     }
 
