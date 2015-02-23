@@ -3,6 +3,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 class stream;
 class stream_writer
@@ -45,6 +47,7 @@ protected:
     stream &stream_;
 };
 
+} // namespace streams
 } // namespace aeon
 
 #endif // aeon_streams_stream_writer_h__

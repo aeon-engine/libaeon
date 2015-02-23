@@ -3,6 +3,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 class stream;
 class stream_reader
@@ -75,6 +77,7 @@ protected:
     stream &stream_;
 };
 
+} // namespace streams
 } // namespace aeon
 
 #endif // aeon_streams_stream_reader_h__

@@ -3,6 +3,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 /*!
  * \brief Circular Buffer Stream
@@ -259,6 +261,7 @@ protected:
     std::size_t size_;
 };
 
+} // namespace streams
 } // namespace aeon
 
 #endif // aeon_streams_circular_buffer_stream_h__

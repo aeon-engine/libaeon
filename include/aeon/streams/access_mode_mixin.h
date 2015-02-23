@@ -3,6 +3,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 /*!
  * The available access modes for the class that uses the access_mode_mixin.
@@ -66,6 +68,7 @@ private:
     int access_mode_;
 };
 
+} // namespace streams
 } // namespace aeon
 
 #endif // aeon_streams_access_mode_mixin_h__

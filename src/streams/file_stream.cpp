@@ -2,6 +2,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 file_stream::file_stream(const std::string &filename, int mode) :
     stream(mode),
@@ -174,5 +176,6 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
     return std::ios::cur;
 }
 
+} // namespace streams
 } // namespace aeon
 

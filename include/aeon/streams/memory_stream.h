@@ -3,6 +3,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 class memory_stream : public stream
 {
@@ -177,6 +179,7 @@ protected:
 
 typedef std::shared_ptr<memory_stream> memory_stream_ptr;
 
+} // namespace streams
 } // namespace aeon
 
 #endif // aeon_streams_memory_stream_h__

@@ -3,6 +3,8 @@
 
 namespace aeon
 {
+namespace streams
+{
 
 /*!
  * \brief Base class for streams
@@ -92,6 +94,7 @@ public:
 
 typedef std::shared_ptr<stream> stream_ptr;
 
+} // namespace streams
 } // namespace aeon
 
 #endif // aeon_streams_stream_h__
