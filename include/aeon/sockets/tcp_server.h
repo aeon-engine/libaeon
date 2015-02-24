@@ -44,6 +44,14 @@ public:
 				tcp_server_handle_write_();
         }
 
+        void disconnect()
+        {
+            on_disconnected();
+            socket_.shutdown(
+                boost::asio::ip::tcp::socket::shutdown_both);
+            socket_.close();
+        }
+
         void tcp_server_socket_start_()
         {
             tcp_server_handle_read_();
@@ -73,10 +81,7 @@ public:
                     }
                     else
                     {
-                        self->on_disconnected();
-                        self->socket_.shutdown(
-                            boost::asio::ip::tcp::socket::shutdown_both, ec);
-                        self->socket_.close();
+                        self->disconnect();
                     }
                 }
             );
