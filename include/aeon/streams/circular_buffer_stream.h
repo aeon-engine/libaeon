@@ -168,9 +168,10 @@ public:
         if (size_ == 0 || (std::size_t) offset > size_)
             return false;
 
-        std::ptrdiff_t normalized_offset = offset % circular_buffer_size;
+        std::ptrdiff_t normalized_offset =
+            (tail_ + offset) % circular_buffer_size;
 
-        data = buffer_[tail_ + normalized_offset];
+        data = buffer_[normalized_offset];
         return true;
     }
 
