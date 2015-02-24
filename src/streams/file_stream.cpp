@@ -157,7 +157,7 @@ std::ios::openmode file_stream::access_mode_to_ios_open_mode_(int mode)
             return std::fstream::in | std::fstream::out;
     }
 
-    return 0;
+    return (std::ios_base::openmode) 0;
 }
 
 std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
