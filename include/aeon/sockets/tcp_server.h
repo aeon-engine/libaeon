@@ -92,7 +92,7 @@ public:
 			if (send_data_queue_.empty())
 				return;
 
-			memory_stream_ptr buffer = send_data_queue_.front();
+			streams::memory_stream_ptr buffer = send_data_queue_.front();
 			auto self(protocol_handler::shared_from_this());
 
 			boost::asio::async_write(
