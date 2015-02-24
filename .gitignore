@@ -4,3 +4,10 @@
 # Vim
 *.swp
 
+# Cmake
+CMakeFiles/
+cmake_install.cmake
+
+# Linux
+Makefile
+*.a
