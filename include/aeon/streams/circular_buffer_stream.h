@@ -117,7 +117,7 @@ public:
             return 0;
 
         // We are about to overwrite data that was not yet read. Abort.
-        if (!fits_in_buffer(size))
+        if (!fits_in_buffer_(size))
             return 0;
 
         std::size_t bytes_to_write = size;
@@ -262,7 +262,7 @@ protected:
         return (offset > circular_buffer_size);
     }
 
-    bool fits_in_buffer(std::size_t size)
+    bool fits_in_buffer_(std::size_t size)
     {
         return ((size_ + size) <= circular_buffer_size);
     }
