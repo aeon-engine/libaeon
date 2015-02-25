@@ -47,9 +47,10 @@ public:
         void disconnect()
         {
             on_disconnected();
-            socket_.shutdown(
-                boost::asio::ip::tcp::socket::shutdown_both);
-            socket_.close();
+            //TODO: FIXME
+            //socket_.shutdown(
+            //    boost::asio::ip::tcp::socket::shutdown_both);
+            //socket_.close();
         }
 
         void tcp_server_socket_start_()
