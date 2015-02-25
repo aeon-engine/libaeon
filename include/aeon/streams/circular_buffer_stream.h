@@ -100,14 +100,14 @@ public:
 
      /*!
      * Peek raw data from the circular buffer. The data will be 'peeked' from
-     * the beginning of the buffer. If we want to peek more data than is present
-     * in our buffer, this function will return false.
+     * the beginning (tail) of the buffer. If we want to peek more data than is
+     * present in our buffer, this function will return false.
      *
      * \param data The destination of the data to be 'peeked' from the circular
                    buffer.
      * \param size The size of the data to be peeked. The data parameter must be
                    large enough to hold this size.
-     * \return The size keeped from the circular buffer or 0.
+     * \return The size peeked from the circular buffer or 0.
      */
     virtual std::size_t peek_read(std::uint8_t *data, std::size_t size)
     {
