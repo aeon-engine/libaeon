@@ -36,7 +36,7 @@ public:
             return 0;
 
         // Only read what we have
-        if(offset_ < size)
+        if(size >= (size_ - offset_))
             size = offset_;
 
         // Are we really out of bounds?
@@ -44,8 +44,8 @@ public:
             return 0;
 
         // Copy our data
-        offset_ -= size;
         std::memcpy(data, &buffer_[offset_], size);
+        offset_ += size;
 
         return size;
     }
@@ -161,7 +161,7 @@ public:
         reserve(buffer_.size() + size);
     }
 
-    const std::uint8_t *data() const
+    std::uint8_t *data()
     {
         return &buffer_[0];
     }
