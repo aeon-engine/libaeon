@@ -15,7 +15,7 @@ namespace streams
  * until the buffer is emptied again with read. Be sure to make the buffer
  * large enough for your use-case.
  */
-template<int circular_buffer_size>
+template<unsigned int circular_buffer_size>
 class circular_buffer_stream : public stream
 {
 public:
@@ -94,6 +94,51 @@ public:
 
         // Update the size of the buffer
         size_ -= size;
+
+        return size;
+    }
+
+     /*!
+     * Peek raw data from the circular buffer. The data will be 'peeked' from
+     * the beginning of the buffer. If we want to peek more data than is present
+     * in our buffer, this function will return false.
+     *
+     * \param data The destination of the data to be 'peeked' from the circular
+                   buffer.
+     * \param size The size of the data to be peeked. The data parameter must be
+                   large enough to hold this size.
+     * \return The size keeped from the circular buffer or 0.
+     */
+    virtual std::size_t peek_read(std::uint8_t *data, std::size_t size)
+    {
+        // Can we read this size at all?
+        if (is_out_of_bounds_(size))
+            return 0;
+
+        // Do we have this many bytes in the buffer?
+        if (size > size_)
+            return 0;
+
+        std::size_t tail = tail_;
+        std::size_t bytes_to_read = size;
+        std::size_t write_offset = 0;
+
+        // If we can't read everything at once, read the first part
+        if (is_out_of_bounds_(size + tail))
+        {
+            std::size_t bytes_until_end = circular_buffer_size - tail;
+            std::memcpy(data, &buffer_.data()[tail], bytes_until_end);
+            bytes_to_read -= bytes_until_end;
+            write_offset = bytes_until_end;
+            tail = 0;
+        }
+
+        // Do we have anything left to read?
+        if (bytes_to_read > 0)
+        {
+            std::memcpy(&data[write_offset],
+                &buffer_.data()[tail], bytes_to_read);
+        }
 
         return size;
     }
