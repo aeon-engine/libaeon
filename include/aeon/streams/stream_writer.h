@@ -43,6 +43,12 @@ public:
     STREAM_WRITER_WRITE_OPERATOR(float)
     STREAM_WRITER_WRITE_OPERATOR(double)
 
+    void write_line(const std::string &line)
+    {
+        stream_.write((std::uint8_t *) line.c_str(), line.size());
+        stream_.write((std::uint8_t *) "\n", 1);
+    }
+
 protected:
     stream &stream_;
 };

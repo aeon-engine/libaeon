@@ -30,9 +30,21 @@ source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_UTILITY_SOURCE
+    include/aeon/utility.h
+    include/aeon/utility/singleton.h
+    include/aeon/utility/configfile.h
+    src/utility/configfile.cpp
+)
+
+source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_SOCKETS_SOURCE}
+    ${LIB_AEON_UTILITY_SOURCE}
 )
 
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
