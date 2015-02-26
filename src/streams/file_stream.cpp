@@ -72,7 +72,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
     if (offset != 0)
     {
         original_offset = fstream_.tellg();
-        fstream_.seekg(original_offset + offset, std::ios::cur);
+        fstream_.seekg(offset, std::ios::cur);
 
         if (fstream_.fail())
             return false;
@@ -83,10 +83,10 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
     if (peek_val == EOF)
         return false;
 
-    data = (std::uint8_t) peek_val;
+    data = (std::uint8_t) peek_val;    
 
     if (offset != 0)
-        fstream_.seekg(original_offset, std::ios::cur);
+        fstream_.seekg(original_offset, std::ios::beg);
 
     return true;
 }
