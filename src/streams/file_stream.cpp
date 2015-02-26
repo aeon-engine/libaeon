@@ -72,7 +72,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
     if (offset != 0)
     {
         original_offset = fstream_.tellg();
-        fstream_.seekg(offset, std::ios::cur);
+        fstream_.seekg(original_offset + offset, std::ios::beg);
 
         if (fstream_.fail())
             return false;
