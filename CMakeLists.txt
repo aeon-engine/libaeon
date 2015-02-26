@@ -35,6 +35,8 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/singleton.h
     include/aeon/utility/configfile.h
     src/utility/configfile.cpp
+    include/aeon/utility/hexdump.h
+    src/utility/hexdump.cpp
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
