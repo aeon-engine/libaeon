@@ -16,7 +16,8 @@ public:
     friend class tcp_server;
     public:
         protocol_handler(boost::asio::ip::tcp::socket socket) :
-            socket_(std::move(socket))
+            socket_(std::move(socket)),
+            io_service_(nullptr)
         {
         }
 
@@ -53,10 +54,18 @@ public:
             //socket_.close();
         }
 
-        void tcp_server_socket_start_()
+        void tcp_server_socket_start_(boost::asio::io_service *io_service)
         {
+            io_service_ = io_service;
+
             tcp_server_handle_read_();
             on_connected();
+        }
+
+    protected:
+        boost::asio::io_service &io_service()
+        {
+            return *io_service_;
         }
 
     private:
@@ -112,13 +121,15 @@ public:
         boost::asio::ip::tcp::socket socket_;
         std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
 		std::queue<aeon::streams::memory_stream_ptr> send_data_queue_;
+        boost::asio::io_service *io_service_;
     };
 
 public:
     tcp_server(boost::asio::io_service &io_service, std::uint16_t port) :
         acceptor_(io_service, 
             boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-        socket_(io_service)
+        socket_(io_service),
+        io_service_(io_service)
     {
         start_async_accept_();
     }
@@ -132,7 +143,7 @@ protected:
                 if (!ec)
                 {
                     std::make_shared<socket_handler_type>(
-                        std::move(socket_))->tcp_server_socket_start_();
+                        std::move(socket_))->tcp_server_socket_start_(&io_service_);
                 }
                 start_async_accept_();
             }
@@ -141,6 +152,7 @@ protected:
 
     boost::asio::ip::tcp::acceptor acceptor_;
     boost::asio::ip::tcp::socket socket_;
+    boost::asio::io_service &io_service_;
 };
 
 } // namespace sockets
