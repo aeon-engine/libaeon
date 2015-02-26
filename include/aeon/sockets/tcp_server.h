@@ -45,12 +45,15 @@ public:
         }
 
         void disconnect()
-        {
-            on_disconnected();
-            //TODO: FIXME
-            //socket_.shutdown(
-            //    boost::asio::ip::tcp::socket::shutdown_both);
-            //socket_.close();
+        {          
+			if(!socket_.is_open()) 
+				return;
+
+			socket_.shutdown(
+				boost::asio::ip::tcp::socket::shutdown_both);
+			socket_.close();		
+
+			on_disconnected();
         }
 
         void tcp_server_socket_start_()
