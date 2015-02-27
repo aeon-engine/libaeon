@@ -14,7 +14,7 @@ T swap16(T val)
     static_assert(sizeof(T) == sizeof(std::uint16_t),
         "swap16 used on type of different size.");
 
-    typedef std::conditional<std::is_integral<T>::value,
+    typedef typename std::conditional<std::is_integral<T>::value,
         T, std::uint16_t>::type swap_type;
 
     swap_type swap =
@@ -30,7 +30,7 @@ T swap32(T val)
     static_assert(sizeof(T) == sizeof(std::uint32_t),
         "swap32 used on type of different size.");
 
-    typedef std::conditional<std::is_integral<T>::value,
+    typedef typename std::conditional<std::is_integral<T>::value,
         T, std::uint32_t>::type swap_type;
 
     swap_type swap =
@@ -48,7 +48,7 @@ T swap64(T val)
     static_assert(sizeof(T) == sizeof(std::uint64_t),
         "swap64 used on type of different size.");
 
-    typedef std::conditional<std::is_integral<T>::value,
+    typedef typename std::conditional<std::is_integral<T>::value,
         T, std::uint64_t>::type swap_type;
 
     swap_type swap =
@@ -74,7 +74,7 @@ T swap(T val)
             return val;
         case 2:
         {
-            typedef std::conditional<std::is_integral<T>::value,
+            typedef typename std::conditional<std::is_integral<T>::value,
                 T, std::uint16_t>::type swap_type;
 
             swap_type swap =
@@ -85,7 +85,7 @@ T swap(T val)
         }
         case 4:
         {
-            typedef std::conditional<std::is_integral<T>::value,
+            typedef typename std::conditional<std::is_integral<T>::value,
                 T, std::uint32_t>::type swap_type;
 
             swap_type swap =
@@ -98,7 +98,7 @@ T swap(T val)
         }
         case 8:
         {
-            typedef std::conditional<std::is_integral<T>::value,
+            typedef typename std::conditional<std::is_integral<T>::value,
                 T, std::uint64_t>::type swap_type;
 
             swap_type swap =
