@@ -51,9 +51,8 @@ public:
 
 			socket_.shutdown(
 				boost::asio::ip::tcp::socket::shutdown_both);
-			socket_.close();		
-
-			on_disconnected();
+            socket_.close();
+            on_disconnected();
         }
 
         void tcp_server_socket_start_()
@@ -91,7 +90,8 @@ public:
                     }
                     else
                     {
-                        self->disconnect();
+                        self->socket_.close();
+                        self->on_disconnected();
                     }
                 }
             );
