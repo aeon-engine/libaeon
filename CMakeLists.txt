@@ -37,6 +37,7 @@ set(LIB_AEON_UTILITY_SOURCE
     src/utility/configfile.cpp
     include/aeon/utility/hexdump.h
     src/utility/hexdump.cpp
+    include/aeon/utility/endianness.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

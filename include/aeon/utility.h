@@ -25,5 +25,6 @@
 #include <aeon/utility/singleton.h>
 #include <aeon/utility/configfile.h>
 #include <aeon/utility/hexdump.h>
+#include <aeon/utility/endianness.h>
 
 #endif // aeon_utility_h__
