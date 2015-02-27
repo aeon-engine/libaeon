@@ -36,8 +36,8 @@ public:
             return 0;
 
         // Only read what we have
-        if(size >= (size_ - offset_))
-            size = offset_;
+        if(offset_ + size > size_)
+            size = size_ - offset_;
 
         // Are we really out of bounds?
         if (size <= 0)
