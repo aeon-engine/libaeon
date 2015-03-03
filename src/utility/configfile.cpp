@@ -108,8 +108,6 @@ bool configfile::load(aeon::streams::stream_ptr stream)
         if (line.empty())
             continue;
 
-        size_t length = line.size();
-
         // Ignore comments
         if (line[0] == '#')
             continue;
