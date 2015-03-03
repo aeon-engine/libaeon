@@ -19,6 +19,16 @@ source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_MATH_SOURCE
+    include/aeon/math.h
+    include/aeon/math/perlin_noise.h
+	src/math/perlin_noise.cpp
+)
+
+source_group(math FILES ${LIB_AEON_MATH_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_SOCKETS_SOURCE
     include/aeon/sockets.h
     include/aeon/sockets/config.h
@@ -46,6 +56,7 @@ source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
 
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
+	${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_SOCKETS_SOURCE}
     ${LIB_AEON_UTILITY_SOURCE}
 )
