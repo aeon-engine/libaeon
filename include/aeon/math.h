@@ -15,6 +15,7 @@
 /* Aeon headers                                                               */
 /******************************************************************************/
 #include <aeon/math/perlin_noise.h>
+#include <aeon/math/simplex_noise.h>
 
 #endif // aeon_math_h__
 

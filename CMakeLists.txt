@@ -22,7 +22,9 @@ source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
 set(LIB_AEON_MATH_SOURCE
     include/aeon/math.h
     include/aeon/math/perlin_noise.h
-	src/math/perlin_noise.cpp
+    src/math/perlin_noise.cpp
+    include/aeon/math/simplex_noise.h
+    src/math/simplex_noise.cpp
 )
 
 source_group(math FILES ${LIB_AEON_MATH_SOURCE})
