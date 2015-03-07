@@ -10,6 +10,7 @@
 #include <vector>
 #include <array>
 #include <queue>
+#include <cmath>
 
 /******************************************************************************/
 /* Aeon headers                                                               */
