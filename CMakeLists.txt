@@ -50,6 +50,8 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/hexdump.h
     src/utility/hexdump.cpp
     include/aeon/utility/endianness.h
+    src/utility/timer.cpp
+    include/aeon/utility/timer.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
