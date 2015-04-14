@@ -65,8 +65,12 @@ public:
         stream_.read((std::uint8_t *) &line[0], stringlength);
 
         int strip_characters = 1;
-        if (line[stringlength - 2] == '\r')
-            ++strip_characters;
+
+        if (stringlength > 2)
+        {
+            if (line[stringlength - 2] == '\r')
+                ++strip_characters;
+        }
 
         line.resize(stringlength - strip_characters);
 
