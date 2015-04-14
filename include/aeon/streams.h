@@ -21,6 +21,7 @@
 /******************************************************************************/
 #include <aeon/streams/config.h>
 #include <aeon/streams/access_mode_mixin.h>
+#include <aeon/streams/stream_name_mixin.h>
 #include <aeon/streams/stream.h>
 #include <aeon/streams/memory_stream.h>
 #include <aeon/streams/file_stream.h>

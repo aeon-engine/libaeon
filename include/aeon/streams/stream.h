@@ -12,7 +12,7 @@ namespace streams
  * This class serves as the base class for all streams.
  * When implementing a new steam, derive from this class.
  */
-class stream : public access_mode_mixin
+class stream : public access_mode_mixin, public stream_name_mixin
 {
 public:
     /*!

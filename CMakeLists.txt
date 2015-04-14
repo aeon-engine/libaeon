@@ -13,6 +13,7 @@ set(LIB_AEON_STREAMS_SOURCE
     src/streams/file_stream.cpp
     include/aeon/streams/circular_buffer_stream.h
     include/aeon/streams/memory_stream.h
+    include/aeon/streams/stream_name_mixin.h
 )
 
 source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
