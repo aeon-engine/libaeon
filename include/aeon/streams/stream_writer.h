@@ -43,6 +43,17 @@ public:
     STREAM_WRITER_WRITE_OPERATOR(float)
     STREAM_WRITER_WRITE_OPERATOR(double)
 
+    stream_writer &operator<<(const std::string &value)
+    {
+        std::size_t string_length = value.size();
+        if (stream_.write((std::uint8_t *) value.c_str(), string_length)
+            != string_length)
+        {
+            throw std::runtime_error("Operator write failed on stream.");
+        }
+        return *this;
+    }
+
     void write_line(const std::string &line)
     {
         stream_.write((std::uint8_t *) line.c_str(), line.size());
