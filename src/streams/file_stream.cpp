@@ -12,7 +12,7 @@ file_stream::file_stream(const std::string &filename, int mode) :
     fstream_.open(filename,
         access_mode_to_ios_open_mode_(mode) | std::fstream::binary);
 
-    if (is_readable())
+    if (fstream_.good() && is_readable())
     {
         fstream_.seekg(0, std::ios::end);
         size_ = fstream_.tellg();
