@@ -13,22 +13,19 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
 
     std::size_t i = 0;
     std::size_t c = 0;
-    std::size_t start;
-    std::size_t written;
-    std::uint8_t byte;
     const unsigned char *pData = (const unsigned char *)src;
 
     for (; i < len;)
     {
-        start = i;
+        std::size_t start = i;
         fprintf(dest, "%08X|", (unsigned int) i);
         for (c = 0; c < 16 && i < len;) // write 16 bytes per line
         {
-            fprintf(dest, "%02X ", (int)pData[i]);
+            fprintf(dest, "%02X ", (int) pData[i]);
             ++i; ++c;
         }
 
-        written = c;
+        std::size_t written = c;
         for (; c < 16; ++c)	// finish off any incomplete bytes
             fputs("   ", dest);
 
@@ -36,9 +33,9 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
         fputc('|', dest);
         for (c = 0; c < written; ++c)
         {
-            byte = pData[start + c];
-            if (isprint((int)byte))
-                fputc((char)byte, dest);
+            std::uint8_t byte = pData[start + c];
+            if (isprint((int) byte))
+                fputc((char) byte, dest);
             else
                 fputc('.', dest);
         }
