@@ -24,6 +24,7 @@ public:
 
     virtual ~singleton()
     {
+        instance_.release();
         instance_ = nullptr;
     }
 
