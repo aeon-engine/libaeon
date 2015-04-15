@@ -18,7 +18,7 @@ public:
         assert(instance_ == nullptr);
         instance_ = std::unique_ptr<type>((type *) this);
 
-        if (instance_ == nullptr)
+        if (!instance_)
             throw std::runtime_error("Singleton could not be created.");
     }
 
@@ -42,7 +42,7 @@ public:
     {
         assert(instance_);
 
-        if (instance_ == nullptr)
+        if (!instance_)
             throw std::runtime_error("Singleton instance is null.");
 
         return *instance_;
