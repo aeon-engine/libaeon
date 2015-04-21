@@ -16,7 +16,7 @@ public:
     singleton()
     {
         assert(instance_ == nullptr);
-        instance_ = std::unique_ptr<type>((type *) this);
+        instance_ = std::unique_ptr<type>(static_cast<type *>(this));
 
         if (!instance_)
             throw std::runtime_error("Singleton could not be created.");
@@ -24,8 +24,6 @@ public:
 
     virtual ~singleton()
     {
-        instance_.release();
-        instance_ = nullptr;
     }
 
     static type *create()
