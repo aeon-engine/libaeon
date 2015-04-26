@@ -36,17 +36,17 @@ public:
     /*!
      * Get a string value from the loaded config file.
      * \param key The entry key
-     * \param default_val The default value to be used when the key 
+     * \param default_val The default value to be used when the key
      *                    was not found or was invalid.
      * \returns The value or the default value
      */
-    std::string get_string(const std::string &key, 
+    std::string get_string(const std::string &key,
                            const std::string &default_val);
 
     /*!
      * Get an integer value from the loaded config file.
      * \param key The entry key
-     * \param default_val The default value to be used when the key 
+     * \param default_val The default value to be used when the key
      *                    was not found or was invalid.
      * \returns The value or the default value
      */
@@ -55,7 +55,7 @@ public:
     /*!
      * Get an float value from the loaded config file.
      * \param key The entry key
-     * \param default_val The default value to be used when the key 
+     * \param default_val The default value to be used when the key
      *                    was not found or was invalid.
      * \returns The value or the default value
      */
@@ -85,17 +85,17 @@ public:
     void set_integer(const std::string &key, int val);
 
      /*!
-     * Set a float value in the loaded config file.
-     * \param key The entry key. Must be in the format "header.keyname".
-     * \param val The value
-     */
+      * Set a float value in the loaded config file.
+      * \param key The entry key. Must be in the format "header.keyname".
+      * \param val The value
+      */
     void set_float(const std::string &key, float val);
 
     /*!
-    * Set a boolean value in the loaded config file.
-    * \param key The entry key. Must be in the format "header.keyname".
-    * \param val The value
-    */
+     * Set a boolean value in the loaded config file.
+     * \param key The entry key. Must be in the format "header.keyname".
+     * \param val The value
+     */
     void set_boolean(const std::string &key, bool val);
 
     /*!

@@ -45,8 +45,8 @@ public:
         }
 
         void disconnect()
-        {          
-			if(!socket_.is_open()) 
+        {
+			if(!socket_.is_open())
 				return;
 
 			socket_.shutdown(
@@ -125,7 +125,7 @@ public:
 
 public:
     tcp_server(boost::asio::io_service &io_service, std::uint16_t port) :
-        acceptor_(io_service, 
+        acceptor_(io_service,
             boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
         socket_(io_service),
         io_service_(io_service)

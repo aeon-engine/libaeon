@@ -83,7 +83,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
     if (peek_val == EOF)
         return false;
 
-    data = (std::uint8_t) peek_val;    
+    data = (std::uint8_t) peek_val;
 
     if (offset != 0)
         fstream_.seekg(original_offset, std::ios::beg);
@@ -178,4 +178,3 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
 
 } // namespace streams
 } // namespace aeon
-

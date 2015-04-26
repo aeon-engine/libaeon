@@ -560,6 +560,6 @@ float dot(const int* g, const float x, const float y, const float z, const float
     return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
 }
 
-} // namespace aeon
-} // namespace math
 } // namespace simplex_noise
+} // namespace math
+} // namespace aeon
