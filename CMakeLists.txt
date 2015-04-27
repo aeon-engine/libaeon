@@ -16,6 +16,8 @@ set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/circular_buffer_stream.h
     include/aeon/streams/memory_stream.h
     include/aeon/streams/stream_name_mixin.h
+    include/aeon/streams/io_stream_colors_mixin.h
+    src/streams/io_stream_colors_mixin.cpp
 )
 
 source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
@@ -64,6 +66,7 @@ source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
 set(LIB_AEON_PLATFORM_SOURCE
     include/aeon/platform.h
     include/aeon/platform/platform.h
+    include/aeon/platform/term_colors.h
 )
 
 source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})

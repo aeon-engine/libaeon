@@ -6,7 +6,7 @@ namespace aeon
 namespace streams
 {
 
-class io_stream : public stream
+class io_stream : public stream, public io_stream_colors_mixin
 {
 public:
     io_stream(int mode = aeon::streams::access_mode::write);
