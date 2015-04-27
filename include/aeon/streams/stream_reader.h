@@ -19,6 +19,8 @@ public:
     {
     }
 
+    stream_reader& operator=(const stream_reader &) = delete;
+
 #define STREAM_READER_READ_OPERATOR(Type) \
     stream_reader &operator>>(Type &value) \
     { \

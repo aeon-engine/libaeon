@@ -19,6 +19,8 @@ public:
     {
     }
 
+    stream_writer& operator=(const stream_writer &) = delete;
+
 #define STREAM_WRITER_WRITE_OPERATOR(Type) \
     stream_writer &operator<<(Type &value) \
     { \
