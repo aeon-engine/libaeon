@@ -26,10 +26,6 @@ public:
         size_ = buffer_.size();
     }
 
-    virtual ~memory_stream()
-    {
-    }
-
     virtual std::size_t read(std::uint8_t *data, std::size_t size)
     {
         if (!is_readable())
@@ -183,4 +179,3 @@ typedef std::shared_ptr<memory_stream> memory_stream_ptr;
 } // namespace aeon
 
 #endif // aeon_streams_memory_stream_h__
-

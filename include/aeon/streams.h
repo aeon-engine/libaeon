@@ -26,8 +26,8 @@
 #include <aeon/streams/memory_stream.h>
 #include <aeon/streams/file_stream.h>
 #include <aeon/streams/circular_buffer_stream.h>
+#include <aeon/streams/io_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 
 #endif // aeon_streams_h__
-

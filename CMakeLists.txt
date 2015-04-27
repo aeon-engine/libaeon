@@ -11,6 +11,8 @@ set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/stream.h
     include/aeon/streams/file_stream.h
     src/streams/file_stream.cpp
+    include/aeon/streams/io_stream.h
+    src/streams/io_stream.cpp
     include/aeon/streams/circular_buffer_stream.h
     include/aeon/streams/memory_stream.h
     include/aeon/streams/stream_name_mixin.h
@@ -67,4 +69,3 @@ set(LIB_AEON_SOURCE
 )
 
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
-
