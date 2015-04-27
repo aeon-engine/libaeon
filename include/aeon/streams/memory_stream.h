@@ -108,7 +108,7 @@ public:
         return true;
     }
 
-    virtual bool seekw(std::ptrdiff_t pos, stream::seek_direction direction)
+    virtual bool seekw(std::ptrdiff_t /* pos */, stream::seek_direction /* direction */)
     {
         return false;
     }
