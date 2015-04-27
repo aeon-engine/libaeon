@@ -171,7 +171,7 @@ public:
      */
     virtual void read_from_stream(stream &data)
     {
-        std::vector<std::uint8_t> buffer = read_to_vector();
+        std::vector<std::uint8_t> buffer = data.read_to_vector();
         write(&buffer[0], buffer.size());
     }
 
