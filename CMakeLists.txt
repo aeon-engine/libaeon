@@ -61,11 +61,21 @@ source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_PLATFORM_SOURCE
+    include/aeon/platform.h
+    include/aeon/platform/platform.h
+)
+
+source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
-	${LIB_AEON_MATH_SOURCE}
+    ${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_SOCKETS_SOURCE}
     ${LIB_AEON_UTILITY_SOURCE}
+    ${LIB_AEON_PLATFORM_SOURCE}
 )
 
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
