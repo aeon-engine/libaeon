@@ -26,25 +26,25 @@ void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/)
         SetConsoleTextAttribute(std_handle, 0);
         break;
     case color::red:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_RED || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_RED | intensity);
         break;
     case color::green:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_GREEN || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_GREEN | intensity);
         break;
     case color::yellow:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_RED || FOREGROUND_GREEN || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_RED | FOREGROUND_GREEN | intensity);
         break;
     case color::blue:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_BLUE || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_BLUE | intensity);
         break;
     case color::magenta:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_RED || FOREGROUND_BLUE || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_RED | FOREGROUND_BLUE | intensity);
         break;
     case color::cyan:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_GREEN || FOREGROUND_BLUE || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_GREEN | FOREGROUND_BLUE | intensity);
         break;
     case color::white:
-        SetConsoleTextAttribute(std_handle, FOREGROUND_RED || FOREGROUND_GREEN || FOREGROUND_BLUE || intensity);
+        SetConsoleTextAttribute(std_handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | intensity);
         break;
     }
 #else
