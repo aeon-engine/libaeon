@@ -73,12 +73,28 @@ source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_LOGGER_SOURCE
+    include/aeon/logger.h
+    include/aeon/logger/logger.h
+    include/aeon/logger/log_sink.h
+    include/aeon/logger/log_level.h
+    include/aeon/logger/base_backend.h
+    include/aeon/logger/simple_backend.h
+    include/aeon/logger/simple_sink_backend.h
+    include/aeon/logger/multithreaded_sink_backend.h
+)
+
+source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_SOCKETS_SOURCE}
     ${LIB_AEON_UTILITY_SOURCE}
     ${LIB_AEON_PLATFORM_SOURCE}
+    ${LIB_AEON_LOGGER_SOURCE}
 )
 
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
