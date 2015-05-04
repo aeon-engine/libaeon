@@ -13,13 +13,15 @@ private:
     typedef std::set<log_sink_ptr> sink_set;
 
 public:
-    multithreaded_sink_backend()
+    multithreaded_sink_backend() :
+        running_(true)
     {
         handle_background_thread_();
     }
 
     multithreaded_sink_backend(log_level level) :
-        base_backend(level)
+        base_backend(level),
+        running_(true)
     {
         handle_background_thread_();
     }
@@ -53,35 +55,47 @@ public:
 private:
     void handle_background_thread_()
     {
+        running_ = true;
+
         thread_ = std::thread([this](){
             while (running_)
             {
                 std::unique_lock<std::mutex> lock(signal_mutex_);
                 cv_.wait(lock);
 
-                // Move the message queue into a new copy and empty the real queue
-                queue_mutex_.lock();
-                log_message_queue log_queue = std::move(log_queue_);
-                log_queue_ = log_message_queue();
-                queue_mutex_.unlock();
+                bool recheck_queue = true;
 
-                // Copy the sinks
-                sink_mutex_.lock();
-                sink_set sinks = sinks_;
-                sink_mutex_.unlock();
-
-                // Handle all messages
-                while (!log_queue.empty())
+                while (recheck_queue)
                 {
-                    auto &msg = log_queue.front();
+                    // Move the message queue into a new copy and empty the real queue
+                    queue_mutex_.lock();
+                    log_message_queue log_queue = std::move(log_queue_);
+                    log_queue_ = log_message_queue();
+                    queue_mutex_.unlock();
 
-                    for (auto &sink : sinks)
+                    // Copy the sinks
+                    sink_mutex_.lock();
+                    sink_set sinks = sinks_;
+                    sink_mutex_.unlock();
+
+                    // Handle all messages
+                    while (!log_queue.empty())
                     {
-                        sink->log(msg.first, msg.second);
+                        auto &msg = log_queue.front();
+
+                        for (auto &sink : sinks)
+                        {
+                            sink->log(msg.first, msg.second);
+                        }
+
+                        log_queue.pop();
                     }
 
-                    log_queue.pop();
+                    queue_mutex_.lock();
+                    recheck_queue = !log_queue_.empty();
+                    queue_mutex_.unlock();
                 }
+
             }
         });
     }

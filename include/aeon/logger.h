@@ -16,6 +16,8 @@
 /******************************************************************************/
 /* Aeon headers                                                               */
 /******************************************************************************/
+#include <aeon/streams.h>
+
 #include <aeon/logger/log_level.h>
 #include <aeon/logger/log_sink.h>
 #include <aeon/logger/base_backend.h>
@@ -23,6 +25,8 @@
 #include <aeon/logger/simple_sink_backend.h>
 #include <aeon/logger/multithreaded_sink_backend.h>
 #include <aeon/logger/logger.h>
+#include <aeon/logger/stream_sink.h>
+#include <aeon/logger/io_stream_sink.h>
 
 #endif // aeon_logger_h__
 

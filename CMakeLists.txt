@@ -82,6 +82,8 @@ set(LIB_AEON_LOGGER_SOURCE
     include/aeon/logger/simple_backend.h
     include/aeon/logger/simple_sink_backend.h
     include/aeon/logger/multithreaded_sink_backend.h
+    include/aeon/logger/stream_sink.h
+    include/aeon/logger/io_stream_sink.h
 )
 
 source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
