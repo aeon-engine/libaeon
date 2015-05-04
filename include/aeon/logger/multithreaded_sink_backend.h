@@ -9,7 +9,7 @@ namespace logger
 class multithreaded_sink_backend : public base_backend
 {
 private:
-    typedef std::queue<std::pair<std::string, log_level>> log_message_queue;
+    typedef std::vector<std::pair<std::string, log_level>> log_message_queue;
     typedef std::set<log_sink_ptr> sink_set;
 
 public:
@@ -76,7 +76,7 @@ private:
                     // Move the message queue into a new copy and empty the real queue
                     queue_mutex_.lock();
                     log_message_queue log_queue = std::move(log_queue_);
-                    log_queue_ = log_message_queue();
+                    log_queue_.clear();
                     queue_mutex_.unlock();
 
                     // Copy the sinks
@@ -85,16 +85,12 @@ private:
                     sink_mutex_.unlock();
 
                     // Handle all messages
-                    while (!log_queue.empty())
+                    for (auto &msg : log_queue)
                     {
-                        auto &msg = log_queue.front();
-
                         for (auto &sink : sinks)
                         {
                             sink->log(msg.first, msg.second);
                         }
-
-                        log_queue.pop();
                     }
 
                     queue_mutex_.lock();
@@ -109,7 +105,7 @@ private:
     virtual void log(std::string &&message, log_level level)
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
-        log_queue_.push({ std::move(message), level });
+        log_queue_.push_back({ std::move(message), level });
         cv_.notify_one();
     }
 
