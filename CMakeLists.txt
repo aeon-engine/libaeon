@@ -115,6 +115,22 @@ source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_PLUGIN_SOURCE
+    include/aeon/plugin.h
+    src/plugin/platform.h
+    include/aeon/plugin/plugin_interface.h
+    include/aeon/plugin/plugin_loader.h
+    src/plugin/plugin_loader.cpp
+    include/aeon/plugin/plugin_handle.h
+    src/plugin/plugin_handle.cpp
+    include/aeon/plugin/loaded_plugin.h
+    src/plugin/loaded_plugin.cpp
+)
+
+source_group(plugin FILES ${LIB_AEON_PLUGIN_SOURCE})
+
+################################################################################
+
 if (CURL_FOUND)
     set(LIB_AEON_CURL_SOURCE
         include/aeon/curl.h
@@ -139,6 +155,7 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_UTILITY_SOURCE}
     ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
+    ${LIB_AEON_PLUGIN_SOURCE}
 )
 
 if (CURL_FOUND)
