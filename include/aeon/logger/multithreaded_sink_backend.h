@@ -69,16 +69,16 @@ private:
                 if (!running_)
                     break;
 
-                bool recheck_queue = true;
+                // Move the message queue into a new copy and empty the real queue
+                queue_mutex_.lock();
+                log_message_queue log_queue = std::move(log_queue_);
+                log_queue_.clear();
+                queue_mutex_.unlock();
 
-                while (recheck_queue)
+                bool reprocess_queue = true;
+
+                while (reprocess_queue)
                 {
-                    // Move the message queue into a new copy and empty the real queue
-                    queue_mutex_.lock();
-                    log_message_queue log_queue = std::move(log_queue_);
-                    log_queue_.clear();
-                    queue_mutex_.unlock();
-
                     // Copy the sinks
                     sink_mutex_.lock();
                     sink_set sinks = sinks_;
@@ -94,7 +94,14 @@ private:
                     }
 
                     queue_mutex_.lock();
-                    recheck_queue = !log_queue_.empty();
+                    if (!log_queue_.empty())
+                    {
+                        log_message_queue log_queue = std::move(log_queue_);
+                        log_queue_.clear();
+                        reprocess_queue = true;
+                    } else {
+                        reprocess_queue = false;
+                    }
                     queue_mutex_.unlock();
                 }
 
