@@ -47,6 +47,9 @@ public:
 
     void stop()
     {
+        if (!running_)
+            return;
+
         running_ = false;
         cv_.notify_one();
         thread_.join();
@@ -62,6 +65,9 @@ private:
             {
                 std::unique_lock<std::mutex> lock(signal_mutex_);
                 cv_.wait(lock);
+
+                if (!running_)
+                    break;
 
                 bool recheck_queue = true;
 
