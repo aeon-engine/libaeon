@@ -57,6 +57,7 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/endianness.h
     src/utility/timer.cpp
     include/aeon/utility/timer.h
+    include/aeon/utility/optional.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
