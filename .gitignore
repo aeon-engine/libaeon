@@ -12,3 +12,6 @@ cmake_install.cmake
 Makefile
 *.a
 docs
+
+# CLion
+.idea

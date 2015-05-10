@@ -44,9 +44,6 @@ public:
 
     /*!
      * Destructor.
-     *
-     * This will call close() to let the implementation close the stream
-     * properly if needed.
      */
     virtual ~stream()
     {

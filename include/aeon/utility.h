@@ -13,6 +13,7 @@
 #include <map>
 #include <array>
 #include <chrono>
+#include <exception>
 
 /******************************************************************************/
 /* Boost headers                                                              */
@@ -28,5 +29,6 @@
 #include <aeon/utility/hexdump.h>
 #include <aeon/utility/endianness.h>
 #include <aeon/utility/timer.h>
+#include <aeon/utility/optional.h>
 
 #endif // aeon_utility_h__

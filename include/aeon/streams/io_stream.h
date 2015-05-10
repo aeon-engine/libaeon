@@ -35,6 +35,8 @@ public:
     virtual bool good() const;
 };
 
+typedef std::shared_ptr<io_stream> io_stream_ptr;
+
 } // namespace streams
 } // namespace aeon
 
