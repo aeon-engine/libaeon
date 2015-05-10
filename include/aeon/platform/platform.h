@@ -16,7 +16,6 @@
  */
 
 #if (BOOST_OS_WINDOWS)
-#include <windows.h>
 #  define AEON_PLATFORM_OS_WINDOWS 1
 #endif // BOOST_OS_WINDOWS
 
