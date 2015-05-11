@@ -68,7 +68,7 @@ public:
 
         int strip_characters = 1;
 
-        if (stringlength > 2)
+        if (stringlength >= 2)
         {
             if (line[stringlength - 2] == '\r')
                 ++strip_characters;
