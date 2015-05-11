@@ -14,6 +14,7 @@ private:
 
 public:
     multithreaded_sink_backend() :
+        base_backend(log_level::message),
         running_(true)
     {
         handle_background_thread_();
