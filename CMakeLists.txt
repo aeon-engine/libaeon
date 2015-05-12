@@ -101,3 +101,5 @@ set(LIB_AEON_SOURCE
 )
 
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
+
+add_subdirectory(tests)
