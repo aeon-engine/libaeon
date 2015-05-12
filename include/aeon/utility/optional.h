@@ -6,6 +6,8 @@ namespace aeon
 namespace utility
 {
 
+class optional_value_exception : public std::exception {};
+
 template <typename T>
 class optional
 {
@@ -35,7 +37,7 @@ public:
     operator T()
     {
         if (!has_value_)
-            throw std::runtime_error("optional variable has no value.");
+            throw optional_value_exception();
 
         return value_;
     }
