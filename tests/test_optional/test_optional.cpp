@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_create_float_with_value)
 
 BOOST_AUTO_TEST_CASE(test_utility_optional_create_string_with_value)
 {
-    aeon::utility::optional<std::string> test = "1337!";
+    aeon::utility::optional<std::string> test = std::string("1337!");
     BOOST_REQUIRE_EQUAL(true, test.has_value());
 }
 
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_change_float_value2)
 
 BOOST_AUTO_TEST_CASE(test_utility_optional_change_string_value)
 {
-    aeon::utility::optional<std::string> test = "1337!";
+    aeon::utility::optional<std::string> test = std::string("1337!");
     BOOST_REQUIRE_EQUAL(true, test.has_value());
 
     test = std::string("42?");
@@ -222,6 +222,6 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_compare_float)
 
 BOOST_AUTO_TEST_CASE(test_utility_optional_compare_string)
 {
-    aeon::utility::optional<std::string> test = "Testing";
+    aeon::utility::optional<std::string> test = std::string("Testing");
     BOOST_REQUIRE(std::string(test) == std::string("Testing"));
 }
