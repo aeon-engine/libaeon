@@ -59,12 +59,15 @@ public:
                 break;
         }
 
-        std::string line;
         if (stringlength == 0)
-            return line;
+            return std::string();
 
+        std::string line;
         line.resize(stringlength);
-        stream_.read((std::uint8_t *) &line[0], stringlength);
+        stringlength = stream_.read((std::uint8_t *) &line[0], stringlength);
+
+        if (stringlength == 0)
+            return std::string();
 
         int strip_characters = 1;
 

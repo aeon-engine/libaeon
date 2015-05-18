@@ -42,6 +42,9 @@ std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
 
     fstream_.read((char *)data, size);
 
+    if (fstream_.eof())
+        return fstream_.gcount();
+
     if (fstream_.fail())
         return 0;
 
