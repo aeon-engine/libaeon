@@ -88,22 +88,22 @@ void configfile::set_boolean(const std::string &key, bool val)
     set_string(key, val ? "1" : "0");
 }
 
-bool configfile::load(aeon::streams::stream_ptr stream)
+void configfile::load(aeon::streams::file_stream_ptr stream)
 {
     if (!stream->good())
-        return false;
+        throw configfile_exception();
+
+    if (!stream->is_text())
+        throw configfile_exception();
 
     entries_.clear();
 
-    aeon::streams::stream_reader reader(*stream);
-
     // Loop through all lines
     int linenumber = 0;
-    while (!stream->eof())
+    std::string line;
+    while (stream->read_line(line))
     {
-        linenumber++;
-
-        std::string line = reader.read_line();
+        ++linenumber;
 
         if (line.empty())
             continue;
@@ -122,14 +122,15 @@ bool configfile::load(aeon::streams::stream_ptr stream)
 
         entries_[key] = val;
     }
-
-    return true;
 }
 
-void configfile::save(aeon::streams::stream_ptr stream)
+void configfile::save(aeon::streams::file_stream_ptr stream)
 {
     if (!stream->good())
-        return;
+        throw configfile_exception();
+
+    if (!stream->is_text())
+        throw configfile_exception();
 
     aeon::streams::stream_writer writer(*stream);
 

@@ -6,6 +6,8 @@ namespace aeon
 namespace streams
 {
 
+class file_stream_exception : public std::exception {};
+
 class file_stream : public stream
 {
 public:
@@ -38,6 +40,8 @@ public:
     virtual void flush();
 
     virtual bool good() const;
+
+    bool read_line(std::string &line);
 
 protected:
     std::ios::openmode access_mode_to_ios_open_mode_(int mode);

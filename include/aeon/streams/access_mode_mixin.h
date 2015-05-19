@@ -18,10 +18,11 @@ class access_mode
 public:
     enum : int
     {
-        none       = 0, /**< No access */
-        read       = 1, /**< Read-Only */
-        write      = 2, /**< Write-Only */
-        read_write = 3  /**< Read-Write (Full access) */
+        none       = 0,  /**< No access */
+        read       = 1,  /**< Read-Only */
+        write      = 2,  /**< Write-Only */
+        read_write = 3,  /**< Read-Write (Full access) */
+        text       = 99, /**< Open in text mode (default is binary) */
     };
 };
 
@@ -51,6 +52,16 @@ public:
     virtual bool is_writable() const
     {
         return (access_mode_ & access_mode::write) != 0;
+    }
+
+    virtual bool is_binary() const
+    {
+        return (access_mode_ & access_mode::text) == 0;
+    }
+
+    virtual bool is_text() const
+    {
+        return (access_mode_ & access_mode::text) != 0;
     }
 
 protected:

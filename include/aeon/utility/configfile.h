@@ -6,6 +6,8 @@ namespace aeon
 namespace utility
 {
 
+class configfile_exception : public std::exception {};
+
 /*!
  * \brief Reader and writer for files in .ini file format
  *
@@ -103,13 +105,13 @@ public:
      * \param stream The stream to load the config from
      * \returns True on success, false on error.
      */
-    bool load(aeon::streams::stream_ptr stream);
+    void load(aeon::streams::file_stream_ptr stream);
 
     /*!
      * Save a config to a stream
      * \param stream The stream to save the config to
      */
-    void save(aeon::streams::stream_ptr stream);
+    void save(aeon::streams::file_stream_ptr stream);
 
 private:
     typedef std::map<std::string, std::string> Entries;
