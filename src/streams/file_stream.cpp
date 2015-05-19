@@ -182,6 +182,7 @@ bool file_stream::read_line(std::string &line)
         return false;
 
     std::getline(fstream_, line);
+    line.erase(line.find_last_not_of("\n\r") + 1);
     return true;
 }
 
