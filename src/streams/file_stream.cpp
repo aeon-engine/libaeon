@@ -38,7 +38,7 @@ file_stream::file_stream(boost::filesystem::path path) :
 std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
 {
     if (!is_readable())
-        return 0;
+        throw file_stream_exception();
 
     fstream_.read((char *)data, size);
 
@@ -55,7 +55,7 @@ std::size_t file_stream::write(const std::uint8_t *data,
     std::size_t size)
 {
     if (!is_writable())
-        return 0;
+        throw file_stream_exception();
 
     fstream_.write((const char *)data, size);
 
@@ -68,7 +68,7 @@ std::size_t file_stream::write(const std::uint8_t *data,
 bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
 {
     if (!is_readable())
-        return false;
+        throw file_stream_exception();
 
     std::size_t original_offset = 0;
 
@@ -97,7 +97,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
 bool file_stream::seek(std::ptrdiff_t pos, seek_direction direction)
 {
     if (!is_readable())
-        return false;
+        throw file_stream_exception();
 
     fstream_.seekg(pos, seek_direction_to_ios_seekdir_(direction));
     return !fstream_.fail();
@@ -106,7 +106,7 @@ bool file_stream::seek(std::ptrdiff_t pos, seek_direction direction)
 bool file_stream::seekw(std::ptrdiff_t pos, seek_direction direction)
 {
     if (!is_writable())
-        return false;
+        throw file_stream_exception();
 
     fstream_.seekp(pos, seek_direction_to_ios_seekdir_(direction));
     return !fstream_.fail();
@@ -115,7 +115,7 @@ bool file_stream::seekw(std::ptrdiff_t pos, seek_direction direction)
 std::size_t file_stream::tell()
 {
     if (!is_readable())
-        return 0;
+        throw file_stream_exception();
 
     return fstream_.tellg();
 }
@@ -123,7 +123,7 @@ std::size_t file_stream::tell()
 std::size_t file_stream::tellw()
 {
     if (!is_writable())
-        return 0;
+        throw file_stream_exception();
 
     return fstream_.tellp();
 }
@@ -175,7 +175,7 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
 
 bool file_stream::read_line(std::string &line)
 {
-    if (!is_text())
+    if (!is_text() || !is_readable())
         throw file_stream_exception();
 
     if (eof())
