@@ -23,17 +23,17 @@ void url_downloader::download(const std::string &url,
     if (!f.good())
         throw url_downloader_exception();
 
-    auto func = std::bind(&url_downloader::read_event_, this, &f,
+    auto func = std::bind(&url_downloader::read_event_, this, std::ref(f),
         std::placeholders::_1, std::placeholders::_2);
     wrapper_->get(url, func);
 
     f.flush();
 }
 
-std::size_t url_downloader::read_event_(aeon::streams::file_stream *dest_stream,
+std::size_t url_downloader::read_event_(aeon::streams::file_stream &dest_stream,
     void *buffer, std::size_t size)
 {
-    std::size_t result = dest_stream->write((std::uint8_t *) buffer, size);
+    std::size_t result = dest_stream.write((std::uint8_t *) buffer, size);
 
     if (result != size)
         throw url_downloader_exception();
