@@ -6,6 +6,8 @@ namespace aeon
 namespace streams
 {
 
+class stream_exception : public std::exception {};
+
 /*!
  * \brief Base class for streams
  *
