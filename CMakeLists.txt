@@ -1,5 +1,10 @@
 include_directories(${Boost_INCLUDE_DIRS} src include)
 
+if (CURL_FOUND)
+    message(STATUS "Building libAeon with CURL support.")
+    include_directories(${CURL_INCLUDE_DIRS})
+endif ()
+
 ################################################################################
 
 set(LIB_AEON_STREAMS_SOURCE
@@ -91,6 +96,23 @@ source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 ################################################################################
 
+if (CURL_FOUND)
+    set(LIB_AEON_CURL_SOURCE
+        include/aeon/curl.h
+        include/aeon/curl/url_downloader.h
+        src/curl/url_downloader.cpp
+        include/aeon/curl/exceptions.h
+        src/curl/global_wrapper.cpp
+        include/aeon/curl/global_wrapper.h
+        src/curl/easy_wrapper.cpp
+        include/aeon/curl/easy_wrapper.h
+    )
+
+    source_group(curl FILES ${LIB_AEON_CURL_SOURCE})
+endif ()
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
@@ -100,6 +122,14 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_LOGGER_SOURCE}
 )
 
+if (CURL_FOUND)
+    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_CURL_SOURCE})
+endif ()
+
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
+
+if (CURL_FOUND)
+    target_link_libraries(aeon ${CURL_LIBRARIES})
+endif ()
 
 add_subdirectory(tests)
