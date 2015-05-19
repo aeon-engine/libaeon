@@ -132,12 +132,10 @@ void configfile::save(aeon::streams::file_stream_ptr stream)
     if (!stream->is_text())
         throw configfile_exception();
 
-    aeon::streams::stream_writer writer(*stream);
-
     for (auto itr : entries_)
     {
         std::string line = itr.first + "=" + itr.second;
-        writer.write_line(line);
+        stream->write_line(line);
     }
 }
 
