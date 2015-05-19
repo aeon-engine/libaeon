@@ -7,10 +7,11 @@ namespace streams
 {
 
 class stream;
+template<typename T>
 class stream_reader
 {
 public:
-    stream_reader(stream &streamref) :
+    stream_reader(T &streamref) :
         stream_(streamref)
     {
     }
@@ -45,6 +46,17 @@ public:
     STREAM_READER_READ_OPERATOR(float)
     STREAM_READER_READ_OPERATOR(double)
 
+    template <typename T, typename std::enable_if<
+        std::is_same<T, file_stream>::value>::type * = nullptr>
+    std::string read_line()
+    {
+        std::string line;
+        bool result = stream_.read_line(line);
+        return line;
+    }
+
+    template <typename T, typename std::enable_if<
+        !std::is_same<T, file_stream>::value>::type * = nullptr>
     std::string read_line()
     {
         std::uint8_t peek_data = 0;
@@ -83,7 +95,7 @@ public:
     }
 
 protected:
-    stream &stream_;
+    T &stream_;
 };
 
 } // namespace streams
