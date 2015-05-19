@@ -150,17 +150,11 @@ bool file_stream::good() const
 
 std::ios::openmode file_stream::access_mode_to_ios_open_mode_(int mode)
 {
-    switch (mode)
-    {
-        case (access_mode::read):
-            return std::fstream::in;
-        case (access_mode::write):
-            return std::fstream::out;
-        case (access_mode::read_write):
-            return std::fstream::in | std::fstream::out;
-    }
-
-    return (std::ios_base::openmode) 0;
+    std::ios_base::openmode m = 0;
+    m |= (mode & access_mode::read) ? std::fstream::in : 0;
+    m |= (mode & access_mode::write) ? std::fstream::out : 0;
+    m |= (mode & access_mode::text) ? 0 : std::fstream::binary;
+    return m;
 }
 
 std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
@@ -177,6 +171,18 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
     }
 
     return std::ios::cur;
+}
+
+bool file_stream::read_line(std::string &line)
+{
+    if (!is_text())
+        throw file_stream_exception();
+
+    if (eof())
+        return false;
+
+    std::getline(fstream_, line);
+    return true;
 }
 
 } // namespace streams
