@@ -6,6 +6,8 @@ namespace aeon
 namespace streams
 {
 
+class io_stream_exception : public stream_exception {};
+
 class io_stream : public stream, public io_stream_colors_mixin
 {
 public:

@@ -6,6 +6,8 @@ namespace aeon
 namespace streams
 {
 
+class memory_stream_exception : public stream_exception {};
+
 class memory_stream : public stream
 {
 public:
@@ -29,7 +31,10 @@ public:
     virtual std::size_t read(std::uint8_t *data, std::size_t size)
     {
         if (!is_readable())
-            return 0;
+            throw memory_stream_exception();
+
+        if (!data || size == 0)
+            throw memory_stream_exception();
 
         // Only read what we have
         if(offset_ + size > size_)
@@ -49,7 +54,10 @@ public:
     virtual std::size_t write(const std::uint8_t *data, std::size_t size)
     {
         if (!is_writable())
-            return 0;
+            throw memory_stream_exception();
+
+        if (!data || size == 0)
+            throw memory_stream_exception();
 
         // Make sure we have enough space in the buffer
         reserve(offset_ + size);
@@ -64,7 +72,7 @@ public:
     virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0)
     {
         if (!is_readable() || !good())
-            return false;
+            throw memory_stream_exception();
 
         if (offset_ + offset >= size_)
             return false;
