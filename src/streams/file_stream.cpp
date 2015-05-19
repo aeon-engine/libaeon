@@ -186,5 +186,13 @@ bool file_stream::read_line(std::string &line)
     return true;
 }
 
+void file_stream::write_line(const std::string &line)
+{
+    if (!is_text() || !is_writable())
+        throw file_stream_exception();
+
+    fstream_ << line << std::endl;
+}
+
 } // namespace streams
 } // namespace aeon
