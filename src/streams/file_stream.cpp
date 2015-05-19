@@ -40,6 +40,9 @@ std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
     if (!is_readable())
         throw file_stream_exception();
 
+    if (!data || size == 0)
+        throw file_stream_exception();
+
     fstream_.read((char *)data, size);
 
     if (fstream_.eof())
@@ -55,6 +58,9 @@ std::size_t file_stream::write(const std::uint8_t *data,
     std::size_t size)
 {
     if (!is_writable())
+        throw file_stream_exception();
+
+    if (!data || size == 0)
         throw file_stream_exception();
 
     fstream_.write((const char *)data, size);

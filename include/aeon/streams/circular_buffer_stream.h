@@ -6,6 +6,8 @@ namespace aeon
 namespace streams
 {
 
+class circular_buffer_stream_exception : public stream_exception {};
+
 /*!
  * \brief Circular Buffer Stream
  *
@@ -98,7 +100,7 @@ public:
         return size;
     }
 
-     /*!
+    /*!
      * Peek raw data from the circular buffer. The data will be 'peeked' from
      * the beginning (tail) of the buffer. If we want to peek more data than is
      * present in our buffer, this function will return false.
@@ -163,7 +165,7 @@ public:
 
         // We are about to overwrite data that was not yet read. Abort.
         if (!fits_in_buffer_(size))
-            return 0;
+            throw circular_buffer_stream_exception();
 
         std::size_t bytes_to_write = size;
         std::size_t read_offset = 0;

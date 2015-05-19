@@ -13,10 +13,10 @@ io_stream::io_stream(int mode /*= aeon::streams::access_mode::write*/) :
 std::size_t io_stream::read(std::uint8_t *data, std::size_t size)
 {
     if (!is_readable())
-        return 0;
+        throw io_stream_exception();
 
     if (!data || size == 0)
-        return 0;
+        throw io_stream_exception();
 
     return fread(data, 1, size, stdin);
 }
@@ -24,10 +24,10 @@ std::size_t io_stream::read(std::uint8_t *data, std::size_t size)
 std::size_t io_stream::write(const std::uint8_t *data, std::size_t size)
 {
     if (!is_writable())
-        return 0;
+        throw io_stream_exception();
 
     if (!data || size == 0)
-        return 0;
+        throw io_stream_exception();
 
     return fwrite(data, 1, size, stdout);
 }
@@ -35,7 +35,7 @@ std::size_t io_stream::write(const std::uint8_t *data, std::size_t size)
 bool io_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /*= 0*/)
 {
     if (!is_readable())
-        return false;
+        throw io_stream_exception();
 
     int c = fgetc(stdin);
 
