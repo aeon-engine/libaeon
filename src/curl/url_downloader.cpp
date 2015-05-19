@@ -15,7 +15,8 @@ url_downloader::~url_downloader()
     wrapper_ = nullptr;
 }
 
-void url_downloader::download(const std::string &url, const std::string &dest_path)
+void url_downloader::download(const std::string &url,
+    const std::string &dest_path)
 {
     aeon::streams::file_stream f(dest_path, aeon::streams::access_mode::write);
 
@@ -29,7 +30,8 @@ void url_downloader::download(const std::string &url, const std::string &dest_pa
     f.flush();
 }
 
-std::size_t url_downloader::read_event_(aeon::streams::file_stream *dest_stream, void *buffer, std::size_t size)
+std::size_t url_downloader::read_event_(aeon::streams::file_stream *dest_stream,
+    void *buffer, std::size_t size)
 {
     std::size_t result = dest_stream->write((std::uint8_t *) buffer, size);
 
