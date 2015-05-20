@@ -9,8 +9,7 @@ file_stream::file_stream(const std::string &filename, int mode) :
     stream(mode),
     size_(0)
 {
-    fstream_.open(filename,
-        access_mode_to_ios_open_mode_(mode) | std::fstream::binary);
+    fstream_.open(filename, access_mode_to_ios_open_mode_(mode));
 
     if (fstream_.good() && is_readable())
     {
