@@ -18,11 +18,12 @@ class access_mode
 public:
     enum : int
     {
-        none       = 0,  /**< No access */
-        read       = 1,  /**< Read-Only */
-        write      = 2,  /**< Write-Only */
-        read_write = 3,  /**< Read-Write (Full access) */
-        text       = 99, /**< Open in text mode (default is binary) */
+        none       = 0x00, /**< No access */
+        read       = 0x01, /**< Read-Only */
+        write      = 0x02, /**< Write-Only */
+        read_write = 0x03, /**< Read-Write (Full access) */
+        truncate   = 0x04, /**< Truncate */
+        text       = 0x08, /**< Open in text mode (default is binary) */
     };
 };
 
@@ -62,6 +63,11 @@ public:
     virtual bool is_text() const
     {
         return (access_mode_ & access_mode::text) != 0;
+    }
+
+    virtual bool is_truncated() const
+    {
+        return (access_mode_ & access_mode::truncate) != 0;
     }
 
 protected:
