@@ -18,7 +18,7 @@ url_downloader::~url_downloader()
 void url_downloader::download(const std::string &url,
     const std::string &dest_path)
 {
-    aeon::streams::file_stream f(dest_path, aeon::streams::access_mode::write);
+    aeon::streams::file_stream f(dest_path, aeon::streams::access_mode::write | aeon::streams::access_mode::truncate);
 
     if (!f.good())
         throw url_downloader_exception();
