@@ -158,8 +158,8 @@ std::ios::openmode file_stream::access_mode_to_ios_open_mode_(int mode)
     std::ios_base::openmode m = 0;
     m |= (mode & access_mode::read) ? std::fstream::in : 0;
     m |= (mode & access_mode::write) ? std::fstream::out : 0;
-    m |= (mode & access_mode::text) ? 0 : std::fstream::binary;
     m |= (mode & access_mode::truncate) ? std::fstream::trunc : 0;
+    m |= std::fstream::binary;
     return m;
 }
 
@@ -181,7 +181,7 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
 
 bool file_stream::read_line(std::string &line)
 {
-    if (!is_text() || !is_readable())
+    if (!is_readable())
         throw file_stream_exception();
 
     if (eof())
@@ -194,7 +194,7 @@ bool file_stream::read_line(std::string &line)
 
 void file_stream::write_line(const std::string &line)
 {
-    if (!is_text() || !is_writable())
+    if (!is_writable())
         throw file_stream_exception();
 
     fstream_ << line << std::endl;

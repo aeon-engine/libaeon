@@ -93,9 +93,6 @@ void configfile::load(aeon::streams::file_stream_ptr stream)
     if (!stream->good())
         throw configfile_exception();
 
-    if (!stream->is_text())
-        throw configfile_exception();
-
     entries_.clear();
 
     // Loop through all lines
@@ -127,9 +124,6 @@ void configfile::load(aeon::streams::file_stream_ptr stream)
 void configfile::save(aeon::streams::file_stream_ptr stream)
 {
     if (!stream->good())
-        throw configfile_exception();
-
-    if (!stream->is_text())
         throw configfile_exception();
 
     for (auto itr : entries_)
