@@ -23,7 +23,6 @@ public:
         write      = 0x02, /**< Write-Only */
         read_write = 0x03, /**< Read-Write (Full access) */
         truncate   = 0x04, /**< Truncate */
-        text       = 0x08, /**< Open in text mode (default is binary) */
     };
 };
 
@@ -53,16 +52,6 @@ public:
     virtual bool is_writable() const
     {
         return (access_mode_ & access_mode::write) != 0;
-    }
-
-    virtual bool is_binary() const
-    {
-        return (access_mode_ & access_mode::text) == 0;
-    }
-
-    virtual bool is_text() const
-    {
-        return (access_mode_ & access_mode::text) != 0;
     }
 
     virtual bool is_truncated() const
