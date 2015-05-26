@@ -46,16 +46,18 @@ public:
     STREAM_READER_READ_OPERATOR(float)
     STREAM_READER_READ_OPERATOR(double)
 
-    template <typename std::enable_if<std::is_same<T, file_stream>::value>::type * = nullptr>
-    std::string read_line()
+    template<class U = T>
+    typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type
+        read_line()
     {
         std::string line;
         bool result = stream_.read_line(line);
         return line;
     }
 
-    template <typename std::enable_if<!std::is_same<T, file_stream>::value>::type * = nullptr>
-    std::string read_line()
+    template<class U = T>
+    typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type
+        read_line()
     {
         std::uint8_t peek_data = 0;
         std::ptrdiff_t offset = 0;

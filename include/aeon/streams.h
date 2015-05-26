@@ -11,6 +11,7 @@
 #include <fstream>
 #include <array>
 #include <iostream>
+#include <type_traits>
 
 /******************************************************************************/
 /* Boost headers                                                              */
