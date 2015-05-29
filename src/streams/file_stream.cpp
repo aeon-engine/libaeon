@@ -155,11 +155,12 @@ bool file_stream::good() const
 
 std::ios::openmode file_stream::access_mode_to_ios_open_mode_(int mode)
 {
-    std::ios_base::openmode m = 0;
-    m |= (mode & access_mode::read) ? std::fstream::in : 0;
-    m |= (mode & access_mode::write) ? std::fstream::out : 0;
-    m |= (mode & access_mode::truncate) ? std::fstream::trunc : 0;
-    m |= std::fstream::binary;
+    std::ios::openmode openmode_zero = static_cast<std::ios::openmode>(0);
+
+    std::ios::openmode m = openmode_zero;
+    m |= (mode & access_mode::read) ? std::fstream::in : openmode_zero;
+    m |= (mode & access_mode::write) ? std::fstream::out : openmode_zero;
+    m |= (mode & access_mode::truncate) ? std::fstream::trunc : openmode_zero;
     return m;
 }
 
