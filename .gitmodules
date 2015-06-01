@@ -1,7 +1,3 @@
-[submodule "dep/cmake"]
-	path = dep/cmake
-	url = http://git.robindegen.nl/r/cmake-scripts.git
-	branch = master
 [submodule "dep/sqlite"]
 	path = dep/sqlite
 	url = http://git.robindegen.nl/r/external/sqlite_amalgamation.git
