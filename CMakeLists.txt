@@ -1,11 +1,4 @@
-include_directories(${Boost_INCLUDE_DIRS} src include)
-
 add_subdirectory(dep/sqlite)
-
-if (CURL_FOUND)
-    message(STATUS "Building libAeon with CURL support.")
-    include_directories(${CURL_INCLUDE_DIRS})
-endif ()
 
 ################################################################################
 
@@ -129,9 +122,13 @@ if (CURL_FOUND)
 endif ()
 
 add_library(aeon STATIC ${LIB_AEON_SOURCE})
+target_include_directories(aeon PRIVATE src)
+target_include_directories(aeon PUBLIC ${Boost_INCLUDE_DIRS} include)
 
 if (CURL_FOUND)
+    message(STATUS "Building libAeon with CURL support.")
     target_link_libraries(aeon ${CURL_LIBRARIES})
+    target_include_directories(aeon PUBLIC ${CURL_INCLUDE_DIRS})
 endif ()
 
 add_subdirectory(tests)
