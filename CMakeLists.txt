@@ -1,5 +1,7 @@
 include_directories(${Boost_INCLUDE_DIRS} src include)
 
+add_subdirectory(dep/sqlite)
+
 if (CURL_FOUND)
     message(STATUS "Building libAeon with CURL support.")
     include_directories(${CURL_INCLUDE_DIRS})
