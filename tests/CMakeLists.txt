@@ -1,4 +1,4 @@
-include("../dep/cmake/Unittests.cmake")
+include(Unittests)
 
 add_unit_test_suite(
     TARGET test_optional
