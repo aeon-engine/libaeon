@@ -1,7 +1,3 @@
-// Copyright(c) 2015 by FEI Company
-// All rights reserved. This file includes confidential and proprietary
-// information of FEI Company.
-
 #define BOOST_TEST_MODULE test_utility_optional
 #include <boost/test/unit_test.hpp>
 #include <aeon/utility.h>
