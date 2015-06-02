@@ -1,0 +1,4 @@
+[submodule "dep/cmake"]
+	path = dep/cmake
+	url = http://git.robindegen.nl/r/cmake-scripts.git
+	branch = master
