@@ -16,6 +16,8 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
         REQUIRED
     )
 
+    find_package(CURL)
+
     include(CompilerFlags)
     include(Unittests)
 endif ()
