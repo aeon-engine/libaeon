@@ -1,4 +1,24 @@
-add_subdirectory(dep/sqlite)
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    project(libaeon)
+    cmake_minimum_required(VERSION 3.1)
+
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+    set(Boost_USE_STATIC_LIBS        ON)
+    set(Boost_USE_MULTITHREADED      ON)
+    set(Boost_USE_STATIC_RUNTIME    OFF)
+    find_package (Boost COMPONENTS
+        system
+        date_time
+        filesystem
+        regex
+        unit_test_framework
+        REQUIRED
+    )
+
+    include(CompilerFlags)
+    include(Unittests)
+endif ()
 
 ################################################################################
 
@@ -121,9 +141,11 @@ if (CURL_FOUND)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_CURL_SOURCE})
 endif ()
 
-add_library(aeon STATIC ${LIB_AEON_SOURCE})
+add_library(aeon ${LIB_AEON_SOURCE})
 target_include_directories(aeon PRIVATE src)
 target_include_directories(aeon PUBLIC ${Boost_INCLUDE_DIRS} include)
+
+target_link_libraries(aeon ${Boost_LIBRARIES})
 
 if (CURL_FOUND)
     message(STATUS "Building libAeon with CURL support.")
@@ -132,3 +154,17 @@ if (CURL_FOUND)
 endif ()
 
 add_subdirectory(tests)
+
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    install(
+        TARGETS aeon
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+    )
+
+    install(
+        DIRECTORY include/
+        DESTINATION include
+    )
+endif ()

@@ -1,3 +1,0 @@
-[submodule "dep/sqlite"]
-	path = dep/sqlite
-	url = http://git.robindegen.nl/r/external/sqlite_amalgamation.git
