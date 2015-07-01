@@ -20,6 +20,8 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
 
     include(CompilerFlags)
     include(Unittests)
+
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif ()
 
 ################################################################################
