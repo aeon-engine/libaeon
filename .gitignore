@@ -16,5 +16,7 @@ docs
 # CLion
 .idea
 
-# Windows
+# Build folders
 vs_build/
+build/
+
