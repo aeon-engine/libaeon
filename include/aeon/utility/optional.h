@@ -18,15 +18,23 @@ public:
     {
     }
 
-    optional(T val) :
+    optional(const T &val) :
         value_(val),
         has_value_(true)
     {
     }
 
-    bool has_value()
+    bool has_value() const
     {
         return has_value_;
+    }
+
+    const T& get_value() const
+    {
+        if (!has_value_)
+            throw optional_value_exception();
+
+        return value_;
     }
 
     void reset()
@@ -34,7 +42,7 @@ public:
         has_value_ = false;
     }
 
-    operator T()
+    operator T() const
     {
         if (!has_value_)
             throw optional_value_exception();
