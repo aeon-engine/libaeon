@@ -7,3 +7,7 @@ build:
     - cmake -DCMAKE_INSTALL_PREFIX=install ../
     - cmake --build . --target install --config Debug
     - ctest -C Debug --verbose
+
+cppcheck:
+  script:
+    - cppcheck --enable=all --std=posix -q -I include/ src
