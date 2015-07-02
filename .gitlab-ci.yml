@@ -1,0 +1,9 @@
+build:
+  script:
+    - export BOOST_ROOT=/Users/robindegen/Server/libraries_cache/boost/1.58/
+    - export BUILD_DIR=ci_build
+    - mkdir $BUILD_DIR
+    - cd $BUILD_DIR
+    - cmake -DCMAKE_INSTALL_PREFIX=install ../
+    - cmake --build . --target install --config Debug
+    - ctest -C Debug --verbose
