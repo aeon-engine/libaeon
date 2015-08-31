@@ -1,6 +1,10 @@
 build:
   script:
-    - export BOOST_ROOT=/Users/robindegen/Server/libraries_cache/boost/1.58/
+    - export WORKSPACE=$PWD
+    - cd $AEON_LIBRARIES_PATH
+    - git checkout origin/master
+    - git fetch --prune
+    - cd $WORKSPACE
     - export BUILD_DIR=ci_build
     - mkdir $BUILD_DIR
     - cd $BUILD_DIR
