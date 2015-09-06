@@ -83,6 +83,7 @@ set(LIB_AEON_UTILITY_SOURCE
     src/utility/timer.cpp
     include/aeon/utility/timer.h
     include/aeon/utility/optional.h
+    include/aeon/utility/linear_map.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

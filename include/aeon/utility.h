@@ -27,6 +27,7 @@
 #include <array>
 #include <chrono>
 #include <exception>
+#include <utility>
 
 /******************************************************************************/
 /* Boost headers                                                              */
@@ -43,3 +44,4 @@
 #include <aeon/utility/endianness.h>
 #include <aeon/utility/timer.h>
 #include <aeon/utility/optional.h>
+#include <aeon/utility/linear_map.h>
