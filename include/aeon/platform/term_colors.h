@@ -1,5 +1,19 @@
-#ifndef aeon_utility_platform_h__
-#define aeon_utility_platform_h__
+/*
+ * ROBIN DEGEN; CONFIDENTIAL
+ *
+ * 2012 - 2015 Robin Degen
+ * All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains the property of
+ * Robin Degen and its suppliers, if any. The intellectual and technical
+ * concepts contained herein are proprietary to Robin Degen and its suppliers
+ * and may be covered by U.S. and Foreign Patents, patents in process, and are
+ * protected by trade secret or copyright law. Dissemination of this
+ * information or reproduction of this material is strictly forbidden unless
+ * prior written permission is obtained from Robin Degen.
+ */
+
+#pragma once
 
 /* Color codes for colored console output. Can be used like this:
  * std::cout << AEON_TERM_COLOR_BLUE << "Blue! "
@@ -19,5 +33,3 @@
 #  define AEON_TERM_COLOR_CYAN          "\033[36m"
 #  define AEON_TERM_COLOR_WHITE         "\033[37m"
 #endif // AEON_UTILITY_OS_WINDOWS
-
-#endif // aeon_utility_platform_h__

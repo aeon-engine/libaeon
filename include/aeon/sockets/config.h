@@ -1,7 +1,18 @@
-#ifndef aeon_sockets_config_h__
-#define aeon_sockets_config_h__
+/*
+ * ROBIN DEGEN; CONFIDENTIAL
+ *
+ * 2012 - 2015 Robin Degen
+ * All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains the property of
+ * Robin Degen and its suppliers, if any. The intellectual and technical
+ * concepts contained herein are proprietary to Robin Degen and its suppliers
+ * and may be covered by U.S. and Foreign Patents, patents in process, and are
+ * protected by trade secret or copyright law. Dissemination of this
+ * information or reproduction of this material is strictly forbidden unless
+ * prior written permission is obtained from Robin Degen.
+ */
+
+#pragma once
 
 #define AEON_TCP_SOCKET_MAX_BUFF_LEN 2048
-
-#endif // aeon_sockets_config_h__
-
