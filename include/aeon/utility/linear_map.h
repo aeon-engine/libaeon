@@ -27,8 +27,13 @@ public:
     using pair_type = std::pair<key_type, value_type>;
     using map_type = std::vector<pair_type>;
 
-    linear_map();
-    ~linear_map();
+    linear_map()
+    {
+    }
+
+    ~linear_map()
+    {
+    }
 
     typename map_type::iterator insert(const key_type &key, const value_type &value)
     {
@@ -40,27 +45,29 @@ public:
         auto itr = __find_key(pair.first);
 
         if (itr == map_.end())
-            return map_.push_back(pair);
-        
-        itr.second = pair.second;
+            return map_.insert(map_.end(), pair);
+
+        itr->second = pair.second;
+        return itr;
     }
 
-    typename map_type::value_type &at(const key_type &key)
+    value_type &at(const key_type &key)
     {
         auto itr = __find_key(key);
         if (itr == map_.end())
             throw std::out_of_range("aeon linear_map key out of range.");
         
-        return itr.second;
+        return itr->second;
     }
 
-    typename map_type::value_type &operator[](const key_type &key)
+    value_type &operator[](const key_type &key)
     {
         auto itr = __find_key(key);
+
         if (itr == map_.end())
             itr = insert(key, value_type());
-        
-        return itr.second;
+
+        return itr->second;
     }
 
     typename map_type::iterator find(const key_type &key)
@@ -126,7 +133,7 @@ private:
             map_.end(),
             [key](const pair_type &s)
             {
-                return s.first() == key;
+                return s.first == key;
             }
         );
 

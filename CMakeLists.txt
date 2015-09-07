@@ -148,6 +148,11 @@ if (CURL_FOUND)
 endif ()
 
 add_library(aeon ${LIB_AEON_SOURCE})
+
+set_target_properties(aeon PROPERTIES
+    FOLDER dep/libaeon
+)
+
 target_include_directories(aeon PRIVATE src)
 target_include_directories(aeon PUBLIC ${Boost_INCLUDE_DIRS} include)
 
