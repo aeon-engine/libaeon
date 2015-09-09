@@ -75,6 +75,15 @@ BOOST_AUTO_TEST_CASE(test_linear_map_index_operator_overwrite)
     BOOST_REQUIRE_EQUAL(5, linear_map_.size());
 }
 
+BOOST_AUTO_TEST_CASE(test_linear_map_insert_ex_collision)
+{
+    auto result = linear_map_.insert_ex("Three", 15);
+    BOOST_REQUIRE(result == linear_map_.end());
+
+    int at_three = linear_map_["Three"];
+    BOOST_REQUIRE_EQUAL(3, at_three);
+}
+
 BOOST_AUTO_TEST_CASE(test_linear_map_index_operator_default)
 {
     int cant_find = linear_map_["Something! 123"];
@@ -157,6 +166,18 @@ BOOST_AUTO_TEST_CASE(test_linear_map_erase_by_iterator)
     result = linear_map_.find("Two");
     linear_map_.erase(result);
 
+    BOOST_REQUIRE_EQUAL(3, linear_map_.size());
+}
+
+BOOST_AUTO_TEST_CASE(test_linear_map_erase_if)
+{
+    BOOST_REQUIRE_EQUAL(5, linear_map_.size());
+    linear_map_.erase_if(
+        [](const aeon::utility::linear_map<std::string, int>::pair_type &pair)
+        {
+            return (pair.first == "Two" || pair.first == "Four");
+        }
+    );
     BOOST_REQUIRE_EQUAL(3, linear_map_.size());
 }
 

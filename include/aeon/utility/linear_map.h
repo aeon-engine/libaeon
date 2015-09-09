@@ -51,6 +51,21 @@ public:
         return itr;
     }
 
+    typename map_type::iterator insert_ex(const key_type &key, const value_type &value)
+    {
+        return insert_ex(std::make_pair(key, value));
+    }
+
+    typename map_type::iterator insert_ex(pair_type pair)
+    {
+        auto itr = __find_key(pair.first);
+
+        if (itr == map_.end())
+            return map_.insert(map_.end(), pair);
+
+        return map_.end();
+    }
+
     value_type &at(const key_type &key)
     {
         auto itr = __find_key(key);
@@ -103,6 +118,21 @@ public:
             return erase(itr);
         
         return itr;
+    }
+
+    void erase_if(std::function<bool(const pair_type &)> pred)
+    {
+        for (auto obj = map_.begin(); obj != map_.end();)
+        {
+            if (pred(*obj))
+            {
+                obj = map_.erase(obj);
+            }
+            else
+            {
+                ++obj;
+            }
+        }
     }
 
     typename map_type::iterator erase(typename map_type::iterator itr)
