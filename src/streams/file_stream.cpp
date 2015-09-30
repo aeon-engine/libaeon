@@ -157,7 +157,7 @@ std::ios::openmode file_stream::access_mode_to_ios_open_mode_(int mode)
 {
     std::ios::openmode openmode_zero = static_cast<std::ios::openmode>(0);
 
-    std::ios::openmode m = openmode_zero;
+    std::ios::openmode m = std::ifstream::binary;
     m |= (mode & access_mode::read) ? std::fstream::in : openmode_zero;
     m |= (mode & access_mode::write) ? std::fstream::out : openmode_zero;
     m |= (mode & access_mode::truncate) ? std::fstream::trunc : openmode_zero;
