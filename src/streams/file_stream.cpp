@@ -5,11 +5,11 @@ namespace aeon
 namespace streams
 {
 
-file_stream::file_stream(const std::string &filename, int mode) :
+file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/) :
     stream(mode),
     size_(0)
 {
-    fstream_.open(filename, access_mode_to_ios_open_mode_(mode));
+    fstream_.open(filename, to_ios_open_mode_(mode, fm));
 
     if (fstream_.good() && is_readable())
     {
@@ -19,18 +19,18 @@ file_stream::file_stream(const std::string &filename, int mode) :
     }
 }
 
-file_stream::file_stream(const std::string &filename) :
-    file_stream(filename, access_mode::read)
+file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode::binary*/) :
+    file_stream(filename, access_mode::read, fm)
 {
 }
 
-file_stream::file_stream(boost::filesystem::path path, int mode) :
-    file_stream(path.string(), mode)
+file_stream::file_stream(boost::filesystem::path path, int mode, file_mode fm /*= file_mode::binary*/) :
+    file_stream(path.string(), mode, fm)
 {
 }
 
-file_stream::file_stream(boost::filesystem::path path) :
-    file_stream(path.string())
+file_stream::file_stream(boost::filesystem::path path, file_mode fm /*= file_mode::binary*/) :
+    file_stream(path.string(), fm)
 {
 }
 
@@ -153,11 +153,11 @@ bool file_stream::good() const
     return fstream_.good();
 }
 
-std::ios::openmode file_stream::access_mode_to_ios_open_mode_(int mode)
+std::ios::openmode file_stream::to_ios_open_mode_(int mode, file_mode fm)
 {
     std::ios::openmode openmode_zero = static_cast<std::ios::openmode>(0);
 
-    std::ios::openmode m = std::ifstream::binary;
+    std::ios::openmode m = (fm == file_mode::binary) ? std::fstream::binary : openmode_zero;
     m |= (mode & access_mode::read) ? std::fstream::in : openmode_zero;
     m |= (mode & access_mode::write) ? std::fstream::out : openmode_zero;
     m |= (mode & access_mode::truncate) ? std::fstream::trunc : openmode_zero;

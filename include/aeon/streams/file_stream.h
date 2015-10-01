@@ -22,15 +22,21 @@ namespace streams
 
 class file_stream_exception : public stream_exception {};
 
+enum class file_mode
+{
+    text,
+    binary
+};
+
 class file_stream : public stream
 {
 public:
-    file_stream(const std::string &filename, int mode);
+    file_stream(const std::string &filename, int mode, file_mode fm = file_mode::binary);
 
-    file_stream(const std::string &filename);
+    file_stream(const std::string &filename, file_mode fm = file_mode::binary);
 
-    file_stream(boost::filesystem::path path, int mode);
-    file_stream(boost::filesystem::path path);
+    explicit file_stream(boost::filesystem::path path, int mode, file_mode fm /*= file_mode::binary*/);
+    explicit file_stream(boost::filesystem::path path, file_mode fm /*= file_mode::binary*/);
 
     virtual std::size_t read(std::uint8_t *data, std::size_t size);
 
@@ -60,7 +66,7 @@ public:
     void write_line(const std::string &line);
 
 protected:
-    std::ios::openmode access_mode_to_ios_open_mode_(int mode);
+    std::ios::openmode to_ios_open_mode_(int mode, file_mode fm);
     std::ios::seekdir seek_direction_to_ios_seekdir_(seek_direction direction);
 
     std::fstream fstream_;
