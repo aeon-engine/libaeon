@@ -79,7 +79,6 @@ protected:
         access_mode_ = access;
     }
 
-private:
     /*!
      * Bitflags representing the access mode of this stream.
      * May be read and or write.
