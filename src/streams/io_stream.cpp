@@ -32,7 +32,7 @@ std::size_t io_stream::write(const std::uint8_t *data, std::size_t size)
     return fwrite(data, 1, size, stdout);
 }
 
-bool io_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /*= 0*/)
+bool io_stream::peek(std::uint8_t &data, std::ptrdiff_t /*= 0*/)
 {
     if (!is_readable())
         throw io_stream_exception();
