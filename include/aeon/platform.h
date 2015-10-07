@@ -25,3 +25,4 @@
 /******************************************************************************/
 #include <aeon/platform/platform.h>
 #include <aeon/platform/term_colors.h>
+#include <aeon/platform/compilers.h>

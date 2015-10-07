@@ -98,6 +98,7 @@ set(LIB_AEON_PLATFORM_SOURCE
     include/aeon/platform.h
     include/aeon/platform/platform.h
     include/aeon/platform/term_colors.h
+    include/aeon/platform/compilers.h
 )
 
 source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
