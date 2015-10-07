@@ -24,6 +24,7 @@
 #  define AEON_IGNORE_WARNING_POP() \
     __pragma (warning (pop))
 #else // (AEON_PLATFORM_OS_WINDOWS)
+#  define AEON_IGNORE_WARNING(nnn)
 #  define AEON_IGNORE_WARNING_PUSH(nnn)
 #  define AEON_IGNORE_WARNING_POP()
 #endif
