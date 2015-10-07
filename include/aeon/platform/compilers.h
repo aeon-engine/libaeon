@@ -16,6 +16,8 @@
 #pragma once
 
 #if (AEON_PLATFORM_OS_WINDOWS)
+#  define AEON_IGNORE_WARNING(nnn) \
+    __pragma (warning(disable : nnn))
 #  define AEON_IGNORE_WARNING_PUSH(nnn) \
     __pragma (warning (push)) \
     __pragma (warning(disable : nnn))
