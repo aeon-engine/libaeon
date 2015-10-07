@@ -2,6 +2,8 @@
 #include <boost/test/unit_test.hpp>
 #include <aeon/utility.h>
 
+AEON_IGNORE_WARNING(4189)
+
 static bool optional_value_exception_pred(
     aeon::utility::optional_value_exception const &)
 {
