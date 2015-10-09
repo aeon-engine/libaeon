@@ -1,4 +1,6 @@
-build:
+osx:
+  tags:
+    - osx
   script:
     - export WORKSPACE=$PWD
     - cd $AEON_LIBRARIES_PATH
@@ -13,5 +15,7 @@ build:
     - ctest -C Debug --verbose
 
 cppcheck:
+  tags:
+    - osx
   script:
     - cppcheck --enable=all --std=posix -q -I include/ src
