@@ -24,7 +24,7 @@ namespace utility
 {
 
 template <class type>
-class singleton
+class singleton : public utility::noncopyable
 {
 public:
     singleton()

@@ -88,6 +88,7 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/optional.h
     include/aeon/utility/linear_map.h
     include/aeon/utility/variant.h
+    include/aeon/utility/noncopyable.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
