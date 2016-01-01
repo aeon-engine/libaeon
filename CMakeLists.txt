@@ -21,6 +21,7 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     )
 
     find_package(CURL)
+    find_package(Mono)
 
     include(CompilerFlags)
     include(Unittests)
@@ -140,6 +141,27 @@ endif ()
 
 ################################################################################
 
+if (MONO_FOUND)
+    set(LIB_AEON_MONO_SOURCE
+        include/aeon/mono.h
+        src/mono/mono_method.cpp
+        include/aeon/mono/mono_method.h
+        src/mono/mono_assembly.cpp
+        include/aeon/mono/mono_assembly.h
+        src/mono/mono_jit.cpp
+        include/aeon/mono/mono_jit.h
+        src/mono/mono_class.cpp
+        include/aeon/mono/mono_class.h
+        src/mono/mono_object.cpp
+        include/aeon/mono/mono_object.h
+        include/aeon/mono/mono_exception.h
+    )
+
+    source_group(mono FILES ${LIB_AEON_MONO_SOURCE})
+endif ()
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
@@ -151,6 +173,10 @@ set(LIB_AEON_SOURCE
 
 if (CURL_FOUND)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_CURL_SOURCE})
+endif ()
+
+if (MONO_FOUND)
+    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MONO_SOURCE})
 endif ()
 
 add_library(aeon ${LIB_AEON_SOURCE})
@@ -168,6 +194,12 @@ if (CURL_FOUND)
     message(STATUS "Building libAeon with CURL support.")
     target_link_libraries(aeon ${CURL_LIBRARIES})
     target_include_directories(aeon PUBLIC ${CURL_INCLUDE_DIRS})
+endif ()
+
+if (MONO_FOUND)
+    message(STATUS "Building libAeon with MONO support.")
+    target_link_libraries(aeon ${MONO_LIBRARIES})
+    target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH})
 endif ()
 
 add_subdirectory(tests)
