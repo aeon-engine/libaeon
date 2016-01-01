@@ -32,9 +32,12 @@
 /* Aeon headers                                                               */
 /******************************************************************************/
 #include <aeon/utility.h>
+
 #include <aeon/mono/mono_exception.h>
+#include <aeon/mono/mono_gchandle.h>
 #include <aeon/mono/mono_assembly.h>
 #include <aeon/mono/mono_jit.h>
 #include <aeon/mono/mono_class.h>
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_object.h>
+#include <aeon/mono/mono_string.h>

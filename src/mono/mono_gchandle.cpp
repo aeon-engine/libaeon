@@ -13,29 +13,46 @@
  * prior written permission is obtained from Robin Degen.
  */
 
-#pragma once
+#include <aeon/mono.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_object
+mono_gchandle::mono_gchandle() :
+    handle_(0)
 {
-public:
-    mono_object(MonoDomain *domain, MonoClass *cls);
-    ~mono_object();
+}
 
-    mono_object(mono_object&& o);
-    mono_object &operator=(mono_object&& o);
+mono_gchandle::mono_gchandle(MonoObject *object) :
+    handle_(0)
+{
+    handle_ = mono_gchandle_new(object, 1);
+}
 
-    mono_method get_method(const std::string &name, int argc = 0);
+mono_gchandle::mono_gchandle(MonoString *object) :
+    handle_(0)
+{
+    handle_ = mono_gchandle_new(reinterpret_cast<MonoObject*>(object), 1);
+}
 
-private:
-    MonoObject *object_;
-    MonoClass *class_;
-    mono_gchandle handle_;
-};
+mono_gchandle::~mono_gchandle()
+{
+    if (handle_ != 0)
+        mono_gchandle_free(handle_);
+}
+
+mono_gchandle::mono_gchandle(mono_gchandle&& o) :
+    handle_(o.handle_)
+{
+}
+
+mono_gchandle &mono_gchandle::operator=(mono_gchandle&& o)
+{
+    handle_ = o.handle_;
+    return *this;
+}
 
 } // namespace mono
 } // namespace aeon

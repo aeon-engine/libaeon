@@ -20,21 +20,19 @@ namespace aeon
 namespace mono
 {
 
-class mono_object
+class mono_gchandle : utility::noncopyable
 {
 public:
-    mono_object(MonoDomain *domain, MonoClass *cls);
-    ~mono_object();
+    mono_gchandle();
+    explicit mono_gchandle(MonoObject *obj);
+    explicit mono_gchandle(MonoString *obj);
+    ~mono_gchandle();
 
-    mono_object(mono_object&& o);
-    mono_object &operator=(mono_object&& o);
-
-    mono_method get_method(const std::string &name, int argc = 0);
+    mono_gchandle(mono_gchandle&& o);
+    mono_gchandle &operator=(mono_gchandle&& o);
 
 private:
-    MonoObject *object_;
-    MonoClass *class_;
-    mono_gchandle handle_;
+    std::uint32_t handle_;
 };
 
 } // namespace mono

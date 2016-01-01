@@ -20,20 +20,21 @@ namespace aeon
 namespace mono
 {
 
-class mono_object
+class mono_string
 {
 public:
-    mono_object(MonoDomain *domain, MonoClass *cls);
-    ~mono_object();
+    mono_string(MonoDomain *domain, const std::string &str);
+    ~mono_string();
 
-    mono_object(mono_object&& o);
-    mono_object &operator=(mono_object&& o);
+    mono_string(mono_string&& o);
+    mono_string &operator=(mono_string&& o);
 
-    mono_method get_method(const std::string &name, int argc = 0);
+    mono_string &operator=(const std::string &str);
 
 private:
-    MonoObject *object_;
-    MonoClass *class_;
+    MonoDomain *domain_;
+    MonoString *object_;
+    std::string string_;
     mono_gchandle handle_;
 };
 

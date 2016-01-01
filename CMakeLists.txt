@@ -154,6 +154,10 @@ if (MONO_FOUND)
         include/aeon/mono/mono_class.h
         src/mono/mono_object.cpp
         include/aeon/mono/mono_object.h
+        src/mono/mono_string.cpp
+        include/aeon/mono/mono_string.h
+        src/mono/mono_gchandle.cpp
+        include/aeon/mono/mono_gchandle.h
         include/aeon/mono/mono_exception.h
     )
 
