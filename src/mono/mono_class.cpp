@@ -33,6 +33,21 @@ mono_class::~mono_class()
 
 }
 
+mono_class::mono_class(mono_class &&o) :
+    image_(o.image_),
+    name_(std::move(o.name_)),
+    class_(o.class_)
+{
+}
+
+mono_class &mono_class::operator=(mono_class &&o)
+{
+    image_ = o.image_;
+    name_ = std::move(o.name_);
+    class_ = o.class_;
+    return *this;
+}
+
 mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/)
 {
     return mono_method(class_, name, argc);

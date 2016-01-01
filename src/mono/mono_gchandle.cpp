@@ -43,12 +43,12 @@ mono_gchandle::~mono_gchandle()
         mono_gchandle_free(handle_);
 }
 
-mono_gchandle::mono_gchandle(mono_gchandle&& o) :
+mono_gchandle::mono_gchandle(mono_gchandle &&o) :
     handle_(o.handle_)
 {
 }
 
-mono_gchandle &mono_gchandle::operator=(mono_gchandle&& o)
+mono_gchandle &mono_gchandle::operator=(mono_gchandle &&o)
 {
     handle_ = o.handle_;
     return *this;

@@ -22,11 +22,14 @@ namespace mono
 
 class mono_method;
 
-class mono_class
+class mono_class : public utility::noncopyable
 {
 public:
     mono_class(MonoImage *image, const std::string &name);
     ~mono_class();
+
+    mono_class(mono_class &&o);
+    mono_class &operator=(mono_class &&o);
 
     mono_method get_method(const std::string &name, int argc = 0);
 

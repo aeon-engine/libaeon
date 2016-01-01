@@ -44,6 +44,25 @@ mono_method::~mono_method()
 {
 }
 
+mono_method::mono_method(mono_method &&o) :
+    class_(o.class_),
+    name_(std::move(o.name_)),
+    argc_(o.argc_),
+    method_(o.method_),
+    object_(o.object_)
+{
+}
+
+mono_method &mono_method::operator=(mono_method &&o)
+{
+    class_ = o.class_;
+    name_ = std::move(o.name_);
+    argc_ = o.argc_;
+    method_ = o.method_;
+    object_ = o.object_;
+    return *this;
+}
+
 void mono_method::operator()()
 {
     void *params[1] = { nullptr };

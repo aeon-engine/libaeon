@@ -38,6 +38,23 @@ mono_assembly::~mono_assembly()
 {
 }
 
+mono_assembly::mono_assembly(mono_assembly &&o) :
+    domain_(o.domain_),
+    path_(std::move(o.path_)),
+    assembly_(o.assembly_),
+    image_(o.image_)
+{
+}
+
+mono_assembly &mono_assembly::operator=(mono_assembly &&o)
+{
+    domain_ = o.domain_;
+    path_ = std::move(o.path_);
+    assembly_ = o.assembly_;
+    image_ = o.image_;
+    return *this;
+}
+
 int mono_assembly::execute()
 {
     char *argv[1] = { const_cast<char*>(path_.c_str()) };
@@ -57,6 +74,11 @@ mono_class mono_assembly::get_class(const std::string &name)
 mono_object mono_assembly::new_object(const mono_class &cls)
 {
     return mono_object(domain_, cls.get_mono_class_ptr());
+}
+
+mono_string mono_assembly::new_string(const std::string &str)
+{
+    return mono_string(domain_, str);
 }
 
 } // namespace mono

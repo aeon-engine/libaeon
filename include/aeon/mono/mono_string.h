@@ -20,14 +20,14 @@ namespace aeon
 namespace mono
 {
 
-class mono_string
+class mono_string : public utility::noncopyable
 {
 public:
     mono_string(MonoDomain *domain, const std::string &str);
     ~mono_string();
 
-    mono_string(mono_string&& o);
-    mono_string &operator=(mono_string&& o);
+    mono_string(mono_string &&o);
+    mono_string &operator=(mono_string &&o);
 
     mono_string &operator=(const std::string &str);
 

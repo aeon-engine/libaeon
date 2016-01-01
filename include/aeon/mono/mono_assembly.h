@@ -22,18 +22,23 @@ namespace mono
 
 class mono_class;
 class mono_object;
+class mono_string;
 
-class mono_assembly
+class mono_assembly : public utility::noncopyable
 {
 public:
     explicit mono_assembly(MonoDomain *domain, const std::string &path);
     ~mono_assembly();
+
+    mono_assembly(mono_assembly &&o);
+    mono_assembly &operator=(mono_assembly &&o);
 
     int execute();
     int execute(int argc, char *argv[]);
 
     mono_class get_class(const std::string &name);
     mono_object new_object(const mono_class &cls);
+    mono_string new_string(const std::string &str);
 
 private:
     MonoDomain *domain_;

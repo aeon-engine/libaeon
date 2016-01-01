@@ -33,14 +33,14 @@ mono_object::~mono_object()
 {
 }
 
-mono_object::mono_object(mono_object&& o) :
+mono_object::mono_object(mono_object &&o) :
     object_(o.object_),
     class_(o.class_),
     handle_(std::move(o.handle_))
 {
 }
 
-mono_object &mono_object::operator=(mono_object&& o)
+mono_object &mono_object::operator=(mono_object &&o)
 {
     object_ = o.object_;
     class_ = o.class_;

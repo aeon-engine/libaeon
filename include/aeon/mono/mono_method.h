@@ -20,13 +20,16 @@ namespace aeon
 namespace mono
 {
 
-class mono_method
+class mono_method : public utility::noncopyable
 {
 public:
     mono_method(MonoClass *cls, const std::string &name, int argc);
     mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
 
     ~mono_method();
+
+    mono_method(mono_method &&o);
+    mono_method &operator=(mono_method &&o);
 
     void operator()();
 

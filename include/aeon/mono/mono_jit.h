@@ -30,7 +30,7 @@ class mono_assembly;
  * at runtime after it was cleaned up. You must keep this class instanced
  * during the full runtime of the application.
  */
-class mono_jit
+class mono_jit : utility::noncopyable
 {
 public:
     mono_jit();

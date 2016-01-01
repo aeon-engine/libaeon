@@ -20,7 +20,7 @@ namespace aeon
 namespace mono
 {
 
-class mono_gchandle : utility::noncopyable
+class mono_gchandle : public utility::noncopyable
 {
 public:
     mono_gchandle();
@@ -28,8 +28,8 @@ public:
     explicit mono_gchandle(MonoString *obj);
     ~mono_gchandle();
 
-    mono_gchandle(mono_gchandle&& o);
-    mono_gchandle &operator=(mono_gchandle&& o);
+    mono_gchandle(mono_gchandle &&o);
+    mono_gchandle &operator=(mono_gchandle &&o);
 
 private:
     std::uint32_t handle_;

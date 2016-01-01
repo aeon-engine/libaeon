@@ -33,7 +33,7 @@ mono_string::~mono_string()
 {
 }
 
-mono_string::mono_string(mono_string&& o) :
+mono_string::mono_string(mono_string &&o) :
     domain_(o.domain_),
     object_(o.object_),
     string_(std::move(o.string_)),
@@ -41,7 +41,7 @@ mono_string::mono_string(mono_string&& o) :
 {
 }
 
-mono_string &mono_string::operator=(mono_string&& o)
+mono_string &mono_string::operator=(mono_string &&o)
 {
     domain_ = o.domain_;
     object_ = o.object_;
