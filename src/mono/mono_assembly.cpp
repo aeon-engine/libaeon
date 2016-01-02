@@ -71,9 +71,9 @@ mono_class mono_assembly::get_class(const std::string &name)
     return mono_class(image_, name);
 }
 
-mono_object mono_assembly::new_object(const mono_class &cls)
+mono_class_instance mono_assembly::new_class_instance(const mono_class &cls)
 {
-    return mono_object(domain_, cls.get_mono_class_ptr());
+    return mono_class_instance(domain_, cls.get_mono_class_ptr());
 }
 
 mono_string mono_assembly::new_string(const std::string &str)

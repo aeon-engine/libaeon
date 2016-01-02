@@ -23,17 +23,16 @@ namespace mono
 class mono_object : public utility::noncopyable
 {
 public:
-    mono_object(MonoDomain *domain, MonoClass *cls);
+    mono_object(MonoDomain *domain);
     ~mono_object();
 
     mono_object(mono_object &&o);
     mono_object &operator=(mono_object &&o);
 
-    mono_method get_method(const std::string &name, int argc = 0);
+    virtual MonoObject *get_mono_object() const = 0;
 
-private:
-    MonoObject *object_;
-    MonoClass *class_;
+protected:
+    MonoDomain *domain_;
     mono_gchandle handle_;
 };
 

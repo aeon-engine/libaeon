@@ -69,5 +69,16 @@ void mono_method::operator()()
     mono_runtime_invoke(method_, object_, params, nullptr);
 }
 
+void mono_method::operator()(std::vector<mono_object*> params)
+{
+    std::vector<MonoObject *> real_params;
+    for (auto p : params)
+    {
+        real_params.push_back(p->get_mono_object());
+    }
+
+    mono_runtime_invoke(method_, object_, reinterpret_cast<void**>(real_params.data()), nullptr);
+}
+
 } // namespace mono
 } // namespace aeon

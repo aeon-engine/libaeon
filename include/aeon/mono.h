@@ -19,6 +19,7 @@
 /* Standard headers                                                           */
 /******************************************************************************/
 #include <string>
+#include <vector>
 #include <cstdint>
 
 /******************************************************************************/
@@ -38,6 +39,7 @@
 #include <aeon/mono/mono_assembly.h>
 #include <aeon/mono/mono_jit.h>
 #include <aeon/mono/mono_class.h>
-#include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_object.h>
 #include <aeon/mono/mono_string.h>
+#include <aeon/mono/mono_class_instance.h>
+#include <aeon/mono/mono_method.h>

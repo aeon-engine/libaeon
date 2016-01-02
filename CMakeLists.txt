@@ -158,6 +158,8 @@ if (MONO_FOUND)
         include/aeon/mono/mono_string.h
         src/mono/mono_gchandle.cpp
         include/aeon/mono/mono_gchandle.h
+        src/mono/mono_class_instance.cpp
+        include/aeon/mono/mono_class_instance.h
         include/aeon/mono/mono_exception.h
     )
 

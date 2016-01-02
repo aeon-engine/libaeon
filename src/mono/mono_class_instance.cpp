@@ -20,45 +20,43 @@ namespace aeon
 namespace mono
 {
 
-mono_string::mono_string(MonoDomain *domain, const std::string &str) :
+mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls) :
     mono_object(domain),
     object_(nullptr),
-    string_(str)
+    class_(cls)
 {
-    object_ = mono_string_new(domain, str.c_str());
+    object_ = mono_object_new(domain, cls);
+    mono_runtime_object_init(object_);
     handle_ = mono_gchandle(object_);
 }
 
-mono_string::~mono_string()
+mono_class_instance::~mono_class_instance()
 {
 }
 
-mono_string::mono_string(mono_string &&o) :
+mono_class_instance::mono_class_instance(mono_class_instance &&o) :
     mono_object(std::move(o)),
     object_(o.object_),
-    string_(std::move(o.string_))
+    class_(o.class_)
 {
 }
 
-mono_string &mono_string::operator=(mono_string &&o)
+mono_class_instance &mono_class_instance::operator=(mono_class_instance &&o)
 {
     mono_object::operator=(std::move(o));
     object_ = o.object_;
-    string_ = std::move(o.string_);
+    class_ = o.class_;
     return *this;
 }
 
-mono_string &mono_string::operator=(const std::string &str)
+mono_method mono_class_instance::get_method(const std::string &name, int argc /*= 0*/)
 {
-    string_ = str;
-    object_ = mono_string_new(domain_, str.c_str());
-    handle_ = mono_gchandle(object_);
-    return *this;
+    return mono_method(class_, object_, name, argc);
 }
 
-MonoObject *mono_string::get_mono_object() const
+MonoObject *mono_class_instance::get_mono_object() const
 {
-    return reinterpret_cast<MonoObject*>(object_);
+    return object_;
 }
 
 } // namespace mono

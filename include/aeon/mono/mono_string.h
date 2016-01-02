@@ -20,7 +20,7 @@ namespace aeon
 namespace mono
 {
 
-class mono_string : public utility::noncopyable
+class mono_string : public mono_object
 {
 public:
     mono_string(MonoDomain *domain, const std::string &str);
@@ -31,11 +31,11 @@ public:
 
     mono_string &operator=(const std::string &str);
 
+    MonoObject *get_mono_object() const override;
+
 private:
-    MonoDomain *domain_;
     MonoString *object_;
     std::string string_;
-    mono_gchandle handle_;
 };
 
 } // namespace mono

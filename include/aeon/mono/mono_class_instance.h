@@ -20,31 +20,22 @@ namespace aeon
 namespace mono
 {
 
-class mono_class;
-class mono_class_instance;
-class mono_string;
-
-class mono_assembly : public utility::noncopyable
+class mono_class_instance : public mono_object
 {
 public:
-    explicit mono_assembly(MonoDomain *domain, const std::string &path);
-    ~mono_assembly();
+    mono_class_instance(MonoDomain *domain, MonoClass *cls);
+    ~mono_class_instance();
 
-    mono_assembly(mono_assembly &&o);
-    mono_assembly &operator=(mono_assembly &&o);
+    mono_class_instance(mono_class_instance &&o);
+    mono_class_instance &operator=(mono_class_instance &&o);
 
-    int execute();
-    int execute(int argc, char *argv[]);
+    mono_method get_method(const std::string &name, int argc = 0);
 
-    mono_class get_class(const std::string &name);
-    mono_class_instance new_class_instance(const mono_class &cls);
-    mono_string new_string(const std::string &str);
+    MonoObject *get_mono_object() const override;
 
 private:
-    MonoDomain *domain_;
-    std::string path_;
-    MonoAssembly *assembly_;
-    MonoImage *image_;
+    MonoObject *object_;
+    MonoClass *class_;
 };
 
 } // namespace mono

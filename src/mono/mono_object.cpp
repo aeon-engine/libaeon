@@ -20,13 +20,9 @@ namespace aeon
 namespace mono
 {
 
-mono_object::mono_object(MonoDomain *domain, MonoClass *cls) :
-    object_(nullptr),
-    class_(cls)
+mono_object::mono_object(MonoDomain *domain) :
+    domain_(domain)
 {
-    object_ = mono_object_new(domain, cls);
-    mono_runtime_object_init(object_);
-    handle_ = mono_gchandle(object_);
 }
 
 mono_object::~mono_object()
@@ -34,23 +30,16 @@ mono_object::~mono_object()
 }
 
 mono_object::mono_object(mono_object &&o) :
-    object_(o.object_),
-    class_(o.class_),
+    domain_(o.domain_),
     handle_(std::move(o.handle_))
 {
 }
 
 mono_object &mono_object::operator=(mono_object &&o)
 {
-    object_ = o.object_;
-    class_ = o.class_;
+    domain_ = o.domain_;
     handle_ = std::move(o.handle_);
     return *this;
-}
-
-mono_method mono_object::get_method(const std::string &name, int argc /*= 0*/)
-{
-    return mono_method(class_, object_, name, argc);
 }
 
 } // namespace mono
