@@ -35,6 +35,8 @@ public:
     void operator()(std::vector<mono_object*> params);
 
 private:
+    void execute(void **params);
+
     MonoClass *class_;
     std::string name_;
     int argc_;

@@ -66,7 +66,7 @@ mono_method &mono_method::operator=(mono_method &&o)
 void mono_method::operator()()
 {
     void *params[1] = { nullptr };
-    mono_runtime_invoke(method_, object_, params, nullptr);
+    execute(params);
 }
 
 void mono_method::operator()(std::vector<mono_object*> params)
@@ -77,7 +77,15 @@ void mono_method::operator()(std::vector<mono_object*> params)
         real_params.push_back(p->get_mono_object());
     }
 
-    mono_runtime_invoke(method_, object_, reinterpret_cast<void**>(real_params.data()), nullptr);
+    execute(reinterpret_cast<void**>(real_params.data()));
+}
+
+void mono_method::execute(void **params)
+{
+    MonoObject *ret_value = mono_runtime_invoke(method_, object_, params, nullptr);
+
+    if (!ret_value)
+        return;
 }
 
 } // namespace mono
