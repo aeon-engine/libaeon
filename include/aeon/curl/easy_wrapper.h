@@ -13,12 +13,10 @@ public:
     easy_wrapper();
     ~easy_wrapper();
 
-    void get(const std::string &url, easy_wrapper_read_event on_read,
-        long milliseconds = AEON_CURL_DEFAULT_TIMEOUT_MS);
+    void get(const std::string &url, easy_wrapper_read_event on_read, long milliseconds = AEON_CURL_DEFAULT_TIMEOUT_MS);
 
 private:
-    static size_t static_read_event_(void *buffer, size_t size, size_t nmemb,
-        easy_wrapper *wrapper);
+    static size_t static_read_event_(void *buffer, size_t size, size_t nmemb, easy_wrapper *wrapper);
 
     CURL *curl_;
     global_wrapper_ptr global_wrapper_;

@@ -4,8 +4,7 @@
 
 AEON_IGNORE_WARNING(4189)
 
-static bool optional_value_exception_pred(
-    aeon::utility::optional_value_exception const &)
+static bool optional_value_exception_pred(aeon::utility::optional_value_exception const &)
 {
     return true;
 }
@@ -126,10 +125,7 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_exception_int)
     aeon::utility::optional<int> test;
 
     BOOST_REQUIRE_EQUAL(false, test.has_value());
-    BOOST_REQUIRE_EXCEPTION(int value = test,
-        aeon::utility::optional_value_exception,
-        optional_value_exception_pred
-    );
+    BOOST_REQUIRE_EXCEPTION(int value = test, aeon::utility::optional_value_exception, optional_value_exception_pred);
 }
 
 BOOST_AUTO_TEST_CASE(test_utility_optional_exception_int2)
@@ -138,10 +134,7 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_exception_int2)
 
     BOOST_REQUIRE_EQUAL(false, test.has_value());
 
-    BOOST_REQUIRE_EXCEPTION(int value = test,
-        aeon::utility::optional_value_exception,
-        optional_value_exception_pred
-    );
+    BOOST_REQUIRE_EXCEPTION(int value = test, aeon::utility::optional_value_exception, optional_value_exception_pred);
 
     test = 1337;
     BOOST_REQUIRE_EQUAL(true, test.has_value());
@@ -154,12 +147,8 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_exception_float)
     aeon::utility::optional<float> test;
 
     BOOST_REQUIRE_EQUAL(false, test.has_value());
-    BOOST_REQUIRE_EXCEPTION(float value = test,
-        aeon::utility::optional_value_exception,
-        optional_value_exception_pred
-    );
+    BOOST_REQUIRE_EXCEPTION(float value = test, aeon::utility::optional_value_exception, optional_value_exception_pred);
 }
-
 
 BOOST_AUTO_TEST_CASE(test_utility_optional_exception_float2)
 {
@@ -167,10 +156,7 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_exception_float2)
 
     BOOST_REQUIRE_EQUAL(false, test.has_value());
 
-    BOOST_REQUIRE_EXCEPTION(float value = test,
-        aeon::utility::optional_value_exception,
-        optional_value_exception_pred
-    );
+    BOOST_REQUIRE_EXCEPTION(float value = test, aeon::utility::optional_value_exception, optional_value_exception_pred);
 
     test = 1337.0f;
     BOOST_REQUIRE_EQUAL(true, test.has_value());
@@ -183,10 +169,8 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_exception_string)
     aeon::utility::optional<std::string> test;
 
     BOOST_REQUIRE_EQUAL(false, test.has_value());
-    BOOST_REQUIRE_EXCEPTION(std::string value = test,
-        aeon::utility::optional_value_exception,
-        optional_value_exception_pred
-    );
+    BOOST_REQUIRE_EXCEPTION(std::string value = test, aeon::utility::optional_value_exception,
+                            optional_value_exception_pred);
 }
 
 BOOST_AUTO_TEST_CASE(test_utility_optional_exception_string2)
@@ -194,10 +178,8 @@ BOOST_AUTO_TEST_CASE(test_utility_optional_exception_string2)
     aeon::utility::optional<std::string> test;
 
     BOOST_REQUIRE_EQUAL(false, test.has_value());
-    BOOST_REQUIRE_EXCEPTION(std::string value = test,
-        aeon::utility::optional_value_exception,
-        optional_value_exception_pred
-    );
+    BOOST_REQUIRE_EXCEPTION(std::string value = test, aeon::utility::optional_value_exception,
+                            optional_value_exception_pred);
 
     test = std::string("Hello!");
     BOOST_REQUIRE_EQUAL(true, test.has_value());

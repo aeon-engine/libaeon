@@ -27,8 +27,7 @@ bool configfile::has_entry(const std::string &key)
     return (itr != entries_.end());
 }
 
-std::string configfile::get_string(const std::string &key,
-                                   const std::string &default_val)
+std::string configfile::get_string(const std::string &key, const std::string &default_val)
 {
     auto itr = entries_.find(key);
 

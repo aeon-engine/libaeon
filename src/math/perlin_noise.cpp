@@ -20,31 +20,29 @@ namespace aeon
 namespace math
 {
 
-perlin_noise::perlin_noise() :
-    persistence_(0),
-    frequency_(0),
-    amplitude_(0),
-    octaves_(0),
-    randomseed_(0)
+perlin_noise::perlin_noise()
+    : persistence_(0)
+    , frequency_(0)
+    , amplitude_(0)
+    , octaves_(0)
+    , randomseed_(0)
 {
 }
 
-perlin_noise::perlin_noise(double _persistence, double _frequency, double _amplitude,
-                           int _octaves, int _randomseed) :
-    persistence_(_persistence),
-    frequency_(_frequency),
-    amplitude_(_amplitude),
-    octaves_(_octaves),
-    randomseed_(2 + _randomseed * _randomseed)
+perlin_noise::perlin_noise(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed)
+    : persistence_(_persistence)
+    , frequency_(_frequency)
+    , amplitude_(_amplitude)
+    , octaves_(_octaves)
+    , randomseed_(2 + _randomseed * _randomseed)
 {
 }
 
-void perlin_noise::set(double persistance, double frequency, double amplitude,
-                       int octaves, int randomseed)
+void perlin_noise::set(double persistance, double frequency, double amplitude, int octaves, int randomseed)
 {
     persistence_ = persistance;
     frequency_ = frequency;
-    amplitude_  = amplitude;
+    amplitude_ = amplitude;
     octaves_ = octaves;
     randomseed_ = 2 + randomseed * randomseed;
 }
@@ -56,12 +54,12 @@ double perlin_noise::get_height(double x, double y) const
 
 double perlin_noise::total(double i, double j) const
 {
-    //properties of one octave (changing each loop)
+    // properties of one octave (changing each loop)
     double t = 0.0f;
     double _amplitude = 1;
     double freq = frequency_;
 
-    for(int k = 0; k < octaves_; ++k)
+    for (int k = 0; k < octaves_; ++k)
     {
         t += get_value(j * freq + randomseed_, i * freq + randomseed_) * _amplitude;
         _amplitude *= persistence_;
@@ -73,12 +71,12 @@ double perlin_noise::total(double i, double j) const
 
 double perlin_noise::get_value(double x, double y) const
 {
-    int Xint = (int) x;
-    int Yint = (int) y;
+    int Xint = (int)x;
+    int Yint = (int)y;
     double Xfrac = x - Xint;
     double Yfrac = y - Yint;
 
-    //noise values
+    // noise values
     double n01 = noise(Xint - 1, Yint - 1);
     double n02 = noise(Xint + 1, Yint - 1);
     double n03 = noise(Xint - 1, Yint + 1);
@@ -99,20 +97,16 @@ double perlin_noise::get_value(double x, double y) const
 
     double n34 = noise(Xint + 2, Yint + 2);
 
-    //find the noise values of the four corners
-    double x0y0 = 0.0625 * (n01 + n02 + n03 + n04) + 0.125 *
-        (n05 + n06 + n07 + n08) + 0.25 * (n09);
-    double x1y0 = 0.0625 * (n07 + n12 + n08 + n14) + 0.125 *
-        (n09 + n16 + n02 + n04) + 0.25 * (n06);
-    double x0y1 = 0.0625 * (n05 + n06 + n23 + n24) + 0.125 *
-        (n03 + n04 + n09 + n28) + 0.25 * (n08);
-    double x1y1 = 0.0625 * (n09 + n16 + n28 + n34) + 0.125 *
-        (n08 + n14 + n06 + n24) + 0.25 * (n04);
+    // find the noise values of the four corners
+    double x0y0 = 0.0625 * (n01 + n02 + n03 + n04) + 0.125 * (n05 + n06 + n07 + n08) + 0.25 * (n09);
+    double x1y0 = 0.0625 * (n07 + n12 + n08 + n14) + 0.125 * (n09 + n16 + n02 + n04) + 0.25 * (n06);
+    double x0y1 = 0.0625 * (n05 + n06 + n23 + n24) + 0.125 * (n03 + n04 + n09 + n28) + 0.25 * (n08);
+    double x1y1 = 0.0625 * (n09 + n16 + n28 + n34) + 0.125 * (n08 + n14 + n06 + n24) + 0.25 * (n04);
 
-    //interpolate between those values according to the x and y fractions
-    double v1 = interpolate(x0y0, x1y0, Xfrac); //interpolate in x direction (y)
-    double v2 = interpolate(x0y1, x1y1, Xfrac); //interpolate in x direction (y+1)
-    double fin = interpolate(v1, v2, Yfrac); //interpolate in y direction
+    // interpolate between those values according to the x and y fractions
+    double v1 = interpolate(x0y0, x1y0, Xfrac); // interpolate in x direction (y)
+    double v2 = interpolate(x0y1, x1y1, Xfrac); // interpolate in x direction (y+1)
+    double fin = interpolate(v1, v2, Yfrac); // interpolate in y direction
 
     return fin;
 }
@@ -121,11 +115,11 @@ double perlin_noise::interpolate(double x, double y, double a) const
 {
     double negA = 1.0 - a;
     double negASqr = negA * negA;
-    double fac1 = 3.0 * (negASqr) - 2.0 * (negASqr * negA);
+    double fac1 = 3.0 * (negASqr)-2.0 * (negASqr * negA);
     double aSqr = a * a;
     double fac2 = 3.0 * aSqr - 2.0 * (aSqr * a);
 
-    return x * fac1 + y * fac2; //add the weighted factors
+    return x * fac1 + y * fac2; // add the weighted factors
 }
 
 double perlin_noise::noise(int x, int y) const

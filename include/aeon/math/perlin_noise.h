@@ -24,8 +24,7 @@ class perlin_noise
 {
 public:
     perlin_noise();
-    perlin_noise(double persistence, double frequency, double amplitude,
-        int octaves, int randomseed);
+    perlin_noise(double persistence, double frequency, double amplitude, int octaves, int randomseed);
 
     double get_height(double x, double y) const;
 
@@ -54,8 +53,7 @@ public:
         return randomseed_;
     }
 
-    void set(double _persistence, double _frequency, double _amplitude,
-        int _octaves, int _randomseed);
+    void set(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed);
 
     void set_persistance(double persistence)
     {

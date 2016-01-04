@@ -20,7 +20,9 @@ namespace aeon
 namespace streams
 {
 
-class file_stream_exception : public stream_exception {};
+class file_stream_exception : public stream_exception
+{
+};
 
 enum class file_mode
 {
@@ -40,8 +42,7 @@ public:
 
     virtual std::size_t read(std::uint8_t *data, std::size_t size);
 
-    virtual std::size_t write(const std::uint8_t *data,
-        std::size_t size);
+    virtual std::size_t write(const std::uint8_t *data, std::size_t size);
 
     virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0);
 

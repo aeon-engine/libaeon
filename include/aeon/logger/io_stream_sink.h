@@ -23,8 +23,8 @@ namespace logger
 class io_stream_sink : public log_sink
 {
 public:
-    io_stream_sink(aeon::streams::io_stream_ptr stream) :
-        stream_(stream)
+    io_stream_sink(aeon::streams::io_stream_ptr stream)
+        : stream_(stream)
     {
     }
 
@@ -34,7 +34,7 @@ private:
         aeon::streams::stream_writer writer(*stream_);
 
         stream_->set_color(aeon::streams::color::white);
-        stream_->write((const std::uint8_t *) "[", 1);
+        stream_->write((const std::uint8_t *)"[", 1);
 
         stream_->set_color(log_level_to_color_(level));
 
@@ -42,8 +42,8 @@ private:
         writer << log_level_string;
 
         stream_->set_color(aeon::streams::color::white);
-        stream_->write((const std::uint8_t *) "]: ", 3);
-        
+        stream_->write((const std::uint8_t *)"]: ", 3);
+
         writer.write_line(message);
     }
 
@@ -51,18 +51,18 @@ private:
     {
         switch (level)
         {
-            case aeon::logger::log_level::trace:
-            case aeon::logger::log_level::debug:
-                return aeon::streams::color::magenta;
-            case aeon::logger::log_level::message:
-                return aeon::streams::color::green;
-            case aeon::logger::log_level::warning:
-                return aeon::streams::color::yellow;
-            case aeon::logger::log_level::fatal:
-            case aeon::logger::log_level::error:
-                return aeon::streams::color::red;
-            default:
-                return aeon::streams::color::white;
+        case aeon::logger::log_level::trace:
+        case aeon::logger::log_level::debug:
+            return aeon::streams::color::magenta;
+        case aeon::logger::log_level::message:
+            return aeon::streams::color::green;
+        case aeon::logger::log_level::warning:
+            return aeon::streams::color::yellow;
+        case aeon::logger::log_level::fatal:
+        case aeon::logger::log_level::error:
+            return aeon::streams::color::red;
+        default:
+            return aeon::streams::color::white;
         }
     }
 

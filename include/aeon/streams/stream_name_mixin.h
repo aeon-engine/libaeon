@@ -23,15 +23,15 @@ namespace streams
 class stream_name_mixin
 {
 public:
-    stream_name_mixin() :
-        name_(AEON_STREAM_DEFAULT_NAME),
-        has_name_(false)
+    stream_name_mixin()
+        : name_(AEON_STREAM_DEFAULT_NAME)
+        , has_name_(false)
     {
     }
 
-    stream_name_mixin(const std::string &name) :
-        name_(name),
-        has_name_(true)
+    stream_name_mixin(const std::string &name)
+        : name_(name)
+        , has_name_(true)
     {
     }
 

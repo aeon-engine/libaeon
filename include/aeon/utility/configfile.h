@@ -20,7 +20,9 @@ namespace aeon
 namespace utility
 {
 
-class configfile_exception : public std::exception {};
+class configfile_exception : public std::exception
+{
+};
 
 /*!
  * \brief Reader and writer for files in .ini file format
@@ -35,12 +37,16 @@ public:
     /*!
      * Constructor
      */
-    configfile() {}
+    configfile()
+    {
+    }
 
     /*!
      * Destructor
      */
-    ~configfile() {}
+    ~configfile()
+    {
+    }
 
     /*!
      * Check if the loaded config file has a certain entry key
@@ -56,8 +62,7 @@ public:
      *                    was not found or was invalid.
      * \returns The value or the default value
      */
-    std::string get_string(const std::string &key,
-                           const std::string &default_val);
+    std::string get_string(const std::string &key, const std::string &default_val);
 
     /*!
      * Get an integer value from the loaded config file.
@@ -100,11 +105,11 @@ public:
      */
     void set_integer(const std::string &key, int val);
 
-     /*!
-      * Set a float value in the loaded config file.
-      * \param key The entry key. Must be in the format "header.keyname".
-      * \param val The value
-      */
+    /*!
+     * Set a float value in the loaded config file.
+     * \param key The entry key. Must be in the format "header.keyname".
+     * \param val The value
+     */
     void set_float(const std::string &key, float val);
 
     /*!

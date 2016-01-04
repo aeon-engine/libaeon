@@ -20,9 +20,9 @@ namespace aeon
 namespace streams
 {
 
-file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/) :
-    stream(mode),
-    size_(0)
+file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/)
+    : stream(mode)
+    , size_(0)
 {
     fstream_.open(filename, to_ios_open_mode_(mode, fm));
 
@@ -35,18 +35,18 @@ file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*=
     }
 }
 
-file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode::binary*/) :
-    file_stream(filename, access_mode::read, fm)
+file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode::binary*/)
+    : file_stream(filename, access_mode::read, fm)
 {
 }
 
-file_stream::file_stream(boost::filesystem::path path, int mode, file_mode fm /*= file_mode::binary*/) :
-    file_stream(path.string(), mode, fm)
+file_stream::file_stream(boost::filesystem::path path, int mode, file_mode fm /*= file_mode::binary*/)
+    : file_stream(path.string(), mode, fm)
 {
 }
 
-file_stream::file_stream(boost::filesystem::path path, file_mode fm /*= file_mode::binary*/) :
-    file_stream(path.string(), fm)
+file_stream::file_stream(boost::filesystem::path path, file_mode fm /*= file_mode::binary*/)
+    : file_stream(path.string(), fm)
 {
 }
 
@@ -69,8 +69,7 @@ std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
     return size;
 }
 
-std::size_t file_stream::write(const std::uint8_t *data,
-    std::size_t size)
+std::size_t file_stream::write(const std::uint8_t *data, std::size_t size)
 {
     if (!is_writable())
         throw file_stream_exception();
@@ -107,7 +106,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
     if (peek_val == EOF)
         return false;
 
-    data = (std::uint8_t) peek_val;
+    data = (std::uint8_t)peek_val;
 
     if (offset != 0)
         fstream_.seekg(original_offset, std::ios::beg);
@@ -180,17 +179,16 @@ std::ios::openmode file_stream::to_ios_open_mode_(int mode, file_mode fm)
     return m;
 }
 
-std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(
-    seek_direction direction)
+std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction direction)
 {
     switch (direction)
     {
-        case (seek_direction::begin):
-            return std::ios::beg;
-        case (seek_direction::current):
-            return std::ios::cur;
-        case (seek_direction::end):
-            return std::ios::end;
+    case (seek_direction::begin):
+        return std::ios::beg;
+    case (seek_direction::current):
+        return std::ios::cur;
+    case (seek_direction::end):
+        return std::ios::end;
     }
 
     return std::ios::cur;

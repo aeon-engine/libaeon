@@ -21,12 +21,12 @@ namespace streams
 {
 
 class stream;
-template<typename T>
+template <typename T>
 class stream_reader
 {
 public:
-    stream_reader(T &streamref) :
-        stream_(streamref)
+    stream_reader(T &streamref)
+        : stream_(streamref)
     {
     }
 
@@ -34,17 +34,16 @@ public:
     {
     }
 
-    stream_reader& operator=(const stream_reader &) = delete;
+    stream_reader &operator=(const stream_reader &) = delete;
 
-#define STREAM_READER_READ_OPERATOR(Type) \
-    stream_reader &operator>>(Type &value) \
-    { \
-        if (stream_.read((std::uint8_t *) &value, \
-            sizeof(Type)) != sizeof(Type)) \
-        { \
-            throw std::runtime_error("Operator read failed on stream."); \
-        } \
-        return *this; \
+#define STREAM_READER_READ_OPERATOR(Type)                                                                              \
+    stream_reader &operator>>(Type &value)                                                                             \
+    {                                                                                                                  \
+        if (stream_.read((std::uint8_t *)&value, sizeof(Type)) != sizeof(Type))                                        \
+        {                                                                                                              \
+            throw std::runtime_error("Operator read failed on stream.");                                               \
+        }                                                                                                              \
+        return *this;                                                                                                  \
     }
 
     STREAM_READER_READ_OPERATOR(std::int8_t)
@@ -60,18 +59,16 @@ public:
     STREAM_READER_READ_OPERATOR(float)
     STREAM_READER_READ_OPERATOR(double)
 
-    template<class U = T>
-    typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type
-        read_line()
+    template <class U = T>
+    typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type read_line()
     {
         std::string line;
         bool result = stream_.read_line(line);
         return line;
     }
 
-    template<class U = T>
-    typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type
-        read_line()
+    template <class U = T>
+    typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type read_line()
     {
         std::uint8_t peek_data = 0;
         std::ptrdiff_t offset = 0;
@@ -90,7 +87,7 @@ public:
 
         std::string line;
         line.resize(stringlength);
-        stringlength = stream_.read((std::uint8_t *) &line[0], stringlength);
+        stringlength = stream_.read((std::uint8_t *)&line[0], stringlength);
 
         if (stringlength == 0)
             return std::string();

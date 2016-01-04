@@ -20,8 +20,8 @@ namespace aeon
 namespace mono
 {
 
-mono_jit::mono_jit() :
-    domain_(nullptr)
+mono_jit::mono_jit()
+    : domain_(nullptr)
 {
     domain_ = mono_jit_init("AeonMono");
 

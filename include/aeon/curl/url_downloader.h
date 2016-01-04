@@ -14,8 +14,7 @@ public:
 
     void download(const std::string &url, const std::string &dest_path);
 
-    std::size_t read_event_(aeon::streams::file_stream &dest_stream,
-        void *buffer, std::size_t size);
+    std::size_t read_event_(aeon::streams::file_stream &dest_stream, void *buffer, std::size_t size);
 
     easy_wrapper_ptr wrapper_;
 };

@@ -8,8 +8,8 @@ namespace curl
 std::mutex global_wrapper::mutex_;
 global_wrapper_ptr global_wrapper::wrapper_;
 
-global_wrapper::global_wrapper() :
-    initialized_(false)
+global_wrapper::global_wrapper()
+    : initialized_(false)
 {
     if (wrapper_)
         throw global_init_exception();

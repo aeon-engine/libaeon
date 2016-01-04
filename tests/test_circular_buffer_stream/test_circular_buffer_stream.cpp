@@ -6,35 +6,31 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_read_write_basic)
 {
     aeon::streams::circular_buffer_stream<100> buffer;
 
-    std::uint8_t data1[] = { 'A', 'B', 'C', 'D', 'E' };
+    std::uint8_t data1[] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data1, sizeof(data1));
     BOOST_CHECK_EQUAL(result, sizeof(data1));
     BOOST_CHECK_EQUAL(buffer.size(), sizeof(data1));
 
-    std::uint8_t data1_readback[sizeof(data1)] = { 0 };
+    std::uint8_t data1_readback[sizeof(data1)] = {0};
     result = buffer.read(data1_readback, sizeof(data1_readback));
     BOOST_CHECK_EQUAL(result, sizeof(data1_readback));
     BOOST_CHECK_EQUAL(buffer.size(), 0);
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(
-        std::begin(data1), std::end(data1),
-        std::begin(data1_readback), std::end(data1_readback)
-    );
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(data1), std::end(data1), std::begin(data1_readback),
+                                  std::end(data1_readback));
 
-    std::uint8_t data2[] = { 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M' };
+    std::uint8_t data2[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
     result = buffer.write(data2, sizeof(data2));
     BOOST_CHECK_EQUAL(result, sizeof(data2));
     BOOST_CHECK_EQUAL(buffer.size(), sizeof(data2));
 
-    std::uint8_t data2_readback[sizeof(data2)] = { 0 };
+    std::uint8_t data2_readback[sizeof(data2)] = {0};
     result = buffer.read(data2_readback, sizeof(data2_readback));
     BOOST_CHECK_EQUAL(result, sizeof(data2_readback));
     BOOST_CHECK_EQUAL(buffer.size(), 0);
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(
-        std::begin(data2), std::end(data2),
-        std::begin(data2_readback), std::end(data2_readback)
-    );
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(data2), std::end(data2), std::begin(data2_readback),
+                                  std::end(data2_readback));
 }
 
 BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_read_write)
@@ -54,10 +50,8 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_read_write)
     BOOST_CHECK_EQUAL(result, sizeof(readbackdata));
     BOOST_CHECK_EQUAL(buffer.size(), 0);
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(
-        std::begin(magic_data), std::end(magic_data),
-        std::begin(readbackdata), std::end(readbackdata)
-    );
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(magic_data), std::end(magic_data), std::begin(readbackdata),
+                                  std::end(readbackdata));
 }
 
 BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_write_too_big)
@@ -86,10 +80,8 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_write_too_big)
     BOOST_CHECK_EQUAL(result, sizeof(readbackdata));
     BOOST_CHECK_EQUAL(buffer.size(), 0);
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(
-        std::begin(magic_data), std::end(magic_data), 
-        std::begin(readbackdata), std::end(readbackdata)
-    );
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(magic_data), std::end(magic_data), std::begin(readbackdata),
+                                  std::end(readbackdata));
 }
 
 BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_read_too_big)
@@ -120,11 +112,12 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_write_wrap_around)
     std::uint8_t magic_data2[60];
     std::memset(magic_data2, 'B', sizeof(magic_data2));
 
-    BOOST_REQUIRE_EXCEPTION(
-        buffer.write(magic_data2, sizeof(magic_data2));,
-        aeon::streams::circular_buffer_stream_exception,
-        [](aeon::streams::circular_buffer_stream_exception const &) { return true; }
-    );
+    BOOST_REQUIRE_EXCEPTION(buffer.write(magic_data2, sizeof(magic_data2));
+                            , aeon::streams::circular_buffer_stream_exception,
+                            [](aeon::streams::circular_buffer_stream_exception const &)
+                            {
+                                return true;
+                            });
 
     BOOST_REQUIRE_EQUAL(buffer.size(), sizeof(magic_data));
 
@@ -135,10 +128,8 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_write_wrap_around)
     BOOST_REQUIRE_EQUAL(result, sizeof(readbackdata2));
     BOOST_REQUIRE_EQUAL(buffer.size(), 0);
 
-    BOOST_REQUIRE_EQUAL_COLLECTIONS(
-        std::begin(magic_data), std::end(magic_data),
-        std::begin(readbackdata2), std::end(readbackdata2)
-    );
+    BOOST_REQUIRE_EQUAL_COLLECTIONS(std::begin(magic_data), std::end(magic_data), std::begin(readbackdata2),
+                                    std::end(readbackdata2));
 }
 
 BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_read_write_multiple)
@@ -162,10 +153,8 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_read_write_multiple)
         BOOST_CHECK_EQUAL(result, sizeof(readbackdata));
         BOOST_CHECK_EQUAL(buffer.size(), 0);
 
-        BOOST_CHECK_EQUAL_COLLECTIONS(
-            std::begin(magic_data), std::end(magic_data),
-            std::begin(readbackdata), std::end(readbackdata)
-        );
+        BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(magic_data), std::end(magic_data), std::begin(readbackdata),
+                                      std::end(readbackdata));
     }
 }
 
@@ -197,7 +186,7 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_move_constructor)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
 
-    std::uint8_t data[5] = { 'A', 'B', 'C', 'D', 'E' };
+    std::uint8_t data[5] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data, sizeof(data));
 
     BOOST_CHECK_EQUAL(result, sizeof(data));
@@ -215,17 +204,14 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_move_constructor)
     BOOST_CHECK_EQUAL(result, sizeof(readbackdata));
     BOOST_CHECK_EQUAL(buffer2.size(), 0);
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(
-        std::begin(data), std::end(data),
-        std::begin(readbackdata), std::end(readbackdata)
-    );
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(data), std::end(data), std::begin(readbackdata), std::end(readbackdata));
 }
 
 BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_move_assignment)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
 
-    std::uint8_t data[] = { 'A', 'B', 'C', 'D', 'E' };
+    std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data, sizeof(data));
 
     BOOST_CHECK_EQUAL(result, sizeof(data));
@@ -246,17 +232,14 @@ BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_move_assignment)
     BOOST_CHECK_EQUAL(result, sizeof(readbackdata));
     BOOST_CHECK_EQUAL(buffer2.size(), 0);
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(
-        std::begin(data), std::end(data),
-        std::begin(readbackdata), std::end(readbackdata)
-    );
+    BOOST_CHECK_EQUAL_COLLECTIONS(std::begin(data), std::end(data), std::begin(readbackdata), std::end(readbackdata));
 }
 
 BOOST_AUTO_TEST_CASE(test_circular_buffer_stream_peek)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
 
-    std::uint8_t data[] = { 'A', 'B', 'C', 'D', 'E' };
+    std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data, sizeof(data));
     BOOST_CHECK_EQUAL(result, sizeof(data));
 

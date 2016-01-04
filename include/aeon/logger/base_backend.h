@@ -22,19 +22,20 @@ namespace logger
 
 class base_backend
 {
-friend class logger_stream;
+    friend class logger_stream;
+
 public:
-    base_backend() :
-        level_(log_level::message)
+    base_backend()
+        : level_(log_level::message)
     {
     }
 
-    base_backend(log_level level) :
-        level_(level)
+    base_backend(log_level level)
+        : level_(level)
     {
     }
 
-    base_backend(const base_backend&) = delete;
+    base_backend(const base_backend &) = delete;
 
     virtual ~base_backend()
     {

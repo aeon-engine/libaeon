@@ -20,12 +20,11 @@ namespace aeon
 namespace sockets
 {
 
-class line_protocol_handler :
-    public tcp_server<line_protocol_handler>::protocol_handler
+class line_protocol_handler : public tcp_server<line_protocol_handler>::protocol_handler
 {
 public:
-    line_protocol_handler(boost::asio::ip::tcp::socket socket) :
-        tcp_server<line_protocol_handler>::protocol_handler(std::move(socket))
+    line_protocol_handler(boost::asio::ip::tcp::socket socket)
+        : tcp_server<line_protocol_handler>::protocol_handler(std::move(socket))
     {
     }
 

@@ -32,24 +32,24 @@ class access_mode
 public:
     enum : int
     {
-        none       = 0x00, /**< No access */
-        read       = 0x01, /**< Read-Only */
-        write      = 0x02, /**< Write-Only */
+        none = 0x00,       /**< No access */
+        read = 0x01,       /**< Read-Only */
+        write = 0x02,      /**< Write-Only */
         read_write = 0x03, /**< Read-Write (Full access) */
-        truncate   = 0x04, /**< Truncate */
+        truncate = 0x04,   /**< Truncate */
     };
 };
 
 class access_mode_mixin
 {
 public:
-    access_mode_mixin() :
-        access_mode_(access_mode::none)
+    access_mode_mixin()
+        : access_mode_(access_mode::none)
     {
     }
 
-    access_mode_mixin(int access) :
-        access_mode_(access)
+    access_mode_mixin(int access)
+        : access_mode_(access)
     {
     }
 

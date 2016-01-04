@@ -20,7 +20,9 @@ namespace aeon
 namespace streams
 {
 
-class circular_buffer_stream_exception : public stream_exception {};
+class circular_buffer_stream_exception : public stream_exception
+{
+};
 
 /*!
  * \brief Circular Buffer Stream
@@ -31,7 +33,7 @@ class circular_buffer_stream_exception : public stream_exception {};
  * until the buffer is emptied again with read. Be sure to make the buffer
  * large enough for your use-case.
  */
-template<unsigned int circular_buffer_size>
+template <unsigned int circular_buffer_size>
 class circular_buffer_stream : public stream
 {
 public:
@@ -40,21 +42,21 @@ public:
      *
      * This is the main constructor for this circular buffer.
      */
-    circular_buffer_stream() :
-        tail_(0),
-        head_(0),
-        size_(0)
+    circular_buffer_stream()
+        : tail_(0)
+        , head_(0)
+        , size_(0)
     {
     }
 
     /*!
      * Move constructor
      */
-    circular_buffer_stream(circular_buffer_stream &&other) :
-        buffer_(std::move(other.buffer_)),
-        tail_(std::move(other.tail_)),
-        head_(std::move(other.head_)),
-        size_(std::move(other.size_))
+    circular_buffer_stream(circular_buffer_stream &&other)
+        : buffer_(std::move(other.buffer_))
+        , tail_(std::move(other.tail_))
+        , head_(std::move(other.head_))
+        , size_(std::move(other.size_))
     {
     }
 
@@ -102,8 +104,7 @@ public:
         // Do we have anything left to read?
         if (bytes_to_read > 0)
         {
-            std::memcpy(&data[write_offset],
-                &buffer_.data()[tail_], bytes_to_read);
+            std::memcpy(&data[write_offset], &buffer_.data()[tail_], bytes_to_read);
 
             tail_ += bytes_to_read;
         }
@@ -152,8 +153,7 @@ public:
         // Do we have anything left to read?
         if (bytes_to_read > 0)
         {
-            std::memcpy(&data[write_offset],
-                &buffer_.data()[tail], bytes_to_read);
+            std::memcpy(&data[write_offset], &buffer_.data()[tail], bytes_to_read);
         }
 
         return size;
@@ -199,8 +199,7 @@ public:
         // Do we still have anything to write?
         if (bytes_to_write > 0)
         {
-            std::memcpy(&buffer_.data()[head_],
-                &data[read_offset], bytes_to_write);
+            std::memcpy(&buffer_.data()[head_], &data[read_offset], bytes_to_write);
 
             head_ += bytes_to_write;
         }
@@ -226,18 +225,16 @@ public:
         if (offset < 0)
             return false;
 
-        if (size_ == 0 || (std::size_t) offset > size_)
+        if (size_ == 0 || (std::size_t)offset > size_)
             return false;
 
-        std::ptrdiff_t normalized_offset =
-            (tail_ + offset) % circular_buffer_size;
+        std::ptrdiff_t normalized_offset = (tail_ + offset) % circular_buffer_size;
 
         data = buffer_[normalized_offset];
         return true;
     }
 
-    virtual bool seek(std::ptrdiff_t offset,
-                      stream::seek_direction direction)
+    virtual bool seek(std::ptrdiff_t offset, stream::seek_direction direction)
     {
         if (direction != stream::seek_direction::current)
             return false;
@@ -245,7 +242,7 @@ public:
         if (offset <= 0)
             return false;
 
-        if ((std::size_t) offset > size_)
+        if ((std::size_t)offset > size_)
             return false;
 
         tail_ += offset;
@@ -309,7 +306,7 @@ public:
     /*!
      * Move operator
      */
-    circular_buffer_stream& operator=(circular_buffer_stream &&other)
+    circular_buffer_stream &operator=(circular_buffer_stream &&other)
     {
         buffer_ = std::move(other.buffer_);
         tail_ = std::move(other.tail_);
@@ -337,4 +334,3 @@ protected:
 
 } // namespace streams
 } // namespace aeon
-

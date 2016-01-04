@@ -34,4 +34,3 @@
 #include <aeon/curl/url_downloader.h>
 
 #endif // aeon_curl_h__
-

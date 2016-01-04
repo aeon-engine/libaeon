@@ -20,7 +20,9 @@ namespace aeon
 namespace mono
 {
 
-class mono_exception : public std::exception {};
+class mono_exception : public std::exception
+{
+};
 
 } // namespace mono
 } // namespace aeon

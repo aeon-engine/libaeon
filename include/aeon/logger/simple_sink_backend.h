@@ -23,17 +23,17 @@ namespace logger
 class simple_sink_backend : public base_backend
 {
 public:
-    simple_sink_backend() :
-        base_backend(log_level::message)
+    simple_sink_backend()
+        : base_backend(log_level::message)
     {
     }
 
-    simple_sink_backend(log_level level) :
-        base_backend(level)
+    simple_sink_backend(log_level level)
+        : base_backend(level)
     {
     }
 
-    simple_sink_backend(const simple_sink_backend&) = delete;
+    simple_sink_backend(const simple_sink_backend &) = delete;
 
     void add_sink(log_sink_ptr sink)
     {

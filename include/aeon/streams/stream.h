@@ -20,7 +20,9 @@ namespace aeon
 namespace streams
 {
 
-class stream_exception : public std::exception {};
+class stream_exception : public std::exception
+{
+};
 
 /*!
  * \brief Base class for streams
@@ -54,9 +56,10 @@ public:
      * \param mode The access mode for the stream.
      * \sa AccessMode
      */
-    stream(int mode = access_mode::read) :
-        access_mode_mixin(mode)
-    {}
+    stream(int mode = access_mode::read)
+        : access_mode_mixin(mode)
+    {
+    }
 
     /*!
      * Destructor.
@@ -87,8 +90,7 @@ public:
      * \return The amount of bytes that were actually written into the stream.
      *         This may be less than the given size.
      */
-    virtual std::size_t write(const std::uint8_t *data,
-                              std::size_t size) = 0;
+    virtual std::size_t write(const std::uint8_t *data, std::size_t size) = 0;
 
     /*!
      * Peek one byte from the stream. This is like reading 1 byte from the stream,

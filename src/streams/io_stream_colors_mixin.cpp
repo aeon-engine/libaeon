@@ -16,8 +16,8 @@
 #include <aeon/streams.h>
 
 #if (AEON_PLATFORM_OS_WINDOWS)
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #endif
 
 namespace aeon
@@ -47,23 +47,20 @@ void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/)
         SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_GREEN | intensity));
         break;
     case color::yellow:
-        SetConsoleTextAttribute(std_handle,
-            static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | intensity));
+        SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | intensity));
         break;
     case color::blue:
         SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_BLUE | intensity));
         break;
     case color::magenta:
-        SetConsoleTextAttribute(std_handle,
-            static_cast<WORD>(FOREGROUND_RED | FOREGROUND_BLUE | intensity));
+        SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_RED | FOREGROUND_BLUE | intensity));
         break;
     case color::cyan:
-        SetConsoleTextAttribute(std_handle,
-            static_cast<WORD>(FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
+        SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
         break;
     case color::white:
         SetConsoleTextAttribute(std_handle,
-            static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
+                                static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
         break;
     }
 #else
@@ -76,30 +73,30 @@ void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/)
 
     switch (c)
     {
-        case color::black:
-            std::cout << AEON_TERM_COLOR_BLACK;
-            break;
-        case color::red:
-            std::cout << AEON_TERM_COLOR_RED;
-            break;
-        case color::green:
-            std::cout << AEON_TERM_COLOR_GREEN;
-            break;
-        case color::yellow:
-            std::cout << AEON_TERM_COLOR_YELLOW;
-            break;
-        case color::blue:
-            std::cout << AEON_TERM_COLOR_BLUE;
-            break;
-        case color::magenta:
-            std::cout << AEON_TERM_COLOR_MAGENTA;
-            break;
-        case color::cyan:
-            std::cout << AEON_TERM_COLOR_CYAN;
-            break;
-        case color::white:
-            std::cout << AEON_TERM_COLOR_WHITE;
-            break;
+    case color::black:
+        std::cout << AEON_TERM_COLOR_BLACK;
+        break;
+    case color::red:
+        std::cout << AEON_TERM_COLOR_RED;
+        break;
+    case color::green:
+        std::cout << AEON_TERM_COLOR_GREEN;
+        break;
+    case color::yellow:
+        std::cout << AEON_TERM_COLOR_YELLOW;
+        break;
+    case color::blue:
+        std::cout << AEON_TERM_COLOR_BLUE;
+        break;
+    case color::magenta:
+        std::cout << AEON_TERM_COLOR_MAGENTA;
+        break;
+    case color::cyan:
+        std::cout << AEON_TERM_COLOR_CYAN;
+        break;
+    case color::white:
+        std::cout << AEON_TERM_COLOR_WHITE;
+        break;
     }
 #endif
 }

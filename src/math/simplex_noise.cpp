@@ -67,8 +67,7 @@ all look identical.
 //
 // For each octave, a higher frequency/lower amplitude function will be added to the original.
 // The higher the persistence [0-1], the more of each succeeding octave will be added.
-float octave_noise_2d(const float octaves, const float persistence,
-    const float scale, const float x, const float y)
+float octave_noise_2d(const float octaves, const float persistence, const float scale, const float x, const float y)
 {
     float total = 0.0f;
     float frequency = scale;
@@ -90,13 +89,12 @@ float octave_noise_2d(const float octaves, const float persistence,
     return total / maxAmplitude;
 }
 
-
 // 3D Multi-octave Simplex noise.
 //
 // For each octave, a higher frequency/lower amplitude function will be added to the original.
 // The higher the persistence [0-1], the more of each succeeding octave will be added.
-float octave_noise_3d( const float octaves, const float persistence,
-    const float scale, const float x, const float y, const float z)
+float octave_noise_3d(const float octaves, const float persistence, const float scale, const float x, const float y,
+                      const float z)
 {
     float total = 0.0f;
     float frequency = scale;
@@ -106,7 +104,7 @@ float octave_noise_3d( const float octaves, const float persistence,
     // because each octave adds more, and we need a value in [-1, 1].
     float maxAmplitude = 0.0f;
 
-    for (int i=0; i < octaves; ++i)
+    for (int i = 0; i < octaves; ++i)
     {
         total += raw_noise_3d(x * frequency, y * frequency, z * frequency) * amplitude;
 
@@ -122,8 +120,8 @@ float octave_noise_3d( const float octaves, const float persistence,
 //
 // For each octave, a higher frequency/lower amplitude function will be added to the original.
 // The higher the persistence [0-1], the more of each succeeding octave will be added.
-float octave_noise_4d(const float octaves, const float persistence,
-    const float scale, const float x, const float y, const float z, const float w)
+float octave_noise_4d(const float octaves, const float persistence, const float scale, const float x, const float y,
+                      const float z, const float w)
 {
     float total = 0.0f;
     float frequency = scale;
@@ -133,7 +131,7 @@ float octave_noise_4d(const float octaves, const float persistence,
     // because each octave adds more, and we need a value in [-1, 1].
     float maxAmplitude = 0.0f;
 
-    for (int i=0; i < octaves; ++i)
+    for (int i = 0; i < octaves; ++i)
     {
         total += raw_noise_4d(x * frequency, y * frequency, z * frequency, w * frequency) * amplitude;
 
@@ -148,50 +146,44 @@ float octave_noise_4d(const float octaves, const float persistence,
 // 2D Scaled Multi-octave Simplex noise.
 //
 // Returned value will be between loBound and hiBound.
-float scaled_octave_noise_2d(const float octaves, const float persistence, const float scale,
-    const float loBound, const float hiBound, const float x, const float y )
+float scaled_octave_noise_2d(const float octaves, const float persistence, const float scale, const float loBound,
+                             const float hiBound, const float x, const float y)
 {
     return octave_noise_2d(octaves, persistence, scale, x, y) * (hiBound - loBound) / 2.0f + (hiBound + loBound) / 2.0f;
 }
 
-
 // 3D Scaled Multi-octave Simplex noise.
 //
 // Returned value will be between loBound and hiBound.
-float scaled_octave_noise_3d(const float octaves, const float persistence,
-    const float scale, const float loBound, const float hiBound,
-    const float x, const float y, const float z)
+float scaled_octave_noise_3d(const float octaves, const float persistence, const float scale, const float loBound,
+                             const float hiBound, const float x, const float y, const float z)
 {
-    return octave_noise_3d(octaves, persistence, scale, x, y, z) * (hiBound - loBound) / 2.0f + (hiBound + loBound) / 2.0f;
+    return octave_noise_3d(octaves, persistence, scale, x, y, z) * (hiBound - loBound) / 2.0f +
+           (hiBound + loBound) / 2.0f;
 }
 
 // 4D Scaled Multi-octave Simplex noise.
 //
 // Returned value will be between loBound and hiBound.
-float scaled_octave_noise_4d(const float octaves, const float persistence,
-    const float scale, const float loBound, const float hiBound,
-    const float x, const float y, const float z, const float w)
+float scaled_octave_noise_4d(const float octaves, const float persistence, const float scale, const float loBound,
+                             const float hiBound, const float x, const float y, const float z, const float w)
 {
-    return octave_noise_4d(octaves, persistence, scale, x, y, z, w) * (hiBound - loBound) / 2.0f + (hiBound + loBound) / 2.0f;
+    return octave_noise_4d(octaves, persistence, scale, x, y, z, w) * (hiBound - loBound) / 2.0f +
+           (hiBound + loBound) / 2.0f;
 }
-
-
 
 // 2D Scaled Simplex raw noise.
 //
 // Returned value will be between loBound and hiBound.
-float scaled_raw_noise_2d(const float loBound, const float hiBound,
-    const float x, const float y)
+float scaled_raw_noise_2d(const float loBound, const float hiBound, const float x, const float y)
 {
     return raw_noise_2d(x, y) * (hiBound - loBound) / 2.0f + (hiBound + loBound) / 2.0f;
 }
 
-
 // 3D Scaled Simplex raw noise.
 //
 // Returned value will be between loBound and hiBound.
-float scaled_raw_noise_3d(const float loBound, const float hiBound,
-    const float x, const float y, const float z)
+float scaled_raw_noise_3d(const float loBound, const float hiBound, const float x, const float y, const float z)
 {
     return raw_noise_3d(x, y, z) * (hiBound - loBound) / 2.0f + (hiBound + loBound) / 2.0f;
 }
@@ -199,8 +191,8 @@ float scaled_raw_noise_3d(const float loBound, const float hiBound,
 // 4D Scaled Simplex raw noise.
 //
 // Returned value will be between loBound and hiBound.
-float scaled_raw_noise_4d(const float loBound, const float hiBound,
-    const float x, const float y, const float z, const float w)
+float scaled_raw_noise_4d(const float loBound, const float hiBound, const float x, const float y, const float z,
+                          const float w)
 {
     return raw_noise_4d(x, y, z, w) * (hiBound - loBound) / 2.0f + (hiBound + loBound) / 2.0f;
 }
@@ -234,9 +226,13 @@ float raw_noise_2d(const float x, const float y)
     int i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
     if (x0 > y0)
     {
-        i1 = 1; j1 = 0; // lower triangle, XY order: (0,0)->(1,0)->(1,1)
-    } else {
-        i1 = 0; j1 = 1; // upper triangle, YX order: (0,0)->(0,1)->(1,1)
+        i1 = 1;
+        j1 = 0; // lower triangle, XY order: (0,0)->(1,0)->(1,1)
+    }
+    else
+    {
+        i1 = 0;
+        j1 = 1; // upper triangle, YX order: (0,0)->(0,1)->(1,1)
     }
 
     // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
@@ -260,7 +256,9 @@ float raw_noise_2d(const float x, const float y)
     if (t0 < 0.0f)
     {
         n0 = 0.0f;
-    } else {
+    }
+    else
+    {
         t0 *= t0;
         n0 = t0 * t0 * dot(grad3[gi0], x0, y0); // (x,y) of grad3 used for 2D gradient
     }
@@ -269,7 +267,9 @@ float raw_noise_2d(const float x, const float y)
     if (t1 < 0.0f)
     {
         n1 = 0.0f;
-    } else {
+    }
+    else
+    {
         t1 *= t1;
         n1 = t1 * t1 * dot(grad3[gi1], x1, y1);
     }
@@ -278,7 +278,9 @@ float raw_noise_2d(const float x, const float y)
     if (t2 < 0.0f)
     {
         n2 = 0.0f;
-    } else {
+    }
+    else
+    {
         t2 *= t2;
         n2 = t2 * t2 * dot(grad3[gi2], x2, y2);
     }
@@ -301,13 +303,13 @@ float raw_noise_3d(const float x, const float y, const float z)
     int k = fastfloor(z + s);
 
     float G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
-    float t = (i + j + k)*G3;
-    float X0 = i-t; // Unskew the cell origin back to (x,y,z) space
-    float Y0 = j-t;
-    float Z0 = k-t;
-    float x0 = x-X0; // The x,y,z distances from the cell origin
-    float y0 = y-Y0;
-    float z0 = z-Z0;
+    float t = (i + j + k) * G3;
+    float X0 = i - t; // Unskew the cell origin back to (x,y,z) space
+    float Y0 = j - t;
+    float Z0 = k - t;
+    float x0 = x - X0; // The x,y,z distances from the cell origin
+    float y0 = y - Y0;
+    float z0 = z - Z0;
 
     // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
     // Determine which simplex we are in.
@@ -318,28 +320,60 @@ float raw_noise_3d(const float x, const float y, const float z)
     {
         if (y0 >= z0)
         {
-            i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0;
+            i1 = 1;
+            j1 = 0;
+            k1 = 0;
+            i2 = 1;
+            j2 = 1;
+            k2 = 0;
         } // X Y Z order
         else if (x0 >= z0)
         {
-            i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1;
+            i1 = 1;
+            j1 = 0;
+            k1 = 0;
+            i2 = 1;
+            j2 = 0;
+            k2 = 1;
         } // X Z Y order
         else
         {
-            i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1;
+            i1 = 0;
+            j1 = 0;
+            k1 = 1;
+            i2 = 1;
+            j2 = 0;
+            k2 = 1;
         } // Z X Y order
-    } else { // x0<y0
-        if (y0<z0)
+    }
+    else
+    { // x0<y0
+        if (y0 < z0)
         {
-            i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1;
+            i1 = 0;
+            j1 = 0;
+            k1 = 1;
+            i2 = 0;
+            j2 = 1;
+            k2 = 1;
         } // Z Y X order
-        else if(x0<z0)
+        else if (x0 < z0)
         {
-            i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1;
+            i1 = 0;
+            j1 = 1;
+            k1 = 0;
+            i2 = 0;
+            j2 = 1;
+            k2 = 1;
         } // Y Z X order
         else
         {
-            i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0;
+            i1 = 0;
+            j1 = 1;
+            k1 = 0;
+            i2 = 1;
+            j2 = 1;
+            k2 = 0;
         } // Y X Z order
     }
 
@@ -371,7 +405,9 @@ float raw_noise_3d(const float x, const float y, const float z)
     if (t0 < 0.0f)
     {
         n0 = 0.0f;
-    } else {
+    }
+    else
+    {
         t0 *= t0;
         n0 = t0 * t0 * dot(grad3[gi0], x0, y0, z0);
     }
@@ -380,7 +416,9 @@ float raw_noise_3d(const float x, const float y, const float z)
     if (t1 < 0.0f)
     {
         n1 = 0.0f;
-    } else {
+    }
+    else
+    {
         t1 *= t1;
         n1 = t1 * t1 * dot(grad3[gi1], x1, y1, z1);
     }
@@ -389,7 +427,9 @@ float raw_noise_3d(const float x, const float y, const float z)
     if (t2 < 0.0f)
     {
         n2 = 0.0f;
-    } else {
+    }
+    else
+    {
         t2 *= t2;
         n2 = t2 * t2 * dot(grad3[gi2], x2, y2, z2);
     }
@@ -398,7 +438,9 @@ float raw_noise_3d(const float x, const float y, const float z)
     if (t3 < 0.0f)
     {
         n3 = 0.0f;
-    } else {
+    }
+    else
+    {
         t3 *= t3;
         n3 = t3 * t3 * dot(grad3[gi3], x3, y3, z3);
     }
@@ -407,7 +449,6 @@ float raw_noise_3d(const float x, const float y, const float z)
     // The result is scaled to stay just inside [-1,1]
     return 32.0f * (n0 + n1 + n2 + n3);
 }
-
 
 // 4D raw Simplex noise
 float raw_noise_4d(const float x, const float y, const float z, const float w)
@@ -424,7 +465,7 @@ float raw_noise_4d(const float x, const float y, const float z, const float w)
     int k = fastfloor(z + s);
     int l = fastfloor(w + s);
     float t = (i + j + k + l) * G4; // Factor for 4D unskewing
-    float X0 = i - t; // Unskew the cell origin back to (x,y,z,w) space
+    float X0 = i - t;               // Unskew the cell origin back to (x,y,z,w) space
     float Y0 = j - t;
     float Z0 = k - t;
     float W0 = l - t;
@@ -508,7 +549,9 @@ float raw_noise_4d(const float x, const float y, const float z, const float w)
     if (t0 < 0.0f)
     {
         n0 = 0.0;
-    } else {
+    }
+    else
+    {
         t0 *= t0;
         n0 = t0 * t0 * dot(grad4[gi0], x0, y0, z0, w0);
     }
@@ -517,7 +560,9 @@ float raw_noise_4d(const float x, const float y, const float z, const float w)
     if (t1 < 0.0f)
     {
         n1 = 0.0f;
-    } else {
+    }
+    else
+    {
         t1 *= t1;
         n1 = t1 * t1 * dot(grad4[gi1], x1, y1, z1, w1);
     }
@@ -537,7 +582,9 @@ float raw_noise_4d(const float x, const float y, const float z, const float w)
     if (t3 < 0.0f)
     {
         n3 = 0.0f;
-    } else {
+    }
+    else
+    {
         t3 *= t3;
         n3 = t3 * t3 * dot(grad4[gi3], x3, y3, z3, w3);
     }
@@ -546,7 +593,9 @@ float raw_noise_4d(const float x, const float y, const float z, const float w)
     if (t4 < 0)
     {
         n4 = 0.0f;
-    } else {
+    }
+    else
+    {
         t4 *= t4;
         n4 = t4 * t4 * dot(grad4[gi4], x4, y4, z4, w4);
     }
@@ -557,20 +606,20 @@ float raw_noise_4d(const float x, const float y, const float z, const float w)
 
 int fastfloor(const float x)
 {
-    return x > 0 ? (int) x : (int) x - 1;
+    return x > 0 ? (int)x : (int)x - 1;
 }
 
-float dot(const int* g, const float x, const float y)
+float dot(const int *g, const float x, const float y)
 {
     return g[0] * x + g[1] * y;
 }
 
-float dot(const int* g, const float x, const float y, const float z)
+float dot(const int *g, const float x, const float y, const float z)
 {
     return g[0] * x + g[1] * y + g[2] * z;
 }
 
-float dot(const int* g, const float x, const float y, const float z, const float w)
+float dot(const int *g, const float x, const float y, const float z, const float w)
 {
     return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
 }

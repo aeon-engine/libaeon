@@ -32,7 +32,7 @@ public:
     mono_method &operator=(mono_method &&o);
 
     void operator()();
-    void operator()(std::vector<mono_object*> params);
+    void operator()(std::vector<mono_object *> params);
 
 private:
     void execute(void **params);

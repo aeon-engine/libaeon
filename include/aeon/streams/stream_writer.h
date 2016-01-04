@@ -24,8 +24,8 @@ class stream;
 class stream_writer
 {
 public:
-    stream_writer(stream &streamref) :
-        stream_(streamref)
+    stream_writer(stream &streamref)
+        : stream_(streamref)
     {
     }
 
@@ -33,17 +33,16 @@ public:
     {
     }
 
-    stream_writer& operator=(const stream_writer &) = delete;
+    stream_writer &operator=(const stream_writer &) = delete;
 
-#define STREAM_WRITER_WRITE_OPERATOR(Type) \
-    stream_writer &operator<<(Type &value) \
-    { \
-        if (stream_.write((std::uint8_t *) &value, \
-            sizeof(Type)) != sizeof(Type)) \
-        { \
-            throw std::runtime_error("Operator write failed on stream."); \
-        } \
-        return *this; \
+#define STREAM_WRITER_WRITE_OPERATOR(Type)                                                                             \
+    stream_writer &operator<<(Type &value)                                                                             \
+    {                                                                                                                  \
+        if (stream_.write((std::uint8_t *)&value, sizeof(Type)) != sizeof(Type))                                       \
+        {                                                                                                              \
+            throw std::runtime_error("Operator write failed on stream.");                                              \
+        }                                                                                                              \
+        return *this;                                                                                                  \
     }
 
     STREAM_WRITER_WRITE_OPERATOR(std::int8_t)
@@ -62,8 +61,7 @@ public:
     stream_writer &operator<<(const std::string &value)
     {
         std::size_t string_length = value.size();
-        if (stream_.write((std::uint8_t *) value.c_str(), string_length)
-            != string_length)
+        if (stream_.write((std::uint8_t *)value.c_str(), string_length) != string_length)
         {
             throw std::runtime_error("Operator write failed on stream.");
         }
@@ -72,8 +70,8 @@ public:
 
     void write_line(const std::string &line)
     {
-        stream_.write((std::uint8_t *) line.c_str(), line.size());
-        stream_.write((std::uint8_t *) "\n", 1);
+        stream_.write((std::uint8_t *)line.c_str(), line.size());
+        stream_.write((std::uint8_t *)"\n", 1);
     }
 
 protected:

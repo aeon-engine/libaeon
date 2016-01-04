@@ -20,23 +20,22 @@ namespace aeon
 namespace mono
 {
 
-mono_class::mono_class(MonoImage *image, const std::string &name) :
-    image_(image),
-    name_(name),
-    class_(nullptr)
+mono_class::mono_class(MonoImage *image, const std::string &name)
+    : image_(image)
+    , name_(name)
+    , class_(nullptr)
 {
     class_ = mono_class_from_name(image, "", name.c_str());
 }
 
 mono_class::~mono_class()
 {
-
 }
 
-mono_class::mono_class(mono_class &&o) :
-    image_(o.image_),
-    name_(std::move(o.name_)),
-    class_(o.class_)
+mono_class::mono_class(mono_class &&o)
+    : image_(o.image_)
+    , name_(std::move(o.name_))
+    , class_(o.class_)
 {
 }
 

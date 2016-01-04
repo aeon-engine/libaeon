@@ -20,11 +20,11 @@ namespace aeon
 namespace mono
 {
 
-mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path) :
-    domain_(domain),
-    path_(path),
-    assembly_(nullptr),
-    image_(nullptr)
+mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
+    : domain_(domain)
+    , path_(path)
+    , assembly_(nullptr)
+    , image_(nullptr)
 {
     assembly_ = mono_domain_assembly_open(domain, path.c_str());
 
@@ -38,11 +38,11 @@ mono_assembly::~mono_assembly()
 {
 }
 
-mono_assembly::mono_assembly(mono_assembly &&o) :
-    domain_(o.domain_),
-    path_(std::move(o.path_)),
-    assembly_(o.assembly_),
-    image_(o.image_)
+mono_assembly::mono_assembly(mono_assembly &&o)
+    : domain_(o.domain_)
+    , path_(std::move(o.path_))
+    , assembly_(o.assembly_)
+    , image_(o.image_)
 {
 }
 
@@ -57,7 +57,7 @@ mono_assembly &mono_assembly::operator=(mono_assembly &&o)
 
 int mono_assembly::execute()
 {
-    char *argv[1] = { const_cast<char*>(path_.c_str()) };
+    char *argv[1] = {const_cast<char *>(path_.c_str())};
     return execute(1, argv);
 }
 

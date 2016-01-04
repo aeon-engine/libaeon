@@ -20,21 +20,23 @@ namespace aeon
 namespace utility
 {
 
-class optional_value_exception : public std::exception {};
+class optional_value_exception : public std::exception
+{
+};
 
 template <typename T>
 class optional
 {
 public:
-    optional() :
-        value_(),
-        has_value_(false)
+    optional()
+        : value_()
+        , has_value_(false)
     {
     }
 
-    optional(const T &val) :
-        value_(val),
-        has_value_(true)
+    optional(const T &val)
+        : value_(val)
+        , has_value_(true)
     {
     }
 
@@ -43,7 +45,7 @@ public:
         return has_value_;
     }
 
-    const T& get_value() const
+    const T &get_value() const
     {
         if (!has_value_)
             throw optional_value_exception();

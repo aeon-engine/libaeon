@@ -20,7 +20,9 @@ namespace aeon
 namespace streams
 {
 
-class io_stream_exception : public stream_exception {};
+class io_stream_exception : public stream_exception
+{
+};
 
 class io_stream : public stream, public io_stream_colors_mixin
 {
@@ -29,8 +31,7 @@ public:
 
     virtual std::size_t read(std::uint8_t *data, std::size_t size);
 
-    virtual std::size_t write(const std::uint8_t *data,
-        std::size_t size);
+    virtual std::size_t write(const std::uint8_t *data, std::size_t size);
 
     virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0);
 

@@ -20,8 +20,8 @@ namespace aeon
 namespace streams
 {
 
-io_stream::io_stream(int mode /*= aeon::streams::access_mode::write*/) :
-    aeon::streams::stream(mode)
+io_stream::io_stream(int mode /*= aeon::streams::access_mode::write*/)
+    : aeon::streams::stream(mode)
 {
 }
 
@@ -61,7 +61,7 @@ bool io_stream::peek(std::uint8_t &data, std::ptrdiff_t /*= 0*/)
     if (ungetc(c, stdin) == EOF)
         return false;
 
-    data = (std::uint8_t) c;
+    data = (std::uint8_t)c;
     return true;
 }
 

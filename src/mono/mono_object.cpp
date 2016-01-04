@@ -20,8 +20,8 @@ namespace aeon
 namespace mono
 {
 
-mono_object::mono_object(MonoDomain *domain) :
-    domain_(domain)
+mono_object::mono_object(MonoDomain *domain)
+    : domain_(domain)
 {
 }
 
@@ -29,9 +29,9 @@ mono_object::~mono_object()
 {
 }
 
-mono_object::mono_object(mono_object &&o) :
-    domain_(o.domain_),
-    handle_(std::move(o.handle_))
+mono_object::mono_object(mono_object &&o)
+    : domain_(o.domain_)
+    , handle_(std::move(o.handle_))
 {
 }
 

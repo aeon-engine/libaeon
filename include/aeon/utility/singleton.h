@@ -15,8 +15,9 @@
 
 #pragma once
 
-#define aeon_utility_initialize_singleton(type) \
-    template <> std::unique_ptr<type> aeon::utility::singleton<type>::instance_ = nullptr
+#define aeon_utility_initialize_singleton(type)                                                                        \
+    template <>                                                                                                        \
+    std::unique_ptr<type> aeon::utility::singleton<type>::instance_ = nullptr
 
 namespace aeon
 {
@@ -50,7 +51,7 @@ public:
         instance_ = nullptr;
     }
 
-    static type & get_singleton()
+    static type &get_singleton()
     {
         assert(instance_);
 
@@ -60,7 +61,7 @@ public:
         return *instance_;
     }
 
-    static type * get_singleton_ptr()
+    static type *get_singleton_ptr()
     {
         return instance_;
     }

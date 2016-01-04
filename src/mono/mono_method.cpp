@@ -20,22 +20,22 @@ namespace aeon
 namespace mono
 {
 
-mono_method::mono_method(MonoClass *cls, const std::string &name, int argc) :
-    class_(cls),
-    name_(name),
-    argc_(argc),
-    method_(nullptr),
-    object_(nullptr)
+mono_method::mono_method(MonoClass *cls, const std::string &name, int argc)
+    : class_(cls)
+    , name_(name)
+    , argc_(argc)
+    , method_(nullptr)
+    , object_(nullptr)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
-mono_method::mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc) :
-    class_(cls),
-    name_(name),
-    argc_(argc),
-    method_(nullptr),
-    object_(object)
+mono_method::mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc)
+    : class_(cls)
+    , name_(name)
+    , argc_(argc)
+    , method_(nullptr)
+    , object_(object)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
@@ -44,12 +44,12 @@ mono_method::~mono_method()
 {
 }
 
-mono_method::mono_method(mono_method &&o) :
-    class_(o.class_),
-    name_(std::move(o.name_)),
-    argc_(o.argc_),
-    method_(o.method_),
-    object_(o.object_)
+mono_method::mono_method(mono_method &&o)
+    : class_(o.class_)
+    , name_(std::move(o.name_))
+    , argc_(o.argc_)
+    , method_(o.method_)
+    , object_(o.object_)
 {
 }
 
@@ -65,11 +65,11 @@ mono_method &mono_method::operator=(mono_method &&o)
 
 void mono_method::operator()()
 {
-    void *params[1] = { nullptr };
+    void *params[1] = {nullptr};
     execute(params);
 }
 
-void mono_method::operator()(std::vector<mono_object*> params)
+void mono_method::operator()(std::vector<mono_object *> params)
 {
     std::vector<MonoObject *> real_params;
     for (auto p : params)
@@ -77,7 +77,7 @@ void mono_method::operator()(std::vector<mono_object*> params)
         real_params.push_back(p->get_mono_object());
     }
 
-    execute(reinterpret_cast<void**>(real_params.data()));
+    execute(reinterpret_cast<void **>(real_params.data()));
 }
 
 void mono_method::execute(void **params)

@@ -20,21 +20,21 @@ namespace aeon
 namespace mono
 {
 
-mono_gchandle::mono_gchandle() :
-    handle_(0)
+mono_gchandle::mono_gchandle()
+    : handle_(0)
 {
 }
 
-mono_gchandle::mono_gchandle(MonoObject *object) :
-    handle_(0)
+mono_gchandle::mono_gchandle(MonoObject *object)
+    : handle_(0)
 {
     handle_ = mono_gchandle_new(object, 1);
 }
 
-mono_gchandle::mono_gchandle(MonoString *object) :
-    handle_(0)
+mono_gchandle::mono_gchandle(MonoString *object)
+    : handle_(0)
 {
-    handle_ = mono_gchandle_new(reinterpret_cast<MonoObject*>(object), 1);
+    handle_ = mono_gchandle_new(reinterpret_cast<MonoObject *>(object), 1);
 }
 
 mono_gchandle::~mono_gchandle()
@@ -43,8 +43,8 @@ mono_gchandle::~mono_gchandle()
         mono_gchandle_free(handle_);
 }
 
-mono_gchandle::mono_gchandle(mono_gchandle &&o) :
-    handle_(o.handle_)
+mono_gchandle::mono_gchandle(mono_gchandle &&o)
+    : handle_(o.handle_)
 {
 }
 

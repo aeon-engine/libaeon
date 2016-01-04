@@ -20,10 +20,10 @@ namespace aeon
 namespace mono
 {
 
-mono_string::mono_string(MonoDomain *domain, const std::string &str) :
-    mono_object(domain),
-    object_(nullptr),
-    string_(str)
+mono_string::mono_string(MonoDomain *domain, const std::string &str)
+    : mono_object(domain)
+    , object_(nullptr)
+    , string_(str)
 {
     object_ = mono_string_new(domain, str.c_str());
     handle_ = mono_gchandle(object_);
@@ -33,10 +33,10 @@ mono_string::~mono_string()
 {
 }
 
-mono_string::mono_string(mono_string &&o) :
-    mono_object(std::move(o)),
-    object_(o.object_),
-    string_(std::move(o.string_))
+mono_string::mono_string(mono_string &&o)
+    : mono_object(std::move(o))
+    , object_(o.object_)
+    , string_(std::move(o.string_))
 {
 }
 
@@ -58,7 +58,7 @@ mono_string &mono_string::operator=(const std::string &str)
 
 MonoObject *mono_string::get_mono_object() const
 {
-    return reinterpret_cast<MonoObject*>(object_);
+    return reinterpret_cast<MonoObject *>(object_);
 }
 
 } // namespace mono

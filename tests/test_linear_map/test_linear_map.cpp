@@ -22,8 +22,7 @@ struct test_fixture_linear_map_default_data
     aeon::utility::linear_map<std::string, int> linear_map_;
 };
 
-BOOST_FIXTURE_TEST_SUITE(test_fixture_linear_map_default_data_suite,
-    test_fixture_linear_map_default_data)
+BOOST_FIXTURE_TEST_SUITE(test_fixture_linear_map_default_data_suite, test_fixture_linear_map_default_data)
 
 BOOST_AUTO_TEST_CASE(test_linear_map_at)
 {
@@ -172,12 +171,10 @@ BOOST_AUTO_TEST_CASE(test_linear_map_erase_by_iterator)
 BOOST_AUTO_TEST_CASE(test_linear_map_erase_if)
 {
     BOOST_REQUIRE_EQUAL(5, linear_map_.size());
-    linear_map_.erase_if(
-        [](const aeon::utility::linear_map<std::string, int>::pair_type &pair)
-        {
-            return (pair.first == "Two" || pair.first == "Four");
-        }
-    );
+    linear_map_.erase_if([](const aeon::utility::linear_map<std::string, int>::pair_type &pair)
+                         {
+                             return (pair.first == "Two" || pair.first == "Four");
+                         });
     BOOST_REQUIRE_EQUAL(3, linear_map_.size());
 }
 

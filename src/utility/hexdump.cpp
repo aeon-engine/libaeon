@@ -33,15 +33,16 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
     for (; i < len;)
     {
         std::size_t start = i;
-        fprintf(dest, "%08X|", (unsigned int) i);
+        fprintf(dest, "%08X|", (unsigned int)i);
         for (c = 0; c < 16 && i < len;) // write 16 bytes per line
         {
-            fprintf(dest, "%02X ", (int) pData[i]);
-            ++i; ++c;
+            fprintf(dest, "%02X ", (int)pData[i]);
+            ++i;
+            ++c;
         }
 
         std::size_t written = c;
-        for (; c < 16; ++c)	// finish off any incomplete bytes
+        for (; c < 16; ++c) // finish off any incomplete bytes
             fputs("   ", dest);
 
         // write the text part
@@ -49,8 +50,8 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
         for (c = 0; c < written; ++c)
         {
             std::uint8_t byte = pData[start + c];
-            if (isprint((int) byte))
-                fputc((char) byte, dest);
+            if (isprint((int)byte))
+                fputc((char)byte, dest);
             else
                 fputc('.', dest);
         }

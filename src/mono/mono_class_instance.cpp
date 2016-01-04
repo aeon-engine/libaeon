@@ -20,10 +20,10 @@ namespace aeon
 namespace mono
 {
 
-mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls) :
-    mono_object(domain),
-    object_(nullptr),
-    class_(cls)
+mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls)
+    : mono_object(domain)
+    , object_(nullptr)
+    , class_(cls)
 {
     object_ = mono_object_new(domain, cls);
     mono_runtime_object_init(object_);
@@ -34,10 +34,10 @@ mono_class_instance::~mono_class_instance()
 {
 }
 
-mono_class_instance::mono_class_instance(mono_class_instance &&o) :
-    mono_object(std::move(o)),
-    object_(o.object_),
-    class_(o.class_)
+mono_class_instance::mono_class_instance(mono_class_instance &&o)
+    : mono_object(std::move(o))
+    , object_(o.object_)
+    , class_(o.class_)
 {
 }
 

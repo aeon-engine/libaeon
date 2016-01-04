@@ -20,24 +20,25 @@ namespace aeon
 namespace streams
 {
 
-class memory_stream_exception : public stream_exception {};
+class memory_stream_exception : public stream_exception
+{
+};
 
 class memory_stream : public stream
 {
 public:
-    memory_stream() :
-        stream(access_mode::read_write),
-        offset_(0),
-        size_(0)
+    memory_stream()
+        : stream(access_mode::read_write)
+        , offset_(0)
+        , size_(0)
     {
     }
 
-    memory_stream(std::vector<std::uint8_t> &&buffer,
-                  int mode = access_mode::read_write) :
-        stream(mode),
-        buffer_(std::move(buffer)),
-        offset_(0),
-        size_(0)
+    memory_stream(std::vector<std::uint8_t> &&buffer, int mode = access_mode::read_write)
+        : stream(mode)
+        , buffer_(std::move(buffer))
+        , offset_(0)
+        , size_(0)
     {
         size_ = buffer_.size();
     }
@@ -51,7 +52,7 @@ public:
             throw memory_stream_exception();
 
         // Only read what we have
-        if(offset_ + size > size_)
+        if (offset_ + size > size_)
             size = size_ - offset_;
 
         // Are we really out of bounds?
@@ -98,27 +99,30 @@ public:
     virtual bool seek(std::ptrdiff_t pos, stream::seek_direction direction)
     {
         std::ptrdiff_t new_pos = 0;
-        switch(direction)
+        switch (direction)
         {
-            case seek_direction::begin:
-            {
-                new_pos = pos;
-            } break;
-            case seek_direction::current:
-            {
-                new_pos = offset_ + pos;
-            } break;
-            case seek_direction::end:
-            {
-                new_pos = (size_ - 1) - pos;
-            } break;
+        case seek_direction::begin:
+        {
+            new_pos = pos;
+        }
+        break;
+        case seek_direction::current:
+        {
+            new_pos = offset_ + pos;
+        }
+        break;
+        case seek_direction::end:
+        {
+            new_pos = (size_ - 1) - pos;
+        }
+        break;
         };
 
         // Can't go higher then the size of our buffer...
         if (new_pos < 0)
             return false;
 
-        if (new_pos >= (std::ptrdiff_t) size_)
+        if (new_pos >= (std::ptrdiff_t)size_)
             return false;
 
         // Set the new offset if all is good
