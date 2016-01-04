@@ -59,15 +59,13 @@ private:
     std::stringstream stream_;
 };
 
-class logger
+class logger : public utility::noncopyable
 {
 public:
     logger(base_backend &backend)
         : backend_(backend)
     {
     }
-
-    logger(const logger &) = delete;
 
     logger_stream operator()(log_level level)
     {

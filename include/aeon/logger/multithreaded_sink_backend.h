@@ -41,8 +41,6 @@ public:
         handle_background_thread_();
     }
 
-    multithreaded_sink_backend(const multithreaded_sink_backend &) = delete;
-
     virtual ~multithreaded_sink_backend()
     {
         stop();

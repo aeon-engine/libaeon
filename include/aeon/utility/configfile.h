@@ -31,7 +31,7 @@ class configfile_exception : public std::exception
  * means a config ini file. If the config file contains syntax errors, messages
  * are logged to the console.
  */
-class configfile
+class configfile : public utility::noncopyable
 {
 public:
     /*!

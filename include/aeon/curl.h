@@ -24,6 +24,7 @@
 /* Aeon headers                                                               */
 /******************************************************************************/
 
+#include <aeon/utility.h>
 #include <aeon/streams.h>
 
 #define AEON_CURL_DEFAULT_TIMEOUT_MS 10000

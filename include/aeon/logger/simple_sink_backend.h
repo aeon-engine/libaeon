@@ -33,8 +33,6 @@ public:
     {
     }
 
-    simple_sink_backend(const simple_sink_backend &) = delete;
-
     void add_sink(log_sink_ptr sink)
     {
         sinks_.insert(sink);

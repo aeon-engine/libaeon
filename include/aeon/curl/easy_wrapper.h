@@ -7,7 +7,7 @@ namespace curl
 {
 
 typedef std::function<std::size_t(void *, std::size_t)> easy_wrapper_read_event;
-class easy_wrapper
+class easy_wrapper : public utility::noncopyable
 {
 public:
     easy_wrapper();

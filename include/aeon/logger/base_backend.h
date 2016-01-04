@@ -20,7 +20,7 @@ namespace aeon
 namespace logger
 {
 
-class base_backend
+class base_backend : public utility::noncopyable
 {
     friend class logger_stream;
 
@@ -35,11 +35,7 @@ public:
     {
     }
 
-    base_backend(const base_backend &) = delete;
-
-    virtual ~base_backend()
-    {
-    }
+    virtual ~base_backend() = default;
 
     void set_log_level(log_level level)
     {

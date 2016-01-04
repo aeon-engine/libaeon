@@ -6,7 +6,7 @@ namespace aeon
 namespace curl
 {
 
-class url_downloader
+class url_downloader : public utility::noncopyable
 {
 public:
     url_downloader();

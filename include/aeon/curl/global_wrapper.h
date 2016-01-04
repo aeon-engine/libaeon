@@ -9,7 +9,7 @@ namespace curl
 class global_wrapper;
 typedef std::shared_ptr<global_wrapper> global_wrapper_ptr;
 
-class global_wrapper
+class global_wrapper : public utility::noncopyable
 {
 public:
     global_wrapper();
