@@ -31,4 +31,4 @@ cppcheck:
   tags:
     - osx
   script:
-    - cppcheck --enable=all --std=posix -q -I include/ src
+    - cppcheck --enable=style,information,missingInclude --std=posix -q -I include/ src
