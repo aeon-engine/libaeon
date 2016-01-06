@@ -1,36 +1,3 @@
-if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    project(libaeon)
-    cmake_minimum_required(VERSION 3.1)
-
-    include(CTest)
-    enable_testing()
-
-    set(CMAKE_PREFIX_PATH "$ENV{AEON_LIBRARIES_PATH};${CMAKE_PREFIX_PATH}")
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-    set(Boost_USE_STATIC_LIBS        ON)
-    set(Boost_USE_MULTITHREADED      ON)
-    set(Boost_USE_STATIC_RUNTIME    OFF)
-    find_package (Boost COMPONENTS
-        system
-        date_time
-        filesystem
-        regex
-        unit_test_framework
-        REQUIRED
-    )
-
-    find_package(CURL)
-    find_package(Mono)
-
-    include(CompilerFlags)
-    include(Unittests)
-
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif ()
-
-################################################################################
-
 set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams.h
     include/aeon/streams/config.h
@@ -208,18 +175,15 @@ if (MONO_FOUND)
     target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH})
 endif ()
 
-add_subdirectory(tests)
+install(
+    TARGETS aeon
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
 
-if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    install(
-        TARGETS aeon
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-    )
+install(
+    DIRECTORY include/
+    DESTINATION include
+)
 
-    install(
-        DIRECTORY include/
-        DESTINATION include
-    )
-endif ()
