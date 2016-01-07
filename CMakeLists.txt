@@ -159,9 +159,7 @@ set_target_properties(aeon PROPERTIES
 )
 
 target_include_directories(aeon PRIVATE src)
-target_include_directories(aeon PUBLIC ${Boost_INCLUDE_DIRS} include)
-
-target_link_libraries(aeon ${Boost_LIBRARIES})
+target_include_directories(aeon PUBLIC include)
 
 if (CURL_FOUND)
     message(STATUS "Building libAeon with CURL support.")

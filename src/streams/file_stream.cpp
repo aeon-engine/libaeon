@@ -40,16 +40,6 @@ file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode
 {
 }
 
-file_stream::file_stream(boost::filesystem::path path, int mode, file_mode fm /*= file_mode::binary*/)
-    : file_stream(path.string(), mode, fm)
-{
-}
-
-file_stream::file_stream(boost::filesystem::path path, file_mode fm /*= file_mode::binary*/)
-    : file_stream(path.string(), fm)
-{
-}
-
 std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
 {
     if (!is_readable())
