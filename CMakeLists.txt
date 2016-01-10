@@ -74,6 +74,16 @@ source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_FILESYSTEM_SOURCE
+    include/aeon/filesystem.h
+    include/aeon/filesystem/filesystem.h
+    src/filesystem/filesystem.cpp
+)
+
+source_group(filesystem FILES ${LIB_AEON_FILESYSTEM_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_LOGGER_SOURCE
     include/aeon/logger.h
     include/aeon/logger/logger.h
@@ -142,6 +152,7 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_UTILITY_SOURCE}
     ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
+    ${LIB_AEON_FILESYSTEM_SOURCE}
 )
 
 if (CURL_FOUND)
@@ -159,9 +170,7 @@ set_target_properties(aeon PROPERTIES
 )
 
 target_include_directories(aeon PRIVATE src)
-target_include_directories(aeon PUBLIC ${Boost_INCLUDE_DIRS} include)
-
-target_link_libraries(aeon ${Boost_LIBRARIES})
+target_include_directories(aeon PUBLIC include)
 
 if (CURL_FOUND)
     message(STATUS "Building libAeon with CURL support.")

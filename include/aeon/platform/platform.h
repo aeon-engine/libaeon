@@ -15,52 +15,51 @@
 
 #pragma once
 
-/* OS Detection mechanism based on Boost Predef (boost >= 1.55)
- * This header defines one or more of the following macro's:
+/* This header defines one or more of the following macro's:
  *
  * AEON_PLATFORM_OS_WINDOWS
  * AEON_PLATFORM_OS_WINDOWS_CYGWIN
  * AEON_PLATFORM_OS_LINUX
  * AEON_PLATFORM_OS_OSX
- * AEON_PLATFORM_OS_FREEBSD
- * AEON_PLATFORM_OS_NETBSD
- * AEON_PLATFORM_OS_OPENBSD
+ * AEON_PLATFORM_OS_BSD
  * AEON_PLATFORM_OS_ANDROID
+ * AEON_PLATFORM_OS_IOS
  * AEON_PLATFORM_OS_UNIX
  */
 
-#if (BOOST_OS_WINDOWS)
+#if (defined(_WIN32) || defined(_WIN64) || \
+     defined(__WIN32__) || defined(__TOS_WIN__) || \
+     defined(__WINDOWS__))
 #define AEON_PLATFORM_OS_WINDOWS 1
-#endif // BOOST_OS_WINDOWS
+#endif
 
-#if (BOOST_OS_CYGWIN)
+#if (defined(__CYGWIN__))
 #define AEON_PLATFORM_OS_WINDOWS_CYGWIN 1
-#endif // BOOST_OS_CYGWIN
+#endif
 
-#if (BOOST_OS_LINUX)
+#if (defined(linux) || defined(__linux))
 #define AEON_PLATFORM_OS_LINUX 1
-#endif // BOOST_OS_LINUX
+#endif
 
-#if (BOOST_OS_MACOS)
+#if (defined(macintosh) || defined(Macintosh) || \
+    (defined(__APPLE__) && defined(__MACH__)))
 #define AEON_PLATFORM_OS_OSX 1
-#endif // BOOST_OS_MACOS
+#endif
 
-#if (BOOST_OS_BSD_FREE)
-#define AEON_PLATFORM_OS_FREEBSD 1
-#endif // BOOST_OS_BSD_FREE
+#if (defined(BSD) || defined(_SYSTYPE_BSD))
+#define AEON_PLATFORM_OS_BSD 1
+#endif
 
-#if (BOOST_OS_BSD_NET)
-#define AEON_PLATFORM_OS_NETBSD 1
-#endif // BOOST_OS_BSD_NET
-
-#if (BOOST_OS_BSD_OPEN)
-#define AEON_PLATFORM_OS_OPENBSD 1
-#endif // BOOST_OS_BSD_OPEN
-
-#if (BOOST_OS_ANDROID)
+#if (__ANDROID__)
 #define AEON_PLATFORM_OS_ANDROID 1
-#endif // BOOST_OS_ANDROID
+#endif
 
-#if (BOOST_OS_UNIX)
+#if (defined(__APPLE__) && defined(__MACH__) && \
+    defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
+#define AEON_PLATFORM_OS_IOS
+#endif
+
+#if (defined(unix) || defined(__unix) || \
+     defined(_XOPEN_SOURCE) || defined(_POSIX_SOURCE))
 #define AEON_PLATFORM_OS_UNIX 1
-#endif // BOOST_OS_UNIX
+#endif

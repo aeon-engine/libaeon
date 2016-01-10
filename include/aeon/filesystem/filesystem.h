@@ -15,9 +15,12 @@
 
 #pragma once
 
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
-#include <aeon/platform/platform.h>
-#include <aeon/platform/term_colors.h>
-#include <aeon/platform/compilers.h>
+namespace aeon
+{
+namespace filesystem
+{
+
+bool exists(const std::string &path);
+
+} // namespace filesystem
+} // namespace aeon

@@ -13,11 +13,26 @@
  * prior written permission is obtained from Robin Degen.
  */
 
-#pragma once
+#include <aeon/filesystem.h>
+#include <aeon/platform.h>
 
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
-#include <aeon/platform/platform.h>
-#include <aeon/platform/term_colors.h>
-#include <aeon/platform/compilers.h>
+#if (defined(AEON_PLATFORM_OS_OSX))
+#include <unistd.h>
+#endif
+
+namespace aeon
+{
+namespace filesystem
+{
+
+bool exists(const std::string &path)
+{
+#if (defined(AEON_PLATFORM_OS_OSX))
+    return (access(path.c_str(), F_OK) != -1);
+#else
+    throw std::runtime_error("Filesystem is not yet implemented or untested for this platform.");
+#endif
+}
+
+} // namespace filesystem
+} // namespace aeon

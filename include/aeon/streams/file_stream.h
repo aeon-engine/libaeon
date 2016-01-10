@@ -33,12 +33,9 @@ enum class file_mode
 class file_stream : public stream
 {
 public:
-    file_stream(const std::string &filename, int mode, file_mode fm = file_mode::binary);
+    explicit file_stream(const std::string &filename, int mode, file_mode fm = file_mode::binary);
 
-    file_stream(const std::string &filename, file_mode fm = file_mode::binary);
-
-    explicit file_stream(boost::filesystem::path path, int mode, file_mode fm /*= file_mode::binary*/);
-    explicit file_stream(boost::filesystem::path path, file_mode fm /*= file_mode::binary*/);
+    explicit file_stream(const std::string &filename, file_mode fm = file_mode::binary);
 
     virtual std::size_t read(std::uint8_t *data, std::size_t size);
 
