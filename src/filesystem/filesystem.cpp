@@ -18,6 +18,8 @@
 
 #if (defined(AEON_PLATFORM_OS_OSX))
 #include <unistd.h>
+#elif (defined(AEON_PLATFORM_OS_WINDOWS))
+#include <io.h>
 #endif
 
 namespace aeon
@@ -29,6 +31,8 @@ bool exists(const std::string &path)
 {
 #if (defined(AEON_PLATFORM_OS_OSX))
     return (access(path.c_str(), F_OK) != -1);
+#elif (defined(AEON_PLATFORM_OS_WINDOWS))
+    return ((_access(path.c_str(), 0)) != -1);
 #else
     throw std::runtime_error("Filesystem is not yet implemented or untested for this platform.");
 #endif
