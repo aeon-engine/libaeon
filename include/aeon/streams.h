@@ -21,6 +21,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstddef>
+#include <cstring>
 #include <vector>
 #include <fstream>
 #include <array>

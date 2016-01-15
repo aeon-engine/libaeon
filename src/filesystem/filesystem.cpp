@@ -15,6 +15,7 @@
 
 #include <aeon/filesystem.h>
 #include <aeon/platform.h>
+#include <stdexcept>
 
 #if (defined(AEON_PLATFORM_OS_OSX))
 #include <unistd.h>

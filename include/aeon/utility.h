@@ -28,6 +28,7 @@
 #include <chrono>
 #include <exception>
 #include <utility>
+#include <algorithm>
 #include <functional>
 
 /******************************************************************************/
