@@ -145,6 +145,17 @@ endif ()
 
 ################################################################################
 
+set(LIB_AEON_TEST_SOURCE
+    include/aeon/test.h
+    src/test/runner.cpp
+    include/aeon/test/runner.h
+    include/aeon/test/boost_test_compatibility.h
+)
+
+source_group(test FILES ${LIB_AEON_TEST_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
@@ -153,6 +164,7 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
     ${LIB_AEON_FILESYSTEM_SOURCE}
+    ${LIB_AEON_TEST_SOURCE}
 )
 
 if (CURL_FOUND)
