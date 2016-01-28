@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#if (defined(AEON_PLATFORM_OS_OSX))
+#if (defined(AEON_PLATFORM_OS_OSX) || defined(AEON_PLATFORM_OS_LINUX))
 #include <unistd.h>
 #elif (defined(AEON_PLATFORM_OS_WINDOWS))
 #define WIN32_LEAN_AND_MEAN
@@ -68,7 +68,7 @@ void delete_directory(const std::string &path)
 
 std::string generate_temporary_file_path()
 {
-    char file_name_buff[MAX_PATH+1];
+    char file_name_buff[256];
     char *file_path = tmpnam(file_name_buff);
     return file_path;
 }
