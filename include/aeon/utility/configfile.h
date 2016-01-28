@@ -69,7 +69,7 @@ public:
     template <typename T>
     void set(const std::string &key, const T &val)
     {
-        entries_[key] = string::convert<T>::from(val);
+        entries_[key] = string::convert<T>::to(val);
     }
 
     /*!
@@ -86,12 +86,6 @@ public:
     void save(aeon::streams::file_stream_ptr stream);
 
 private:
-    template <typename T>
-    T __convert(const std::string &val)
-    {
-
-    }
-
     typedef std::map<std::string, std::string> Entries;
 
     Entries entries_;
