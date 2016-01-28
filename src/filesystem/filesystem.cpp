@@ -68,7 +68,7 @@ void delete_directory(const std::string &path)
 
 std::string generate_temporary_file_path()
 {
-    char file_name_buff[256];
+    char file_name_buff[512];
     char *file_path = tmpnam(file_name_buff);
     return file_path;
 }
