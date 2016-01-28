@@ -21,6 +21,10 @@ namespace filesystem
 {
 
 bool exists(const std::string &path);
+void delete_file(const std::string &path);
+void delete_directory(const std::string &path);
+
+std::string generate_temporary_file_path();
 
 } // namespace filesystem
 } // namespace aeon
