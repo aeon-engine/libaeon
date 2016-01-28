@@ -75,6 +75,16 @@ source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_TESTING_SOURCE
+    include/aeon/testing.h
+    include/aeon/testing/temporary_file_fixture.h
+    src/testing/temporary_file_fixture.cpp
+)
+
+source_group(testing FILES ${LIB_AEON_TESTING_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_FILESYSTEM_SOURCE
     include/aeon/filesystem.h
     include/aeon/filesystem/filesystem.h
@@ -154,6 +164,7 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
     ${LIB_AEON_FILESYSTEM_SOURCE}
+    ${LIB_AEON_TESTING_SOURCE}
 )
 
 if (CURL_FOUND)
