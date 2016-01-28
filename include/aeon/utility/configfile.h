@@ -63,7 +63,7 @@ public:
             return default_val;
         }
 
-        return string::convert<T>::to(itr->second);
+        return string::convert<T>::from(itr->second);
     }
 
     template <typename T>
@@ -74,16 +74,17 @@ public:
 
     /*!
      * Load a config from a stream
-     * \param stream The stream to load the config from
+     * \param path The configfile path to load
      * \returns True on success, false on error.
      */
-    void load(aeon::streams::file_stream_ptr stream);
+    void load(const std::string &path);
 
     /*!
      * Save a config to a stream
-     * \param stream The stream to save the config to
+     * \param path The configfile path to save.
+     *             File will be overwritten if it already exists.
      */
-    void save(aeon::streams::file_stream_ptr stream);
+    void save(const std::string &path);
 
 private:
     typedef std::map<std::string, std::string> Entries;

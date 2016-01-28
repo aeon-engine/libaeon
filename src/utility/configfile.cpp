@@ -14,6 +14,7 @@
  */
 
 #include <aeon/utility.h>
+#include <aeon/streams.h>
 
 namespace aeon
 {
@@ -27,9 +28,11 @@ bool configfile::has_entry(const std::string &key)
     return (itr != entries_.end());
 }
 
-void configfile::load(aeon::streams::file_stream_ptr stream)
+void configfile::load(const std::string &path)
 {
-    if (!stream->good())
+    aeon::streams::file_stream stream(path, aeon::streams::access_mode::read, aeon::streams::file_mode::text);
+
+    if (!stream.good())
         throw configfile_exception();
 
     entries_.clear();
@@ -37,7 +40,7 @@ void configfile::load(aeon::streams::file_stream_ptr stream)
     // Loop through all lines
     int linenumber = 0;
     std::string line;
-    while (stream->read_line(line))
+    while (stream.read_line(line))
     {
         ++linenumber;
 
@@ -60,15 +63,19 @@ void configfile::load(aeon::streams::file_stream_ptr stream)
     }
 }
 
-void configfile::save(aeon::streams::file_stream_ptr stream)
+void configfile::save(const std::string &path)
 {
-    if (!stream->good())
+    aeon::streams::file_stream stream(path,
+        aeon::streams::access_mode::read_write | aeon::streams::access_mode::truncate,
+        aeon::streams::file_mode::text);
+
+    if (!stream.good())
         throw configfile_exception();
 
     for (auto itr : entries_)
     {
         std::string line = itr.first + "=" + itr.second;
-        stream->write_line(line);
+        stream.write_line(line);
     }
 }
 
