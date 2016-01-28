@@ -16,11 +16,11 @@
 #pragma once
 
 #if (AEON_PLATFORM_OS_WINDOWS)
-#define AEON_IGNORE_WARNING(nnn) __pragma(warning(disable : nnn))
-#define AEON_IGNORE_WARNING_PUSH(nnn) __pragma(warning(push)) __pragma(warning(disable : nnn))
-#define AEON_IGNORE_WARNING_POP() __pragma(warning(pop))
+#define AEON_IGNORE_VS_WARNING(nnn) __pragma(warning(disable : nnn))
+#define AEON_IGNORE_VS_WARNING_PUSH(nnn) __pragma(warning(push)) __pragma(warning(disable : nnn))
+#define AEON_IGNORE_VS_WARNING_POP() __pragma(warning(pop))
 #else // (AEON_PLATFORM_OS_WINDOWS)
-#define AEON_IGNORE_WARNING(nnn)
-#define AEON_IGNORE_WARNING_PUSH(nnn)
-#define AEON_IGNORE_WARNING_POP()
+#define AEON_IGNORE_VS_WARNING(nnn)
+#define AEON_IGNORE_VS_WARNING_PUSH(nnn)
+#define AEON_IGNORE_VS_WARNING_POP()
 #endif
