@@ -37,16 +37,12 @@ public:
     /*!
      * Constructor
      */
-    configfile()
-    {
-    }
+    configfile() = default;
 
     /*!
      * Destructor
      */
-    ~configfile()
-    {
-    }
+    ~configfile() = default;
 
     /*!
      * Check if the loaded config file has a certain entry key
@@ -55,69 +51,26 @@ public:
      */
     bool has_entry(const std::string &key);
 
-    /*!
-     * Get a string value from the loaded config file.
-     * \param key The entry key
-     * \param default_val The default value to be used when the key
-     *                    was not found or was invalid.
-     * \returns The value or the default value
-     */
-    std::string get_string(const std::string &key, const std::string &default_val);
+    template <typename T>
+    T get(const std::string &key, const T &default_val)
+    {
+        auto itr = entries_.find(key);
 
-    /*!
-     * Get an integer value from the loaded config file.
-     * \param key The entry key
-     * \param default_val The default value to be used when the key
-     *                    was not found or was invalid.
-     * \returns The value or the default value
-     */
-    int get_integer(const std::string &key, int default_val);
+        // If it could not find the key...
+        if (itr == entries_.end())
+        {
+            set<T>(key, default_val);
+            return default_val;
+        }
 
-    /*!
-     * Get an float value from the loaded config file.
-     * \param key The entry key
-     * \param default_val The default value to be used when the key
-     *                    was not found or was invalid.
-     * \returns The value or the default value
-     */
-    float get_float(const std::string &key, float default_val);
+        return string::convert<T>::to(itr->second);
+    }
 
-    /*!
-     * Get a boolean value from the loaded config file.
-     * \param key The entry key
-     * \param default_val The default value to be used when the key
-     *                    was not found or was invalid.
-     * \returns The value or the default value
-     */
-    bool get_boolean(const std::string &key, bool default_val);
-
-    /*!
-     * Set a string value in the loaded config file.
-     * \param key The entry key. Must be in the format "header.keyname".
-     * \param val The value
-     */
-    void set_string(const std::string &key, const std::string &val);
-
-    /*!
-     * Set an integer value in the loaded config file.
-     * \param key The entry key. Must be in the format "header.keyname".
-     * \param val The value
-     */
-    void set_integer(const std::string &key, int val);
-
-    /*!
-     * Set a float value in the loaded config file.
-     * \param key The entry key. Must be in the format "header.keyname".
-     * \param val The value
-     */
-    void set_float(const std::string &key, float val);
-
-    /*!
-     * Set a boolean value in the loaded config file.
-     * \param key The entry key. Must be in the format "header.keyname".
-     * \param val The value
-     */
-    void set_boolean(const std::string &key, bool val);
+    template <typename T>
+    void set(const std::string &key, const T &val)
+    {
+        entries_[key] = string::convert<T>::from(val);
+    }
 
     /*!
      * Load a config from a stream
@@ -133,6 +86,12 @@ public:
     void save(aeon::streams::file_stream_ptr stream);
 
 private:
+    template <typename T>
+    T __convert(const std::string &val)
+    {
+
+    }
+
     typedef std::map<std::string, std::string> Entries;
 
     Entries entries_;
