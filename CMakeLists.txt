@@ -57,6 +57,7 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/linear_map.h
     include/aeon/utility/variant.h
     include/aeon/utility/noncopyable.h
+    include/aeon/utility/string_traits.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
