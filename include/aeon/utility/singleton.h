@@ -37,9 +37,7 @@ public:
             throw std::runtime_error("Singleton could not be created.");
     }
 
-    virtual ~singleton()
-    {
-    }
+    virtual ~singleton() = default;
 
     static type *create()
     {
