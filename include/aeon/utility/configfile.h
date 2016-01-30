@@ -51,6 +51,29 @@ public:
      */
     bool has_entry(const std::string &key);
 
+    /*!
+     * Get a value.
+     * \param key The entry key
+     * \return Either the value of the entry of key, or throws an exception.
+     */
+    template <typename T>
+    T get(const std::string &key)
+    {
+        auto itr = entries_.find(key);
+
+        // If it could not find the key...
+        if (itr == entries_.end())
+            throw configfile_exception();
+
+        return string::convert<T>::from(itr->second);
+    }
+
+    /*!
+     * Get a value.
+     * \param key The entry key
+     * \param default_val Default value. If the key is not found in the config file, the default value is returned.
+     * \return Either the value of the entry of key, or the default value.
+     */
     template <typename T>
     T get(const std::string &key, const T &default_val)
     {
@@ -66,6 +89,11 @@ public:
         return string::convert<T>::from(itr->second);
     }
 
+    /*!
+     * Set a value
+     * \param key The entry key
+     * \param val The value.
+     */
     template <typename T>
     void set(const std::string &key, const T &val)
     {
@@ -117,7 +145,10 @@ public:
     void save(std::vector<std::uint8_t> &data);
 
 private:
-    void read_line(const std::string &line);
+    /*!
+     * Handle a line when loading a file
+     */
+    void __read_line(const std::string &line);
 
     typedef std::map<std::string, std::string> Entries;
 

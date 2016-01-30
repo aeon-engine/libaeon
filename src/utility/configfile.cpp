@@ -47,7 +47,7 @@ void configfile::load(streams::stream &stream)
         {
             line = reader.read_line();
             ++linenumber;
-            read_line(line);
+            __read_line(line);
         }
     }
     else
@@ -57,7 +57,7 @@ void configfile::load(streams::stream &stream)
         {
             line = reader.read_line();
             ++linenumber;
-            read_line(line);
+            __read_line(line);
         }
     }
 }
@@ -104,7 +104,7 @@ void configfile::save(std::vector<std::uint8_t> &data)
     data = std::move(stream.read_to_vector());
 }
 
-void configfile::read_line(const std::string &line)
+void configfile::__read_line(const std::string &line)
 {
     if (line.empty())
         return;
