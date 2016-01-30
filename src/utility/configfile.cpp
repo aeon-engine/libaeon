@@ -14,7 +14,6 @@
  */
 
 #include <aeon/utility.h>
-#include <aeon/streams.h>
 
 namespace aeon
 {
@@ -28,10 +27,8 @@ bool configfile::has_entry(const std::string &key)
     return (itr != entries_.end());
 }
 
-void configfile::load(const std::string &path)
+void configfile::load(streams::stream &stream)
 {
-    aeon::streams::file_stream stream(path, aeon::streams::access_mode::read, aeon::streams::file_mode::text);
-
     if (!stream.good())
         throw configfile_exception();
 
@@ -40,43 +37,91 @@ void configfile::load(const std::string &path)
     // Loop through all lines
     int linenumber = 0;
     std::string line;
-    while (stream.read_line(line))
+
+    // A stream reader on a file stream is optimized for reading lines if the file was opened in text mode.
+    // This will likely break on files opened as binary.
+    if (stream.is<streams::file_stream>())
     {
-        ++linenumber;
-
-        if (line.empty())
-            continue;
-
-        // Ignore comments
-        if (line[0] == '#')
-            continue;
-
-        size_t pos = line.find_first_of('=');
-
-        if (pos == std::string::npos || pos == 0)
-            continue;
-
-        std::string key = line.substr(0, pos);
-        std::string val = line.substr(pos + 1);
-
-        entries_[key] = val;
+        streams::stream_reader<streams::file_stream> reader(stream.as<streams::file_stream>());
+        while (!stream.eof())
+        {
+            line = reader.read_line();
+            ++linenumber;
+            read_line(line);
+        }
+    }
+    else
+    {
+        streams::stream_reader<streams::stream> reader(stream);
+        while (!stream.eof())
+        {
+            line = reader.read_line();
+            ++linenumber;
+            read_line(line);
+        }
     }
 }
 
-void configfile::save(const std::string &path)
+void configfile::save(streams::stream &stream)
 {
-    aeon::streams::file_stream stream(path,
-        aeon::streams::access_mode::read_write | aeon::streams::access_mode::truncate,
-        aeon::streams::file_mode::text);
-
     if (!stream.good())
         throw configfile_exception();
+
+    streams::stream_writer writer(stream);
 
     for (auto itr : entries_)
     {
         std::string line = itr.first + "=" + itr.second;
-        stream.write_line(line);
+        writer.write_line(line);
     }
+}
+
+void configfile::load(const std::string &path)
+{
+    streams::file_stream stream(path, streams::access_mode::read, streams::file_mode::text);
+    load(stream);
+}
+
+void configfile::save(const std::string &path)
+{
+    streams::file_stream stream(path,
+        streams::access_mode::read_write | streams::access_mode::truncate,
+        streams::file_mode::text);
+
+    save(stream);
+}
+
+void configfile::load(std::vector<std::uint8_t> &&data)
+{
+    streams::memory_stream stream(std::move(data), streams::access_mode::read);
+    load(stream);
+}
+
+void configfile::save(std::vector<std::uint8_t> &data)
+{
+    streams::memory_stream stream;
+    save(stream);
+    data = std::move(stream.read_to_vector());
+}
+
+void configfile::read_line(const std::string &line)
+{
+    if (line.empty())
+        return;
+
+    // Ignore comments
+    if (line[0] == '#')
+        return;
+
+    size_t pos = line.find_first_of('=');
+
+    if (pos == std::string::npos || pos == 0)
+        return;
+
+    std::string key = line.substr(0, pos);
+    std::string val = line.substr(pos + 1);
+
+    entries_[key] = val;
 }
 
 } // namespace utility

@@ -74,19 +74,51 @@ public:
 
     /*!
      * Load a config from a stream
+     * \param stream The configfile to load
+     */
+    void load(streams::stream &stream);
+
+    /*!
+     * Save a config to a stream
+     * \param stream The configfile to save.
+     */
+    void save(streams::stream &stream);
+
+    /*!
+     * Load a config from a file
      * \param path The configfile path to load
-     * \returns True on success, false on error.
      */
     void load(const std::string &path);
 
     /*!
-     * Save a config to a stream
+     * Save a config to a file
      * \param path The configfile path to save.
      *             File will be overwritten if it already exists.
      */
     void save(const std::string &path);
 
+    /*!
+     * Load a config from memory
+     * \param data Vector to load from. It will be treated as a text
+     *             file in memory. This means that \n or \n\r will
+     *             be treated as seperators. The vector must be moved
+     *             into the config file due to the way the underlaying
+     *             stream works.
+     */
+    void load(std::vector<std::uint8_t> &&data);
+
+    /*!
+     * Save a config to memory
+     * \param data Vector to save to. It will be treated as a text
+     *             file in memory. This means that \n or \n\r will
+     *             be treated as seperators. The vector will be
+     *             cleared first.
+     */
+    void save(std::vector<std::uint8_t> &data);
+
 private:
+    void read_line(const std::string &line);
+
     typedef std::map<std::string, std::string> Entries;
 
     Entries entries_;
