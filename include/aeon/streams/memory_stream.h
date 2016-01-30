@@ -161,6 +161,10 @@ public:
 
     virtual bool good() const
     {
+        // If the buffer is empty, and we haven't written anything, we're ok.
+        if (offset_ == 0 && buffer_.empty())
+            return true;
+
         // Are we still within bounds?
         if (offset_ >= buffer_.size())
             return false;
