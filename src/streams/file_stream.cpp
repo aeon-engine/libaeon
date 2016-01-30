@@ -184,17 +184,18 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction dir
     return std::ios::cur;
 }
 
-bool file_stream::read_line(std::string &line)
+std::string file_stream::read_line()
 {
     if (!is_readable())
         throw file_stream_exception();
 
     if (eof())
-        return false;
+        throw file_stream_exception();
 
+    std::string line;
     std::getline(fstream_, line);
     line.erase(line.find_last_not_of("\n\r") + 1);
-    return true;
+    return line;
 }
 
 void file_stream::write_line(const std::string &line)

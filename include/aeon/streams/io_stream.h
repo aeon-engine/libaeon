@@ -27,29 +27,29 @@ class io_stream_exception : public stream_exception
 class io_stream : public stream, public io_stream_colors_mixin
 {
 public:
-    io_stream(int mode = aeon::streams::access_mode::write);
+    explicit io_stream(int mode = aeon::streams::access_mode::write);
 
-    virtual std::size_t read(std::uint8_t *data, std::size_t size);
+    std::size_t read(std::uint8_t *data, std::size_t size) override;
 
-    virtual std::size_t write(const std::uint8_t *data, std::size_t size);
+    std::size_t write(const std::uint8_t *data, std::size_t size) override;
 
-    virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0);
+    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override;
 
-    virtual bool seek(std::ptrdiff_t pos, seek_direction direction);
+    bool seek(std::ptrdiff_t pos, seek_direction direction) override;
 
-    virtual bool seekw(std::ptrdiff_t pos, seek_direction direction);
+    bool seekw(std::ptrdiff_t pos, seek_direction direction) override;
 
-    virtual std::size_t tell();
+    std::size_t tell() override;
 
-    virtual std::size_t tellw();
+    std::size_t tellw() override;
 
-    virtual bool eof() const;
+    bool eof() const override;
 
-    virtual std::size_t size() const;
+    std::size_t size() const override;
 
-    virtual void flush();
+    void flush() override;
 
-    virtual bool good() const;
+    bool good() const override;
 };
 
 typedef std::shared_ptr<io_stream> io_stream_ptr;

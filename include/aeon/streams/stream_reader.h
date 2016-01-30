@@ -22,19 +22,13 @@ namespace streams
 
 class stream;
 template <typename T>
-class stream_reader
+class stream_reader : utility::noncopyable
 {
 public:
-    stream_reader(T &streamref)
+    explicit stream_reader(T &streamref)
         : stream_(streamref)
     {
     }
-
-    ~stream_reader()
-    {
-    }
-
-    stream_reader &operator=(const stream_reader &) = delete;
 
 #define STREAM_READER_READ_OPERATOR(Type)                                                                              \
     stream_reader &operator>>(Type &value)                                                                             \
@@ -62,8 +56,7 @@ public:
     template <class U = T>
     typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type read_line()
     {
-        std::string line;
-        bool result = stream_.read_line(line);
+        std::string line = stream_.read_line();
         return line;
     }
 

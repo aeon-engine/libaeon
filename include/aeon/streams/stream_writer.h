@@ -21,19 +21,13 @@ namespace streams
 {
 
 class stream;
-class stream_writer
+class stream_writer : utility::noncopyable
 {
 public:
-    stream_writer(stream &streamref)
+    explicit stream_writer(stream &streamref)
         : stream_(streamref)
     {
     }
-
-    ~stream_writer()
-    {
-    }
-
-    stream_writer &operator=(const stream_writer &) = delete;
 
 #define STREAM_WRITER_WRITE_OPERATOR(Type)                                                                             \
     stream_writer &operator<<(Type &value)                                                                             \

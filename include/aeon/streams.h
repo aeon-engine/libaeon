@@ -33,6 +33,7 @@
 /******************************************************************************/
 /* Aeon headers                                                               */
 /******************************************************************************/
+#include <aeon/utility/noncopyable.h>
 #include <aeon/platform.h>
 #include <aeon/streams/config.h>
 #include <aeon/streams/access_mode_mixin.h>

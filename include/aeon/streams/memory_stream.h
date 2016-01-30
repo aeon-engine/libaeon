@@ -43,7 +43,7 @@ public:
         size_ = buffer_.size();
     }
 
-    virtual std::size_t read(std::uint8_t *data, std::size_t size)
+    std::size_t read(std::uint8_t *data, std::size_t size) override
     {
         if (!is_readable())
             throw memory_stream_exception();
@@ -66,7 +66,7 @@ public:
         return size;
     }
 
-    virtual std::size_t write(const std::uint8_t *data, std::size_t size)
+    std::size_t write(const std::uint8_t *data, std::size_t size) override
     {
         if (!is_writable())
             throw memory_stream_exception();
@@ -84,7 +84,7 @@ public:
         return size;
     }
 
-    virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0)
+    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override
     {
         if (!is_readable() || !good())
             throw memory_stream_exception();
@@ -96,7 +96,7 @@ public:
         return true;
     }
 
-    virtual bool seek(std::ptrdiff_t pos, stream::seek_direction direction)
+    bool seek(std::ptrdiff_t pos, stream::seek_direction direction) override
     {
         std::ptrdiff_t new_pos = 0;
         switch (direction)
@@ -130,36 +130,36 @@ public:
         return true;
     }
 
-    virtual bool seekw(std::ptrdiff_t /* pos */, stream::seek_direction /* direction */)
+    bool seekw(std::ptrdiff_t /* pos */, stream::seek_direction /* direction */) override
     {
         return false;
     }
 
-    virtual std::size_t tell()
+    std::size_t tell() override
     {
         return offset_;
     }
 
-    virtual std::size_t tellw()
+    std::size_t tellw() override
     {
         return 0;
     }
 
-    virtual bool eof() const
+    bool eof() const override
     {
         return offset_ >= size_;
     }
 
-    virtual std::size_t size() const
+    std::size_t size() const override
     {
         return size_;
     }
 
-    virtual void flush()
+    void flush() override
     {
     }
 
-    virtual bool good() const
+    bool good() const override
     {
         // If the buffer is empty, and we haven't written anything, we're ok.
         if (offset_ == 0 && buffer_.empty())
@@ -173,7 +173,7 @@ public:
         return true;
     }
 
-    virtual void reserve(std::size_t size)
+    void reserve(std::size_t size)
     {
         if (size > buffer_.size())
             buffer_.resize(buffer_.size() + size);
@@ -182,7 +182,7 @@ public:
             size_ = size;
     }
 
-    virtual void expand(std::size_t size)
+    void expand(std::size_t size)
     {
         reserve(buffer_.size() + size);
     }
@@ -192,7 +192,7 @@ public:
         return &buffer_[0];
     }
 
-    virtual std::vector<std::uint8_t> read_to_vector()
+    std::vector<std::uint8_t> read_to_vector() override
     {
         return buffer_;
     }

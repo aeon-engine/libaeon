@@ -35,7 +35,7 @@ public:
     {
     }
 
-    std::string get_name()
+    std::string get_name() const
     {
         return name_;
     }
@@ -45,7 +45,7 @@ public:
         name_ = name;
     }
 
-    bool has_name()
+    bool has_name() const
     {
         return has_name_;
     }
