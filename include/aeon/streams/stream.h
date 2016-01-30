@@ -205,6 +205,25 @@ public:
         buffer.resize(read_size);
         return buffer;
     }
+
+    /*!
+     * Check if this stream is of a certain type.
+     */
+    template<typename T>
+    bool is() const
+    {
+        return dynamic_cast<const T*const>(this) != nullptr;
+    }
+
+    /*!
+     * Use this stream as a certain type. Only use when this stream is of this type;
+     * there are no checks done if this is actually the case. Use is() to check this.
+     */
+    template<typename T>
+    T &as()
+    {
+        return *(dynamic_cast<T*>(this));
+    }
 };
 
 typedef std::shared_ptr<stream> stream_ptr;
