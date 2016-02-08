@@ -58,6 +58,7 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/variant.h
     include/aeon/utility/noncopyable.h
     include/aeon/utility/string_traits.h
+    include/aeon/utility/listener_subject.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
