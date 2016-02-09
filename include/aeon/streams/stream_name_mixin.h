@@ -29,7 +29,7 @@ public:
     {
     }
 
-    stream_name_mixin(const std::string &name)
+    explicit stream_name_mixin(const std::string &name)
         : name_(name)
         , has_name_(true)
     {
@@ -40,7 +40,7 @@ public:
         return name_;
     }
 
-    void set_name(const std::string name)
+    void set_name(const std::string &name)
     {
         name_ = name;
     }

@@ -56,7 +56,7 @@ public:
             size = size_ - offset_;
 
         // Are we really out of bounds?
-        if (size <= 0)
+        if (size == 0)
             return 0;
 
         // Copy our data
