@@ -29,6 +29,7 @@
 #include <exception>
 #include <utility>
 #include <string>
+#include <sstream>
 #include <algorithm>
 #include <functional>
 #include <memory>
@@ -48,3 +49,4 @@
 #include <aeon/utility/linear_map.h>
 #include <aeon/utility/variant.h>
 #include <aeon/utility/listener_subject.h>
+#include <aeon/utility/string.h>
