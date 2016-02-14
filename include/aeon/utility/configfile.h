@@ -34,6 +34,8 @@ class configfile_exception : public std::exception
 class configfile : public utility::noncopyable
 {
 public:
+    using entries = std::map<std::string, std::string>;
+
     /*!
      * Constructor
      */
@@ -144,15 +146,29 @@ public:
      */
     void save(std::vector<std::uint8_t> &data);
 
+    /*!
+     * Begin iterator for foreach loops.
+     */
+    entries::const_iterator begin() const noexcept
+    {
+        return entries_.cbegin();
+    }
+
+    /*!
+     * End iterator for foreach loops.
+     */
+    entries::const_iterator end() const noexcept
+    {
+        return entries_.cend();
+    }
+
 private:
     /*!
      * Handle a line when loading a file
      */
     void __read_line(const std::string &line);
 
-    typedef std::map<std::string, std::string> Entries;
-
-    Entries entries_;
+    entries entries_;
 };
 
 } // namespace utility
