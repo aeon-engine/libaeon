@@ -51,18 +51,18 @@ private:
     {
         switch (level)
         {
-        case aeon::logger::log_level::trace:
-        case aeon::logger::log_level::debug:
-            return aeon::streams::color::magenta;
-        case aeon::logger::log_level::message:
-            return aeon::streams::color::green;
-        case aeon::logger::log_level::warning:
-            return aeon::streams::color::yellow;
-        case aeon::logger::log_level::fatal:
-        case aeon::logger::log_level::error:
-            return aeon::streams::color::red;
-        default:
-            return aeon::streams::color::white;
+            case aeon::logger::log_level::trace:
+            case aeon::logger::log_level::debug:
+                return aeon::streams::color::magenta;
+            case aeon::logger::log_level::message:
+                return aeon::streams::color::green;
+            case aeon::logger::log_level::warning:
+                return aeon::streams::color::yellow;
+            case aeon::logger::log_level::fatal:
+            case aeon::logger::log_level::error:
+                return aeon::streams::color::red;
+            default:
+                return aeon::streams::color::white;
         }
     }
 

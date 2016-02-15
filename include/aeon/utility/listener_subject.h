@@ -29,7 +29,7 @@ namespace utility
  * It's up to the implemented class to iterate over the listeners_ vector
  * and call the appropriate methods.
  */
-template<typename T>
+template <typename T>
 class listener_subject
 {
 public:

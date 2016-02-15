@@ -27,9 +27,7 @@
  * AEON_PLATFORM_OS_UNIX
  */
 
-#if (defined(_WIN32) || defined(_WIN64) || \
-     defined(__WIN32__) || defined(__TOS_WIN__) || \
-     defined(__WINDOWS__))
+#if (defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__))
 #define AEON_PLATFORM_OS_WINDOWS 1
 #endif
 
@@ -41,8 +39,7 @@
 #define AEON_PLATFORM_OS_LINUX 1
 #endif
 
-#if (defined(macintosh) || defined(Macintosh) || \
-    (defined(__APPLE__) && defined(__MACH__)))
+#if (defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
 #define AEON_PLATFORM_OS_OSX 1
 #endif
 
@@ -54,12 +51,10 @@
 #define AEON_PLATFORM_OS_ANDROID 1
 #endif
 
-#if (defined(__APPLE__) && defined(__MACH__) && \
-    defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
+#if (defined(__APPLE__) && defined(__MACH__) && defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__))
 #define AEON_PLATFORM_OS_IOS
 #endif
 
-#if (defined(unix) || defined(__unix) || \
-     defined(_XOPEN_SOURCE) || defined(_POSIX_SOURCE))
+#if (defined(unix) || defined(__unix) || defined(_XOPEN_SOURCE) || defined(_POSIX_SOURCE))
 #define AEON_PLATFORM_OS_UNIX 1
 #endif

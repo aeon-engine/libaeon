@@ -106,7 +106,7 @@ double perlin_noise::get_value(double x, double y) const
     // interpolate between those values according to the x and y fractions
     double v1 = interpolate(x0y0, x1y0, Xfrac); // interpolate in x direction (y)
     double v2 = interpolate(x0y1, x1y1, Xfrac); // interpolate in x direction (y+1)
-    double fin = interpolate(v1, v2, Yfrac); // interpolate in y direction
+    double fin = interpolate(v1, v2, Yfrac);    // interpolate in y direction
 
     return fin;
 }

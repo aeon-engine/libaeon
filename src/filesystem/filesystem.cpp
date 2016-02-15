@@ -21,7 +21,7 @@
 
 #if (defined(AEON_PLATFORM_OS_OSX) || defined(AEON_PLATFORM_OS_LINUX))
 #include <unistd.h>
-#elif (defined(AEON_PLATFORM_OS_WINDOWS))
+#elif(defined(AEON_PLATFORM_OS_WINDOWS))
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <io.h>
@@ -36,7 +36,7 @@ bool exists(const std::string &path)
 {
 #if (defined(AEON_PLATFORM_OS_OSX) || defined(AEON_PLATFORM_OS_LINUX))
     return (access(path.c_str(), F_OK) != -1);
-#elif (defined(AEON_PLATFORM_OS_WINDOWS))
+#elif(defined(AEON_PLATFORM_OS_WINDOWS))
     return ((_access(path.c_str(), 0)) != -1);
 #else
     throw std::runtime_error("Filesystem is not yet implemented or untested for this platform.");
@@ -58,7 +58,7 @@ void delete_directory(const std::string &path)
 #if (defined(AEON_PLATFORM_OS_OSX) || defined(AEON_PLATFORM_OS_LINUX))
     if (rmdir(path.c_str()) != 0)
         throw std::runtime_error("delete_directory failed.");
-#elif (defined(AEON_PLATFORM_OS_WINDOWS))
+#elif(defined(AEON_PLATFORM_OS_WINDOWS))
     if (RemoveDirectory(path.c_str()) != 0)
         throw std::runtime_error("delete_directory failed.");
 #else

@@ -173,12 +173,12 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction dir
 {
     switch (direction)
     {
-    case (seek_direction::begin):
-        return std::ios::beg;
-    case (seek_direction::current):
-        return std::ios::cur;
-    case (seek_direction::end):
-        return std::ios::end;
+        case (seek_direction::begin):
+            return std::ios::beg;
+        case (seek_direction::current):
+            return std::ios::cur;
+        case (seek_direction::end):
+            return std::ios::end;
     }
 
     return std::ios::cur;

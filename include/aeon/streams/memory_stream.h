@@ -101,21 +101,21 @@ public:
         std::ptrdiff_t new_pos = 0;
         switch (direction)
         {
-        case seek_direction::begin:
-        {
-            new_pos = pos;
-        }
-        break;
-        case seek_direction::current:
-        {
-            new_pos = offset_ + pos;
-        }
-        break;
-        case seek_direction::end:
-        {
-            new_pos = (size_ - 1) - pos;
-        }
-        break;
+            case seek_direction::begin:
+            {
+                new_pos = pos;
+            }
+            break;
+            case seek_direction::current:
+            {
+                new_pos = offset_ + pos;
+            }
+            break;
+            case seek_direction::end:
+            {
+                new_pos = (size_ - 1) - pos;
+            }
+            break;
         };
 
         // Can't go higher then the size of our buffer...

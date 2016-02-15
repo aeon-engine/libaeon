@@ -27,7 +27,7 @@ struct convert
 {
 };
 
-template<>
+template <>
 struct convert<std::string>
 {
     static std::string to(const std::string &v)
@@ -41,7 +41,7 @@ struct convert<std::string>
     }
 };
 
-template<>
+template <>
 struct convert<int>
 {
     static std::string to(int v)
@@ -55,7 +55,7 @@ struct convert<int>
     }
 };
 
-template<>
+template <>
 struct convert<float>
 {
     static std::string to(float v)
@@ -69,7 +69,7 @@ struct convert<float>
     }
 };
 
-template<>
+template <>
 struct convert<bool>
 {
     static std::string to(bool v)

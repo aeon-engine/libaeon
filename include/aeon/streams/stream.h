@@ -209,20 +209,20 @@ public:
     /*!
      * Check if this stream is of a certain type.
      */
-    template<typename T>
+    template <typename T>
     bool is() const
     {
-        return dynamic_cast<const T*const>(this) != nullptr;
+        return dynamic_cast<const T *const>(this) != nullptr;
     }
 
     /*!
      * Use this stream as a certain type. Only use when this stream is of this type;
      * there are no checks done if this is actually the case. Use is() to check this.
      */
-    template<typename T>
+    template <typename T>
     T &as()
     {
-        return *(dynamic_cast<T*>(this));
+        return *(dynamic_cast<T *>(this));
     }
 };
 
