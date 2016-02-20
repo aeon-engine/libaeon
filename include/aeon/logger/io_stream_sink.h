@@ -29,44 +29,53 @@ public:
     }
 
 private:
-    virtual void log(const std::string &message, aeon::logger::log_level level)
+    void log(const std::string &message, const std::string &module, log_level level) override
     {
-        aeon::streams::stream_writer writer(stream_);
+        streams::stream_writer writer(stream_);
 
         stream_.set_color(aeon::streams::color::white);
         stream_.write((const std::uint8_t *)"[", 1);
 
+        stream_.set_color(aeon::streams::color::cyan);
+
+        writer << module;
+
+        stream_.set_color(aeon::streams::color::white);
+
+        stream_.write((const std::uint8_t *)"] [", 3);
+
         stream_.set_color(log_level_to_color_(level));
 
-        std::string log_level_string = aeon::logger::log_level_str[static_cast<int>(level)];
+        std::string log_level_string = log_level_str[static_cast<int>(level)];
         writer << log_level_string;
 
         stream_.set_color(aeon::streams::color::white);
+
         stream_.write((const std::uint8_t *)"]: ", 3);
 
         writer.write_line(message);
     }
 
-    aeon::streams::color log_level_to_color_(log_level level)
+    streams::color log_level_to_color_(log_level level)
     {
         switch (level)
         {
-            case aeon::logger::log_level::trace:
-            case aeon::logger::log_level::debug:
-                return aeon::streams::color::magenta;
-            case aeon::logger::log_level::message:
-                return aeon::streams::color::green;
-            case aeon::logger::log_level::warning:
-                return aeon::streams::color::yellow;
-            case aeon::logger::log_level::fatal:
-            case aeon::logger::log_level::error:
-                return aeon::streams::color::red;
+            case log_level::trace:
+            case log_level::debug:
+                return streams::color::magenta;
+            case log_level::message:
+                return streams::color::green;
+            case log_level::warning:
+                return streams::color::yellow;
+            case log_level::fatal:
+            case log_level::error:
+                return streams::color::red;
             default:
-                return aeon::streams::color::white;
+                return streams::color::white;
         }
     }
 
-    aeon::streams::io_stream &stream_;
+    streams::io_stream &stream_;
 };
 
 } // namespace logger

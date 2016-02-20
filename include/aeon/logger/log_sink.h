@@ -23,7 +23,7 @@ namespace logger
 class log_sink
 {
 public:
-    virtual void log(const std::string &message, log_level level) = 0;
+    virtual void log(const std::string &message, const std::string &module, log_level level) = 0;
 };
 
 } // namespace logger

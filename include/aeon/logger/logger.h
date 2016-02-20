@@ -34,8 +34,9 @@ private:
     using endl_type = std::ostream &(std::ostream &);
 
 public:
-    logger_stream(base_backend &backend, log_level level)
+    logger_stream(base_backend &backend, const std::string &module, log_level level)
         : backend_(backend)
+        , module_(module)
         , level_(level)
     {
     }
@@ -43,7 +44,7 @@ public:
     void operator<<(endl_type endl)
     {
         std::string message = stream_.str();
-        backend_.handle_log_(std::move(message), level_);
+        backend_.__handle_log(message, module_, level_);
     }
 
     template <typename T>
@@ -55,6 +56,7 @@ public:
 
 private:
     base_backend &backend_;
+    std::string module_;
     log_level level_;
     std::stringstream stream_;
 };
@@ -62,18 +64,20 @@ private:
 class logger : public utility::noncopyable
 {
 public:
-    logger(base_backend &backend)
+    logger(base_backend &backend, const std::string &module)
         : backend_(backend)
+        , module_(module)
     {
     }
 
     logger_stream operator()(log_level level)
     {
-        return logger_stream(backend_, level);
+        return logger_stream(backend_, module_, level);
     }
 
 private:
     base_backend &backend_;
+    std::string module_;
 };
 
 } // namespace logger

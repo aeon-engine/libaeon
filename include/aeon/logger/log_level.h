@@ -30,7 +30,7 @@ enum class log_level : int
     fatal = 5
 };
 
-static const char *log_level_str[] = {"trace", "debug", "message", "warning", "error", "fatal"};
+static const char *log_level_str[] = {"Trace", "Debug", "Message", "Warning", "Error", "Fatal"};
 
 } // namespace logger
 } // namespace aeon

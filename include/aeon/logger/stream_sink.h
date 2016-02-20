@@ -23,19 +23,23 @@ namespace logger
 class stream_sink : public log_sink
 {
 public:
-    stream_sink(aeon::streams::stream &stream)
+    stream_sink(streams::stream &stream)
         : stream_(stream)
     {
     }
 
 private:
-    virtual void log(const std::string &message, aeon::logger::log_level level)
+    void log(const std::string &message, const std::string &module, log_level level) override
     {
-        aeon::streams::stream_writer writer(stream_);
+        streams::stream_writer writer(stream_);
 
         stream_.write((const std::uint8_t *)"[", 1);
 
-        std::string log_level_string = aeon::logger::log_level_str[static_cast<int>(level)];
+        writer << module;
+
+        stream_.write((const std::uint8_t *)"] [", 3);
+
+        std::string log_level_string = log_level_str[static_cast<int>(level)];
         writer << log_level_string;
 
         stream_.write((const std::uint8_t *)"]: ", 3);
@@ -43,7 +47,7 @@ private:
         writer.write_line(message);
     }
 
-    aeon::streams::stream &stream_;
+    streams::stream &stream_;
 };
 
 } // namespace logger

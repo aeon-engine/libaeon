@@ -47,13 +47,13 @@ public:
         return level_;
     }
 
-    virtual void log(std::string &&message, log_level level) = 0;
+    virtual void log(const std::string &message, const std::string &module, log_level level) = 0;
 
 private:
-    void handle_log_(std::string &&message, log_level level)
+    void __handle_log(const std::string &message, const std::string &module, log_level level)
     {
         if (level >= level_)
-            log(std::move(message), level);
+            log(message, module, level);
     }
 
     log_level level_;

@@ -44,11 +44,11 @@ public:
     }
 
 private:
-    virtual void log(std::string &&message, log_level level)
+    void log(const std::string &message, const std::string &module, log_level level) override
     {
-        for (auto &sink : sinks_)
+        for (auto sink : sinks_)
         {
-            sink->log(message, level);
+            sink->log(message, module, level);
         }
     }
 

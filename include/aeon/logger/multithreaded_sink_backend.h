@@ -23,7 +23,14 @@ namespace logger
 class multithreaded_sink_backend : public base_backend
 {
 private:
-    typedef std::vector<std::pair<std::string, log_level>> log_message_queue;
+    struct log_message_queue_entry
+    {
+        std::string message;
+        std::string module;
+        log_level level;
+    };
+
+    typedef std::vector<log_message_queue_entry> log_message_queue;
     typedef std::set<log_sink *> sink_set;
 
 public:
@@ -103,7 +110,7 @@ private:
                                           {
                                               for (auto &sink : sinks)
                                               {
-                                                  sink->log(msg.first, msg.second);
+                                                  sink->log(msg.message, msg.module, msg.level);
                                               }
                                           }
 
@@ -124,10 +131,10 @@ private:
                               });
     }
 
-    virtual void log(std::string &&message, log_level level)
+    void log(const std::string &message, const std::string &module, log_level level) override
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
-        log_queue_.push_back({std::move(message), level});
+        log_queue_.push_back({message, module, level});
         cv_.notify_one();
     }
 
