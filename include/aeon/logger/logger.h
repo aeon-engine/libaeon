@@ -16,12 +16,12 @@
 #pragma once
 
 #define AEON_LOG(log, level) log(level)
-#define AEON_LOG_FATAL(log) AEON_LOG(log, aeon::logger::fatal)
-#define AEON_LOG_ERROR(log) AEON_LOG(log, aeon::logger::error)
-#define AEON_LOG_WARNING(log) AEON_LOG(log, aeon::logger::warning)
-#define AEON_LOG_MESSAGE(log) AEON_LOG(log, aeon::logger::message)
-#define AEON_LOG_DEBUG(log) AEON_LOG(log, aeon::logger::debug)
-#define AEON_LOG_TRACE(log) AEON_LOG(log, aeon::logger::trace)
+#define AEON_LOG_FATAL(log) AEON_LOG(log, aeon::logger::log_level::fatal)
+#define AEON_LOG_ERROR(log) AEON_LOG(log, aeon::logger::log_level::error)
+#define AEON_LOG_WARNING(log) AEON_LOG(log, aeon::logger::log_level::warning)
+#define AEON_LOG_MESSAGE(log) AEON_LOG(log, aeon::logger::log_level::message)
+#define AEON_LOG_DEBUG(log) AEON_LOG(log, aeon::logger::log_level::debug)
+#define AEON_LOG_TRACE(log) AEON_LOG(log, aeon::logger::log_level::trace)
 
 namespace aeon
 {
