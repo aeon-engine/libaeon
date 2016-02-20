@@ -17,13 +17,19 @@
 
 #define aeon_utility_initialize_singleton(type)                                                                        \
     template <>                                                                                                        \
-    std::unique_ptr<type> aeon::utility::singleton<type>::instance_ = nullptr
+    type *aeon::utility::singleton<type>::instance_ = nullptr
 
 namespace aeon
 {
 namespace utility
 {
 
+/*!
+ * Base class for singletons.
+ * This class does not own the instance; so you must
+ * take care of deleting the instance when it's no
+ * longer needed to prevent leaks.
+ */
 template <class type>
 class singleton : public utility::noncopyable
 {
@@ -31,13 +37,16 @@ public:
     singleton()
     {
         assert(instance_ == nullptr);
-        instance_ = std::unique_ptr<type>(static_cast<type *>(this));
+        instance_ = static_cast<type *>(this);
 
         if (!instance_)
             throw std::runtime_error("Singleton could not be created.");
     }
 
-    virtual ~singleton() = default;
+    virtual ~singleton()
+    {
+        instance_ = nullptr;
+    }
 
     static type *create()
     {
@@ -65,7 +74,7 @@ public:
     }
 
 protected:
-    static std::unique_ptr<type> instance_;
+    static type *instance_;
 };
 
 } // namespace utility
