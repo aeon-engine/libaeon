@@ -23,7 +23,7 @@ namespace logger
 class io_stream_sink : public log_sink
 {
 public:
-    io_stream_sink(aeon::streams::io_stream_ptr stream)
+    io_stream_sink(aeon::streams::io_stream &stream)
         : stream_(stream)
     {
     }
@@ -31,18 +31,18 @@ public:
 private:
     virtual void log(const std::string &message, aeon::logger::log_level level)
     {
-        aeon::streams::stream_writer writer(*stream_);
+        aeon::streams::stream_writer writer(stream_);
 
-        stream_->set_color(aeon::streams::color::white);
-        stream_->write((const std::uint8_t *)"[", 1);
+        stream_.set_color(aeon::streams::color::white);
+        stream_.write((const std::uint8_t *)"[", 1);
 
-        stream_->set_color(log_level_to_color_(level));
+        stream_.set_color(log_level_to_color_(level));
 
         std::string log_level_string = aeon::logger::log_level_str[static_cast<int>(level)];
         writer << log_level_string;
 
-        stream_->set_color(aeon::streams::color::white);
-        stream_->write((const std::uint8_t *)"]: ", 3);
+        stream_.set_color(aeon::streams::color::white);
+        stream_.write((const std::uint8_t *)"]: ", 3);
 
         writer.write_line(message);
     }
@@ -66,7 +66,7 @@ private:
         }
     }
 
-    aeon::streams::io_stream_ptr stream_;
+    aeon::streams::io_stream &stream_;
 };
 
 } // namespace logger

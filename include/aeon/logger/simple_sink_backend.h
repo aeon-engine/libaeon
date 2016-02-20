@@ -33,7 +33,7 @@ public:
     {
     }
 
-    void add_sink(log_sink_ptr sink)
+    void add_sink(log_sink *sink)
     {
         sinks_.insert(sink);
     }
@@ -52,7 +52,7 @@ private:
         }
     }
 
-    std::set<log_sink_ptr> sinks_;
+    std::set<log_sink *> sinks_;
 };
 
 } // namespace logger

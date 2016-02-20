@@ -24,7 +24,7 @@ class multithreaded_sink_backend : public base_backend
 {
 private:
     typedef std::vector<std::pair<std::string, log_level>> log_message_queue;
-    typedef std::set<log_sink_ptr> sink_set;
+    typedef std::set<log_sink *> sink_set;
 
 public:
     multithreaded_sink_backend()
@@ -46,7 +46,7 @@ public:
         stop();
     }
 
-    void add_sink(log_sink_ptr sink)
+    void add_sink(log_sink *sink)
     {
         std::lock_guard<std::mutex> lock(sink_mutex_);
         sinks_.insert(sink);

@@ -26,7 +26,5 @@ public:
     virtual void log(const std::string &message, log_level level) = 0;
 };
 
-typedef std::shared_ptr<log_sink> log_sink_ptr;
-
 } // namespace logger
 } // namespace aeon
