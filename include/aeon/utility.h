@@ -25,6 +25,7 @@
 #include <fstream>
 #include <map>
 #include <array>
+#include <cassert>
 #include <chrono>
 #include <exception>
 #include <utility>
