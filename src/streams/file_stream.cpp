@@ -23,6 +23,7 @@ namespace streams
 file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/)
     : stream(mode)
     , size_(0)
+    , filename_(filename)
 {
     fstream_.open(filename, to_ios_open_mode_(mode, fm));
 
@@ -204,6 +205,11 @@ void file_stream::write_line(const std::string &line)
         throw file_stream_exception();
 
     fstream_ << line << std::endl;
+}
+
+const std::string &file_stream::get_filename() const
+{
+    return filename_;
 }
 
 } // namespace streams

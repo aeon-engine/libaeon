@@ -63,12 +63,15 @@ public:
 
     void write_line(const std::string &line);
 
+    const std::string &get_filename() const;
+
 protected:
     std::ios::openmode to_ios_open_mode_(int mode, file_mode fm);
     std::ios::seekdir seek_direction_to_ios_seekdir_(seek_direction direction);
 
     std::fstream fstream_;
     std::size_t size_;
+    std::string filename_;
 };
 
 typedef std::shared_ptr<file_stream> file_stream_ptr;
