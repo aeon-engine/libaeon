@@ -41,7 +41,7 @@ public:
     {
     }
 
-    void operator<<(endl_type endl)
+    void operator<<(endl_type)
     {
         std::string message = stream_.str();
         backend_.__handle_log(message, module_, level_);
