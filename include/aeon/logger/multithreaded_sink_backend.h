@@ -117,7 +117,7 @@ private:
                                           queue_mutex_.lock();
                                           if (!log_queue_.empty())
                                           {
-                                              log_message_queue log_queue = std::move(log_queue_);
+                                              log_queue = std::move(log_queue_);
                                               log_queue_ = log_message_queue();
                                               reprocess_queue = true;
                                           }
