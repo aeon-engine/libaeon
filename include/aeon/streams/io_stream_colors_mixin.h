@@ -41,8 +41,16 @@ enum class weight
 class io_stream_colors_mixin
 {
 public:
+    io_stream_colors_mixin();
+
     void set_color(color c, weight w = weight::normal);
     void reset_color();
+
+    void enable_colors();
+    void disable_colors();
+
+private:
+    bool enabled_;
 };
 
 } // namespace streams
