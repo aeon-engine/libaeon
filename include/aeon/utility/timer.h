@@ -28,7 +28,7 @@ public:
 
     void reset();
 
-    double get_time_difference();
+    double get_time_difference() const;
 
 private:
     std::chrono::time_point<std::chrono::system_clock> start_time_;

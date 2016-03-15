@@ -23,26 +23,28 @@ namespace logger
 class stream_sink : public log_sink
 {
 public:
-    stream_sink(streams::stream &stream)
+    explicit stream_sink(streams::stream &stream)
         : stream_(stream)
     {
     }
+
+    virtual ~stream_sink() = default;
 
 private:
     void log(const std::string &message, const std::string &module, log_level level) override
     {
         streams::stream_writer writer(stream_);
 
-        stream_.write((const std::uint8_t *)"[", 1);
+        stream_.write(reinterpret_cast<const std::uint8_t *>("["), 1);
 
         writer << module;
 
-        stream_.write((const std::uint8_t *)"] [", 3);
+        stream_.write(reinterpret_cast<const std::uint8_t *>("] ["), 3);
 
         std::string log_level_string = log_level_str[static_cast<int>(level)];
         writer << log_level_string;
 
-        stream_.write((const std::uint8_t *)"]: ", 3);
+        stream_.write(reinterpret_cast<const std::uint8_t *>("]: "), 3);
 
         writer.write_line(message);
     }

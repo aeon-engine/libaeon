@@ -34,7 +34,7 @@ void timer::reset()
     start_time_ = std::chrono::system_clock::now();
 }
 
-double timer::get_time_difference()
+double timer::get_time_difference() const
 {
     std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
 

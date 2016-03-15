@@ -28,13 +28,15 @@ public:
     {
     }
 
+    virtual ~io_stream_sink() = default;
+
 private:
     void log(const std::string &message, const std::string &module, log_level level) override
     {
         streams::stream_writer writer(stream_);
 
         stream_.set_color(aeon::streams::color::white);
-        stream_.write((const std::uint8_t *)"[", 1);
+        stream_.write(reinterpret_cast<const std::uint8_t *>("["), 1);
 
         stream_.set_color(aeon::streams::color::cyan);
 
@@ -42,7 +44,7 @@ private:
 
         stream_.set_color(aeon::streams::color::white);
 
-        stream_.write((const std::uint8_t *)"] [", 3);
+        stream_.write(reinterpret_cast<const std::uint8_t *>("] ["), 3);
 
         stream_.set_color(log_level_to_color_(level));
 
@@ -51,12 +53,12 @@ private:
 
         stream_.set_color(aeon::streams::color::white);
 
-        stream_.write((const std::uint8_t *)"]: ", 3);
+        stream_.write(reinterpret_cast<const std::uint8_t *>("]: "), 3);
 
         writer.write_line(message);
     }
 
-    streams::color log_level_to_color_(log_level level)
+    streams::color log_level_to_color_(log_level level) const
     {
         switch (level)
         {

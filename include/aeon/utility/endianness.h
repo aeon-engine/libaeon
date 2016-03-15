@@ -29,9 +29,9 @@ T swap16(T val)
 
     typedef typename std::conditional<std::is_integral<T>::value, T, std::uint16_t>::type swap_type;
 
-    swap_type swap = (((*((swap_type *)&val) & 0x00FF) << 8) | ((*((swap_type *)&val) & 0xFF00) >> 8));
+    swap_type swap = (((*(static_cast<swap_type *>(&val)) & 0x00FF) << 8) | ((*(static_cast<swap_type *>(&val)) & 0xFF00) >> 8));
 
-    return *((T *)&swap);
+    return *(static_cast<T *>(&swap));
 }
 
 template <typename T>
@@ -41,10 +41,10 @@ T swap32(T val)
 
     typedef typename std::conditional<std::is_integral<T>::value, T, std::uint32_t>::type swap_type;
 
-    swap_type swap = (((*((swap_type *)&val) & 0x000000FF) << 24) | ((*((swap_type *)&val) & 0x0000FF00) << 8) |
-                      ((*((swap_type *)&val) & 0x00FF0000) >> 8) | ((*((swap_type *)&val) & 0xFF000000) >> 24));
+    swap_type swap = (((*(static_cast<swap_type *>(&val)) & 0x000000FF) << 24) | ((*(static_cast<swap_type *>(&val)) & 0x0000FF00) << 8) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x00FF0000) >> 8) | ((*(static_cast<swap_type *>(&val)) & 0xFF000000) >> 24));
 
-    return *((T *)&swap);
+    return *(static_cast<T *>(&swap));
 }
 
 template <typename T>
@@ -54,16 +54,16 @@ T swap64(T val)
 
     typedef typename std::conditional<std::is_integral<T>::value, T, std::uint64_t>::type swap_type;
 
-    swap_type swap =
-        (((*((swap_type *)&val) & 0x00000000000000FFULL) << 56) |
-         ((*((swap_type *)&val) & 0x000000000000FF00ULL) << 40) |
-         ((*((swap_type *)&val) & 0x0000000000FF0000ULL) << 24) |
-         ((*((swap_type *)&val) & 0x00000000FF000000ULL) << 8) | ((*((swap_type *)&val) & 0x000000FF00000000ULL) >> 8) |
-         ((*((swap_type *)&val) & 0x0000FF0000000000ULL) >> 24) |
-         ((*((swap_type *)&val) & 0x00FF000000000000ULL) >> 40) |
-         ((*((swap_type *)&val) & 0xFF00000000000000ULL) >> 56));
+    swap_type swap = (((*(static_cast<swap_type *>(&val)) & 0x00000000000000FFULL) << 56) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x000000000000FF00ULL) << 40) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x0000000000FF0000ULL) << 24) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x00000000FF000000ULL) << 8) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x000000FF00000000ULL) >> 8) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x0000FF0000000000ULL) >> 24) |
+                      ((*(static_cast<swap_type *>(&val)) & 0x00FF000000000000ULL) >> 40) |
+                      ((*(static_cast<swap_type *>(&val)) & 0xFF00000000000000ULL) >> 56));
 
-    return *((T *)&swap);
+    return *(static_cast<T *>(&swap));
 }
 
 template <typename T>
@@ -77,33 +77,35 @@ T swap(T val)
         {
             typedef typename std::conditional<std::is_integral<T>::value, T, std::uint16_t>::type swap_type;
 
-            swap_type swap = (((*((swap_type *)&val) & 0x00FF) << 8) | ((*((swap_type *)&val) & 0xFF00) >> 8));
+            swap_type swap = (((*(static_cast<swap_type *>(&val)) & 0x00FF) << 8) | ((*(static_cast<swap_type *>(&val)) & 0xFF00) >> 8));
 
-            return *((T *)&swap);
+            return *(static_cast<T *>(&swap));
         }
         case 4:
         {
             typedef typename std::conditional<std::is_integral<T>::value, T, std::uint32_t>::type swap_type;
 
-            swap_type swap = (((*((swap_type *)&val) & 0x000000FF) << 24) | ((*((swap_type *)&val) & 0x0000FF00) << 8) |
-                              ((*((swap_type *)&val) & 0x00FF0000) >> 8) | ((*((swap_type *)&val) & 0xFF000000) >> 24));
+            swap_type swap = (((*(static_cast<swap_type *>(&val)) & 0x000000FF) << 24) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x0000FF00) << 8) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x00FF0000) >> 8) |
+                              ((*(static_cast<swap_type *>(&val)) & 0xFF000000) >> 24));
 
-            return *((T *)&swap);
+            return *(static_cast<T *>(&swap));
         }
         case 8:
         {
             typedef typename std::conditional<std::is_integral<T>::value, T, std::uint64_t>::type swap_type;
 
-            swap_type swap = (((*((swap_type *)&val) & 0x00000000000000FFULL) << 56) |
-                              ((*((swap_type *)&val) & 0x000000000000FF00ULL) << 40) |
-                              ((*((swap_type *)&val) & 0x0000000000FF0000ULL) << 24) |
-                              ((*((swap_type *)&val) & 0x00000000FF000000ULL) << 8) |
-                              ((*((swap_type *)&val) & 0x000000FF00000000ULL) >> 8) |
-                              ((*((swap_type *)&val) & 0x0000FF0000000000ULL) >> 24) |
-                              ((*((swap_type *)&val) & 0x00FF000000000000ULL) >> 40) |
-                              ((*((swap_type *)&val) & 0xFF00000000000000ULL) >> 56));
+            swap_type swap = (((*(static_cast<swap_type *>(&val)) & 0x00000000000000FFULL) << 56) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x000000000000FF00ULL) << 40) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x0000000000FF0000ULL) << 24) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x00000000FF000000ULL) << 8) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x000000FF00000000ULL) >> 8) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x0000FF0000000000ULL) >> 24) |
+                              ((*(static_cast<swap_type *>(&val)) & 0x00FF000000000000ULL) >> 40) |
+                              ((*(static_cast<swap_type *>(&val)) & 0xFF00000000000000ULL) >> 56));
 
-            return *((T *)&swap);
+            return *(static_cast<T *>(&swap));
         }
         default:
             throw std::runtime_error("Unsupported type for endianness swap.");

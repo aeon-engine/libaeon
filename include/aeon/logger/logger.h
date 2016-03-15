@@ -41,7 +41,7 @@ public:
     {
     }
 
-    void operator<<(endl_type)
+    void operator<<(endl_type) const
     {
         std::string message = stream_.str();
         backend_.__handle_log(message, module_, level_);
@@ -70,7 +70,7 @@ public:
     {
     }
 
-    logger_stream operator()(log_level level)
+    logger_stream operator()(log_level level) const
     {
         return logger_stream(backend_, module_, level);
     }

@@ -34,6 +34,8 @@ public:
         {
         }
 
+        virtual ~protocol_handler() = default;
+
         virtual void on_connected() = 0;
         virtual void on_disconnected() = 0;
         virtual void on_data(std::uint8_t *data, std::size_t size) = 0;

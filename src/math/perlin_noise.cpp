@@ -71,8 +71,8 @@ double perlin_noise::total(double i, double j) const
 
 double perlin_noise::get_value(double x, double y) const
 {
-    int Xint = (int)x;
-    int Yint = (int)y;
+    int Xint = static_cast<int>(x);
+    int Yint = static_cast<int>(y);
     double Xfrac = x - Xint;
     double Yfrac = y - Yint;
 

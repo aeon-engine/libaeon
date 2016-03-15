@@ -28,7 +28,9 @@ public:
     {
     }
 
-    void on_data(std::uint8_t *data, std::size_t size)
+    virtual ~line_protocol_handler() = default;
+
+    void on_data(std::uint8_t *data, std::size_t size) override
     {
         circular_buffer_.write(data, size);
 

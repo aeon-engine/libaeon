@@ -30,9 +30,9 @@ public:
 
     std::string get_temporary_file_path() const;
 
-    bool assert_temporary_file_present();
+    bool assert_temporary_file_present() const;
 
-    void delete_temporary_file();
+    void delete_temporary_file() const;
 
 protected:
     std::string path_;

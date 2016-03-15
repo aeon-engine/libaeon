@@ -41,12 +41,12 @@ std::string temporary_file::get_temporary_file_path() const
     return path_;
 }
 
-bool temporary_file::assert_temporary_file_present()
+bool temporary_file::assert_temporary_file_present() const
 {
     return filesystem::exists(path_);
 }
 
-void temporary_file::delete_temporary_file()
+void temporary_file::delete_temporary_file() const
 {
     filesystem::delete_file(path_);
 }
