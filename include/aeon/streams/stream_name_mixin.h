@@ -35,6 +35,8 @@ public:
     {
     }
 
+    virtual ~stream_name_mixin() = default;
+
     std::string get_name() const
     {
         return name_;

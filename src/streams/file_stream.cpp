@@ -49,7 +49,7 @@ std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
     if (!data || size == 0)
         throw file_stream_exception();
 
-    fstream_.read((char *)data, size);
+    fstream_.read(reinterpret_cast<char *>(data), size);
 
     if (fstream_.eof())
         return fstream_.gcount();
@@ -68,7 +68,7 @@ std::size_t file_stream::write(const std::uint8_t *data, std::size_t size)
     if (!data || size == 0)
         throw file_stream_exception();
 
-    fstream_.write((const char *)data, size);
+    fstream_.write(reinterpret_cast<const char *>(data), size);
 
     if (fstream_.fail())
         return 0;
@@ -97,7 +97,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
     if (peek_val == EOF)
         return false;
 
-    data = (std::uint8_t)peek_val;
+    data = static_cast<std::uint8_t>(peek_val);
 
     if (offset != 0)
         fstream_.seekg(original_offset, std::ios::beg);
@@ -159,7 +159,7 @@ bool file_stream::good() const
     return fstream_.good();
 }
 
-std::ios::openmode file_stream::to_ios_open_mode_(int mode, file_mode fm)
+std::ios::openmode file_stream::to_ios_open_mode_(int mode, file_mode fm) const
 {
     std::ios::openmode openmode_zero = static_cast<std::ios::openmode>(0);
 
@@ -170,7 +170,7 @@ std::ios::openmode file_stream::to_ios_open_mode_(int mode, file_mode fm)
     return m;
 }
 
-std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction direction)
+std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction direction) const
 {
     switch (direction)
     {

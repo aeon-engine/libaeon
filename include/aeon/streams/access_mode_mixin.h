@@ -53,6 +53,8 @@ public:
     {
     }
 
+    virtual ~access_mode_mixin() = default;
+
     virtual int get_access_mode() const
     {
         return access_mode_;

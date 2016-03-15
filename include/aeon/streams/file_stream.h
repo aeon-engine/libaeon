@@ -37,6 +37,8 @@ public:
 
     explicit file_stream(const std::string &filename, file_mode fm = file_mode::binary);
 
+    virtual ~file_stream() = default;
+
     std::size_t read(std::uint8_t *data, std::size_t size) override;
 
     std::size_t write(const std::uint8_t *data, std::size_t size) override;
@@ -66,8 +68,8 @@ public:
     const std::string &get_filename() const;
 
 protected:
-    std::ios::openmode to_ios_open_mode_(int mode, file_mode fm);
-    std::ios::seekdir seek_direction_to_ios_seekdir_(seek_direction direction);
+    std::ios::openmode to_ios_open_mode_(int mode, file_mode fm) const;
+    std::ios::seekdir seek_direction_to_ios_seekdir_(seek_direction direction) const;
 
     std::fstream fstream_;
     std::size_t size_;

@@ -80,7 +80,7 @@ public:
 
         std::string line;
         line.resize(stringlength);
-        stringlength = stream_.read((std::uint8_t *)&line[0], stringlength);
+        stringlength = stream_.read(reinterpret_cast<std::uint8_t *>(&line[0]), stringlength);
 
         if (stringlength == 0)
             return std::string();

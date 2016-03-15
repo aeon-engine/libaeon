@@ -61,7 +61,7 @@ bool io_stream::peek(std::uint8_t &data, std::ptrdiff_t /*= 0*/)
     if (ungetc(c, stdin) == EOF)
         return false;
 
-    data = (std::uint8_t)c;
+    data = static_cast<std::uint8_t>(c);
     return true;
 }
 

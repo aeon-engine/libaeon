@@ -55,17 +55,17 @@ public:
     stream_writer &operator<<(const std::string &value)
     {
         std::size_t string_length = value.size();
-        if (stream_.write((std::uint8_t *)value.c_str(), string_length) != string_length)
+        if (stream_.write(reinterpret_cast<const std::uint8_t *>(value.c_str()), string_length) != string_length)
         {
             throw std::runtime_error("Operator write failed on stream.");
         }
         return *this;
     }
 
-    void write_line(const std::string &line)
+    void write_line(const std::string &line) const
     {
-        stream_.write((std::uint8_t *)line.c_str(), line.size());
-        stream_.write((std::uint8_t *)"\n", 1);
+        stream_.write(reinterpret_cast<const std::uint8_t *>(line.c_str()), line.size());
+        stream_.write(reinterpret_cast<const std::uint8_t *>("\n"), 1);
     }
 
 protected:

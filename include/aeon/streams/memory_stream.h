@@ -34,7 +34,7 @@ public:
     {
     }
 
-    memory_stream(std::vector<std::uint8_t> &&buffer, int mode = access_mode::read_write)
+    explicit memory_stream(std::vector<std::uint8_t> &&buffer, int mode = access_mode::read_write)
         : stream(mode)
         , buffer_(std::move(buffer))
         , offset_(0)
@@ -42,6 +42,8 @@ public:
     {
         size_ = buffer_.size();
     }
+
+    virtual ~memory_stream() = default;
 
     std::size_t read(std::uint8_t *data, std::size_t size) override
     {
@@ -122,7 +124,7 @@ public:
         if (new_pos < 0)
             return false;
 
-        if (new_pos >= (std::ptrdiff_t)size_)
+        if (new_pos >= static_cast<std::ptrdiff_t>(size_))
             return false;
 
         // Set the new offset if all is good

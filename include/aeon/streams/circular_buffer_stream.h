@@ -43,7 +43,8 @@ public:
      * This is the main constructor for this circular buffer.
      */
     circular_buffer_stream()
-        : tail_(0)
+        : buffer_()
+        , tail_(0)
         , head_(0)
         , size_(0)
     {
@@ -52,7 +53,7 @@ public:
     /*!
      * Move constructor
      */
-    circular_buffer_stream(circular_buffer_stream &&other)
+    explicit circular_buffer_stream(circular_buffer_stream &&other)
         : buffer_(std::move(other.buffer_))
         , tail_(std::move(other.tail_))
         , head_(std::move(other.head_))
@@ -63,9 +64,7 @@ public:
     /*!
      * Destructor
      */
-    ~circular_buffer_stream()
-    {
-    }
+    ~circular_buffer_stream() = default;
 
     /*!
      * Read raw data from the circular buffer. The data will be read from the
@@ -78,7 +77,7 @@ public:
                    large enough to hold this size.
      * \return The size read from the circular buffer or 0.
      */
-    virtual std::size_t read(std::uint8_t *data, std::size_t size)
+    std::size_t read(std::uint8_t *data, std::size_t size) override
     {
         // Can we read this size at all?
         if (is_out_of_bounds_(size))
@@ -126,7 +125,7 @@ public:
                    large enough to hold this size.
      * \return The size peeked from the circular buffer or 0.
      */
-    virtual std::size_t peek_read(std::uint8_t *data, std::size_t size)
+    std::size_t peek_read(std::uint8_t *data, std::size_t size)
     {
         // Can we read this size at all?
         if (is_out_of_bounds_(size))
@@ -171,7 +170,7 @@ public:
      * \return The size of the buffer written into the circular buffer,
                or 0 on error.
      */
-    virtual std::size_t write(const std::uint8_t *data, std::size_t size)
+    std::size_t write(const std::uint8_t *data, std::size_t size) override
     {
         // Can we fit this in at all?
         if (is_out_of_bounds_(size))
@@ -220,12 +219,12 @@ public:
      *
      * \return The byte at the current read offset.
      */
-    virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0)
+    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override
     {
         if (offset < 0)
             return false;
 
-        if (size_ == 0 || (std::size_t)offset > size_)
+        if (size_ == 0 || static_cast<std::size_t>(offset) > size_)
             return false;
 
         std::ptrdiff_t normalized_offset = (tail_ + offset) % circular_buffer_size;
@@ -234,7 +233,7 @@ public:
         return true;
     }
 
-    virtual bool seek(std::ptrdiff_t offset, stream::seek_direction direction)
+    bool seek(std::ptrdiff_t offset, stream::seek_direction direction) override
     {
         if (direction != stream::seek_direction::current)
             return false;
@@ -242,7 +241,7 @@ public:
         if (offset <= 0)
             return false;
 
-        if ((std::size_t)offset > size_)
+        if (static_cast<std::size_t>(offset) > size_)
             return false;
 
         tail_ += offset;
@@ -251,22 +250,22 @@ public:
         return false;
     }
 
-    virtual bool seekw(std::ptrdiff_t, stream::seek_direction)
+    bool seekw(std::ptrdiff_t, stream::seek_direction) override
     {
         return false;
     }
 
-    virtual std::size_t tell()
+    std::size_t tell() override
     {
         return tail_;
     }
 
-    virtual std::size_t tellw()
+    std::size_t tellw() override
     {
         return head_;
     }
 
-    virtual bool eof() const
+    bool eof() const override
     {
         return size_ == circular_buffer_size;
     }
@@ -277,16 +276,16 @@ public:
      *
      * \return The amount of bytes written into this circular buffer.
      */
-    virtual std::size_t size() const
+    std::size_t size() const override
     {
         return size_;
     }
 
-    virtual void flush()
+    void flush() override
     {
     }
 
-    virtual bool good() const
+    bool good() const override
     {
         return true;
     }
@@ -316,12 +315,12 @@ public:
     }
 
 protected:
-    bool is_out_of_bounds_(std::size_t offset)
+    bool is_out_of_bounds_(std::size_t offset) const
     {
         return (offset > circular_buffer_size);
     }
 
-    bool fits_in_buffer_(std::size_t size)
+    bool fits_in_buffer_(std::size_t size) const
     {
         return ((size_ + size) <= circular_buffer_size);
     }
