@@ -61,6 +61,7 @@ set(LIB_AEON_UTILITY_SOURCE
     src/utility/string.cpp
     include/aeon/utility/string.h
     include/aeon/utility/listener_subject.h
+    include/aeon/utility/dispatcher.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

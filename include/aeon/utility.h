@@ -34,6 +34,12 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+#include <atomic>
+#include <future>
 
 /******************************************************************************/
 /* Aeon headers                                                               */
@@ -51,3 +57,4 @@
 #include <aeon/utility/variant.h>
 #include <aeon/utility/listener_subject.h>
 #include <aeon/utility/string.h>
+#include <aeon/utility/dispatcher.h>
