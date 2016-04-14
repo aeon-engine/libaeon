@@ -23,6 +23,8 @@ namespace utility
 class dispatcher : public utility::noncopyable
 {
 public:
+    static const int signal_wait_timeout_ms = 100;
+
     dispatcher()
         : running_(false)
     {
@@ -32,12 +34,14 @@ public:
 
     void run_one()
     {
-        std::unique_lock<std::mutex> lock(signal_mutex_);
-        signal_cv_.wait(lock);
-
         std::queue<std::function<void()>> queue_copy_;
         {
-            std::lock_guard<std::mutex> guard(queue_mutex_);
+            std::unique_lock<std::mutex> lock(mutex_);
+            signal_cv_.wait(
+                lock,
+                [this](){ return !queue_.empty() || !running_; }
+            );
+
             queue_copy_ = std::move(queue_);
             queue_ = std::queue<std::function<void()>>();
         }
@@ -61,7 +65,7 @@ public:
 
     void post(std::function<void()> job)
     {
-        std::lock_guard<std::mutex> guard(queue_mutex_);
+        std::unique_lock<std::mutex> lock(mutex_);
         queue_.push(job);
         signal_cv_.notify_one();
     }
@@ -110,22 +114,22 @@ public:
 
     void stop()
     {
+        std::lock_guard<std::mutex> guard(mutex_);
         running_ = false;
         signal_cv_.notify_all();
     }
 
     void reset()
     {
-        std::lock_guard<std::mutex> guard(queue_mutex_);
+        std::lock_guard<std::mutex> guard(mutex_);
         queue_ = std::queue<std::function<void()>>();
     }
 
 private:
-    std::mutex signal_mutex_;
+    std::mutex mutex_;
     std::condition_variable signal_cv_;
-    std::mutex queue_mutex_;
     std::queue<std::function<void()>> queue_;
-    std::atomic<bool> running_;
+    bool running_;
 };
 
 } // namespace utility
