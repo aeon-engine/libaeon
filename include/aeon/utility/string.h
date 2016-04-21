@@ -34,6 +34,21 @@ std::vector<std::string> &split(const std::string &str, char delim, std::vector<
  */
 std::vector<std::string> split(const std::string &str, char delim);
 
+/*!
+ * Trim from the start of a string
+ */
+void ltrim(std::string &str);
+
+/*!
+ * Trim from the ending of a string
+ */
+void rtrim(std::string &str);
+
+/*!
+ * Trim a string at the start and end.
+ */
+void trim(std::string &str);
+
 } // namespace string
 } // namespace utility
 } // namespace aeon

@@ -42,6 +42,22 @@ std::vector<std::string> split(const std::string &str, char delim)
     return elements;
 }
 
+void ltrim(std::string &str)
+{
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+}
+
+void rtrim(std::string &str)
+{
+    str.erase(std::find_if(str.rbegin(), str.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), str.end());
+}
+
+void trim(std::string &str)
+{
+    ltrim(str);
+    rtrim(str);
+}
+
 } // namespace string
 } // namespace utility
 } // namespace aeon
