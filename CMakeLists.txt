@@ -116,7 +116,7 @@ source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 ################################################################################
 
-if (CURL_FOUND)
+if (AEON_ENABLE_CURL)
     set(LIB_AEON_CURL_SOURCE
         include/aeon/curl.h
         include/aeon/curl/url_downloader.h
@@ -171,7 +171,7 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_TESTING_SOURCE}
 )
 
-if (CURL_FOUND)
+if (AEON_ENABLE_CURL)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_CURL_SOURCE})
 endif ()
 
@@ -188,10 +188,9 @@ set_target_properties(aeon PROPERTIES
 target_include_directories(aeon PRIVATE src)
 target_include_directories(aeon PUBLIC include)
 
-if (CURL_FOUND)
+if (AEON_ENABLE_CURL)
     message(STATUS "Building libAeon with CURL support.")
-    target_link_libraries(aeon ${CURL_LIBRARIES})
-    target_include_directories(aeon PUBLIC ${CURL_INCLUDE_DIRS})
+    target_link_libraries(aeon curl)
 endif ()
 
 if (MONO_FOUND)
