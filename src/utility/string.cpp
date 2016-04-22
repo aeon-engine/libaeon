@@ -79,6 +79,16 @@ std::string trimmed(const std::string &str)
     return trimstr;
 }
 
+std::string left(const std::string &str, int len)
+{
+    return str.substr(0, len);
+}
+
+std::string right(const std::string &str, int len)
+{
+    return str.substr(str.size() - len);
+}
+
 std::vector<std::string> args_to_vector(int argc, char *argv[])
 {
     std::vector<std::string> vec;

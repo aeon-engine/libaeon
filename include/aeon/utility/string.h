@@ -65,6 +65,16 @@ std::string rtrimmed(const std::string &str);
 std::string trimmed(const std::string &str);
 
 /*!
+ * Get len characters from the left of the string.
+ */
+std::string left(const std::string &str, int len);
+
+/*!
+ * Get len characters from the right of the string.
+ */
+std::string right(const std::string &str, int len);
+
+/*!
  * Convert standard argc and argv arguments into a vector of strings.
  */
 std::vector<std::string> args_to_vector(int argc, char *argv[]);
