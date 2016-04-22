@@ -58,6 +58,27 @@ void trim(std::string &str)
     rtrim(str);
 }
 
+std::string ltrimmed(const std::string &str)
+{
+    std::string trimstr = str;
+    ltrim(trimstr);
+    return trimstr;
+}
+
+std::string rtrimmed(const std::string &str)
+{
+    std::string trimstr = str;
+    rtrim(trimstr);
+    return trimstr;
+}
+
+std::string trimmed(const std::string &str)
+{
+    std::string trimstr = str;
+    trim(trimstr);
+    return trimstr;
+}
+
 std::vector<std::string> args_to_vector(int argc, char *argv[])
 {
     std::vector<std::string> vec;

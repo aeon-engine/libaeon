@@ -50,6 +50,21 @@ void rtrim(std::string &str);
 void trim(std::string &str);
 
 /*!
+ * Trim from the start of a string
+ */
+std::string ltrimmed(const std::string &str);
+
+/*!
+ * Trim from the ending of a string
+ */
+std::string rtrimmed(const std::string &str);
+
+/*!
+ * Trim a string at the start and end.
+ */
+std::string trimmed(const std::string &str);
+
+/*!
  * Convert standard argc and argv arguments into a vector of strings.
  */
 std::vector<std::string> args_to_vector(int argc, char *argv[]);
