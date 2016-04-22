@@ -49,6 +49,11 @@ void rtrim(std::string &str);
  */
 void trim(std::string &str);
 
+/*!
+ * Convert standard argc and argv arguments into a vector of strings.
+ */
+std::vector<std::string> args_to_vector(int argc, char *argv[]);
+
 } // namespace string
 } // namespace utility
 } // namespace aeon

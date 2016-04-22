@@ -58,6 +58,18 @@ void trim(std::string &str)
     rtrim(str);
 }
 
+std::vector<std::string> args_to_vector(int argc, char *argv[])
+{
+    std::vector<std::string> vec;
+
+    for (int i = 0; i < argc; ++i)
+    {
+        vec.push_back(argv[i]);
+    }
+
+    return vec;
+}
+
 } // namespace string
 } // namespace utility
 } // namespace aeon
