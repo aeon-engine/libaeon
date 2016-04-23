@@ -26,6 +26,7 @@
 #include <map>
 #include <array>
 #include <cassert>
+#include <cctype>
 #include <chrono>
 #include <exception>
 #include <utility>
