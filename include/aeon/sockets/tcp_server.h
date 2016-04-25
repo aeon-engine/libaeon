@@ -29,7 +29,7 @@ public:
         friend class tcp_server;
 
     public:
-        protocol_handler(boost::asio::ip::tcp::socket socket)
+        protocol_handler(asio::ip::tcp::socket socket)
             : socket_(std::move(socket))
         {
         }
@@ -39,7 +39,7 @@ public:
         virtual void on_connected() = 0;
         virtual void on_disconnected() = 0;
         virtual void on_data(std::uint8_t *data, std::size_t size) = 0;
-        virtual void on_error(boost::system::error_code ec) = 0;
+        virtual void on_error(asio::error_code ec) = 0;
 
         void send(aeon::streams::stream_ptr stream)
         {
@@ -63,7 +63,7 @@ public:
             if (!socket_.is_open())
                 return;
 
-            socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+            socket_.shutdown(asio::ip::tcp::socket::shutdown_both);
             socket_.close();
             on_disconnected();
         }
@@ -75,7 +75,7 @@ public:
         }
 
     protected:
-        boost::asio::io_service &io_service()
+        asio::io_service &io_service()
         {
             return socket_.get_io_service();
         }
@@ -85,10 +85,10 @@ public:
         {
             auto self(protocol_handler::shared_from_this());
 
-            socket_.async_read_some(boost::asio::buffer(data_, AEON_TCP_SOCKET_MAX_BUFF_LEN),
-                                    [self](boost::system::error_code ec, std::size_t length)
+            socket_.async_read_some(asio::buffer(data_, AEON_TCP_SOCKET_MAX_BUFF_LEN),
+                                    [self](asio::error_code ec, std::size_t length)
                                     {
-                                        if (ec && ec != boost::asio::error::eof)
+                                        if (ec && ec != asio::error::eof)
                                             self->on_error(ec);
 
                                         if (length > 0)
@@ -114,8 +114,8 @@ public:
             streams::memory_stream_ptr buffer = send_data_queue_.front();
             auto self(protocol_handler::shared_from_this());
 
-            boost::asio::async_write(socket_, boost::asio::buffer(buffer->data(), buffer->size()),
-                                     [self, buffer](boost::system::error_code ec, std::size_t /*length*/)
+            asio::async_write(socket_, asio::buffer(buffer->data(), buffer->size()),
+                                     [self, buffer](asio::error_code ec, std::size_t /*length*/)
                                      {
                                          self->send_data_queue_.pop();
 
@@ -124,14 +124,14 @@ public:
                                      });
         }
 
-        boost::asio::ip::tcp::socket socket_;
+        asio::ip::tcp::socket socket_;
         std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
         std::queue<aeon::streams::memory_stream_ptr> send_data_queue_;
     };
 
 public:
-    tcp_server(boost::asio::io_service &io_service, std::uint16_t port)
-        : acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+    tcp_server(asio::io_service &io_service, std::uint16_t port)
+        : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
         , socket_(io_service)
         , io_service_(io_service)
     {
@@ -141,7 +141,7 @@ public:
 protected:
     void start_async_accept_()
     {
-        acceptor_.async_accept(socket_, [this](boost::system::error_code ec)
+        acceptor_.async_accept(socket_, [this](asio::error_code ec)
                                {
                                    if (!ec)
                                    {
@@ -152,9 +152,9 @@ protected:
                                });
     }
 
-    boost::asio::ip::tcp::acceptor acceptor_;
-    boost::asio::ip::tcp::socket socket_;
-    boost::asio::io_service &io_service_;
+    asio::ip::tcp::acceptor acceptor_;
+    asio::ip::tcp::socket socket_;
+    asio::io_service &io_service_;
 };
 
 } // namespace sockets

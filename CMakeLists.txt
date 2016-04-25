@@ -32,14 +32,16 @@ source_group(math FILES ${LIB_AEON_MATH_SOURCE})
 
 ################################################################################
 
-set(LIB_AEON_SOCKETS_SOURCE
-    include/aeon/sockets.h
-    include/aeon/sockets/config.h
-    include/aeon/sockets/line_protocol_handler.h
-    include/aeon/sockets/tcp_server.h
-)
+if (AEON_ENABLE_SOCKETS)
+    set(LIB_AEON_SOCKETS_SOURCE
+        include/aeon/sockets.h
+        include/aeon/sockets/config.h
+        include/aeon/sockets/line_protocol_handler.h
+        include/aeon/sockets/tcp_server.h
+    )
 
-source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
+    source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
+endif ()
 
 ################################################################################
 
@@ -163,7 +165,6 @@ endif ()
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
-    ${LIB_AEON_SOCKETS_SOURCE}
     ${LIB_AEON_UTILITY_SOURCE}
     ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
@@ -173,6 +174,10 @@ set(LIB_AEON_SOURCE
 
 if (AEON_ENABLE_CURL)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_CURL_SOURCE})
+endif ()
+
+if (AEON_ENABLE_SOCKETS)
+    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_SOCKETS_SOURCE})
 endif ()
 
 if (MONO_FOUND)
@@ -191,6 +196,11 @@ target_include_directories(aeon PUBLIC include)
 if (AEON_ENABLE_CURL)
     message(STATUS "Building libAeon with CURL support.")
     target_link_libraries(aeon curl)
+endif ()
+
+if (AEON_ENABLE_SOCKETS)
+    message(STATUS "Building libAeon with Sockets support (Asio).")
+    target_link_libraries(aeon asio)
 endif ()
 
 if (MONO_FOUND)
