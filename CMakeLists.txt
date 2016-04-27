@@ -41,6 +41,16 @@ if (AEON_ENABLE_SOCKETS)
     )
 
     source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
+
+    set(LIB_AEON_WEBSERVER_SOURCE
+        include/aeon/webserver.h
+        include/aeon/webserver/http_protocol_handler.h
+        src/webserver/http_protocol_handler.cpp
+        include/aeon/webserver/http_request.h
+        src/webserver/http_request.cpp
+    )
+
+    source_group(webserver FILES ${LIB_AEON_WEBSERVER_SOURCE})
 endif ()
 
 ################################################################################
@@ -177,7 +187,10 @@ if (AEON_ENABLE_CURL)
 endif ()
 
 if (AEON_ENABLE_SOCKETS)
-    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_SOCKETS_SOURCE})
+    list(APPEND LIB_AEON_SOURCE
+        ${LIB_AEON_SOCKETS_SOURCE}
+        ${LIB_AEON_WEBSERVER_SOURCE}
+    )
 endif ()
 
 if (MONO_FOUND)
