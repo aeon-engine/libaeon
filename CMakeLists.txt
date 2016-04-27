@@ -1,19 +1,19 @@
 set(LIB_AEON_STREAMS_SOURCE
-    include/aeon/streams.h
-    include/aeon/streams/config.h
-    include/aeon/streams/access_mode_mixin.h
-    include/aeon/streams/stream_reader.h
-    include/aeon/streams/stream_writer.h
-    include/aeon/streams/stream.h
-    include/aeon/streams/file_stream.h
-    src/streams/file_stream.cpp
-    include/aeon/streams/io_stream.h
-    src/streams/io_stream.cpp
-    include/aeon/streams/circular_buffer_stream.h
-    include/aeon/streams/memory_stream.h
-    include/aeon/streams/stream_name_mixin.h
-    include/aeon/streams/io_stream_colors_mixin.h
-    src/streams/io_stream_colors_mixin.cpp
+    src/aeon/streams.h
+    src/aeon/streams/config.h
+    src/aeon/streams/access_mode_mixin.h
+    src/aeon/streams/stream_reader.h
+    src/aeon/streams/stream_writer.h
+    src/aeon/streams/stream.h
+    src/aeon/streams/file_stream.h
+    src/aeon/streams/file_stream.cpp
+    src/aeon/streams/io_stream.h
+    src/aeon/streams/io_stream.cpp
+    src/aeon/streams/circular_buffer_stream.h
+    src/aeon/streams/memory_stream.h
+    src/aeon/streams/stream_name_mixin.h
+    src/aeon/streams/io_stream_colors_mixin.h
+    src/aeon/streams/io_stream_colors_mixin.cpp
 )
 
 source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
@@ -21,11 +21,11 @@ source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
 ################################################################################
 
 set(LIB_AEON_MATH_SOURCE
-    include/aeon/math.h
-    include/aeon/math/perlin_noise.h
-    src/math/perlin_noise.cpp
-    include/aeon/math/simplex_noise.h
-    src/math/simplex_noise.cpp
+    src/aeon/math.h
+    src/aeon/math/perlin_noise.h
+    src/aeon/math/perlin_noise.cpp
+    src/aeon/math/simplex_noise.h
+    src/aeon/math/simplex_noise.cpp
 )
 
 source_group(math FILES ${LIB_AEON_MATH_SOURCE})
@@ -34,20 +34,20 @@ source_group(math FILES ${LIB_AEON_MATH_SOURCE})
 
 if (AEON_ENABLE_SOCKETS)
     set(LIB_AEON_SOCKETS_SOURCE
-        include/aeon/sockets.h
-        include/aeon/sockets/config.h
-        include/aeon/sockets/line_protocol_handler.h
-        include/aeon/sockets/tcp_server.h
+        src/aeon/sockets.h
+        src/aeon/sockets/config.h
+        src/aeon/sockets/line_protocol_handler.h
+        src/aeon/sockets/tcp_server.h
     )
 
     source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
 
     set(LIB_AEON_WEBSERVER_SOURCE
-        include/aeon/webserver.h
-        include/aeon/webserver/http_protocol_handler.h
-        src/webserver/http_protocol_handler.cpp
-        include/aeon/webserver/http_request.h
-        src/webserver/http_request.cpp
+        src/aeon/webserver.h
+        src/aeon/webserver/http_protocol_handler.h
+        src/aeon/webserver/http_protocol_handler.cpp
+        src/aeon/webserver/http_request.h
+        src/aeon/webserver/http_request.cpp
     )
 
     source_group(webserver FILES ${LIB_AEON_WEBSERVER_SOURCE})
@@ -56,24 +56,24 @@ endif ()
 ################################################################################
 
 set(LIB_AEON_UTILITY_SOURCE
-    include/aeon/utility.h
-    include/aeon/utility/singleton.h
-    include/aeon/utility/configfile.h
-    src/utility/configfile.cpp
-    include/aeon/utility/hexdump.h
-    src/utility/hexdump.cpp
-    include/aeon/utility/endianness.h
-    src/utility/timer.cpp
-    include/aeon/utility/timer.h
-    include/aeon/utility/optional.h
-    include/aeon/utility/linear_map.h
-    include/aeon/utility/variant.h
-    include/aeon/utility/noncopyable.h
-    include/aeon/utility/string_traits.h
-    src/utility/string.cpp
-    include/aeon/utility/string.h
-    include/aeon/utility/listener_subject.h
-    include/aeon/utility/dispatcher.h
+    src/aeon/utility.h
+    src/aeon/utility/singleton.h
+    src/aeon/utility/configfile.h
+    src/aeon/utility/configfile.cpp
+    src/aeon/utility/hexdump.h
+    src/aeon/utility/hexdump.cpp
+    src/aeon/utility/endianness.h
+    src/aeon/utility/timer.cpp
+    src/aeon/utility/timer.h
+    src/aeon/utility/optional.h
+    src/aeon/utility/linear_map.h
+    src/aeon/utility/variant.h
+    src/aeon/utility/noncopyable.h
+    src/aeon/utility/string_traits.h
+    src/aeon/utility/string.cpp
+    src/aeon/utility/string.h
+    src/aeon/utility/listener_subject.h
+    src/aeon/utility/dispatcher.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
@@ -81,10 +81,10 @@ source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
 ################################################################################
 
 set(LIB_AEON_PLATFORM_SOURCE
-    include/aeon/platform.h
-    include/aeon/platform/platform.h
-    include/aeon/platform/term_colors.h
-    include/aeon/platform/compilers.h
+    src/aeon/platform.h
+    src/aeon/platform/platform.h
+    src/aeon/platform/term_colors.h
+    src/aeon/platform/compilers.h
 )
 
 source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
@@ -92,9 +92,9 @@ source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
 ################################################################################
 
 set(LIB_AEON_TESTING_SOURCE
-    include/aeon/testing.h
-    include/aeon/testing/temporary_file_fixture.h
-    src/testing/temporary_file_fixture.cpp
+    src/aeon/testing.h
+    src/aeon/testing/temporary_file_fixture.h
+    src/aeon/testing/temporary_file_fixture.cpp
 )
 
 source_group(testing FILES ${LIB_AEON_TESTING_SOURCE})
@@ -102,9 +102,9 @@ source_group(testing FILES ${LIB_AEON_TESTING_SOURCE})
 ################################################################################
 
 set(LIB_AEON_FILESYSTEM_SOURCE
-    include/aeon/filesystem.h
-    include/aeon/filesystem/filesystem.h
-    src/filesystem/filesystem.cpp
+    src/aeon/filesystem.h
+    src/aeon/filesystem/filesystem.h
+    src/aeon/filesystem/filesystem.cpp
 )
 
 source_group(filesystem FILES ${LIB_AEON_FILESYSTEM_SOURCE})
@@ -112,16 +112,16 @@ source_group(filesystem FILES ${LIB_AEON_FILESYSTEM_SOURCE})
 ################################################################################
 
 set(LIB_AEON_LOGGER_SOURCE
-    include/aeon/logger.h
-    include/aeon/logger/logger.h
-    include/aeon/logger/log_sink.h
-    include/aeon/logger/log_level.h
-    include/aeon/logger/base_backend.h
-    include/aeon/logger/simple_backend.h
-    include/aeon/logger/simple_sink_backend.h
-    include/aeon/logger/multithreaded_sink_backend.h
-    include/aeon/logger/stream_sink.h
-    include/aeon/logger/io_stream_sink.h
+    src/aeon/logger.h
+    src/aeon/logger/logger.h
+    src/aeon/logger/log_sink.h
+    src/aeon/logger/log_level.h
+    src/aeon/logger/base_backend.h
+    src/aeon/logger/simple_backend.h
+    src/aeon/logger/simple_sink_backend.h
+    src/aeon/logger/multithreaded_sink_backend.h
+    src/aeon/logger/stream_sink.h
+    src/aeon/logger/io_stream_sink.h
 )
 
 source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
@@ -130,14 +130,14 @@ source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 if (AEON_ENABLE_CURL)
     set(LIB_AEON_CURL_SOURCE
-        include/aeon/curl.h
-        include/aeon/curl/url_downloader.h
-        src/curl/url_downloader.cpp
-        include/aeon/curl/exceptions.h
-        src/curl/global_wrapper.cpp
-        include/aeon/curl/global_wrapper.h
-        src/curl/easy_wrapper.cpp
-        include/aeon/curl/easy_wrapper.h
+        src/aeon/curl.h
+        src/aeon/curl/url_downloader.h
+        src/aeon/curl/url_downloader.cpp
+        src/aeon/curl/exceptions.h
+        src/aeon/curl/global_wrapper.cpp
+        src/aeon/curl/global_wrapper.h
+        src/aeon/curl/easy_wrapper.cpp
+        src/aeon/curl/easy_wrapper.h
     )
 
     source_group(curl FILES ${LIB_AEON_CURL_SOURCE})
@@ -147,24 +147,24 @@ endif ()
 
 if (MONO_FOUND)
     set(LIB_AEON_MONO_SOURCE
-        include/aeon/mono.h
-        src/mono/mono_method.cpp
-        include/aeon/mono/mono_method.h
-        src/mono/mono_assembly.cpp
-        include/aeon/mono/mono_assembly.h
-        src/mono/mono_jit.cpp
-        include/aeon/mono/mono_jit.h
-        src/mono/mono_class.cpp
-        include/aeon/mono/mono_class.h
-        src/mono/mono_object.cpp
-        include/aeon/mono/mono_object.h
-        src/mono/mono_string.cpp
-        include/aeon/mono/mono_string.h
-        src/mono/mono_gchandle.cpp
-        include/aeon/mono/mono_gchandle.h
-        src/mono/mono_class_instance.cpp
-        include/aeon/mono/mono_class_instance.h
-        include/aeon/mono/mono_exception.h
+        src/aeon/mono.h
+        src/aeon/mono/mono_method.cpp
+        src/aeon/mono/mono_method.h
+        src/aeon/mono/mono_assembly.cpp
+        src/aeon/mono/mono_assembly.h
+        src/aeon/mono/mono_jit.cpp
+        src/aeon/mono/mono_jit.h
+        src/aeon/mono/mono_class.cpp
+        src/aeon/mono/mono_class.h
+        src/aeon/mono/mono_object.cpp
+        src/aeon/mono/mono_object.h
+        src/aeon/mono/mono_string.cpp
+        src/aeon/mono/mono_string.h
+        src/aeon/mono/mono_gchandle.cpp
+        src/aeon/mono/mono_gchandle.h
+        src/aeon/mono/mono_class_instance.cpp
+        src/aeon/mono/mono_class_instance.h
+        src/aeon/mono/mono_exception.h
     )
 
     source_group(mono FILES ${LIB_AEON_MONO_SOURCE})
@@ -203,8 +203,7 @@ set_target_properties(aeon PROPERTIES
     FOLDER dep/libaeon
 )
 
-target_include_directories(aeon PRIVATE src)
-target_include_directories(aeon PUBLIC include)
+target_include_directories(aeon PUBLIC src)
 
 if (AEON_ENABLE_CURL)
     message(STATUS "Building libAeon with CURL support.")
