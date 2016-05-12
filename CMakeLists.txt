@@ -229,7 +229,8 @@ install(
 )
 
 install(
-    DIRECTORY include/
+    DIRECTORY src/
     DESTINATION include
+    PATTERN "*.h"
 )
 
