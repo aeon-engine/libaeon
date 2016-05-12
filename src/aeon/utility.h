@@ -24,6 +24,7 @@
 #include <vector>
 #include <fstream>
 #include <map>
+#include <list>
 #include <array>
 #include <cassert>
 #include <cctype>
@@ -59,3 +60,4 @@
 #include <aeon/utility/listener_subject.h>
 #include <aeon/utility/string.h>
 #include <aeon/utility/dispatcher.h>
+#include <aeon/utility/signals.h>
