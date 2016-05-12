@@ -23,13 +23,7 @@ Libraries
 --------------
 Currently Aeon uses the following libraries and versions:
 
-- Boost (1.59)
 - libCurl (Git snapshot curl-7_44_0-57-g4963948)
-
-Precompiled libraries are in Gitlab. They can be cloned from here:
-
-- http://git.robindegen.nl/gitblit/r/binary/osx_clang.git (Apple Clang 6.4, OSX 10.10)
-- http://git.robindegen.nl/gitblit/r/binary/win64_vs2015.git (Visual Studio 2015, Windows 64 bit)
 
 Compiling
 --------------
