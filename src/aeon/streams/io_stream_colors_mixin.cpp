@@ -108,7 +108,7 @@ void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/) c
 #endif
 }
 
-void io_stream_colors_mixin::reset_color()
+void io_stream_colors_mixin::reset_color() const
 {
     if (!enabled_)
         return;

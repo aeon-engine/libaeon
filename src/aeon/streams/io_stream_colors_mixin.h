@@ -44,7 +44,7 @@ public:
     io_stream_colors_mixin();
 
     void set_color(color c, weight w = weight::normal) const;
-    void reset_color();
+    void reset_color() const;
 
     void enable_colors();
     void disable_colors();
