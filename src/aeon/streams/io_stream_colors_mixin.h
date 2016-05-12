@@ -43,7 +43,7 @@ class io_stream_colors_mixin
 public:
     io_stream_colors_mixin();
 
-    void set_color(color c, weight w = weight::normal);
+    void set_color(color c, weight w = weight::normal) const;
     void reset_color();
 
     void enable_colors();

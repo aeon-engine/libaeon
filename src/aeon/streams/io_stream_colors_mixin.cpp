@@ -30,13 +30,12 @@ io_stream_colors_mixin::io_stream_colors_mixin()
 {
 }
 
-void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/)
+void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/) const
 {
     if (!enabled_)
         return;
 
 #if (AEON_PLATFORM_OS_WINDOWS)
-    // TODO Implement for windows.
     static HANDLE std_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
     int intensity = 0;
