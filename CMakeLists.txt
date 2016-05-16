@@ -146,7 +146,7 @@ endif ()
 
 ################################################################################
 
-if (MONO_FOUND)
+if (AEON_ENABLE_MONO)
     set(LIB_AEON_MONO_SOURCE
         src/aeon/mono.h
         src/aeon/mono/mono_method.cpp
@@ -194,7 +194,7 @@ if (AEON_ENABLE_SOCKETS)
     )
 endif ()
 
-if (MONO_FOUND)
+if (AEON_ENABLE_MONO)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MONO_SOURCE})
 endif ()
 
@@ -216,7 +216,7 @@ if (AEON_ENABLE_SOCKETS)
     target_link_libraries(aeon asio)
 endif ()
 
-if (MONO_FOUND)
+if (AEON_ENABLE_MONO)
     message(STATUS "Building libAeon with MONO support.")
     target_link_libraries(aeon ${MONO_LIBRARIES})
     target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH})
