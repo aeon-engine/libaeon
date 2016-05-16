@@ -21,9 +21,14 @@ namespace mono
 {
 
 mono_jit::mono_jit()
+    : mono_jit("AeonMono")
+{
+}
+
+mono_jit::mono_jit(const std::string &domain)
     : domain_(nullptr)
 {
-    domain_ = mono_jit_init("AeonMono");
+    domain_ = mono_jit_init(domain.c_str());
 
     if (!domain_)
         throw mono_exception();

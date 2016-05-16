@@ -34,6 +34,7 @@ class mono_jit : utility::noncopyable
 {
 public:
     mono_jit();
+    explicit mono_jit(const std::string &domain);
     ~mono_jit();
 
     mono_assembly load_assembly(const std::string &path);
