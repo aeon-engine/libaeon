@@ -26,6 +26,9 @@ mono_class::mono_class(MonoImage *image, const std::string &name)
     , class_(nullptr)
 {
     class_ = mono_class_from_name(image, "", name.c_str());
+
+    if (!class_)
+        throw mono_exception();
 }
 
 mono_class::~mono_class()
