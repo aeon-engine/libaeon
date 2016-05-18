@@ -28,6 +28,7 @@ mono_jit::mono_jit()
 mono_jit::mono_jit(const std::string &domain)
     : domain_(nullptr)
 {
+    mono_set_dirs(".", ".");
     domain_ = mono_jit_init(domain.c_str());
 
     if (!domain_)
