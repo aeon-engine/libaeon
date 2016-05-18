@@ -31,7 +31,7 @@ file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*=
     if (fstream_.good() && ((access_mode_ & access_mode::read) != 0))
     {
         fstream_.seekg(0, std::ios::end);
-        size_ = fstream_.tellg();
+        size_ = static_cast<std::size_t>(fstream_.tellg());
         fstream_.seekg(0, std::ios::beg);
     }
 }
@@ -52,7 +52,7 @@ std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
     fstream_.read(reinterpret_cast<char *>(data), size);
 
     if (fstream_.eof())
-        return fstream_.gcount();
+        return static_cast<std::size_t>(fstream_.gcount());
 
     if (fstream_.fail())
         return 0;
@@ -85,7 +85,7 @@ bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
 
     if (offset != 0)
     {
-        original_offset = fstream_.tellg();
+        original_offset = static_cast<std::size_t>(fstream_.tellg());
         fstream_.seekg(original_offset + offset, std::ios::beg);
 
         if (fstream_.fail())
@@ -128,7 +128,7 @@ std::size_t file_stream::tell()
     if (!is_readable())
         throw file_stream_exception();
 
-    return fstream_.tellg();
+    return static_cast<std::size_t>(fstream_.tellg());
 }
 
 std::size_t file_stream::tellw()
@@ -136,7 +136,7 @@ std::size_t file_stream::tellw()
     if (!is_writable())
         throw file_stream_exception();
 
-    return fstream_.tellp();
+    return static_cast<std::size_t>(fstream_.tellp());
 }
 
 bool file_stream::eof() const
