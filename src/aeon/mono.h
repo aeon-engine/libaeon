@@ -23,6 +23,18 @@
 #include <cstdint>
 
 /******************************************************************************/
+/* Aeon headers                                                               */
+/******************************************************************************/
+#include <aeon/utility.h>
+#include <aeon/platform.h>
+
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+/******************************************************************************/
 /* Mono headers                                                               */
 /******************************************************************************/
 #include <mono/jit/jit.h>
@@ -32,8 +44,6 @@
 /******************************************************************************/
 /* Aeon headers                                                               */
 /******************************************************************************/
-#include <aeon/utility.h>
-
 #include <aeon/mono/mono_exception.h>
 #include <aeon/mono/mono_gchandle.h>
 #include <aeon/mono/mono_assembly.h>
