@@ -13,38 +13,18 @@
  * prior written permission is obtained from Robin Degen.
  */
 
-#include <aeon/mono.h>
-#include <mono_build_config.h>
+#pragma once
 
-namespace aeon
-{
-namespace mono
-{
+/*!
+ * NOTE: This is a generated file. Change the configuration through cmake.
+ */
 
-mono_jit::mono_jit()
-    : mono_jit("AeonMono")
-{
-}
+/*!
+ * Path to the Mono assembly dir (mono/lib). May be a relative path.
+ */
+#cmakedefine AEON_MONO_ASSEMBLY_DIR "@AEON_MONO_ASSEMBLY_DIR@"
 
-mono_jit::mono_jit(const std::string &domain)
-    : domain_(nullptr)
-{
-    mono_set_dirs(AEON_MONO_ASSEMBLY_DIR, AEON_MONO_CONFIG_DIR);
-    domain_ = mono_jit_init(domain.c_str());
-
-    if (!domain_)
-        throw mono_exception();
-}
-
-mono_jit::~mono_jit()
-{
-    mono_jit_cleanup(domain_);
-}
-
-mono_assembly mono_jit::load_assembly(const std::string &path) const
-{
-    return mono_assembly(domain_, path);
-}
-
-} // namespace mono
-} // namespace aeon
+/*!
+ * Path to the Mono config dir (mono/etc). May be a relative path.
+ */
+#cmakedefine AEON_MONO_CONFIG_DIR "@AEON_MONO_CONFIG_DIR@"

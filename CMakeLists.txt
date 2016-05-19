@@ -11,6 +11,15 @@
 # information or reproduction of this material is strictly forbidden unless
 # prior written permission is obtained from Robin Degen.
 
+# Mono
+option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
+option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." OFF)
+
+# Sockets
+option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." ON)
+
+################################################################################
+
 set(LIB_AEON_STREAMS_SOURCE
     src/aeon/streams.h
     src/aeon/streams/config.h
@@ -160,6 +169,24 @@ endif ()
 ################################################################################
 
 if (AEON_ENABLE_MONO)
+    include(Mono)
+
+    if (AEON_COPY_MONO_RUNTIMES)
+        copy_mono_runtimes_to_runtime_path()
+        set(_MONO_ASSEMBLY_DIR ".")
+        set(_MONO_CONFIG_DIR ".")
+    else ()
+        set(_MONO_ASSEMBLY_DIR ${MONO_ASSEMBLY_PATH})
+        set(_MONO_CONFIG_DIR ${MONO_CONFIG_PATH})
+    endif ()
+
+    set(AEON_MONO_ASSEMBLY_DIR "${_MONO_ASSEMBLY_DIR}"
+        CACHE PATH "Path to the Mono assembly dir (mono/lib). May be a relative path.")
+    set(AEON_MONO_CONFIG_DIR "${_MONO_CONFIG_DIR}"
+        CACHE PATH "Path to the Mono config dir (mono/etc). May be a relative path.")
+
+    configure_file(src/aeon/mono/mono_build_config.h.in mono_build_config.h @ONLY)
+
     set(LIB_AEON_MONO_SOURCE
         src/aeon/mono.h
         src/aeon/mono/mono_method.cpp
@@ -179,6 +206,7 @@ if (AEON_ENABLE_MONO)
         src/aeon/mono/mono_class_instance.cpp
         src/aeon/mono/mono_class_instance.h
         src/aeon/mono/mono_exception.h
+        ${CMAKE_CURRENT_BINARY_DIR}/mono_build_config.h
     )
 
     source_group(mono FILES ${LIB_AEON_MONO_SOURCE})
@@ -232,7 +260,7 @@ endif ()
 if (AEON_ENABLE_MONO)
     message(STATUS "Building libAeon with MONO support.")
     target_link_libraries(aeon ${MONO_LIBRARIES})
-    target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH})
+    target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
 
 install(

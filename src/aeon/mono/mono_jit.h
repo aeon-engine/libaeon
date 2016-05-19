@@ -37,7 +37,7 @@ public:
     explicit mono_jit(const std::string &domain);
     ~mono_jit();
 
-    mono_assembly load_assembly(const std::string &path);
+    mono_assembly load_assembly(const std::string &path) const;
 
 private:
     MonoDomain *domain_;
