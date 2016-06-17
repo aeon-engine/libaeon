@@ -159,6 +159,14 @@ source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 ################################################################################
 
+set(LIB_AEON_EXPERIMENTAL_STREAMS_SOURCE
+    src/aeon/experimental/streams/stream.h
+)
+
+source_group(experimental\\streams FILES ${LIB_AEON_EXPERIMENTAL_STREAMS_SOURCE})
+
+################################################################################
+
 if (AEON_ENABLE_CURL)
     set(LIB_AEON_CURL_SOURCE
         src/aeon/curl.h
@@ -249,6 +257,7 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_UTILITY_SOURCE}
     ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
+    ${LIB_AEON_EXPERIMENTAL_STREAMS_SOURCE}
     ${LIB_AEON_FILESYSTEM_SOURCE}
     ${LIB_AEON_TESTING_SOURCE}
 )
