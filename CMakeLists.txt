@@ -161,6 +161,7 @@ source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 set(LIB_AEON_EXPERIMENTAL_STREAMS_SOURCE
     src/aeon/experimental/streams/stream.h
+    src/aeon/experimental/streams/device_traits.h
 )
 
 source_group(experimental\\streams FILES ${LIB_AEON_EXPERIMENTAL_STREAMS_SOURCE})
