@@ -17,6 +17,7 @@
 
 #include <ios>
 #include <iosfwd>
+#include <type_traits>
 
 namespace aeon
 {
@@ -25,56 +26,49 @@ namespace experimental
 namespace streams
 {
 
-struct source
+template<typename T>
+struct has_device_read_method
 {
-    source() = default;
-    virtual ~source() = default;
+private:
+    template<typename U> static auto test(int) ->
+        decltype(
+            std::declval<U>().read(
+                std::declval<char*>(),
+                std::declval<const std::streamsize>()
+            ) == 1, std::true_type()
+        );
 
-    virtual std::streamsize read(char *data, std::streamsize size) = 0;
+    template<typename> static std::false_type test(...);
+
+public:
+    static constexpr bool value = std::is_same<decltype(test<T>(0)), std::true_type>::value;
 };
 
-struct sink
+struct device
 {
-    sink() = default;
-    virtual ~sink() = default;
+    device() = default;
+    virtual ~device() = default;
 
-    virtual std::streamsize write(const char *data, std::streamsize size) = 0;
+    virtual std::streamsize read(char *data, const std::streamsize size) = 0;
+    virtual std::streamsize peek(char *data, const std::streamsize size) = 0;
+    virtual std::streamsize write(const char *data, const std::streamsize size) = 0;
+
+    virtual std::streamoff tell() = 0;
+    virtual std::streamoff tellw() = 0;
+
+    virtual std::streamoff seek(const std::streamoff offset, const std::ios_base::seekdir direction) = 0;
+    virtual std::streamoff seekw(const std::streamoff offset, const std::ios_base::seekdir direction) = 0;
 };
 
-struct seekable
+/*template <typename device_t>
+struct stream
 {
-    seekable() = default;
-    virtual ~seekable() = default;
+    auto read(char *data, const std::streamsize size) -> decltype(device_.read(data, size), std::streamsize())
+    {
+    }
 
-    virtual std::streamoff seek(std::streamoff offset, std::ios_base::seekdir direction) = 0;
-};
-
-struct device : source, sink {};
-struct seekable_device : device, seekable {};
-
-template <typename device_t>
-struct stream_traits
-{
-    using is_source = std::is_convertible<device_t*, source*>;
-    using is_sink = std::is_convertible<device_t*, sink*>;
-    using is_seekable = std::is_convertible<device_t*, seekable*>;
-
-    using is_valid = std::conditional<
-        is_seekable::value,
-        std::conditional<
-            is_source::value,
-            std::integral_constant<bool, std::true_type::value>::type,
-            std::conditional<
-                is_sink::value,
-                std::integral_constant<bool, std::true_type::value>::type,
-                std::integral_constant<bool, std::false_type::value>::type>>,
-        std::integral_constant<bool, std::true_type::value>::type>;
-};
-
-template <typename device_t>
-class stream
-{
-};
+    device_t device_;
+};*/
 
 } // namespace streams
 } // namespace experimental
