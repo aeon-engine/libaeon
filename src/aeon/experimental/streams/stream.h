@@ -45,30 +45,56 @@ struct device
     virtual std::streamoff seekw(const std::streamoff offset, const std::ios_base::seekdir direction) = 0;
 };
 */
+
 template <typename device_t>
-struct istream
+class base_stream
 {
+protected:
+    device_t device_;
+};
+
+template <typename device_t>
+class istream : public base_stream<device_t>
+{
+public:
     istream() = default;
     virtual ~istream() = default;
 
-    template <typename T = device_t, typename std::enable_if<detail::has_device_read_method<T>::value>::type* = nullptr>
     std::streamsize read(char *data, const std::streamsize size)
     {
-        return device_.read(data, size);
-    }
+        static_assert(detail::has_device_read_method<device_t>::value,
+            "Device doesn't have a read implementation. Implement std::streamsize read(char *data, const std::streamsize size).");
 
-    template <typename T = device_t, typename std::enable_if<!detail::has_device_read_method<T>::value>::type* = nullptr>
-    std::streamsize read(char *, const std::streamsize)
-    {
-        static_assert(false, "Device doesn't have a read implementation. Implement std::streamsize read(char *data, const std::streamsize size).");
+        return device_.read(data, size);
     }
 
 private:
     istream(const istream &) = delete;
-    istream &operator=(const istream &) = delete;
-
-    device_t device_;
+    istream &operator=(const istream &) = delete;    
 };
+
+template <typename device_t>
+class ostream : public base_stream<device_t>
+{
+public:
+    ostream() = default;
+    virtual ~ostream() = default;
+
+    std::streamsize write(const char *data, const std::streamsize size)
+    {
+        static_assert(detail::has_device_write_method<device_t>::value,
+            "Device doesn't have a write implementation. Implement std::streamsize write(const char *data, const std::streamsize size).");
+
+        return device_.write(data, size);
+    }
+
+private:
+    ostream(const ostream &) = delete;
+    ostream &operator=(const ostream &) = delete;
+};
+
+template <typename device_t>
+class iostream : public istream<device_t>, public ostream<device_t> {};
 
 } // namespace streams
 } // namespace experimental
