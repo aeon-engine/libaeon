@@ -16,7 +16,7 @@ option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
 option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." OFF)
 
 # Sockets
-option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." ON)
+option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
 
 ################################################################################
 
