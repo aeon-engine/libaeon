@@ -21,7 +21,7 @@ namespace utility
 {
 
 // Simple wrapper to convert a vector of strings to a char*[].
-class parameters
+class parameters : noncopyable
 {
 public:
     explicit parameters(std::vector<std::string> &params)
@@ -47,6 +47,23 @@ public:
         }
 
         delete [] argv_;
+    }
+
+    parameters(parameters &&other)
+        : argc_(std::move(other.argc_))
+        , argv_(std::move(other.argv_))
+    {
+        other.argc_ = 0;
+        other.argv_ = nullptr;
+    }
+
+    parameters& operator=(parameters &&other)
+    {
+        argc_ = std::move(other.argc_);
+        argv_ = std::move(other.argv_);
+        other.argc_ = 0;
+        other.argv_ = nullptr;
+        return *this;
     }
 
     int argc() const
