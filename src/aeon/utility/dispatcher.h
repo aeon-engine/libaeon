@@ -20,7 +20,7 @@ namespace aeon
 namespace utility
 {
 
-class dispatcher : public utility::noncopyable
+class dispatcher : noncopyable
 {
 public:
     static const int signal_wait_timeout_ms = 100;
