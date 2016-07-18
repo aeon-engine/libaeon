@@ -108,18 +108,22 @@ public:
     {
         return int_value_;
     }
+
     const float &float_value() const
     {
         return float_value_;
     }
+
     const bool &bool_value() const
     {
         return bool_value_;
     }
+
     const std::string &string_value() const
     {
         return string_value_;
     }
+
     const variant_type &type() const
     {
         return type_;
