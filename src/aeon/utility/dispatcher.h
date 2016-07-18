@@ -34,7 +34,7 @@ public:
 
     void run_one()
     {
-        std::queue<std::function<void()>> queue_copy_;
+        std::function<void()> func;
         {
             std::unique_lock<std::mutex> lock(mutex_);
             signal_cv_.wait(
@@ -42,15 +42,15 @@ public:
                 [this](){ return !queue_.empty() || !running_; }
             );
 
-            queue_copy_ = std::move(queue_);
-            queue_ = std::queue<std::function<void()>>();
+            if (!queue_.empty())
+            {
+                func = queue_.front();
+                queue_.pop();
+            }
         }
 
-        while (!queue_copy_.empty())
-        {
-            queue_copy_.front()();
-            queue_copy_.pop();
-        }
+        if (func)
+            func();
     }
 
     void run()
