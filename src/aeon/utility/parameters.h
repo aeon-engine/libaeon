@@ -30,8 +30,8 @@ public:
     {
         for (auto &param : params)
         {
-            argv_[argc_] = new char[param.size()];
-            memcpy(argv_[argc_], param.data(), param.size());
+            argv_[argc_] = new char[param.size() + 1];
+            memcpy(argv_[argc_], param.data(), param.size() + 1);
             ++argc_;
         }
     }
