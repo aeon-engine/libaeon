@@ -20,13 +20,25 @@ namespace aeon
 namespace utility
 {
 
+/*!
+ * Determines how the dispatcher should stop. Either by calling stop manually (manual_stop) or automaticly
+ * when the queue is determined to be empty. Be sure all jobs are queued before calling run when using this mode to
+ * prevent race conditions.
+ */
+enum dispatcher_stop_mode
+{
+    manual_stop,
+    stop_on_empty_queue
+};
+
 class dispatcher : noncopyable
 {
 public:
     static const int signal_wait_timeout_ms = 100;
 
-    dispatcher()
+    dispatcher(dispatcher_stop_mode stop_mode = dispatcher_stop_mode::manual_stop)
         : running_(false)
+        , stop_mode_(stop_mode)
     {
     }
 
@@ -46,6 +58,12 @@ public:
             {
                 func = queue_.front();
                 queue_.pop();
+            }
+
+            if (stop_mode_ == dispatcher_stop_mode::stop_on_empty_queue)
+            {
+                if (queue_.empty())
+                    running_ = false;
             }
         }
 
@@ -130,6 +148,7 @@ private:
     std::condition_variable signal_cv_;
     std::queue<std::function<void()>> queue_;
     bool running_;
+    dispatcher_stop_mode stop_mode_;
 };
 
 } // namespace utility
