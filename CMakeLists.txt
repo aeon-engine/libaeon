@@ -97,6 +97,7 @@ set(LIB_AEON_UTILITY_SOURCE
     src/aeon/utility/listener_subject.h
     src/aeon/utility/dispatcher.h
     src/aeon/utility/signals.h
+    src/aeon/utility/parallelizer.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

@@ -62,3 +62,4 @@
 #include <aeon/utility/dispatcher.h>
 #include <aeon/utility/signals.h>
 #include <aeon/utility/parameters.h>
+#include <aeon/utility/parallelizer.h>
