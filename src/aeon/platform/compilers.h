@@ -24,3 +24,11 @@
 #define AEON_IGNORE_VS_WARNING_PUSH(nnn)
 #define AEON_IGNORE_VS_WARNING_POP()
 #endif
+
+#if (AEON_PLATFORM_OS_WINDOWS)
+#define AEON_PACK_STRUCT_PUSH(nnn) __pragma(pack(push, nnn))
+#define AEON_PACK_STRUCT_POP(nnn) __pragma(pack(pop))
+#else
+#define AEON_PACK_STRUCT_PUSH(nnn)
+#define AEON_PACK_STRUCT_POP(nnn) __attribute__((aligned(nnn)))
+#endif
