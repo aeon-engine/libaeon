@@ -82,6 +82,7 @@ set(LIB_AEON_UTILITY_SOURCE
     src/aeon/utility/singleton.h
     src/aeon/utility/configfile.h
     src/aeon/utility/configfile.cpp
+    src/aeon/utility/container.h
     src/aeon/utility/hexdump.h
     src/aeon/utility/hexdump.cpp
     src/aeon/utility/endianness.h
