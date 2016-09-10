@@ -25,7 +25,8 @@ namespace container
 template <typename T>
 std::vector<T *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
-    std::vector<T *> c_ptr(c.size());
+    std::vector<T *> c_ptr;
+    c_ptr.reserve(c.size());
 
     for (auto &i : c)
     {
