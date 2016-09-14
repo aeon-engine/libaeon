@@ -27,7 +27,10 @@ file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*=
 {
     fstream_.open(filename, to_ios_open_mode_(mode, fm));
 
-    // Note: We can not call is_readable here since it's a virtual function
+    if (!fstream_.good())
+        throw file_stream_exception();
+
+    // Note: We can not call is_readable here since it's a virtual method.
     if (fstream_.good() && ((access_mode_ & access_mode::read) != 0))
     {
         fstream_.seekg(0, std::ios::end);
