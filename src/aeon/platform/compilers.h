@@ -30,5 +30,5 @@
 #define AEON_PACK_STRUCT_POP(nnn) __pragma(pack(pop))
 #else
 #define AEON_PACK_STRUCT_PUSH(nnn)
-#define AEON_PACK_STRUCT_POP(nnn) __attribute__((aligned(nnn)))
+#define AEON_PACK_STRUCT_POP(nnn) __attribute__((aligned(nnn), packed))
 #endif
