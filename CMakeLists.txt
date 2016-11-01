@@ -12,8 +12,8 @@
 # prior written permission is obtained from Robin Degen.
 
 # Mono
-option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
-option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." OFF)
+option(AEON_ENABLE_MONO "Enable the Aeon Mono library." ON)
+option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." ON)
 
 # Sockets
 option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
@@ -171,6 +171,7 @@ endif ()
 ################################################################################
 
 if (AEON_ENABLE_MONO)
+    find_package(Mono)
     include(Mono)
 
     if (AEON_COPY_MONO_RUNTIMES)
