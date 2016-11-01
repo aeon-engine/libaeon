@@ -78,8 +78,15 @@ void configfile::save(streams::stream &stream)
 
 void configfile::load(const std::string &path)
 {
-    streams::file_stream stream(path, streams::access_mode::read, streams::file_mode::text);
-    load(stream);
+    try
+    {
+        streams::file_stream stream(path, streams::access_mode::read, streams::file_mode::text);
+        load(stream);
+    }
+    catch(const streams::file_stream_exception&)
+    {
+        throw configfile_exception();
+    }
 }
 
 void configfile::save(const std::string &path)
