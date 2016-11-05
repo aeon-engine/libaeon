@@ -64,9 +64,10 @@ public:
     /*!
      * Destructor.
      */
-    virtual ~stream()
-    {
-    }
+    virtual ~stream() = default;
+
+    stream(stream &&o) noexcept = default;
+    stream &operator=(stream &&other) noexcept = default;
 
     /*!
      * Read from the stream. This may move the internal read index, based on

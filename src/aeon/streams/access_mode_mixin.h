@@ -55,6 +55,9 @@ public:
 
     virtual ~access_mode_mixin() = default;
 
+    access_mode_mixin(access_mode_mixin &&o) noexcept = default;
+    access_mode_mixin &operator=(access_mode_mixin &&other) noexcept = default;
+
     virtual int get_access_mode() const
     {
         return access_mode_;

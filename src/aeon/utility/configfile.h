@@ -46,6 +46,18 @@ public:
      */
     ~configfile() = default;
 
+    configfile(configfile &&other) noexcept
+        : entries_(std::move(other.entries_))
+    {
+    }
+
+    configfile &operator=(configfile &&other) noexcept
+    {
+        entries_ = std::move(other.entries_);
+        return *this;
+    }
+
+
     /*!
      * Check if the loaded config file has a certain entry key
      * \param key The entry key to be checked
@@ -59,13 +71,13 @@ public:
      * \return Either the value of the entry of key, or throws an exception.
      */
     template <typename T>
-    T get(const std::string &key)
+    auto get(const std::string &key)
     {
         auto itr = entries_.find(key);
 
         // If it could not find the key...
         if (itr == entries_.end())
-            throw configfile_exception();
+            throw configfile_exception{};
 
         return string::convert<T>::from(itr->second);
     }
@@ -77,7 +89,7 @@ public:
      * \return Either the value of the entry of key, or the default value.
      */
     template <typename T>
-    T get(const std::string &key, const T &default_val)
+    auto get(const std::string &key, const T &default_val)
     {
         auto itr = entries_.find(key);
 
@@ -149,7 +161,7 @@ public:
     /*!
      * Begin iterator for foreach loops.
      */
-    entries::const_iterator begin() const noexcept
+    auto begin() const noexcept
     {
         return entries_.cbegin();
     }
@@ -157,7 +169,7 @@ public:
     /*!
      * End iterator for foreach loops.
      */
-    entries::const_iterator end() const noexcept
+    auto end() const noexcept
     {
         return entries_.cend();
     }

@@ -37,6 +37,9 @@ public:
 
     virtual ~stream_name_mixin() = default;
 
+    stream_name_mixin(stream_name_mixin &&o) noexcept = default;
+    stream_name_mixin &operator=(stream_name_mixin &&other) noexcept = default;
+
     std::string get_name() const
     {
         return name_;

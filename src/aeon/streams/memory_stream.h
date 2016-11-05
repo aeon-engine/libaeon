@@ -45,6 +45,9 @@ public:
 
     virtual ~memory_stream() = default;
 
+    memory_stream(memory_stream &&o) noexcept = default;
+    memory_stream &operator=(memory_stream &&other) noexcept = default;
+
     std::size_t read(std::uint8_t *data, std::size_t size) override
     {
         if (!is_readable())
