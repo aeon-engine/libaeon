@@ -64,3 +64,4 @@
 #include <aeon/utility/parameters.h>
 #include <aeon/utility/parallelizer.h>
 #include <aeon/utility/container.h>
+#include <aeon/utility/literals.h>
