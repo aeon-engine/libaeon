@@ -15,7 +15,7 @@
 
 #pragma once
 
-inline std::size_t operator "" _size_t(unsigned long long int x) noexcept
+inline std::size_t operator"" _size_t(unsigned long long int x) noexcept
 {
     return x;
 }

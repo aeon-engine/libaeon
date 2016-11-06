@@ -49,10 +49,7 @@ public:
         std::function<void()> func;
         {
             std::unique_lock<std::mutex> lock(mutex_);
-            signal_cv_.wait(
-                lock,
-                [this](){ return !queue_.empty() || !running_; }
-            );
+            signal_cv_.wait(lock, [this]() { return !queue_.empty() || !running_; });
 
             if (!queue_.empty())
             {
@@ -93,8 +90,7 @@ public:
         std::promise<void> promise;
         std::future<void> future = promise.get_future();
 
-        post([&job, &promise]()
-        {
+        post([&job, &promise]() {
             try
             {
                 job();
@@ -115,8 +111,7 @@ public:
         std::promise<T> promise;
         std::future<T> future = promise.get_future();
 
-        post([&job, &promise]()
-        {
+        post([&job, &promise]() {
             try
             {
                 promise.set_value(job());

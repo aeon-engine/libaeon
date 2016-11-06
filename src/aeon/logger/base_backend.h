@@ -30,27 +30,27 @@ public:
     {
     }
 
-    base_backend(log_level level)
+    base_backend(const log_level level)
         : level_(level)
     {
     }
 
     virtual ~base_backend() = default;
 
-    void set_log_level(log_level level)
+    void set_log_level(const log_level level)
     {
         level_ = level;
     }
 
-    log_level get_log_level() const
+    auto get_log_level() const -> log_level
     {
         return level_;
     }
 
-    virtual void log(const std::string &message, const std::string &module, log_level level) = 0;
+    virtual void log(const std::string &message, const std::string &module, const log_level level) = 0;
 
 private:
-    void __handle_log(const std::string &message, const std::string &module, log_level level)
+    void __handle_log(const std::string &message, const std::string &module, const log_level level)
     {
         if (level >= level_)
             log(message, module, level);

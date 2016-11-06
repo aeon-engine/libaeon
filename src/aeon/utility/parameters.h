@@ -26,7 +26,7 @@ class parameters : noncopyable
 public:
     explicit parameters(std::vector<std::string> &params)
         : argc_(0)
-        , argv_(new char*[params.size()])
+        , argv_(new char *[params.size()])
     {
         for (auto &param : params)
         {
@@ -43,10 +43,10 @@ public:
 
         for (int i = 0; i < argc_; ++i)
         {
-            delete [] argv_[i];
+            delete[] argv_[i];
         }
 
-        delete [] argv_;
+        delete[] argv_;
     }
 
     parameters(parameters &&other)
@@ -57,7 +57,7 @@ public:
         other.argv_ = nullptr;
     }
 
-    parameters& operator=(parameters &&other)
+    parameters &operator=(parameters &&other)
     {
         argc_ = std::move(other.argc_);
         argv_ = std::move(other.argv_);
@@ -71,7 +71,7 @@ public:
         return argc_;
     }
 
-    const char * const*argv() const
+    const char *const *argv() const
     {
         return argv_;
     }

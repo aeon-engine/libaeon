@@ -38,7 +38,8 @@ public:
         {
             if (data[i] == '\n')
             {
-                streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_MAX_BUFF_LEN>> reader(circular_buffer_);
+                streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_MAX_BUFF_LEN>> reader(
+                    circular_buffer_);
                 on_line(reader.read_line());
             }
         }

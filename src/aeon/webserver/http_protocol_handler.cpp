@@ -59,7 +59,8 @@ void http_protocol_handler::on_line(const std::string &line)
 
             request_ = request;
             state_ = http_state::headers;
-        } break;
+        }
+        break;
 
         case http_state::headers:
         {
@@ -71,14 +72,17 @@ void http_protocol_handler::on_line(const std::string &line)
             }
 
             request_.append_raw_http_header_line(line);
-        } break;
+        }
+        break;
 
         case http_state::reply:
         {
             std::cout << "TODO: Did not expect to receive more data in "
-                "reply state" << std::endl;
+                         "reply state"
+                      << std::endl;
             return;
-        } break;
+        }
+        break;
     }
 }
 
@@ -92,13 +96,13 @@ void http_protocol_handler::respond(const std::string &content_type, const std::
 void http_protocol_handler::respond(const std::string &content_type, streams::stream_ptr data, status_code code)
 {
     streams::memory_stream_ptr stream = std::make_shared<streams::memory_stream>();
-    std::string headers =
-        "HTTP/1.0 " + std::to_string(static_cast<int>(code)) + " " +
-            __http_status_to_string(code) + "\r\n"
-        "Connection: close\r\n" // TODO: Support keep-alive
-        "Content-type: " + content_type + "\r\n"
-        "Content-Length: " + std::to_string(data->size()) +
-        "\r\n\r\n";
+    std::string headers = "HTTP/1.0 " + std::to_string(static_cast<int>(code)) + " " + __http_status_to_string(code) +
+                          "\r\n"
+                          "Connection: close\r\n" // TODO: Support keep-alive
+                          "Content-type: " +
+                          content_type + "\r\n"
+                                         "Content-Length: " +
+                          std::to_string(data->size()) + "\r\n\r\n";
 
     stream->write(reinterpret_cast<const std::uint8_t *>(headers.c_str()), headers.size());
     send(stream);

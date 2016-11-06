@@ -20,10 +20,10 @@ namespace aeon
 namespace utility
 {
 
-template<class... Args>
+template <class... Args>
 using signal_func = std::function<void(Args...)>;
 
-template<class... Args>
+template <class... Args>
 class signal_connection
 {
 public:
@@ -43,7 +43,7 @@ public:
         return handle_;
     }
 
-    void emit(Args...args)
+    void emit(Args... args)
     {
         func_(args...);
     }
@@ -53,7 +53,7 @@ private:
     signal_func<Args...> func_;
 };
 
-template<class... Args>
+template <class... Args>
 class signal
 {
 public:
@@ -74,10 +74,11 @@ public:
 
     void disconnect(signal_connection<Args...> c)
     {
-        connections_.remove_if([&c](const signal_connection<Args...> &other) { return other.get_handle() == c.get_handle(); });
+        connections_.remove_if(
+            [&c](const signal_connection<Args...> &other) { return other.get_handle() == c.get_handle(); });
     }
 
-    void operator()(Args...args)
+    void operator()(Args... args)
     {
         for (auto c : connections_)
         {
@@ -90,12 +91,13 @@ private:
     std::list<signal_connection<Args...>> connections_;
 };
 
-template<class... Args>
+template <class... Args>
 class signal_mt
 {
     using mutex_type = std::mutex;
     using handle_type = std::atomic<int>;
     using list_type = std::list<signal_connection<Args...>>;
+
 public:
     signal_mt() = default;
     ~signal_mt()
@@ -130,10 +132,11 @@ public:
     void disconnect(signal_connection<Args...> c)
     {
         std::lock_guard<mutex_type> guard(lock_);
-        connections_.remove_if([&c](const signal_connection<Args...> &other) { return other.get_handle() == c.get_handle(); });
+        connections_.remove_if(
+            [&c](const signal_connection<Args...> &other) { return other.get_handle() == c.get_handle(); });
     }
 
-    void operator()(Args...args)
+    void operator()(Args... args)
     {
         std::lock_guard<mutex_type> guard(lock_);
         for (auto &c : connections_)
@@ -141,7 +144,7 @@ public:
     }
 
 private:
-    handle_type last_handle_{ 0 };
+    handle_type last_handle_{0};
     list_type connections_;
     mutex_type lock_;
 };

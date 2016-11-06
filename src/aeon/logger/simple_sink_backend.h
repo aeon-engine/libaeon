@@ -28,7 +28,7 @@ public:
     {
     }
 
-    simple_sink_backend(log_level level)
+    simple_sink_backend(const log_level level)
         : base_backend(level)
     {
     }
@@ -44,7 +44,7 @@ public:
     }
 
 private:
-    void log(const std::string &message, const std::string &module, log_level level) override
+    void log(const std::string &message, const std::string &module, const log_level level) override
     {
         for (auto sink : sinks_)
         {

@@ -86,8 +86,7 @@ public:
             auto self(protocol_handler::shared_from_this());
 
             socket_.async_read_some(asio::buffer(data_, AEON_TCP_SOCKET_MAX_BUFF_LEN),
-                                    [self](asio::error_code ec, std::size_t length)
-                                    {
+                                    [self](asio::error_code ec, std::size_t length) {
                                         if (ec && ec != asio::error::eof)
                                             self->on_error(ec);
 
@@ -115,13 +114,12 @@ public:
             auto self(protocol_handler::shared_from_this());
 
             asio::async_write(socket_, asio::buffer(buffer->data(), buffer->size()),
-                                     [self, buffer](asio::error_code ec, std::size_t /*length*/)
-                                     {
-                                         self->send_data_queue_.pop();
+                              [self, buffer](asio::error_code ec, std::size_t /*length*/) {
+                                  self->send_data_queue_.pop();
 
-                                         if (!ec)
-                                             self->tcp_server_handle_write_();
-                                     });
+                                  if (!ec)
+                                      self->tcp_server_handle_write_();
+                              });
         }
 
         asio::ip::tcp::socket socket_;
@@ -141,15 +139,13 @@ public:
 protected:
     void start_async_accept_()
     {
-        acceptor_.async_accept(socket_, [this](asio::error_code ec)
-                               {
-                                   if (!ec)
-                                   {
-                                       std::make_shared<socket_handler_type>(std::move(socket_))
-                                           ->tcp_server_socket_start_();
-                                   }
-                                   start_async_accept_();
-                               });
+        acceptor_.async_accept(socket_, [this](asio::error_code ec) {
+            if (!ec)
+            {
+                std::make_shared<socket_handler_type>(std::move(socket_))->tcp_server_socket_start_();
+            }
+            start_async_accept_();
+        });
     }
 
     asio::ip::tcp::acceptor acceptor_;

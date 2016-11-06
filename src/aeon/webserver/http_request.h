@@ -34,8 +34,8 @@ class http_request
 {
 public:
     explicit http_request(http_protocol_handler *handler, http_method method);
-    explicit http_request(http_protocol_handler *handler, const std::string &method,
-        const std::string &uri, const std::string &version_string);
+    explicit http_request(http_protocol_handler *handler, const std::string &method, const std::string &uri,
+                          const std::string &version_string);
 
     http_method method() const
     {

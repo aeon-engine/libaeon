@@ -60,7 +60,7 @@ public:
             threads.emplace_back(std::thread([this]() { dispatcher_.run(); }));
         }
 
-        for (auto& thread : threads)
+        for (auto &thread : threads)
         {
             thread.join();
         }

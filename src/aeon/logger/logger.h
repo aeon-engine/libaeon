@@ -30,25 +30,22 @@ namespace logger
 
 class logger_stream
 {
-private:
-    using endl_type = std::ostream &(std::ostream &);
-
 public:
-    logger_stream(base_backend &backend, const std::string &module, log_level level)
+    logger_stream(base_backend &backend, const std::string &module, const log_level level)
         : backend_(backend)
         , module_(module)
         , level_(level)
     {
     }
 
-    void operator<<(endl_type) const
+    void operator<<(std::ostream &(std::ostream &)) const
     {
-        std::string message = stream_.str();
+        auto message = stream_.str();
         backend_.__handle_log(message, module_, level_);
     }
 
     template <typename T>
-    logger_stream &operator<<(const T &data)
+    auto &operator<<(const T &data)
     {
         stream_ << data;
         return *this;
@@ -70,7 +67,7 @@ public:
     {
     }
 
-    logger_stream operator()(log_level level) const
+    auto operator()(const log_level level) const -> logger_stream
     {
         return logger_stream(backend_, module_, level);
     }

@@ -80,58 +80,57 @@ private:
     {
         running_ = true;
 
-        thread_ = std::thread([this]()
-                              {
-                                  while (running_)
-                                  {
-                                      std::unique_lock<std::mutex> lock(signal_mutex_);
-                                      cv_.wait(lock);
+        thread_ = std::thread([this]() {
+            while (running_)
+            {
+                std::unique_lock<std::mutex> lock(signal_mutex_);
+                cv_.wait(lock);
 
-                                      if (!running_)
-                                          break;
+                if (!running_)
+                    break;
 
-                                      // Move the message queue into a new copy and empty the real queue
-                                      queue_mutex_.lock();
-                                      log_message_queue log_queue = std::move(log_queue_);
-                                      log_queue_ = log_message_queue();
-                                      queue_mutex_.unlock();
+                // Move the message queue into a new copy and empty the real queue
+                queue_mutex_.lock();
+                log_message_queue log_queue = std::move(log_queue_);
+                log_queue_ = log_message_queue();
+                queue_mutex_.unlock();
 
-                                      bool reprocess_queue = true;
+                bool reprocess_queue = true;
 
-                                      while (reprocess_queue)
-                                      {
-                                          // Copy the sinks
-                                          sink_mutex_.lock();
-                                          sink_set sinks = sinks_;
-                                          sink_mutex_.unlock();
+                while (reprocess_queue)
+                {
+                    // Copy the sinks
+                    sink_mutex_.lock();
+                    sink_set sinks = sinks_;
+                    sink_mutex_.unlock();
 
-                                          // Handle all messages
-                                          for (auto &msg : log_queue)
-                                          {
-                                              for (auto &sink : sinks)
-                                              {
-                                                  sink->log(msg.message, msg.module, msg.level);
-                                              }
-                                          }
+                    // Handle all messages
+                    for (auto &msg : log_queue)
+                    {
+                        for (auto &sink : sinks)
+                        {
+                            sink->log(msg.message, msg.module, msg.level);
+                        }
+                    }
 
-                                          queue_mutex_.lock();
-                                          if (!log_queue_.empty())
-                                          {
-                                              log_queue = std::move(log_queue_);
-                                              log_queue_ = log_message_queue();
-                                              reprocess_queue = true;
-                                          }
-                                          else
-                                          {
-                                              reprocess_queue = false;
-                                          }
-                                          queue_mutex_.unlock();
-                                      }
-                                  }
-                              });
+                    queue_mutex_.lock();
+                    if (!log_queue_.empty())
+                    {
+                        log_queue = std::move(log_queue_);
+                        log_queue_ = log_message_queue();
+                        reprocess_queue = true;
+                    }
+                    else
+                    {
+                        reprocess_queue = false;
+                    }
+                    queue_mutex_.unlock();
+                }
+            }
+        });
     }
 
-    void log(const std::string &message, const std::string &module, log_level level) override
+    void log(const std::string &message, const std::string &module, const log_level level) override
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
         log_queue_.push_back({message, module, level});

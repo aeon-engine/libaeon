@@ -36,10 +36,10 @@ std::vector<T *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
     return std::move(c_ptr);
 }
 
-template<typename container_t, typename predicate_t>
+template <typename container_t, typename predicate_t>
 void erase_if(container_t &items, const predicate_t &predicate)
 {
-    for (auto itr = items.begin(); itr != items.end(); )
+    for (auto itr = items.begin(); itr != items.end();)
     {
         if (predicate(*itr))
             itr = items.erase(itr);

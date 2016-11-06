@@ -57,7 +57,6 @@ public:
         return *this;
     }
 
-
     /*!
      * Check if the loaded config file has a certain entry key
      * \param key The entry key to be checked

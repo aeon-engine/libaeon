@@ -158,10 +158,8 @@ public:
 private:
     typename map_type::iterator __find_key(const key_type &key)
     {
-        typename map_type::iterator itr = std::find_if(map_.begin(), map_.end(), [key](const pair_type &s)
-                                                       {
-                                                           return s.first == key;
-                                                       });
+        typename map_type::iterator itr =
+            std::find_if(map_.begin(), map_.end(), [key](const pair_type &s) { return s.first == key; });
 
         return itr;
     }
