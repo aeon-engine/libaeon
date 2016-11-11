@@ -100,7 +100,7 @@ void configfile::save(std::vector<std::uint8_t> &data)
 {
     streams::memory_stream stream;
     save(stream);
-    data = std::move(stream.read_to_vector());
+    data = stream.read_to_vector();
 }
 
 void configfile::__read_line(const std::string &line)
