@@ -65,3 +65,4 @@
 #include <aeon/utility/parallelizer.h>
 #include <aeon/utility/container.h>
 #include <aeon/utility/literals.h>
+#include <aeon/utility/bitflags.h>
