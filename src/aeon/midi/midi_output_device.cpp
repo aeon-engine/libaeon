@@ -20,9 +20,12 @@ namespace aeon
 namespace midi
 {
 
+static const int note_output_buffer_size = 3;
+
 midi_output_device::midi_output_device()
     : midi_device(midi_output_device_)
     , midi_output_device_()
+    , note_output_buffer_(note_output_buffer_size, 0)
 {
 }
 

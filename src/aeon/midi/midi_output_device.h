@@ -31,8 +31,33 @@ public:
 
     void send_message(std::vector<unsigned char> &message);
 
+    void send_note_off(unsigned char channel, unsigned char note, unsigned char velocity)
+    {
+        assert(channel <= 15);
+        send_note_message(messages::note_off + channel, note, velocity);
+    }
+
+    void send_note_on(unsigned char channel, unsigned char note, unsigned char velocity)
+    {
+        assert(channel <= 15);
+        send_note_message(messages::note_on + channel, note, velocity);
+    }
+
 private:
+    void send_note_message(unsigned char message, unsigned char note, unsigned char velocity)
+    {
+        assert(note <= 127);
+        assert(velocity <= 127);
+
+        auto data = note_output_buffer_.data();
+        data[0] = message;
+        data[1] = note;
+        data[2] = velocity;
+        midi_output_device_.sendMessage(&note_output_buffer_);
+    }
+
     RtMidiOut midi_output_device_;
+    std::vector<unsigned char> note_output_buffer_;
 };
 
 } // namespace midi
