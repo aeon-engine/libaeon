@@ -35,7 +35,7 @@ void midi_input_device::open(const unsigned int port)
     midi_input_device_.openPort(port);
 }
 
-auto midi_input_device::get_message(std::vector<unsigned char> &message) -> double
+auto midi_input_device::get_message(std::vector<unsigned char> &message) const -> double
 {
     return midi_input_device_.getMessage(&message);
 }
