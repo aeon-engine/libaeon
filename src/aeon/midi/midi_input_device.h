@@ -34,7 +34,7 @@ public:
     virtual ~midi_input_device();
 
     void open(const unsigned int port);
-    auto get_message(std::vector<unsigned char> &message) -> double;
+    auto get_message(std::vector<unsigned char> &message) const -> double;
 
     void set_message_mask(const int mask);
 
@@ -44,7 +44,7 @@ public:
     }
 
 private:
-    RtMidiIn midi_input_device_;
+    mutable RtMidiIn midi_input_device_;
     unsigned int port_;
 };
 
