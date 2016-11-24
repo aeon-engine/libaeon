@@ -47,6 +47,7 @@
 /* Aeon headers                                                               */
 /******************************************************************************/
 #include <aeon/streams.h>
+#include <aeon/utility/asynchronizer.h>
 #include <aeon/utility/noncopyable.h>
 #include <aeon/utility/singleton.h>
 #include <aeon/utility/string_traits.h>

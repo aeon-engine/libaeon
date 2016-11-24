@@ -82,6 +82,7 @@ endif ()
 
 set(LIB_AEON_UTILITY_SOURCE
     src/aeon/utility.h
+    src/aeon/utility/asynchronizer.h
     src/aeon/utility/bitflags.h
     src/aeon/utility/singleton.h
     src/aeon/utility/configfile.h
