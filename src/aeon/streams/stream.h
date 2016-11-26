@@ -87,7 +87,7 @@ public:
      *
      * \param data Pointer to a buffer that contains the data to be written. Must
      *             be large enough to contain size bytes.
-     * \param Size of the data to be written.
+     * \param size of the data to be written.
      * \return The amount of bytes that were actually written into the stream.
      *         This may be less than the given size.
      */
