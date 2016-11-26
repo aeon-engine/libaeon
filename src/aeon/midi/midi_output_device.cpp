@@ -29,7 +29,11 @@ midi_output_device::midi_output_device()
 {
 }
 
-midi_output_device::~midi_output_device() = default;
+midi_output_device::~midi_output_device()
+{
+    if (midi_output_device_.isPortOpen())
+        midi_output_device_.closePort();
+}
 
 void midi_output_device::open(const unsigned int port)
 {
