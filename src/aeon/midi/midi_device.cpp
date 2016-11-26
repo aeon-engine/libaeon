@@ -48,10 +48,7 @@ midi_device::midi_device(RtMidi &midi_device)
 {
 }
 
-midi_device::~midi_device()
-{
-    midi_device_.closePort();
-}
+midi_device::~midi_device() = default;
 
 } // namespace midi
 } // namespace aeon
