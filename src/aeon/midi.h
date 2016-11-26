@@ -37,3 +37,4 @@
 #include <aeon/midi/midi_input_device.h>
 #include <aeon/midi/midi_output_device.h>
 #include <aeon/midi/midi_input_manager.h>
+#include <aeon/midi/midi_file_reader.h>

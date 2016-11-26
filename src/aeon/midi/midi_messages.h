@@ -38,6 +38,7 @@ static const unsigned char song_position_pointer = 0xF2;
 static const unsigned char song_select = 0xF3;
 static const unsigned char tune_request = 0xF6;
 static const unsigned char end_of_exclusive = 0xF7;
+static const unsigned char meta = 0xFF;
 
 // Realtime messages
 static const unsigned char timing_clock = 0xF8;
