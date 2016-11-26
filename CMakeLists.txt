@@ -227,6 +227,8 @@ if (AEON_ENABLE_MIDI)
         src/aeon/midi.h
         src/aeon/midi/midi_device.cpp
         src/aeon/midi/midi_device.h
+        src/aeon/midi/midi_file_reader.cpp
+        src/aeon/midi/midi_file_reader.h
         src/aeon/midi/midi_input_device.cpp
         src/aeon/midi/midi_input_device.h
         src/aeon/midi/midi_input_manager.cpp
