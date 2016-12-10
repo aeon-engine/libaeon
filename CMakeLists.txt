@@ -276,6 +276,6 @@ install(
 install(
     DIRECTORY src/
     DESTINATION include
-    PATTERN "*.h"
+    FILES_MATCHING PATTERN "*.h"
 )
 
