@@ -17,5 +17,5 @@
 
 inline std::size_t operator"" _size_t(unsigned long long int x) noexcept
 {
-    return x;
+    return static_cast<std::size_t>(x);
 }
