@@ -79,6 +79,11 @@ std::string right(const std::string &str, int len);
  */
 std::vector<std::string> args_to_vector(int argc, char *argv[]);
 
+/*!
+ * Replace all occurances of a string with another string.
+ */
+void replace(std::string &str, const std::string &from, const std::string &to);
+
 } // namespace string
 } // namespace utility
 } // namespace aeon
