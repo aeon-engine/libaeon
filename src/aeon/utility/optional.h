@@ -66,6 +66,13 @@ public:
         return value_;
     }
 
+    optional &operator=(const T &val)
+    {
+        value_ = val;
+        has_value_ = true;
+        return *this;
+    }
+
 private:
     T value_;
     bool has_value_;
