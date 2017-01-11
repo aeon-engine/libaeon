@@ -40,6 +40,9 @@ public:
     {
     }
 
+    optional(optional &&) noexcept = default;
+    optional &operator=(optional &&) = default;
+
     bool has_value() const
     {
         return has_value_;
