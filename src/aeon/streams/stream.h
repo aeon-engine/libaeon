@@ -82,12 +82,30 @@ public:
     virtual std::size_t read(std::uint8_t *data, std::size_t size) = 0;
 
     /*!
+     * Read from the stream. This may move the internal read index, based on
+     * the stream implementation.
+     *
+     * \param data Vector to where data should be read to.
+     *             The vector will be resized to fit size bytes.
+     * \param size Size of the data to be read.
+     * \return The amount of bytes that were actually read into data. May be less
+     *         than the given size.
+     */
+    virtual std::size_t vector_read(std::vector<std::uint8_t> &data, std::size_t size)
+    {
+        data.resize(size);
+        auto result = read(data.data(), size);
+        data.resize(result);
+        return result;
+    }
+
+    /*!
      * Write to the stream. This may move the internal write index, based on
      * the stream implementation.
      *
      * \param data Pointer to a buffer that contains the data to be written. Must
      *             be large enough to contain size bytes.
-     * \param Size of the data to be written.
+     * \param size of the data to be written.
      * \return The amount of bytes that were actually written into the stream.
      *         This may be less than the given size.
      */

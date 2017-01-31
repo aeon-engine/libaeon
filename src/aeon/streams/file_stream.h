@@ -37,6 +37,10 @@ public:
 
     explicit file_stream(const std::string &filename, file_mode fm = file_mode::binary);
 
+    file_stream(file_stream &&o) noexcept = default;
+
+    file_stream &operator=(file_stream &&other) noexcept = default;
+
     virtual ~file_stream() = default;
 
     std::size_t read(std::uint8_t *data, std::size_t size) override;

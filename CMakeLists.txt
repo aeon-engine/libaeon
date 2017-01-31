@@ -18,6 +18,9 @@ option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely
 # Sockets
 option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
 
+# Midi
+option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
+
 ################################################################################
 
 set(LIB_AEON_STREAMS_SOURCE
@@ -79,6 +82,8 @@ endif ()
 
 set(LIB_AEON_UTILITY_SOURCE
     src/aeon/utility.h
+    src/aeon/utility/asynchronizer.h
+    src/aeon/utility/bitflags.h
     src/aeon/utility/singleton.h
     src/aeon/utility/configfile.h
     src/aeon/utility/configfile.cpp
@@ -217,6 +222,27 @@ endif ()
 
 ################################################################################
 
+if (AEON_ENABLE_MIDI)
+    set(LIB_AEON_MIDI_SOURCE
+        src/aeon/midi.h
+        src/aeon/midi/midi_device.cpp
+        src/aeon/midi/midi_device.h
+        src/aeon/midi/midi_file_reader.cpp
+        src/aeon/midi/midi_file_reader.h
+        src/aeon/midi/midi_input_device.cpp
+        src/aeon/midi/midi_input_device.h
+        src/aeon/midi/midi_input_manager.cpp
+        src/aeon/midi/midi_input_manager.h
+        src/aeon/midi/midi_output_device.cpp
+        src/aeon/midi/midi_output_device.h
+        src/aeon/midi/midi_messages.h
+    )
+
+    source_group(midi FILES ${LIB_AEON_MIDI_SOURCE})
+endif ()
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
@@ -242,6 +268,10 @@ if (AEON_ENABLE_MONO)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MONO_SOURCE})
 endif ()
 
+if (AEON_ENABLE_MIDI)
+    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MIDI_SOURCE})
+endif ()
+
 add_library(aeon ${LIB_AEON_SOURCE})
 
 set_target_properties(aeon PROPERTIES
@@ -264,6 +294,11 @@ if (AEON_ENABLE_MONO)
     message(STATUS "Building libAeon with MONO support.")
     target_link_libraries(aeon ${MONO_LIBRARIES})
     target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR})
+endif ()
+
+if (AEON_ENABLE_MIDI)
+    message(STATUS "Building libAeon with MIDI support.")
+    target_link_libraries(aeon rtmidi)
 endif ()
 
 install(
