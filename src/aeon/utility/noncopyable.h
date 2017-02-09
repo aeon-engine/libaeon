@@ -31,8 +31,8 @@ public:
     virtual ~noncopyable() = default;
     noncopyable(const noncopyable &) = delete;
     noncopyable &operator=(const noncopyable &) = delete;
-    noncopyable(noncopyable &&o) noexcept = default;
-    noncopyable &operator=(noncopyable &&other) noexcept = default;
+    noncopyable(noncopyable &&o) = default;
+    noncopyable &operator=(noncopyable &&other) = default;
 };
 
 } // namespace utility

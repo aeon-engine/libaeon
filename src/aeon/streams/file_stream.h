@@ -37,9 +37,9 @@ public:
 
     explicit file_stream(const std::string &filename, file_mode fm = file_mode::binary);
 
-    file_stream(file_stream &&o) noexcept = default;
+    file_stream(file_stream &&o) = default;
 
-    file_stream &operator=(file_stream &&other) noexcept = default;
+    file_stream &operator=(file_stream &&other) = default;
 
     virtual ~file_stream() = default;
 

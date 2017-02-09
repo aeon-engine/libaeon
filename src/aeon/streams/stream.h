@@ -66,8 +66,8 @@ public:
      */
     virtual ~stream() = default;
 
-    stream(stream &&o) noexcept = default;
-    stream &operator=(stream &&other) noexcept = default;
+    stream(stream &&o) = default;
+    stream &operator=(stream &&other) = default;
 
     /*!
      * Read from the stream. This may move the internal read index, based on
