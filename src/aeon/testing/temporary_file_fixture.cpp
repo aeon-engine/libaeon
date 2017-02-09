@@ -17,7 +17,7 @@
 
 namespace aeon
 {
-namespace testing
+namespace testutils
 {
 
 temporary_file::temporary_file()
@@ -51,5 +51,5 @@ void temporary_file::delete_temporary_file() const
     filesystem::delete_file(path_);
 }
 
-} // namespace testing
+} // namespace testutils
 } // namespace aeon

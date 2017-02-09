@@ -17,7 +17,7 @@
 
 namespace aeon
 {
-namespace testing
+namespace testutils
 {
 
 class temporary_file
@@ -45,5 +45,5 @@ struct temporary_file_fixture : public temporary_file, public ::testing::Test
 };
 #endif // ENABLE_TEMPORARY_FILE_FIXTURE
 
-} // namespace testing
+} // namespace testutils
 } // namespace aeon
