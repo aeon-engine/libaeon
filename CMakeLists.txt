@@ -21,6 +21,9 @@ option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
 # Midi
 option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
 
+# HDF5
+option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
+
 ################################################################################
 
 set(LIB_AEON_STREAMS_SOURCE
@@ -243,6 +246,34 @@ endif ()
 
 ################################################################################
 
+if (AEON_ENABLE_HDF5)
+    set(LIB_AEON_HDF5_SOURCE
+        src/aeon/hdf5.h
+        src/aeon/hdf5/hdf5_file.h
+        src/aeon/hdf5/hdf5_file_impl.h
+        src/aeon/hdf5/hdf5_dataset.h
+        src/aeon/hdf5/hdf5_dataset_impl.h
+        src/aeon/hdf5/hdf5_dataset_wrapper.h
+        src/aeon/hdf5/hdf5_dataset_wrapper_impl.h
+        src/aeon/hdf5/hdf5_dataset_properties.h
+        src/aeon/hdf5/hdf5_dataset_properties_impl.h
+        src/aeon/hdf5/hdf5_dataspace.h
+        src/aeon/hdf5/hdf5_dataspace_impl.h
+        src/aeon/hdf5/hdf5_datatype.h
+        src/aeon/hdf5/hdf5_datatype_impl.h
+        src/aeon/hdf5/hdf5_scoped_create_group.h
+        src/aeon/hdf5/hdf5_scoped_create_group_impl.h
+        src/aeon/hdf5/hdf5_object.h
+        src/aeon/hdf5/hdf5_object_impl.h
+        src/aeon/hdf5/hdf5_object_iterator.h
+        src/aeon/hdf5/hdf5_object_iterator_impl.h
+    )
+
+    source_group(hdf5 FILES ${LIB_AEON_HDF5_SOURCE})
+endif ()
+
+################################################################################
+
 set(LIB_AEON_SOURCE
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
@@ -272,6 +303,10 @@ if (AEON_ENABLE_MIDI)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MIDI_SOURCE})
 endif ()
 
+if (AEON_ENABLE_HDF5)
+    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_HDF5_SOURCE})
+endif ()
+
 add_library(aeon ${LIB_AEON_SOURCE})
 
 set_target_properties(aeon PROPERTIES
@@ -299,6 +334,11 @@ endif ()
 if (AEON_ENABLE_MIDI)
     message(STATUS "Building libAeon with MIDI support.")
     target_link_libraries(aeon rtmidi)
+endif ()
+
+if (AEON_ENABLE_HDF5)
+    message(STATUS "Building libAeon with HDF5 wrapper support.")
+    target_link_libraries(aeon hdf5-static hdf5_hl-static)
 endif ()
 
 install(
