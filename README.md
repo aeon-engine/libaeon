@@ -1,5 +1,6 @@
 libAeon
 ==============
+A general purpose C++14 support library.
 
 License
 --------------
