@@ -21,31 +21,23 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
+function(get_git_describe_tag git_describe_tag)
+    if (NOT GIT_FOUND)
+        find_package(Git REQUIRED)
+    endif()
 
-project(libAeon)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} "describe" "--tags" "--long"
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_DESCRIBE_OUTPUT
+        ERROR_VARIABLE GIT_DESCRIBE_ERROR_OUTPUT
+        RESULT_VARIABLE GIT_DESCRIBE_RESULT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
-include(CTest)
-enable_testing()
+    if (NOT GIT_DESCRIBE_RESULT EQUAL 0)
+        message(FATAL_ERROR "Could not parse git describe version.\nOutput was ${GIT_DESCRIBE_ERROR_OUTPUT}")
+    endif()
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-include(CompilerFlags)
-
-################################################################################
-
-option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
-
-if (AEON_ENABLE_COVERAGE)
-    include(Coverage)
-    enable_coverage()
-endif ()
-
-################################################################################
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-add_subdirectory(src)
-# TODO: Require google test.
-#add_subdirectory(tests)
-
+    set(${git_describe_tag} ${GIT_DESCRIBE_OUTPUT} PARENT_SCOPE)
+endfunction()

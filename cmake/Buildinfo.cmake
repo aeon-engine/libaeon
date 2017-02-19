@@ -21,31 +21,19 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
+include(GitDescribe)
 
-project(libAeon)
+set(AEON_CMAKE_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-include(CTest)
-enable_testing()
+function(generate_build_info_header destination)
+    get_git_describe_tag(git_describe_tag)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+    set(AEON_CMAKE_FULL_VERSION ${git_describe_tag})
+    string(TIMESTAMP AEON_CMAKE_BUILD_DATE "%Y-%m-%d")
 
-include(CompilerFlags)
-
-################################################################################
-
-option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
-
-if (AEON_ENABLE_COVERAGE)
-    include(Coverage)
-    enable_coverage()
-endif ()
-
-################################################################################
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-add_subdirectory(src)
-# TODO: Require google test.
-#add_subdirectory(tests)
-
+    configure_file(
+        ${AEON_CMAKE_ROOT_DIR}/buildinfo.h.in
+        ${destination}
+        @ONLY
+    )
+endfunction()

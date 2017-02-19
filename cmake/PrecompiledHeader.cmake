@@ -21,31 +21,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
-
-project(libAeon)
-
-include(CTest)
-enable_testing()
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-include(CompilerFlags)
-
-################################################################################
-
-option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
-
-if (AEON_ENABLE_COVERAGE)
-    include(Coverage)
-    enable_coverage()
-endif ()
-
-################################################################################
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-add_subdirectory(src)
-# TODO: Require google test.
-#add_subdirectory(tests)
-
+macro(use_precompiled_header TARGET HEADER_FILE SRC_FILE)
+    if (MSVC)
+        get_filename_component(HEADER ${HEADER_FILE} NAME)
+        add_definitions(/Yu"${HEADER}")
+        set_source_files_properties(${SRC_FILE} PROPERTIES COMPILE_FLAGS /Yc"${HEADER}")
+    endif ()
+endmacro(use_precompiled_header)
