@@ -1,4 +1,4 @@
-libAeon
+libAeon [![Build Status](https://scan.coverity.com/projects/11819/badge.svg)](https://scan.coverity.com/projects/libaeon)
 ==============
 A general purpose C++14 support library.
 
