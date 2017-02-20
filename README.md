@@ -1,4 +1,4 @@
-libAeon [![Build Status](https://scan.coverity.com/projects/11819/badge.svg)](https://scan.coverity.com/projects/libaeon)
+libAeon [![Travis-CI](https://travis-ci.org/aeon-engine/libaeon.svg?branch=master)](https://travis-ci.org/aeon-engine/libaeon) [![Coverity](https://scan.coverity.com/projects/11819/badge.svg)](https://scan.coverity.com/projects/libaeon)
 ==============
 A general purpose C++14 support library.
 
