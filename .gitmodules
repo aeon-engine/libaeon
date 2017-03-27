@@ -1,0 +1,4 @@
+[submodule "dep/googletest"]
+	path = dep/googletest
+	url = ../googletest.git
+	branch = submodule

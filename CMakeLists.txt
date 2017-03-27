@@ -45,7 +45,7 @@ endif ()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+add_subdirectory(dep/googletest)
 add_subdirectory(src)
-# TODO: Require google test.
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
