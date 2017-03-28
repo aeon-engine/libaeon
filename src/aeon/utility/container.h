@@ -46,6 +46,20 @@ std::vector<T *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
     return std::move(c_ptr);
 }
 
+template <typename U, typename T>
+std::vector<U *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+{
+    std::vector<U *> c_ptr;
+    c_ptr.reserve(c.size());
+
+    for (auto &i : c)
+    {
+        c_ptr.push_back(i.get());
+    }
+
+    return std::move(c_ptr);
+}
+
 template <typename container_t, typename predicate_t>
 void erase_if(container_t &items, const predicate_t &predicate)
 {
