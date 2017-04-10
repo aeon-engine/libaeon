@@ -28,7 +28,7 @@ project(libAeon)
 include(CTest)
 enable_testing()
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dep/cmake")
 
 include(CompilerFlags)
 
