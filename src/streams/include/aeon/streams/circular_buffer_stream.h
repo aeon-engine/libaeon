@@ -28,6 +28,7 @@
 #include <aeon/streams/stream.h>
 
 #include <array>
+#include <cstring>
 
 namespace aeon
 {

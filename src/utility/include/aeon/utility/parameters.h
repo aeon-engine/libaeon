@@ -25,13 +25,20 @@
 
 #pragma once
 
+#include <aeon/common/noncopyable.h>
+
+#include <vector>
+#include <string>
+
+#include <cstring>
+
 namespace aeon
 {
 namespace utility
 {
 
 // Simple wrapper to convert a vector of strings to a char*[].
-class parameters : noncopyable
+class parameters : common::noncopyable
 {
 public:
     explicit parameters(std::vector<std::string> &params)
@@ -76,12 +83,12 @@ public:
         return *this;
     }
 
-    int argc() const
+    auto argc() const
     {
         return argc_;
     }
 
-    const char *const *argv() const
+    auto argv() const
     {
         return argv_;
     }

@@ -76,8 +76,6 @@ public:
 
     static type &get_singleton()
     {
-        assert(instance_);
-
         if (!instance_)
             throw std::runtime_error("Singleton instance is null.");
 

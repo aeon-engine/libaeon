@@ -27,6 +27,7 @@
 
 #include <aeon/utility/signals.h>
 #include <array>
+#include <thread>
 
 TEST(test_signals, test_signals_connect)
 {
