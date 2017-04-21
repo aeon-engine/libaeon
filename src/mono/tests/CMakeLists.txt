@@ -44,3 +44,5 @@ add_unit_test_suite(
     LIBRARIES aeon_mono aeon_common aeon_testing
     FOLDER dep/libaeon/tests
 )
+
+add_dependencies(test_libaeon_mono MonoTests)
