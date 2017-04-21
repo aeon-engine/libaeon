@@ -30,7 +30,7 @@ namespace aeon
 
 namespace streams
 {
-    class file_stream;
+class file_stream;
 } // namespace streams
 
 } // namespace aeon

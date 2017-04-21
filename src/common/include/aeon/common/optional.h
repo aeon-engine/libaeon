@@ -29,7 +29,7 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 
 class optional_value_exception : public std::exception
@@ -81,7 +81,7 @@ public:
         return value_;
     }
 
-    optional &operator=(const T &val)
+    auto &operator=(const T &val)
     {
         value_ = val;
         has_value_ = true;
@@ -93,5 +93,5 @@ private:
     bool has_value_;
 };
 
-} // namespace utility
+} // namespace common
 } // namespace aeon

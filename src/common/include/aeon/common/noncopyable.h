@@ -25,76 +25,25 @@
 
 #pragma once
 
-#include <string>
-
 namespace aeon
 {
-namespace utility
-{
-namespace string
+namespace common
 {
 
-template <typename T>
-struct convert
+/*!
+ * Delete copy and assignment operators so that derived classes
+ * can not be copied.
+ */
+class noncopyable
 {
+public:
+    noncopyable() = default;
+    virtual ~noncopyable() = default;
+    noncopyable(const noncopyable &) = delete;
+    noncopyable &operator=(const noncopyable &) = delete;
+    noncopyable(noncopyable &&o) = default;
+    noncopyable &operator=(noncopyable &&other) = default;
 };
 
-template <>
-struct convert<std::string>
-{
-    static std::string to(const std::string &v)
-    {
-        return v;
-    }
-
-    static std::string from(const std::string &v)
-    {
-        return v;
-    }
-};
-
-template <>
-struct convert<int>
-{
-    static std::string to(int v)
-    {
-        return std::to_string(v);
-    }
-
-    static int from(const std::string &v)
-    {
-        return std::stoi(v);
-    }
-};
-
-template <>
-struct convert<float>
-{
-    static std::string to(float v)
-    {
-        return std::to_string(v);
-    }
-
-    static float from(const std::string &v)
-    {
-        return std::stof(v);
-    }
-};
-
-template <>
-struct convert<bool>
-{
-    static std::string to(bool v)
-    {
-        return v ? "1" : "0";
-    }
-
-    static bool from(const std::string &v)
-    {
-        return v == "1" || v == "true";
-    }
-};
-
-} // namespace string
-} // namespace utility
+} // namespace common
 } // namespace aeon

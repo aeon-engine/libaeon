@@ -34,7 +34,7 @@ namespace streams
 
 class stream;
 template <typename T>
-class stream_reader : utility::noncopyable
+class stream_reader : common::noncopyable
 {
 public:
     explicit stream_reader(T &streamref)

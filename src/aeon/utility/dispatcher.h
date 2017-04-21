@@ -48,7 +48,7 @@ enum dispatcher_stop_mode
     stop_on_empty_queue
 };
 
-class dispatcher : noncopyable
+class dispatcher : common::noncopyable
 {
 public:
     static const int signal_wait_timeout_ms = 100;

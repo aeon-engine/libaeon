@@ -51,7 +51,7 @@ class stream_exception : public std::exception
  * Beware that the exact behavior of various functions may vary between stream
  * implementations.
  */
-class stream : public utility::noncopyable, public access_mode_mixin, public stream_name_mixin
+class stream : public common::noncopyable, public access_mode_mixin, public stream_name_mixin
 {
 public:
     /*!

@@ -32,7 +32,7 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 namespace endianness
 {
@@ -134,5 +134,5 @@ T swap(T val)
 }
 
 } // namespace endianness
-} // namespace utility
+} // namespace common
 } // namespace aeon

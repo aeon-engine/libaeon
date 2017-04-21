@@ -30,7 +30,7 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 namespace string
 {
@@ -39,13 +39,13 @@ namespace string
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Appends tokens to the given elements vector and returns it.
  */
-std::vector<std::string> &split(const std::string &str, char delim, std::vector<std::string> &elements);
+auto split(const std::string &str, char delim, std::vector<std::string> &elements) -> std::vector<std::string> &;
 
 /*!
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Returns a vector of split elements.
  */
-std::vector<std::string> split(const std::string &str, char delim);
+auto split(const std::string &str, char delim) -> std::vector<std::string>;
 
 /*!
  * Trim from the start of a string
@@ -65,32 +65,32 @@ void trim(std::string &str);
 /*!
  * Trim from the start of a string
  */
-std::string ltrimmed(const std::string &str);
+auto ltrimmed(const std::string &str) -> std::string;
 
 /*!
  * Trim from the ending of a string
  */
-std::string rtrimmed(const std::string &str);
+auto rtrimmed(const std::string &str) -> std::string;
 
 /*!
  * Trim a string at the start and end.
  */
-std::string trimmed(const std::string &str);
+auto trimmed(const std::string &str) -> std::string;
 
 /*!
  * Get len characters from the left of the string.
  */
-std::string left(const std::string &str, int len);
+auto left(const std::string &str, int len) -> std::string;
 
 /*!
  * Get len characters from the right of the string.
  */
-std::string right(const std::string &str, int len);
+auto right(const std::string &str, int len) -> std::string;
 
 /*!
  * Convert standard argc and argv arguments into a vector of strings.
  */
-std::vector<std::string> args_to_vector(int argc, char *argv[]);
+auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>;
 
 /*!
  * Replace all occurances of a string with another string.
@@ -98,5 +98,5 @@ std::vector<std::string> args_to_vector(int argc, char *argv[]);
 void replace(std::string &str, const std::string &from, const std::string &to);
 
 } // namespace string
-} // namespace utility
+} // namespace common
 } // namespace aeon

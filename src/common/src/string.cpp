@@ -24,6 +24,7 @@
  */
 
 #include <aeon/common/string.h>
+#include <aeon/common/literals.h>
 #include <sstream>
 #include <algorithm>
 #include <functional>
@@ -31,12 +32,12 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 namespace string
 {
 
-std::vector<std::string> &split(const std::string &str, char delim, std::vector<std::string> &elements)
+auto split(const std::string &str, char delim, std::vector<std::string> &elements) -> std::vector<std::string> &
 {
     std::stringstream ss(str);
     std::string item;
@@ -49,7 +50,7 @@ std::vector<std::string> &split(const std::string &str, char delim, std::vector<
     return elements;
 }
 
-std::vector<std::string> split(const std::string &str, char delim)
+auto split(const std::string &str, char delim) -> std::vector<std::string>
 {
     std::vector<std::string> elements;
     split(str, delim, elements);
@@ -73,38 +74,38 @@ void trim(std::string &str)
     rtrim(str);
 }
 
-std::string ltrimmed(const std::string &str)
+auto ltrimmed(const std::string &str) -> std::string
 {
-    std::string trimstr = str;
+    auto trimstr = str;
     ltrim(trimstr);
     return trimstr;
 }
 
-std::string rtrimmed(const std::string &str)
+auto rtrimmed(const std::string &str) -> std::string
 {
-    std::string trimstr = str;
+    auto trimstr = str;
     rtrim(trimstr);
     return trimstr;
 }
 
-std::string trimmed(const std::string &str)
+auto trimmed(const std::string &str) -> std::string
 {
-    std::string trimstr = str;
+    auto trimstr = str;
     trim(trimstr);
     return trimstr;
 }
 
-std::string left(const std::string &str, int len)
+auto left(const std::string &str, int len) -> std::string
 {
     return str.substr(0, len);
 }
 
-std::string right(const std::string &str, int len)
+auto right(const std::string &str, int len) -> std::string
 {
     return str.substr(str.size() - len);
 }
 
-std::vector<std::string> args_to_vector(int argc, char *argv[])
+auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
 {
     std::vector<std::string> vec;
 
@@ -121,7 +122,7 @@ void replace(std::string &str, const std::string &from, const std::string &to)
     if (from.empty())
         return;
 
-    size_t start_pos = 0;
+    auto start_pos = 0_size_t;
     while ((start_pos = str.find(from, start_pos)) != std::string::npos)
     {
         str.replace(start_pos, from.length(), to);
@@ -130,5 +131,5 @@ void replace(std::string &str, const std::string &from, const std::string &to)
 }
 
 } // namespace string
-} // namespace utility
+} // namespace common
 } // namespace aeon

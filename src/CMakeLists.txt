@@ -36,20 +36,7 @@ option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
 
 ################################################################################
 
-set(LIB_AEON_COMMON_SOURCE
-    aeon/common/bitflags.h
-    aeon/common/endianness.h
-    aeon/common/literals.h
-    aeon/common/noncopyable.h
-    aeon/common/optional.h
-    aeon/common/singleton.h
-    aeon/common/string.cpp
-    aeon/common/string.h
-    aeon/common/string_traits.h
-    aeon/common/variant.h
-)
-
-source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
+add_subdirectory(common)
 
 ################################################################################
 
@@ -293,7 +280,6 @@ endif ()
 ################################################################################
 
 set(LIB_AEON_SOURCE
-    ${LIB_AEON_COMMON_SOURCE}
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_UTILITY_SOURCE}
@@ -327,6 +313,8 @@ if (AEON_ENABLE_HDF5)
 endif ()
 
 add_library(aeon ${LIB_AEON_SOURCE})
+
+target_link_libraries(aeon aeon_common)
 
 set_target_properties(aeon PROPERTIES
     FOLDER dep/libaeon
@@ -372,4 +360,3 @@ install(
     DESTINATION include
     FILES_MATCHING PATTERN "*.h"
 )
-

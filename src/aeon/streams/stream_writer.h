@@ -33,7 +33,7 @@ namespace streams
 {
 
 class stream;
-class stream_writer : utility::noncopyable
+class stream_writer : common::noncopyable
 {
 public:
     explicit stream_writer(stream &streamref)

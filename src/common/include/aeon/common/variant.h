@@ -29,7 +29,7 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 
 class variant
@@ -149,5 +149,5 @@ private:
     variant_type type_;
 };
 
-} // namespace utility
+} // namespace common
 } // namespace aeon

@@ -35,7 +35,7 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 
 /*!
@@ -45,7 +45,7 @@ namespace utility
  * longer needed to prevent leaks.
  */
 template <class type>
-class singleton : public utility::noncopyable
+class singleton : public noncopyable
 {
 public:
     singleton()
@@ -91,5 +91,5 @@ protected:
     static type *instance_;
 };
 
-} // namespace utility
+} // namespace common
 } // namespace aeon

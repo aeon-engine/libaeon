@@ -27,7 +27,7 @@
 
 namespace aeon
 {
-namespace utility
+namespace common
 {
 
 template <typename T>
@@ -82,5 +82,5 @@ inline static auto get_high_nibble(unsigned char value)
     return static_cast<unsigned char>((value & 0xF0) >> 4);
 }
 
-} // namespace utility
+} // namespace common
 } // namespace aeon
