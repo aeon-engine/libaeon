@@ -99,7 +99,7 @@ public:
         if (itr == entries_.end())
             throw configfile_exception{};
 
-        return string::convert<T>::from(itr->second);
+        return common::string::convert<T>::from(itr->second);
     }
 
     /*!

@@ -24,7 +24,7 @@
  */
 
 #include <aeon/filesystem.h>
-#include <aeon/platform.h>
+#include <aeon/common/platform.h>
 #include <stdexcept>
 #include <stdlib.h>
 #include <stdio.h>
