@@ -23,52 +23,43 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/midi/midi_device.h>
+#include <RtMidi.h>
 
 namespace aeon
 {
 namespace midi
 {
 
-class midi_output_device : public midi_device
+auto midi_device::get_port_count() const -> unsigned
 {
-public:
-    midi_output_device();
-    virtual ~midi_output_device();
+    return midi_device_.getPortCount();
+}
 
-    void open(const unsigned int port);
-    void open_virtual(const std::string &name);
+auto midi_device::get_port_name(const unsigned int index) const -> std::string
+{
+    return midi_device_.getPortName(index);
+}
 
-    void send_message(std::vector<unsigned char> &message);
+auto midi_device::get_ports() const -> std::vector<std::string>
+{
+    auto port_count = get_port_count();
+    auto ports = std::vector<std::string>(port_count);
 
-    void send_note_off(unsigned char channel, unsigned char note, unsigned char velocity)
+    for (auto i = 0ul; i < port_count; ++i)
     {
-        assert(channel <= 15);
-        send_note_message(messages::note_off + channel, note, velocity);
+        ports[i] = get_port_name(i);
     }
 
-    void send_note_on(unsigned char channel, unsigned char note, unsigned char velocity)
-    {
-        assert(channel <= 15);
-        send_note_message(messages::note_on + channel, note, velocity);
-    }
+    return ports;
+}
 
-private:
-    void send_note_message(unsigned char message, unsigned char note, unsigned char velocity)
-    {
-        assert(note <= 127);
-        assert(velocity <= 127);
+midi_device::midi_device(RtMidi &midi_device)
+    : midi_device_(midi_device)
+{
+}
 
-        auto data = note_output_buffer_.data();
-        data[0] = message;
-        data[1] = note;
-        data[2] = velocity;
-        midi_output_device_.sendMessage(&note_output_buffer_);
-    }
-
-    RtMidiOut midi_output_device_;
-    std::vector<unsigned char> note_output_buffer_;
-};
+midi_device::~midi_device() = default;
 
 } // namespace midi
 } // namespace aeon

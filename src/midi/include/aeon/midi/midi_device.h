@@ -25,26 +25,32 @@
 
 #pragma once
 
-/******************************************************************************/
-/* Standard headers                                                           */
-/******************************************************************************/
-#include <cassert>
 #include <vector>
 #include <string>
-#include <memory>
 
-/******************************************************************************/
-/* RtMidi                                                                     */
-/******************************************************************************/
-#include <RtMidi.h>
+class RtMidi;
 
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
-#include <aeon/utility.h>
-#include <aeon/midi/midi_messages.h>
-#include <aeon/midi/midi_device.h>
-#include <aeon/midi/midi_input_device.h>
-#include <aeon/midi/midi_output_device.h>
-#include <aeon/midi/midi_input_manager.h>
-#include <aeon/midi/midi_file_reader.h>
+namespace aeon
+{
+namespace midi
+{
+
+class midi_device
+{
+public:
+    auto get_port_count() const -> unsigned int;
+
+    auto get_port_name(const unsigned int index) const -> std::string;
+
+    auto get_ports() const -> std::vector<std::string>;
+
+protected:
+    explicit midi_device(RtMidi &midi_device);
+    virtual ~midi_device();
+
+private:
+    RtMidi &midi_device_;
+};
+
+} // namespace midi
+} // namespace aeon

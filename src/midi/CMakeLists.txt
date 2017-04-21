@@ -21,31 +21,39 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-include(Unittests)
+message(STATUS "Building libAeon with RtMidi support.")
 
-set(UNIT_TEST_SOURCES
-    main.cpp
+add_subdirectory(${CMAKE_SOURCE_DIR}/dep/rtmidi dep/rtmidi)
+
+set(LIB_AEON_RTMIDI_SOURCE
+    include/aeon/midi/midi_device.h
+    src/midi_device.cpp
+    include/aeon/midi/midi_file_reader.h
+    src/midi_file_reader.cpp
+    include/aeon/midi/midi_input_device.h
+    src/midi_input_device.cpp
+    include/aeon/midi/midi_input_manager.h
+    src/midi_input_manager.cpp
+    include/aeon/midi/midi_messages.h
+    include/aeon/midi/midi_output_device.h
+    src/midi_output_device.cpp
 )
 
-if (AEON_ENABLE_SOCKETS)
-    list(APPEND UNIT_TEST_SOURCES
-        test_sockets.cpp
-    )
-endif ()
+source_group(midi FILES ${LIB_AEON_RTMIDI_SOURCE})
 
-if (AEON_ENABLE_HDF5)
-    list(APPEND UNIT_TEST_SOURCES
-        test_hdf5.cpp
-    )
-endif ()
+add_library(aeon_midi STATIC ${LIB_AEON_RTMIDI_SOURCE})
 
-add_unit_test_suite(
-    NO_GTEST_MAIN
-    TARGET test_libaeon
-    SOURCES
-        ${UNIT_TEST_SOURCES}
-    INCLUDES
-        ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon
-    FOLDER dep/libaeon/tests
+set_target_properties(aeon_midi PROPERTIES
+    FOLDER dep/libaeon
+    LINKER_LANGUAGE CXX
 )
+
+target_include_directories(aeon_midi PUBLIC include)
+target_link_libraries(aeon_midi aeon_common aeon_utility aeon_streams rtmidi)
+
+install(
+    DIRECTORY include
+    DESTINATION include
+)
+
+add_subdirectory(tests)

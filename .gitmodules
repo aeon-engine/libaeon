@@ -10,3 +10,7 @@
 	path = dep/curl
 	url = ../curl.git
 	branch = submodule
+[submodule "dep/rtmidi"]
+	path = dep/rtmidi
+	url = ../rtmidi.git
+	branch = submodule

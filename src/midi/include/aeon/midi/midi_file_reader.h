@@ -25,14 +25,12 @@
 
 #pragma once
 
+#include <aeon/streams/memory_stream_fwd.h>
+#include <string>
+#include <cstdint>
+
 namespace aeon
 {
-
-namespace streams
-{
-class memory_stream;
-}
-
 namespace midi
 {
 

@@ -25,8 +25,9 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <aeon/midi.h>
-#include <aeon/streams.h>
+#include <aeon/midi/midi_file_reader.h>
+#include <aeon/streams/memory_stream.h>
+#include <utility>
 
 using namespace aeon;
 

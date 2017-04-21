@@ -23,29 +23,12 @@
 
 include(Unittests)
 
-set(UNIT_TEST_SOURCES
-    main.cpp
-)
-
-if (AEON_ENABLE_SOCKETS)
-    list(APPEND UNIT_TEST_SOURCES
-        test_sockets.cpp
-    )
-endif ()
-
-if (AEON_ENABLE_HDF5)
-    list(APPEND UNIT_TEST_SOURCES
-        test_hdf5.cpp
-    )
-endif ()
-
 add_unit_test_suite(
     NO_GTEST_MAIN
-    TARGET test_libaeon
+    TARGET test_libaeon_midi
     SOURCES
-        ${UNIT_TEST_SOURCES}
-    INCLUDES
-        ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon
+        main.cpp
+        test_midi.cpp
+    LIBRARIES aeon_midi
     FOLDER dep/libaeon/tests
 )

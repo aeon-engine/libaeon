@@ -23,43 +23,44 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/midi.h>
+#pragma once
+
+#include <aeon/midi/midi_device.h>
+#include <RtMidi.h>
+#include <vector>
 
 namespace aeon
 {
 namespace midi
 {
 
-midi_input_device::midi_input_device()
-    : midi_device(midi_input_device_)
-    , midi_input_device_()
-    , port_(0)
+struct midi_message_type
 {
-}
+    static const int system_exclusive = 0x01;
+    static const int time_code = 0x02;
+    static const int sense = 0x04;
+};
 
-midi_input_device::~midi_input_device()
+class midi_input_device : public midi_device
 {
-    if (midi_input_device_.isPortOpen())
-        midi_input_device_.closePort();
-}
+public:
+    midi_input_device();
+    virtual ~midi_input_device();
 
-void midi_input_device::open(const unsigned int port)
-{
-    port_ = port;
-    midi_input_device_.openPort(port);
-}
+    void open(const unsigned int port);
+    auto get_message(std::vector<unsigned char> &message) const -> double;
 
-auto midi_input_device::get_message(std::vector<unsigned char> &message) const -> double
-{
-    return midi_input_device_.getMessage(&message);
-}
+    void set_message_mask(const int mask);
 
-void midi_input_device::set_message_mask(const int mask)
-{
-    midi_input_device_.ignoreTypes(utility::check_bit_flag(mask, midi_message_type::system_exclusive),
-                                   utility::check_bit_flag(mask, midi_message_type::time_code),
-                                   utility::check_bit_flag(mask, midi_message_type::sense));
-}
+    auto get_opened_port()
+    {
+        return port_;
+    }
+
+private:
+    mutable RtMidiIn midi_input_device_;
+    unsigned int port_;
+};
 
 } // namespace midi
 } // namespace aeon

@@ -23,7 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/midi.h>
+#include <aeon/midi/midi_input_manager.h>
+#include <aeon/midi/midi_input_device.h>
+#include <aeon/midi/midi_messages.h>
 #include <algorithm>
 
 namespace aeon

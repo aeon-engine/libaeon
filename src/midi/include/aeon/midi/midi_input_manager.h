@@ -25,10 +25,18 @@
 
 #pragma once
 
+#include <aeon/common/bitflags.h>
+#include <aeon/utility/listener_subject.h>
+
+#include <vector>
+#include <array>
+#include <cassert>
+
 namespace aeon
 {
 namespace midi
 {
+class midi_input_device;
 
 static const int max_midi_channels = 16;
 
@@ -36,7 +44,7 @@ struct midi_note_parser
 {
     explicit midi_note_parser(const std::vector<unsigned char> &buffer)
         : message(buffer[0])
-        , channel(utility::get_low_nibble(message))
+        , channel(common::get_low_nibble(message))
         , note(buffer[1])
         , velocity(buffer[2])
     {

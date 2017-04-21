@@ -25,13 +25,13 @@
 option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." OFF)
 
 # Mono
-option(AEON_ENABLE_MONO "Enable the Aeon Mono library." ON)
+option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
 
 # Sockets
 option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
 
 # Midi
-option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
+option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." ON)
 
 # HDF5
 option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
@@ -52,6 +52,10 @@ endif ()
 
 if (AEON_ENABLE_MONO)
     add_subdirectory(mono)
+endif ()
+
+if (AEON_ENABLE_MIDI)
+    add_subdirectory(midi)
 endif ()
 
 ################################################################################
@@ -75,27 +79,6 @@ if (AEON_ENABLE_SOCKETS)
     )
 
     source_group(webserver FILES ${LIB_AEON_WEBSERVER_SOURCE})
-endif ()
-
-################################################################################
-
-if (AEON_ENABLE_MIDI)
-    set(LIB_AEON_MIDI_SOURCE
-        aeon/midi.h
-        aeon/midi/midi_device.cpp
-        aeon/midi/midi_device.h
-        aeon/midi/midi_file_reader.cpp
-        aeon/midi/midi_file_reader.h
-        aeon/midi/midi_input_device.cpp
-        aeon/midi/midi_input_device.h
-        aeon/midi/midi_input_manager.cpp
-        aeon/midi/midi_input_manager.h
-        aeon/midi/midi_output_device.cpp
-        aeon/midi/midi_output_device.h
-        aeon/midi/midi_messages.h
-    )
-
-    source_group(midi FILES ${LIB_AEON_MIDI_SOURCE})
 endif ()
 
 ################################################################################
@@ -135,10 +118,6 @@ if (AEON_ENABLE_SOCKETS)
     )
 endif ()
 
-if (AEON_ENABLE_MIDI)
-    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MIDI_SOURCE})
-endif ()
-
 if (AEON_ENABLE_HDF5)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_HDF5_SOURCE})
 endif ()
@@ -156,11 +135,6 @@ target_include_directories(aeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 if (AEON_ENABLE_SOCKETS)
     message(STATUS "Building libAeon with Sockets support (Asio).")
     target_link_libraries(aeon asio)
-endif ()
-
-if (AEON_ENABLE_MIDI)
-    message(STATUS "Building libAeon with MIDI support.")
-    target_link_libraries(aeon rtmidi)
 endif ()
 
 if (AEON_ENABLE_HDF5)

@@ -25,26 +25,38 @@
 
 #pragma once
 
+#include <aeon/midi/midi_device.h>
+
+#include "RtMidi.h"
+
+#include <string>
+#include <vector>
+
 namespace aeon
 {
 namespace midi
 {
 
-class midi_device
+class midi_output_device : public midi_device
 {
 public:
-    auto get_port_count() const -> unsigned int;
+    midi_output_device();
+    virtual ~midi_output_device();
 
-    auto get_port_name(const unsigned int index) const -> std::string;
+    void open(const unsigned int port);
+    void open_virtual(const std::string &name);
 
-    auto get_ports() const -> std::vector<std::string>;
+    void send_message(std::vector<unsigned char> &message);
 
-protected:
-    explicit midi_device(RtMidi &midi_device);
-    virtual ~midi_device();
+    void send_note_off(unsigned char channel, unsigned char note, unsigned char velocity);
+
+    void send_note_on(unsigned char channel, unsigned char note, unsigned char velocity);
 
 private:
-    RtMidi &midi_device_;
+    void __send_note_message(unsigned char message, unsigned char note, unsigned char velocity);
+
+    RtMidiOut midi_output_device_;
+    std::vector<unsigned char> note_output_buffer_;
 };
 
 } // namespace midi

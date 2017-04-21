@@ -23,41 +23,43 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/midi.h>
+#include <aeon/midi/midi_input_device.h>
+#include <aeon/common/bitflags.h>
 
 namespace aeon
 {
 namespace midi
 {
 
-static const int note_output_buffer_size = 3;
-
-midi_output_device::midi_output_device()
-    : midi_device(midi_output_device_)
-    , midi_output_device_()
-    , note_output_buffer_(note_output_buffer_size, 0)
+midi_input_device::midi_input_device()
+    : midi_device(midi_input_device_)
+    , midi_input_device_()
+    , port_(0)
 {
 }
 
-midi_output_device::~midi_output_device()
+midi_input_device::~midi_input_device()
 {
-    if (midi_output_device_.isPortOpen())
-        midi_output_device_.closePort();
+    if (midi_input_device_.isPortOpen())
+        midi_input_device_.closePort();
 }
 
-void midi_output_device::open(const unsigned int port)
+void midi_input_device::open(const unsigned int port)
 {
-    midi_output_device_.openPort(port);
+    port_ = port;
+    midi_input_device_.openPort(port);
 }
 
-void midi_output_device::open_virtual(const std::string &name)
+auto midi_input_device::get_message(std::vector<unsigned char> &message) const -> double
 {
-    midi_output_device_.openVirtualPort(name);
+    return midi_input_device_.getMessage(&message);
 }
 
-void midi_output_device::send_message(std::vector<unsigned char> &message)
+void midi_input_device::set_message_mask(const int mask)
 {
-    midi_output_device_.sendMessage(&message);
+    midi_input_device_.ignoreTypes(common::check_bit_flag(mask, midi_message_type::system_exclusive),
+                                   common::check_bit_flag(mask, midi_message_type::time_code),
+                                   common::check_bit_flag(mask, midi_message_type::sense));
 }
 
 } // namespace midi

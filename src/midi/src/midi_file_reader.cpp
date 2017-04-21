@@ -23,9 +23,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/midi.h>
-#include <aeon/streams.h>
-#include <aeon/utility.h>
+#include <aeon/midi/midi_file_reader.h>
+#include <aeon/midi/midi_messages.h>
+#include <aeon/streams/file_stream.h>
+#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/stream_reader.h>
+#include <aeon/common/endianness.h>
+#include <aeon/common/bitflags.h>
+#include <stdexcept>
 
 namespace aeon
 {
@@ -81,27 +86,27 @@ void midi_file_reader::read_header(streams::memory_stream &stream)
     std::uint32_t mthd = 0;
     reader >> mthd;
 
-    if (utility::endianness::swap32(mthd) != 'MThd')
+    if (common::endianness::swap32(mthd) != 'MThd')
         throw std::runtime_error("Invalid or corrupt midi file. MThd not found.");
 
     std::uint32_t header_length = 0;
     reader >> header_length;
-    header_length = utility::endianness::swap32(header_length);
+    header_length = common::endianness::swap32(header_length);
 
     if (header_length != 6)
         throw std::runtime_error("Invalid or corrupt midi file. Header length is expected to be 6.");
 
     std::uint16_t format = 0;
     reader >> format;
-    parse_format(utility::endianness::swap16(format));
+    parse_format(common::endianness::swap16(format));
 
     std::uint16_t tracks = 0;
     reader >> tracks;
-    tracks_ = utility::endianness::swap16(tracks);
+    tracks_ = common::endianness::swap16(tracks);
 
     std::uint16_t divisions = 0;
     reader >> divisions;
-    parse_divisions(utility::endianness::swap16(divisions));
+    parse_divisions(common::endianness::swap16(divisions));
 }
 
 void midi_file_reader::parse_format(const std::uint16_t format)
@@ -128,7 +133,7 @@ void midi_file_reader::parse_format(const std::uint16_t format)
 void midi_file_reader::parse_divisions(const std::uint16_t divisions)
 {
     // If bit 0x80 is not set, the midi file uses ppqn mode; otherwise smpte.
-    if (!utility::check_bit_flag<std::uint16_t>(divisions, 0x8000))
+    if (!common::check_bit_flag<std::uint16_t>(divisions, 0x8000))
     {
         tempo_mode_ = midi_tempo_mode::ppqn;
         divisions_ = divisions;
@@ -169,12 +174,12 @@ std::uint32_t midi_file_reader::read_track_header(streams::memory_stream &stream
     std::uint32_t mtrk = 0;
     reader >> mtrk;
 
-    if (utility::endianness::swap32(mtrk) != 'MTrk')
+    if (common::endianness::swap32(mtrk) != 'MTrk')
         throw std::runtime_error("Invalid or corrupt midi file. MTrk not found.");
 
     std::uint32_t track_length = 0;
     reader >> track_length;
-    return utility::endianness::swap32(track_length);
+    return common::endianness::swap32(track_length);
 }
 
 void midi_file_reader::parse_track_data(streams::memory_stream &stream)
@@ -212,7 +217,7 @@ std::uint32_t midi_file_reader::read_vtime(streams::memory_stream &stream)
 
     std::uint32_t value = value_part & ~0x80;
 
-    while (utility::check_bit_flag<std::uint8_t>(value_part, 0x80))
+    while (common::check_bit_flag<std::uint8_t>(value_part, 0x80))
     {
         reader >> value_part;
         value = (value << 7);
