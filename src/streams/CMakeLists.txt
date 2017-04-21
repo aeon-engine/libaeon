@@ -30,6 +30,7 @@ set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/file_stream_fwd.h
     include/aeon/streams/io_stream.h
     src/io_stream.cpp
+    include/aeon/streams/io_stream_fwd.h
     include/aeon/streams/io_stream_colors_mixin.h
     src/io_stream_colors_mixin.cpp
     include/aeon/streams/memory_stream.h
