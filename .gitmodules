@@ -14,3 +14,11 @@
 	path = dep/rtmidi
 	url = ../rtmidi.git
 	branch = submodule
+[submodule "dep/asio"]
+	path = dep/asio
+	url = ../asio.git
+	branch = submodule
+[submodule "dep/hdf5"]
+	path = dep/hdf5
+	url = ../hdf5.git
+	branch = submodule

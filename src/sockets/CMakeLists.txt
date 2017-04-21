@@ -21,29 +21,35 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
+message(STATUS "Building libAeon with Socket support.")
 
-project(libAeon)
+add_subdirectory(${CMAKE_SOURCE_DIR}/dep/asio dep/asio)
 
-include(CTest)
-enable_testing()
+set(LIB_AEON_SOCKETS_SOURCE
+    include/aeon/sockets/config.h
+    include/aeon/sockets/line_protocol_handler.h
+    include/aeon/sockets/tcp_server.h
+    include/aeon/sockets/webserver/http_protocol_handler.h
+    src/http_protocol_handler.cpp
+    include/aeon/sockets/webserver/http_request.h
+    src/http_request.cpp
+)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dep/cmake")
+source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
 
-include(CompilerFlags)
+add_library(aeon_sockets STATIC ${LIB_AEON_SOCKETS_SOURCE})
 
-################################################################################
+set_target_properties(aeon_sockets PROPERTIES
+    FOLDER dep/libaeon
+    LINKER_LANGUAGE CXX
+)
 
-option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
+target_include_directories(aeon_sockets PUBLIC include)
+target_link_libraries(aeon_sockets aeon_common aeon_streams asio)
 
-if (AEON_ENABLE_COVERAGE)
-    include(Coverage)
-    enable_coverage()
-endif ()
+install(
+    DIRECTORY include
+    DESTINATION include
+)
 
-################################################################################
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-add_subdirectory(dep/googletest)
-add_subdirectory(src)
+add_subdirectory(tests)

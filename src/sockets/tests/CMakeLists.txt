@@ -21,29 +21,14 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
+include(Unittests)
 
-project(libAeon)
-
-include(CTest)
-enable_testing()
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dep/cmake")
-
-include(CompilerFlags)
-
-################################################################################
-
-option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
-
-if (AEON_ENABLE_COVERAGE)
-    include(Coverage)
-    enable_coverage()
-endif ()
-
-################################################################################
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-add_subdirectory(dep/googletest)
-add_subdirectory(src)
+add_unit_test_suite(
+    NO_GTEST_MAIN
+    TARGET test_libaeon_sockets
+    SOURCES
+        main.cpp
+        test_sockets.cpp
+    LIBRARIES aeon_sockets
+    FOLDER dep/libaeon/tests
+)
