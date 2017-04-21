@@ -31,6 +31,6 @@ add_unit_test_suite(
         test_filesystem.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon aeon_filesystem aeon_testing
+    LIBRARIES aeon_filesystem aeon_testing
     FOLDER dep/libaeon/tests
 )

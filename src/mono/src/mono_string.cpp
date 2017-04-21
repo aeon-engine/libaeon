@@ -23,7 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono.h>
+#include <aeon/mono/mono_string.h>
+
+#include <utility>
 
 namespace aeon
 {

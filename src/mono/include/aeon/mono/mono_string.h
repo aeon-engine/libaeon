@@ -25,32 +25,38 @@
 
 #pragma once
 
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/mono/mono_object.h>
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <string>
+
 namespace aeon
 {
 namespace mono
 {
 
-class mono_assembly;
-
-/*!
- * Class to initialize the Mono JIT. This class must be instanced
- * only once. When this class is deleted, the JIT is cleaned up.
- *
- * Due to the way Mono works, a cleaned up JIT can not be reinitialized
- * at runtime after it was cleaned up. You must keep this class instanced
- * during the full runtime of the application.
- */
-class mono_jit : utility::noncopyable
+class mono_string : public mono_object
 {
 public:
-    mono_jit();
-    explicit mono_jit(const std::string &domain);
-    ~mono_jit();
+    mono_string(MonoDomain *domain, const std::string &str);
+    ~mono_string();
 
-    mono_assembly load_assembly(const std::string &path) const;
+    mono_string(mono_string &&o);
+    mono_string &operator=(mono_string &&o);
+
+    mono_string &operator=(const std::string &str);
+
+    MonoObject *get_mono_object() const override;
 
 private:
-    MonoDomain *domain_;
+    MonoString *object_;
+    std::string string_;
 };
 
 } // namespace mono

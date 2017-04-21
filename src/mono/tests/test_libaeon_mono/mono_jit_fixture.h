@@ -25,34 +25,21 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace mono
-{
+#include "gtest/gtest.h"
+#include <aeon/common/singleton.h>
+#include <aeon/mono/mono_jit.h>
 
-class mono_method : public utility::noncopyable
+// The Mono Jit can only be instanced once during runtime, so it needs to be done in a global fixture.
+class mono_jit_fixture : public ::testing::Environment, public aeon::common::singleton<mono_jit_fixture>
 {
 public:
-    mono_method(MonoClass *cls, const std::string &name, int argc);
-    mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
+    mono_jit_fixture();
 
-    ~mono_method();
+    void SetUp() override;
+    void TearDown() override;
 
-    mono_method(mono_method &&o);
-    mono_method &operator=(mono_method &&o);
-
-    void operator()();
-    void operator()(std::vector<mono_object *> params);
+    aeon::mono::mono_jit &get_jit();
 
 private:
-    void execute(void **params);
-
-    MonoClass *class_;
-    std::string name_;
-    int argc_;
-    MonoMethod *method_;
-    MonoObject *object_;
+    aeon::mono::mono_jit jit_;
 };
-
-} // namespace mono
-} // namespace aeon

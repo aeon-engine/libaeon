@@ -25,36 +25,35 @@
 
 #pragma once
 
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/mono/mono_gchandle.h>
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+
 namespace aeon
 {
 namespace mono
 {
 
-class mono_class;
-class mono_class_instance;
-class mono_string;
-
-class mono_assembly : public utility::noncopyable
+class mono_object : public common::noncopyable
 {
 public:
-    explicit mono_assembly(MonoDomain *domain, const std::string &path);
-    ~mono_assembly();
+    mono_object(MonoDomain *domain);
+    ~mono_object();
 
-    mono_assembly(mono_assembly &&o);
-    mono_assembly &operator=(mono_assembly &&o);
+    mono_object(mono_object &&o);
+    mono_object &operator=(mono_object &&o);
 
-    int execute();
-    int execute(int argc, char *argv[]);
+    virtual MonoObject *get_mono_object() const = 0;
 
-    mono_class get_class(const std::string &name);
-    mono_class_instance new_class_instance(const mono_class &cls);
-    mono_string new_string(const std::string &str);
-
-private:
+protected:
     MonoDomain *domain_;
-    std::string path_;
-    MonoAssembly *assembly_;
-    MonoImage *image_;
+    mono_gchandle handle_;
 };
 
 } // namespace mono

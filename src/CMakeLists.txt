@@ -22,11 +22,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # Curl
-option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." ON)
+option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." OFF)
 
 # Mono
-option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
-option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." OFF)
+option(AEON_ENABLE_MONO "Enable the Aeon Mono library." ON)
 
 # Sockets
 option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
@@ -48,6 +47,10 @@ add_subdirectory(math)
 
 if (AEON_ENABLE_CURL)
     add_subdirectory(curl)
+endif ()
+
+if (AEON_ENABLE_MONO)
+    add_subdirectory(mono)
 endif ()
 
 ################################################################################
@@ -89,52 +92,6 @@ set(LIB_AEON_LOGGER_SOURCE
 )
 
 source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
-
-################################################################################
-
-if (AEON_ENABLE_MONO)
-    include(Mono)
-
-    if (AEON_COPY_MONO_RUNTIMES)
-        copy_mono_runtimes_to_runtime_path()
-        set(_MONO_ASSEMBLY_DIR ".")
-        set(_MONO_CONFIG_DIR ".")
-    else ()
-        set(_MONO_ASSEMBLY_DIR ${MONO_ASSEMBLY_PATH})
-        set(_MONO_CONFIG_DIR ${MONO_CONFIG_PATH})
-    endif ()
-
-    set(AEON_MONO_ASSEMBLY_DIR "${_MONO_ASSEMBLY_DIR}"
-        CACHE PATH "Path to the Mono assembly dir (mono/lib). May be a relative path.")
-    set(AEON_MONO_CONFIG_DIR "${_MONO_CONFIG_DIR}"
-        CACHE PATH "Path to the Mono config dir (mono/etc). May be a relative path.")
-
-    configure_file(src/aeon/mono/mono_build_config.h.in mono_build_config.h @ONLY)
-
-    set(LIB_AEON_MONO_SOURCE
-        aeon/mono.h
-        aeon/mono/mono_method.cpp
-        aeon/mono/mono_method.h
-        aeon/mono/mono_assembly.cpp
-        aeon/mono/mono_assembly.h
-        aeon/mono/mono_jit.cpp
-        aeon/mono/mono_jit.h
-        aeon/mono/mono_class.cpp
-        aeon/mono/mono_class.h
-        aeon/mono/mono_object.cpp
-        aeon/mono/mono_object.h
-        aeon/mono/mono_string.cpp
-        aeon/mono/mono_string.h
-        aeon/mono/mono_gchandle.cpp
-        aeon/mono/mono_gchandle.h
-        aeon/mono/mono_class_instance.cpp
-        aeon/mono/mono_class_instance.h
-        aeon/mono/mono_exception.h
-        ${CMAKE_CURRENT_BINARY_DIR}/mono_build_config.h
-    )
-
-    source_group(mono FILES ${LIB_AEON_MONO_SOURCE})
-endif ()
 
 ################################################################################
 
@@ -198,10 +155,6 @@ if (AEON_ENABLE_SOCKETS)
     )
 endif ()
 
-if (AEON_ENABLE_MONO)
-    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MONO_SOURCE})
-endif ()
-
 if (AEON_ENABLE_MIDI)
     list(APPEND LIB_AEON_SOURCE ${LIB_AEON_MIDI_SOURCE})
 endif ()
@@ -223,12 +176,6 @@ target_include_directories(aeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 if (AEON_ENABLE_SOCKETS)
     message(STATUS "Building libAeon with Sockets support (Asio).")
     target_link_libraries(aeon asio)
-endif ()
-
-if (AEON_ENABLE_MONO)
-    message(STATUS "Building libAeon with MONO support.")
-    target_link_libraries(aeon ${MONO_LIBRARIES})
-    target_include_directories(aeon PUBLIC ${MONO_INCLUDE_PATH} ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
 
 if (AEON_ENABLE_MIDI)

@@ -23,34 +23,49 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono.h>
+#pragma once
+
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <string>
+#include <vector>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_object::mono_object(MonoDomain *domain)
-    : domain_(domain)
-{
-}
+class mono_object;
 
-mono_object::~mono_object()
+class mono_method : public common::noncopyable
 {
-}
+public:
+    mono_method(MonoClass *cls, const std::string &name, int argc);
+    mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
 
-mono_object::mono_object(mono_object &&o)
-    : domain_(o.domain_)
-    , handle_(std::move(o.handle_))
-{
-}
+    ~mono_method();
 
-mono_object &mono_object::operator=(mono_object &&o)
-{
-    domain_ = o.domain_;
-    handle_ = std::move(o.handle_);
-    return *this;
-}
+    mono_method(mono_method &&o);
+    mono_method &operator=(mono_method &&o);
+
+    void operator()();
+    void operator()(std::vector<mono_object *> params);
+
+private:
+    void execute(void **params);
+
+    MonoClass *class_;
+    std::string name_;
+    int argc_;
+    MonoMethod *method_;
+    MonoObject *object_;
+};
 
 } // namespace mono
 } // namespace aeon

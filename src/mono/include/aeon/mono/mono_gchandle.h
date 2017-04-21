@@ -25,12 +25,22 @@
 
 #pragma once
 
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <cstdint>
+
 namespace aeon
 {
 namespace mono
 {
 
-class mono_gchandle : public utility::noncopyable
+class mono_gchandle : public common::noncopyable
 {
 public:
     mono_gchandle();

@@ -24,7 +24,12 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/mono.h>
+#include <aeon/mono/mono_jit.h>
+#include <aeon/mono/mono_assembly.h>
+#include <aeon/mono/mono_class.h>
+#include <aeon/mono/mono_class_instance.h>
+#include <aeon/mono/mono_method.h>
+#include <aeon/mono/mono_exception.h>
 #include "mono_jit_fixture.h"
 
 TEST(test_mono, test_mono_jit_load_assembly_fail)

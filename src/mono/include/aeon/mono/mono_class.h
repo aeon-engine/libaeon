@@ -25,26 +25,39 @@
 
 #pragma once
 
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <string>
+
 namespace aeon
 {
 namespace mono
 {
 
-class mono_class_instance : public mono_object
+class mono_method;
+
+class mono_class : public common::noncopyable
 {
 public:
-    mono_class_instance(MonoDomain *domain, MonoClass *cls);
-    ~mono_class_instance();
+    mono_class(MonoImage *image, const std::string &name);
+    ~mono_class();
 
-    mono_class_instance(mono_class_instance &&o);
-    mono_class_instance &operator=(mono_class_instance &&o);
+    mono_class(mono_class &&o);
+    mono_class &operator=(mono_class &&o);
 
     mono_method get_method(const std::string &name, int argc = 0);
 
-    MonoObject *get_mono_object() const override;
+    MonoClass *get_mono_class_ptr() const;
 
 private:
-    MonoObject *object_;
+    MonoImage *image_;
+    std::string name_;
     MonoClass *class_;
 };
 

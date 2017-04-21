@@ -23,72 +23,55 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono.h>
+#include <aeon/mono/mono_class.h>
+#include <aeon/mono/mono_method.h>
+#include <aeon/mono/mono_exception.h>
+
+#include <utility>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
-    : domain_(domain)
-    , path_(path)
-    , assembly_(nullptr)
-    , image_(nullptr)
+mono_class::mono_class(MonoImage *image, const std::string &name)
+    : image_(image)
+    , name_(name)
+    , class_(nullptr)
 {
-    assembly_ = mono_domain_assembly_open(domain, path.c_str());
+    class_ = mono_class_from_name(image, "", name.c_str());
 
-    if (!assembly_)
+    if (!class_)
         throw mono_exception();
-
-    image_ = mono_assembly_get_image(assembly_);
 }
 
-mono_assembly::~mono_assembly()
+mono_class::~mono_class()
 {
 }
 
-mono_assembly::mono_assembly(mono_assembly &&o)
-    : domain_(o.domain_)
-    , path_(std::move(o.path_))
-    , assembly_(o.assembly_)
-    , image_(o.image_)
+mono_class::mono_class(mono_class &&o)
+    : image_(o.image_)
+    , name_(std::move(o.name_))
+    , class_(o.class_)
 {
 }
 
-mono_assembly &mono_assembly::operator=(mono_assembly &&o)
+mono_class &mono_class::operator=(mono_class &&o)
 {
-    domain_ = o.domain_;
-    path_ = std::move(o.path_);
-    assembly_ = o.assembly_;
     image_ = o.image_;
+    name_ = std::move(o.name_);
+    class_ = o.class_;
     return *this;
 }
 
-int mono_assembly::execute()
+mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/)
 {
-    char *argv[1] = {const_cast<char *>(path_.c_str())};
-    return execute(1, argv);
+    return mono_method(class_, name, argc);
 }
 
-int mono_assembly::execute(int argc, char *argv[])
+MonoClass *mono_class::get_mono_class_ptr() const
 {
-    return mono_jit_exec(domain_, assembly_, argc, argv);
-}
-
-mono_class mono_assembly::get_class(const std::string &name)
-{
-    return mono_class(image_, name);
-}
-
-mono_class_instance mono_assembly::new_class_instance(const mono_class &cls)
-{
-    return mono_class_instance(domain_, cls.get_mono_class_ptr());
-}
-
-mono_string mono_assembly::new_string(const std::string &str)
-{
-    return mono_string(domain_, str);
+    return class_;
 }
 
 } // namespace mono

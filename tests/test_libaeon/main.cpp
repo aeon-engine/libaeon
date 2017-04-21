@@ -23,20 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <build_config.h>
 #include "gtest/gtest.h"
-
-#ifdef AEON_ENABLE_MONO
-#include "mono_jit_fixture.h"
-#endif
 
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
-
-#ifdef AEON_ENABLE_MONO
-    ::testing::AddGlobalTestEnvironment(new mono_jit_fixture());
-#endif
-
     return RUN_ALL_TESTS();
 }

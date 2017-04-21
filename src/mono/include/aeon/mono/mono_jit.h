@@ -23,38 +23,45 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono.h>
-#include <mono_build_config.h>
+#pragma once
+
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <string>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_jit::mono_jit()
-    : mono_jit("AeonMono")
-{
-}
+class mono_assembly;
 
-mono_jit::mono_jit(const std::string &domain)
-    : domain_(nullptr)
+/*!
+ * Class to initialize the Mono JIT. This class must be instanced
+ * only once. When this class is deleted, the JIT is cleaned up.
+ *
+ * Due to the way Mono works, a cleaned up JIT can not be reinitialized
+ * at runtime after it was cleaned up. You must keep this class instanced
+ * during the full runtime of the application.
+ */
+class mono_jit : common::noncopyable
 {
-    mono_set_dirs(AEON_MONO_ASSEMBLY_DIR, AEON_MONO_CONFIG_DIR);
-    domain_ = mono_jit_init(domain.c_str());
+public:
+    mono_jit();
+    explicit mono_jit(const std::string &domain);
+    ~mono_jit();
 
-    if (!domain_)
-        throw mono_exception();
-}
+    mono_assembly load_assembly(const std::string &path) const;
 
-mono_jit::~mono_jit()
-{
-    mono_jit_cleanup(domain_);
-}
-
-mono_assembly mono_jit::load_assembly(const std::string &path) const
-{
-    return mono_assembly(domain_, path);
-}
+private:
+    MonoDomain *domain_;
+};
 
 } // namespace mono
 } // namespace aeon

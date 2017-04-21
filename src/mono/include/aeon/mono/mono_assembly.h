@@ -23,51 +23,49 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono.h>
+#pragma once
+
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <string>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls)
-    : mono_object(domain)
-    , object_(nullptr)
-    , class_(cls)
-{
-    object_ = mono_object_new(domain, cls);
-    mono_runtime_object_init(object_);
-    handle_ = mono_gchandle(object_);
-}
+class mono_class;
+class mono_class_instance;
+class mono_string;
 
-mono_class_instance::~mono_class_instance()
+class mono_assembly : public common::noncopyable
 {
-}
+public:
+    explicit mono_assembly(MonoDomain *domain, const std::string &path);
+    ~mono_assembly();
 
-mono_class_instance::mono_class_instance(mono_class_instance &&o)
-    : mono_object(std::move(o))
-    , object_(o.object_)
-    , class_(o.class_)
-{
-}
+    mono_assembly(mono_assembly &&o);
+    mono_assembly &operator=(mono_assembly &&o);
 
-mono_class_instance &mono_class_instance::operator=(mono_class_instance &&o)
-{
-    mono_object::operator=(std::move(o));
-    object_ = o.object_;
-    class_ = o.class_;
-    return *this;
-}
+    int execute();
+    int execute(int argc, char *argv[]);
 
-mono_method mono_class_instance::get_method(const std::string &name, int argc /*= 0*/)
-{
-    return mono_method(class_, object_, name, argc);
-}
+    mono_class get_class(const std::string &name);
+    mono_class_instance new_class_instance(const mono_class &cls);
+    mono_string new_string(const std::string &str);
 
-MonoObject *mono_class_instance::get_mono_object() const
-{
-    return object_;
-}
+private:
+    MonoDomain *domain_;
+    std::string path_;
+    MonoAssembly *assembly_;
+    MonoImage *image_;
+};
 
 } // namespace mono
 } // namespace aeon

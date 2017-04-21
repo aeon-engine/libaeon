@@ -23,33 +23,42 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/mono/mono_jit.h>
+#include <aeon/mono/mono_assembly.h>
+#include <aeon/mono/mono_exception.h>
+#include <mono_build_config.h>
+
+#include <mono/metadata/assembly.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_method;
-
-class mono_class : public utility::noncopyable
+mono_jit::mono_jit()
+    : mono_jit("AeonMono")
 {
-public:
-    mono_class(MonoImage *image, const std::string &name);
-    ~mono_class();
+}
 
-    mono_class(mono_class &&o);
-    mono_class &operator=(mono_class &&o);
+mono_jit::mono_jit(const std::string &domain)
+    : domain_(nullptr)
+{
+    mono_set_dirs(AEON_MONO_ASSEMBLY_DIR, AEON_MONO_CONFIG_DIR);
+    domain_ = mono_jit_init(domain.c_str());
 
-    mono_method get_method(const std::string &name, int argc = 0);
+    if (!domain_)
+        throw mono_exception();
+}
 
-    MonoClass *get_mono_class_ptr() const;
+mono_jit::~mono_jit()
+{
+    mono_jit_cleanup(domain_);
+}
 
-private:
-    MonoImage *image_;
-    std::string name_;
-    MonoClass *class_;
-};
+mono_assembly mono_jit::load_assembly(const std::string &path) const
+{
+    return mono_assembly(domain_, path);
+}
 
 } // namespace mono
 } // namespace aeon

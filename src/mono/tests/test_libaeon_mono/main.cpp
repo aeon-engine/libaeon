@@ -23,23 +23,12 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
+#include "mono_jit_fixture.h"
 
-#include "gtest/gtest.h"
-#include <aeon/utility.h>
-#include <aeon/mono.h>
-
-// The Mono Jit can only be instanced once during runtime, so it needs to be done in a global fixture.
-class mono_jit_fixture : public ::testing::Environment, public aeon::utility::singleton<mono_jit_fixture>
+int main(int argc, char **argv)
 {
-public:
-    mono_jit_fixture();
-
-    void SetUp() override;
-    void TearDown() override;
-
-    aeon::mono::mono_jit &get_jit();
-
-private:
-    aeon::mono::mono_jit jit_;
-};
+    ::testing::InitGoogleTest(&argc, argv);
+    ::testing::AddGlobalTestEnvironment(new mono_jit_fixture());
+    return RUN_ALL_TESTS();
+}

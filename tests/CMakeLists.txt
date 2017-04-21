@@ -29,23 +29,6 @@ set(UNIT_TEST_SOURCES
     main.cpp
 )
 
-if (AEON_ENABLE_MONO)
-    list(APPEND UNIT_TEST_SOURCES
-        mono_jit_fixture.cpp
-        mono_jit_fixture.h
-        test_mono.cpp
-    )
-
-    include(Mono)
-
-    add_mono_assembly(
-        TARGET MonoTests
-        DESTINATION ${CMAKE_BINARY_DIR}/bin
-        TYPE library
-        SOURCES test_libaeon/mono/test_mono.cs
-    )
-endif ()
-
 if (AEON_ENABLE_MIDI)
     list(APPEND UNIT_TEST_SOURCES
         test_midi.cpp

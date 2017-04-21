@@ -25,27 +25,32 @@
 
 #pragma once
 
+#include <aeon/mono/mono_object.h>
+#include <string>
+
 namespace aeon
 {
 namespace mono
 {
 
-class mono_string : public mono_object
+class mono_method;
+
+class mono_class_instance : public mono_object
 {
 public:
-    mono_string(MonoDomain *domain, const std::string &str);
-    ~mono_string();
+    mono_class_instance(MonoDomain *domain, MonoClass *cls);
+    ~mono_class_instance();
 
-    mono_string(mono_string &&o);
-    mono_string &operator=(mono_string &&o);
+    mono_class_instance(mono_class_instance &&o);
+    mono_class_instance &operator=(mono_class_instance &&o);
 
-    mono_string &operator=(const std::string &str);
+    mono_method get_method(const std::string &name, int argc = 0);
 
     MonoObject *get_mono_object() const override;
 
 private:
-    MonoString *object_;
-    std::string string_;
+    MonoObject *object_;
+    MonoClass *class_;
 };
 
 } // namespace mono

@@ -23,28 +23,35 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/mono/mono_object.h>
+#include <utility>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_object : public utility::noncopyable
+mono_object::mono_object(MonoDomain *domain)
+    : domain_(domain)
 {
-public:
-    mono_object(MonoDomain *domain);
-    ~mono_object();
+}
 
-    mono_object(mono_object &&o);
-    mono_object &operator=(mono_object &&o);
+mono_object::~mono_object()
+{
+}
 
-    virtual MonoObject *get_mono_object() const = 0;
+mono_object::mono_object(mono_object &&o)
+    : domain_(o.domain_)
+    , handle_(std::move(o.handle_))
+{
+}
 
-protected:
-    MonoDomain *domain_;
-    mono_gchandle handle_;
-};
+mono_object &mono_object::operator=(mono_object &&o)
+{
+    domain_ = o.domain_;
+    handle_ = std::move(o.handle_);
+    return *this;
+}
 
 } // namespace mono
 } // namespace aeon

@@ -23,51 +23,54 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono.h>
+#include <aeon/mono/mono_class_instance.h>
+#include <aeon/mono/mono_gchandle.h>
+#include <aeon/mono/mono_method.h>
+
+#include <utility>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_class::mono_class(MonoImage *image, const std::string &name)
-    : image_(image)
-    , name_(name)
-    , class_(nullptr)
+mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls)
+    : mono_object(domain)
+    , object_(nullptr)
+    , class_(cls)
 {
-    class_ = mono_class_from_name(image, "", name.c_str());
-
-    if (!class_)
-        throw mono_exception();
+    object_ = mono_object_new(domain, cls);
+    mono_runtime_object_init(object_);
+    handle_ = mono_gchandle(object_);
 }
 
-mono_class::~mono_class()
+mono_class_instance::~mono_class_instance()
 {
 }
 
-mono_class::mono_class(mono_class &&o)
-    : image_(o.image_)
-    , name_(std::move(o.name_))
+mono_class_instance::mono_class_instance(mono_class_instance &&o)
+    : mono_object(std::move(o))
+    , object_(o.object_)
     , class_(o.class_)
 {
 }
 
-mono_class &mono_class::operator=(mono_class &&o)
+mono_class_instance &mono_class_instance::operator=(mono_class_instance &&o)
 {
-    image_ = o.image_;
-    name_ = std::move(o.name_);
+    mono_object::operator=(std::move(o));
+    object_ = o.object_;
     class_ = o.class_;
     return *this;
 }
 
-mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/)
+mono_method mono_class_instance::get_method(const std::string &name, int argc /*= 0*/)
 {
-    return mono_method(class_, name, argc);
+    return mono_method(class_, object_, name, argc);
 }
 
-MonoClass *mono_class::get_mono_class_ptr() const
+MonoObject *mono_class_instance::get_mono_object() const
 {
-    return class_;
+    return object_;
 }
 
 } // namespace mono
