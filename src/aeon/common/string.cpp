@@ -23,7 +23,11 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/utility.h>
+#include <aeon/common/string.h>
+#include <sstream>
+#include <algorithm>
+#include <functional>
+#include <cctype>
 
 namespace aeon
 {

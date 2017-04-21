@@ -25,6 +25,9 @@
 
 #pragma once
 
+#include <aeon/streams/config.h>
+#include <string>
+
 namespace aeon
 {
 namespace streams

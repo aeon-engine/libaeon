@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/streams/file_stream_fwd.h>
+
 namespace aeon
 {
 namespace streams

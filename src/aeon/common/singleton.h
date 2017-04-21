@@ -25,6 +25,10 @@
 
 #pragma once
 
+#include <aeon/common/noncopyable.h>
+
+#include <stdexcept>
+
 #define aeon_utility_initialize_singleton(type)                                                                        \
     template <>                                                                                                        \
     type *aeon::utility::singleton<type>::instance_ = nullptr

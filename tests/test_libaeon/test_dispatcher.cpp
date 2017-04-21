@@ -25,7 +25,7 @@
 
 #include <gtest/gtest.h>
 
-#include <aeon/utility.h>
+#include <aeon/utility/dispatcher.h>
 
 TEST(test_dispatcher, test_dispatcher_basic_run)
 {

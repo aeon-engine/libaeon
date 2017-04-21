@@ -36,6 +36,23 @@ option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
 
 ################################################################################
 
+set(LIB_AEON_COMMON_SOURCE
+    aeon/common/bitflags.h
+    aeon/common/endianness.h
+    aeon/common/literals.h
+    aeon/common/noncopyable.h
+    aeon/common/optional.h
+    aeon/common/singleton.h
+    aeon/common/string.cpp
+    aeon/common/string.h
+    aeon/common/string_traits.h
+    aeon/common/variant.h
+)
+
+source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
+
+################################################################################
+
 set(LIB_AEON_STREAMS_SOURCE
     aeon/streams.h
     aeon/streams/config.h
@@ -43,7 +60,9 @@ set(LIB_AEON_STREAMS_SOURCE
     aeon/streams/stream_reader.h
     aeon/streams/stream_writer.h
     aeon/streams/stream.h
+    aeon/streams/stream_fwd.h
     aeon/streams/file_stream.h
+    aeon/streams/file_stream_fwd.h
     aeon/streams/file_stream.cpp
     aeon/streams/io_stream.h
     aeon/streams/io_stream.cpp
@@ -94,30 +113,19 @@ endif ()
 ################################################################################
 
 set(LIB_AEON_UTILITY_SOURCE
-    aeon/utility.h
     aeon/utility/asynchronizer.h
-    aeon/utility/bitflags.h
-    aeon/utility/singleton.h
     aeon/utility/configfile.h
     aeon/utility/configfile.cpp
     aeon/utility/container.h
     aeon/utility/hexdump.h
     aeon/utility/hexdump.cpp
-    aeon/utility/endianness.h
     aeon/utility/timer.cpp
     aeon/utility/timer.h
-    aeon/utility/optional.h
     aeon/utility/linear_map.h
-    aeon/utility/variant.h
-    aeon/utility/noncopyable.h
-    aeon/utility/string_traits.h
-    aeon/utility/string.cpp
-    aeon/utility/string.h
     aeon/utility/listener_subject.h
     aeon/utility/dispatcher.h
     aeon/utility/signals.h
     aeon/utility/parallelizer.h
-    aeon/utility/literals.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
@@ -285,6 +293,7 @@ endif ()
 ################################################################################
 
 set(LIB_AEON_SOURCE
+    ${LIB_AEON_COMMON_SOURCE}
     ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_UTILITY_SOURCE}

@@ -25,6 +25,9 @@
 
 #pragma once
 
+#include <algorithm>
+#include <vector>
+
 namespace aeon
 {
 namespace utility

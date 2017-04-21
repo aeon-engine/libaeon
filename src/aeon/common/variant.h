@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace aeon
 {
 namespace utility
@@ -114,27 +116,27 @@ public:
         }
     }
 
-    const int &int_value() const
+    auto int_value() const
     {
         return int_value_;
     }
 
-    const float &float_value() const
+    auto float_value() const
     {
         return float_value_;
     }
 
-    const bool &bool_value() const
+    auto bool_value() const
     {
         return bool_value_;
     }
 
-    const std::string &string_value() const
+    const auto &string_value() const
     {
         return string_value_;
     }
 
-    const variant_type &type() const
+    auto type() const
     {
         return type_;
     }

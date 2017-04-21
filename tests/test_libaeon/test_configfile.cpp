@@ -27,7 +27,7 @@
 
 #define ENABLE_TEMPORARY_FILE_FIXTURE
 #include <aeon/testing.h>
-#include <aeon/utility.h>
+#include <aeon/utility/configfile.h>
 
 using namespace aeon::testutils;
 

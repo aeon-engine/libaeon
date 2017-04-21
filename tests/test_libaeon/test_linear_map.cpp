@@ -24,7 +24,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/utility.h>
+#include <aeon/utility/linear_map.h>
 
 struct test_fixture_linear_map_default_data : public ::testing::Test
 {

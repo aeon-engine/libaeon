@@ -25,6 +25,9 @@
 
 #pragma once
 
+#include <functional>
+#include <vector>
+
 namespace aeon
 {
 namespace utility
@@ -37,13 +40,8 @@ public:
     using pair_type = std::pair<key_type, value_type>;
     using map_type = std::vector<pair_type>;
 
-    linear_map()
-    {
-    }
-
-    ~linear_map()
-    {
-    }
+    linear_map() = default;
+    ~linear_map() = default;
 
     typename map_type::iterator insert(const key_type &key, const value_type &value)
     {

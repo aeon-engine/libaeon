@@ -24,7 +24,9 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/utility.h>
+
+#include <aeon/utility/signals.h>
+#include <array>
 
 TEST(test_signals, test_signals_connect)
 {

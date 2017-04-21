@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/utility.h>
+#include <aeon/utility/timer.h>
 
 namespace aeon
 {

@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <cstdio>
+
 namespace aeon
 {
 namespace utility

@@ -25,6 +25,12 @@
 
 #pragma once
 
+#include <aeon/utility/dispatcher.h>
+#include <aeon/common/noncopyable.h>
+
+#include <functional>
+#include <vector>
+
 namespace aeon
 {
 namespace utility

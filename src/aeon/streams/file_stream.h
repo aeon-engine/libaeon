@@ -25,6 +25,10 @@
 
 #pragma once
 
+#include <aeon/streams/stream.h>
+
+#include <fstream>
+
 namespace aeon
 {
 namespace streams
@@ -89,8 +93,6 @@ protected:
     std::size_t size_;
     std::string filename_;
 };
-
-typedef std::shared_ptr<file_stream> file_stream_ptr;
 
 } // namespace streams
 } // namespace aeon

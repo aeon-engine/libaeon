@@ -25,6 +25,13 @@
 
 #pragma once
 
+#include <aeon/common/noncopyable.h>
+
+#include <functional>
+#include <mutex>
+#include <future>
+#include <queue>
+
 namespace aeon
 {
 namespace utility

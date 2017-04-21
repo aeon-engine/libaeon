@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/platform/platform.h>
+
 #if (AEON_PLATFORM_OS_WINDOWS)
 #define AEON_IGNORE_VS_WARNING(nnn) __pragma(warning(disable : nnn))
 #define AEON_IGNORE_VS_WARNING_PUSH(nnn) __pragma(warning(push)) __pragma(warning(disable : nnn))

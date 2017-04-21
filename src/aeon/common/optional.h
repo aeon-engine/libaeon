@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <exception>
+
 namespace aeon
 {
 namespace utility

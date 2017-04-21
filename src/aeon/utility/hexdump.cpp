@@ -23,7 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/utility.h>
+#include <aeon/utility/hexdump.h>
+#include <cstdint>
+#include <cctype>
 
 namespace aeon
 {

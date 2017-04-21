@@ -25,26 +25,9 @@
 
 #pragma once
 
-#include <chrono>
+#include <cstddef>
 
-namespace aeon
+inline std::size_t operator"" _size_t(unsigned long long int x) noexcept
 {
-namespace utility
-{
-
-class timer
-{
-public:
-    timer();
-    ~timer();
-
-    void reset();
-
-    double get_time_difference() const;
-
-private:
-    std::chrono::time_point<std::chrono::system_clock> start_time_;
-};
-
-} // namespace utility
-} // namespace aeon
+    return static_cast<std::size_t>(x);
+}

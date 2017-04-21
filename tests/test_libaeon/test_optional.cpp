@@ -24,8 +24,8 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/platform.h>
-#include <aeon/utility.h>
+#include <aeon/common/optional.h>
+#include <aeon/platform/compilers.h>
 
 AEON_IGNORE_VS_WARNING(4189)
 

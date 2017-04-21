@@ -25,6 +25,14 @@
 
 #pragma once
 
+#include <aeon/streams/access_mode_mixin.h>
+#include <aeon/streams/stream_name_mixin.h>
+#include <aeon/common/noncopyable.h>
+
+#include <vector>
+#include <cstddef>
+#include <cstdint>
+
 namespace aeon
 {
 namespace streams
@@ -254,8 +262,6 @@ public:
         return *(dynamic_cast<T *>(this));
     }
 };
-
-typedef std::shared_ptr<stream> stream_ptr;
 
 } // namespace streams
 } // namespace aeon

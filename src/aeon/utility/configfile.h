@@ -25,6 +25,17 @@
 
 #pragma once
 
+#include <aeon/streams/stream_fwd.h>
+#include <aeon/common/noncopyable.h>
+#include <aeon/common/string_traits.h>
+
+#include <exception>
+#include <vector>
+#include <string>
+#include <map>
+
+#include <cstdint>
+
 namespace aeon
 {
 namespace utility

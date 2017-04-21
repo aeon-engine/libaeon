@@ -25,6 +25,11 @@
 
 #pragma once
 
+#include <type_traits>
+#include <stdexcept>
+
+#include <cstdint>
+
 namespace aeon
 {
 namespace utility

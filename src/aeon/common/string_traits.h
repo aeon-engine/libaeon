@@ -25,7 +25,76 @@
 
 #pragma once
 
-inline std::size_t operator"" _size_t(unsigned long long int x) noexcept
+#include <string>
+
+namespace aeon
 {
-    return static_cast<std::size_t>(x);
-}
+namespace utility
+{
+namespace string
+{
+
+template <typename T>
+struct convert
+{
+};
+
+template <>
+struct convert<std::string>
+{
+    static std::string to(const std::string &v)
+    {
+        return v;
+    }
+
+    static std::string from(const std::string &v)
+    {
+        return v;
+    }
+};
+
+template <>
+struct convert<int>
+{
+    static std::string to(int v)
+    {
+        return std::to_string(v);
+    }
+
+    static int from(const std::string &v)
+    {
+        return std::stoi(v);
+    }
+};
+
+template <>
+struct convert<float>
+{
+    static std::string to(float v)
+    {
+        return std::to_string(v);
+    }
+
+    static float from(const std::string &v)
+    {
+        return std::stof(v);
+    }
+};
+
+template <>
+struct convert<bool>
+{
+    static std::string to(bool v)
+    {
+        return v ? "1" : "0";
+    }
+
+    static bool from(const std::string &v)
+    {
+        return v == "1" || v == "true";
+    }
+};
+
+} // namespace string
+} // namespace utility
+} // namespace aeon

@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/streams/stream.h>
+
 namespace aeon
 {
 namespace streams
@@ -217,8 +219,6 @@ protected:
     std::size_t offset_;
     std::size_t size_;
 };
-
-typedef std::shared_ptr<memory_stream> memory_stream_ptr;
 
 } // namespace streams
 } // namespace aeon

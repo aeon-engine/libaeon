@@ -25,26 +25,12 @@
 
 #pragma once
 
-#include <chrono>
-
 namespace aeon
 {
-namespace utility
+
+namespace streams
 {
+    class stream;
+} // namespace streams
 
-class timer
-{
-public:
-    timer();
-    ~timer();
-
-    void reset();
-
-    double get_time_difference() const;
-
-private:
-    std::chrono::time_point<std::chrono::system_clock> start_time_;
-};
-
-} // namespace utility
 } // namespace aeon

@@ -23,7 +23,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/utility.h>
+#include <aeon/utility/configfile.h>
+#include <aeon/streams/stream_reader.h>
+#include <aeon/streams/stream_writer.h>
+#include <aeon/streams/file_stream.h>
+#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/stream.h>
+#include <aeon/streams/access_mode_mixin.h>
 
 namespace aeon
 {

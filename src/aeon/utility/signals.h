@@ -25,6 +25,11 @@
 
 #pragma once
 
+#include <functional>
+#include <list>
+#include <mutex>
+#include <atomic>
+
 namespace aeon
 {
 namespace utility
