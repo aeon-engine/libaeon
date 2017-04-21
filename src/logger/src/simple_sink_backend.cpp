@@ -23,44 +23,40 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/logger/simple_sink_backend.h>
 
 namespace aeon
 {
 namespace logger
 {
 
-class stream_sink : public log_sink
+simple_sink_backend::simple_sink_backend()
+    : base_backend(log_level::message)
 {
-public:
-    explicit stream_sink(streams::stream &stream)
-        : stream_(stream)
+}
+
+simple_sink_backend::simple_sink_backend(const log_level level)
+    : base_backend(level)
+{
+}
+
+void simple_sink_backend::add_sink(log_sink *sink)
+{
+    sinks_.insert(sink);
+}
+
+void simple_sink_backend::remove_all_sinks()
+{
+    sinks_.clear();
+}
+
+void simple_sink_backend::log(const std::string &message, const std::string &module, const log_level level)
+{
+    for (auto sink : sinks_)
     {
+        sink->log(message, module, level);
     }
-
-    virtual ~stream_sink() = default;
-
-private:
-    void log(const std::string &message, const std::string &module, log_level level) override
-    {
-        streams::stream_writer writer(stream_);
-
-        stream_.write(reinterpret_cast<const std::uint8_t *>("["), 1);
-
-        writer << module;
-
-        stream_.write(reinterpret_cast<const std::uint8_t *>("] ["), 3);
-
-        std::string log_level_string = log_level_str[static_cast<int>(level)];
-        writer << log_level_string;
-
-        stream_.write(reinterpret_cast<const std::uint8_t *>("]: "), 3);
-
-        writer.write_line(message);
-    }
-
-    streams::stream &stream_;
-};
+}
 
 } // namespace logger
 } // namespace aeon

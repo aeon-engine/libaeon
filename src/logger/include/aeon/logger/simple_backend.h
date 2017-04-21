@@ -25,31 +25,21 @@
 
 #pragma once
 
-/******************************************************************************/
-/* Standard headers                                                           */
-/******************************************************************************/
-#include <string>
-#include <set>
-#include <queue>
-#include <memory>
-#include <utility>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <sstream>
-
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
-#include <aeon/utility.h>
-#include <aeon/streams.h>
-
-#include <aeon/logger/log_level.h>
-#include <aeon/logger/log_sink.h>
 #include <aeon/logger/base_backend.h>
-#include <aeon/logger/simple_backend.h>
-#include <aeon/logger/simple_sink_backend.h>
-#include <aeon/logger/multithreaded_sink_backend.h>
-#include <aeon/logger/logger.h>
-#include <aeon/logger/stream_sink.h>
-#include <aeon/logger/io_stream_sink.h>
+
+namespace aeon
+{
+namespace logger
+{
+
+class simple_backend : public base_backend
+{
+public:
+    simple_backend() = default;
+    virtual ~simple_backend() = default;
+
+    void log(const std::string &message, const std::string &module, const log_level level) override;
+};
+
+} // namespace logger
+} // namespace aeon

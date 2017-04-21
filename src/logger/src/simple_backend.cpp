@@ -23,47 +23,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/logger/simple_backend.h>
+#include <iostream>
 
 namespace aeon
 {
 namespace logger
 {
 
-class simple_sink_backend : public base_backend
+void simple_backend::log(const std::string &message, const std::string &module, const log_level level)
 {
-public:
-    simple_sink_backend()
-        : base_backend(log_level::message)
-    {
-    }
-
-    simple_sink_backend(const log_level level)
-        : base_backend(level)
-    {
-    }
-
-    void add_sink(log_sink *sink)
-    {
-        sinks_.insert(sink);
-    }
-
-    void remove_all_sinks()
-    {
-        sinks_.clear();
-    }
-
-private:
-    void log(const std::string &message, const std::string &module, const log_level level) override
-    {
-        for (auto sink : sinks_)
-        {
-            sink->log(message, module, level);
-        }
-    }
-
-    std::set<log_sink *> sinks_;
-};
+    std::cout << "[" << log_level_str[static_cast<int>(level)] << "] [" << module << "]: " << message << std::endl;
+}
 
 } // namespace logger
 } // namespace aeon

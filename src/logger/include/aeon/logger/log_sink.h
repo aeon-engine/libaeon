@@ -25,18 +25,21 @@
 
 #pragma once
 
+#include <aeon/logger/log_level.h>
+#include <string>
+
 namespace aeon
 {
 namespace logger
 {
 
-class simple_backend : public base_backend
+class log_sink
 {
 public:
-    void log(const std::string &message, const std::string &module, const log_level level) override
-    {
-        std::cout << "[" << log_level_str[static_cast<int>(level)] << "] [" << module << "]: " << message << std::endl;
-    }
+    log_sink() = default;
+    virtual ~log_sink() = default;
+
+    virtual void log(const std::string &message, const std::string &module, log_level level) = 0;
 };
 
 } // namespace logger

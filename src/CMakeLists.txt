@@ -44,6 +44,7 @@ add_subdirectory(utility)
 add_subdirectory(filesystem)
 add_subdirectory(testing)
 add_subdirectory(math)
+add_subdirectory(logger)
 
 if (AEON_ENABLE_CURL)
     add_subdirectory(curl)
@@ -75,23 +76,6 @@ if (AEON_ENABLE_SOCKETS)
 
     source_group(webserver FILES ${LIB_AEON_WEBSERVER_SOURCE})
 endif ()
-
-################################################################################
-
-set(LIB_AEON_LOGGER_SOURCE
-    aeon/logger.h
-    aeon/logger/logger.h
-    aeon/logger/log_sink.h
-    aeon/logger/log_level.h
-    aeon/logger/base_backend.h
-    aeon/logger/simple_backend.h
-    aeon/logger/simple_sink_backend.h
-    aeon/logger/multithreaded_sink_backend.h
-    aeon/logger/stream_sink.h
-    aeon/logger/io_stream_sink.h
-)
-
-source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
 
 ################################################################################
 
@@ -143,10 +127,6 @@ if (AEON_ENABLE_HDF5)
 endif ()
 
 ################################################################################
-
-set(LIB_AEON_SOURCE
-    ${LIB_AEON_LOGGER_SOURCE}
-)
 
 if (AEON_ENABLE_SOCKETS)
     list(APPEND LIB_AEON_SOURCE

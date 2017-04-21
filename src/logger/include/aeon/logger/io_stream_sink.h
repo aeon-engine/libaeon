@@ -25,48 +25,28 @@
 
 #pragma once
 
+#include <aeon/logger/log_sink.h>
+#include <aeon/logger/log_level.h>
+#include <aeon/streams/io_stream_fwd.h>
+#include <aeon/streams/io_stream_colors_mixin.h>
+#include <string>
+
 namespace aeon
 {
 namespace logger
 {
 
-class base_backend : public utility::noncopyable
+class io_stream_sink : public log_sink
 {
-    friend class logger_stream;
-
 public:
-    base_backend()
-        : level_(log_level::message)
-    {
-    }
-
-    base_backend(const log_level level)
-        : level_(level)
-    {
-    }
-
-    virtual ~base_backend() = default;
-
-    void set_log_level(const log_level level)
-    {
-        level_ = level;
-    }
-
-    auto get_log_level() const -> log_level
-    {
-        return level_;
-    }
-
-    virtual void log(const std::string &message, const std::string &module, const log_level level) = 0;
+    explicit io_stream_sink(streams::io_stream &stream);
+    virtual ~io_stream_sink() = default;
 
 private:
-    void __handle_log(const std::string &message, const std::string &module, const log_level level)
-    {
-        if (level >= level_)
-            log(message, module, level);
-    }
+    void log(const std::string &message, const std::string &module, log_level level) override;
+    auto log_level_to_color_(log_level level) const -> streams::color;
 
-    log_level level_;
+    streams::io_stream &stream_;
 };
 
 } // namespace logger

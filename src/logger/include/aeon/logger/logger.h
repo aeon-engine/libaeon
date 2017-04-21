@@ -25,6 +25,12 @@
 
 #pragma once
 
+#include <aeon/logger/base_backend.h>
+#include <aeon/logger/log_level.h>
+#include <aeon/common/noncopyable.h>
+#include <string>
+#include <sstream>
+
 #define AEON_LOG(log, level) log(level)
 #define AEON_LOG_FATAL(log) AEON_LOG(log, aeon::logger::log_level::fatal)
 #define AEON_LOG_ERROR(log) AEON_LOG(log, aeon::logger::log_level::error)
@@ -68,7 +74,7 @@ private:
     std::stringstream stream_;
 };
 
-class logger : public utility::noncopyable
+class logger : public common::noncopyable
 {
 public:
     logger(base_backend &backend, const std::string &module)
