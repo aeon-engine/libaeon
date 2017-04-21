@@ -37,30 +37,8 @@ option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
 ################################################################################
 
 add_subdirectory(common)
-
-################################################################################
-
-set(LIB_AEON_STREAMS_SOURCE
-    aeon/streams.h
-    aeon/streams/config.h
-    aeon/streams/access_mode_mixin.h
-    aeon/streams/stream_reader.h
-    aeon/streams/stream_writer.h
-    aeon/streams/stream.h
-    aeon/streams/stream_fwd.h
-    aeon/streams/file_stream.h
-    aeon/streams/file_stream_fwd.h
-    aeon/streams/file_stream.cpp
-    aeon/streams/io_stream.h
-    aeon/streams/io_stream.cpp
-    aeon/streams/circular_buffer_stream.h
-    aeon/streams/memory_stream.h
-    aeon/streams/stream_name_mixin.h
-    aeon/streams/io_stream_colors_mixin.h
-    aeon/streams/io_stream_colors_mixin.cpp
-)
-
-source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
+add_subdirectory(streams)
+add_subdirectory(utility)
 
 ################################################################################
 
@@ -96,37 +74,6 @@ if (AEON_ENABLE_SOCKETS)
 
     source_group(webserver FILES ${LIB_AEON_WEBSERVER_SOURCE})
 endif ()
-
-################################################################################
-
-set(LIB_AEON_UTILITY_SOURCE
-    aeon/utility/asynchronizer.h
-    aeon/utility/configfile.h
-    aeon/utility/configfile.cpp
-    aeon/utility/container.h
-    aeon/utility/hexdump.h
-    aeon/utility/hexdump.cpp
-    aeon/utility/timer.cpp
-    aeon/utility/timer.h
-    aeon/utility/linear_map.h
-    aeon/utility/listener_subject.h
-    aeon/utility/dispatcher.h
-    aeon/utility/signals.h
-    aeon/utility/parallelizer.h
-)
-
-source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
-
-################################################################################
-
-set(LIB_AEON_PLATFORM_SOURCE
-    aeon/platform.h
-    aeon/platform/platform.h
-    aeon/platform/term_colors.h
-    aeon/platform/compilers.h
-)
-
-source_group(platform FILES ${LIB_AEON_PLATFORM_SOURCE})
 
 ################################################################################
 
@@ -280,10 +227,7 @@ endif ()
 ################################################################################
 
 set(LIB_AEON_SOURCE
-    ${LIB_AEON_STREAMS_SOURCE}
     ${LIB_AEON_MATH_SOURCE}
-    ${LIB_AEON_UTILITY_SOURCE}
-    ${LIB_AEON_PLATFORM_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
     ${LIB_AEON_FILESYSTEM_SOURCE}
     ${LIB_AEON_TESTING_SOURCE}
@@ -314,7 +258,7 @@ endif ()
 
 add_library(aeon ${LIB_AEON_SOURCE})
 
-target_link_libraries(aeon aeon_common)
+target_link_libraries(aeon aeon_common aeon_utility)
 
 set_target_properties(aeon PROPERTIES
     FOLDER dep/libaeon

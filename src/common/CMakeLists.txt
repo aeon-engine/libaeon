@@ -23,13 +23,16 @@
 
 set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/bitflags.h
+    include/aeon/common/compilers.h
     include/aeon/common/endianness.h
     include/aeon/common/literals.h
     include/aeon/common/noncopyable.h
     include/aeon/common/optional.h
+    include/aeon/common/platform.h
     include/aeon/common/singleton.h
     include/aeon/common/string.h
     include/aeon/common/string_traits.h
+    include/aeon/common/term_colors.h
     include/aeon/common/variant.h
     include/aeon/common/unused.h
     src/string.cpp

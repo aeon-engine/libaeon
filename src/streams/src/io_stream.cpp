@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/streams.h>
+#include <aeon/streams/io_stream.h>
 
 namespace aeon
 {

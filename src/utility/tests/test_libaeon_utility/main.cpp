@@ -23,46 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-namespace aeon
+int main(int argc, char **argv)
 {
-namespace streams
-{
-
-class io_stream_exception : public stream_exception
-{
-};
-
-class io_stream : public stream, public io_stream_colors_mixin
-{
-public:
-    explicit io_stream(int mode = aeon::streams::access_mode::write);
-
-    std::size_t read(std::uint8_t *data, std::size_t size) override;
-
-    std::size_t write(const std::uint8_t *data, std::size_t size) override;
-
-    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override;
-
-    bool seek(std::ptrdiff_t pos, seek_direction direction) override;
-
-    bool seekw(std::ptrdiff_t pos, seek_direction direction) override;
-
-    std::size_t tell() override;
-
-    std::size_t tellw() override;
-
-    bool eof() const override;
-
-    std::size_t size() const override;
-
-    void flush() override;
-
-    bool good() const override;
-};
-
-typedef std::shared_ptr<io_stream> io_stream_ptr;
-
-} // namespace streams
-} // namespace aeon
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

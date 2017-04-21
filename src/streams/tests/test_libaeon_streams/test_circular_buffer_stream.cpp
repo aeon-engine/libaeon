@@ -25,7 +25,8 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <aeon/streams.h>
+
+#include <aeon/streams/circular_buffer_stream.h>
 
 TEST(test_circular_buffer_stream, test_circular_buffer_stream_read_write_basic)
 {

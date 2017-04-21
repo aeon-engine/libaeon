@@ -25,7 +25,10 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <aeon/streams.h>
+
+#include <aeon/streams/memory_stream.h>
+
+#include <array>
 
 struct test_fixture_memory_stream_default_data : public ::testing::Test
 {

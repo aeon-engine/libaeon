@@ -21,61 +21,38 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-include(Unittests)
-
-configure_file(build_config.h.in build_config.h @ONLY)
-
-set(UNIT_TEST_SOURCES
-    main.cpp
-    test_filesystem.cpp
+set(LIB_AEON_UTILITY_SOURCE
+    include/aeon/utility/asynchronizer.h
+    include/aeon/utility/configfile.h
+    src/configfile.cpp
+    include/aeon/utility/container.h
+    include/aeon/utility/dispatcher.h
+    include/aeon/utility/hexdump.h
+    src/hexdump.cpp
+    include/aeon/utility/linear_map.h
+    include/aeon/utility/listener_subject.h
+    include/aeon/utility/parallelizer.h
+    include/aeon/utility/parameters.h
+    include/aeon/utility/signals.h
+    include/aeon/utility/timer.h
+    src/timer.cpp
 )
 
-if (AEON_ENABLE_MONO)
-    list(APPEND UNIT_TEST_SOURCES
-        mono_jit_fixture.cpp
-        mono_jit_fixture.h
-        test_mono.cpp
-    )
+source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
 
-    include(Mono)
+add_library(aeon_utility STATIC ${LIB_AEON_UTILITY_SOURCE})
 
-    add_mono_assembly(
-        TARGET MonoTests
-        DESTINATION ${CMAKE_BINARY_DIR}/bin
-        TYPE library
-        SOURCES test_libaeon/mono/test_mono.cs
-    )
-endif ()
-
-if (AEON_ENABLE_MIDI)
-    list(APPEND UNIT_TEST_SOURCES
-        test_midi.cpp
-    )
-endif ()
-
-if (AEON_ENABLE_SOCKETS)
-    list(APPEND UNIT_TEST_SOURCES
-        test_sockets.cpp
-    )
-endif ()
-
-if (AEON_ENABLE_HDF5)
-    list(APPEND UNIT_TEST_SOURCES
-        test_hdf5.cpp
-    )
-endif ()
-
-add_unit_test_suite(
-    NO_GTEST_MAIN
-    TARGET test_libaeon
-    SOURCES
-        ${UNIT_TEST_SOURCES}
-    INCLUDES
-        ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon
-    FOLDER dep/libaeon/tests
+set_target_properties(aeon_utility PROPERTIES
+    FOLDER dep/libaeon
+    LINKER_LANGUAGE CXX
 )
 
-if (AEON_ENABLE_MONO)
-    add_dependencies(test_libaeon MonoTests)
-endif ()
+target_include_directories(aeon_utility PUBLIC include)
+target_link_libraries(aeon_utility aeon_streams)
+
+install(
+    DIRECTORY include
+    DESTINATION include
+)
+
+add_subdirectory(tests)

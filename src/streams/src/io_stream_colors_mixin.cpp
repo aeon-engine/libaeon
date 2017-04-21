@@ -23,7 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/streams.h>
+#include <aeon/streams/io_stream_colors_mixin.h>
+#include <aeon/common/term_colors.h>
+#include <iostream>
 
 #if (AEON_PLATFORM_OS_WINDOWS)
 #define WIN32_LEAN_AND_MEAN
