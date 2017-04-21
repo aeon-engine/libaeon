@@ -25,13 +25,18 @@
 
 #pragma once
 
-/******************************************************************************/
-/* Standard headers                                                           */
-/******************************************************************************/
 #include <string>
 
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
-#include <aeon/filesystem.h>
-#include <aeon/testing/temporary_file_fixture.h>
+namespace aeon
+{
+namespace filesystem
+{
+
+auto exists(const std::string &path) -> bool;
+void delete_file(const std::string &path);
+void delete_directory(const std::string &path);
+
+auto generate_temporary_file_path() -> std::string;
+
+} // namespace filesystem
+} // namespace aeon

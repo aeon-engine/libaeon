@@ -23,37 +23,44 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/testing/temporary_file_fixture.h>
+#include <aeon/filesystem/filesystem.h>
 
 namespace aeon
 {
 namespace testutils
 {
 
-class temporary_file
+temporary_file::temporary_file()
+    : path_(filesystem::generate_temporary_file_path())
 {
-public:
-    temporary_file();
-    explicit temporary_file(const std::string &extension);
+}
 
-    ~temporary_file();
-
-    std::string get_temporary_file_path() const;
-
-    bool assert_temporary_file_present() const;
-
-    void delete_temporary_file() const;
-
-protected:
-    std::string path_;
-};
-
-// If gtest was included before this header, enable the test fixture code.
-#ifdef ENABLE_TEMPORARY_FILE_FIXTURE
-struct temporary_file_fixture : public temporary_file, public ::testing::Test
+temporary_file::temporary_file(const std::string &extension)
+    : path_(filesystem::generate_temporary_file_path() + "." + extension)
 {
-};
-#endif // ENABLE_TEMPORARY_FILE_FIXTURE
+}
+
+temporary_file::~temporary_file()
+{
+    if (filesystem::exists(path_))
+        delete_temporary_file();
+}
+
+auto temporary_file::get_temporary_file_path() const -> std::string
+{
+    return path_;
+}
+
+auto temporary_file::assert_temporary_file_present() const -> bool
+{
+    return filesystem::exists(path_);
+}
+
+void temporary_file::delete_temporary_file() const
+{
+    filesystem::delete_file(path_);
+}
 
 } // namespace testutils
 } // namespace aeon

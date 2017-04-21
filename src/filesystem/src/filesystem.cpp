@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/filesystem.h>
+#include <aeon/filesystem/filesystem.h>
 #include <aeon/common/platform.h>
 #include <stdexcept>
 #include <stdlib.h>
@@ -42,7 +42,7 @@ namespace aeon
 namespace filesystem
 {
 
-bool exists(const std::string &path)
+auto exists(const std::string &path) -> bool
 {
 #if (defined(AEON_PLATFORM_OS_OSX) || defined(AEON_PLATFORM_OS_LINUX))
     return (access(path.c_str(), F_OK) != -1);
@@ -76,7 +76,7 @@ void delete_directory(const std::string &path)
 #endif
 }
 
-std::string generate_temporary_file_path()
+auto generate_temporary_file_path() -> std::string
 {
     char file_name_buff[512];
     char *file_path = tmpnam(file_name_buff);

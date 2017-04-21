@@ -23,14 +23,45 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-/******************************************************************************/
-/* Standard headers                                                           */
-/******************************************************************************/
-#include <string>
-
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
+#define ENABLE_TEMPORARY_FILE_FIXTURE
+#include <aeon/testing/temporary_file_fixture.h>
 #include <aeon/filesystem/filesystem.h>
+
+#include <fstream>
+
+using namespace aeon::testutils;
+
+TEST(test_filesystem, test_filesystem_exists)
+{
+    EXPECT_FALSE(aeon::filesystem::exists("SoMePaThThAtDoEsNtExIsT1234"));
+}
+
+TEST(test_filesystem, test_filesystem_exists2)
+{
+    EXPECT_FALSE(aeon::filesystem::exists("SoMe/PaTh/ThAt/DoEsNt/ExIsT/1234"));
+}
+
+TEST(test_filesystem, test_filesystem_exists_empty)
+{
+    EXPECT_FALSE(aeon::filesystem::exists(""));
+}
+
+TEST_F(temporary_file_fixture, test_filesystem_exists_file)
+{
+    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path()));
+}
+
+TEST_F(temporary_file_fixture, test_filesystem_exists_file2)
+{
+    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path()));
+
+    std::ofstream f(get_temporary_file_path(), std::ios::trunc);
+    EXPECT_TRUE(aeon::filesystem::exists(get_temporary_file_path()));
+    f.close();
+
+    delete_temporary_file();
+
+    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path()));
+}

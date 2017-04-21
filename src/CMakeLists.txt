@@ -39,6 +39,8 @@ option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
 add_subdirectory(common)
 add_subdirectory(streams)
 add_subdirectory(utility)
+add_subdirectory(filesystem)
+add_subdirectory(testing)
 
 ################################################################################
 
@@ -74,26 +76,6 @@ if (AEON_ENABLE_SOCKETS)
 
     source_group(webserver FILES ${LIB_AEON_WEBSERVER_SOURCE})
 endif ()
-
-################################################################################
-
-set(LIB_AEON_TESTING_SOURCE
-    aeon/testing.h
-    aeon/testing/temporary_file_fixture.h
-    aeon/testing/temporary_file_fixture.cpp
-)
-
-source_group(testing FILES ${LIB_AEON_TESTING_SOURCE})
-
-################################################################################
-
-set(LIB_AEON_FILESYSTEM_SOURCE
-    aeon/filesystem.h
-    aeon/filesystem/filesystem.h
-    aeon/filesystem/filesystem.cpp
-)
-
-source_group(filesystem FILES ${LIB_AEON_FILESYSTEM_SOURCE})
 
 ################################################################################
 
@@ -229,8 +211,6 @@ endif ()
 set(LIB_AEON_SOURCE
     ${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
-    ${LIB_AEON_FILESYSTEM_SOURCE}
-    ${LIB_AEON_TESTING_SOURCE}
 )
 
 if (AEON_ENABLE_CURL)
@@ -258,7 +238,7 @@ endif ()
 
 add_library(aeon ${LIB_AEON_SOURCE})
 
-target_link_libraries(aeon aeon_common aeon_utility)
+target_link_libraries(aeon aeon_common aeon_utility aeon_filesystem)
 
 set_target_properties(aeon PROPERTIES
     FOLDER dep/libaeon

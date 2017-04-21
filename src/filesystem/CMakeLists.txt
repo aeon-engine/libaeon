@@ -21,19 +21,26 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-include(Unittests)
-
-add_unit_test_suite(
-    NO_GTEST_MAIN
-    TARGET test_libaeon_utility
-    SOURCES
-        main.cpp
-        test_configfile.cpp
-        test_dispatcher.cpp
-        test_linear_map.cpp
-        test_signals.cpp
-    INCLUDES
-        ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon aeon_utility aeon_testing
-    FOLDER dep/libaeon/tests
+set(LIB_AEON_FILESYSTEM_SOURCE
+    include/aeon/filesystem/filesystem.h
+    src/filesystem.cpp
 )
+
+source_group(filesystem FILES ${LIB_AEON_FILESYSTEM_SOURCE})
+
+add_library(aeon_filesystem STATIC ${LIB_AEON_FILESYSTEM_SOURCE})
+
+set_target_properties(aeon_filesystem PROPERTIES
+    FOLDER dep/libaeon
+    LINKER_LANGUAGE CXX
+)
+
+target_include_directories(aeon_filesystem PUBLIC include)
+target_link_libraries(aeon_filesystem aeon_common)
+
+install(
+    DIRECTORY include
+    DESTINATION include
+)
+
+add_subdirectory(tests)

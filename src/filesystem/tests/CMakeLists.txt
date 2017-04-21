@@ -25,15 +25,12 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
-    TARGET test_libaeon_utility
+    TARGET test_libaeon_filesystem
     SOURCES
         main.cpp
-        test_configfile.cpp
-        test_dispatcher.cpp
-        test_linear_map.cpp
-        test_signals.cpp
+        test_filesystem.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon aeon_utility aeon_testing
+    LIBRARIES aeon aeon_filesystem aeon_testing
     FOLDER dep/libaeon/tests
 )

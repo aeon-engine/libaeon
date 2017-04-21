@@ -23,18 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-namespace aeon
+int main(int argc, char **argv)
 {
-namespace filesystem
-{
-
-bool exists(const std::string &path);
-void delete_file(const std::string &path);
-void delete_directory(const std::string &path);
-
-std::string generate_temporary_file_path();
-
-} // namespace filesystem
-} // namespace aeon
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

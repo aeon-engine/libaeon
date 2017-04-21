@@ -27,7 +27,6 @@ configure_file(build_config.h.in build_config.h @ONLY)
 
 set(UNIT_TEST_SOURCES
     main.cpp
-    test_filesystem.cpp
 )
 
 if (AEON_ENABLE_MONO)
