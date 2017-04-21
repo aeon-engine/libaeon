@@ -31,7 +31,7 @@
 
 #define aeon_utility_initialize_singleton(type)                                                                        \
     template <>                                                                                                        \
-    type *aeon::utility::singleton<type>::instance_ = nullptr
+    type *aeon::common::singleton<type>::instance_ = nullptr
 
 namespace aeon
 {
@@ -50,7 +50,9 @@ class singleton : public noncopyable
 public:
     singleton()
     {
-        assert(instance_ == nullptr);
+        if (instance_)
+            throw std::runtime_error("Singleton could not be created. Already exists.");
+
         instance_ = static_cast<type *>(this);
 
         if (!instance_)
@@ -69,7 +71,7 @@ public:
 
     static void dispose()
     {
-        instance_ = nullptr;
+        delete instance_;
     }
 
     static type &get_singleton()

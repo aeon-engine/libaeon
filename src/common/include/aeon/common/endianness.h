@@ -129,8 +129,6 @@ T swap(T val)
         default:
             throw std::runtime_error("Unsupported type for endianness swap.");
     }
-
-    throw std::runtime_error("Unsupported type for endianness swap.");
 }
 
 } // namespace endianness

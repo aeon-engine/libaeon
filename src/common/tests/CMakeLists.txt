@@ -21,34 +21,24 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-set(LIB_AEON_COMMON_SOURCE
-    include/aeon/common/bitflags.h
-    include/aeon/common/endianness.h
-    include/aeon/common/literals.h
-    include/aeon/common/noncopyable.h
-    include/aeon/common/optional.h
-    include/aeon/common/singleton.h
-    include/aeon/common/string.h
-    include/aeon/common/string_traits.h
-    include/aeon/common/variant.h
-    include/aeon/common/unused.h
-    src/string.cpp
+include(Unittests)
+
+add_unit_test_suite(
+    NO_GTEST_MAIN
+    TARGET test_libaeon_common
+    SOURCES
+        main.cpp
+        test_bitflags.cpp
+        test_endianness.cpp
+        test_literals.cpp
+        test_noncopyable.cpp
+        test_optional.cpp
+        test_singleton.cpp
+        test_string.cpp
+        test_stringtraits.cpp
+        test_variant.cpp
+    INCLUDES
+        ${CMAKE_CURRENT_BINARY_DIR}
+    LIBRARIES aeon aeon_common
+    FOLDER dep/libaeon/tests
 )
-
-source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
-
-add_library(aeon_common STATIC ${LIB_AEON_COMMON_SOURCE})
-
-set_target_properties(aeon_common PROPERTIES
-    FOLDER dep/libaeon
-    LINKER_LANGUAGE CXX
-)
-
-target_include_directories(aeon_common PUBLIC include)
-
-install(
-    DIRECTORY include
-    DESTINATION include
-)
-
-add_subdirectory(tests)

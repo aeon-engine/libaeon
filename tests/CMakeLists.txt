@@ -29,12 +29,10 @@ set(UNIT_TEST_SOURCES
     main.cpp
     test_circular_buffer_stream.cpp
     test_memory_stream.cpp
-    test_optional.cpp
     test_linear_map.cpp
     test_filesystem.cpp
     test_configfile.cpp
     test_dispatcher.cpp
-    test_stringutils.cpp
     test_signals.cpp
 )
 

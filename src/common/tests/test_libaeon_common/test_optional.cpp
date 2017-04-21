@@ -25,15 +25,10 @@
 
 #include <gtest/gtest.h>
 #include <aeon/common/optional.h>
+#include <aeon/common/unused.h>
 #include <aeon/platform/compilers.h>
 
 AEON_IGNORE_VS_WARNING(4189)
-
-#define UNUSED(expr)                                                                                                   \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        (void)(expr);                                                                                                  \
-    } while (0)
 
 TEST(test_utility, test_utility_optional_create_int)
 {
