@@ -23,38 +23,56 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/curl/global_wrapper.h>
+#include <aeon/curl/exceptions.h>
 
-/******************************************************************************/
-/* Standard headers                                                           */
-/******************************************************************************/
-#include <string>
-#include <set>
-#include <queue>
-#include <memory>
-#include <utility>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <sstream>
-#include <functional>
-
-/******************************************************************************/
-/* Curl headers                                                               */
-/******************************************************************************/
 #define CURL_STATICLIB
 #include <curl/curl.h>
 
-/******************************************************************************/
-/* Aeon headers                                                               */
-/******************************************************************************/
+namespace aeon
+{
+namespace curl
+{
 
-#include <aeon/utility.h>
-#include <aeon/streams.h>
+std::mutex global_wrapper::mutex_;
+std::shared_ptr<global_wrapper> global_wrapper::instance_;
 
-#define AEON_CURL_DEFAULT_TIMEOUT_MS 10000
+global_wrapper::global_wrapper()
+    : initialized_(false)
+{
+    if (instance_)
+        throw global_init_exception();
 
-#include <aeon/curl/exceptions.h>
-#include <aeon/curl/global_wrapper.h>
-#include <aeon/curl/easy_wrapper.h>
-#include <aeon/curl/url_downloader.h>
+    auto result = curl_global_init(CURL_GLOBAL_DEFAULT);
+
+    if (result != 0)
+        throw global_init_exception();
+
+    initialized_ = true;
+}
+
+global_wrapper::~global_wrapper()
+{
+    if (initialized_)
+        curl_global_cleanup();
+
+    initialized_ = false;
+}
+
+auto global_wrapper::get() -> std::shared_ptr<global_wrapper>
+{
+    std::lock_guard<std::mutex> g(mutex_);
+
+    if (!instance_)
+    {
+        // Set to a temporary variable first, since the constructor checks for
+        // the value of wrapper_ to prevent multiple instances.
+        auto w = std::make_shared<global_wrapper>();
+        instance_ = w;
+    }
+
+    return instance_;
+}
+
+} // namespace curl
+} // namespace aeon

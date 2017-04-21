@@ -6,3 +6,7 @@
 	path = dep/cmake
 	url = ../libaeon-cmake.git
 	branch = master
+[submodule "dep/curl"]
+	path = dep/curl
+	url = ../curl.git
+	branch = submodule

@@ -23,7 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/curl.h>
+#include <aeon/curl/easy_wrapper.h>
+#include <aeon/curl/global_wrapper.h>
+#include <aeon/curl/exceptions.h>
 
 namespace aeon
 {
@@ -57,7 +59,7 @@ easy_wrapper::~easy_wrapper()
 }
 
 void easy_wrapper::get(const std::string &url, easy_wrapper_read_event on_read,
-                       long milliseconds /*= AEON_CURL_DEFAULT_TIMEOUT_MS*/)
+                       const long milliseconds /*= AEON_CURL_DEFAULT_TIMEOUT_MS*/)
 {
     if (!curl_ || url.empty() || !on_read || milliseconds == 0)
         throw easy_wrapper_exception();

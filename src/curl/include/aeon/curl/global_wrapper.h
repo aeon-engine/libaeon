@@ -25,26 +25,26 @@
 
 #pragma once
 
+#include <aeon/common/noncopyable.h>
+#include <mutex>
+
 namespace aeon
 {
 namespace curl
 {
 
-class global_wrapper;
-typedef std::shared_ptr<global_wrapper> global_wrapper_ptr;
-
-class global_wrapper : public utility::noncopyable
+class global_wrapper : public common::noncopyable
 {
 public:
     global_wrapper();
-    ~global_wrapper();
+    virtual ~global_wrapper();
 
-    static global_wrapper_ptr get();
+    static auto get() -> std::shared_ptr<global_wrapper>;
 
 protected:
     bool initialized_;
     static std::mutex mutex_;
-    static global_wrapper_ptr wrapper_;
+    static std::shared_ptr<global_wrapper> instance_;
 };
 
 } // namespace curl

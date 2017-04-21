@@ -25,29 +25,41 @@
 
 #pragma once
 
+#include <aeon/curl/global_wrapper.h>
+#include <aeon/common/noncopyable.h>
+#include <functional>
+#include <memory>
+
+#define CURL_STATICLIB
+#include <curl/curl.h>
+
+#define AEON_CURL_DEFAULT_TIMEOUT_MS 10000
+
 namespace aeon
 {
 namespace curl
 {
 
-typedef std::function<std::size_t(void *, std::size_t)> easy_wrapper_read_event;
-class easy_wrapper : public utility::noncopyable
+using easy_wrapper_read_event = std::function<std::size_t(void *, std::size_t)>;
+
+class global_wrapper;
+
+class easy_wrapper : public common::noncopyable
 {
 public:
     easy_wrapper();
     ~easy_wrapper();
 
-    void get(const std::string &url, easy_wrapper_read_event on_read, long milliseconds = AEON_CURL_DEFAULT_TIMEOUT_MS);
+    void get(const std::string &url, easy_wrapper_read_event on_read,
+             const long milliseconds = AEON_CURL_DEFAULT_TIMEOUT_MS);
 
 private:
     static size_t static_read_event_(void *buffer, size_t size, size_t nmemb, easy_wrapper *wrapper);
 
     CURL *curl_;
-    global_wrapper_ptr global_wrapper_;
+    std::shared_ptr<global_wrapper> global_wrapper_;
     easy_wrapper_read_event read_event_;
 };
-
-typedef std::shared_ptr<easy_wrapper> easy_wrapper_ptr;
 
 } // namespace curl
 } // namespace aeon

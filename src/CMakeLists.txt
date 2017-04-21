@@ -21,6 +21,9 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
+# Curl
+option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." ON)
+
 # Mono
 option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
 option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." OFF)
@@ -42,6 +45,10 @@ add_subdirectory(utility)
 add_subdirectory(filesystem)
 add_subdirectory(testing)
 add_subdirectory(math)
+
+if (AEON_ENABLE_CURL)
+    add_subdirectory(curl)
+endif ()
 
 ################################################################################
 
@@ -82,23 +89,6 @@ set(LIB_AEON_LOGGER_SOURCE
 )
 
 source_group(logger FILES ${LIB_AEON_LOGGER_SOURCE})
-
-################################################################################
-
-if (AEON_ENABLE_CURL)
-    set(LIB_AEON_CURL_SOURCE
-        aeon/curl.h
-        aeon/curl/url_downloader.h
-        aeon/curl/url_downloader.cpp
-        aeon/curl/exceptions.h
-        aeon/curl/global_wrapper.cpp
-        aeon/curl/global_wrapper.h
-        aeon/curl/easy_wrapper.cpp
-        aeon/curl/easy_wrapper.h
-    )
-
-    source_group(curl FILES ${LIB_AEON_CURL_SOURCE})
-endif ()
 
 ################################################################################
 
@@ -201,10 +191,6 @@ set(LIB_AEON_SOURCE
     ${LIB_AEON_LOGGER_SOURCE}
 )
 
-if (AEON_ENABLE_CURL)
-    list(APPEND LIB_AEON_SOURCE ${LIB_AEON_CURL_SOURCE})
-endif ()
-
 if (AEON_ENABLE_SOCKETS)
     list(APPEND LIB_AEON_SOURCE
         ${LIB_AEON_SOCKETS_SOURCE}
@@ -233,11 +219,6 @@ set_target_properties(aeon PROPERTIES
 )
 
 target_include_directories(aeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-if (AEON_ENABLE_CURL)
-    message(STATUS "Building libAeon with CURL support.")
-    target_link_libraries(aeon curl)
-endif ()
 
 if (AEON_ENABLE_SOCKETS)
     message(STATUS "Building libAeon with Sockets support (Asio).")

@@ -23,25 +23,36 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/curl/url_downloader.h>
+#include <aeon/curl/exceptions.h>
+#include <aeon/streams/file_stream.h>
 
 namespace aeon
 {
 namespace curl
 {
 
-class url_downloader : public utility::noncopyable
+url_downloader::url_downloader() = default;
+url_downloader::~url_downloader() = default;
+
+void url_downloader::download(const std::string &url, const std::string &dest_path)
 {
-public:
-    url_downloader();
-    ~url_downloader();
+    streams::file_stream f(dest_path, streams::access_mode::write | streams::access_mode::truncate);
 
-    void download(const std::string &url, const std::string &dest_path);
+    if (!f.good())
+        throw url_downloader_exception();
 
-    std::size_t read_event_(aeon::streams::file_stream &dest_stream, void *buffer, std::size_t size);
+    wrapper_.get(url, [&f](void *buffer, const std::size_t size) -> std::size_t {
+        auto result = f.write(static_cast<std::uint8_t *>(buffer), size);
 
-    easy_wrapper_ptr wrapper_;
-};
+        if (result != size)
+            throw url_downloader_exception();
+
+        return size;
+    });
+
+    f.flush();
+}
 
 } // namespace curl
 } // namespace aeon
