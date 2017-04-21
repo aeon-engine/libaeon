@@ -41,18 +41,7 @@ add_subdirectory(streams)
 add_subdirectory(utility)
 add_subdirectory(filesystem)
 add_subdirectory(testing)
-
-################################################################################
-
-set(LIB_AEON_MATH_SOURCE
-    aeon/math.h
-    aeon/math/perlin_noise.h
-    aeon/math/perlin_noise.cpp
-    aeon/math/simplex_noise.h
-    aeon/math/simplex_noise.cpp
-)
-
-source_group(math FILES ${LIB_AEON_MATH_SOURCE})
+add_subdirectory(math)
 
 ################################################################################
 
@@ -209,7 +198,6 @@ endif ()
 ################################################################################
 
 set(LIB_AEON_SOURCE
-    ${LIB_AEON_MATH_SOURCE}
     ${LIB_AEON_LOGGER_SOURCE}
 )
 

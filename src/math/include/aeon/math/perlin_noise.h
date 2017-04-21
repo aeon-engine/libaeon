@@ -34,67 +34,69 @@ class perlin_noise
 {
 public:
     perlin_noise();
-    perlin_noise(double persistence, double frequency, double amplitude, int octaves, int randomseed);
+    perlin_noise(const double persistence, const double frequency, const double amplitude, const int octaves,
+                 const int randomseed);
 
-    double get_height(double x, double y) const;
+    auto get_height(const double x, const double y) const -> double;
 
-    double get_persistance() const
+    auto get_persistance() const
     {
         return persistence_;
     }
 
-    double get_frequency() const
+    auto get_frequency() const
     {
         return frequency_;
     }
 
-    double get_amplitude() const
+    auto get_amplitude() const
     {
         return amplitude_;
     }
 
-    int get_octaves() const
+    auto get_octaves() const
     {
         return octaves_;
     }
 
-    int get_randomseed() const
+    auto get_randomseed() const
     {
         return randomseed_;
     }
 
-    void set(double _persistence, double _frequency, double _amplitude, int _octaves, int _randomseed);
+    void set(const double _persistence, const double _frequency, const double _amplitude, const int _octaves,
+             const int _randomseed);
 
-    void set_persistance(double persistence)
+    void set_persistance(const double persistence)
     {
         persistence_ = persistence;
     }
 
-    void set_frequency(double frequency)
+    void set_frequency(const double frequency)
     {
         frequency_ = frequency;
     }
 
-    void set_amplitude(double amplitude)
+    void set_amplitude(const double amplitude)
     {
         amplitude_ = amplitude;
     }
 
-    void set_octaves(int octaves)
+    void set_octaves(const int octaves)
     {
         octaves_ = octaves;
     }
 
-    void set_random_seed(int randomseed)
+    void set_random_seed(const int randomseed)
     {
         randomseed_ = randomseed;
     }
 
 private:
-    double total(double i, double j) const;
-    double get_value(double x, double y) const;
-    double interpolate(double x, double y, double a) const;
-    double noise(int x, int y) const;
+    auto total(double i, double j) const -> double;
+    auto get_value(double x, double y) const -> double;
+    auto interpolate(double x, double y, double a) const -> double;
+    auto noise(int x, int y) const -> double;
 
     double persistence_;
     double frequency_;
