@@ -27,6 +27,7 @@
 #include <aeon/hdf5/hdf5_dataset_wrapper.h>
 #include <aeon/hdf5/hdf5_dataspace.h>
 #include <aeon/hdf5/hdf5_file.h>
+#include <stdexcept>
 
 namespace aeon
 {
