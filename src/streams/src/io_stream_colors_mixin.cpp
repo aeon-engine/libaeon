@@ -25,6 +25,7 @@
 
 #include <aeon/streams/io_stream_colors_mixin.h>
 #include <aeon/common/term_colors.h>
+#include <aeon/common/platform.h>
 #include <iostream>
 
 #if (AEON_PLATFORM_OS_WINDOWS)
