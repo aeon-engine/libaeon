@@ -40,25 +40,39 @@ TEST(test_noncopyable, test_noncopyable_move_create)
 
 TEST(test_noncopyable, test_noncopyable_has_virtual_destructor)
 {
-    EXPECT_TRUE((std::has_virtual_destructor<aeon::common::noncopyable>::value));
+    auto is_non_copyable = std::has_virtual_destructor<aeon::common::noncopyable>::value;
+    EXPECT_TRUE(is_non_copyable);
 }
 
 TEST(test_noncopyable, test_noncopyable_is_not_copy_constructable)
 {
-    EXPECT_FALSE((std::is_copy_constructible<aeon::common::noncopyable>::value));
-    EXPECT_FALSE((std::is_trivially_copy_constructible<aeon::common::noncopyable>::value));
-    EXPECT_FALSE((std::is_nothrow_copy_constructible<aeon::common::noncopyable>::value));
+    auto is_copy_constructible = std::is_copy_constructible<aeon::common::noncopyable>::value;
+    EXPECT_FALSE(is_copy_constructible);
+
+    auto is_trivially_copy_constructible = std::is_trivially_copy_constructible<aeon::common::noncopyable>::value;
+    EXPECT_FALSE(is_trivially_copy_constructible);
+
+    auto is_nothrow_copy_constructible = std::is_nothrow_copy_constructible<aeon::common::noncopyable>::value;
+    EXPECT_FALSE(is_nothrow_copy_constructible);
 }
 
 TEST(test_noncopyable, test_noncopyable_is_not_copy_assignable)
 {
-    EXPECT_FALSE((std::is_copy_assignable<aeon::common::noncopyable>::value));
-    EXPECT_FALSE((std::is_trivially_copy_assignable<aeon::common::noncopyable>::value));
-    EXPECT_FALSE((std::is_nothrow_copy_assignable<aeon::common::noncopyable>::value));
+    auto is_copy_assignable = std::is_copy_assignable<aeon::common::noncopyable>::value;
+    EXPECT_FALSE(is_copy_assignable);
+
+    auto is_trivially_copy_assignable = std::is_trivially_copy_assignable<aeon::common::noncopyable>::value;
+    EXPECT_FALSE(is_trivially_copy_assignable);
+
+    auto is_nothrow_copy_assignable = std::is_nothrow_copy_assignable<aeon::common::noncopyable>::value;
+    EXPECT_FALSE(is_nothrow_copy_assignable);
 }
 
 TEST(test_noncopyable, test_noncopyable_is_move_assignable)
 {
-    EXPECT_TRUE((std::is_move_assignable<aeon::common::noncopyable>::value));
-    EXPECT_TRUE((std::is_nothrow_move_assignable<aeon::common::noncopyable>::value));
+    auto is_move_assignable = std::is_move_assignable<aeon::common::noncopyable>::value;
+    EXPECT_TRUE(is_move_assignable);
+
+    auto is_nothrow_move_assignable = std::is_nothrow_move_assignable<aeon::common::noncopyable>::value;
+    EXPECT_TRUE(is_nothrow_move_assignable);
 }
