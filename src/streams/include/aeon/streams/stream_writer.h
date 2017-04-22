@@ -26,6 +26,9 @@
 #pragma once
 
 #include <aeon/streams/stream.h>
+#include <string>
+#include <stdexcept>
+#include <cstdint>
 
 namespace aeon
 {

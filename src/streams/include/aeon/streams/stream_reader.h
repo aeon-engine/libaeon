@@ -26,6 +26,10 @@
 #pragma once
 
 #include <aeon/streams/file_stream_fwd.h>
+#include <stdexcept>
+#include <string>
+#include <type_traits>
+#include <cstdint>
 
 namespace aeon
 {
