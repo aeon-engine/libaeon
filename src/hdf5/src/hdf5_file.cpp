@@ -28,6 +28,7 @@
 #include <aeon/filesystem/filesystem.h>
 #include <aeon/common/string.h>
 #include <string>
+#include <stdexcept>
 #include <cassert>
 
 namespace aeon
