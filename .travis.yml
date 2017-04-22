@@ -37,6 +37,6 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]];   then cmake .. && make ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_CXX_COMPILER=$COMPILER .. -DAEON_ENABLE_CURL=1 -DAEON_ENABLE_SOCKETS=1 -DAEON_ENABLE_MIDI=1 -DAEON_ENABLE_HDF5=1 && make ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]];   then cmake .. -DAEON_ENABLE_CURL=1 -DAEON_ENABLE_SOCKETS=1 -DAEON_ENABLE_MIDI=1 -DAEON_ENABLE_HDF5=1 && make ; fi
   - ctest -C Debug --verbose
