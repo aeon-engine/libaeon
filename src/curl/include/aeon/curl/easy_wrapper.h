@@ -29,6 +29,7 @@
 #include <aeon/common/noncopyable.h>
 #include <functional>
 #include <memory>
+#include <string>
 
 #define CURL_STATICLIB
 #include <curl/curl.h>
