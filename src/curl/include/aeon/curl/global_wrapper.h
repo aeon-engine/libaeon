@@ -27,6 +27,7 @@
 
 #include <aeon/common/noncopyable.h>
 #include <mutex>
+#include <memory>
 
 namespace aeon
 {
