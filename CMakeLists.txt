@@ -47,5 +47,3 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(dep/googletest)
 add_subdirectory(src)
-add_subdirectory(tests)
-
