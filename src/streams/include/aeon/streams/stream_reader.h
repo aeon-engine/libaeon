@@ -36,16 +36,6 @@ namespace aeon
 namespace streams
 {
 
-class stream;
-template <typename T>
-class stream_reader : common::noncopyable
-{
-public:
-    explicit stream_reader(T &streamref)
-        : stream_(streamref)
-    {
-    }
-
 #define STREAM_READER_READ_OPERATOR(Type)                                                                              \
     stream_reader &operator>>(Type &value)                                                                             \
     {                                                                                                                  \
@@ -55,6 +45,12 @@ public:
         }                                                                                                              \
         return *this;                                                                                                  \
     }
+
+template <typename T>
+class stream_reader : common::noncopyable
+{
+public:
+    explicit stream_reader(T &streamref);
 
     STREAM_READER_READ_OPERATOR(std::int8_t)
     STREAM_READER_READ_OPERATOR(std::int16_t)
@@ -69,54 +65,78 @@ public:
     STREAM_READER_READ_OPERATOR(float)
     STREAM_READER_READ_OPERATOR(double)
 
-    template <class U = T>
-    typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type read_line()
-    {
-        std::string line = stream_.read_line();
-        return line;
-    }
+    auto read_as_string() const;
 
     template <class U = T>
-    typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type read_line()
-    {
-        std::uint8_t peek_data = 0;
-        std::ptrdiff_t offset = 0;
-        std::size_t stringlength = 0;
+    auto read_line() -> typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type;
 
-        while (stream_.peek(peek_data, offset++))
-        {
-            ++stringlength;
-
-            if (peek_data == '\n')
-                break;
-        }
-
-        if (stringlength == 0)
-            return std::string();
-
-        std::string line;
-        line.resize(stringlength);
-        stringlength = stream_.read(reinterpret_cast<std::uint8_t *>(&line[0]), stringlength);
-
-        if (stringlength == 0)
-            return std::string();
-
-        int strip_characters = 1;
-
-        if (stringlength >= 2)
-        {
-            if (line[stringlength - 2] == '\r')
-                ++strip_characters;
-        }
-
-        line.resize(stringlength - strip_characters);
-
-        return line;
-    }
+    template <class U = T>
+    auto read_line() -> typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type;
 
 protected:
     T &stream_;
 };
+
+template<typename T>
+stream_reader<T>::stream_reader(T &streamref)
+    : stream_(streamref)
+{
+}
+
+template<typename T>
+auto stream_reader<T>::read_as_string() const
+{
+    auto vector = stream_.read_to_vector();
+    return std::string(vector.begin(), vector.end());
+}
+
+template<typename T>
+template<typename U>
+auto stream_reader<T>::read_line() -> typename std::enable_if<std::is_same<U, file_stream>::value, std::string>::type
+{
+    return stream_.read_line();
+}
+
+template<typename T>
+template<typename U>
+auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type
+{
+    std::uint8_t peek_data = 0;
+    std::ptrdiff_t offset = 0;
+    std::size_t stringlength = 0;
+    int strip_characters = 0;
+
+    while (stream_.peek(peek_data, offset++))
+    {
+        ++stringlength;
+
+        if (peek_data == '\n')
+        {
+            strip_characters = 1;
+            break;
+        }
+    }
+
+    if (stringlength == 0)
+        return std::string();
+
+    std::string line;
+    line.resize(stringlength);
+    stringlength = stream_.read(reinterpret_cast<std::uint8_t *>(&line[0]), stringlength);
+
+    if (stringlength == 0)
+        return std::string();
+
+    if (stringlength >= 2)
+    {
+        if (line[stringlength - 2] == '\r')
+            ++strip_characters;
+    }
+
+    line.resize(stringlength - strip_characters);
+
+    return line;
+}
 
 } // namespace streams
 } // namespace aeon

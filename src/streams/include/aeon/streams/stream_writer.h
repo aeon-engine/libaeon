@@ -35,15 +35,6 @@ namespace aeon
 namespace streams
 {
 
-class stream;
-class stream_writer : common::noncopyable
-{
-public:
-    explicit stream_writer(stream &streamref)
-        : stream_(streamref)
-    {
-    }
-
 #define STREAM_WRITER_WRITE_OPERATOR(Type)                                                                             \
     stream_writer &operator<<(Type &value)                                                                             \
     {                                                                                                                  \
@@ -53,6 +44,13 @@ public:
         }                                                                                                              \
         return *this;                                                                                                  \
     }
+
+class stream;
+
+class stream_writer : common::noncopyable
+{
+public:
+    explicit stream_writer(stream &streamref);
 
     STREAM_WRITER_WRITE_OPERATOR(std::int8_t)
     STREAM_WRITER_WRITE_OPERATOR(std::int16_t)
@@ -67,25 +65,34 @@ public:
     STREAM_WRITER_WRITE_OPERATOR(float)
     STREAM_WRITER_WRITE_OPERATOR(double)
 
-    stream_writer &operator<<(const std::string &value)
-    {
-        std::size_t string_length = value.size();
-        if (stream_.write(reinterpret_cast<const std::uint8_t *>(value.c_str()), string_length) != string_length)
-        {
-            throw std::runtime_error("Operator write failed on stream.");
-        }
-        return *this;
-    }
+    auto operator<<(const std::string &value) -> stream_writer &;
 
-    void write_line(const std::string &line) const
-    {
-        stream_.write(reinterpret_cast<const std::uint8_t *>(line.c_str()), line.size());
-        stream_.write(reinterpret_cast<const std::uint8_t *>("\n"), 1);
-    }
+    void write_line(const std::string &line) const;
 
 protected:
     stream &stream_;
 };
+
+inline stream_writer::stream_writer(stream &streamref)
+    : stream_(streamref)
+{
+}
+
+inline auto stream_writer::operator<<(const std::string &value) -> stream_writer &
+{
+    auto string_length = value.size();
+    if (stream_.write(reinterpret_cast<const std::uint8_t *>(value.c_str()), string_length) != string_length)
+    {
+        throw std::runtime_error("Operator write failed on stream.");
+    }
+    return *this;
+}
+
+inline void stream_writer::write_line(const std::string &line) const
+{
+    stream_.write(reinterpret_cast<const std::uint8_t *>(line.c_str()), line.size());
+    stream_.write(reinterpret_cast<const std::uint8_t *>("\n"), 1);
+}
 
 } // namespace streams
 } // namespace aeon

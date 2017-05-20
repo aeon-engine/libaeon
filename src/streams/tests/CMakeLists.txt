@@ -30,6 +30,7 @@ add_unit_test_suite(
         main.cpp
         test_circular_buffer_stream.cpp
         test_memory_stream.cpp
+        test_stream_reader.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_streams
