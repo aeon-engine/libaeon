@@ -45,5 +45,15 @@ endif ()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+################################################################################
+
+# If mono is found on the system; attempt to build with it enabled.
+find_package(Mono)
+if (MONO_FOUND)
+    set(AEON_ENABLE_MONO ON CACHE BOOL "")
+endif ()
+
+################################################################################
+
 add_subdirectory(dep/googletest)
 add_subdirectory(src)

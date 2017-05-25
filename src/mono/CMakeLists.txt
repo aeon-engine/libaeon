@@ -23,7 +23,10 @@
 
 message(STATUS "Building libAeon with MONO support.")
 
-find_package(Mono)
+if (NOT MONO_FOUND)
+    find_package(Mono)
+endif ()
+
 include(Mono)
 
 option(AEON_COPY_MONO_RUNTIMES "Enable if Mono should be embedded and ran purely from the binary folder." OFF)
