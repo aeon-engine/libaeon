@@ -44,15 +44,15 @@ namespace mono
 class mono_string : public mono_object
 {
 public:
-    mono_string(MonoDomain *domain, const std::string &str);
-    ~mono_string();
+    explicit mono_string(MonoDomain *domain, const std::string &str);
+    virtual ~mono_string();
 
     mono_string(mono_string &&o);
-    mono_string &operator=(mono_string &&o);
+    auto operator=(mono_string &&o) -> mono_string &;
 
-    mono_string &operator=(const std::string &str);
+    auto operator=(const std::string &str) -> mono_string &;
 
-    MonoObject *get_mono_object() const override;
+    auto get_mono_object() const -> MonoObject * override;
 
 private:
     MonoString *object_;

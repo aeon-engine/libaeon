@@ -50,14 +50,14 @@ class mono_assembly;
  * at runtime after it was cleaned up. You must keep this class instanced
  * during the full runtime of the application.
  */
-class mono_jit : common::noncopyable
+class mono_jit : public common::noncopyable
 {
 public:
     mono_jit();
     explicit mono_jit(const std::string &domain);
-    ~mono_jit();
+    virtual ~mono_jit();
 
-    mono_assembly load_assembly(const std::string &path) const;
+    auto load_assembly(const std::string &path) const -> mono_assembly;
 
 private:
     MonoDomain *domain_;

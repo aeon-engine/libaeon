@@ -27,8 +27,6 @@
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_exception.h>
 
-#include <utility>
-
 namespace aeon
 {
 namespace mono
@@ -36,7 +34,6 @@ namespace mono
 
 mono_class::mono_class(MonoImage *image, const std::string &name)
     : image_(image)
-    , name_(name)
     , class_(nullptr)
 {
     class_ = mono_class_from_name(image, "", name.c_str());
@@ -45,26 +42,12 @@ mono_class::mono_class(MonoImage *image, const std::string &name)
         throw mono_exception();
 }
 
-mono_class::~mono_class()
-{
-}
+mono_class::~mono_class() = default;
+mono_class::mono_class(mono_class &&o) = default;
 
-mono_class::mono_class(mono_class &&o)
-    : image_(o.image_)
-    , name_(std::move(o.name_))
-    , class_(o.class_)
-{
-}
+auto mono_class::operator=(mono_class &&o) -> mono_class & = default;
 
-mono_class &mono_class::operator=(mono_class &&o)
-{
-    image_ = o.image_;
-    name_ = std::move(o.name_);
-    class_ = o.class_;
-    return *this;
-}
-
-mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/)
+mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/) const
 {
     return mono_method(class_, name, argc);
 }

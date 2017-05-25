@@ -24,27 +24,16 @@
  */
 
 #include <aeon/mono/mono_gchandle.h>
+#include <aeon/mono/mono_object.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_gchandle::mono_gchandle()
-    : handle_(0)
+mono_gchandle::mono_gchandle(mono_object &obj)
+    : handle_(mono_gchandle_new(obj.get_mono_object(), 1))
 {
-}
-
-mono_gchandle::mono_gchandle(MonoObject *object)
-    : handle_(0)
-{
-    handle_ = mono_gchandle_new(object, 1);
-}
-
-mono_gchandle::mono_gchandle(MonoString *object)
-    : handle_(0)
-{
-    handle_ = mono_gchandle_new(reinterpret_cast<MonoObject *>(object), 1);
 }
 
 mono_gchandle::~mono_gchandle()
@@ -53,16 +42,9 @@ mono_gchandle::~mono_gchandle()
         mono_gchandle_free(handle_);
 }
 
-mono_gchandle::mono_gchandle(mono_gchandle &&o)
-    : handle_(o.handle_)
-{
-}
+mono_gchandle::mono_gchandle(mono_gchandle &&o) = default;
 
-mono_gchandle &mono_gchandle::operator=(mono_gchandle &&o)
-{
-    handle_ = o.handle_;
-    return *this;
-}
+auto mono_gchandle::operator=(mono_gchandle &&o) -> mono_gchandle & = default;
 
 } // namespace mono
 } // namespace aeon

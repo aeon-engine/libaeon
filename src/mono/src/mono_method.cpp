@@ -34,55 +34,32 @@ namespace mono
 {
 
 mono_method::mono_method(MonoClass *cls, const std::string &name, int argc)
-    : class_(cls)
-    , name_(name)
-    , argc_(argc)
-    , method_(nullptr)
+    : method_(nullptr)
     , object_(nullptr)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
 mono_method::mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc)
-    : class_(cls)
-    , name_(name)
-    , argc_(argc)
-    , method_(nullptr)
+    : method_(nullptr)
     , object_(object)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
-mono_method::~mono_method()
-{
-}
+mono_method::~mono_method() = default;
 
-mono_method::mono_method(mono_method &&o)
-    : class_(o.class_)
-    , name_(std::move(o.name_))
-    , argc_(o.argc_)
-    , method_(o.method_)
-    , object_(o.object_)
-{
-}
+mono_method::mono_method(mono_method &&o) = default;
 
-mono_method &mono_method::operator=(mono_method &&o)
-{
-    class_ = o.class_;
-    name_ = std::move(o.name_);
-    argc_ = o.argc_;
-    method_ = o.method_;
-    object_ = o.object_;
-    return *this;
-}
+auto mono_method::operator=(mono_method &&o) -> mono_method & = default;
 
-void mono_method::operator()()
+void mono_method::operator()() const
 {
     void *params[1] = {nullptr};
     execute(params);
 }
 
-void mono_method::operator()(std::vector<mono_object *> params)
+void mono_method::operator()(std::vector<mono_object *> params) const
 {
     std::vector<MonoObject *> real_params;
     for (auto p : params)
@@ -93,7 +70,7 @@ void mono_method::operator()(std::vector<mono_object *> params)
     execute(reinterpret_cast<void **>(real_params.data()));
 }
 
-void mono_method::execute(void **params)
+void mono_method::execute(void **params) const
 {
     MonoObject *ret_value = mono_runtime_invoke(method_, object_, params, nullptr);
 

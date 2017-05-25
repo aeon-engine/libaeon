@@ -25,8 +25,6 @@
 
 #include <aeon/mono/mono_string.h>
 
-#include <utility>
-
 namespace aeon
 {
 namespace mono
@@ -38,37 +36,22 @@ mono_string::mono_string(MonoDomain *domain, const std::string &str)
     , string_(str)
 {
     object_ = mono_string_new(domain, str.c_str());
-    handle_ = mono_gchandle(object_);
 }
 
-mono_string::~mono_string()
-{
-}
+mono_string::~mono_string() = default;
 
-mono_string::mono_string(mono_string &&o)
-    : mono_object(std::move(o))
-    , object_(o.object_)
-    , string_(std::move(o.string_))
-{
-}
+mono_string::mono_string(mono_string &&o) = default;
 
-mono_string &mono_string::operator=(mono_string &&o)
-{
-    mono_object::operator=(std::move(o));
-    object_ = o.object_;
-    string_ = std::move(o.string_);
-    return *this;
-}
+auto mono_string::operator=(mono_string &&o) -> mono_string & = default;
 
-mono_string &mono_string::operator=(const std::string &str)
+auto mono_string::operator=(const std::string &str) -> mono_string &
 {
     string_ = str;
     object_ = mono_string_new(domain_, str.c_str());
-    handle_ = mono_gchandle(object_);
     return *this;
 }
 
-MonoObject *mono_string::get_mono_object() const
+auto mono_string::get_mono_object() const -> MonoObject *
 {
     return reinterpret_cast<MonoObject *>(object_);
 }

@@ -52,10 +52,11 @@ mono_jit::mono_jit(const std::string &domain)
 
 mono_jit::~mono_jit()
 {
-    mono_jit_cleanup(domain_);
+    if (domain_)
+        mono_jit_cleanup(domain_);
 }
 
-mono_assembly mono_jit::load_assembly(const std::string &path) const
+auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
 {
     return mono_assembly(domain_, path);
 }

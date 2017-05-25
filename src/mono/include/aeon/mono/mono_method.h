@@ -46,23 +46,20 @@ class mono_object;
 class mono_method : public common::noncopyable
 {
 public:
-    mono_method(MonoClass *cls, const std::string &name, int argc);
-    mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
+    explicit mono_method(MonoClass *cls, const std::string &name, int argc);
+    explicit mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
 
-    ~mono_method();
+    virtual ~mono_method();
 
     mono_method(mono_method &&o);
-    mono_method &operator=(mono_method &&o);
+    auto operator=(mono_method &&o) -> mono_method &;
 
-    void operator()();
-    void operator()(std::vector<mono_object *> params);
+    void operator()() const;
+    void operator()(std::vector<mono_object *> params) const;
 
 private:
-    void execute(void **params);
+    void execute(void **params) const;
 
-    MonoClass *class_;
-    std::string name_;
-    int argc_;
     MonoMethod *method_;
     MonoObject *object_;
 };

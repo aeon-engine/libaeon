@@ -41,34 +41,20 @@ mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls)
 {
     object_ = mono_object_new(domain, cls);
     mono_runtime_object_init(object_);
-    handle_ = mono_gchandle(object_);
 }
 
-mono_class_instance::~mono_class_instance()
-{
-}
+mono_class_instance::~mono_class_instance() = default;
 
-mono_class_instance::mono_class_instance(mono_class_instance &&o)
-    : mono_object(std::move(o))
-    , object_(o.object_)
-    , class_(o.class_)
-{
-}
+mono_class_instance::mono_class_instance(mono_class_instance &&o) = default;
 
-mono_class_instance &mono_class_instance::operator=(mono_class_instance &&o)
-{
-    mono_object::operator=(std::move(o));
-    object_ = o.object_;
-    class_ = o.class_;
-    return *this;
-}
+auto mono_class_instance::operator=(mono_class_instance &&o) -> mono_class_instance & = default;
 
-mono_method mono_class_instance::get_method(const std::string &name, int argc /*= 0*/)
+auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) const -> mono_method
 {
     return mono_method(class_, object_, name, argc);
 }
 
-MonoObject *mono_class_instance::get_mono_object() const
+auto mono_class_instance::get_mono_object() const -> MonoObject *
 {
     return object_;
 }

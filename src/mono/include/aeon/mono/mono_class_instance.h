@@ -38,15 +38,15 @@ class mono_method;
 class mono_class_instance : public mono_object
 {
 public:
-    mono_class_instance(MonoDomain *domain, MonoClass *cls);
-    ~mono_class_instance();
+    explicit mono_class_instance(MonoDomain *domain, MonoClass *cls);
+    virtual ~mono_class_instance();
 
     mono_class_instance(mono_class_instance &&o);
-    mono_class_instance &operator=(mono_class_instance &&o);
+    auto operator=(mono_class_instance &&o) -> mono_class_instance &;
 
-    mono_method get_method(const std::string &name, int argc = 0);
+    auto get_method(const std::string &name, int argc = 0) const -> mono_method;
 
-    MonoObject *get_mono_object() const override;
+    auto get_mono_object() const -> MonoObject * override;
 
 private:
     MonoObject *object_;

@@ -28,10 +28,7 @@
 #include <aeon/mono/mono_class.h>
 #include <aeon/mono/mono_class_instance.h>
 #include <aeon/mono/mono_string.h>
-
 #include <mono/metadata/assembly.h>
-
-#include <utility>
 
 namespace aeon
 {
@@ -40,7 +37,6 @@ namespace mono
 
 mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
     : domain_(domain)
-    , path_(path)
     , assembly_(nullptr)
     , image_(nullptr)
 {
@@ -52,49 +48,23 @@ mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
     image_ = mono_assembly_get_image(assembly_);
 }
 
-mono_assembly::~mono_assembly()
-{
-}
+mono_assembly::~mono_assembly() = default;
 
-mono_assembly::mono_assembly(mono_assembly &&o)
-    : domain_(o.domain_)
-    , path_(std::move(o.path_))
-    , assembly_(o.assembly_)
-    , image_(o.image_)
-{
-}
+mono_assembly::mono_assembly(mono_assembly &&o) = default;
 
-mono_assembly &mono_assembly::operator=(mono_assembly &&o)
-{
-    domain_ = o.domain_;
-    path_ = std::move(o.path_);
-    assembly_ = o.assembly_;
-    image_ = o.image_;
-    return *this;
-}
+auto mono_assembly::operator=(mono_assembly &&o) -> mono_assembly & = default;
 
-int mono_assembly::execute()
-{
-    char *argv[1] = {const_cast<char *>(path_.c_str())};
-    return execute(1, argv);
-}
-
-int mono_assembly::execute(int argc, char *argv[])
-{
-    return mono_jit_exec(domain_, assembly_, argc, argv);
-}
-
-mono_class mono_assembly::get_class(const std::string &name)
+auto mono_assembly::get_class(const std::string &name) const -> mono_class
 {
     return mono_class(image_, name);
 }
 
-mono_class_instance mono_assembly::new_class_instance(const mono_class &cls)
+auto mono_assembly::new_class_instance(const mono_class &cls) const -> mono_class_instance
 {
     return mono_class_instance(domain_, cls.get_mono_class_ptr());
 }
 
-mono_string mono_assembly::new_string(const std::string &str)
+auto mono_assembly::new_string(const std::string &str) const -> mono_string
 {
     return mono_string(domain_, str);
 }

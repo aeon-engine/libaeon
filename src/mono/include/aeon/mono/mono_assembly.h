@@ -48,21 +48,17 @@ class mono_assembly : public common::noncopyable
 {
 public:
     explicit mono_assembly(MonoDomain *domain, const std::string &path);
-    ~mono_assembly();
+    virtual ~mono_assembly();
 
     mono_assembly(mono_assembly &&o);
-    mono_assembly &operator=(mono_assembly &&o);
+    auto operator=(mono_assembly &&o) -> mono_assembly &;
 
-    int execute();
-    int execute(int argc, char *argv[]);
-
-    mono_class get_class(const std::string &name);
-    mono_class_instance new_class_instance(const mono_class &cls);
-    mono_string new_string(const std::string &str);
+    auto get_class(const std::string &name) const -> mono_class;
+    auto new_class_instance(const mono_class &cls) const -> mono_class_instance;
+    auto new_string(const std::string &str) const -> mono_string;
 
 private:
     MonoDomain *domain_;
-    std::string path_;
     MonoAssembly *assembly_;
     MonoImage *image_;
 };

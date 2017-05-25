@@ -40,16 +40,16 @@ namespace aeon
 namespace mono
 {
 
+class mono_object;
+
 class mono_gchandle : public common::noncopyable
 {
 public:
-    mono_gchandle();
-    explicit mono_gchandle(MonoObject *obj);
-    explicit mono_gchandle(MonoString *obj);
-    ~mono_gchandle();
+    explicit mono_gchandle(mono_object &obj);
+    virtual ~mono_gchandle();
 
     mono_gchandle(mono_gchandle &&o);
-    mono_gchandle &operator=(mono_gchandle &&o);
+    auto operator=(mono_gchandle &&o) -> mono_gchandle &;
 
 private:
     std::uint32_t handle_;

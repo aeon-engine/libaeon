@@ -36,22 +36,11 @@ mono_object::mono_object(MonoDomain *domain)
 {
 }
 
-mono_object::~mono_object()
-{
-}
+mono_object::~mono_object() = default;
 
-mono_object::mono_object(mono_object &&o)
-    : domain_(o.domain_)
-    , handle_(std::move(o.handle_))
-{
-}
+mono_object::mono_object(mono_object &&o) = default;
 
-mono_object &mono_object::operator=(mono_object &&o)
-{
-    domain_ = o.domain_;
-    handle_ = std::move(o.handle_);
-    return *this;
-}
+auto mono_object::operator=(mono_object &&o) -> mono_object & = default;
 
 } // namespace mono
 } // namespace aeon

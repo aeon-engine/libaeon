@@ -45,19 +45,18 @@ class mono_method;
 class mono_class : public common::noncopyable
 {
 public:
-    mono_class(MonoImage *image, const std::string &name);
-    ~mono_class();
+    explicit mono_class(MonoImage *image, const std::string &name);
+    virtual ~mono_class();
 
     mono_class(mono_class &&o);
-    mono_class &operator=(mono_class &&o);
+    auto operator=(mono_class &&o) -> mono_class &;
 
-    mono_method get_method(const std::string &name, int argc = 0);
+    auto get_method(const std::string &name, int argc = 0) const -> mono_method;
 
-    MonoClass *get_mono_class_ptr() const;
+    auto get_mono_class_ptr() const -> MonoClass *;
 
 private:
     MonoImage *image_;
-    std::string name_;
     MonoClass *class_;
 };
 
