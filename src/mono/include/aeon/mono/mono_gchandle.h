@@ -46,6 +46,7 @@ class mono_gchandle : public common::noncopyable
 {
 public:
     explicit mono_gchandle(mono_object &obj);
+    explicit mono_gchandle(MonoObject *obj);
     virtual ~mono_gchandle();
 
     mono_gchandle(mono_gchandle &&o);

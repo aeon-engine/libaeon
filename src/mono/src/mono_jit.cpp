@@ -61,5 +61,10 @@ auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
     return mono_assembly(domain_, path);
 }
 
+void mono_jit::add_internal_call(const std::string &name, const void *func)
+{
+    mono_add_internal_call(name.c_str(), func);
+}
+
 } // namespace mono
 } // namespace aeon

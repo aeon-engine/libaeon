@@ -24,12 +24,41 @@
  */
 
 using System;
+using System.Runtime.CompilerServices;
+
+namespace Aeon
+{
+    class MyObject
+    {
+        public MyObject()
+        {
+            CreateInternal();
+        }
+
+        ~MyObject()
+        {
+            DestroyInternal();
+        }
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void CreateInternal();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void DestroyInternal();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        public extern void DoStuff(String value);
+    }
+}
 
 public class ClassInstanceTest
 {
     public ClassInstanceTest()
     {
         Console.WriteLine("ClassInstanceTest created.");
+
+        Aeon.MyObject s = new Aeon.MyObject();
+        s.DoStuff("Hello from C#!");
     }
 
     ~ClassInstanceTest()

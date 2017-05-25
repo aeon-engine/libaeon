@@ -59,6 +59,8 @@ public:
 
     auto load_assembly(const std::string &path) const -> mono_assembly;
 
+    static void add_internal_call(const std::string &name, const void *func);
+
 private:
     MonoDomain *domain_;
 };

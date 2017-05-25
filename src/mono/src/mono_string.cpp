@@ -30,6 +30,18 @@ namespace aeon
 namespace mono
 {
 
+mono_string::mono_string(MonoString *mono_string)
+    : mono_object(mono_object_get_domain(reinterpret_cast<MonoObject *>(mono_string)))
+    , object_(mono_string)
+    , string_()
+{
+    // TODO: This could be probably optimized by doing no additional
+    // allocation though mono_string_chars and mono_string_length.
+    auto raw_utf8_str = mono_string_to_utf8(mono_string);
+    string_ = raw_utf8_str;
+    mono_free(raw_utf8_str);
+}
+
 mono_string::mono_string(MonoDomain *domain, const std::string &str)
     : mono_object(domain)
     , object_(nullptr)
@@ -49,6 +61,11 @@ auto mono_string::operator=(const std::string &str) -> mono_string &
     string_ = str;
     object_ = mono_string_new(domain_, str.c_str());
     return *this;
+}
+
+mono_string::operator std::string() const
+{
+    return string_;
 }
 
 auto mono_string::get_mono_object() const -> MonoObject *

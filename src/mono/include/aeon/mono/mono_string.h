@@ -44,6 +44,7 @@ namespace mono
 class mono_string : public mono_object
 {
 public:
+    explicit mono_string(MonoString *mono_string);
     explicit mono_string(MonoDomain *domain, const std::string &str);
     virtual ~mono_string();
 
@@ -51,6 +52,7 @@ public:
     auto operator=(mono_string &&o) -> mono_string &;
 
     auto operator=(const std::string &str) -> mono_string &;
+    operator std::string() const;
 
     auto get_mono_object() const -> MonoObject * override;
 

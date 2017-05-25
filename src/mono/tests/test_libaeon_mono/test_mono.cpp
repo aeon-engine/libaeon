@@ -30,6 +30,7 @@
 #include <aeon/mono/mono_class_instance.h>
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_exception.h>
+#include <aeon/mono/mono_string.h>
 #include "mono_jit_fixture.h"
 
 TEST(test_mono, test_mono_jit_load_assembly_fail)
@@ -65,6 +66,7 @@ TEST(test_mono, test_mono_jit_get_method)
     aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
 
     EXPECT_NO_THROW(aeon::mono::mono_assembly assembly = jit.load_assembly("MonoTests.dll");
+
                     aeon::mono::mono_class cls = assembly.get_class("ClassInstanceTest");
 
                     aeon::mono::mono_class_instance obj = assembly.new_class_instance(cls);
@@ -73,4 +75,34 @@ TEST(test_mono, test_mono_jit_get_method)
                     aeon::mono::mono_method method_MethodWithParameter = obj.get_method("MethodWithParameter", 1);
                     aeon::mono::mono_method method_MethodWithParameterAndReturnValue =
                         obj.get_method("MethodWithParameterAndReturnValue", 1););
+}
+
+static void MyObject_CreateInternal(MonoObject *this_ptr)
+{
+    std::cout << "MyObject created." << std::endl;
+}
+
+static void MyObject_DestroyInternal(MonoObject *this_ptr)
+{
+    std::cout << "MyObject deleted." << std::endl;
+}
+
+static void MyObject_DoStuff(MonoObject *this_ptr, MonoString *value)
+{
+    aeon::mono::mono_string str(value);
+    std::string str_value = str;
+
+    std::cout << "DoStuff was called with: " << str_value << std::endl;
+}
+
+TEST(test_mono, test_mono_call_native_methods)
+{
+    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::CreateInternal", MyObject_CreateInternal);
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DestroyInternal", MyObject_DestroyInternal);
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DoStuff", MyObject_DoStuff);
+
+    aeon::mono::mono_assembly assembly = jit.load_assembly("MonoTests.dll");
+    aeon::mono::mono_class cls = assembly.get_class("ClassInstanceTest");
+    aeon::mono::mono_class_instance obj = assembly.new_class_instance(cls);
 }
