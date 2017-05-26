@@ -47,6 +47,7 @@ class mono_string;
 class mono_assembly : public common::noncopyable
 {
 public:
+    mono_assembly();
     explicit mono_assembly(MonoDomain *domain, const std::string &path);
     virtual ~mono_assembly();
 

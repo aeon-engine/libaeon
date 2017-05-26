@@ -35,6 +35,13 @@ namespace aeon
 namespace mono
 {
 
+mono_assembly::mono_assembly()
+    : domain_(nullptr)
+    , assembly_(nullptr)
+    , image_(nullptr)
+{
+}
+
 mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
     : domain_(domain)
     , assembly_(nullptr)
