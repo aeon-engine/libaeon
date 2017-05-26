@@ -26,7 +26,10 @@
 #pragma once
 
 #include <aeon/mono/mono_object.h>
+#include <aeon/mono/mono_class_field.h>
 #include <string>
+#include <type_traits>
+#include <cassert>
 
 namespace aeon
 {
@@ -38,6 +41,7 @@ class mono_method;
 class mono_class_instance : public mono_object
 {
 public:
+    explicit mono_class_instance(MonoObject *obj);
     explicit mono_class_instance(MonoDomain *domain, MonoClass *cls);
     virtual ~mono_class_instance();
 
@@ -46,12 +50,40 @@ public:
 
     auto get_method(const std::string &name, int argc = 0) const -> mono_method;
 
-    auto get_mono_object() const -> MonoObject * override;
+    template <typename T>
+    auto get_field_value(mono_class_field &field) const;
+
+    template <typename T>
+    void get_field_value(mono_class_field &field, T &val) const;
+
+    template <typename T>
+    void set_field_value(mono_class_field &field, T &val) const;
 
 private:
-    MonoObject *object_;
     MonoClass *class_;
 };
+
+template <typename T>
+auto mono_class_instance::get_field_value(mono_class_field &field) const
+{
+    T val;
+    get_field_value(field, val);
+    return val;
+}
+
+template <typename T>
+void mono_class_instance::get_field_value(mono_class_field &field, T &val) const
+{
+    assert(field.get_mono_class_field_ptr());
+    mono_field_get_value(object_, field.get_mono_class_field_ptr(), reinterpret_cast<void *>(&val));
+}
+
+template <typename T>
+void mono_class_instance::set_field_value(mono_class_field &field, T &val) const
+{
+    assert(field.get_mono_class_field_ptr());
+    mono_field_set_value(object_, field.get_mono_class_field_ptr(), reinterpret_cast<void *>(&val));
+}
 
 } // namespace mono
 } // namespace aeon

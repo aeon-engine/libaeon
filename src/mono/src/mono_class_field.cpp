@@ -23,46 +23,40 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
-#if (AEON_PLATFORM_OS_WINDOWS)
-#ifndef MONO_DLL_IMPORT
-#define MONO_DLL_IMPORT
-#endif
-#endif
-
-#include <aeon/mono/mono_object.h>
-#include <aeon/common/noncopyable.h>
-#include <mono/jit/jit.h>
-#include <string>
+#include <aeon/mono/mono_class_field.h>
+#include <aeon/mono/mono_class.h>
+#include <cassert>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_method;
-class mono_class_field;
-
-class mono_class : public common::noncopyable
+mono_class_field::mono_class_field()
+    : field_(nullptr)
 {
-public:
-    explicit mono_class(MonoImage *image, const std::string &name);
-    virtual ~mono_class();
+}
 
-    mono_class(mono_class &&o);
-    auto operator=(mono_class &&o) -> mono_class &;
+mono_class_field::mono_class_field(mono_class &monoclass, const std::string &name)
+    : mono_class_field(monoclass.get_mono_class_ptr(), name)
+{
+}
 
-    auto get_method(const std::string &name, int argc = 0) const -> mono_method;
+mono_class_field::mono_class_field(MonoClass *monoclass, const std::string &name)
+    : field_(mono_class_get_field_from_name(monoclass, name.c_str()))
+{
+    assert(field_);
+}
 
-    auto get_mono_class_ptr() const -> MonoClass *;
+mono_class_field::~mono_class_field() = default;
+mono_class_field::mono_class_field(mono_class_field &&o) = default;
 
-    auto get_field(const std::string &name) const -> mono_class_field;
+auto mono_class_field::operator=(mono_class_field &&o) -> mono_class_field & = default;
 
-private:
-    MonoImage *image_;
-    MonoClass *class_;
-};
+auto mono_class_field::get_mono_class_field_ptr() const -> MonoClassField *
+{
+    return field_;
+}
 
 } // namespace mono
 } // namespace aeon

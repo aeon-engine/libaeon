@@ -31,7 +31,6 @@
 #endif
 #endif
 
-#include <aeon/mono/mono_object.h>
 #include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 #include <string>
@@ -41,27 +40,23 @@ namespace aeon
 namespace mono
 {
 
-class mono_method;
-class mono_class_field;
+class mono_class;
 
-class mono_class : public common::noncopyable
+class mono_class_field : public common::noncopyable
 {
 public:
-    explicit mono_class(MonoImage *image, const std::string &name);
-    virtual ~mono_class();
+    mono_class_field();
+    explicit mono_class_field(mono_class &monoclass, const std::string &name);
+    explicit mono_class_field(MonoClass *monoclass, const std::string &name);
+    virtual ~mono_class_field();
 
-    mono_class(mono_class &&o);
-    auto operator=(mono_class &&o) -> mono_class &;
+    mono_class_field(mono_class_field &&o);
+    auto operator=(mono_class_field &&o) -> mono_class_field &;
 
-    auto get_method(const std::string &name, int argc = 0) const -> mono_method;
-
-    auto get_mono_class_ptr() const -> MonoClass *;
-
-    auto get_field(const std::string &name) const -> mono_class_field;
+    auto get_mono_class_field_ptr() const -> MonoClassField *;
 
 private:
-    MonoImage *image_;
-    MonoClass *class_;
+    MonoClassField *field_;
 };
 
 } // namespace mono

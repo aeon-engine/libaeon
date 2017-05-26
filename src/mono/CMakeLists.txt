@@ -65,6 +65,8 @@ set(LIB_AEON_MONO_SOURCE
     src/mono_object.cpp
     include/aeon/mono/mono_string.h
     src/mono_string.cpp
+    include/aeon/mono/mono_class_field.h
+    src/mono_class_field.cpp
 )
 
 source_group(mono FILES ${LIB_AEON_MONO_SOURCE})

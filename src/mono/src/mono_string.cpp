@@ -24,6 +24,7 @@
  */
 
 #include <aeon/mono/mono_string.h>
+#include <cassert>
 
 namespace aeon
 {
@@ -31,23 +32,15 @@ namespace mono
 {
 
 mono_string::mono_string(MonoString *mono_string)
-    : mono_object(mono_object_get_domain(reinterpret_cast<MonoObject *>(mono_string)))
-    , object_(mono_string)
-    , string_()
+    : mono_object(reinterpret_cast<MonoObject *>(mono_string))
+    , domain_(nullptr)
 {
-    // TODO: This could be probably optimized by doing no additional
-    // allocation though mono_string_chars and mono_string_length.
-    auto raw_utf8_str = mono_string_to_utf8(mono_string);
-    string_ = raw_utf8_str;
-    mono_free(raw_utf8_str);
 }
 
 mono_string::mono_string(MonoDomain *domain, const std::string &str)
-    : mono_object(domain)
-    , object_(nullptr)
-    , string_(str)
+    : mono_object(reinterpret_cast<MonoObject *>(mono_string_new(domain, str.c_str())))
+    , domain_(domain)
 {
-    object_ = mono_string_new(domain, str.c_str());
 }
 
 mono_string::~mono_string() = default;
@@ -58,19 +51,28 @@ auto mono_string::operator=(mono_string &&o) -> mono_string & = default;
 
 auto mono_string::operator=(const std::string &str) -> mono_string &
 {
-    string_ = str;
-    object_ = mono_string_new(domain_, str.c_str());
+    if (domain_ == nullptr)
+    {
+        domain_ = mono_object_get_domain(object_);
+    }
+
+    object_ = reinterpret_cast<MonoObject *>(mono_string_new(domain_, str.c_str()));
     return *this;
 }
 
-mono_string::operator std::string() const
+auto mono_string::str() const -> std::string
 {
-    return string_;
+    // TODO: This could be probably optimized by doing no additional
+    // allocation though mono_string_chars and mono_string_length.
+    auto raw_utf8_str = mono_string_to_utf8(get_mono_string());
+    std::string str = raw_utf8_str;
+    mono_free(raw_utf8_str);
+    return str;
 }
 
-auto mono_string::get_mono_object() const -> MonoObject *
+auto mono_string::get_mono_string() const -> MonoString *
 {
-    return reinterpret_cast<MonoObject *>(object_);
+    return reinterpret_cast<MonoString *>(object_);
 }
 
 } // namespace mono

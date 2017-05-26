@@ -90,7 +90,7 @@ static void MyObject_DestroyInternal(MonoObject *this_ptr)
 static void MyObject_DoStuff(MonoObject *this_ptr, MonoString *value)
 {
     aeon::mono::mono_string str(value);
-    std::string str_value = str;
+    std::string str_value = str.str();
 
     std::cout << "DoStuff was called with: " << str_value << std::endl;
 }

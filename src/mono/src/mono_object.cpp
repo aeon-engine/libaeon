@@ -31,8 +31,13 @@ namespace aeon
 namespace mono
 {
 
-mono_object::mono_object(MonoDomain *domain)
-    : domain_(domain)
+mono_object::mono_object()
+    : object_(nullptr)
+{
+}
+
+mono_object::mono_object(MonoObject *object)
+    : object_(object)
 {
 }
 
@@ -41,6 +46,11 @@ mono_object::~mono_object() = default;
 mono_object::mono_object(mono_object &&o) = default;
 
 auto mono_object::operator=(mono_object &&o) -> mono_object & = default;
+
+auto mono_object::get_mono_object() const -> MonoObject *
+{
+    return object_;
+}
 
 } // namespace mono
 } // namespace aeon

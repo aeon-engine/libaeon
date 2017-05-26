@@ -43,16 +43,17 @@ namespace mono
 class mono_object : public common::noncopyable
 {
 public:
-    explicit mono_object(MonoDomain *domain);
+    mono_object();
+    explicit mono_object(MonoObject *object);
     virtual ~mono_object();
 
     mono_object(mono_object &&o);
     auto operator=(mono_object &&o) -> mono_object &;
 
-    virtual auto get_mono_object() const -> MonoObject * = 0;
+    auto get_mono_object() const -> MonoObject *;
 
 protected:
-    MonoDomain *domain_;
+    MonoObject *object_;
 };
 
 } // namespace mono

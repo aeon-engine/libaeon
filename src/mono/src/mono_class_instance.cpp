@@ -27,19 +27,20 @@
 #include <aeon/mono/mono_gchandle.h>
 #include <aeon/mono/mono_method.h>
 
-#include <utility>
-
 namespace aeon
 {
 namespace mono
 {
 
+mono_class_instance::mono_class_instance(MonoObject *obj)
+    : mono_object(obj)
+{
+}
+
 mono_class_instance::mono_class_instance(MonoDomain *domain, MonoClass *cls)
-    : mono_object(domain)
-    , object_(nullptr)
+    : mono_object(mono_object_new(domain, cls))
     , class_(cls)
 {
-    object_ = mono_object_new(domain, cls);
     mono_runtime_object_init(object_);
 }
 
@@ -52,11 +53,6 @@ auto mono_class_instance::operator=(mono_class_instance &&o) -> mono_class_insta
 auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) const -> mono_method
 {
     return mono_method(class_, object_, name, argc);
-}
-
-auto mono_class_instance::get_mono_object() const -> MonoObject *
-{
-    return object_;
 }
 
 } // namespace mono

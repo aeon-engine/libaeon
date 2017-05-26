@@ -26,6 +26,7 @@
 #include <aeon/mono/mono_class.h>
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_exception.h>
+#include <aeon/mono/mono_class_field.h>
 
 namespace aeon
 {
@@ -55,6 +56,11 @@ mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/) co
 MonoClass *mono_class::get_mono_class_ptr() const
 {
     return class_;
+}
+
+auto mono_class::get_field(const std::string &name) const -> mono_class_field
+{
+    return mono_class_field(get_mono_class_ptr(), name);
 }
 
 } // namespace mono

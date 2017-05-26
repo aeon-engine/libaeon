@@ -52,13 +52,13 @@ public:
     auto operator=(mono_string &&o) -> mono_string &;
 
     auto operator=(const std::string &str) -> mono_string &;
-    operator std::string() const;
 
-    auto get_mono_object() const -> MonoObject * override;
+    auto str() const -> std::string;
+
+    auto get_mono_string() const -> MonoString *;
 
 private:
-    MonoString *object_;
-    std::string string_;
+    MonoDomain *domain_;
 };
 
 } // namespace mono
