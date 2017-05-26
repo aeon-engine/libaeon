@@ -54,7 +54,11 @@ public:
     mono_assembly(mono_assembly &&o);
     auto operator=(mono_assembly &&o) -> mono_assembly &;
 
+    auto get_mono_assembly_ptr() const -> MonoAssembly *;
+
     auto get_class(const std::string &name) const -> mono_class;
+    auto get_class(const std::string &name_space, const std::string &name) const -> mono_class;
+
     auto new_class_instance(const mono_class &cls) const -> mono_class_instance;
     auto new_string(const std::string &str) const -> mono_string;
 

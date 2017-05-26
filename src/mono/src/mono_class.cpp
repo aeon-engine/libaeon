@@ -34,10 +34,15 @@ namespace mono
 {
 
 mono_class::mono_class(MonoImage *image, const std::string &name)
+    : mono_class(image, "", name)
+{
+}
+
+mono_class::mono_class(MonoImage *image, const std::string &name_space, const std::string &name)
     : image_(image)
     , class_(nullptr)
 {
-    class_ = mono_class_from_name(image, "", name.c_str());
+    class_ = mono_class_from_name(image, name_space.c_str(), name.c_str());
 
     if (!class_)
         throw mono_exception();

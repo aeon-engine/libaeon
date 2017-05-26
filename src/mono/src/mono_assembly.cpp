@@ -61,9 +61,19 @@ mono_assembly::mono_assembly(mono_assembly &&o) = default;
 
 auto mono_assembly::operator=(mono_assembly &&o) -> mono_assembly & = default;
 
+auto mono_assembly::get_mono_assembly_ptr() const -> MonoAssembly *
+{
+    return assembly_;
+}
+
 auto mono_assembly::get_class(const std::string &name) const -> mono_class
 {
     return mono_class(image_, name);
+}
+
+auto mono_assembly::get_class(const std::string &name_space, const std::string &name) const -> mono_class
+{
+    return mono_class(image_, name_space, name);
 }
 
 auto mono_assembly::new_class_instance(const mono_class &cls) const -> mono_class_instance
