@@ -47,6 +47,7 @@ class mono_class_field;
 class mono_class : public common::noncopyable
 {
 public:
+    explicit mono_class(MonoClass *cls);
     explicit mono_class(MonoImage *image, const std::string &name);
     explicit mono_class(MonoImage *image, const std::string &name_space, const std::string &name);
     virtual ~mono_class();
@@ -61,7 +62,6 @@ public:
     auto get_field(const std::string &name) const -> mono_class_field;
 
 private:
-    MonoImage *image_;
     MonoClass *class_;
 };
 

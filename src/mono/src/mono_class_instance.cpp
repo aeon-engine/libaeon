@@ -26,6 +26,7 @@
 #include <aeon/mono/mono_class_instance.h>
 #include <aeon/mono/mono_gchandle.h>
 #include <aeon/mono/mono_method.h>
+#include <aeon/mono/mono_class.h>
 
 namespace aeon
 {
@@ -34,6 +35,7 @@ namespace mono
 
 mono_class_instance::mono_class_instance(MonoObject *obj)
     : mono_object(obj)
+    , class_(nullptr)
 {
 }
 
@@ -50,9 +52,22 @@ mono_class_instance::mono_class_instance(mono_class_instance &&o) = default;
 
 auto mono_class_instance::operator=(mono_class_instance &&o) -> mono_class_instance & = default;
 
-auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) const -> mono_method
+auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) -> mono_method
 {
-    return mono_method(class_, object_, name, argc);
+    return mono_method(get_mono_class_ptr(), object_, name, argc);
+}
+
+auto mono_class_instance::get_class() -> mono_class
+{
+    return mono_class(get_mono_class_ptr());
+}
+
+auto mono_class_instance::get_mono_class_ptr() -> MonoClass *
+{
+    if (!class_)
+        class_ = mono_object_get_class(object_);
+
+    return class_;
 }
 
 } // namespace mono

@@ -37,6 +37,7 @@ namespace mono
 {
 
 class mono_method;
+class mono_class;
 
 class mono_class_instance : public mono_object
 {
@@ -48,7 +49,11 @@ public:
     mono_class_instance(mono_class_instance &&o);
     auto operator=(mono_class_instance &&o) -> mono_class_instance &;
 
-    auto get_method(const std::string &name, int argc = 0) const -> mono_method;
+    auto get_method(const std::string &name, int argc = 0) -> mono_method;
+
+    auto get_class() -> mono_class;
+
+    auto get_mono_class_ptr() -> MonoClass *;
 
     template <typename T>
     auto get_field_value(mono_class_field &field) const;
