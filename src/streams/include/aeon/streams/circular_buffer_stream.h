@@ -87,9 +87,9 @@ public:
      * written, this function will return false.
      *
      * \param data The destination of the data to be read from the circular
-                   buffer.
+     *             buffer.
      * \param size The size of the data to be read. The data parameter must be
-                   large enough to hold this size.
+     *             large enough to hold this size.
      * \return The size read from the circular buffer or 0.
      */
     std::size_t read(std::uint8_t *data, std::size_t size) override
@@ -135,12 +135,12 @@ public:
      * present in our buffer, this function will return false.
      *
      * \param data The destination of the data to be 'peeked' from the circular
-                   buffer.
+     *             buffer.
      * \param size The size of the data to be peeked. The data parameter must be
-                   large enough to hold this size.
+     *             large enough to hold this size.
      * \return The size peeked from the circular buffer or 0.
      */
-    std::size_t peek_read(std::uint8_t *data, std::size_t size)
+    std::size_t peek(std::uint8_t *data, std::size_t size) override
     {
         // Can we read this size at all?
         if (is_out_of_bounds_(size))
@@ -183,7 +183,7 @@ public:
      * \param data The data to be written into the circular buffer.
      * \param size The size of the data that *data is pointing to.
      * \return The size of the buffer written into the circular buffer,
-               or 0 on error.
+     *         or 0 on error.
      */
     std::size_t write(const std::uint8_t *data, std::size_t size) override
     {
@@ -226,26 +226,6 @@ public:
         size_ += size;
 
         return size;
-    }
-
-    /*!
-     * Read 1 byte from the circular buffer without moving the internal read
-     * pointer.
-     *
-     * \return The byte at the current read offset.
-     */
-    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override
-    {
-        if (offset < 0)
-            return false;
-
-        if (size_ == 0 || static_cast<std::size_t>(offset) > size_)
-            return false;
-
-        std::ptrdiff_t normalized_offset = (tail_ + offset) % circular_buffer_size;
-
-        data = buffer_[normalized_offset];
-        return true;
     }
 
     bool seek(std::ptrdiff_t offset, stream::seek_direction direction) override

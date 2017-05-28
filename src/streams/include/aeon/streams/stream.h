@@ -130,18 +130,17 @@ public:
     virtual std::size_t write(const std::uint8_t *data, std::size_t size) = 0;
 
     /*!
-     * Peek one byte from the stream. This is like reading 1 byte from the stream,
+     * Peek bytes from the stream. This is like reading bytes from the stream,
      * without moving the internal read index. Actual implementation may vary between
      * different stream types.
      *
-     * \param data Reference to a single byte to write to
-     * \param offset The offset to read from. Depending on the implementation, this
-     *               offset may be relative to the current read index, and not from
-     *               the beginning of the stream.
-     * \return Returns true of the peek succeeded. When false is returned, the value
-     *         of data is undefined.
+     * \param data Pointer to a buffer where data should be peeked to.
+     *             Must be large enough to contain size bytes.
+     * \param size Size of the data to be peek.
+     * \return The amount of bytes that were actually peeked into data. May be less
+     *         than the given size.
      */
-    virtual bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) = 0;
+    virtual std::size_t peek(std::uint8_t *data, std::size_t size) = 0;
 
     /*!
      * Seek within the stream. Based on the implementation, this will move the internal

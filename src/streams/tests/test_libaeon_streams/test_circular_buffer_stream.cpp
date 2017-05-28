@@ -261,8 +261,8 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_peek)
     ASSERT_EQ(result, sizeof(data));
 
     std::uint8_t peek_value = 0;
-    bool peek_result = buffer.peek(peek_value);
-    ASSERT_TRUE(peek_result);
+    std::size_t peek_size = buffer.peek(&peek_value, 1);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('A', peek_value);
 
     std::uint8_t dummy[3];
@@ -270,15 +270,15 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_peek)
     ASSERT_EQ(sizeof(dummy), result);
 
     peek_value = 0;
-    peek_result = buffer.peek(peek_value);
-    ASSERT_TRUE(peek_result);
+    peek_size = buffer.peek(&peek_value, 1);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('D', peek_value);
 
     result = buffer.write(data, sizeof(data));
     ASSERT_EQ(sizeof(data), result);
 
     peek_value = 0;
-    peek_result = buffer.peek(peek_value);
-    ASSERT_TRUE(peek_result);
+    peek_size = buffer.peek(&peek_value, 1);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('D', peek_value);
 }

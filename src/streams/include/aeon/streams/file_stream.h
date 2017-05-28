@@ -61,7 +61,7 @@ public:
 
     std::size_t write(const std::uint8_t *data, std::size_t size) override;
 
-    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override;
+    std::size_t peek(std::uint8_t *data, std::size_t size) override;
 
     bool seek(std::ptrdiff_t pos, seek_direction direction) override;
 

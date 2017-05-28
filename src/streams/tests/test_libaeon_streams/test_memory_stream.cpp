@@ -91,18 +91,18 @@ TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_peek)
     ASSERT_TRUE(result);
 
     std::uint8_t peek_data = 0;
-    result = stream.peek(peek_data);
+    std::size_t peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(true);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('E', peek_data);
 
     result = stream.seek(-1, aeon::streams::stream::seek_direction::current);
     ASSERT_TRUE(result);
 
     peek_data = 0;
-    result = stream.peek(peek_data);
+    peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('D', peek_data);
 }
 
@@ -112,18 +112,18 @@ TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_seek_begin)
     ASSERT_TRUE(result);
 
     std::uint8_t peek_data = 0;
-    result = stream.peek(peek_data);
+    std::size_t peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('A', peek_data);
 
     result = stream.seek(2, aeon::streams::stream::seek_direction::begin);
     ASSERT_TRUE(result);
 
     peek_data = 0;
-    result = stream.peek(peek_data);
+    peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('C', peek_data);
 
     result = stream.seek(fixture_data_written, aeon::streams::stream::seek_direction::begin);
@@ -137,18 +137,18 @@ TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_seek_current)
     ASSERT_TRUE(result);
 
     std::uint8_t peek_data = 0;
-    result = stream.peek(peek_data);
+    std::size_t peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('C', peek_data);
 
     result = stream.seek(2, aeon::streams::stream::seek_direction::current);
     ASSERT_TRUE(result);
 
     peek_data = 0;
-    result = stream.peek(peek_data);
+    peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('E', peek_data);
 
     result = stream.seek(-10, aeon::streams::stream::seek_direction::current);
@@ -166,18 +166,18 @@ TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_seek_end)
     ASSERT_TRUE(result);
 
     std::uint8_t peek_data = 0;
-    result = stream.peek(peek_data);
+    std::size_t peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('E', peek_data);
 
     result = stream.seek(3, aeon::streams::stream::seek_direction::end);
     ASSERT_TRUE(result);
 
     peek_data = 0;
-    result = stream.peek(peek_data);
+    peek_size = stream.peek(&peek_data, 1);
 
-    ASSERT_TRUE(result);
+    ASSERT_EQ(1, peek_size);
     ASSERT_EQ('B', peek_data);
 
     result = stream.seek(10, aeon::streams::stream::seek_direction::end);
