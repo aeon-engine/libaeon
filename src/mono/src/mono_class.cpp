@@ -27,11 +27,17 @@
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_exception.h>
 #include <aeon/mono/mono_class_field.h>
+#include <cassert>
 
 namespace aeon
 {
 namespace mono
 {
+
+mono_class::mono_class()
+    : class_(nullptr)
+{
+}
 
 mono_class::mono_class(MonoClass *cls)
     : class_(cls)
@@ -59,11 +65,13 @@ auto mono_class::operator=(mono_class &&o) -> mono_class & = default;
 
 mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/) const
 {
+    assert(class_);
     return mono_method(class_, name, argc);
 }
 
 MonoClass *mono_class::get_mono_class_ptr() const
 {
+    assert(class_);
     return class_;
 }
 
