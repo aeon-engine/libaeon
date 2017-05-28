@@ -89,33 +89,37 @@ std::size_t file_stream::write(const std::uint8_t *data, std::size_t size)
     return size;
 }
 
-bool file_stream::peek(std::uint8_t &data, std::ptrdiff_t offset /* = 0 */)
+std::size_t file_stream::peek(std::uint8_t *data, std::size_t size)
 {
     if (!is_readable())
         throw file_stream_exception();
 
-    std::size_t original_offset = 0;
+    if (!data || size == 0)
+        throw file_stream_exception();
 
-    if (offset != 0)
+    std::size_t original_offset = static_cast<std::size_t>(fstream_.tellg());
+
+    fstream_.read(reinterpret_cast<char *>(data), size);
+
+    if (fstream_.eof())
     {
-        original_offset = static_cast<std::size_t>(fstream_.tellg());
-        fstream_.seekg(original_offset + offset, std::ios::beg);
+        std::size_t peek_count = static_cast<std::size_t>(fstream_.gcount());
 
-        if (fstream_.fail())
-            return false;
-    }
-
-    int peek_val = fstream_.peek();
-
-    if (peek_val == EOF)
-        return false;
-
-    data = static_cast<std::uint8_t>(peek_val);
-
-    if (offset != 0)
         fstream_.seekg(original_offset, std::ios::beg);
 
-    return true;
+        return peek_count;
+    }
+
+    if (fstream_.fail())
+    {
+        // \todo Does it reset the bad state bit when we do a seek back?
+        fstream_.seekg(original_offset, std::ios::beg);
+        return 0;
+    }
+
+    fstream_.seekg(original_offset, std::ios::beg);
+
+    return size;
 }
 
 bool file_stream::seek(std::ptrdiff_t pos, seek_direction direction)

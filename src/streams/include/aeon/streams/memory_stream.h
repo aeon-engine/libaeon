@@ -77,7 +77,6 @@ public:
         if (size == 0)
             return 0;
 
-        // Copy our data
         std::memcpy(data, &buffer_[offset_], size);
         offset_ += size;
 
@@ -95,23 +94,31 @@ public:
         // Make sure we have enough space in the buffer
         reserve(offset_ + size);
 
-        // Copy our data
         std::memcpy(&buffer_[offset_], data, size);
         offset_ += size;
 
         return size;
     }
 
-    bool peek(std::uint8_t &data, std::ptrdiff_t offset = 0) override
+    size_t peek(std::uint8_t *data, std::size_t size) override
     {
-        if (!is_readable() || !good())
+        if (!is_readable())
             throw memory_stream_exception();
 
-        if (offset_ + offset >= size_)
-            return false;
+        if (!data || size == 0)
+            throw memory_stream_exception();
 
-        data = buffer_[offset_ + offset];
-        return true;
+        // Only peek read what we have
+        if (offset_ + size > size_)
+            size = size_ - offset_;
+
+        // Are we really out of bounds?
+        if (size == 0)
+            return 0;
+
+        std::memcpy(data, &buffer_[offset_], size);
+
+        return size;
     }
 
     bool seek(std::ptrdiff_t pos, stream::seek_direction direction) override

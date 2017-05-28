@@ -35,7 +35,7 @@
 struct test_fixture_stream_reader_default_data : public ::testing::Test
 {
     test_fixture_stream_reader_default_data()
-        : fixture_data({{'A', 'B', 'C', 'D', 'E', '\n', '1', '2', '3', '4'}})
+        : fixture_data({{'A', 'B', 'C', 'D', 'E', '\r', '\n', '1', '2', '3', '4'}})
         , fixture_data_written(0)
     {
         fixture_data_written = stream.write(&fixture_data[0], fixture_data.size());
@@ -51,7 +51,7 @@ struct test_fixture_stream_reader_default_data : public ::testing::Test
     }
 
     aeon::streams::memory_stream stream;
-    std::array<std::uint8_t, 10> fixture_data;
+    std::array<std::uint8_t, 11> fixture_data;
     std::size_t fixture_data_written;
 };
 
@@ -65,5 +65,5 @@ TEST_F(test_fixture_stream_reader_default_data, test_stream_reader_read_line)
 TEST_F(test_fixture_stream_reader_default_data, test_stream_reader_read_as_string)
 {
     aeon::streams::stream_reader<aeon::streams::memory_stream> reader(stream);
-    ASSERT_EQ("ABCDE\n1234", reader.read_as_string());
+    ASSERT_EQ("ABCDE\r\n1234", reader.read_as_string());
 }

@@ -30,6 +30,7 @@
 #include <string>
 #include <type_traits>
 #include <cstdint>
+#include <cstring>
 
 namespace aeon
 {
@@ -49,6 +50,7 @@ namespace streams
 template <typename T>
 class stream_reader : common::noncopyable
 {
+    static constexpr int read_line_block_size = 64;
 public:
     explicit stream_reader(T &streamref);
 
@@ -101,39 +103,32 @@ template <typename T>
 template <typename U>
 auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type
 {
-    std::uint8_t peek_data = 0;
-    std::ptrdiff_t offset = 0;
-    std::size_t stringlength = 0;
-    int strip_characters = 0;
-
-    while (stream_.peek(peek_data, offset++))
+    std::string line;
+    std::size_t peek_size;
+    char peek_data[read_line_block_size] = {};
+    while ((peek_size = stream_.read(reinterpret_cast<std::uint8_t *>(peek_data), read_line_block_size)) > 0)
     {
-        ++stringlength;
-
-        if (peek_data == '\n')
+        const char *line_end = std::strchr(peek_data, '\n');
+        if (!line_end)
         {
-            strip_characters = 1;
+            line.append(peek_data, peek_size);
+        }
+        else
+        {
+            std::ptrdiff_t temp_size = line_end - peek_data;
+            line.append(peek_data, temp_size);
+
+            std::ptrdiff_t jump_back = (static_cast<std::ptrdiff_t>(peek_size) - temp_size) - 1;
+            stream_.seek(-jump_back, T::seek_direction::current);
             break;
         }
     }
 
-    if (stringlength == 0)
-        return std::string();
-
-    std::string line;
-    line.resize(stringlength);
-    stringlength = stream_.read(reinterpret_cast<std::uint8_t *>(&line[0]), stringlength);
-
-    if (stringlength == 0)
-        return std::string();
-
-    if (stringlength >= 2)
+    if (!line.empty())
     {
-        if (line[stringlength - 2] == '\r')
-            ++strip_characters;
+        if (line[line.size() - 1] == '\r')
+            line.resize(line.size() - 1);
     }
-
-    line.resize(stringlength - strip_characters);
 
     return line;
 }

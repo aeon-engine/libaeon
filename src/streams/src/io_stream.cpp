@@ -25,6 +25,8 @@
 
 #include <aeon/streams/io_stream.h>
 
+#include <limits>
+
 namespace aeon
 {
 namespace streams
@@ -57,22 +59,37 @@ std::size_t io_stream::write(const std::uint8_t *data, std::size_t size)
     return fwrite(data, 1, size, stdout);
 }
 
-bool io_stream::peek(std::uint8_t &data, std::ptrdiff_t /*= 0*/)
+std::size_t io_stream::peek(std::uint8_t *data, std::size_t size)
 {
     if (!is_readable())
         throw io_stream_exception();
 
-    int c = fgetc(stdin);
+    if (size > static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()))
+        throw io_stream_exception();
 
-    if (c == EOF)
-        return false;
+    std::ptrdiff_t max_count = static_cast<std::ptrdiff_t>(size);
 
-    // TODO: research if there is a good alternative for this.
-    if (ungetc(c, stdin) == EOF)
-        return false;
+    int c;
+    std::ptrdiff_t count = 0;
+    while ((c = fgetc(stdin)) != EOF && count < max_count)
+    {
+        data[count] = static_cast<std::uint8_t>(c);
+        count++;
+    }
 
-    data = static_cast<std::uint8_t>(c);
-    return true;
+    for (std::ptrdiff_t i = count; i >= 0; --i)
+    {
+        c = data[i];
+
+        // TODO: research if there is a good alternative for this.
+        if (ungetc(c, stdin) == EOF)
+            // \note This is actually a really weird that this error could occur.
+            //       The point is, is that when we where able to get the chars
+            //       theoretically we should be able to put them back.
+            throw io_stream_exception();
+    }
+
+    return static_cast<std::size_t>(count);
 }
 
 bool io_stream::seek(std::ptrdiff_t, seek_direction)
