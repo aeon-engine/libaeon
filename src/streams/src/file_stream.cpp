@@ -109,7 +109,7 @@ auto file_stream::peek(std::uint8_t *data, std::size_t size) -> std::size_t
 
     if (fstream_.fail())
     {
-        // \todo Does it reset the bad state bit when we do a seek back?
+        fstream_.clear();
         fstream_.seekg(original_offset, std::ios::beg);
         return 0;
     }
