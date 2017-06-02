@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <aeon/streams/stream.h>
 #include <aeon/streams/file_stream_fwd.h>
 #include <stdexcept>
 #include <string>
