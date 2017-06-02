@@ -121,6 +121,10 @@ auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, f
             line.append(peek_data, temp_size);
 
             std::ptrdiff_t jump_back = (static_cast<std::ptrdiff_t>(peek_size) - temp_size) - 1;
+
+            if (jump_back == 0)
+                break;
+
             if (!stream_.seek(-jump_back, T::seek_direction::current))
                 throw stream_exception();
 
