@@ -64,13 +64,10 @@ auto file_stream::read(std::uint8_t *data, std::size_t size) -> std::size_t
 
     fstream_.read(reinterpret_cast<char *>(data), size);
 
-    if (fstream_.eof())
-        return static_cast<std::size_t>(fstream_.gcount());
+    if (fstream_)
+        return size;
 
-    if (fstream_.fail())
-        return 0;
-
-    return size;
+    return static_cast<std::size_t>(fstream_.gcount());
 }
 
 auto file_stream::write(const std::uint8_t *data, std::size_t size) -> std::size_t
@@ -126,6 +123,10 @@ auto file_stream::seek(std::ptrdiff_t pos, seek_direction direction) -> bool
 {
     if (!is_readable())
         throw file_stream_exception();
+
+    // Make sure all failure bits are cleared before seeking.
+    // This can happen if read didn't manage to read all requested characters.
+    fstream_.clear();
 
     fstream_.seekg(pos, seek_direction_to_ios_seekdir_(direction));
     return !fstream_.fail();
