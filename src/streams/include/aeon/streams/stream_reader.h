@@ -51,6 +51,7 @@ template <typename T>
 class stream_reader : common::noncopyable
 {
     static constexpr int read_line_block_size = 64;
+
 public:
     explicit stream_reader(T &streamref);
 
