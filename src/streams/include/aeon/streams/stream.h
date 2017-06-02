@@ -97,7 +97,7 @@ public:
      * \return The amount of bytes that were actually read into data. May be less
      *         than the given size.
      */
-    virtual std::size_t read(std::uint8_t *data, std::size_t size) = 0;
+    virtual auto read(std::uint8_t *data, std::size_t size) -> std::size_t = 0;
 
     /*!
      * Read from the stream. This may move the internal read index, based on
@@ -109,7 +109,7 @@ public:
      * \return The amount of bytes that were actually read into data. May be less
      *         than the given size.
      */
-    virtual std::size_t vector_read(std::vector<std::uint8_t> &data, std::size_t size)
+    virtual auto vector_read(std::vector<std::uint8_t> &data, std::size_t size) -> std::size_t
     {
         data.resize(size);
         auto result = read(data.data(), size);
@@ -127,7 +127,7 @@ public:
      * \return The amount of bytes that were actually written into the stream.
      *         This may be less than the given size.
      */
-    virtual std::size_t write(const std::uint8_t *data, std::size_t size) = 0;
+    virtual auto write(const std::uint8_t *data, std::size_t size) -> std::size_t = 0;
 
     /*!
      * Peek bytes from the stream. This is like reading bytes from the stream,
@@ -140,7 +140,7 @@ public:
      * \return The amount of bytes that were actually peeked into data. May be less
      *         than the given size.
      */
-    virtual std::size_t peek(std::uint8_t *data, std::size_t size) = 0;
+    virtual auto peek(std::uint8_t *data, std::size_t size) -> std::size_t = 0;
 
     /*!
      * Seek within the stream. Based on the implementation, this will move the internal
@@ -153,7 +153,7 @@ public:
      *         it's previous state.
      * \sa seek_direction
      */
-    virtual bool seek(std::ptrdiff_t pos, seek_direction direction) = 0;
+    virtual auto seek(std::ptrdiff_t pos, seek_direction direction) -> bool = 0;
 
     /*!
      * Seek within the stream. Based on the implementation, this will move the internal
@@ -166,26 +166,26 @@ public:
      *         it's previous state.
      * \sa seek_direction
      */
-    virtual bool seekw(std::ptrdiff_t pos, seek_direction direction) = 0;
+    virtual auto seekw(std::ptrdiff_t pos, seek_direction direction) -> bool = 0;
 
     /*!
      * Get the current value of the internal read index.
      * \return The internal read index.
      */
-    virtual std::size_t tell() = 0;
+    virtual auto tell() -> std::size_t = 0;
 
     /*!
      * Get the current value of the internal write index.
      * \return The internal write index.
      */
-    virtual std::size_t tellw() = 0;
+    virtual auto tellw() -> std::size_t = 0;
 
     /*!
      * Check if the internal read index is at the end ("End Of File"). When this
      * returns true, all read functions will not be able to read any more data.
      * \return Returns true when the read index is at the end, false otherwise.
      */
-    virtual bool eof() const = 0;
+    virtual auto eof() const -> bool = 0;
 
     /*!
      * Get the total size of the stream. Depending on the stream implementation,
@@ -196,7 +196,7 @@ public:
      * \return The size of the stream if known, otherwise 0.
      * \sa eof()
      */
-    virtual std::size_t size() const = 0;
+    virtual auto size() const -> std::size_t = 0;
 
     /*!
      * Flush the internal write buffers. Depending on the stream implementation,
@@ -212,7 +212,7 @@ public:
      *
      * \return Returns true if no errors were detected, false if something is wrong.
      */
-    virtual bool good() const = 0;
+    virtual auto good() const -> bool = 0;
 
     /*!
      * Read the entire contents of this stream into another stream. Individual stream
@@ -222,7 +222,7 @@ public:
      */
     virtual void read_from_stream(stream &data)
     {
-        std::vector<std::uint8_t> buffer = data.read_to_vector();
+        auto buffer = data.read_to_vector();
         write(&buffer[0], buffer.size());
     }
 
@@ -232,12 +232,12 @@ public:
      *
      * \return A vector containing all data read from this buffer.
      */
-    virtual std::vector<std::uint8_t> read_to_vector()
+    virtual auto read_to_vector() -> std::vector<std::uint8_t>
     {
         std::vector<std::uint8_t> buffer;
-        std::size_t buff_size = size();
+        auto buff_size = size();
         buffer.resize(buff_size);
-        std::size_t read_size = read(&buffer[0], buff_size);
+        auto read_size = read(&buffer[0], buff_size);
         buffer.resize(read_size);
         return buffer;
     }
@@ -246,7 +246,7 @@ public:
      * Check if this stream is of a certain type.
      */
     template <typename T>
-    bool is() const
+    auto is() const -> bool
     {
         return dynamic_cast<const T *const>(this) != nullptr;
     }
@@ -256,7 +256,7 @@ public:
      * there are no checks done if this is actually the case. Use is() to check this.
      */
     template <typename T>
-    T &as()
+    auto as() -> T &
     {
         return *(dynamic_cast<T *>(this));
     }

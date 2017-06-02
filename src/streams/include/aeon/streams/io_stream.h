@@ -42,27 +42,27 @@ class io_stream : public stream, public io_stream_colors_mixin
 public:
     explicit io_stream(int mode = aeon::streams::access_mode::write);
 
-    std::size_t read(std::uint8_t *data, std::size_t size) override;
+    auto read(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-    std::size_t write(const std::uint8_t *data, std::size_t size) override;
+    auto write(const std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-    std::size_t peek(std::uint8_t *data, std::size_t size) override;
+    auto peek(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-    bool seek(std::ptrdiff_t pos, seek_direction direction) override;
+    auto seek(std::ptrdiff_t pos, seek_direction direction) -> bool override;
 
-    bool seekw(std::ptrdiff_t pos, seek_direction direction) override;
+    auto seekw(std::ptrdiff_t pos, seek_direction direction) -> bool override;
 
-    std::size_t tell() override;
+    auto tell() -> std::size_t override;
 
-    std::size_t tellw() override;
+    auto tellw() -> std::size_t override;
 
-    bool eof() const override;
+    auto eof() const -> bool override;
 
-    std::size_t size() const override;
+    auto size() const -> std::size_t override;
 
     void flush() override;
 
-    bool good() const override;
+    auto good() const -> bool override;
 };
 
 } // namespace streams

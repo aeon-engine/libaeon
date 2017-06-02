@@ -53,7 +53,7 @@ public:
     stream_name_mixin(stream_name_mixin &&o) = default;
     stream_name_mixin &operator=(stream_name_mixin &&other) = default;
 
-    std::string get_name() const
+    auto get_name() const
     {
         return name_;
     }
@@ -63,7 +63,7 @@ public:
         name_ = name;
     }
 
-    bool has_name() const
+    auto has_name() const
     {
         return has_name_;
     }

@@ -49,7 +49,7 @@ void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/) c
         return;
 
 #if (AEON_PLATFORM_OS_WINDOWS)
-    static HANDLE std_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    static auto std_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
     int intensity = 0;
     if (w == weight::bold)

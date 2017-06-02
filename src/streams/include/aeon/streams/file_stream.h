@@ -57,37 +57,37 @@ public:
 
     virtual ~file_stream() = default;
 
-    std::size_t read(std::uint8_t *data, std::size_t size) override;
+    auto read(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-    std::size_t write(const std::uint8_t *data, std::size_t size) override;
+    auto write(const std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-    std::size_t peek(std::uint8_t *data, std::size_t size) override;
+    auto peek(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-    bool seek(std::ptrdiff_t pos, seek_direction direction) override;
+    auto seek(std::ptrdiff_t pos, seek_direction direction) -> bool override;
 
-    bool seekw(std::ptrdiff_t pos, seek_direction direction) override;
+    auto seekw(std::ptrdiff_t pos, seek_direction direction) -> bool override;
 
-    std::size_t tell() override;
+    auto tell() -> std::size_t override;
 
-    std::size_t tellw() override;
+    auto tellw() -> std::size_t override;
 
-    bool eof() const override;
+    auto eof() const -> bool override;
 
-    std::size_t size() const override;
+    auto size() const -> std::size_t override;
 
     void flush() override;
 
-    bool good() const override;
+    auto good() const -> bool override;
 
-    std::string read_line();
+    auto read_line() -> std::string;
 
     void write_line(const std::string &line);
 
-    const std::string &get_filename() const;
+    auto get_filename() const -> const std::string &;
 
 protected:
-    std::ios::openmode to_ios_open_mode_(int mode, file_mode fm) const;
-    std::ios::seekdir seek_direction_to_ios_seekdir_(seek_direction direction) const;
+    auto to_ios_open_mode_(int mode, file_mode fm) const -> std::ios::openmode;
+    auto seek_direction_to_ios_seekdir_(seek_direction direction) const -> std::ios::seekdir;
 
     std::fstream fstream_;
     std::size_t size_;

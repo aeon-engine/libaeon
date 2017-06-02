@@ -68,22 +68,22 @@ public:
     access_mode_mixin(access_mode_mixin &&o) = default;
     access_mode_mixin &operator=(access_mode_mixin &&other) = default;
 
-    virtual int get_access_mode() const
+    virtual auto get_access_mode() const -> int
     {
         return access_mode_;
     }
 
-    virtual bool is_readable() const
+    virtual auto is_readable() const -> bool
     {
         return (access_mode_ & access_mode::read) != 0;
     }
 
-    virtual bool is_writable() const
+    virtual auto is_writable() const -> bool
     {
         return (access_mode_ & access_mode::write) != 0;
     }
 
-    virtual bool is_truncated() const
+    virtual auto is_truncated() const -> bool
     {
         return (access_mode_ & access_mode::truncate) != 0;
     }

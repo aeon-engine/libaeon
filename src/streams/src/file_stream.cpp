@@ -54,7 +54,7 @@ file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode
 {
 }
 
-std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
+auto file_stream::read(std::uint8_t *data, std::size_t size) -> std::size_t
 {
     if (!is_readable())
         throw file_stream_exception();
@@ -73,7 +73,7 @@ std::size_t file_stream::read(std::uint8_t *data, std::size_t size)
     return size;
 }
 
-std::size_t file_stream::write(const std::uint8_t *data, std::size_t size)
+auto file_stream::write(const std::uint8_t *data, std::size_t size) -> std::size_t
 {
     if (!is_writable())
         throw file_stream_exception();
@@ -89,7 +89,7 @@ std::size_t file_stream::write(const std::uint8_t *data, std::size_t size)
     return size;
 }
 
-std::size_t file_stream::peek(std::uint8_t *data, std::size_t size)
+auto file_stream::peek(std::uint8_t *data, std::size_t size) -> std::size_t
 {
     if (!is_readable())
         throw file_stream_exception();
@@ -122,7 +122,7 @@ std::size_t file_stream::peek(std::uint8_t *data, std::size_t size)
     return size;
 }
 
-bool file_stream::seek(std::ptrdiff_t pos, seek_direction direction)
+auto file_stream::seek(std::ptrdiff_t pos, seek_direction direction) -> bool
 {
     if (!is_readable())
         throw file_stream_exception();
@@ -131,7 +131,7 @@ bool file_stream::seek(std::ptrdiff_t pos, seek_direction direction)
     return !fstream_.fail();
 }
 
-bool file_stream::seekw(std::ptrdiff_t pos, seek_direction direction)
+auto file_stream::seekw(std::ptrdiff_t pos, seek_direction direction) -> bool
 {
     if (!is_writable())
         throw file_stream_exception();
@@ -140,7 +140,7 @@ bool file_stream::seekw(std::ptrdiff_t pos, seek_direction direction)
     return !fstream_.fail();
 }
 
-std::size_t file_stream::tell()
+auto file_stream::tell() -> std::size_t
 {
     if (!is_readable())
         throw file_stream_exception();
@@ -148,7 +148,7 @@ std::size_t file_stream::tell()
     return static_cast<std::size_t>(fstream_.tellg());
 }
 
-std::size_t file_stream::tellw()
+auto file_stream::tellw() -> std::size_t
 {
     if (!is_writable())
         throw file_stream_exception();
@@ -156,12 +156,12 @@ std::size_t file_stream::tellw()
     return static_cast<std::size_t>(fstream_.tellp());
 }
 
-bool file_stream::eof() const
+auto file_stream::eof() const -> bool
 {
     return fstream_.eof();
 }
 
-std::size_t file_stream::size() const
+auto file_stream::size() const -> std::size_t
 {
     return size_;
 }
@@ -171,23 +171,23 @@ void file_stream::flush()
     fstream_.flush();
 }
 
-bool file_stream::good() const
+auto file_stream::good() const -> bool
 {
     return fstream_.good();
 }
 
-std::ios::openmode file_stream::to_ios_open_mode_(int mode, file_mode fm) const
+auto file_stream::to_ios_open_mode_(int mode, file_mode fm) const -> std::ios::openmode
 {
-    std::ios::openmode openmode_zero = static_cast<std::ios::openmode>(0);
+    auto openmode_zero = static_cast<std::ios::openmode>(0);
 
-    std::ios::openmode m = (fm == file_mode::binary) ? std::fstream::binary : openmode_zero;
+    auto m = (fm == file_mode::binary) ? std::fstream::binary : openmode_zero;
     m |= (mode & access_mode::read) ? std::fstream::in : openmode_zero;
     m |= (mode & access_mode::write) ? std::fstream::out : openmode_zero;
     m |= (mode & access_mode::truncate) ? std::fstream::trunc : openmode_zero;
     return m;
 }
 
-std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction direction) const
+auto file_stream::seek_direction_to_ios_seekdir_(seek_direction direction) const -> std::ios::seekdir
 {
     switch (direction)
     {
@@ -202,7 +202,7 @@ std::ios::seekdir file_stream::seek_direction_to_ios_seekdir_(seek_direction dir
     return std::ios::cur;
 }
 
-std::string file_stream::read_line()
+auto file_stream::read_line() -> std::string
 {
     if (!is_readable())
         throw file_stream_exception();
@@ -224,7 +224,7 @@ void file_stream::write_line(const std::string &line)
     fstream_ << line << std::endl;
 }
 
-const std::string &file_stream::get_filename() const
+auto file_stream::get_filename() const -> const std::string &
 {
     return filename_;
 }

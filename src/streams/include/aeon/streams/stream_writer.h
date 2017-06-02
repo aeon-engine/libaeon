@@ -36,9 +36,9 @@ namespace streams
 {
 
 #define STREAM_WRITER_WRITE_OPERATOR(Type)                                                                             \
-    stream_writer &operator<<(Type &value)                                                                             \
+    auto operator<<(Type &value)->stream_writer &                                                                      \
     {                                                                                                                  \
-        if (stream_.write((std::uint8_t *)&value, sizeof(Type)) != sizeof(Type))                                       \
+        if (stream_.write(reinterpret_cast<std::uint8_t *>(&value), sizeof(Type)) != sizeof(Type))                     \
         {                                                                                                              \
             throw std::runtime_error("Operator write failed on stream.");                                              \
         }                                                                                                              \

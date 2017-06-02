@@ -38,9 +38,9 @@ namespace streams
 {
 
 #define STREAM_READER_READ_OPERATOR(Type)                                                                              \
-    stream_reader &operator>>(Type &value)                                                                             \
+    auto operator>>(Type &value)->stream_reader &                                                                      \
     {                                                                                                                  \
-        if (stream_.read((std::uint8_t *)&value, sizeof(Type)) != sizeof(Type))                                        \
+        if (stream_.read(reinterpret_cast<std::uint8_t *>(&value), sizeof(Type)) != sizeof(Type))                      \
         {                                                                                                              \
             throw std::runtime_error("Operator read failed on stream.");                                               \
         }                                                                                                              \

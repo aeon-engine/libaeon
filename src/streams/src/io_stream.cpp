@@ -37,7 +37,7 @@ io_stream::io_stream(int mode /*= aeon::streams::access_mode::write*/)
 {
 }
 
-std::size_t io_stream::read(std::uint8_t *data, std::size_t size)
+auto io_stream::read(std::uint8_t *data, std::size_t size) -> std::size_t
 {
     if (!is_readable())
         throw io_stream_exception();
@@ -48,7 +48,7 @@ std::size_t io_stream::read(std::uint8_t *data, std::size_t size)
     return fread(data, 1, size, stdin);
 }
 
-std::size_t io_stream::write(const std::uint8_t *data, std::size_t size)
+auto io_stream::write(const std::uint8_t *data, std::size_t size) -> std::size_t
 {
     if (!is_writable())
         throw io_stream_exception();
@@ -59,7 +59,7 @@ std::size_t io_stream::write(const std::uint8_t *data, std::size_t size)
     return fwrite(data, 1, size, stdout);
 }
 
-std::size_t io_stream::peek(std::uint8_t *data, std::size_t size)
+auto io_stream::peek(std::uint8_t *data, std::size_t size) -> std::size_t
 {
     if (!is_readable())
         throw io_stream_exception();
@@ -67,7 +67,7 @@ std::size_t io_stream::peek(std::uint8_t *data, std::size_t size)
     if (size > static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()))
         throw io_stream_exception();
 
-    std::ptrdiff_t max_count = static_cast<std::ptrdiff_t>(size);
+    auto max_count = static_cast<std::ptrdiff_t>(size);
 
     int c;
     std::ptrdiff_t count = 0;
@@ -92,27 +92,27 @@ std::size_t io_stream::peek(std::uint8_t *data, std::size_t size)
     return static_cast<std::size_t>(count);
 }
 
-bool io_stream::seek(std::ptrdiff_t, seek_direction)
+auto io_stream::seek(std::ptrdiff_t, seek_direction) -> bool
 {
     return false;
 }
 
-bool io_stream::seekw(std::ptrdiff_t, seek_direction)
+auto io_stream::seekw(std::ptrdiff_t, seek_direction) -> bool
 {
     return false;
 }
 
-std::size_t io_stream::tell()
+auto io_stream::tell() -> std::size_t
 {
     return 0;
 }
 
-std::size_t io_stream::tellw()
+auto io_stream::tellw() -> std::size_t
 {
     return 0;
 }
 
-bool io_stream::eof() const
+auto io_stream::eof() const -> bool
 {
     return (feof(stdin) != 0);
 }
@@ -122,12 +122,12 @@ void io_stream::flush()
     fflush(stdout);
 }
 
-std::size_t io_stream::size() const
+auto io_stream::size() const -> std::size_t
 {
     return 0;
 }
 
-bool io_stream::good() const
+auto io_stream::good() const -> bool
 {
     return true;
 }

@@ -57,29 +57,18 @@ public:
      *
      * This is the main constructor for this circular buffer.
      */
-    circular_buffer_stream()
-        : buffer_()
-        , tail_(0)
-        , head_(0)
-        , size_(0)
-    {
-    }
+    circular_buffer_stream();
 
     /*!
      * Move constructor
      */
-    explicit circular_buffer_stream(circular_buffer_stream &&other)
-        : buffer_(std::move(other.buffer_))
-        , tail_(std::move(other.tail_))
-        , head_(std::move(other.head_))
-        , size_(std::move(other.size_))
-    {
-    }
+    explicit circular_buffer_stream(circular_buffer_stream &&other) = default;
+    auto operator=(circular_buffer_stream &&other) -> circular_buffer_stream & = default;
 
     /*!
      * Destructor
      */
-    ~circular_buffer_stream() = default;
+    virtual ~circular_buffer_stream() = default;
 
     /*!
      * Read raw data from the circular buffer. The data will be read from the
@@ -92,42 +81,7 @@ public:
      *             large enough to hold this size.
      * \return The size read from the circular buffer or 0.
      */
-    std::size_t read(std::uint8_t *data, std::size_t size) override
-    {
-        // Can we read this size at all?
-        if (is_out_of_bounds_(size))
-            return 0;
-
-        // Do we have this many bytes in the buffer?
-        if (size > size_)
-            return 0;
-
-        std::size_t bytes_to_read = size;
-        std::size_t write_offset = 0;
-
-        // If we can't read everything at once, read the first part
-        if (is_out_of_bounds_(size + tail_))
-        {
-            std::size_t bytes_until_end = circular_buffer_size - tail_;
-            std::memcpy(data, &buffer_.data()[tail_], bytes_until_end);
-            bytes_to_read -= bytes_until_end;
-            write_offset = bytes_until_end;
-            tail_ = 0;
-        }
-
-        // Do we have anything left to read?
-        if (bytes_to_read > 0)
-        {
-            std::memcpy(&data[write_offset], &buffer_.data()[tail_], bytes_to_read);
-
-            tail_ += bytes_to_read;
-        }
-
-        // Update the size of the buffer
-        size_ -= size;
-
-        return size;
-    }
+    auto read(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
     /*!
      * Peek raw data from the circular buffer. The data will be 'peeked' from
@@ -140,38 +94,7 @@ public:
      *             large enough to hold this size.
      * \return The size peeked from the circular buffer or 0.
      */
-    std::size_t peek(std::uint8_t *data, std::size_t size) override
-    {
-        // Can we read this size at all?
-        if (is_out_of_bounds_(size))
-            return 0;
-
-        // Do we have this many bytes in the buffer?
-        if (size > size_)
-            return 0;
-
-        std::size_t tail = tail_;
-        std::size_t bytes_to_read = size;
-        std::size_t write_offset = 0;
-
-        // If we can't read everything at once, read the first part
-        if (is_out_of_bounds_(size + tail))
-        {
-            std::size_t bytes_until_end = circular_buffer_size - tail;
-            std::memcpy(data, &buffer_.data()[tail], bytes_until_end);
-            bytes_to_read -= bytes_until_end;
-            write_offset = bytes_until_end;
-            tail = 0;
-        }
-
-        // Do we have anything left to read?
-        if (bytes_to_read > 0)
-        {
-            std::memcpy(&data[write_offset], &buffer_.data()[tail], bytes_to_read);
-        }
-
-        return size;
-    }
+    auto peek(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
     /*!
      * Write raw data into the circular buffer. The data will be written at the
@@ -185,85 +108,17 @@ public:
      * \return The size of the buffer written into the circular buffer,
      *         or 0 on error.
      */
-    std::size_t write(const std::uint8_t *data, std::size_t size) override
-    {
-        // Can we fit this in at all?
-        if (is_out_of_bounds_(size))
-            return 0;
+    auto write(const std::uint8_t *data, std::size_t size) -> std::size_t override;
 
-        // We are about to overwrite data that was not yet read. Abort.
-        if (!fits_in_buffer_(size))
-            throw circular_buffer_stream_exception();
+    auto seek(std::ptrdiff_t offset, stream::seek_direction direction) -> bool override;
 
-        std::size_t bytes_to_write = size;
-        std::size_t read_offset = 0;
+    auto seekw(std::ptrdiff_t, stream::seek_direction) -> bool override;
 
-        // If this doesn't fit, we loop around
-        if (is_out_of_bounds_(size + head_))
-        {
-            std::size_t bytes_until_end = circular_buffer_size - head_;
-            bytes_to_write -= bytes_until_end;
-            read_offset = bytes_until_end;
+    auto tell() -> std::size_t override;
 
-            std::memcpy(&buffer_.data()[head_], data, bytes_until_end);
+    auto tellw() -> std::size_t override;
 
-            head_ = 0;
-        }
-
-        // Do we still have anything to write?
-        if (bytes_to_write > 0)
-        {
-            std::memcpy(&buffer_.data()[head_], &data[read_offset], bytes_to_write);
-
-            head_ += bytes_to_write;
-        }
-
-        // Finally check if we're at the end of the buffer
-        if (head_ >= circular_buffer_size)
-            head_ = 0;
-
-        // Update the size of the buffer
-        size_ += size;
-
-        return size;
-    }
-
-    bool seek(std::ptrdiff_t offset, stream::seek_direction direction) override
-    {
-        if (direction != stream::seek_direction::current)
-            return false;
-
-        if (offset <= 0)
-            return false;
-
-        if (static_cast<std::size_t>(offset) > size_)
-            return false;
-
-        tail_ += offset;
-        tail_ = tail_ % circular_buffer_size;
-
-        return false;
-    }
-
-    bool seekw(std::ptrdiff_t, stream::seek_direction) override
-    {
-        return false;
-    }
-
-    std::size_t tell() override
-    {
-        return tail_;
-    }
-
-    std::size_t tellw() override
-    {
-        return head_;
-    }
-
-    bool eof() const override
-    {
-        return size_ == circular_buffer_size;
-    }
+    auto eof() const -> bool override;
 
     /*!
      * Get the amount of bytes written into this circular buffer. This size is
@@ -271,19 +126,11 @@ public:
      *
      * \return The amount of bytes written into this circular buffer.
      */
-    std::size_t size() const override
-    {
-        return size_;
-    }
+    auto size() const -> std::size_t override;
 
-    void flush() override
-    {
-    }
+    void flush() override;
 
-    bool good() const override
-    {
-        return true;
-    }
+    auto good() const -> bool override;
 
     /*!
      * Get the maximum amount of bytes that can be written into this circular
@@ -292,39 +139,220 @@ public:
      *
      * \return The maximum amount of bytes that can be written
      */
-    std::size_t max_size() const
-    {
-        return circular_buffer_size;
-    }
-
-    /*!
-     * Move operator
-     */
-    circular_buffer_stream &operator=(circular_buffer_stream &&other)
-    {
-        buffer_ = std::move(other.buffer_);
-        tail_ = std::move(other.tail_);
-        head_ = std::move(other.head_);
-        size_ = std::move(other.size_);
-        return *this;
-    }
+    auto max_size() const;
 
 protected:
-    bool is_out_of_bounds_(std::size_t offset) const
-    {
-        return (offset > circular_buffer_size);
-    }
+    auto is_out_of_bounds_(std::size_t offset) const;
 
-    bool fits_in_buffer_(std::size_t size) const
-    {
-        return ((size_ + size) <= circular_buffer_size);
-    }
+    auto fits_in_buffer_(std::size_t size) const;
 
     std::array<std::uint8_t, circular_buffer_size> buffer_;
     std::size_t tail_;
     std::size_t head_;
     std::size_t size_;
 };
+
+template <unsigned circular_buffer_size>
+circular_buffer_stream<circular_buffer_size>::circular_buffer_stream()
+    : buffer_()
+    , tail_(0)
+    , head_(0)
+    , size_(0)
+{
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::read(std::uint8_t *data, std::size_t size) -> std::size_t
+{
+    // Can we read this size at all?
+    if (is_out_of_bounds_(size))
+        return 0;
+
+    // Do we have this many bytes in the buffer?
+    if (size > size_)
+        return 0;
+
+    auto bytes_to_read = size;
+    std::size_t write_offset = 0;
+
+    // If we can't read everything at once, read the first part
+    if (is_out_of_bounds_(size + tail_))
+    {
+        auto bytes_until_end = circular_buffer_size - tail_;
+        std::memcpy(data, &buffer_.data()[tail_], bytes_until_end);
+        bytes_to_read -= bytes_until_end;
+        write_offset = bytes_until_end;
+        tail_ = 0;
+    }
+
+    // Do we have anything left to read?
+    if (bytes_to_read > 0)
+    {
+        std::memcpy(&data[write_offset], &buffer_.data()[tail_], bytes_to_read);
+
+        tail_ += bytes_to_read;
+    }
+
+    // Update the size of the buffer
+    size_ -= size;
+
+    return size;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::peek(std::uint8_t *data, std::size_t size) -> std::size_t
+{
+    // Can we read this size at all?
+    if (is_out_of_bounds_(size))
+        return 0;
+
+    // Do we have this many bytes in the buffer?
+    if (size > size_)
+        return 0;
+
+    auto tail = tail_;
+    auto bytes_to_read = size;
+    std::size_t write_offset = 0;
+
+    // If we can't read everything at once, read the first part
+    if (is_out_of_bounds_(size + tail))
+    {
+        auto bytes_until_end = circular_buffer_size - tail;
+        std::memcpy(data, &buffer_.data()[tail], bytes_until_end);
+        bytes_to_read -= bytes_until_end;
+        write_offset = bytes_until_end;
+        tail = 0;
+    }
+
+    // Do we have anything left to read?
+    if (bytes_to_read > 0)
+    {
+        std::memcpy(&data[write_offset], &buffer_.data()[tail], bytes_to_read);
+    }
+
+    return size;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::write(const std::uint8_t *data, std::size_t size) -> std::size_t
+{
+    // Can we fit this in at all?
+    if (is_out_of_bounds_(size))
+        return 0;
+
+    // We are about to overwrite data that was not yet read. Abort.
+    if (!fits_in_buffer_(size))
+        throw circular_buffer_stream_exception();
+
+    auto bytes_to_write = size;
+    std::size_t read_offset = 0;
+
+    // If this doesn't fit, we loop around
+    if (is_out_of_bounds_(size + head_))
+    {
+        auto bytes_until_end = circular_buffer_size - head_;
+        bytes_to_write -= bytes_until_end;
+        read_offset = bytes_until_end;
+
+        std::memcpy(&buffer_.data()[head_], data, bytes_until_end);
+
+        head_ = 0;
+    }
+
+    // Do we still have anything to write?
+    if (bytes_to_write > 0)
+    {
+        std::memcpy(&buffer_.data()[head_], &data[read_offset], bytes_to_write);
+
+        head_ += bytes_to_write;
+    }
+
+    // Finally check if we're at the end of the buffer
+    if (head_ >= circular_buffer_size)
+        head_ = 0;
+
+    // Update the size of the buffer
+    size_ += size;
+
+    return size;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::seek(std::ptrdiff_t offset, stream::seek_direction direction) -> bool
+{
+    if (direction != stream::seek_direction::current)
+        return false;
+
+    if (offset <= 0)
+        return false;
+
+    if (static_cast<std::size_t>(offset) > size_)
+        return false;
+
+    tail_ += offset;
+    tail_ = tail_ % circular_buffer_size;
+
+    return false;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::seekw(std::ptrdiff_t, stream::seek_direction) -> bool
+{
+    return false;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::tell() -> std::size_t
+{
+    return tail_;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::tellw() -> std::size_t
+{
+    return head_;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::eof() const -> bool
+{
+    return size_ == circular_buffer_size;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::size() const -> std::size_t
+{
+    return size_;
+}
+
+template <unsigned circular_buffer_size>
+void circular_buffer_stream<circular_buffer_size>::flush()
+{
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::good() const -> bool
+{
+    return true;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::max_size() const
+{
+    return circular_buffer_size;
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::is_out_of_bounds_(std::size_t offset) const
+{
+    return (offset > circular_buffer_size);
+}
+
+template <unsigned circular_buffer_size>
+auto circular_buffer_stream<circular_buffer_size>::fits_in_buffer_(std::size_t size) const
+{
+    return ((size_ + size) <= circular_buffer_size);
+}
 
 } // namespace streams
 } // namespace aeon
