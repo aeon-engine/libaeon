@@ -59,11 +59,19 @@ public:
 
     auto load_assembly(const std::string &path) const -> mono_assembly;
 
-    static void add_internal_call(const std::string &name, const void *func);
+    template <typename T>
+    static void add_internal_call(const std::string &name, T func);
+    static void add_internal_call_raw(const std::string &name, const void *func);
 
 private:
     MonoDomain *domain_;
 };
+
+template <typename T>
+inline void mono_jit::add_internal_call(const std::string &name, T func)
+{
+    add_internal_call_raw(name, reinterpret_cast<const void *>(func));
+}
 
 } // namespace mono
 } // namespace aeon
