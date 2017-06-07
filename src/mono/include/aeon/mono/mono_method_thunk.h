@@ -31,49 +31,73 @@
 #endif
 #endif
 
-#include <aeon/common/noncopyable.h>
-#include <aeon/mono/mono_method_thunk.h>
+#include <aeon/mono/mono_exception.h>
 #include <mono/jit/jit.h>
-#include <string>
-#include <vector>
+#include <utility>
+
+#include <iostream>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_object;
+template <typename return_type_t>
+class mono_method_thunk;
 
-class mono_method : public common::noncopyable
+template <typename... args_t>
+class mono_method_thunk<void(args_t...)>
 {
 public:
-    mono_method();
-    explicit mono_method(MonoClass *cls, const std::string &name, int argc);
-    explicit mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
+    using signature = void (*)(args_t..., MonoException **ex);
 
-    virtual ~mono_method();
+    mono_method_thunk(MonoMethod *method)
+        : method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    {
+    }
 
-    mono_method(mono_method &&o);
-    auto operator=(mono_method &&o) -> mono_method &;
+    ~mono_method_thunk() = default;
 
-    void operator()() const;
-    void operator()(std::vector<mono_object *> params) const;
+    void operator()(args_t &&... args)
+    {
+        MonoException *ex = nullptr;
+        method_(std::forward<args_t>(args)..., &ex);
 
-    template <typename function_signature_t>
-    auto get_thunk();
+        if (ex)
+            throw mono_exception();
+    }
 
 private:
-    void execute(void **params) const;
-
-    MonoMethod *method_;
-    MonoObject *object_;
+    signature method_;
 };
 
-template <typename function_signature_t>
-auto mono_method::get_thunk()
+template <typename return_type_t, typename... args_t>
+class mono_method_thunk<return_type_t(args_t...)>
 {
-    return mono_method_thunk<function_signature_t>(method_);
-}
+public:
+    using signature = return_type_t (*)(args_t..., MonoException **ex);
+
+    mono_method_thunk(MonoMethod *method)
+        : method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    {
+    }
+
+    ~mono_method_thunk() = default;
+
+    return_type_t operator()(args_t &&... args)
+    {
+        MonoException *ex = nullptr;
+        auto result = method_(std::forward<args_t>(args)..., &ex);
+
+        if (ex)
+            throw mono_exception();
+
+        return result;
+    }
+
+private:
+    signature method_;
+};
 
 } // namespace mono
 } // namespace aeon

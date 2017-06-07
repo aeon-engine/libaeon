@@ -24,8 +24,27 @@
  */
 
 #include "mono_jit_fixture.h"
+#include <aeon/mono/mono_string.h>
 
 aeon_utility_initialize_singleton(mono_jit_fixture);
+
+static void MyObject_CreateInternal(MonoObject *this_ptr)
+{
+    std::cout << "MyObject created." << std::endl;
+}
+
+static void MyObject_DestroyInternal(MonoObject *this_ptr)
+{
+    std::cout << "MyObject deleted." << std::endl;
+}
+
+static void MyObject_DoStuff(MonoObject *this_ptr, MonoString *value)
+{
+    aeon::mono::mono_string str(value);
+    std::string str_value = str.str();
+
+    std::cout << "DoStuff was called with: " << str_value << std::endl;
+}
 
 mono_jit_fixture::mono_jit_fixture()
     : jit_("Aeon Mono Test Jit")
@@ -34,6 +53,9 @@ mono_jit_fixture::mono_jit_fixture()
 
 void mono_jit_fixture::SetUp()
 {
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::CreateInternal", MyObject_CreateInternal);
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DestroyInternal", MyObject_DestroyInternal);
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DoStuff", MyObject_DoStuff);
 }
 
 void mono_jit_fixture::TearDown()
