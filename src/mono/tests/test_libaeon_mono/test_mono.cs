@@ -92,4 +92,9 @@ public class ClassInstanceTest
     {
         Console.WriteLine("VoidMethod: " + a + ", " + b + ", " + c);
     }
+
+    public static void ExceptionMethod()
+    {
+        throw new Exception("Hello!");
+    }
 }

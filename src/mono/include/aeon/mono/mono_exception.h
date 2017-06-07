@@ -25,15 +25,59 @@
 
 #pragma once
 
-#include <exception>
+#include <stdexcept>
+#include <string>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_exception : public std::exception
+class mono_exception : public std::runtime_error
 {
+public:
+    mono_exception()
+        : std::runtime_error("Mono Exception.")
+    {
+    }
+
+    explicit mono_exception(std::string what)
+        : std::runtime_error(what.c_str())
+    {
+    }
+};
+
+class mono_thunk_exception : public mono_exception
+{
+public:
+    explicit mono_thunk_exception(const std::string &exception_typename, const std::string &message,
+                                  const std::string &stacktrace)
+        : mono_exception(exception_typename + "(" + message + ")")
+        , exception_typename_(exception_typename)
+        , message_(message)
+        , stacktrace_(stacktrace)
+    {
+    }
+
+    auto exception_typename() const
+    {
+        return exception_typename_;
+    }
+
+    auto message() const
+    {
+        return message_;
+    }
+
+    auto stacktrace() const
+    {
+        return stacktrace_;
+    }
+
+private:
+    std::string exception_typename_;
+    std::string message_;
+    std::string stacktrace_;
 };
 
 } // namespace mono

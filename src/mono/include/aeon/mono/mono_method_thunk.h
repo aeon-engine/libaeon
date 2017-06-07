@@ -43,16 +43,54 @@ namespace mono
 {
 
 template <typename return_type_t>
+class mono_method_thunk_base;
+
+template <typename return_type_t, typename... args_t>
+class mono_method_thunk_base<return_type_t(args_t...)>
+{
+public:
+    using signature = return_type_t (*)(args_t..., MonoException **ex);
+
+    explicit mono_method_thunk_base(MonoMethod *method)
+        : method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    {
+    }
+
+    ~mono_method_thunk_base() = default;
+
+protected:
+    void throw_exception(MonoException *ex) const
+    {
+        auto exception_obj = reinterpret_cast<MonoObject *>(ex);
+        auto exception_class = mono_object_get_class(exception_obj);
+        auto exception_type = mono_class_get_type(exception_class);
+        auto exception_type_name = mono_type_get_name(exception_type);
+        auto message_str = __get_string_property("Message", exception_class, exception_obj);
+        auto stacktrace_str = __get_string_property("StackTrace", exception_class, exception_obj);
+        throw mono_thunk_exception(exception_type_name, message_str, stacktrace_str);
+    }
+
+    signature method_;
+
+private:
+    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj)
+    {
+        auto property = mono_class_get_property_from_name(cls, property_name);
+        auto getter = mono_property_get_get_method(property);
+        auto value = reinterpret_cast<MonoString *>(mono_runtime_invoke(getter, obj, nullptr, nullptr));
+        return mono_string_to_utf8(value);
+    }
+};
+
+template <typename return_type_t>
 class mono_method_thunk;
 
 template <typename... args_t>
-class mono_method_thunk<void(args_t...)>
+class mono_method_thunk<void(args_t...)> : public mono_method_thunk_base<void(args_t...)>
 {
 public:
-    using signature = void (*)(args_t..., MonoException **ex);
-
-    mono_method_thunk(MonoMethod *method)
-        : method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    explicit mono_method_thunk(MonoMethod *method)
+        : mono_method_thunk_base(method)
     {
     }
 
@@ -64,21 +102,16 @@ public:
         method_(std::forward<args_t>(args)..., &ex);
 
         if (ex)
-            throw mono_exception();
+            throw_exception(ex);
     }
-
-private:
-    signature method_;
 };
 
 template <typename return_type_t, typename... args_t>
-class mono_method_thunk<return_type_t(args_t...)>
+class mono_method_thunk<return_type_t(args_t...)> : public mono_method_thunk_base<return_type_t(args_t...)>
 {
 public:
-    using signature = return_type_t (*)(args_t..., MonoException **ex);
-
-    mono_method_thunk(MonoMethod *method)
-        : method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    explicit mono_method_thunk(MonoMethod *method)
+        : mono_method_thunk_base(method)
     {
     }
 
@@ -90,13 +123,10 @@ public:
         auto result = method_(std::forward<args_t>(args)..., &ex);
 
         if (ex)
-            throw mono_exception();
+            throw_exception(ex);
 
         return result;
     }
-
-private:
-    signature method_;
 };
 
 } // namespace mono
