@@ -46,6 +46,7 @@ class mono_object;
 class mono_method : public common::noncopyable
 {
 public:
+    mono_method();
     explicit mono_method(MonoClass *cls, const std::string &name, int argc);
     explicit mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc);
 

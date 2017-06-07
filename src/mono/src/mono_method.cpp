@@ -33,6 +33,12 @@ namespace aeon
 namespace mono
 {
 
+mono_method::mono_method()
+    : method_(nullptr)
+    , object_(nullptr)
+{
+}
+
 mono_method::mono_method(MonoClass *cls, const std::string &name, int argc)
     : method_(nullptr)
     , object_(nullptr)

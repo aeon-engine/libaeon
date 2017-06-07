@@ -33,6 +33,12 @@ namespace aeon
 namespace mono
 {
 
+mono_class_instance::mono_class_instance()
+    : mono_object()
+    , class_(nullptr)
+{
+}
+
 mono_class_instance::mono_class_instance(MonoObject *obj)
     : mono_object(obj)
     , class_(nullptr)
