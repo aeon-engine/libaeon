@@ -31,16 +31,38 @@
 #endif
 #endif
 
+#include <aeon/mono/mono_assembly.h>
+#include <aeon/mono/mono_string.h>
 #include <aeon/mono/mono_exception.h>
 #include <mono/jit/jit.h>
 #include <utility>
-
-#include <iostream>
 
 namespace aeon
 {
 namespace mono
 {
+
+template <typename T>
+struct convert_mono_type
+{
+    using mono_type_name = T;
+
+    static auto convert(mono_assembly &, T &&t)
+    {
+        return std::forward<T>(t);
+    }
+};
+
+template <>
+struct convert_mono_type<std::string>
+{
+    using mono_type_name = MonoString *;
+
+    static auto convert(mono_assembly &assembly, const std::string &str)
+    {
+        return assembly.new_string(str).get_mono_string();
+    }
+};
 
 template <typename return_type_t>
 class mono_method_thunk_base;
@@ -49,16 +71,18 @@ template <typename return_type_t, typename... args_t>
 class mono_method_thunk_base<return_type_t(args_t...)>
 {
 public:
-    using signature = return_type_t (*)(args_t..., MonoException **ex);
+    using signature = return_type_t (*)(typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
 
-    explicit mono_method_thunk_base(MonoMethod *method)
-        : method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    explicit mono_method_thunk_base(mono_assembly &assembly, MonoMethod *method)
+        : assembly_(assembly)
+        , method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
     {
     }
 
     ~mono_method_thunk_base() = default;
 
 protected:
+    mono_assembly &assembly_;
     signature method_;
 };
 
@@ -69,8 +93,8 @@ template <typename... args_t>
 class mono_method_thunk<void(args_t...)> : public mono_method_thunk_base<void(args_t...)>
 {
 public:
-    explicit mono_method_thunk(MonoMethod *method)
-        : mono_method_thunk_base(method)
+    explicit mono_method_thunk(mono_assembly &assembly, MonoMethod *method)
+        : mono_method_thunk_base(assembly, method)
     {
     }
 
@@ -79,7 +103,7 @@ public:
     void operator()(args_t &&... args)
     {
         MonoException *ex = nullptr;
-        method_(std::forward<args_t>(args)..., &ex);
+        method_(convert_mono_type<args_t>::convert(assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);
@@ -90,8 +114,8 @@ template <typename return_type_t, typename... args_t>
 class mono_method_thunk<return_type_t(args_t...)> : public mono_method_thunk_base<return_type_t(args_t...)>
 {
 public:
-    explicit mono_method_thunk(MonoMethod *method)
-        : mono_method_thunk_base(method)
+    explicit mono_method_thunk(mono_assembly &assembly, MonoMethod *method)
+        : mono_method_thunk_base(assembly, method)
     {
     }
 
@@ -100,7 +124,7 @@ public:
     return_type_t operator()(args_t &&... args)
     {
         MonoException *ex = nullptr;
-        auto result = method_(std::forward<args_t>(args)..., &ex);
+        auto result = method_(convert_mono_type<args_t>::convert(assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);

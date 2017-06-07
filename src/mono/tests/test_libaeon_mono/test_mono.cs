@@ -93,6 +93,11 @@ public class ClassInstanceTest
         Console.WriteLine("VoidMethod: " + a + ", " + b + ", " + c);
     }
 
+    public static void MethodWithStringParam(string a)
+    {
+        Console.WriteLine("String value: " + a);
+    }
+
     public static void ExceptionMethod()
     {
         throw new Exception("Hello!");

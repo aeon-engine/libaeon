@@ -42,15 +42,17 @@ namespace aeon
 namespace mono
 {
 
+class mono_assembly;
 class mono_class_field;
 
 class mono_class : public common::noncopyable
 {
 public:
     mono_class();
-    explicit mono_class(MonoClass *cls);
-    explicit mono_class(MonoImage *image, const std::string &name);
-    explicit mono_class(MonoImage *image, const std::string &name_space, const std::string &name);
+    explicit mono_class(mono_assembly *assembly, MonoClass *cls);
+    explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name);
+    explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name_space,
+                        const std::string &name);
     virtual ~mono_class();
 
     mono_class(mono_class &&o);
@@ -67,6 +69,7 @@ public:
 
 private:
     MonoClass *class_;
+    mono_assembly *assembly_;
 };
 
 template <typename function_signature_t>

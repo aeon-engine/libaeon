@@ -105,6 +105,15 @@ TEST(test_mono, test_mono_call_thunk_method2)
     method_thunk(13.37f, 42, 9000.0f);
 }
 
+TEST(test_mono, test_mono_call_thunk_method3)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<void(std::string)>("MethodWithStringParam");
+    method_thunk("Hello!");
+}
+
 TEST(test_mono, test_mono_call_thunk_method_with_exception)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();
