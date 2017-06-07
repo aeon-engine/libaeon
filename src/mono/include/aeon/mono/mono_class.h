@@ -31,13 +31,11 @@
 #endif
 #endif
 
-#include <aeon/mono/mono_object.h>
 #include <aeon/mono/mono_method.h>
 #include <aeon/common/noncopyable.h>
+#include <aeon/common/type_traits.h>
 #include <mono/jit/jit.h>
 #include <string>
-
-#include <iostream>
 
 namespace aeon
 {
@@ -45,15 +43,6 @@ namespace mono
 {
 
 class mono_class_field;
-
-template <typename return_type_t>
-struct mono_thunk_argument_count;
-
-template <typename return_type_t, typename... args_t>
-struct mono_thunk_argument_count<return_type_t(args_t...)>
-{
-    static constexpr auto value = sizeof...(args_t);
-};
 
 class mono_class : public common::noncopyable
 {
@@ -83,7 +72,7 @@ private:
 template <typename function_signature_t>
 auto mono_class::get_method_thunk(const std::string &name)
 {
-    constexpr auto arg_count = mono_thunk_argument_count<function_signature_t>::value;
+    constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
     auto method = get_method(name, arg_count);
     return method.template get_thunk<function_signature_t>();
 }
