@@ -59,27 +59,7 @@ public:
     ~mono_method_thunk_base() = default;
 
 protected:
-    void throw_exception(MonoException *ex) const
-    {
-        auto exception_obj = reinterpret_cast<MonoObject *>(ex);
-        auto exception_class = mono_object_get_class(exception_obj);
-        auto exception_type = mono_class_get_type(exception_class);
-        auto exception_type_name = mono_type_get_name(exception_type);
-        auto message_str = __get_string_property("Message", exception_class, exception_obj);
-        auto stacktrace_str = __get_string_property("StackTrace", exception_class, exception_obj);
-        throw mono_thunk_exception(exception_type_name, message_str, stacktrace_str);
-    }
-
     signature method_;
-
-private:
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj)
-    {
-        auto property = mono_class_get_property_from_name(cls, property_name);
-        auto getter = mono_property_get_get_method(property);
-        auto value = reinterpret_cast<MonoString *>(mono_runtime_invoke(getter, obj, nullptr, nullptr));
-        return mono_string_to_utf8(value);
-    }
 };
 
 template <typename return_type_t>
@@ -102,7 +82,7 @@ public:
         method_(std::forward<args_t>(args)..., &ex);
 
         if (ex)
-            throw_exception(ex);
+            throw mono_thunk_exception(ex);
     }
 };
 
@@ -123,7 +103,7 @@ public:
         auto result = method_(std::forward<args_t>(args)..., &ex);
 
         if (ex)
-            throw_exception(ex);
+            throw mono_thunk_exception(ex);
 
         return result;
     }

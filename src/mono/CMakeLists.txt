@@ -55,6 +55,7 @@ set(LIB_AEON_MONO_SOURCE
     include/aeon/mono/mono_class_instance.h
     src/mono_class_instance.cpp
     include/aeon/mono/mono_exception.h
+    src/mono_exception.cpp
     include/aeon/mono/mono_gchandle.h
     src/mono_gchandle.cpp
     include/aeon/mono/mono_jit.h
