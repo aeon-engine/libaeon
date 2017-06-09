@@ -56,10 +56,10 @@ public:
 
     auto get_mono_assembly_ptr() const -> MonoAssembly *;
 
-    auto get_class(const std::string &name) const -> mono_class;
-    auto get_class(const std::string &name_space, const std::string &name) const -> mono_class;
+    auto get_class(const std::string &name) -> mono_class;
+    auto get_class(const std::string &name_space, const std::string &name) -> mono_class;
 
-    auto new_class_instance(const mono_class &cls) const -> mono_class_instance;
+    auto new_class_instance(const mono_class &cls) -> mono_class_instance;
     auto new_string(const std::string &str) const -> mono_string;
 
 private:

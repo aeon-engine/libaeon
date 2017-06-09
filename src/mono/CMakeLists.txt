@@ -55,6 +55,7 @@ set(LIB_AEON_MONO_SOURCE
     include/aeon/mono/mono_class_instance.h
     src/mono_class_instance.cpp
     include/aeon/mono/mono_exception.h
+    src/mono_exception.cpp
     include/aeon/mono/mono_gchandle.h
     src/mono_gchandle.cpp
     include/aeon/mono/mono_jit.h
@@ -67,6 +68,10 @@ set(LIB_AEON_MONO_SOURCE
     src/mono_string.cpp
     include/aeon/mono/mono_class_field.h
     src/mono_class_field.cpp
+    include/aeon/mono/mono_method_thunk_base.h
+    include/aeon/mono/mono_method_thunk.h
+    include/aeon/mono/mono_type_conversion.h
+    include/aeon/mono/mono_method_thunk_signature.h
 )
 
 source_group(mono FILES ${LIB_AEON_MONO_SOURCE})

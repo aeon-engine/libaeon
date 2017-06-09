@@ -11,20 +11,26 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
-      env: COMPILER=g++-5
+            - g++-7
+            - cmake
+            - mono-devel
+      env:
+        - COMPILER_CC=gcc-7
+        - COMPILER_CXX=g++-7
     - os: osx
-      osx_image: xcode8.2
+      osx_image: xcode8.3
       compiler: clang++
+      env:
+        - COMPILER_CC=clang
+        - COMPILER_CXX=clang++
 
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq       ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y cmake ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]];   then export COMPILER=clang++       ; fi
+#before_install:
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y cmake mono-devel ; fi
 
 script:
   - mkdir build
   - cd build
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake -DCMAKE_CXX_COMPILER=$COMPILER .. -DAEON_ENABLE_CURL=1 -DAEON_ENABLE_SOCKETS=1 -DAEON_ENABLE_MIDI=1 -DAEON_ENABLE_HDF5=1 && make ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]];   then cmake .. -DAEON_ENABLE_CURL=1 -DAEON_ENABLE_SOCKETS=1 -DAEON_ENABLE_MIDI=1 -DAEON_ENABLE_HDF5=1 && make ; fi
+  - cmake .. -DCMAKE_C_COMPILER=$COMPILER_CC -DCMAKE_CXX_COMPILER=$COMPILER_CXX -DAEON_ENABLE_CURL=1 -DAEON_ENABLE_SOCKETS=1 -DAEON_ENABLE_MIDI=1 -DAEON_ENABLE_HDF5=1
+  - make
   - ctest -C Debug --verbose

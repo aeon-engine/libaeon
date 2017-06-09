@@ -25,59 +25,25 @@
 
 #pragma once
 
-#include <mono/metadata/reflection.h>
-#include <stdexcept>
-#include <string>
-
 namespace aeon
 {
-namespace mono
+namespace common
+{
+namespace type_traits
 {
 
-class mono_exception : public std::runtime_error
+/*!
+ * Get the amount of arguments in a function signature type.
+ */
+template <typename return_type_t>
+struct function_signature_argument_count;
+
+template <typename return_type_t, typename... args_t>
+struct function_signature_argument_count<return_type_t(args_t...)>
 {
-public:
-    mono_exception();
-    explicit mono_exception(const std::string &what);
+    static constexpr auto value = sizeof...(args_t);
 };
 
-class mono_thunk_exception : public mono_exception
-{
-public:
-    explicit mono_thunk_exception(MonoException *ex);
-
-    auto exception_typename() const
-    {
-        return exception_typename_;
-    }
-
-    auto message() const
-    {
-        return message_;
-    }
-
-    auto stacktrace() const
-    {
-        return stacktrace_;
-    }
-
-private:
-    struct exception_info
-    {
-        std::string exception_typename;
-        std::string message;
-        std::string stacktrace;
-    };
-
-    explicit mono_thunk_exception(const exception_info &info);
-
-    static auto __get_exception_info(MonoException *ex) -> exception_info;
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) -> char *;
-
-    std::string exception_typename_;
-    std::string message_;
-    std::string stacktrace_;
-};
-
-} // namespace mono
+} // namespace type_traits
+} // namespace common
 } // namespace aeon

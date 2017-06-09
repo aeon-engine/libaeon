@@ -25,8 +25,15 @@
 
 #pragma once
 
-#include <mono/metadata/reflection.h>
-#include <stdexcept>
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/mono/mono_exception.h>
+#include <aeon/mono/mono_assembly.h>
+#include <aeon/mono/mono_string.h>
 #include <string>
 
 namespace aeon
@@ -34,49 +41,36 @@ namespace aeon
 namespace mono
 {
 
-class mono_exception : public std::runtime_error
+template <typename T>
+struct convert_mono_type
 {
-public:
-    mono_exception();
-    explicit mono_exception(const std::string &what);
+    using mono_type_name = T;
+
+    static auto convert_argument(mono_assembly &, T &&t)
+    {
+        return std::forward<T>(t);
+    }
+
+    static auto convert_return_type(T &&t)
+    {
+        return std::forward<T>(t);
+    }
 };
 
-class mono_thunk_exception : public mono_exception
+template <>
+struct convert_mono_type<std::string>
 {
-public:
-    explicit mono_thunk_exception(MonoException *ex);
+    using mono_type_name = MonoString *;
 
-    auto exception_typename() const
+    static auto convert_argument(mono_assembly &assembly, const std::string &str)
     {
-        return exception_typename_;
+        return assembly.new_string(str).get_mono_string();
     }
 
-    auto message() const
+    static auto convert_return_type(MonoString *mono_str)
     {
-        return message_;
+        return mono_string(mono_str).str();
     }
-
-    auto stacktrace() const
-    {
-        return stacktrace_;
-    }
-
-private:
-    struct exception_info
-    {
-        std::string exception_typename;
-        std::string message;
-        std::string stacktrace;
-    };
-
-    explicit mono_thunk_exception(const exception_info &info);
-
-    static auto __get_exception_info(MonoException *ex) -> exception_info;
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) -> char *;
-
-    std::string exception_typename_;
-    std::string message_;
-    std::string stacktrace_;
 };
 
 } // namespace mono

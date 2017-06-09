@@ -31,8 +31,9 @@
 #endif
 #endif
 
-#include <aeon/mono/mono_object.h>
+#include <aeon/mono/mono_method.h>
 #include <aeon/common/noncopyable.h>
+#include <aeon/common/type_traits.h>
 #include <mono/jit/jit.h>
 #include <string>
 
@@ -41,16 +42,17 @@ namespace aeon
 namespace mono
 {
 
-class mono_method;
+class mono_assembly;
 class mono_class_field;
 
 class mono_class : public common::noncopyable
 {
 public:
     mono_class();
-    explicit mono_class(MonoClass *cls);
-    explicit mono_class(MonoImage *image, const std::string &name);
-    explicit mono_class(MonoImage *image, const std::string &name_space, const std::string &name);
+    explicit mono_class(mono_assembly *assembly, MonoClass *cls);
+    explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name);
+    explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name_space,
+                        const std::string &name);
     virtual ~mono_class();
 
     mono_class(mono_class &&o);
@@ -58,13 +60,25 @@ public:
 
     auto get_method(const std::string &name, int argc = 0) const -> mono_method;
 
+    template <typename function_signature_t>
+    auto get_method_thunk(const std::string &name);
+
     auto get_mono_class_ptr() const -> MonoClass *;
 
     auto get_field(const std::string &name) const -> mono_class_field;
 
 private:
     MonoClass *class_;
+    mono_assembly *assembly_;
 };
+
+template <typename function_signature_t>
+auto mono_class::get_method_thunk(const std::string &name)
+{
+    constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
+    auto method = get_method(name, arg_count);
+    return method.template get_thunk<function_signature_t>();
+}
 
 } // namespace mono
 } // namespace aeon

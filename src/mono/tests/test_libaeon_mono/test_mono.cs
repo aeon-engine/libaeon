@@ -81,4 +81,30 @@ public class ClassInstanceTest
         Console.WriteLine("WithParam: " + s);
         return "Return Value";
     }
+
+    public static int MethodWithIntParam(int a)
+    {
+        Console.WriteLine("Int value: " + a);
+        return a + 1337;
+    }
+
+    public static void VoidMethod(float a, int b, float c)
+    {
+        Console.WriteLine("VoidMethod: " + a + ", " + b + ", " + c);
+    }
+
+    public static void MethodWithStringParam(string a)
+    {
+        Console.WriteLine("String value: " + a);
+    }
+
+    public static void ExceptionMethod()
+    {
+        throw new Exception("Hello!");
+    }
+
+    public static string StringReturnMethod(string str)
+    {
+        return "The string value was: " + str;
+    }
 }

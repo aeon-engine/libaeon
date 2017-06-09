@@ -38,13 +38,14 @@ namespace mono
 
 class mono_method;
 class mono_class;
+class mono_assembly;
 
 class mono_class_instance : public mono_object
 {
 public:
     mono_class_instance();
-    explicit mono_class_instance(MonoObject *obj);
-    explicit mono_class_instance(MonoDomain *domain, MonoClass *cls);
+    explicit mono_class_instance(mono_assembly *assembly, MonoObject *obj);
+    explicit mono_class_instance(mono_assembly *assembly, MonoDomain *domain, MonoClass *cls);
     virtual ~mono_class_instance();
 
     mono_class_instance(mono_class_instance &&o);
@@ -67,6 +68,7 @@ public:
 
 private:
     MonoClass *class_;
+    mono_assembly *assembly_;
 };
 
 template <typename T>

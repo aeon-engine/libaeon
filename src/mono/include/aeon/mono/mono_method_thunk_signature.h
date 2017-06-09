@@ -25,58 +25,29 @@
 
 #pragma once
 
-#include <mono/metadata/reflection.h>
-#include <stdexcept>
-#include <string>
+#include <aeon/mono/mono_type_conversion.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_exception : public std::runtime_error
+template <typename return_type_t>
+class mono_method_thunk_signature;
+
+template <typename... args_t>
+class mono_method_thunk_signature<void(args_t...)>
 {
 public:
-    mono_exception();
-    explicit mono_exception(const std::string &what);
+    using type = void (*)(typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
 };
 
-class mono_thunk_exception : public mono_exception
+template <typename return_type_t, typename... args_t>
+class mono_method_thunk_signature<return_type_t(args_t...)>
 {
 public:
-    explicit mono_thunk_exception(MonoException *ex);
-
-    auto exception_typename() const
-    {
-        return exception_typename_;
-    }
-
-    auto message() const
-    {
-        return message_;
-    }
-
-    auto stacktrace() const
-    {
-        return stacktrace_;
-    }
-
-private:
-    struct exception_info
-    {
-        std::string exception_typename;
-        std::string message;
-        std::string stacktrace;
-    };
-
-    explicit mono_thunk_exception(const exception_info &info);
-
-    static auto __get_exception_info(MonoException *ex) -> exception_info;
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) -> char *;
-
-    std::string exception_typename_;
-    std::string message_;
-    std::string stacktrace_;
+    using type = typename convert_mono_type<return_type_t>::mono_type_name (*)(
+        typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
 };
 
 } // namespace mono

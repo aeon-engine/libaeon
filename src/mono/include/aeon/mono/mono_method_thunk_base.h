@@ -25,58 +25,41 @@
 
 #pragma once
 
-#include <mono/metadata/reflection.h>
-#include <stdexcept>
-#include <string>
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/mono/mono_method_thunk_signature.h>
+#include <aeon/mono/mono_assembly.h>
+#include <mono/jit/jit.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_exception : public std::runtime_error
+template <typename return_type_t>
+class mono_method_thunk_base;
+
+template <typename return_type_t, typename... args_t>
+class mono_method_thunk_base<return_type_t(args_t...)>
 {
 public:
-    mono_exception();
-    explicit mono_exception(const std::string &what);
-};
+    using signature = typename mono_method_thunk_signature<return_type_t(args_t...)>::type;
 
-class mono_thunk_exception : public mono_exception
-{
-public:
-    explicit mono_thunk_exception(MonoException *ex);
-
-    auto exception_typename() const
+    explicit mono_method_thunk_base(mono_assembly &assembly, MonoMethod *method)
+        : assembly_(assembly)
+        , method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
     {
-        return exception_typename_;
     }
 
-    auto message() const
-    {
-        return message_;
-    }
+    ~mono_method_thunk_base() = default;
 
-    auto stacktrace() const
-    {
-        return stacktrace_;
-    }
-
-private:
-    struct exception_info
-    {
-        std::string exception_typename;
-        std::string message;
-        std::string stacktrace;
-    };
-
-    explicit mono_thunk_exception(const exception_info &info);
-
-    static auto __get_exception_info(MonoException *ex) -> exception_info;
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) -> char *;
-
-    std::string exception_typename_;
-    std::string message_;
-    std::string stacktrace_;
+protected:
+    mono_assembly &assembly_;
+    signature method_;
 };
 
 } // namespace mono

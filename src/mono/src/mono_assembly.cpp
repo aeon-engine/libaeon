@@ -66,19 +66,19 @@ auto mono_assembly::get_mono_assembly_ptr() const -> MonoAssembly *
     return assembly_;
 }
 
-auto mono_assembly::get_class(const std::string &name) const -> mono_class
+auto mono_assembly::get_class(const std::string &name) -> mono_class
 {
-    return mono_class(image_, name);
+    return mono_class(this, image_, name);
 }
 
-auto mono_assembly::get_class(const std::string &name_space, const std::string &name) const -> mono_class
+auto mono_assembly::get_class(const std::string &name_space, const std::string &name) -> mono_class
 {
-    return mono_class(image_, name_space, name);
+    return mono_class(this, image_, name_space, name);
 }
 
-auto mono_assembly::new_class_instance(const mono_class &cls) const -> mono_class_instance
+auto mono_assembly::new_class_instance(const mono_class &cls) -> mono_class_instance
 {
-    return mono_class_instance(domain_, cls.get_mono_class_ptr());
+    return mono_class_instance(this, domain_, cls.get_mono_class_ptr());
 }
 
 auto mono_assembly::new_string(const std::string &str) const -> mono_string

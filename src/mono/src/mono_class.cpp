@@ -36,21 +36,25 @@ namespace mono
 
 mono_class::mono_class()
     : class_(nullptr)
+    , assembly_(nullptr)
 {
 }
 
-mono_class::mono_class(MonoClass *cls)
+mono_class::mono_class(mono_assembly *assembly, MonoClass *cls)
     : class_(cls)
+    , assembly_(assembly)
 {
 }
 
-mono_class::mono_class(MonoImage *image, const std::string &name)
-    : mono_class(image, "", name)
+mono_class::mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name)
+    : mono_class(assembly, image, "", name)
 {
 }
 
-mono_class::mono_class(MonoImage *image, const std::string &name_space, const std::string &name)
+mono_class::mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name_space,
+                       const std::string &name)
     : class_(nullptr)
+    , assembly_(assembly)
 {
     class_ = mono_class_from_name(image, name_space.c_str(), name.c_str());
 
@@ -66,7 +70,8 @@ auto mono_class::operator=(mono_class &&o) -> mono_class & = default;
 mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/) const
 {
     assert(class_);
-    return mono_method(class_, name, argc);
+    assert(assembly_);
+    return mono_method(assembly_, class_, name, argc);
 }
 
 MonoClass *mono_class::get_mono_class_ptr() const

@@ -31,6 +31,7 @@
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_exception.h>
 #include <aeon/mono/mono_string.h>
+#include <aeon/mono/mono_method_thunk.h>
 #include "mono_jit_fixture.h"
 
 TEST(test_mono, test_mono_jit_load_assembly_fail)
@@ -77,32 +78,57 @@ TEST(test_mono, test_mono_jit_get_method)
                         obj.get_method("MethodWithParameterAndReturnValue", 1););
 }
 
-static void MyObject_CreateInternal(MonoObject *this_ptr)
-{
-    std::cout << "MyObject created." << std::endl;
-}
-
-static void MyObject_DestroyInternal(MonoObject *this_ptr)
-{
-    std::cout << "MyObject deleted." << std::endl;
-}
-
-static void MyObject_DoStuff(MonoObject *this_ptr, MonoString *value)
-{
-    aeon::mono::mono_string str(value);
-    std::string str_value = str.str();
-
-    std::cout << "DoStuff was called with: " << str_value << std::endl;
-}
-
 TEST(test_mono, test_mono_call_native_methods)
 {
-    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
-    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::CreateInternal", MyObject_CreateInternal);
-    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DestroyInternal", MyObject_DestroyInternal);
-    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DoStuff", MyObject_DoStuff);
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto obj = assembly.new_class_instance(cls);
+}
 
-    aeon::mono::mono_assembly assembly = jit.load_assembly("MonoTests.dll");
-    aeon::mono::mono_class cls = assembly.get_class("ClassInstanceTest");
-    aeon::mono::mono_class_instance obj = assembly.new_class_instance(cls);
+TEST(test_mono, test_mono_call_thunk_method)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<int(int)>("MethodWithIntParam");
+    auto result = method_thunk(1000);
+    ASSERT_EQ(2337, result);
+}
+
+TEST(test_mono, test_mono_call_thunk_method2)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<void(float, int, float)>("VoidMethod");
+    method_thunk(13.37f, 42, 9000.0f);
+}
+
+TEST(test_mono, test_mono_call_thunk_method3)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<void(std::string)>("MethodWithStringParam");
+    method_thunk("Hello!");
+}
+
+TEST(test_mono, test_mono_call_thunk_method4)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<std::string(std::string)>("StringReturnMethod");
+    auto result = method_thunk("Hello!");
+    ASSERT_EQ(result, std::string("The string value was: Hello!"));
+}
+
+TEST(test_mono, test_mono_call_thunk_method_with_exception)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<void()>("ExceptionMethod");
+    ASSERT_ANY_THROW(method_thunk());
 }

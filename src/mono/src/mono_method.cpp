@@ -36,19 +36,22 @@ namespace mono
 mono_method::mono_method()
     : method_(nullptr)
     , object_(nullptr)
+    , assembly_(nullptr)
 {
 }
 
-mono_method::mono_method(MonoClass *cls, const std::string &name, int argc)
+mono_method::mono_method(mono_assembly *assembly, MonoClass *cls, const std::string &name, int argc)
     : method_(nullptr)
     , object_(nullptr)
+    , assembly_(assembly)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
-mono_method::mono_method(MonoClass *cls, MonoObject *object, const std::string &name, int argc)
+mono_method::mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name, int argc)
     : method_(nullptr)
     , object_(object)
+    , assembly_(assembly)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
