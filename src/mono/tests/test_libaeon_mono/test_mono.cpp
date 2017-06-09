@@ -114,6 +114,16 @@ TEST(test_mono, test_mono_call_thunk_method3)
     method_thunk("Hello!");
 }
 
+TEST(test_mono, test_mono_call_thunk_method4)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto method_thunk = cls.get_method_thunk<std::string(std::string)>("StringReturnMethod");
+    auto result = method_thunk("Hello!");
+    ASSERT_EQ(result, std::string("The string value was: Hello!"));
+}
+
 TEST(test_mono, test_mono_call_thunk_method_with_exception)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();

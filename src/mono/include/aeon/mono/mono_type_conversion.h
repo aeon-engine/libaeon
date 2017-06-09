@@ -31,13 +31,9 @@
 #endif
 #endif
 
-#include <aeon/mono/mono_method_thunk_base.h>
-#include <aeon/mono/mono_type_conversion.h>
+#include <aeon/mono/mono_exception.h>
 #include <aeon/mono/mono_assembly.h>
 #include <aeon/mono/mono_string.h>
-#include <aeon/mono/mono_exception.h>
-#include <mono/jit/jit.h>
-#include <utility>
 #include <string>
 
 namespace aeon
@@ -45,51 +41,35 @@ namespace aeon
 namespace mono
 {
 
-template <typename return_type_t>
-class mono_method_thunk;
-
-template <typename... args_t>
-class mono_method_thunk<void(args_t...)> : public mono_method_thunk_base<void(args_t...)>
+template <typename T>
+struct convert_mono_type
 {
-public:
-    explicit mono_method_thunk(mono_assembly &assembly, MonoMethod *method)
-        : mono_method_thunk_base(assembly, method)
+    using mono_type_name = T;
+
+    static auto convert_argument(mono_assembly &, T &&t)
     {
+        return std::forward<T>(t);
     }
 
-    ~mono_method_thunk() = default;
-
-    void operator()(args_t &&... args)
+    static auto convert_return_type(T &&t)
     {
-        MonoException *ex = nullptr;
-        method_(convert_mono_type<args_t>::convert_argument(assembly_, std::forward<args_t>(args))..., &ex);
-
-        if (ex)
-            throw mono_thunk_exception(ex);
+        return std::forward<T>(t);
     }
 };
 
-template <typename return_type_t, typename... args_t>
-class mono_method_thunk<return_type_t(args_t...)> : public mono_method_thunk_base<return_type_t(args_t...)>
+template <>
+struct convert_mono_type<std::string>
 {
-public:
-    explicit mono_method_thunk(mono_assembly &assembly, MonoMethod *method)
-        : mono_method_thunk_base(assembly, method)
+    using mono_type_name = MonoString *;
+
+    static auto convert_argument(mono_assembly &assembly, const std::string &str)
     {
+        return assembly.new_string(str).get_mono_string();
     }
 
-    ~mono_method_thunk() = default;
-
-    auto operator()(args_t &&... args)
+    static auto convert_return_type(MonoString *mono_str)
     {
-        MonoException *ex = nullptr;
-        auto result =
-            method_(convert_mono_type<args_t>::convert_argument(assembly_, std::forward<args_t>(args))..., &ex);
-
-        if (ex)
-            throw mono_thunk_exception(ex);
-
-        return convert_mono_type<return_type_t>::convert_return_type(std::move(result));
+        return mono_string(mono_str).str();
     }
 };
 

@@ -102,4 +102,9 @@ public class ClassInstanceTest
     {
         throw new Exception("Hello!");
     }
+
+    public static string StringReturnMethod(string str)
+    {
+        return "The string value was: " + str;
+    }
 }
