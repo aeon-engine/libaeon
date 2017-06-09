@@ -41,6 +41,11 @@ mono_class_instance::mono_class_instance()
 {
 }
 
+mono_class_instance::mono_class_instance(MonoObject *obj)
+    : mono_class_instance(nullptr, obj)
+{
+}
+
 mono_class_instance::mono_class_instance(mono_assembly *assembly, MonoObject *obj)
     : mono_object(obj)
     , class_(nullptr)

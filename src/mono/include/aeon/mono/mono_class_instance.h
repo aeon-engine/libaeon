@@ -44,6 +44,7 @@ class mono_class_instance : public mono_object
 {
 public:
     mono_class_instance();
+    explicit mono_class_instance(MonoObject *obj);
     explicit mono_class_instance(mono_assembly *assembly, MonoObject *obj);
     explicit mono_class_instance(mono_assembly *assembly, MonoDomain *domain, MonoClass *cls);
     virtual ~mono_class_instance();
@@ -82,6 +83,7 @@ auto mono_class_instance::get_field_value(mono_class_field &field) const
 template <typename T>
 void mono_class_instance::get_field_value(mono_class_field &field, T &val) const
 {
+    assert(object_);
     assert(field.get_mono_class_field_ptr());
     mono_field_get_value(object_, field.get_mono_class_field_ptr(), reinterpret_cast<void *>(&val));
 }
@@ -89,6 +91,7 @@ void mono_class_instance::get_field_value(mono_class_field &field, T &val) const
 template <typename T>
 void mono_class_instance::set_field_value(mono_class_field &field, T &val) const
 {
+    assert(object_);
     assert(field.get_mono_class_field_ptr());
     mono_field_set_value(object_, field.get_mono_class_field_ptr(), reinterpret_cast<void *>(&val));
 }
