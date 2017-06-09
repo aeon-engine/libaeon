@@ -53,7 +53,7 @@ class mono_method_thunk<void(args_t...)> : public mono_method_thunk_base<void(ar
 {
 public:
     explicit mono_method_thunk(mono_assembly &assembly, MonoMethod *method)
-        : mono_method_thunk_base(assembly, method)
+        : mono_method_thunk_base<void(args_t...)>(assembly, method)
     {
     }
 
@@ -62,7 +62,7 @@ public:
     void operator()(args_t &&... args)
     {
         MonoException *ex = nullptr;
-        method_(convert_mono_type<args_t>::convert_argument(assembly_, std::forward<args_t>(args))..., &ex);
+        this->method_(convert_mono_type<args_t>::convert_argument(this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);
@@ -74,7 +74,7 @@ class mono_method_thunk<return_type_t(args_t...)> : public mono_method_thunk_bas
 {
 public:
     explicit mono_method_thunk(mono_assembly &assembly, MonoMethod *method)
-        : mono_method_thunk_base(assembly, method)
+        : mono_method_thunk_base<return_type_t(args_t...)>(assembly, method)
     {
     }
 
@@ -83,8 +83,8 @@ public:
     auto operator()(args_t &&... args)
     {
         MonoException *ex = nullptr;
-        auto result =
-            method_(convert_mono_type<args_t>::convert_argument(assembly_, std::forward<args_t>(args))..., &ex);
+        auto result = this->method_(
+            convert_mono_type<args_t>::convert_argument(this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);
