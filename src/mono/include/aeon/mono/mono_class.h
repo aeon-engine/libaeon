@@ -31,7 +31,7 @@
 #endif
 #endif
 
-#include <aeon/mono/mono_method.h>
+#include <aeon/mono/mono_static_function.h>
 #include <aeon/common/noncopyable.h>
 #include <aeon/common/type_traits.h>
 #include <mono/jit/jit.h>
@@ -58,10 +58,10 @@ public:
     mono_class(mono_class &&o);
     auto operator=(mono_class &&o) -> mono_class &;
 
-    auto get_method(const std::string &name, int argc = 0) const -> mono_method;
+    auto get_static_function(const std::string &name, int argc = 0) const -> mono_static_function;
 
     template <typename function_signature_t>
-    auto get_method_thunk(const std::string &name);
+    auto get_static_function_thunk(const std::string &name);
 
     auto get_mono_class_ptr() const -> MonoClass *;
 
@@ -73,11 +73,11 @@ private:
 };
 
 template <typename function_signature_t>
-auto mono_class::get_method_thunk(const std::string &name)
+auto mono_class::get_static_function_thunk(const std::string &name)
 {
     constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
-    auto method = get_method(name, arg_count);
-    return method.template get_thunk<function_signature_t>();
+    auto func = get_static_function(name, arg_count);
+    return func.template get_thunk<function_signature_t>();
 }
 
 } // namespace mono

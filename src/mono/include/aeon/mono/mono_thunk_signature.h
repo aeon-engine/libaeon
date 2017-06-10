@@ -25,35 +25,29 @@
 
 #pragma once
 
-#if (AEON_PLATFORM_OS_WINDOWS)
-#ifndef MONO_DLL_IMPORT
-#define MONO_DLL_IMPORT
-#endif
-#endif
-
-#include <aeon/common/noncopyable.h>
-#include <mono/jit/jit.h>
-#include <cstdint>
+#include <aeon/mono/mono_type_conversion.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-class mono_object;
+template <typename return_type_t>
+class mono_thunk_signature;
 
-class mono_gchandle : public common::noncopyable
+template <typename... args_t>
+class mono_thunk_signature<void(args_t...)>
 {
 public:
-    explicit mono_gchandle(mono_object &obj);
-    explicit mono_gchandle(MonoObject *obj);
-    virtual ~mono_gchandle();
+    using type = void (*)(typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
+};
 
-    mono_gchandle(mono_gchandle &&o);
-    auto operator=(mono_gchandle &&o) -> mono_gchandle &;
-
-private:
-    std::uint32_t handle_;
+template <typename return_type_t, typename... args_t>
+class mono_thunk_signature<return_type_t(args_t...)>
+{
+public:
+    using type = typename convert_mono_type<return_type_t>::mono_type_name (*)(
+        typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
 };
 
 } // namespace mono

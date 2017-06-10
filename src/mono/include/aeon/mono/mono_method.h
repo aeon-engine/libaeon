@@ -49,7 +49,6 @@ class mono_method : public common::noncopyable
 {
 public:
     mono_method();
-    explicit mono_method(mono_assembly *assembly, MonoClass *cls, const std::string &name, int argc);
     explicit mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name,
                          int argc);
 
@@ -58,15 +57,10 @@ public:
     mono_method(mono_method &&o);
     auto operator=(mono_method &&o) -> mono_method &;
 
-    void operator()() const;
-    void operator()(std::vector<mono_object *> params) const;
-
     template <typename function_signature_t>
     auto get_thunk();
 
 private:
-    void execute(void **params) const;
-
     MonoMethod *method_;
     MonoObject *object_;
     mono_assembly *assembly_;
@@ -75,7 +69,7 @@ private:
 template <typename function_signature_t>
 auto mono_method::get_thunk()
 {
-    return mono_method_thunk<function_signature_t>(*assembly_, method_);
+    return mono_method_thunk<function_signature_t>(*assembly_, object_, method_);
 }
 
 } // namespace mono

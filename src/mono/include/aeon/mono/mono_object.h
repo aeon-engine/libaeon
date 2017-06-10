@@ -31,8 +31,6 @@
 #endif
 #endif
 
-#include <aeon/mono/mono_gchandle.h>
-#include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 
 namespace aeon
@@ -40,15 +38,12 @@ namespace aeon
 namespace mono
 {
 
-class mono_object : public common::noncopyable
+class mono_object
 {
 public:
     mono_object();
     explicit mono_object(MonoObject *object);
-    virtual ~mono_object();
-
-    mono_object(mono_object &&o);
-    auto operator=(mono_object &&o) -> mono_object &;
+    ~mono_object();
 
     auto get_mono_object() const -> MonoObject *;
 

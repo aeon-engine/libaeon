@@ -23,42 +23,50 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono/mono_gchandle.h>
-#include <aeon/mono/mono_object.h>
-#include <utility>
+#pragma once
+
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <aeon/mono/mono_thunk.h>
+#include <mono/jit/jit.h>
+#include <string>
+#include <vector>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_gchandle::mono_gchandle(mono_object &obj)
-    : mono_gchandle(obj.get_mono_object())
-{
-}
+class mono_assembly;
 
-mono_gchandle::mono_gchandle(MonoObject *obj)
-    : handle_(mono_gchandle_new(obj, 1))
+class mono_static_function : public common::noncopyable
 {
-}
+public:
+    mono_static_function();
+    explicit mono_static_function(mono_assembly *assembly, MonoClass *cls, const std::string &name, int argc);
 
-mono_gchandle::~mono_gchandle()
-{
-    if (handle_ != 0)
-        mono_gchandle_free(handle_);
-}
+    virtual ~mono_static_function();
 
-mono_gchandle::mono_gchandle(mono_gchandle &&o)
-    : handle_(std::move(o.handle_))
-{
-    o.handle_ = 0;
-}
+    mono_static_function(mono_static_function &&o);
+    auto operator=(mono_static_function &&o) -> mono_static_function &;
 
-auto mono_gchandle::operator=(mono_gchandle &&o) -> mono_gchandle &
+    template <typename function_signature_t>
+    auto get_thunk();
+
+private:
+    MonoMethod *method_;
+    mono_assembly *assembly_;
+};
+
+template <typename function_signature_t>
+auto mono_static_function::get_thunk()
 {
-    handle_ = std::move(o.handle_);
-    o.handle_ = 0;
-    return *this;
+    return mono_thunk<function_signature_t>(*assembly_, method_);
 }
 
 } // namespace mono

@@ -79,31 +79,31 @@ public class ClassInstanceTest
     public string MethodWithParameterAndReturnValue(String s)
     {
         Console.WriteLine("WithParam: " + s);
-        return "Return Value";
+        return "Return Value: " + s;
     }
 
-    public static int MethodWithIntParam(int a)
+    public static int FunctionWithIntParam(int a)
     {
         Console.WriteLine("Int value: " + a);
         return a + 1337;
     }
 
-    public static void VoidMethod(float a, int b, float c)
+    public static void VoidFunction(float a, int b, float c)
     {
         Console.WriteLine("VoidMethod: " + a + ", " + b + ", " + c);
     }
 
-    public static void MethodWithStringParam(string a)
+    public static void FunctionWithStringParam(string a)
     {
         Console.WriteLine("String value: " + a);
     }
 
-    public static void ExceptionMethod()
+    public static void ExceptionFunction()
     {
         throw new Exception("Hello!");
     }
 
-    public static string StringReturnMethod(string str)
+    public static string StringReturnFunction(string str)
     {
         return "The string value was: " + str;
     }

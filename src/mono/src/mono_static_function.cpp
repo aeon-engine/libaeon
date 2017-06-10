@@ -23,9 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono/mono_method.h>
-#include <aeon/mono/mono_object.h>
-
+#include <aeon/mono/mono_static_function.h>
 #include <utility>
 
 namespace aeon
@@ -33,26 +31,24 @@ namespace aeon
 namespace mono
 {
 
-mono_method::mono_method()
+mono_static_function::mono_static_function()
     : method_(nullptr)
-    , object_(nullptr)
     , assembly_(nullptr)
 {
 }
 
-mono_method::mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name, int argc)
+mono_static_function::mono_static_function(mono_assembly *assembly, MonoClass *cls, const std::string &name, int argc)
     : method_(nullptr)
-    , object_(object)
     , assembly_(assembly)
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
-mono_method::~mono_method() = default;
+mono_static_function::~mono_static_function() = default;
 
-mono_method::mono_method(mono_method &&o) = default;
+mono_static_function::mono_static_function(mono_static_function &&o) = default;
 
-auto mono_method::operator=(mono_method &&o) -> mono_method & = default;
+auto mono_static_function::operator=(mono_static_function &&o) -> mono_static_function & = default;
 
 } // namespace mono
 } // namespace aeon

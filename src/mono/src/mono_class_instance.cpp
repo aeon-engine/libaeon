@@ -24,7 +24,6 @@
  */
 
 #include <aeon/mono/mono_class_instance.h>
-#include <aeon/mono/mono_gchandle.h>
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_class.h>
 #include <cassert>

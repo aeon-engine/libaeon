@@ -43,10 +43,6 @@ mono_object::mono_object(MonoObject *object)
 
 mono_object::~mono_object() = default;
 
-mono_object::mono_object(mono_object &&o) = default;
-
-auto mono_object::operator=(mono_object &&o) -> mono_object & = default;
-
 auto mono_object::get_mono_object() const -> MonoObject *
 {
     return object_;

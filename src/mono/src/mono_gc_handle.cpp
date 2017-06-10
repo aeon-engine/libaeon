@@ -23,44 +23,41 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
-#if (AEON_PLATFORM_OS_WINDOWS)
-#ifndef MONO_DLL_IMPORT
-#define MONO_DLL_IMPORT
-#endif
-#endif
-
-#include <aeon/mono/mono_method_thunk_signature.h>
-#include <aeon/mono/mono_assembly.h>
-#include <mono/jit/jit.h>
+#include <aeon/mono/mono_gc_handle.h>
+#include <aeon/mono/mono_object.h>
+#include <utility>
+#include <cassert>
 
 namespace aeon
 {
 namespace mono
 {
 
-template <typename return_type_t>
-class mono_method_thunk_base;
-
-template <typename return_type_t, typename... args_t>
-class mono_method_thunk_base<return_type_t(args_t...)>
+mono_gc_handle::mono_gc_handle(mono_object &obj)
+    : mono_gc_handle(obj.get_mono_object())
 {
-public:
-    using signature = typename mono_method_thunk_signature<return_type_t(args_t...)>::type;
+}
 
-    explicit mono_method_thunk_base(mono_assembly &assembly, MonoMethod *method)
-        : assembly_(assembly)
-        , method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
-    {
-    }
+mono_gc_handle::mono_gc_handle(MonoObject *obj)
+    : handle_(0)
+    , object_(obj)
+{
+}
 
-    ~mono_method_thunk_base() = default;
+mono_gc_handle::~mono_gc_handle() = default;
 
-protected:
-    mono_assembly &assembly_;
-    signature method_;
-};
+void mono_gc_handle::lock()
+{
+    assert(handle_ == 0);
+    handle_ = mono_gchandle_new(object_, 1);
+}
+
+void mono_gc_handle::unlock()
+{
+    assert(handle_ != 0);
+    mono_gchandle_free(handle_);
+    handle_ = 0;
+}
 
 } // namespace mono
 } // namespace aeon

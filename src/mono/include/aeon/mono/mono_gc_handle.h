@@ -25,29 +25,59 @@
 
 #pragma once
 
-#include <aeon/mono/mono_type_conversion.h>
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/common/noncopyable.h>
+#include <mono/jit/jit.h>
+#include <cstdint>
 
 namespace aeon
 {
 namespace mono
 {
 
-template <typename return_type_t>
-class mono_method_thunk_signature;
+class mono_object;
 
-template <typename... args_t>
-class mono_method_thunk_signature<void(args_t...)>
+class mono_gc_handle
 {
 public:
-    using type = void (*)(typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
+    explicit mono_gc_handle(mono_object &obj);
+    explicit mono_gc_handle(MonoObject *obj);
+    virtual ~mono_gc_handle();
+
+    void lock();
+    void unlock();
+
+private:
+    std::uint32_t handle_;
+    MonoObject *object_;
 };
 
-template <typename return_type_t, typename... args_t>
-class mono_method_thunk_signature<return_type_t(args_t...)>
+class mono_scoped_gc_handle : public common::noncopyable
 {
 public:
-    using type = typename convert_mono_type<return_type_t>::mono_type_name (*)(
-        typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
+    explicit mono_scoped_gc_handle(mono_gc_handle &handle)
+        : handle_(handle)
+    {
+        handle_.lock();
+    }
+
+    ~mono_scoped_gc_handle()
+    {
+        handle_.unlock();
+    }
+
+    auto &get_handle() const
+    {
+        return handle_;
+    }
+
+private:
+    mono_gc_handle &handle_;
 };
 
 } // namespace mono

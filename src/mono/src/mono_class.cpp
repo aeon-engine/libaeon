@@ -67,14 +67,14 @@ mono_class::mono_class(mono_class &&o) = default;
 
 auto mono_class::operator=(mono_class &&o) -> mono_class & = default;
 
-mono_method mono_class::get_method(const std::string &name, int argc /*= 0*/) const
+auto mono_class::get_static_function(const std::string &name, int argc /*= 0*/) const -> mono_static_function
 {
     assert(class_);
     assert(assembly_);
-    return mono_method(assembly_, class_, name, argc);
+    return mono_static_function(assembly_, class_, name, argc);
 }
 
-MonoClass *mono_class::get_mono_class_ptr() const
+auto mono_class::get_mono_class_ptr() const -> MonoClass *
 {
     assert(class_);
     return class_;

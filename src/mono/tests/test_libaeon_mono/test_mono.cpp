@@ -31,7 +31,7 @@
 #include <aeon/mono/mono_method.h>
 #include <aeon/mono/mono_exception.h>
 #include <aeon/mono/mono_string.h>
-#include <aeon/mono/mono_method_thunk.h>
+#include <aeon/mono/mono_thunk.h>
 #include "mono_jit_fixture.h"
 
 TEST(test_mono, test_mono_jit_load_assembly_fail)
@@ -78,57 +78,70 @@ TEST(test_mono, test_mono_jit_get_method)
                         obj.get_method("MethodWithParameterAndReturnValue", 1););
 }
 
-TEST(test_mono, test_mono_call_native_methods)
+TEST(test_mono, test_mono_call_thunk)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
-    auto obj = assembly.new_class_instance(cls);
-}
-
-TEST(test_mono, test_mono_call_thunk_method)
-{
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
-    auto assembly = jit.load_assembly("MonoTests.dll");
-    auto cls = assembly.get_class("ClassInstanceTest");
-    auto method_thunk = cls.get_method_thunk<int(int)>("MethodWithIntParam");
+    auto method_thunk = cls.get_static_function_thunk<int(int)>("FunctionWithIntParam");
     auto result = method_thunk(1000);
     ASSERT_EQ(2337, result);
 }
 
-TEST(test_mono, test_mono_call_thunk_method2)
+TEST(test_mono, test_mono_call_thunk2)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
-    auto method_thunk = cls.get_method_thunk<void(float, int, float)>("VoidMethod");
+    auto method_thunk = cls.get_static_function_thunk<void(float, int, float)>("VoidFunction");
     method_thunk(13.37f, 42, 9000.0f);
 }
 
-TEST(test_mono, test_mono_call_thunk_method3)
+TEST(test_mono, test_mono_call_thunk3)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
-    auto method_thunk = cls.get_method_thunk<void(std::string)>("MethodWithStringParam");
+    auto method_thunk = cls.get_static_function_thunk<void(std::string)>("FunctionWithStringParam");
     method_thunk("Hello!");
 }
 
-TEST(test_mono, test_mono_call_thunk_method4)
+TEST(test_mono, test_mono_call_thunk4)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
-    auto method_thunk = cls.get_method_thunk<std::string(std::string)>("StringReturnMethod");
+    auto method_thunk = cls.get_static_function_thunk<std::string(std::string)>("StringReturnFunction");
     auto result = method_thunk("Hello!");
     ASSERT_EQ(result, std::string("The string value was: Hello!"));
 }
 
-TEST(test_mono, test_mono_call_thunk_method_with_exception)
+TEST(test_mono, test_mono_call_thunk_with_exception)
 {
     auto &jit = mono_jit_fixture::get_singleton().get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
-    auto method_thunk = cls.get_method_thunk<void()>("ExceptionMethod");
+    auto method_thunk = cls.get_static_function_thunk<void()>("ExceptionFunction");
     ASSERT_ANY_THROW(method_thunk());
+}
+
+TEST(test_mono, test_mono_call_method)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto cls_instance = assembly.new_class_instance(cls);
+    auto method_thunk = cls_instance.get_method_thunk<void()>("Method");
+    method_thunk();
+}
+
+TEST(test_mono, test_mono_call_method2)
+{
+    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto assembly = jit.load_assembly("MonoTests.dll");
+    auto cls = assembly.get_class("ClassInstanceTest");
+    auto cls_instance = assembly.new_class_instance(cls);
+    auto method_thunk = cls_instance.get_method_thunk<std::string(std::string)>("MethodWithParameterAndReturnValue");
+    auto result = method_thunk("test");
+    ASSERT_EQ("Return Value: test", result);
 }

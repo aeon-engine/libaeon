@@ -23,36 +23,44 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/mono/mono_method.h>
-#include <aeon/mono/mono_object.h>
+#pragma once
 
-#include <utility>
+#if (AEON_PLATFORM_OS_WINDOWS)
+#ifndef MONO_DLL_IMPORT
+#define MONO_DLL_IMPORT
+#endif
+#endif
+
+#include <aeon/mono/mono_thunk_signature.h>
+#include <aeon/mono/mono_assembly.h>
+#include <mono/jit/jit.h>
 
 namespace aeon
 {
 namespace mono
 {
 
-mono_method::mono_method()
-    : method_(nullptr)
-    , object_(nullptr)
-    , assembly_(nullptr)
+template <typename return_type_t>
+class mono_thunk_base;
+
+template <typename return_type_t, typename... args_t>
+class mono_thunk_base<return_type_t(args_t...)>
 {
-}
+public:
+    using signature = typename mono_thunk_signature<return_type_t(args_t...)>::type;
 
-mono_method::mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name, int argc)
-    : method_(nullptr)
-    , object_(object)
-    , assembly_(assembly)
-{
-    method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
-}
+    explicit mono_thunk_base(mono_assembly &assembly, MonoMethod *method)
+        : assembly_(assembly)
+        , method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    {
+    }
 
-mono_method::~mono_method() = default;
+    ~mono_thunk_base() = default;
 
-mono_method::mono_method(mono_method &&o) = default;
-
-auto mono_method::operator=(mono_method &&o) -> mono_method & = default;
+protected:
+    mono_assembly &assembly_;
+    signature method_;
+};
 
 } // namespace mono
 } // namespace aeon

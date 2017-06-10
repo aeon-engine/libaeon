@@ -27,8 +27,8 @@
 
 #include <aeon/mono/mono_object.h>
 #include <aeon/mono/mono_class_field.h>
+#include <aeon/common/type_traits.h>
 #include <string>
-#include <type_traits>
 #include <cassert>
 
 namespace aeon
@@ -54,6 +54,9 @@ public:
 
     auto get_method(const std::string &name, int argc = 0) -> mono_method;
 
+    template <typename function_signature_t>
+    auto get_method_thunk(const std::string &name);
+
     auto get_class() -> mono_class;
 
     auto get_mono_class_ptr() -> MonoClass *;
@@ -71,6 +74,14 @@ private:
     MonoClass *class_;
     mono_assembly *assembly_;
 };
+
+template <typename function_signature_t>
+auto mono_class_instance::get_method_thunk(const std::string &name)
+{
+    constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
+    auto func = get_method(name, arg_count);
+    return func.template get_thunk<function_signature_t>();
+}
 
 template <typename T>
 auto mono_class_instance::get_field_value(mono_class_field &field) const
