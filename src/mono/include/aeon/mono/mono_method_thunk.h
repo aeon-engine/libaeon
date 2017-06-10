@@ -53,6 +53,12 @@ template <typename... args_t>
 class mono_method_thunk<void(args_t...)> : public mono_thunk_base<void(MonoObject *, args_t...)>, public mono_object
 {
 public:
+    mono_method_thunk()
+        : mono_thunk_base<void(MonoObject *, args_t...)>()
+        , mono_object()
+    {
+    }
+
     explicit mono_method_thunk(mono_assembly &assembly, MonoObject *object, MonoMethod *method)
         : mono_thunk_base<void(MonoObject *, args_t...)>(assembly, method)
         , mono_object(object)
@@ -61,11 +67,12 @@ public:
 
     ~mono_method_thunk() = default;
 
-    void operator()(args_t &&... args)
+    void operator()(args_t... args)
     {
         MonoException *ex = nullptr;
         this->method_(this->object_,
-                      convert_mono_type<args_t>::convert_argument(this->assembly_, std::forward<args_t>(args))..., &ex);
+                      convert_mono_type<args_t>::convert_argument(*this->assembly_, std::forward<args_t>(args))...,
+                      &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);
@@ -77,6 +84,12 @@ class mono_method_thunk<return_type_t(args_t...)> : public mono_thunk_base<retur
                                                     public mono_object
 {
 public:
+    mono_method_thunk()
+        : mono_thunk_base<return_type_t(MonoObject *, args_t...)>()
+        , mono_object()
+    {
+    }
+
     explicit mono_method_thunk(mono_assembly &assembly, MonoObject *object, MonoMethod *method)
         : mono_thunk_base<return_type_t(MonoObject *, args_t...)>(assembly, method)
         , mono_object(object)
@@ -85,11 +98,11 @@ public:
 
     ~mono_method_thunk() = default;
 
-    auto operator()(args_t &&... args)
+    auto operator()(args_t... args)
     {
         MonoException *ex = nullptr;
         auto result = this->method_(
-            this->object_, convert_mono_type<args_t>::convert_argument(this->assembly_, std::forward<args_t>(args))...,
+            this->object_, convert_mono_type<args_t>::convert_argument(*this->assembly_, std::forward<args_t>(args))...,
             &ex);
 
         if (ex)

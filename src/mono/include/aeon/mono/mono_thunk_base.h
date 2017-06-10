@@ -49,8 +49,14 @@ class mono_thunk_base<return_type_t(args_t...)>
 public:
     using signature = typename mono_thunk_signature<return_type_t(args_t...)>::type;
 
+    mono_thunk_base()
+        : assembly_(nullptr)
+        , method_(nullptr)
+    {
+    }
+
     explicit mono_thunk_base(mono_assembly &assembly, MonoMethod *method)
-        : assembly_(assembly)
+        : assembly_(&assembly)
         , method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
     {
     }
@@ -58,7 +64,7 @@ public:
     ~mono_thunk_base() = default;
 
 protected:
-    mono_assembly &assembly_;
+    mono_assembly *assembly_;
     signature method_;
 };
 

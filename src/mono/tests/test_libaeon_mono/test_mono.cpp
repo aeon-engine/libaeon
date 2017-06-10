@@ -84,8 +84,9 @@ TEST(test_mono, test_mono_call_thunk)
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<int(int)>("FunctionWithIntParam");
-    auto result = method_thunk(1000);
-    ASSERT_EQ(2337, result);
+    const auto number = 1000;
+    auto result = method_thunk(number);
+    ASSERT_EQ(number + 1337, result);
 }
 
 TEST(test_mono, test_mono_call_thunk2)
@@ -112,8 +113,9 @@ TEST(test_mono, test_mono_call_thunk4)
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<std::string(std::string)>("StringReturnFunction");
-    auto result = method_thunk("Hello!");
-    ASSERT_EQ(result, std::string("The string value was: Hello!"));
+    auto expected_string = std::string("Hello!");
+    auto result = method_thunk(expected_string);
+    ASSERT_EQ(result, std::string("The string value was: " + expected_string));
 }
 
 TEST(test_mono, test_mono_call_thunk_with_exception)

@@ -75,7 +75,6 @@ auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) 
 
 auto mono_class_instance::get_class() -> mono_class
 {
-    assert(assembly_);
     return mono_class(assembly_, get_mono_class_ptr());
 }
 
