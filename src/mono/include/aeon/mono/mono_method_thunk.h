@@ -71,8 +71,7 @@ public:
     {
         MonoException *ex = nullptr;
         this->method_(this->object_,
-                      convert_mono_type<args_t>::convert_argument(*this->assembly_, std::forward<args_t>(args))...,
-                      &ex);
+                      convert_mono_type<args_t>::to_mono(*this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);
@@ -102,13 +101,12 @@ public:
     {
         MonoException *ex = nullptr;
         auto result = this->method_(
-            this->object_, convert_mono_type<args_t>::convert_argument(*this->assembly_, std::forward<args_t>(args))...,
-            &ex);
+            this->object_, convert_mono_type<args_t>::to_mono(*this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
             throw mono_thunk_exception(ex);
 
-        return convert_mono_type<return_type_t>::convert_return_type(std::move(result));
+        return convert_mono_type<return_type_t>::from_mono(std::move(result));
     }
 };
 

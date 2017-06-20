@@ -42,6 +42,13 @@ mono_assembly::mono_assembly()
 {
 }
 
+mono_assembly::mono_assembly(MonoDomain *domain, MonoAssembly *assembly)
+    : domain_(domain)
+    , assembly_(assembly)
+    , image_(mono_assembly_get_image(assembly_))
+{
+}
+
 mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
     : domain_(domain)
     , assembly_(nullptr)
@@ -66,6 +73,11 @@ auto mono_assembly::get_mono_assembly_ptr() const -> MonoAssembly *
     return assembly_;
 }
 
+auto mono_assembly::get_mono_domain_ptr() const -> MonoDomain *
+{
+    return domain_;
+}
+
 auto mono_assembly::get_class(const std::string &name) -> mono_class
 {
     return mono_class(this, image_, name);
@@ -84,6 +96,11 @@ auto mono_assembly::new_class_instance(const mono_class &cls) -> mono_class_inst
 auto mono_assembly::new_string(const std::string &str) const -> mono_string
 {
     return mono_string(domain_, str);
+}
+
+auto mono_assembly::valid() const -> bool
+{
+    return domain_ != nullptr && assembly_ != nullptr && image_ != nullptr;
 }
 
 } // namespace mono

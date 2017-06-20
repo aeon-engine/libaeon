@@ -46,12 +46,12 @@ struct convert_mono_type
 {
     using mono_type_name = T;
 
-    static auto convert_argument(mono_assembly &, T &&t)
+    static auto to_mono(mono_assembly &, T &&t) -> T
     {
         return std::forward<T>(t);
     }
 
-    static auto convert_return_type(T &&t)
+    static auto from_mono(T &&t) -> T
     {
         return std::forward<T>(t);
     }
@@ -62,12 +62,12 @@ struct convert_mono_type<std::string>
 {
     using mono_type_name = MonoString *;
 
-    static auto convert_argument(mono_assembly &assembly, const std::string &str)
+    static auto to_mono(mono_assembly &assembly, const std::string &str) -> MonoString *
     {
         return assembly.new_string(str).get_mono_string();
     }
 
-    static auto convert_return_type(MonoString *mono_str)
+    static auto from_mono(MonoString *mono_str) -> std::string
     {
         return mono_string(mono_str).str();
     }

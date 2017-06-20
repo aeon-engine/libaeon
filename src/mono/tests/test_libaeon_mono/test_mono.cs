@@ -48,6 +48,9 @@ namespace Aeon
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         public extern void DoStuff(String value);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        public extern string ReturnAString(string value);
     }
 }
 
@@ -59,6 +62,8 @@ public class ClassInstanceTest
 
         Aeon.MyObject s = new Aeon.MyObject();
         s.DoStuff("Hello from C#!");
+
+        Console.WriteLine(s.ReturnAString("Testing ReturnAString."));
     }
 
     ~ClassInstanceTest()

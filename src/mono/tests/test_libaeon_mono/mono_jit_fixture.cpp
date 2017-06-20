@@ -28,22 +28,25 @@
 
 aeon_utility_initialize_singleton(mono_jit_fixture);
 
-static void MyObject_CreateInternal(MonoObject *this_ptr)
+void MyObject_CreateInternal(MonoObject *this_ptr)
 {
     std::cout << "MyObject created." << std::endl;
 }
 
-static void MyObject_DestroyInternal(MonoObject *this_ptr)
+void MyObject_DestroyInternal(MonoObject *this_ptr)
 {
     std::cout << "MyObject deleted." << std::endl;
 }
 
-static void MyObject_DoStuff(MonoObject *this_ptr, MonoString *value)
+void MyObject_DoStuff(MonoObject *this_ptr, std::string value)
 {
-    aeon::mono::mono_string str(value);
-    std::string str_value = str.str();
+    std::cout << "DoStuff was called with: " << value << std::endl;
+}
 
-    std::cout << "DoStuff was called with: " << str_value << std::endl;
+std::string MyObject_ReturnAString(MonoObject *this_ptr, std::string value)
+{
+    std::cout << "ReturnAString was called with: " << value << std::endl;
+    return "The value: " + value;
 }
 
 mono_jit_fixture::mono_jit_fixture()
@@ -53,9 +56,13 @@ mono_jit_fixture::mono_jit_fixture()
 
 void mono_jit_fixture::SetUp()
 {
-    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::CreateInternal", MyObject_CreateInternal);
-    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DestroyInternal", MyObject_DestroyInternal);
-    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DoStuff", MyObject_DoStuff);
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::CreateInternal",
+                                            aeon_mono_auto_wrap(MyObject_CreateInternal));
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DestroyInternal",
+                                            aeon_mono_auto_wrap(MyObject_DestroyInternal));
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::DoStuff", aeon_mono_auto_wrap(MyObject_DoStuff));
+    aeon::mono::mono_jit::add_internal_call("Aeon.MyObject::ReturnAString",
+                                            aeon_mono_auto_wrap(MyObject_ReturnAString));
 }
 
 void mono_jit_fixture::TearDown()
