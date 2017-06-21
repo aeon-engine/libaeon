@@ -55,10 +55,10 @@ public:
              const long milliseconds = AEON_CURL_DEFAULT_TIMEOUT_MS);
 
 private:
-    static size_t static_read_event_(void *buffer, size_t size, size_t nmemb, easy_wrapper *wrapper);
+    static auto static_read_event_(void *buffer, size_t size, size_t nmemb, easy_wrapper *wrapper) -> size_t;
 
-    CURL *curl_;
     std::shared_ptr<global_wrapper> global_wrapper_;
+    CURL *curl_;
     easy_wrapper_read_event read_event_;
 };
 
