@@ -27,7 +27,12 @@
 
 #include <cstddef>
 
-inline std::size_t operator"" _size_t(unsigned long long int x) noexcept
+inline constexpr std::size_t operator"" _size_t(unsigned long long int x) noexcept
 {
     return static_cast<std::size_t>(x);
+}
+
+inline constexpr std::uint8_t operator"" _uint8_t(unsigned long long int x) noexcept
+{
+    return static_cast<std::uint8_t>(x);
 }
