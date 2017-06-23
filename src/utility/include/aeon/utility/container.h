@@ -27,6 +27,7 @@
 
 #include <vector>
 #include <memory>
+#include <array>
 
 namespace aeon
 {
@@ -73,6 +74,22 @@ void erase_if(container_t &items, const predicate_t &predicate)
         else
             ++itr;
     }
+}
+
+template <typename T, std::size_t N>
+constexpr auto make_array(T &&value)
+{
+    std::array<T, N> arr;
+    arr.fill(std::forward<T>(value));
+    return arr;
+}
+
+template <typename... T>
+constexpr auto make_array2(T &&... values)
+    -> std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>
+{
+    return std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>{
+        std::forward<T>(values)...};
 }
 
 } // namespace container
