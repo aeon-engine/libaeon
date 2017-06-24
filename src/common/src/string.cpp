@@ -59,12 +59,12 @@ auto split(const std::string &str, char delim) -> std::vector<std::string>
 
 void ltrim(std::string &str)
 {
-    str.erase(str.begin(), std::find_if(str.begin(), str.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](const int c){ return !std::isspace(c); }));
 }
 
 void rtrim(std::string &str)
 {
-    str.erase(std::find_if(str.rbegin(), str.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(),
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](const int c){ return !std::isspace(c); }).base(),
               str.end());
 }
 
