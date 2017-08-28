@@ -88,6 +88,16 @@ auto left(const std::string &str, int len) -> std::string;
 auto right(const std::string &str, int len) -> std::string;
 
 /*!
+ * Trim len characters at the left of the string
+ */
+auto strip_left(const std::string &str, int len) -> std::string;
+
+/*!
+ * Trim len characters at the right of the string
+ */
+auto strip_right(const std::string &str, int len) -> std::string;
+
+/*!
  * Convert standard argc and argv arguments into a vector of strings.
  */
 auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>;

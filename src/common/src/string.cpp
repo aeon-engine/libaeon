@@ -105,6 +105,16 @@ auto right(const std::string &str, int len) -> std::string
     return str.substr(str.size() - len);
 }
 
+auto strip_left(const std::string &str, int len) -> std::string
+{
+    return str.substr(len);
+}
+
+auto strip_right(const std::string &str, int len) -> std::string
+{
+    return str.substr(0, str.size() - len);
+}
+
 auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
 {
     std::vector<std::string> vec;

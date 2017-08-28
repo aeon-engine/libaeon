@@ -182,6 +182,16 @@ TEST(test_utility_string, test_utility_string_right)
     EXPECT_EQ("ree", aeon::common::string::right("one two three", 3));
 }
 
+TEST(test_utility_string, test_utility_strip_left)
+{
+    EXPECT_EQ("two three", aeon::common::string::strip_left("one two three", 4));
+}
+
+TEST(test_utility_string, test_utility_strip_right)
+{
+    EXPECT_EQ("one two ", aeon::common::string::strip_right("one two three", 5));
+}
+
 TEST(test_utility_string, test_utility_string_args_to_vector_empty)
 {
     std::vector<std::string> result = aeon::common::string::args_to_vector(0, nullptr);
