@@ -59,13 +59,12 @@ auto split(const std::string &str, char delim) -> std::vector<std::string>
 
 void ltrim(std::string &str)
 {
-    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](const int c){ return !std::isspace(c); }));
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](const int c) { return !std::isspace(c); }));
 }
 
 void rtrim(std::string &str)
 {
-    str.erase(std::find_if(str.rbegin(), str.rend(), [](const int c){ return !std::isspace(c); }).base(),
-              str.end());
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](const int c) { return !std::isspace(c); }).base(), str.end());
 }
 
 void trim(std::string &str)
@@ -138,6 +137,24 @@ void replace(std::string &str, const std::string &from, const std::string &to)
         str.replace(start_pos, from.length(), to);
         start_pos += to.length();
     }
+}
+
+auto to_lower(const std::string &str) -> std::string
+{
+    auto to_lower_internal = [](const char c) { return std::use_facet<std::ctype<char>>(std::locale()).tolower(c); };
+
+    std::string result;
+    std::transform(str.begin(), str.end(), std::back_inserter(result), to_lower_internal);
+    return result;
+}
+
+auto to_upper(const std::string &str) -> std::string
+{
+    auto to_upper_internal = [](const char c) { return std::use_facet<std::ctype<char>>(std::locale()).toupper(c); };
+
+    std::string result;
+    std::transform(str.begin(), str.end(), std::back_inserter(result), to_upper_internal);
+    return result;
 }
 
 } // namespace string

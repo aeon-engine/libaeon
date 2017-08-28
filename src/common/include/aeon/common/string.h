@@ -107,6 +107,16 @@ auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>;
  */
 void replace(std::string &str, const std::string &from, const std::string &to);
 
+/*!
+ * Convert the current string to lowercase based to the locale settings
+ */
+auto to_lower(const std::string &str) -> std::string;
+
+/*!
+ * Convert the current string to uppercase based to the locale settings
+ */
+auto to_upper(const std::string &str) -> std::string;
+
 } // namespace string
 } // namespace common
 } // namespace aeon

@@ -197,3 +197,15 @@ TEST(test_utility_string, test_utility_string_args_to_vector_empty)
     std::vector<std::string> result = aeon::common::string::args_to_vector(0, nullptr);
     EXPECT_TRUE(result.empty());
 }
+
+TEST(test_utility_string, test_utility_string_to_lower)
+{
+    EXPECT_EQ("test", aeon::common::string::to_lower("TeSt"));
+    EXPECT_EQ("this is a test.", aeon::common::string::to_lower("THIS iS a TeSt."));
+}
+
+TEST(test_utility_string, test_utility_string_to_upper)
+{
+    EXPECT_EQ("TEST", aeon::common::string::to_upper("TeSt"));
+    EXPECT_EQ("THIS IS A TEST.", aeon::common::string::to_upper("THiS iS a TeSt."));
+}
