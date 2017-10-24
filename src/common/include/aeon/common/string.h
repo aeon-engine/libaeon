@@ -27,6 +27,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 namespace aeon
 {
@@ -80,22 +81,27 @@ auto trimmed(const std::string &str) -> std::string;
 /*!
  * Get len characters from the left of the string.
  */
-auto left(const std::string &str, int len) -> std::string;
+auto left(const std::string &str, std::size_t len) -> std::string;
 
 /*!
  * Get len characters from the right of the string.
  */
-auto right(const std::string &str, int len) -> std::string;
+auto right(const std::string &str, std::size_t len) -> std::string;
 
 /*!
  * Trim len characters at the left of the string
  */
-auto strip_left(const std::string &str, int len) -> std::string;
+auto strip_left(const std::string &str, std::size_t len) -> std::string;
 
 /*!
  * Trim len characters at the right of the string
  */
-auto strip_right(const std::string &str, int len) -> std::string;
+auto strip_right(const std::string &str, std::size_t len) -> std::string;
+
+/*!
+ * Tren len characters on both sides of the string.
+ */
+auto strip_both(const std::string &str, std::size_t len) -> std::string;
 
 /*!
  * Convert standard argc and argv arguments into a vector of strings.
@@ -116,6 +122,28 @@ auto to_lower(const std::string &str) -> std::string;
  * Convert the current string to uppercase based to the locale settings
  */
 auto to_upper(const std::string &str) -> std::string;
+
+/*!
+ * Check if a string begins with another string
+ */
+auto begins_with(const std::string &str, const std::string &val) -> bool;
+
+/*!
+ * Check if a string begins with another string
+ */
+auto ends_with(const std::string &str, const std::string &val) -> bool;
+
+/*!
+ * Convert a string in HEX format ("0x1234") to an integer.
+ */
+template <typename T>
+auto hex_string_to_int(const std::string &str)
+{
+    T value;
+    std::istringstream iss(str);
+    iss >> std::hex >> value;
+    return value;
+}
 
 } // namespace string
 } // namespace common

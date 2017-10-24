@@ -192,6 +192,14 @@ TEST(test_utility_string, test_utility_strip_right)
     EXPECT_EQ("one two ", aeon::common::string::strip_right("one two three", 5));
 }
 
+TEST(test_utility_string, test_utility_strip_both)
+{
+    EXPECT_EQ("test", aeon::common::string::strip_both("test", 0));
+    EXPECT_EQ("test", aeon::common::string::strip_both("'test'", 1));
+    EXPECT_EQ("ABC", aeon::common::string::strip_both("123ABC123", 3));
+    EXPECT_EQ("", aeon::common::string::strip_both("''", 1));
+}
+
 TEST(test_utility_string, test_utility_string_args_to_vector_empty)
 {
     std::vector<std::string> result = aeon::common::string::args_to_vector(0, nullptr);
@@ -208,4 +216,34 @@ TEST(test_utility_string, test_utility_string_to_upper)
 {
     EXPECT_EQ("TEST", aeon::common::string::to_upper("TeSt"));
     EXPECT_EQ("THIS IS A TEST.", aeon::common::string::to_upper("THiS iS a TeSt."));
+}
+
+TEST(test_utility_string, test_utility_string_begins_with)
+{
+    EXPECT_TRUE(aeon::common::string::begins_with("", ""));
+    EXPECT_TRUE(aeon::common::string::begins_with("This is a test", "T"));
+    EXPECT_TRUE(aeon::common::string::begins_with("This is a test", "Th"));
+    EXPECT_TRUE(aeon::common::string::begins_with("This is a test", "This"));
+    EXPECT_TRUE(aeon::common::string::begins_with("1234 blah", "123"));
+
+    EXPECT_FALSE(aeon::common::string::begins_with("This is a test", "test"));
+    EXPECT_FALSE(aeon::common::string::begins_with("This is a test", "this"));
+    EXPECT_FALSE(aeon::common::string::begins_with("This is a test", "his"));
+    EXPECT_FALSE(aeon::common::string::begins_with("1234 blah", "blah"));
+    EXPECT_FALSE(aeon::common::string::begins_with("", "Blah"));
+}
+
+TEST(test_utility_string, test_utility_string_ends_with)
+{
+    EXPECT_TRUE(aeon::common::string::ends_with("", ""));
+    EXPECT_TRUE(aeon::common::string::ends_with("This is a test", "t"));
+    EXPECT_TRUE(aeon::common::string::ends_with("This is a test", "est"));
+    EXPECT_TRUE(aeon::common::string::ends_with("This is a test", "test"));
+    EXPECT_TRUE(aeon::common::string::ends_with("1234 blah", " blah"));
+
+    EXPECT_FALSE(aeon::common::string::ends_with("This is a test", "This"));
+    EXPECT_FALSE(aeon::common::string::ends_with("This is a test", "is"));
+    EXPECT_FALSE(aeon::common::string::ends_with("This is a test", "Test"));
+    EXPECT_FALSE(aeon::common::string::ends_with("1234 blah", "1234"));
+    EXPECT_FALSE(aeon::common::string::ends_with("", "Blah"));
 }

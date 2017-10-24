@@ -94,24 +94,29 @@ auto trimmed(const std::string &str) -> std::string
     return trimstr;
 }
 
-auto left(const std::string &str, int len) -> std::string
+auto left(const std::string &str, std::size_t len) -> std::string
 {
     return str.substr(0, len);
 }
 
-auto right(const std::string &str, int len) -> std::string
+auto right(const std::string &str, std::size_t len) -> std::string
 {
     return str.substr(str.size() - len);
 }
 
-auto strip_left(const std::string &str, int len) -> std::string
+auto strip_left(const std::string &str, std::size_t len) -> std::string
 {
     return str.substr(len);
 }
 
-auto strip_right(const std::string &str, int len) -> std::string
+auto strip_right(const std::string &str, std::size_t len) -> std::string
 {
     return str.substr(0, str.size() - len);
+}
+
+auto strip_both(const std::string &str, std::size_t len) -> std::string
+{
+    return str.substr(len, str.size() - len - len);
 }
 
 auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
@@ -155,6 +160,22 @@ auto to_upper(const std::string &str) -> std::string
     std::string result;
     std::transform(str.begin(), str.end(), std::back_inserter(result), to_upper_internal);
     return result;
+}
+
+auto begins_with(const std::string &str, const std::string &val) -> bool
+{
+    if (str.size() < val.size())
+        return false;
+
+    return left(str, val.size()) == val;
+}
+
+auto ends_with(const std::string &str, const std::string &val) -> bool
+{
+    if (str.size() < val.size())
+        return false;
+
+    return right(str, val.size()) == val;
 }
 
 } // namespace string
