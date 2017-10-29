@@ -36,6 +36,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/variant.h
     include/aeon/common/unused.h
     include/aeon/common/type_traits.h
+    include/aeon/common/stdfilesystem.h
     src/string.cpp
 )
 
