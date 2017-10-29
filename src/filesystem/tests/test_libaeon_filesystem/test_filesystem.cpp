@@ -27,6 +27,8 @@
 
 #define ENABLE_TEMPORARY_FILE_FIXTURE
 #include <aeon/testing/temporary_file_fixture.h>
+
+#define AEON_IGNORE_DEPRECATED
 #include <aeon/filesystem/filesystem.h>
 
 #include <fstream>

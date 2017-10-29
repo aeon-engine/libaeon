@@ -25,24 +25,8 @@
 
 #pragma once
 
-#include <aeon/common/deprecated.h>
-#include <string>
-
-namespace aeon
-{
-namespace filesystem
-{
-
-AEON_DEPRECATED("Replaced by std::filesystem.")
-auto exists(const std::string &path) -> bool;
-
-AEON_DEPRECATED("Replaced by std::filesystem.")
-void delete_file(const std::string &path);
-
-AEON_DEPRECATED("Replaced by std::filesystem.")
-void delete_directory(const std::string &path);
-
-auto generate_temporary_file_path() -> std::string;
-
-} // namespace filesystem
-} // namespace aeon
+#if (defined(AEON_IGNORE_DEPRECATED))
+#define AEON_DEPRECATED(message)
+#else
+#define AEON_DEPRECATED(message) [[deprecated(message)]]
+#endif
