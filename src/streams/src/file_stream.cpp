@@ -31,11 +31,21 @@ namespace streams
 {
 
 file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/)
+    : file_stream(std::filesystem::path(filename), fm)
+{
+}
+
+file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode::binary*/)
+    : file_stream(std::filesystem::path(filename), access_mode::read, fm)
+{
+}
+
+file_stream::file_stream(const std::filesystem::path &path, int mode, file_mode fm)
     : stream(mode)
     , size_(0)
-    , filename_(filename)
+    , filename_(path.string())
 {
-    fstream_.open(filename, to_ios_open_mode_(mode, fm));
+    fstream_.open(path, to_ios_open_mode_(mode, fm));
 
     if (!fstream_.good())
         throw file_stream_exception();
@@ -49,8 +59,8 @@ file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*=
     }
 }
 
-file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode::binary*/)
-    : file_stream(filename, access_mode::read, fm)
+file_stream::file_stream(const std::filesystem::path &path, file_mode fm)
+    : file_stream(path, access_mode::read, fm)
 {
 }
 

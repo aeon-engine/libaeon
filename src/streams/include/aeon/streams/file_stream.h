@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/streams/stream.h>
+#include <aeon/common/stdfilesystem.h>
 
 #include <fstream>
 
@@ -50,6 +51,10 @@ public:
     explicit file_stream(const std::string &filename, int mode, file_mode fm = file_mode::binary);
 
     explicit file_stream(const std::string &filename, file_mode fm = file_mode::binary);
+
+    explicit file_stream(const std::filesystem::path &path, int mode, file_mode fm = file_mode::binary);
+
+    explicit file_stream(const std::filesystem::path &path, file_mode fm = file_mode::binary);
 
     file_stream(file_stream &&o) = default;
 
