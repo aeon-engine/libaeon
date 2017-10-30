@@ -25,75 +25,20 @@
 
 #pragma once
 
-#include <aeon/common/deprecated.h>
-#include <exception>
+#include <aeon/common/platform.h>
 
-namespace aeon
-{
-namespace common
-{
+#if (defined(AEON_PLATFORM_OS_WINDOWS))
 
-class optional_value_exception : public std::exception
+#include <optional>
+
+#else
+
+#include <experimental/optional>
+namespace std
 {
-};
 
 template <typename T>
-AEON_DEPRECATED("Replaced by std::optional.")
-class optional
-{
-public:
-    optional()
-        : value_()
-        , has_value_(false)
-    {
-    }
-
-    optional(const T &val)
-        : value_(val)
-        , has_value_(true)
-    {
-    }
-
-    optional(optional &&) = default;
-    optional &operator=(optional &&) = default;
-
-    bool has_value() const
-    {
-        return has_value_;
-    }
-
-    const T &get_value() const
-    {
-        if (!has_value_)
-            throw optional_value_exception();
-
-        return value_;
-    }
-
-    void reset()
-    {
-        has_value_ = false;
-    }
-
-    operator T() const
-    {
-        if (!has_value_)
-            throw optional_value_exception();
-
-        return value_;
-    }
-
-    auto &operator=(const T &val)
-    {
-        value_ = val;
-        has_value_ = true;
-        return *this;
-    }
-
-private:
-    T value_;
-    bool has_value_;
-};
-
-} // namespace common
-} // namespace aeon
+using optional = ::std::experimental::optional<T>;
+inline constexpr auto nullopt = ::std::experimental::nullopt;
+} // namespace std
+#endif

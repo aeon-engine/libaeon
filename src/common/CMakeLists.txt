@@ -37,6 +37,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/unused.h
     include/aeon/common/type_traits.h
     include/aeon/common/stdfilesystem.h
+    include/aeon/common/stdoptional.h
     include/aeon/common/deprecated.h
     src/string.cpp
 )

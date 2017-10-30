@@ -24,6 +24,7 @@
  */
 
 #include <gtest/gtest.h>
+#define AEON_IGNORE_DEPRECATED
 #include <aeon/common/optional.h>
 #include <aeon/common/unused.h>
 #include <aeon/common/compilers.h>
