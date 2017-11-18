@@ -31,25 +31,25 @@
 
 AEON_IGNORE_VS_WARNING(4189)
 
-TEST(test_utility, test_utility_optional_create_int)
+TEST(test_optional, test_optional_create_int)
 {
     aeon::common::optional<int> test;
     ASSERT_FALSE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_create_float)
+TEST(test_optional, test_optional_create_float)
 {
     aeon::common::optional<float> test;
     ASSERT_FALSE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_create_string)
+TEST(test_optional, test_optional_create_string)
 {
     aeon::common::optional<std::string> test;
     ASSERT_FALSE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_create_int_with_value)
+TEST(test_optional, test_optional_create_int_with_value)
 {
     aeon::common::optional<int> test = 1337;
     ASSERT_TRUE(test.has_value());
@@ -58,19 +58,19 @@ TEST(test_utility, test_utility_optional_create_int_with_value)
     ASSERT_EQ(1337, testvalue);
 }
 
-TEST(test_utility, test_utility_optional_create_float_with_value)
+TEST(test_optional, test_optional_create_float_with_value)
 {
     aeon::common::optional<float> test = 1337.0f;
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_create_string_with_value)
+TEST(test_optional, test_optional_create_string_with_value)
 {
     aeon::common::optional<std::string> test = std::string("1337!");
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_change_int_value)
+TEST(test_optional, test_optional_change_int_value)
 {
     aeon::common::optional<int> test = 1337;
     ASSERT_TRUE(test.has_value());
@@ -79,7 +79,7 @@ TEST(test_utility, test_utility_optional_change_int_value)
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_change_int_value2)
+TEST(test_optional, test_optional_change_int_value2)
 {
     aeon::common::optional<int> test;
     ASSERT_FALSE(test.has_value());
@@ -88,7 +88,7 @@ TEST(test_utility, test_utility_optional_change_int_value2)
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_change_float_value)
+TEST(test_optional, test_optional_change_float_value)
 {
     aeon::common::optional<float> test = 1337.0f;
     ASSERT_TRUE(test.has_value());
@@ -97,7 +97,7 @@ TEST(test_utility, test_utility_optional_change_float_value)
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_change_float_value2)
+TEST(test_optional, test_optional_change_float_value2)
 {
     aeon::common::optional<float> test;
     ASSERT_FALSE(test.has_value());
@@ -106,7 +106,7 @@ TEST(test_utility, test_utility_optional_change_float_value2)
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_change_string_value)
+TEST(test_optional, test_optional_change_string_value)
 {
     aeon::common::optional<std::string> test = std::string("1337!");
     ASSERT_TRUE(test.has_value());
@@ -115,7 +115,7 @@ TEST(test_utility, test_utility_optional_change_string_value)
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_change_string_value2)
+TEST(test_optional, test_optional_change_string_value2)
 {
     aeon::common::optional<std::string> test;
     ASSERT_FALSE(test.has_value());
@@ -124,7 +124,7 @@ TEST(test_utility, test_utility_optional_change_string_value2)
     ASSERT_TRUE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_reset_int)
+TEST(test_optional, test_optional_reset_int)
 {
     aeon::common::optional<int> test = 3;
     ASSERT_TRUE(test.has_value());
@@ -133,7 +133,7 @@ TEST(test_utility, test_utility_optional_reset_int)
     ASSERT_FALSE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_reset_float)
+TEST(test_optional, test_optional_reset_float)
 {
     aeon::common::optional<float> test = 3.0f;
     ASSERT_TRUE(test.has_value());
@@ -142,7 +142,7 @@ TEST(test_utility, test_utility_optional_reset_float)
     ASSERT_FALSE(test.has_value());
 }
 
-TEST(test_utility, test_utility_optional_exception_int)
+TEST(test_optional, test_optional_exception_int)
 {
     aeon::common::optional<int> test;
 
@@ -150,7 +150,7 @@ TEST(test_utility, test_utility_optional_exception_int)
     ASSERT_THROW(int value = test; UNUSED(value);, aeon::common::optional_value_exception);
 }
 
-TEST(test_utility, test_utility_optional_exception_int2)
+TEST(test_optional, test_optional_exception_int2)
 {
     aeon::common::optional<int> test;
 
@@ -164,7 +164,7 @@ TEST(test_utility, test_utility_optional_exception_int2)
     ASSERT_EQ(1337, value);
 }
 
-TEST(test_utility, test_utility_optional_exception_float)
+TEST(test_optional, test_optional_exception_float)
 {
     aeon::common::optional<float> test;
 
@@ -172,7 +172,7 @@ TEST(test_utility, test_utility_optional_exception_float)
     ASSERT_THROW(float value = test; UNUSED(value);, aeon::common::optional_value_exception);
 }
 
-TEST(test_utility, test_utility_optional_exception_float2)
+TEST(test_optional, test_optional_exception_float2)
 {
     aeon::common::optional<float> test;
 
@@ -186,7 +186,7 @@ TEST(test_utility, test_utility_optional_exception_float2)
     ASSERT_EQ(1337.0f, value);
 }
 
-TEST(test_utility, test_utility_optional_exception_string)
+TEST(test_optional, test_optional_exception_string)
 {
     aeon::common::optional<std::string> test;
 
@@ -194,7 +194,7 @@ TEST(test_utility, test_utility_optional_exception_string)
     ASSERT_THROW(std::string value = test, aeon::common::optional_value_exception);
 }
 
-TEST(test_utility, test_utility_optional_exception_string2)
+TEST(test_optional, test_optional_exception_string2)
 {
     aeon::common::optional<std::string> test;
 
@@ -207,20 +207,20 @@ TEST(test_utility, test_utility_optional_exception_string2)
     ASSERT_EQ(std::string("Hello!"), value);
 }
 
-TEST(test_utility, test_utility_optional_compare_int)
+TEST(test_optional, test_optional_compare_int)
 {
     aeon::common::optional<int> test = 3;
 
     ASSERT_TRUE(test == 3);
 }
 
-TEST(test_utility, test_utility_optional_compare_float)
+TEST(test_optional, test_optional_compare_float)
 {
     aeon::common::optional<float> test = 3.1f;
     ASSERT_TRUE(test == 3.1f);
 }
 
-TEST(test_utility, test_utility_optional_compare_string)
+TEST(test_optional, test_optional_compare_string)
 {
     aeon::common::optional<std::string> test = std::string("Testing");
     ASSERT_TRUE(std::string(test) == std::string("Testing"));
