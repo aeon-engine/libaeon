@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <functional>
 #include <list>
 #include <mutex>
@@ -87,7 +86,7 @@ private:
 };
 
 template <class... Args>
-class[[nodiscard]] scoped_signal_connection : common::noncopyable
+class[[nodiscard]] scoped_signal_connection
 {
 public:
     scoped_signal_connection()
@@ -95,7 +94,7 @@ public:
     {
     }
 
-    scoped_signal_connection(signal_connection<Args...> && signal)
+    scoped_signal_connection(signal_connection<Args...> &&signal)
         : signal_(std::move(signal))
     {
     }
@@ -106,7 +105,7 @@ public:
             signal_.disconnect();
     }
 
-    scoped_signal_connection(scoped_signal_connection<Args...> && other)
+    scoped_signal_connection(scoped_signal_connection<Args...> &&other)
         : signal_(std::move(other.signal_))
     {
     }
@@ -116,6 +115,9 @@ public:
         signal_ = std::move(other.signal_);
         return *this;
     }
+
+    scoped_signal_connection(const scoped_signal_connection<Args...> &other) = delete;
+    scoped_signal_connection &operator=(const scoped_signal_connection &other) = delete;
 
     int get_handle() const
     {
