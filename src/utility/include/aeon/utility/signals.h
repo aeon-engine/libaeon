@@ -204,7 +204,7 @@ public:
 
     scoped_signal_connection<Args...> connect(signal_func<Args...> f)
     {
-        auto handle = ++last_handle_;
+        int handle = ++last_handle_;
         auto disconnect_func = [this, handle]() { disconnect(handle); };
         auto connection = signal_connection<Args...>(++last_handle_, f, disconnect_func);
         {
@@ -220,7 +220,7 @@ public:
         disconnect(c.get_handle());
     }
 
-    void disconnect(const handle_type handle)
+    void disconnect(const int handle)
     {
         std::lock_guard<mutex_type> guard(lock_);
         connections_.remove_if(

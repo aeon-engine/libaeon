@@ -32,6 +32,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dep/cmake")
 
 include(CompilerFlags)
 
+set(CMAKE_CXX_STANDARD 17)
+
 ################################################################################
 
 option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
