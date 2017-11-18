@@ -28,6 +28,7 @@
 #include <aeon/streams/stream_fwd.h>
 #include <aeon/common/noncopyable.h>
 #include <aeon/common/string_traits.h>
+#include <aeon/common/stdfilesystem.h>
 
 #include <exception>
 #include <vector>
@@ -150,14 +151,14 @@ public:
      * Load a config from a file
      * \param path The configfile path to load
      */
-    void load(const std::string &path);
+    void load(const std::filesystem::path &path);
 
     /*!
      * Save a config to a file
      * \param path The configfile path to save.
      *             File will be overwritten if it already exists.
      */
-    void save(const std::string &path);
+    void save(const std::filesystem::path &path);
 
     /*!
      * Load a config from memory

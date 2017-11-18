@@ -52,18 +52,18 @@ TEST(test_filesystem, test_filesystem_exists_empty)
 
 TEST_F(temporary_file_fixture, test_filesystem_exists_file)
 {
-    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path()));
+    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path().string()));
 }
 
 TEST_F(temporary_file_fixture, test_filesystem_exists_file2)
 {
-    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path()));
+    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path().string()));
 
     std::ofstream f(get_temporary_file_path(), std::ios::trunc);
-    EXPECT_TRUE(aeon::filesystem::exists(get_temporary_file_path()));
+    EXPECT_TRUE(aeon::filesystem::exists(get_temporary_file_path().string()));
     f.close();
 
     delete_temporary_file();
 
-    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path()));
+    EXPECT_FALSE(aeon::filesystem::exists(get_temporary_file_path().string()));
 }

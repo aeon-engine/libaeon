@@ -38,8 +38,9 @@ temporary_file::temporary_file()
 }
 
 temporary_file::temporary_file(const std::string &extension)
-    : path_(filesystem::generate_temporary_file_path() + "." + extension)
+    : path_(filesystem::generate_temporary_file_path())
 {
+    path_.replace_extension(extension);
 }
 
 temporary_file::~temporary_file()
@@ -48,7 +49,7 @@ temporary_file::~temporary_file()
         delete_temporary_file();
 }
 
-auto temporary_file::get_temporary_file_path() const -> std::string
+auto temporary_file::get_temporary_file_path() const -> std::filesystem::path
 {
     return path_;
 }

@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <aeon/common/stdfilesystem.h>
 #include <string>
 
 namespace aeon
@@ -40,14 +41,14 @@ public:
 
     ~temporary_file();
 
-    auto get_temporary_file_path() const -> std::string;
+    auto get_temporary_file_path() const -> std::filesystem::path;
 
     auto assert_temporary_file_present() const -> bool;
 
     void delete_temporary_file() const;
 
 protected:
-    std::string path_;
+    std::filesystem::path path_;
 };
 
 // If gtest was included before this header, enable the test fixture code.

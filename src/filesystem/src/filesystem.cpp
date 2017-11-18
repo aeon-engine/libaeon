@@ -25,6 +25,7 @@
 
 #include <aeon/filesystem/filesystem.h>
 #include <aeon/common/platform.h>
+#include <aeon/common/uuid.h>
 #include <stdexcept>
 #include <stdlib.h>
 #include <stdio.h>
@@ -76,11 +77,10 @@ void delete_directory(const std::string &path)
 #endif
 }
 
-auto generate_temporary_file_path() -> std::string
+auto generate_temporary_file_path() -> std::filesystem::path
 {
-    char file_name_buff[512];
-    char *file_path = tmpnam(file_name_buff);
-    return file_path;
+    auto uuid = common::uuid::generate();
+    return std::filesystem::temp_directory_path() / uuid.str();
 }
 
 } // namespace filesystem
