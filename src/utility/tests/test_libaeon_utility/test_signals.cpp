@@ -49,26 +49,12 @@ TEST(test_signals, test_signals_connect_parameters)
     EXPECT_GT(connection.get_handle(), 0);
 }
 
-TEST(test_signals, test_signals_connect_operator)
-{
-    aeon::utility::signal<> signal;
-    auto connection = signal += []() {};
-    EXPECT_GT(connection.get_handle(), 0);
-}
-
-TEST(test_signals, test_signals_connect_operator_parameters)
-{
-    aeon::utility::signal<int, int> signal;
-    auto connection = signal += [](int, int) {};
-    EXPECT_GT(connection.get_handle(), 0);
-}
-
 TEST(test_signals, test_signals_connect_one_and_call)
 {
     aeon::utility::signal<> signal;
 
     bool signal_called = false;
-    signal += [&signal_called]() { signal_called = true; };
+    auto connection = signal.connect([&signal_called]() { signal_called = true; });
 
     signal();
 
@@ -83,9 +69,9 @@ TEST(test_signals, test_signals_connect_multiple_and_call)
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    signal += [&signal_called]() { signal_called = true; };
-    signal += [&signal_called2]() { signal_called2 = true; };
-    signal += [&signal_called3]() { signal_called3 = true; };
+    auto connection1 = signal.connect([&signal_called]() { signal_called = true; });
+    auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
+    auto connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
 
     signal();
 
@@ -101,11 +87,11 @@ TEST(test_signals, test_signals_connect_one_and_call_parameters)
     bool signal_called = false;
     int value1 = 0;
     int value2 = 0;
-    signal += [&signal_called, &value1, &value2](int val1, int val2) {
+    auto connection = signal.connect([&signal_called, &value1, &value2](int val1, int val2) {
         signal_called = true;
         value1 = val1;
         value2 = val2;
-    };
+    });
 
     signal(42, 1337);
 
@@ -122,9 +108,9 @@ TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    signal += [&signal_called]() { signal_called = true; };
-    auto connection = signal += [&signal_called2]() { signal_called2 = true; };
-    signal += [&signal_called3]() { signal_called3 = true; };
+    auto connection1 = signal.connect([&signal_called]() { signal_called = true; });
+    auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
+    auto connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
 
     signal();
 
@@ -136,7 +122,41 @@ TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
     signal_called2 = false;
     signal_called3 = false;
 
-    signal.disconnect(connection);
+    signal.disconnect(connection2);
+
+    signal();
+
+    EXPECT_TRUE(signal_called);
+    EXPECT_FALSE(signal_called2);
+    EXPECT_TRUE(signal_called3);
+}
+
+TEST(test_signals, test_signals_connect_multiple_and_call_scoped_disconnect)
+{
+    aeon::utility::signal<> signal;
+
+    bool signal_called = false;
+    bool signal_called2 = false;
+    bool signal_called3 = false;
+
+    aeon::utility::scoped_signal_connection<> connection1;
+    aeon::utility::scoped_signal_connection<> connection3;
+
+    {
+        connection1 = signal.connect([&signal_called]() { signal_called = true; });
+        auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
+        connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
+
+        signal();
+
+        EXPECT_TRUE(signal_called);
+        EXPECT_TRUE(signal_called2);
+        EXPECT_TRUE(signal_called3);
+
+        signal_called = false;
+        signal_called2 = false;
+        signal_called3 = false;
+    }
 
     signal();
 
@@ -151,7 +171,7 @@ TEST(test_signals, test_signals_mt_sync_execution)
     std::array<int, 200> destination{};
 
     int index = 0;
-    signal += [&index, &destination] { destination[index++]++; };
+    auto connection = signal.connect([&index, &destination] { destination[index++]++; });
 
     std::vector<std::thread> threads;
     auto thread_func = [&signal] {
