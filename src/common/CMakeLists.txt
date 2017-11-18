@@ -31,6 +31,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/platform.h
     include/aeon/common/singleton.h
     include/aeon/common/string.h
+    src/string.cpp
     include/aeon/common/string_traits.h
     include/aeon/common/term_colors.h
     include/aeon/common/variant.h
@@ -39,7 +40,8 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/stdfilesystem.h
     include/aeon/common/stdoptional.h
     include/aeon/common/deprecated.h
-    src/string.cpp
+    include/aeon/common/uuid.h
+    src/uuid.cpp
 )
 
 source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
