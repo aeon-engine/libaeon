@@ -31,7 +31,7 @@ namespace streams
 {
 
 file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/)
-    : file_stream(std::filesystem::path(filename), fm)
+    : file_stream(std::filesystem::path(filename), mode, fm)
 {
 }
 
