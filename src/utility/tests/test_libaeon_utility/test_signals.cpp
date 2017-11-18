@@ -69,7 +69,7 @@ TEST(test_signals, test_signals_connect_multiple_and_call)
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    auto connection1 = signal.connect([&signal_called]() { signal_called = true; });
+    signal.connect([&signal_called]() { signal_called = true; });
     auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
     auto connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
 

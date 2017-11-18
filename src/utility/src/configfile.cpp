@@ -107,7 +107,7 @@ void configfile::load(const std::string &path)
 
 void configfile::save(const std::string &path)
 {
-    streams::file_stream stream(path, streams::access_mode::read_write | streams::access_mode::truncate,
+    streams::file_stream stream(path, streams::access_mode::write | streams::access_mode::truncate,
                                 streams::file_mode::text);
 
     save(stream);

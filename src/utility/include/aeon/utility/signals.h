@@ -87,7 +87,7 @@ private:
 };
 
 template <class... Args>
-class scoped_signal_connection : common::noncopyable
+class[[nodiscard]] scoped_signal_connection : common::noncopyable
 {
 public:
     scoped_signal_connection()
@@ -95,7 +95,7 @@ public:
     {
     }
 
-    scoped_signal_connection(signal_connection<Args...> &&signal)
+    scoped_signal_connection(signal_connection<Args...> && signal)
         : signal_(std::move(signal))
     {
     }
@@ -106,7 +106,7 @@ public:
             signal_.disconnect();
     }
 
-    scoped_signal_connection(scoped_signal_connection<Args...> &&other)
+    scoped_signal_connection(scoped_signal_connection<Args...> && other)
         : signal_(std::move(other.signal_))
     {
     }
@@ -148,7 +148,7 @@ public:
 
     ~signal() = default;
 
-    [[nodiscard]] scoped_signal_connection<Args...> connect(signal_func<Args...> f)
+    scoped_signal_connection<Args...> connect(signal_func<Args...> f)
     {
         auto handle = ++last_handle_;
         auto disconnect_func = [this, handle]() { disconnect(handle); };
@@ -202,7 +202,7 @@ public:
         connections_.clear();
     }
 
-    [[nodiscard]] scoped_signal_connection<Args...> connect(signal_func<Args...> f)
+    scoped_signal_connection<Args...> connect(signal_func<Args...> f)
     {
         auto handle = ++last_handle_;
         auto disconnect_func = [this, handle]() { disconnect(handle); };
