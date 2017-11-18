@@ -94,7 +94,7 @@ public:
     {
     }
 
-    scoped_signal_connection(signal_connection<Args...> &&signal)
+    scoped_signal_connection(signal_connection<Args...> && signal)
         : signal_(std::move(signal))
     {
     }
@@ -105,7 +105,7 @@ public:
             signal_.disconnect();
     }
 
-    scoped_signal_connection(scoped_signal_connection<Args...> &&other)
+    scoped_signal_connection(scoped_signal_connection<Args...> && other)
         : signal_(std::move(other.signal_))
     {
     }
