@@ -37,7 +37,7 @@ namespace aeon
 namespace utility
 {
 
-class asynchronizer : noncopyable
+class asynchronizer : common::noncopyable
 {
 public:
     asynchronizer() = default;
