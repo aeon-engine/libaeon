@@ -108,4 +108,4 @@ inline bool operator>=(uuid const &lhs, uuid const &rhs)
 {
     return !(lhs < rhs);
 }
-}
+} // namespace aeon::common

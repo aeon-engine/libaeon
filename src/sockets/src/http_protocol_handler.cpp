@@ -114,8 +114,9 @@ void http_protocol_handler::respond(const std::string &content_type, streams::st
                    "\r\n"
                    "Connection: close\r\n" // TODO: Support keep-alive
                    "Content-type: " +
-                   content_type + "\r\n"
-                                  "Content-Length: " +
+                   content_type +
+                   "\r\n"
+                   "Content-Length: " +
                    std::to_string(data.size()) + "\r\n\r\n";
 
     stream.write(reinterpret_cast<const std::uint8_t *>(headers.c_str()), headers.size());

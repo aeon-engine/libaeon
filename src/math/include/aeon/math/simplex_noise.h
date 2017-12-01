@@ -91,6 +91,6 @@ auto dot(const int *g, const float x, const float y) -> float;
 auto dot(const int *g, const float x, const float y, const float z) -> float;
 auto dot(const int *g, const float x, const float y, const float z, const float w) -> float;
 
-} // namespace aeon
-} // namespace math
 } // namespace simplex_noise
+} // namespace math
+} // namespace aeon

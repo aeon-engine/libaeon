@@ -77,7 +77,7 @@ static void check_close_brace(const char c, const char open_brace)
     if (!(open_brace == '{' && c == '}'))
         throw std::logic_error("Unexpected close brace.");
 }
-}
+} // namespace detail
 
 uuid::uuid()
     : data()
@@ -298,4 +298,4 @@ bool operator<(uuid const &lhs, uuid const &rhs)
 {
     return memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
 }
-}
+} // namespace aeon::common
