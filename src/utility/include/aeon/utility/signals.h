@@ -86,7 +86,8 @@ private:
 };
 
 template <class... Args>
-class [[nodiscard]] scoped_signal_connection {
+class[[nodiscard]] scoped_signal_connection
+{
 public:
     scoped_signal_connection()
         : signal_()
