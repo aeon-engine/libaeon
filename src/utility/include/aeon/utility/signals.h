@@ -56,6 +56,27 @@ public:
     {
     }
 
+    signal_connection(signal_connection<Args...> &&other)
+        : handle_(other.handle_)
+        , func_(std::move(other.func_))
+        , disconnect_(std::move(other.disconnect_))
+    {
+        other.handle_ = 0;
+    }
+
+    signal_connection &operator=(signal_connection<Args...> &&other)
+    {
+        handle_ = other.handle_;
+        func_ = std::move(other.func_);
+        disconnect_ = std::move(other.disconnect_);
+
+        other.handle_ = 0;
+        return *this;
+    }
+
+    signal_connection(const signal_connection<Args...> &other) = default;
+    signal_connection &operator=(const signal_connection<Args...> &other) = default;
+
     int get_handle() const
     {
         return handle_;
