@@ -25,7 +25,6 @@
 
 #include <aeon/hdf5/hdf5_file.h>
 #include <aeon/hdf5/hdf5_scoped_create_group.h>
-#include <aeon/filesystem/filesystem.h>
 #include <aeon/common/string.h>
 #include <string>
 #include <stdexcept>
@@ -41,33 +40,35 @@ hdf5_file::hdf5_file()
 {
 }
 
-hdf5_file::hdf5_file(const std::string &path, const hdf5_file_open_mode mode)
+hdf5_file::hdf5_file(const std::filesystem::path &path, const hdf5_file_open_mode mode)
     : file_(-1)
 {
+    const auto path_str = path.string();
+
     switch (mode)
     {
         case create:
         {
-            if (filesystem::exists(path))
+            if (std::filesystem::exists(path))
                 throw std::runtime_error("Can not create HDF5 file. File exists.");
 
-            file_ = H5Fcreate(path.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+            file_ = H5Fcreate(path_str.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
         }
         break;
         case read_only:
         {
-            if (!filesystem::exists(path))
+            if (!std::filesystem::exists(path))
                 throw std::runtime_error("Can not open HDF5 file. File doesn't exist.");
 
-            file_ = H5Fopen(path.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+            file_ = H5Fopen(path_str.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
         }
         break;
         case read_write:
         {
-            if (!filesystem::exists(path))
+            if (!std::filesystem::exists(path))
                 throw std::runtime_error("Can not open HDF5 file. File doesn't exist.");
 
-            file_ = H5Fopen(path.c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
+            file_ = H5Fopen(path_str.c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
         }
         break;
         default:

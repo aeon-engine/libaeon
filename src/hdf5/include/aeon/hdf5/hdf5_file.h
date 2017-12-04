@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/common/noncopyable.h>
+#include <aeon/common/stdfilesystem.h>
 #include <hdf5.h>
 #include <string>
 
@@ -45,7 +46,7 @@ class hdf5_file : public common::noncopyable
 {
 public:
     hdf5_file();
-    explicit hdf5_file(const std::string &path, const hdf5_file_open_mode mode);
+    explicit hdf5_file(const std::filesystem::path &path, const hdf5_file_open_mode mode);
     ~hdf5_file();
 
     hdf5_file(hdf5_file &&other);
