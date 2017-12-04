@@ -55,6 +55,11 @@ if (MONO_FOUND)
     set(AEON_ENABLE_MONO ON CACHE BOOL "")
 endif ()
 
+set(AEON_ENABLE_CURL ON CACHE BOOL "")
+set(AEON_ENABLE_SOCKETS ON CACHE BOOL "")
+set(AEON_ENABLE_MIDI ON CACHE BOOL "")
+set(AEON_ENABLE_HDF5 ON CACHE BOOL "")
+
 ################################################################################
 
 add_subdirectory(dep/googletest)
