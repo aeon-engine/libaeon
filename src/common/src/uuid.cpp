@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <random>
 #include <stdexcept>
+#include <cstring>
 
 namespace aeon::common
 {
@@ -296,6 +297,6 @@ bool operator==(uuid const &lhs, uuid const &rhs)
 
 bool operator<(uuid const &lhs, uuid const &rhs)
 {
-    return memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
+    return std::memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
 }
 } // namespace aeon::common
