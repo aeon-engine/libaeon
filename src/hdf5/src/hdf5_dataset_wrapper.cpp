@@ -30,9 +30,7 @@
 #include <aeon/hdf5/hdf5_file.h>
 #include <array>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_dataset_wrapper::hdf5_dataset_wrapper()
@@ -85,5 +83,4 @@ auto hdf5_dataset_wrapper::get_handle() const -> hid_t
     return handle_;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

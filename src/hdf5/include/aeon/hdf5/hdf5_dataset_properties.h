@@ -28,9 +28,7 @@
 #include <aeon/common/noncopyable.h>
 #include <hdf5.h>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 enum class hdf5_dataset_filltime
@@ -57,5 +55,4 @@ private:
     hid_t handle_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

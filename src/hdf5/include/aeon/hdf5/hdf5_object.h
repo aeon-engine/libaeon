@@ -29,9 +29,7 @@
 #include <chrono>
 #include <string>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 enum class hdf5_object_type
@@ -72,5 +70,4 @@ private:
     std::chrono::system_clock::time_point created_time_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

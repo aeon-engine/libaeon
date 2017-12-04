@@ -32,9 +32,7 @@
 #include <vector>
 #include <hdf5.h>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 class hdf5_file;
@@ -61,5 +59,4 @@ private:
     std::string path_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

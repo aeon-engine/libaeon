@@ -29,9 +29,7 @@
 #include <hdf5.h>
 #include <cstddef>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 enum class hdf5_array_data_type
@@ -60,5 +58,4 @@ private:
     hid_t handle_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

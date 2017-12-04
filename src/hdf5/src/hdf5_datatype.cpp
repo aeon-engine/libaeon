@@ -27,9 +27,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_datatype::hdf5_datatype()
@@ -74,5 +72,4 @@ auto hdf5_datatype::get_handle() const -> hid_t
     return handle_;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

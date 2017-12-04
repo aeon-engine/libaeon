@@ -29,9 +29,7 @@
 #include <hdf5.h>
 #include <string>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 class hdf5_scoped_create_group : public common::noncopyable
@@ -47,5 +45,4 @@ private:
     hid_t handle_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

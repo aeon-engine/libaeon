@@ -27,9 +27,7 @@
 #include <aeon/hdf5/hdf5_file.h>
 #include <stdexcept>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_iterate::hdf5_iterate()
@@ -87,5 +85,4 @@ herr_t hdf5_iterate::__iterate_callback(const std::string &name, const H5O_info_
     return 0;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

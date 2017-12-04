@@ -29,9 +29,7 @@
 #include <aeon/hdf5/hdf5_file.h>
 #include <stdexcept>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_dataset::hdf5_dataset()
@@ -101,5 +99,4 @@ void hdf5_dataset::read(std::vector<std::uint8_t> &data)
         throw std::runtime_error("Could not read from dataset. H5Dread failed.");
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

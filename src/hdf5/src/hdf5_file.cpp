@@ -30,9 +30,7 @@
 #include <stdexcept>
 #include <cassert>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_file::hdf5_file()
@@ -133,5 +131,4 @@ auto hdf5_file::get_hid() const -> hid_t
     return file_;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

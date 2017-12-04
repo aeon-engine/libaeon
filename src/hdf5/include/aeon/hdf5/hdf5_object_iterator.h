@@ -31,9 +31,7 @@
 #include <string>
 #include <vector>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 enum class iterate_mode
@@ -93,5 +91,4 @@ private:
     std::vector<hdf5_object> children_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

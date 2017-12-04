@@ -30,9 +30,7 @@
 #include <cstddef>
 #include <string>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 class hdf5_datatype;
@@ -58,5 +56,4 @@ private:
     hid_t handle_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

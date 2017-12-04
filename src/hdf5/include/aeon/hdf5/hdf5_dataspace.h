@@ -29,9 +29,7 @@
 #include <hdf5.h>
 #include <cstddef>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 class dataset;
@@ -56,5 +54,4 @@ private:
     std::size_t size_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

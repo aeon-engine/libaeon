@@ -26,9 +26,7 @@
 #include <aeon/hdf5/hdf5_dataset_properties.h>
 #include <stdexcept>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_dataset_properties::hdf5_dataset_properties()
@@ -87,5 +85,4 @@ auto hdf5_dataset_properties::get_handle() const -> hid_t
     return handle_;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

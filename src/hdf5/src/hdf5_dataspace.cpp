@@ -26,9 +26,7 @@
 #include <aeon/hdf5/hdf5_dataspace.h>
 #include <array>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_dataspace::hdf5_dataspace()
@@ -103,5 +101,4 @@ auto hdf5_dataspace::get_size() const -> std::size_t
     return size_;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

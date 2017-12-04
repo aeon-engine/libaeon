@@ -26,9 +26,7 @@
 #include <aeon/hdf5/hdf5_scoped_create_group.h>
 #include <stdexcept>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 hdf5_scoped_create_group::hdf5_scoped_create_group(const hid_t file, const std::string &name)
@@ -59,5 +57,4 @@ hdf5_scoped_create_group &hdf5_scoped_create_group::operator=(hdf5_scoped_create
     return *this;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

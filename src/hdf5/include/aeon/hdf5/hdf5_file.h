@@ -30,9 +30,7 @@
 #include <hdf5.h>
 #include <string>
 
-namespace aeon
-{
-namespace hdf5
+namespace aeon::hdf5
 {
 
 enum hdf5_file_open_mode
@@ -64,5 +62,4 @@ private:
     hid_t file_;
 };
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5

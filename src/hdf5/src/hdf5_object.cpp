@@ -25,10 +25,30 @@
 
 #include <aeon/hdf5/hdf5_object.h>
 
-namespace aeon
+namespace aeon::hdf5
 {
-namespace hdf5
+
+namespace detail
 {
+
+auto h5otype_to_object_type(const H5O_type_t type)
+{
+    switch (type)
+    {
+        case H5O_TYPE_GROUP:
+            return hdf5_object_type::group;
+        case H5O_TYPE_DATASET:
+            return hdf5_object_type::dataset;
+        case H5O_TYPE_NAMED_DATATYPE:
+            return hdf5_object_type::named_datatype;
+        case H5O_TYPE_NTYPES:
+        case H5O_TYPE_UNKNOWN:
+        default:
+            return hdf5_object_type::invalid;
+    }
+}
+
+} // namespace detail
 
 hdf5_object::hdf5_object(const std::string &name, const H5O_info_t *info)
     : name_(name)
@@ -38,22 +58,7 @@ hdf5_object::hdf5_object(const std::string &name, const H5O_info_t *info)
     , metadata_modification_time_(std::chrono::system_clock::from_time_t(info->ctime))
     , created_time_(std::chrono::system_clock::from_time_t(info->btime))
 {
-    switch (info->type)
-    {
-        case H5O_TYPE_GROUP:
-            type_ = hdf5_object_type::group;
-            break;
-        case H5O_TYPE_DATASET:
-            type_ = hdf5_object_type::dataset;
-            break;
-        case H5O_TYPE_NAMED_DATATYPE:
-            type_ = hdf5_object_type::named_datatype;
-            break;
-        case H5O_TYPE_NTYPES:
-        case H5O_TYPE_UNKNOWN:
-        default:
-            type_ = hdf5_object_type::invalid;
-    }
+    type_ = detail::h5otype_to_object_type(info->type);
 }
 
 auto hdf5_object::get_name() const -> std::string
@@ -86,5 +91,4 @@ auto hdf5_object::get_created_time() const -> std::chrono::system_clock::time_po
     return created_time_;
 }
 
-} // namespace hdf5
-} // namespace aeon
+} // namespace aeon::hdf5
