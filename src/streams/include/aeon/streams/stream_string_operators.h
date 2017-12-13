@@ -34,17 +34,18 @@ namespace streams
 {
 
 template <typename T>
-inline auto &operator>>(stream_reader<T>& reader, std::string& val)
+inline auto &operator>>(stream_reader<T> &reader, std::string &val)
 {
     val = reader.read_as_string();
     return reader;
 }
 
-inline auto &operator<<(stream_writer& writer, const std::string &value)
+inline auto &operator<<(stream_writer &writer, const std::string &value)
 {
     const auto string_length = value.size();
 
-    if (writer.internal_stream().write(reinterpret_cast<const std::uint8_t *>(value.c_str()), string_length) != string_length)
+    if (writer.internal_stream().write(reinterpret_cast<const std::uint8_t *>(value.c_str()), string_length) !=
+        string_length)
         throw std::runtime_error("Operator write failed on stream.");
 
     return writer;

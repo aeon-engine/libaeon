@@ -91,7 +91,7 @@ TEST(test_uuid, test_uuid_from_and_to_string_random)
 TEST(test_uuid, test_write_to_stream)
 {
     auto uuid = aeon::utility::uuid::generate();
-    
+
     aeon::streams::memory_stream memstream;
     aeon::streams::stream_writer writer(memstream);
 

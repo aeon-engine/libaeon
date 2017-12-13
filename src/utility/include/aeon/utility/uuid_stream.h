@@ -32,14 +32,14 @@
 namespace aeon::utility
 {
 
-inline auto operator<<(streams::stream_writer& stream, const uuid& val) -> streams::stream_writer &
+inline auto operator<<(streams::stream_writer &stream, const uuid &val) -> streams::stream_writer &
 {
     stream.internal_stream().write(val.data.data(), val.size());
     return stream;
 }
 
 template <typename T>
-inline auto operator>>(streams::stream_reader<T>& stream, uuid& val) -> streams::stream_reader<T> &
+inline auto operator>>(streams::stream_reader<T> &stream, uuid &val) -> streams::stream_reader<T> &
 {
     stream.internal_stream().read(val.data.data(), val.size());
     return stream;

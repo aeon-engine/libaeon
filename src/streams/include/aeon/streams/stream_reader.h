@@ -128,7 +128,7 @@ inline auto &stream_reader<T>::internal_stream()
 }
 
 template <typename T, typename U, class = typename std::enable_if<std::is_pod<U>::value>::type>
-inline auto &operator>>(stream_reader<T>& writer, U& val)
+inline auto &operator>>(stream_reader<T> &writer, U &val)
 {
     if (writer.internal_stream().read(reinterpret_cast<std::uint8_t *>(&val), sizeof(U)) != sizeof(U))
         throw std::runtime_error("Operator read failed on stream.");

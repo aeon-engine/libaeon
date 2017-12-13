@@ -34,7 +34,7 @@ namespace streams
 {
 
 template <typename T>
-inline auto &operator<<(stream_writer& writer, const std::vector<T>& val)
+inline auto &operator<<(stream_writer &writer, const std::vector<T> &val)
 {
     for (const auto &v : val)
         writer << v;

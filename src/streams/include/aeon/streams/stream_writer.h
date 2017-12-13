@@ -67,7 +67,7 @@ inline auto &stream_writer::internal_stream()
 }
 
 template <typename T, class = typename std::enable_if<std::is_pod<T>::value>::type>
-inline auto &operator<<(stream_writer& writer, const T& val)
+inline auto &operator<<(stream_writer &writer, const T &val)
 {
     if (writer.internal_stream().write(reinterpret_cast<const std::uint8_t *>(&val), sizeof(T)) != sizeof(T))
         throw std::runtime_error("Operator write failed on stream.");
