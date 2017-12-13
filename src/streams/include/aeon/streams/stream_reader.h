@@ -38,16 +38,6 @@ namespace aeon
 namespace streams
 {
 
-#define STREAM_READER_READ_OPERATOR(Type)                                                                              \
-    auto operator>>(Type &value)->stream_reader &                                                                      \
-    {                                                                                                                  \
-        if (stream_.read(reinterpret_cast<std::uint8_t *>(&value), sizeof(Type)) != sizeof(Type))                      \
-        {                                                                                                              \
-            throw std::runtime_error("Operator read failed on stream.");                                               \
-        }                                                                                                              \
-        return *this;                                                                                                  \
-    }
-
 template <typename T>
 class stream_reader : common::noncopyable
 {
@@ -55,19 +45,6 @@ class stream_reader : common::noncopyable
 
 public:
     explicit stream_reader(T &streamref);
-
-    STREAM_READER_READ_OPERATOR(std::int8_t)
-    STREAM_READER_READ_OPERATOR(std::int16_t)
-    STREAM_READER_READ_OPERATOR(std::int32_t)
-    STREAM_READER_READ_OPERATOR(std::int64_t)
-
-    STREAM_READER_READ_OPERATOR(std::uint8_t)
-    STREAM_READER_READ_OPERATOR(std::uint16_t)
-    STREAM_READER_READ_OPERATOR(std::uint32_t)
-    STREAM_READER_READ_OPERATOR(std::uint64_t)
-
-    STREAM_READER_READ_OPERATOR(float)
-    STREAM_READER_READ_OPERATOR(double)
 
     auto read_as_string() const;
 
@@ -147,6 +124,22 @@ template <typename T>
 inline auto &stream_reader<T>::internal_stream()
 {
     return stream_;
+}
+
+template <typename T, typename U, class = typename std::enable_if<std::is_pod<U>::value>::type>
+inline auto &operator>>(stream_reader<T>& writer, U& val)
+{
+    if (writer.internal_stream().read(reinterpret_cast<std::uint8_t *>(&val), sizeof(U)) != sizeof(U))
+        throw std::runtime_error("Operator read failed on stream.");
+
+    return writer;
+}
+
+template <typename T>
+inline auto &operator>>(stream_reader<T>& writer, std::string& val)
+{
+    val = writer.read_as_string();
+    return writer;
 }
 
 } // namespace streams
