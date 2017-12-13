@@ -135,12 +135,5 @@ inline auto &operator>>(stream_reader<T>& writer, U& val)
     return writer;
 }
 
-template <typename T>
-inline auto &operator>>(stream_reader<T>& writer, std::string& val)
-{
-    val = writer.read_as_string();
-    return writer;
-}
-
 } // namespace streams
 } // namespace aeon
