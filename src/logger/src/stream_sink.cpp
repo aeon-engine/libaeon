@@ -26,6 +26,7 @@
 #include <aeon/logger/stream_sink.h>
 #include <aeon/streams/stream.h>
 #include <aeon/streams/stream_writer.h>
+#include <aeon/streams/stream_string_operators.h>
 
 namespace aeon
 {
