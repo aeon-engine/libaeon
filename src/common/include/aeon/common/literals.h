@@ -26,6 +26,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 
 inline constexpr std::size_t operator"" _size_t(unsigned long long int x) noexcept
 {
