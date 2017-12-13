@@ -32,6 +32,7 @@ namespace streams
 
 memory_stream::memory_stream()
     : stream(access_mode::read_write)
+    , buffer_()
     , offset_(0)
     , size_(0)
 {

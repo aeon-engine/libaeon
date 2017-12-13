@@ -69,6 +69,8 @@ public:
 
     void write_line(const std::string &line) const;
 
+    auto &internal_stream();
+
 protected:
     stream &stream_;
 };
@@ -92,6 +94,11 @@ inline void stream_writer::write_line(const std::string &line) const
 {
     stream_.write(reinterpret_cast<const std::uint8_t *>(line.c_str()), line.size());
     stream_.write(reinterpret_cast<const std::uint8_t *>("\n"), 1);
+}
+
+inline auto &stream_writer::internal_stream()
+{
+    return stream_;
 }
 
 } // namespace streams

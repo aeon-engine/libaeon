@@ -32,6 +32,7 @@ add_unit_test_suite(
         test_dispatcher.cpp
         test_linear_map.cpp
         test_signals.cpp
+        test_uuid.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_utility aeon_testing

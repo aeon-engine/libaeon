@@ -77,6 +77,8 @@ public:
     template <class U = T>
     auto read_line() -> typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type;
 
+    auto &internal_stream();
+
 protected:
     T &stream_;
 };
@@ -139,6 +141,12 @@ auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, f
     }
 
     return line;
+}
+
+template <typename T>
+inline auto &stream_reader<T>::internal_stream()
+{
+    return stream_;
 }
 
 } // namespace streams

@@ -36,6 +36,9 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/signals.h
     include/aeon/utility/timer.h
     src/timer.cpp
+    include/aeon/utility/uuid.h
+    include/aeon/utility/uuid_stream.h
+    src/uuid.cpp
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

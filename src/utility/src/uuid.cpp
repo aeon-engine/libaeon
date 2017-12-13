@@ -23,14 +23,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/common/uuid.h>
+#include <aeon/utility/uuid.h>
 #include <aeon/common/literals.h>
 #include <algorithm>
 #include <random>
 #include <stdexcept>
 #include <cstring>
 
-namespace aeon::common
+namespace aeon::utility
 {
 
 namespace detail
@@ -256,6 +256,11 @@ auto uuid::str() const -> std::string
     return result;
 }
 
+auto uuid::size() const -> std::size_t
+{
+    return data.size();
+}
+
 uuid uuid::generate()
 {
     std::random_device r;
@@ -299,4 +304,4 @@ bool operator<(uuid const &lhs, uuid const &rhs)
 {
     return std::memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
 }
-} // namespace aeon::common
+} // namespace aeon::utility

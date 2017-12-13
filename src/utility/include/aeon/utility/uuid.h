@@ -29,7 +29,7 @@
 #include <cstdint>
 #include <string>
 
-namespace aeon::common
+namespace aeon::utility
 {
 
 /*!
@@ -82,6 +82,8 @@ public:
 
     auto str() const -> std::string;
 
+    auto size() const -> std::size_t;
+
     static uuid generate();
 
     data_type data;
@@ -108,4 +110,4 @@ inline bool operator>=(uuid const &lhs, uuid const &rhs)
 {
     return !(lhs < rhs);
 }
-} // namespace aeon::common
+} // namespace aeon::utility
