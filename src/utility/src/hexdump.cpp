@@ -24,6 +24,7 @@
  */
 
 #include <aeon/utility/hexdump.h>
+#include <aeon/common/literals.h>
 #include <cstdint>
 #include <cctype>
 
@@ -38,22 +39,22 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
     fputs(" offset |00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |0123456789ABCDEF|\n", dest);
     fputs("--------|------------------------------------------------|----------------|\n", dest);
 
-    std::size_t i = 0;
-    std::size_t c = 0;
-    const unsigned char *pData = reinterpret_cast<const unsigned char *>(src);
+    auto i = 0_size_t;
+    auto c = 0_size_t;
+    const unsigned char *data = reinterpret_cast<const unsigned char *>(src);
 
     for (; i < len;)
     {
-        std::size_t start = i;
+        const auto start = i;
         fprintf(dest, "%08X|", static_cast<unsigned int>(i));
         for (c = 0; c < 16 && i < len;) // write 16 bytes per line
         {
-            fprintf(dest, "%02X ", static_cast<int>(pData[i]));
+            fprintf(dest, "%02X ", static_cast<int>(data[i]));
             ++i;
             ++c;
         }
 
-        std::size_t written = c;
+        const auto written = c;
         for (; c < 16; ++c) // finish off any incomplete bytes
             fputs("   ", dest);
 
@@ -61,7 +62,7 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
         fputc('|', dest);
         for (c = 0; c < written; ++c)
         {
-            std::uint8_t byte = pData[start + c];
+            const auto byte = data[start + c];
             if (isprint(static_cast<int>(byte)))
                 fputc(static_cast<char>(byte), dest);
             else
