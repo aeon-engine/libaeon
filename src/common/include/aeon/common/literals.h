@@ -36,3 +36,8 @@ inline constexpr std::uint8_t operator"" _uint8_t(unsigned long long int x) noex
 {
     return static_cast<std::uint8_t>(x);
 }
+
+inline constexpr std::uint16_t operator"" _uint16_t(unsigned long long int x) noexcept
+{
+    return static_cast<std::uint16_t>(x);
+}
