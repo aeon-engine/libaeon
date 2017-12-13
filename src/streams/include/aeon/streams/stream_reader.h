@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <aeon/common/literals.h>
 #include <aeon/streams/stream.h>
 #include <aeon/streams/file_stream_fwd.h>
 #include <stdexcept>
@@ -85,7 +86,7 @@ template <typename U>
 auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type
 {
     std::string line;
-    std::size_t peek_size;
+    auto peek_size = 0_size_t;
     char peek_data[read_line_block_size] = {};
     while ((peek_size = stream_.read(reinterpret_cast<std::uint8_t *>(peek_data), read_line_block_size)) > 0)
     {
@@ -96,10 +97,10 @@ auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, f
         }
         else
         {
-            std::ptrdiff_t temp_size = line_end - peek_data;
+            const auto temp_size = line_end - peek_data;
             line.append(peek_data, temp_size);
 
-            std::ptrdiff_t jump_back = (static_cast<std::ptrdiff_t>(peek_size) - temp_size) - 1;
+            const auto jump_back = (static_cast<std::ptrdiff_t>(peek_size) - temp_size) - 1;
 
             if (jump_back == 0)
                 break;
