@@ -63,8 +63,8 @@ public:
     explicit uuid(const std::string &str);
     ~uuid();
 
-    uuid(uuid &) = default;
-    auto operator=(uuid &) -> uuid & = default;
+    uuid(const uuid &) = default;
+    auto operator=(const uuid &) -> uuid & = default;
 
     uuid(uuid &&) = default;
     auto operator=(uuid &&) -> uuid & = default;
