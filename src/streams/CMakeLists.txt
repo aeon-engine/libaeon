@@ -41,6 +41,8 @@ set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/stream_name_mixin.h
     include/aeon/streams/stream_reader.h
     include/aeon/streams/stream_writer.h
+    include/aeon/streams/stream_string_operators.h
+    include/aeon/streams/stream_vector_operators.h
 )
 
 source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
