@@ -44,11 +44,27 @@ TEST(test_string, test_string_ltrim_spaces)
     EXPECT_EQ("value", str);
 }
 
+TEST(test_string, test_string_ltrimsv_spaces)
+{
+    std::string str = "   value";
+    std::string_view strsv = str;
+    aeon::common::string::ltrimsv(strsv);
+    EXPECT_EQ("value", strsv);
+}
+
 TEST(test_string, test_string_ltrim_spaces_at_end)
 {
     std::string str = "value  ";
     aeon::common::string::ltrim(str);
     EXPECT_EQ("value  ", str);
+}
+
+TEST(test_string, test_string_ltrimsv_spaces_at_end)
+{
+    std::string str = "value  ";
+    std::string_view strsv = str;
+    aeon::common::string::ltrimsv(strsv);
+    EXPECT_EQ("value  ", strsv);
 }
 
 TEST(test_string, test_string_ltrim_spaces_at_end2)
@@ -58,11 +74,27 @@ TEST(test_string, test_string_ltrim_spaces_at_end2)
     EXPECT_EQ("value  ", str);
 }
 
+TEST(test_string, test_string_ltrimsv_spaces_at_end2)
+{
+    std::string str = "  value  ";
+    std::string_view strsv = str;
+    aeon::common::string::ltrimsv(strsv);
+    EXPECT_EQ("value  ", strsv);
+}
+
 TEST(test_string, test_string_rtrim_spaces)
 {
     std::string str = "value   ";
     aeon::common::string::rtrim(str);
     EXPECT_EQ("value", str);
+}
+
+TEST(test_string, test_string_rtrimsv_spaces)
+{
+    std::string str = "value   ";
+    std::string_view strsv = str;
+    aeon::common::string::rtrimsv(strsv);
+    EXPECT_EQ("value", strsv);
 }
 
 TEST(test_string, test_string_rtrim_spaces_at_beginning)
@@ -72,11 +104,27 @@ TEST(test_string, test_string_rtrim_spaces_at_beginning)
     EXPECT_EQ("   value", str);
 }
 
+TEST(test_string, test_string_rtrimsv_spaces_at_beginning)
+{
+    std::string str = "   value";
+    std::string_view strsv = str;
+    aeon::common::string::rtrimsv(strsv);
+    EXPECT_EQ("   value", strsv);
+}
+
 TEST(test_string, test_string_rtrim_spaces_at_beginning2)
 {
     std::string str = "   value   ";
     aeon::common::string::rtrim(str);
     EXPECT_EQ("   value", str);
+}
+
+TEST(test_string, test_string_rtrimsv_spaces_at_beginning2)
+{
+    std::string str = "   value   ";
+    std::string_view strsv = str;
+    aeon::common::string::rtrimsv(strsv);
+    EXPECT_EQ("   value", strsv);
 }
 
 TEST(test_string, test_string_trim)
@@ -86,11 +134,27 @@ TEST(test_string, test_string_trim)
     EXPECT_EQ("value", str);
 }
 
+TEST(test_string, test_string_trimsv)
+{
+    std::string str = "   value   ";
+    std::string_view strsv = str;
+    aeon::common::string::trimsv(strsv);
+    EXPECT_EQ("value", strsv);
+}
+
 TEST(test_string, test_string_trim2)
 {
     std::string str = "   value";
     aeon::common::string::trim(str);
     EXPECT_EQ("value", str);
+}
+
+TEST(test_string, test_string_trimsv2)
+{
+    std::string str = "   value";
+    std::string_view strsv = str;
+    aeon::common::string::trimsv(strsv);
+    EXPECT_EQ("value", strsv);
 }
 
 TEST(test_string, test_string_trim3)
@@ -100,6 +164,14 @@ TEST(test_string, test_string_trim3)
     EXPECT_EQ("value", str);
 }
 
+TEST(test_string, test_string_trimsv3)
+{
+    std::string str = "value  ";
+    std::string_view strsv = str;
+    aeon::common::string::trimsv(strsv);
+    EXPECT_EQ("value", strsv);
+}
+
 TEST(test_string, test_string_trim4)
 {
     std::string str = "value";
@@ -107,9 +179,22 @@ TEST(test_string, test_string_trim4)
     EXPECT_EQ("value", str);
 }
 
+TEST(test_string, test_string_trimsv4)
+{
+    std::string str = "value";
+    std::string_view strsv = str;
+    aeon::common::string::trimsv(strsv);
+    EXPECT_EQ("value", strsv);
+}
+
 TEST(test_string, test_string_ltrimmed)
 {
     EXPECT_EQ("value", aeon::common::string::ltrimmed("   value"));
+}
+
+TEST(test_string, test_string_ltrimmedsv)
+{
+    EXPECT_EQ("value", aeon::common::string::ltrimmedsv("   value"));
 }
 
 TEST(test_string, test_string_rtrimmed)
@@ -117,9 +202,19 @@ TEST(test_string, test_string_rtrimmed)
     EXPECT_EQ("value", aeon::common::string::rtrimmed("value   "));
 }
 
+TEST(test_string, test_string_rtrimmedsv)
+{
+    EXPECT_EQ("value", aeon::common::string::rtrimmedsv("value   "));
+}
+
 TEST(test_string, test_string_trimmed)
 {
     EXPECT_EQ("value", aeon::common::string::trimmed("   value   "));
+}
+
+TEST(test_string, test_string_trimmedsv)
+{
+    EXPECT_EQ("value", aeon::common::string::trimmedsv("   value   "));
 }
 
 TEST(test_string, test_string_trim_tabs)
@@ -127,6 +222,14 @@ TEST(test_string, test_string_trim_tabs)
     std::string str = "\t\tvalue\t\t";
     aeon::common::string::trim(str);
     EXPECT_EQ("value", str);
+}
+
+TEST(test_string, test_string_trimsv_tabs)
+{
+    std::string str = "\t\tvalue\t\t";
+    std::string_view strsv = str;
+    aeon::common::string::trimsv(strsv);
+    EXPECT_EQ("value", strsv);
 }
 
 TEST(test_string, test_string_trim_mixed)
@@ -139,14 +242,31 @@ TEST(test_string, test_string_trim_mixed)
 TEST(test_string, test_string_split_empty)
 {
     std::string str = "";
-    std::vector<std::string> result = aeon::common::string::split(str, ' ');
+    auto result = aeon::common::string::split(str, ' ');
+    ASSERT_TRUE(result.empty());
+}
+
+TEST(test_string, test_string_splitsv_empty)
+{
+    std::string str = "";
+    auto result = aeon::common::string::splitsv(str, ' ');
     ASSERT_TRUE(result.empty());
 }
 
 TEST(test_string, test_string_split)
 {
     std::string str = "one two three";
-    std::vector<std::string> result = aeon::common::string::split(str, ' ');
+    auto result = aeon::common::string::split(str, ' ');
+    ASSERT_EQ(3, result.size());
+    EXPECT_EQ("one", result[0]);
+    EXPECT_EQ("two", result[1]);
+    EXPECT_EQ("three", result[2]);
+}
+
+TEST(test_string, test_string_splitsv)
+{
+    std::string str = "one two three";
+    auto result = aeon::common::string::splitsv(str, ' ');
     ASSERT_EQ(3, result.size());
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("two", result[1]);
@@ -156,7 +276,18 @@ TEST(test_string, test_string_split)
 TEST(test_string, test_string_split_double_space)
 {
     std::string str = "one  two three";
-    std::vector<std::string> result = aeon::common::string::split(str, ' ');
+    auto result = aeon::common::string::split(str, ' ');
+    ASSERT_EQ(4, result.size());
+    EXPECT_EQ("one", result[0]);
+    EXPECT_EQ("", result[1]);
+    EXPECT_EQ("two", result[2]);
+    EXPECT_EQ("three", result[3]);
+}
+
+TEST(test_string, test_string_splitsv_double_space)
+{
+    std::string str = "one  two three";
+    auto result = aeon::common::string::splitsv(str, ' ');
     ASSERT_EQ(4, result.size());
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("", result[1]);
@@ -172,9 +303,22 @@ TEST(test_string, test_string_split_one_token)
     EXPECT_EQ("one", result[0]);
 }
 
+TEST(test_string, test_string_splitsv_one_token)
+{
+    std::string str = "one";
+    auto result = aeon::common::string::splitsv(str, ' ');
+    ASSERT_EQ(1, result.size());
+    EXPECT_EQ("one", result[0]);
+}
+
 TEST(test_string, test_string_left)
 {
     EXPECT_EQ("one", aeon::common::string::left("one two three", 3));
+}
+
+TEST(test_string, test_string_leftsv)
+{
+    EXPECT_EQ("one", aeon::common::string::leftsv("one two three", 3));
 }
 
 TEST(test_string, test_string_right)
@@ -182,14 +326,29 @@ TEST(test_string, test_string_right)
     EXPECT_EQ("ree", aeon::common::string::right("one two three", 3));
 }
 
+TEST(test_string, test_string_rightsv)
+{
+    EXPECT_EQ("ree", aeon::common::string::rightsv("one two three", 3));
+}
+
 TEST(test_string, test_utility_strip_left)
 {
     EXPECT_EQ("two three", aeon::common::string::strip_left("one two three", 4));
 }
 
+TEST(test_string, test_utility_strip_leftsv)
+{
+    EXPECT_EQ("two three", aeon::common::string::strip_leftsv("one two three", 4));
+}
+
 TEST(test_string, test_utility_strip_right)
 {
     EXPECT_EQ("one two ", aeon::common::string::strip_right("one two three", 5));
+}
+
+TEST(test_string, test_utility_strip_rightsv)
+{
+    EXPECT_EQ("one two ", aeon::common::string::strip_rightsv("one two three", 5));
 }
 
 TEST(test_string, test_utility_strip_both)
@@ -198,6 +357,14 @@ TEST(test_string, test_utility_strip_both)
     EXPECT_EQ("test", aeon::common::string::strip_both("'test'", 1));
     EXPECT_EQ("ABC", aeon::common::string::strip_both("123ABC123", 3));
     EXPECT_EQ("", aeon::common::string::strip_both("''", 1));
+}
+
+TEST(test_string, test_utility_strip_bothsv)
+{
+    EXPECT_EQ("test", aeon::common::string::strip_bothsv("test", 0));
+    EXPECT_EQ("test", aeon::common::string::strip_bothsv("'test'", 1));
+    EXPECT_EQ("ABC", aeon::common::string::strip_bothsv("123ABC123", 3));
+    EXPECT_EQ("", aeon::common::string::strip_bothsv("''", 1));
 }
 
 TEST(test_string, test_string_args_to_vector_empty)
@@ -233,6 +400,21 @@ TEST(test_string, test_string_begins_with)
     EXPECT_FALSE(aeon::common::string::begins_with("", "Blah"));
 }
 
+TEST(test_string, test_string_begins_withsv)
+{
+    EXPECT_TRUE(aeon::common::string::begins_withsv("", ""));
+    EXPECT_TRUE(aeon::common::string::begins_withsv("This is a test", "T"));
+    EXPECT_TRUE(aeon::common::string::begins_withsv("This is a test", "Th"));
+    EXPECT_TRUE(aeon::common::string::begins_withsv("This is a test", "This"));
+    EXPECT_TRUE(aeon::common::string::begins_withsv("1234 blah", "123"));
+
+    EXPECT_FALSE(aeon::common::string::begins_withsv("This is a test", "test"));
+    EXPECT_FALSE(aeon::common::string::begins_withsv("This is a test", "this"));
+    EXPECT_FALSE(aeon::common::string::begins_withsv("This is a test", "his"));
+    EXPECT_FALSE(aeon::common::string::begins_withsv("1234 blah", "blah"));
+    EXPECT_FALSE(aeon::common::string::begins_withsv("", "Blah"));
+}
+
 TEST(test_string, test_string_ends_with)
 {
     EXPECT_TRUE(aeon::common::string::ends_with("", ""));
@@ -246,4 +428,19 @@ TEST(test_string, test_string_ends_with)
     EXPECT_FALSE(aeon::common::string::ends_with("This is a test", "Test"));
     EXPECT_FALSE(aeon::common::string::ends_with("1234 blah", "1234"));
     EXPECT_FALSE(aeon::common::string::ends_with("", "Blah"));
+}
+
+TEST(test_string, test_string_ends_withsv)
+{
+    EXPECT_TRUE(aeon::common::string::ends_withsv("", ""));
+    EXPECT_TRUE(aeon::common::string::ends_withsv("This is a test", "t"));
+    EXPECT_TRUE(aeon::common::string::ends_withsv("This is a test", "est"));
+    EXPECT_TRUE(aeon::common::string::ends_withsv("This is a test", "test"));
+    EXPECT_TRUE(aeon::common::string::ends_withsv("1234 blah", " blah"));
+
+    EXPECT_FALSE(aeon::common::string::ends_withsv("This is a test", "This"));
+    EXPECT_FALSE(aeon::common::string::ends_withsv("This is a test", "is"));
+    EXPECT_FALSE(aeon::common::string::ends_withsv("This is a test", "Test"));
+    EXPECT_FALSE(aeon::common::string::ends_withsv("1234 blah", "1234"));
+    EXPECT_FALSE(aeon::common::string::ends_withsv("", "Blah"));
 }

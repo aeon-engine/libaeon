@@ -25,16 +25,13 @@
 
 #include <aeon/common/string.h>
 #include <aeon/common/literals.h>
+#include <aeon/common/container.h>
 #include <sstream>
 #include <algorithm>
 #include <functional>
 #include <cctype>
 
-namespace aeon
-{
-namespace common
-{
-namespace string
+namespace aeon::common::string
 {
 
 auto split(const std::string &str, char delim, std::vector<std::string> &elements) -> std::vector<std::string> &
@@ -57,14 +54,52 @@ auto split(const std::string &str, char delim) -> std::vector<std::string>
     return elements;
 }
 
+auto splitsv(const std::string_view &str, char delim, std::vector<std::string_view> &elements)
+    -> std::vector<std::string_view>
+{
+    auto start = 0_size_t;
+    auto pos = str.find_first_of(delim, start);
+
+    while (pos != std::string_view::npos)
+    {
+        elements.push_back(str.substr(start, pos - start));
+        start = pos + 1;
+        pos = str.find_first_of(delim, start);
+    }
+
+    if (start < str.length())
+        elements.push_back(str.substr(start, str.length() - start));
+
+    return elements;
+}
+
+auto splitsv(const std::string_view &str, char delim) -> std::vector<std::string_view>
+{
+    std::vector<std::string_view> elements;
+    splitsv(str, delim, elements);
+    return elements;
+}
+
 void ltrim(std::string &str)
 {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](const int c) { return !std::isspace(c); }));
 }
 
+void ltrimsv(std::string_view &str)
+{
+    str.remove_prefix(
+        container::count_until(std::begin(str), std::end(str), [](const int c) { return !std::isspace(c); }));
+}
+
 void rtrim(std::string &str)
 {
     str.erase(std::find_if(str.rbegin(), str.rend(), [](const int c) { return !std::isspace(c); }).base(), str.end());
+}
+
+void rtrimsv(std::string_view &str)
+{
+    str.remove_suffix(
+        container::count_until(std::rbegin(str), std::rend(str), [](const int c) { return !std::isspace(c); }));
 }
 
 void trim(std::string &str)
@@ -73,10 +108,23 @@ void trim(std::string &str)
     rtrim(str);
 }
 
+void trimsv(std::string_view &str)
+{
+    ltrimsv(str);
+    rtrimsv(str);
+}
+
 auto ltrimmed(const std::string &str) -> std::string
 {
     auto trimstr = str;
     ltrim(trimstr);
+    return trimstr;
+}
+
+auto ltrimmedsv(const std::string_view &str) -> std::string_view
+{
+    auto trimstr = str;
+    ltrimsv(trimstr);
     return trimstr;
 }
 
@@ -87,6 +135,13 @@ auto rtrimmed(const std::string &str) -> std::string
     return trimstr;
 }
 
+auto rtrimmedsv(const std::string_view &str) -> std::string_view
+{
+    auto trimstr = str;
+    rtrimsv(trimstr);
+    return trimstr;
+}
+
 auto trimmed(const std::string &str) -> std::string
 {
     auto trimstr = str;
@@ -94,7 +149,19 @@ auto trimmed(const std::string &str) -> std::string
     return trimstr;
 }
 
+auto trimmedsv(const std::string_view &str) -> std::string_view
+{
+    auto trimstr = str;
+    trimsv(trimstr);
+    return trimstr;
+}
+
 auto left(const std::string &str, std::size_t len) -> std::string
+{
+    return str.substr(0, len);
+}
+
+auto leftsv(const std::string_view &str, std::size_t len) -> std::string_view
 {
     return str.substr(0, len);
 }
@@ -104,7 +171,17 @@ auto right(const std::string &str, std::size_t len) -> std::string
     return str.substr(str.size() - len);
 }
 
+auto rightsv(const std::string_view &str, std::size_t len) -> std::string_view
+{
+    return str.substr(str.size() - len);
+}
+
 auto strip_left(const std::string &str, std::size_t len) -> std::string
+{
+    return str.substr(len);
+}
+
+auto strip_leftsv(const std::string_view &str, std::size_t len) -> std::string_view
 {
     return str.substr(len);
 }
@@ -114,7 +191,17 @@ auto strip_right(const std::string &str, std::size_t len) -> std::string
     return str.substr(0, str.size() - len);
 }
 
+auto strip_rightsv(const std::string_view &str, std::size_t len) -> std::string_view
+{
+    return str.substr(0, str.size() - len);
+}
+
 auto strip_both(const std::string &str, std::size_t len) -> std::string
+{
+    return str.substr(len, str.size() - len - len);
+}
+
+auto strip_bothsv(const std::string_view &str, std::size_t len) -> std::string_view
 {
     return str.substr(len, str.size() - len - len);
 }
@@ -170,6 +257,14 @@ auto begins_with(const std::string &str, const std::string &val) -> bool
     return left(str, val.size()) == val;
 }
 
+auto begins_withsv(const std::string_view &str, const std::string_view &val) -> bool
+{
+    if (str.size() < val.size())
+        return false;
+
+    return leftsv(str, val.size()) == val;
+}
+
 auto ends_with(const std::string &str, const std::string &val) -> bool
 {
     if (str.size() < val.size())
@@ -178,6 +273,12 @@ auto ends_with(const std::string &str, const std::string &val) -> bool
     return right(str, val.size()) == val;
 }
 
-} // namespace string
-} // namespace common
-} // namespace aeon
+auto ends_withsv(const std::string_view &str, const std::string_view &val) -> bool
+{
+    if (str.size() < val.size())
+        return false;
+
+    return rightsv(str, val.size()) == val;
+}
+
+} // namespace aeon::common::string
