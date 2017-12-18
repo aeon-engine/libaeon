@@ -46,6 +46,14 @@ TEST(test_uuid, test_uuid_is_nil)
     ASSERT_TRUE(uuid.is_nil());
 }
 
+TEST(test_uuid, test_uuid_create_nil_is_nil)
+{
+    auto uuid = aeon::utility::uuid::nil();
+    aeon::utility::uuid uuid2;
+    ASSERT_TRUE(uuid.is_nil());
+    ASSERT_EQ(uuid, uuid2);
+}
+
 TEST(test_uuid, test_uuid_random)
 {
     auto uuid = aeon::utility::uuid::generate();

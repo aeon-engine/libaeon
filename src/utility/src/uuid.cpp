@@ -265,7 +265,7 @@ auto uuid::size() const noexcept -> std::size_t
     return data.size();
 }
 
-uuid uuid::generate()
+auto uuid::generate() -> uuid
 {
     std::random_device r;
     std::default_random_engine e1(r());
@@ -298,6 +298,11 @@ uuid uuid::generate()
     *(u.begin() + 6) |= 0x40; // 0b01000000
 
     return u;
+}
+
+auto uuid::nil() noexcept -> uuid
+{
+    return {};
 }
 
 bool operator==(uuid const &lhs, uuid const &rhs) noexcept

@@ -84,7 +84,9 @@ public:
 
     auto size() const noexcept -> std::size_t;
 
-    static uuid generate();
+    static auto generate() -> uuid;
+
+    static auto nil() noexcept -> uuid;
 
     data_type data;
 };
