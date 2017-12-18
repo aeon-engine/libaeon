@@ -59,54 +59,54 @@ public:
         version_name_based_sha1 = 5
     };
 
-    uuid();
+    uuid() noexcept;
     explicit uuid(const std::string &str);
-    ~uuid();
+    ~uuid() noexcept;
 
-    uuid(const uuid &) = default;
-    auto operator=(const uuid &) -> uuid & = default;
+    uuid(const uuid &) noexcept = default;
+    auto operator=(const uuid &) noexcept -> uuid & = default;
 
-    uuid(uuid &&) = default;
-    auto operator=(uuid &&) -> uuid & = default;
+    uuid(uuid &&) noexcept = default;
+    auto operator=(uuid &&) noexcept -> uuid & = default;
 
-    auto begin() -> data_type::iterator;
-    auto begin() const -> data_type::const_iterator;
-    auto end() -> data_type::iterator;
-    auto end() const -> data_type::const_iterator;
+    auto begin() noexcept -> data_type::iterator;
+    auto begin() const noexcept -> data_type::const_iterator;
+    auto end() noexcept -> data_type::iterator;
+    auto end() const noexcept -> data_type::const_iterator;
 
-    bool is_nil() const;
+    bool is_nil() const noexcept;
 
-    auto variant() const -> variant_type;
+    auto variant() const noexcept -> variant_type;
 
-    auto version() const -> version_type;
+    auto version() const noexcept -> version_type;
 
     auto str() const -> std::string;
 
-    auto size() const -> std::size_t;
+    auto size() const noexcept -> std::size_t;
 
     static uuid generate();
 
     data_type data;
 };
 
-bool operator==(uuid const &lhs, uuid const &rhs);
-bool operator<(uuid const &lhs, uuid const &rhs);
+bool operator==(uuid const &lhs, uuid const &rhs) noexcept;
+bool operator<(uuid const &lhs, uuid const &rhs) noexcept;
 
-inline bool operator!=(uuid const &lhs, uuid const &rhs)
+inline bool operator!=(uuid const &lhs, uuid const &rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-inline bool operator>(uuid const &lhs, uuid const &rhs)
+inline bool operator>(uuid const &lhs, uuid const &rhs) noexcept
 {
     return rhs < lhs;
 }
-inline bool operator<=(uuid const &lhs, uuid const &rhs)
+inline bool operator<=(uuid const &lhs, uuid const &rhs) noexcept
 {
     return !(rhs < lhs);
 }
 
-inline bool operator>=(uuid const &lhs, uuid const &rhs)
+inline bool operator>=(uuid const &lhs, uuid const &rhs) noexcept
 {
     return !(lhs < rhs);
 }

@@ -36,7 +36,7 @@ namespace aeon::utility
 namespace detail
 {
 
-static auto to_char(const size_t i)
+static auto to_char(const size_t i) noexcept
 {
     if (i <= 9)
         return static_cast<char>('0' + i);
@@ -52,17 +52,17 @@ static auto get_next_char(std::string::const_iterator &begin, std::string::const
     return *begin++;
 }
 
-static auto is_open_brace(const char c)
+static auto is_open_brace(const char c) noexcept
 {
     return (c == '{');
 }
 
-static auto is_dash(const char c)
+static auto is_dash(const char c) noexcept
 {
     return c == '-';
 }
 
-static auto get_value(const char c)
+static auto get_value(const char c) noexcept
 {
     static char const *const digits_begin = "0123456789abcdefABCDEF";
     static char const *const digits_end = digits_begin + 22;
@@ -81,7 +81,7 @@ static void check_close_brace(const char c, const char open_brace)
 }
 } // namespace detail
 
-uuid::uuid()
+uuid::uuid() noexcept
     : data()
 {
     std::fill(data.begin(), data.end(), 0_uint8_t);
@@ -150,29 +150,29 @@ uuid::uuid(const std::string &str)
     }
 }
 
-uuid::~uuid() = default;
+uuid::~uuid() noexcept = default;
 
-auto uuid::begin() -> data_type::iterator
+auto uuid::begin() noexcept -> data_type::iterator
 {
     return data.begin();
 }
 
-auto uuid::begin() const -> data_type::const_iterator
+auto uuid::begin() const noexcept -> data_type::const_iterator
 {
     return data.cbegin();
 }
 
-auto uuid::end() -> data_type::iterator
+auto uuid::end() noexcept -> data_type::iterator
 {
     return data.end();
 }
 
-auto uuid::end() const -> data_type::const_iterator
+auto uuid::end() const noexcept -> data_type::const_iterator
 {
     return data.cend();
 }
 
-bool uuid::is_nil() const
+bool uuid::is_nil() const noexcept
 {
     for (auto i : data)
     {
@@ -182,7 +182,7 @@ bool uuid::is_nil() const
     return true;
 }
 
-auto uuid::variant() const -> variant_type
+auto uuid::variant() const noexcept -> variant_type
 {
     // variant is stored in octet 7
     // which is index 8, since indexes count backwards
@@ -205,7 +205,7 @@ auto uuid::variant() const -> variant_type
     }
 }
 
-auto uuid::version() const -> version_type
+auto uuid::version() const noexcept -> version_type
 {
     // version is stored in octet 9
     // which is index 6, since indexes count backwards
@@ -260,7 +260,7 @@ auto uuid::str() const -> std::string
     return result;
 }
 
-auto uuid::size() const -> std::size_t
+auto uuid::size() const noexcept -> std::size_t
 {
     return data.size();
 }
@@ -300,12 +300,12 @@ uuid uuid::generate()
     return u;
 }
 
-bool operator==(uuid const &lhs, uuid const &rhs)
+bool operator==(uuid const &lhs, uuid const &rhs) noexcept
 {
     return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-bool operator<(uuid const &lhs, uuid const &rhs)
+bool operator<(uuid const &lhs, uuid const &rhs) noexcept
 {
     return std::memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
 }

@@ -37,12 +37,12 @@ namespace common
 class noncopyable
 {
 public:
-    noncopyable() = default;
-    virtual ~noncopyable() = default;
-    noncopyable(const noncopyable &) = delete;
-    noncopyable &operator=(const noncopyable &) = delete;
-    noncopyable(noncopyable &&o) = default;
-    noncopyable &operator=(noncopyable &&other) = default;
+    noncopyable() noexcept = default;
+    virtual ~noncopyable() noexcept = default;
+    noncopyable(const noncopyable &) noexcept = delete;
+    noncopyable &operator=(const noncopyable &) noexcept = delete;
+    noncopyable(noncopyable &&o) noexcept = default;
+    noncopyable &operator=(noncopyable &&other) noexcept = default;
 };
 
 } // namespace common

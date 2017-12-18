@@ -116,27 +116,27 @@ public:
         }
     }
 
-    auto int_value() const
+    auto int_value() const noexcept
     {
         return int_value_;
     }
 
-    auto float_value() const
+    auto float_value() const noexcept
     {
         return float_value_;
     }
 
-    auto bool_value() const
+    auto bool_value() const noexcept
     {
         return bool_value_;
     }
 
-    const auto &string_value() const
+    const auto &string_value() const noexcept
     {
         return string_value_;
     }
 
-    auto type() const
+    auto type() const noexcept
     {
         return type_;
     }

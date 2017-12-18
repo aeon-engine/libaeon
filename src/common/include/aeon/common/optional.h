@@ -54,10 +54,10 @@ public:
     {
     }
 
-    optional(optional &&) = default;
-    optional &operator=(optional &&) = default;
+    optional(optional &&) noexcept = default;
+    optional &operator=(optional &&) noexcept = default;
 
-    bool has_value() const
+    bool has_value() const noexcept
     {
         return has_value_;
     }
@@ -70,7 +70,7 @@ public:
         return value_;
     }
 
-    void reset()
+    void reset() noexcept
     {
         has_value_ = false;
     }

@@ -59,12 +59,12 @@ public:
             throw std::runtime_error("Singleton could not be created.");
     }
 
-    virtual ~singleton()
+    virtual ~singleton() noexcept
     {
         instance_ = nullptr;
     }
 
-    static type *create()
+    static auto *create()
     {
         return new type;
     }
@@ -74,7 +74,7 @@ public:
         delete instance_;
     }
 
-    static type &get_singleton()
+    static auto &get_singleton()
     {
         if (!instance_)
             throw std::runtime_error("Singleton instance is null.");
@@ -82,7 +82,7 @@ public:
         return *instance_;
     }
 
-    static type *get_singleton_ptr()
+    static auto get_singleton_ptr() noexcept
     {
         return instance_;
     }
