@@ -61,8 +61,8 @@ auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
     return c_ptr;
 }
 
-template <typename container_t, typename predicate_t>
-void erase_if(container_t &items, const predicate_t &predicate)
+template <typename container_t, typename unary_predicate_t>
+void erase_if(container_t &items, const unary_predicate_t &predicate)
 {
     for (auto itr = items.begin(); itr != items.end();)
     {
@@ -89,8 +89,8 @@ constexpr auto make_array2(T &&... values)
         std::forward<T>(values)...};
 }
 
-template <typename InputIt, typename UnaryPredicate>
-auto count_until(InputIt first, InputIt last, UnaryPredicate p) noexcept
+template <typename input_itr_t, typename unary_predicate_t>
+auto count_until(input_itr_t first, input_itr_t last, unary_predicate_t p) noexcept
 {
     auto count = 0_size_t;
 
