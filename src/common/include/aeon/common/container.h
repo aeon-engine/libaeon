@@ -25,19 +25,16 @@
 
 #pragma once
 
+#include <aeon/common/literals.h>
 #include <vector>
 #include <memory>
 #include <array>
 
-namespace aeon
-{
-namespace utility
-{
-namespace container
+namespace aeon::common::container
 {
 
 template <typename T>
-std::vector<T *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
     std::vector<T *> c_ptr;
     c_ptr.reserve(c.size());
@@ -47,11 +44,11 @@ std::vector<T *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
         c_ptr.push_back(i.get());
     }
 
-    return std::move(c_ptr);
+    return c_ptr;
 }
 
 template <typename U, typename T>
-std::vector<U *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
     std::vector<U *> c_ptr;
     c_ptr.reserve(c.size());
@@ -61,7 +58,7 @@ std::vector<U *> unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
         c_ptr.push_back(i.get());
     }
 
-    return std::move(c_ptr);
+    return c_ptr;
 }
 
 template <typename container_t, typename predicate_t>
@@ -92,6 +89,18 @@ constexpr auto make_array2(T &&... values)
         std::forward<T>(values)...};
 }
 
-} // namespace container
-} // namespace utility
-} // namespace aeon
+template <typename InputIt, typename UnaryPredicate>
+auto count_until(InputIt first, InputIt last, UnaryPredicate p) noexcept
+{
+    auto count = 0_size_t;
+
+    for (; first != last; ++first, ++count)
+    {
+        if (p(*first))
+            return count;
+    }
+
+    return count;
+}
+
+} // namespace aeon::common::container

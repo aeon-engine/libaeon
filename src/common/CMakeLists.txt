@@ -24,6 +24,7 @@
 set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/bitflags.h
     include/aeon/common/compilers.h
+    include/aeon/common/container.h
     include/aeon/common/endianness.h
     include/aeon/common/literals.h
     include/aeon/common/noncopyable.h
