@@ -35,7 +35,8 @@ namespace aeon::utility
 
 namespace detail
 {
-static auto to_char(size_t i)
+
+static auto to_char(const size_t i)
 {
     if (i <= 9)
         return static_cast<char>('0' + i);
@@ -94,17 +95,17 @@ uuid::uuid(const std::string &str)
 
     // check open brace
     auto c = detail::get_next_char(begin, end);
-    bool has_open_brace = detail::is_open_brace(c);
-    auto open_brace_char = c;
+    const bool has_open_brace = detail::is_open_brace(c);
+    const auto open_brace_char = c;
     if (has_open_brace)
         c = detail::get_next_char(begin, end);
 
     bool has_dashes = false;
 
     int i = 0;
-    for (auto it_byte = data.begin(); it_byte != data.end(); ++it_byte, ++i)
+    for (auto &val : data)
     {
-        if (it_byte != data.begin())
+        if (i != 0)
         {
             c = detail::get_next_char(begin, end);
         }
@@ -133,11 +134,12 @@ uuid::uuid(const std::string &str)
             }
         }
 
-        *it_byte = detail::get_value(c);
+        val = detail::get_value(c);
 
         c = detail::get_next_char(begin, end);
-        *it_byte <<= 4;
-        *it_byte |= detail::get_value(c);
+        val <<= 4;
+        val |= detail::get_value(c);
+        ++i;
     }
 
     // check close brace
@@ -184,7 +186,7 @@ auto uuid::variant() const -> variant_type
 {
     // variant is stored in octet 7
     // which is index 8, since indexes count backwards
-    unsigned char octet7 = data[8]; // octet 7 is array index 8
+    const auto octet7 = data[8]; // octet 7 is array index 8
     if ((octet7 & 0x80) == 0x00)
     { // 0b0xxxxxxx
         return variant_type::variant_ncs;
@@ -207,7 +209,7 @@ auto uuid::version() const -> version_type
 {
     // version is stored in octet 9
     // which is index 6, since indexes count backwards
-    uint8_t octet9 = data[6];
+    const auto octet9 = data[6];
     if ((octet9 & 0xF0) == 0x10)
     {
         return version_type::version_time_based;
@@ -239,19 +241,21 @@ auto uuid::str() const -> std::string
     std::string result;
     result.reserve(36);
 
-    std::size_t i = 0;
-    for (auto it_data = data.begin(); it_data != data.end(); ++it_data, ++i)
+    auto i = 0_size_t;
+    for (const auto val : data)
     {
-        const size_t hi = ((*it_data) >> 4) & 0x0F;
+        const size_t hi = (val >> 4) & 0x0F;
         result += detail::to_char(hi);
 
-        const size_t lo = (*it_data) & 0x0F;
+        const size_t lo = val & 0x0F;
         result += detail::to_char(lo);
 
         if (i == 3 || i == 5 || i == 7 || i == 9)
         {
             result += '-';
         }
+
+        ++i;
     }
     return result;
 }
@@ -265,13 +269,13 @@ uuid uuid::generate()
 {
     std::random_device r;
     std::default_random_engine e1(r());
-    std::uniform_int_distribution<unsigned long> uniform_dist;
+    const std::uniform_int_distribution<unsigned long> uniform_dist;
 
     uuid u;
 
     int i = 0;
     unsigned long random_value = uniform_dist(e1);
-    for (auto it = u.data.begin(); it != u.data.end(); ++it, ++i)
+    for (auto &val : u.data)
     {
         if (i == sizeof(unsigned long))
         {
@@ -279,7 +283,8 @@ uuid uuid::generate()
             i = 0;
         }
 
-        *it = static_cast<uuid::value_type>((random_value >> (i * 8)) & 0xFF);
+        val = static_cast<uuid::value_type>((random_value >> (i * 8)) & 0xFF);
+        ++i;
     }
 
     // set variant
