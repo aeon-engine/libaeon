@@ -41,6 +41,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/stdfilesystem.h
     include/aeon/common/stdoptional.h
     include/aeon/common/deprecated.h
+    include/aeon/common/dllexport.h
 )
 
 source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
