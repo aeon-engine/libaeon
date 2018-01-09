@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017 Robin Degen
+ * Copyright (c) 2012-2018 Robin Degen
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,7 +30,7 @@
  * AEON_PLATFORM_OS_WINDOWS
  * AEON_PLATFORM_OS_WINDOWS_CYGWIN
  * AEON_PLATFORM_OS_LINUX
- * AEON_PLATFORM_OS_OSX
+ * AEON_PLATFORM_OS_MACOS (AEON_PLATFORM_OS_OSX for backwards compatibility)
  * AEON_PLATFORM_OS_BSD
  * AEON_PLATFORM_OS_ANDROID
  * AEON_PLATFORM_OS_IOS
@@ -51,6 +51,7 @@
 
 #if (defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
 #define AEON_PLATFORM_OS_OSX 1
+#define AEON_PLATFORM_OS_MACOS 1
 #endif
 
 #if (defined(BSD) || defined(_SYSTYPE_BSD))
