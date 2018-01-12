@@ -25,6 +25,7 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/asynchronizer.h
     include/aeon/utility/configfile.h
     src/configfile.cpp
+    include/aeon/utility/cached_container.h
     include/aeon/utility/dispatcher.h
     include/aeon/utility/hexdump.h
     src/hexdump.cpp
