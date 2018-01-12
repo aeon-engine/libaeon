@@ -269,7 +269,7 @@ auto uuid::generate() -> uuid
 {
     std::random_device r;
     std::default_random_engine e1(r());
-    const std::uniform_int_distribution<unsigned long> uniform_dist;
+    std::uniform_int_distribution<unsigned long> uniform_dist;
 
     uuid u;
 
