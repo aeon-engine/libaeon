@@ -1,12 +1,12 @@
 libAeon [![Travis-CI](https://travis-ci.org/aeon-engine/libaeon.svg?branch=master)](https://travis-ci.org/aeon-engine/libaeon) [![Coverity](https://scan.coverity.com/projects/11819/badge.svg)](https://scan.coverity.com/projects/libaeon)
 ==============
-A general purpose C++14 support library.
+A general purpose C++17 support library.
 
 License
 --------------
 The Aeon Library is released under the MIT license.
 
-Copyright (c) 2012-2017 Robin Degen
+Copyright (c) 2012-2018 Robin Degen
 
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -36,7 +36,7 @@ style as established in the existing code. When in doubt, ask Robin Degen.
 
 In short:
 
-- Prefer C++14 standards above boost or any other library
+- Prefer C++17 standards above boost or any other library
 - 4 spaces, no tabs.
 - No CamelCase. Variables and types must be named_like_this.
 - 120 character maximum line length.
