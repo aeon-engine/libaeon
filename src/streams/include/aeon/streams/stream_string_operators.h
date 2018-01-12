@@ -29,6 +29,8 @@
 #include <aeon/streams/stream_writer.h>
 #include <limits>
 #include <cassert>
+#include <string_view>
+#include <string>
 
 namespace aeon
 {
@@ -42,14 +44,26 @@ inline auto &operator>>(stream_reader<T> &reader, std::string &val)
     return reader;
 }
 
-inline auto &operator<<(stream_writer &writer, const std::string &value)
+inline auto &operator<<(stream_writer &writer, const std::string_view &value)
 {
     const auto string_length = value.size();
 
-    if (writer.internal_stream().write(reinterpret_cast<const std::uint8_t *>(value.c_str()), string_length) !=
+    if (writer.internal_stream().write(reinterpret_cast<const std::uint8_t *>(value.data()), string_length) !=
         string_length)
         throw std::runtime_error("Operator write failed on stream.");
 
+    return writer;
+}
+
+inline auto &operator<<(stream_writer &writer, const std::string &value)
+{
+    writer << std::string_view{value};
+    return writer;
+}
+
+inline auto &operator<<(stream_writer &writer, const char *value)
+{
+    writer << std::string_view{value};
     return writer;
 }
 
