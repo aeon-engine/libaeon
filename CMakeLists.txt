@@ -25,6 +25,10 @@ cmake_minimum_required(VERSION 3.10)
 
 project(libAeon)
 
+# Create compile_commands.json when possible, which can be used for
+# analysis tools.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include(CTest)
 enable_testing()
 
