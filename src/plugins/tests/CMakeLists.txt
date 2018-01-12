@@ -21,48 +21,28 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Curl
-option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." OFF)
+include(Unittests)
 
-# Mono
-option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
+add_unit_test_suite(
+    NO_GTEST_MAIN
+    TARGET test_libaeon_plugins
+    SOURCES
+        main.cpp
+        test_plugin_loader.cpp
+    LIBRARIES aeon_plugins
+    INCLUDES plugins/include
+    FOLDER dep/libaeon/tests
+)
 
-# Sockets
-option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
-
-# Midi
-option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
-
-# HDF5
-option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
-
-################################################################################
-
-add_subdirectory(common)
-add_subdirectory(streams)
-add_subdirectory(utility)
-add_subdirectory(filesystem)
-add_subdirectory(testing)
-add_subdirectory(math)
-add_subdirectory(logger)
-add_subdirectory(plugins)
-
-if (AEON_ENABLE_CURL)
-    add_subdirectory(curl)
-endif ()
-
-if (AEON_ENABLE_MONO)
-    add_subdirectory(mono)
-endif ()
-
-if (AEON_ENABLE_MIDI)
-    add_subdirectory(midi)
-endif ()
-
-if (AEON_ENABLE_SOCKETS)
-    add_subdirectory(sockets)
-endif ()
-
-if (AEON_ENABLE_HDF5)
-    add_subdirectory(hdf5)
-endif ()
+add_library(testplugin1 SHARED
+    plugins/src/testplugin1.cpp
+    plugins/include/itestplugin1.h
+)
+target_link_libraries(testplugin1 aeon_plugins)
+target_include_directories(testplugin1 PRIVATE plugins/include)
+set_target_properties(testplugin1 PROPERTIES
+    FOLDER dep/libaeon/tests/plugins
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    PREFIX ""
+)

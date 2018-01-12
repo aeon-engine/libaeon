@@ -21,41 +21,24 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-set(LIB_AEON_COMMON_SOURCE
-    include/aeon/common/bitflags.h
-    include/aeon/common/compilers.h
-    include/aeon/common/container.h
-    include/aeon/common/endianness.h
-    include/aeon/common/literals.h
-    include/aeon/common/noncopyable.h
-    include/aeon/common/optional.h
-    include/aeon/common/platform.h
-    include/aeon/common/singleton.h
-    include/aeon/common/string.h
-    src/string.cpp
-    include/aeon/common/string_traits.h
-    include/aeon/common/term_colors.h
-    include/aeon/common/variant.h
-    include/aeon/common/unused.h
-    include/aeon/common/type_traits.h
-    include/aeon/common/stdfilesystem.h
-    include/aeon/common/stdoptional.h
-    include/aeon/common/deprecated.h
-    include/aeon/common/dll_export.h
-    include/aeon/common/dll_loader.h
-    src/dll_loader.cpp
+set(LIB_AEON_PLUGINS_SOURCE
+    include/aeon/plugins/plugin.h
+    src/plugin.cpp
+    include/aeon/plugins/plugin_loader.h
+    src/plugin_loader.cpp
 )
 
-source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
+source_group(plugins FILES ${LIB_AEON_PLUGINS_SOURCE})
 
-add_library(aeon_common STATIC ${LIB_AEON_COMMON_SOURCE})
+add_library(aeon_plugins STATIC ${LIB_AEON_PLUGINS_SOURCE})
 
-set_target_properties(aeon_common PROPERTIES
+set_target_properties(aeon_plugins PROPERTIES
     FOLDER dep/libaeon
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_common PUBLIC include)
+target_include_directories(aeon_plugins PUBLIC include)
+target_link_libraries(aeon_plugins aeon_common aeon_utility)
 
 install(
     DIRECTORY include
