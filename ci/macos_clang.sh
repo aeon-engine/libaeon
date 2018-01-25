@@ -1,0 +1,1 @@
+ctest -C Debug --verbose
