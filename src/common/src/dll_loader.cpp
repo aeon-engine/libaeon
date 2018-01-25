@@ -63,7 +63,18 @@ void *get_dll_proc_address(const dll_handle handle, const char *proc)
 #elif (defined(AEON_PLATFORM_OS_LINUX) || defined(AEON_PLATFORM_OS_MACOS))
 dll_handle get_dll_handle(const char *filename)
 {
+#if (defined(AEON_PLATFORM_OS_LINUX))
+    // On linux, the given path must be prepended by "./", otherwise
+    // the .so file will not get loaded as expected.
+    //
+    // From the documentation (https://linux.die.net/man/3/dlopen):
+    // "If filename contains a slash ("/"), then it is interpreted as a
+    // (relative or absolute) pathname. Otherwise, the dynamic linker searches
+    // for the library (...)"
+    const auto real_filename = std::string("./") + filename + dll_extension;
+#else
     const auto real_filename = filename + dll_extension;
+#endif
     return dlopen(real_filename.c_str(), RTLD_LAZY);
 }
 
