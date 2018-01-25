@@ -69,7 +69,8 @@ dll_handle get_dll_handle(const char *filename)
 
 void free_dll_handle(const dll_handle handle)
 {
-    dlclose(handle);
+    if (handle)
+        dlclose(handle);
 }
 
 void *get_dll_proc_address(const dll_handle handle, const char *proc)
