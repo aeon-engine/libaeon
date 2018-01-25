@@ -36,9 +36,13 @@ class plugin_loader;
 /*!
  * Base class for a plugin that can be loaded with the plugin loader.
  *
+ * The plugin interface must be inherited from this base class. Example:
+ * plugin <- imy_plugin_interface <- my_plugin
+ *
  * Note: On windows it's recommended to provide overloads for new and delete
  * from the loader to the plugin, so that all allocations are done within
- * the same heap space.
+ * the same heap space. Visual Studio will handle this automatically if
+ * only unique_ptr and shared_ptr are used.
  */
 class plugin
 {
@@ -75,21 +79,24 @@ public:
      */
     auto get_plugin_loader() const -> plugin_loader &;
 
-protected:
     /*!
-     * The plugin implementer must forward the given loader to this ctor.
+     * Set the interface to the loader that loaded this plugin.
+     * Internal method. Do not call.
      */
-    explicit plugin(plugin_loader &loader);
+    void set_plugin_loader_internal(plugin_loader &loader);
 
-    plugin_loader &loader_;
+protected:
+    plugin();
+
+    plugin_loader *loader_;
 };
 
 } // namespace aeon::plugins
 
 #define aeon_register_plugin(plugin_class)                                                                             \
-    extern "C" AEON_DLL_EXPORT aeon::plugins::plugin *aeon_initialize_plugin(aeon::plugins::plugin_loader &loader)     \
+    extern "C" AEON_DLL_EXPORT aeon::plugins::plugin *aeon_initialize_plugin()                                         \
     {                                                                                                                  \
-        return std::make_unique<plugin_class>(loader).release();                                                       \
+        return std::make_unique<plugin_class>().release();                                                             \
     }                                                                                                                  \
                                                                                                                        \
     extern "C" AEON_DLL_EXPORT void aeon_cleanup_plugin(const aeon::plugins::plugin *plugin)                           \

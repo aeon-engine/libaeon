@@ -107,11 +107,13 @@ auto plugin_loader::load_plugin(const std::string_view &name) -> plugin *
         reinterpret_cast<initialize_plugin_proc>(handle.get_proc_address(aeon_initialize_plugin_proc_name));
     auto cleanup_plugin = reinterpret_cast<cleanup_plugin_proc>(handle.get_proc_address(aeon_cleanup_plugin_proc_name));
 
-    auto plugin_instance = std::unique_ptr<plugin, cleanup_plugin_proc>(initialize_plugin(*this), cleanup_plugin);
+    auto plugin_instance = std::unique_ptr<plugin, cleanup_plugin_proc>(initialize_plugin(), cleanup_plugin);
     auto plugin_instance_ptr = plugin_instance.get();
 
     if (!plugin_instance_ptr)
         return nullptr;
+
+    plugin_instance->set_plugin_loader_internal(*this);
 
     plugin_instance->plugin_on_load();
 

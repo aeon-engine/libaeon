@@ -24,18 +24,25 @@
  */
 
 #include <aeon/plugins/plugin.h>
+#include <cassert>
 
 namespace aeon::plugins
 {
 
-plugin::plugin(plugin_loader &loader)
-    : loader_(loader)
+plugin::plugin()
+    : loader_(nullptr)
 {
 }
 
 auto plugin::get_plugin_loader() const -> plugin_loader &
 {
-    return loader_;
+    assert(loader_);
+    return *loader_;
+}
+
+void plugin::set_plugin_loader_internal(plugin_loader &loader)
+{
+    loader_ = &loader;
 }
 
 } // namespace aeon::plugins

@@ -23,20 +23,19 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/plugins/plugin.h>
 #include <itestplugin1.h>
 
-class testplugin1 : public aeon::plugins::plugin, public itestplugin1
+class testplugin1 : public itestplugin1
 {
 public:
-    explicit testplugin1(aeon::plugins::plugin_loader &loader)
-        : plugin(loader)
-        , was_loaded_(false)
+    explicit testplugin1()
+        : was_loaded_(false)
         , unload_callback_()
     {
     }
 
     virtual ~testplugin1() = default;
+
     auto plugin_name() const noexcept -> const char * override
     {
         return "Test Plugin 1";

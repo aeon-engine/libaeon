@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <aeon/plugins/plugin.h>
 #include <functional>
 #include <string>
 #include <vector>
@@ -49,7 +50,7 @@ struct test_data
     std::function<void()> deleted_callback;
 };
 
-class itestplugin1
+class itestplugin1 : public aeon::plugins::plugin
 {
 public:
     virtual ~itestplugin1() = default;

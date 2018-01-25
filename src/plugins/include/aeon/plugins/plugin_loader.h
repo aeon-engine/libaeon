@@ -54,7 +54,7 @@ public:
     template <typename T>
     [[nodiscard]] auto load(const char *name) -> T *
     {
-        return dynamic_cast<T *>(load(name));
+        return static_cast<T *>(load(name));
     }
 
     /*!
@@ -85,7 +85,7 @@ public:
     void unload_all();
 
 private:
-    using initialize_plugin_proc = auto (*)(plugin_loader &) -> plugin *;
+    using initialize_plugin_proc = auto (*)() -> plugin *;
     using cleanup_plugin_proc = void (*)(const plugin *);
 
     /*!
@@ -125,40 +125,36 @@ private:
 };
 
 template <typename T>
-class [[nodiscard]] scoped_plugin {
+class[[nodiscard]] scoped_plugin
+{
 public:
     scoped_plugin(T * p)
         : plugin_interface_(p)
-        , plugin_(dynamic_cast<plugin *>(p))
-        , loader_(p ? &plugin_->get_plugin_loader() : nullptr)
+        , loader_(p ? &plugin_interface_->get_plugin_loader() : nullptr)
     {
     }
 
     ~scoped_plugin()
     {
-        if (plugin_ && loader_)
+        if (plugin_interface_ && loader_)
         {
-            loader_->unload(plugin_);
+            loader_->unload(plugin_interface_);
         }
     }
 
     scoped_plugin(scoped_plugin && other) noexcept
         : plugin_interface_(std::move(other.plugin_interface_))
-        , plugin_(std::move(other.plugin_))
         , loader_(std::move(other.loader_))
     {
         other.plugin_interface_ = nullptr;
-        other.plugin_ = nullptr;
         other.loader_ = nullptr;
     }
 
     scoped_plugin &operator=(scoped_plugin &&other) noexcept
     {
         plugin_interface_ = std::move(other.plugin_interface_);
-        plugin_ = std::move(other.plugin_);
         loader_ = std::move(other.loader_);
         other.plugin_interface_ = nullptr;
-        other.plugin_ = nullptr;
         other.loader_ = nullptr;
         return *this;
     }
@@ -168,7 +164,7 @@ public:
 
     auto valid() const noexcept
     {
-        return plugin_interface_ && plugin_ && loader_;
+        return plugin_interface_ && loader_;
     }
 
     operator bool() const noexcept
@@ -189,14 +185,12 @@ public:
     auto release() noexcept
     {
         const auto plugin = plugin_interface_;
-        plugin_ = nullptr;
         plugin_interface_ = nullptr;
         return plugin;
     }
 
 private:
     T *plugin_interface_;
-    plugin *plugin_;
     plugin_loader *loader_;
 };
 
