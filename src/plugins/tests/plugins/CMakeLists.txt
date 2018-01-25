@@ -21,17 +21,26 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-include(Unittests)
-
-add_unit_test_suite(
-    NO_GTEST_MAIN
-    TARGET test_libaeon_plugins
-    SOURCES
-        main.cpp
-        test_plugin_loader.cpp
-    LIBRARIES aeon_plugins
-    INCLUDES plugins/include
-    FOLDER dep/libaeon/tests
+add_library(testplugin1 SHARED
+    src/testplugin1.cpp
+    include/itestplugin1.h
 )
 
-add_subdirectory(plugins)
+target_link_libraries(testplugin1 aeon_plugins)
+
+target_include_directories(testplugin1 PRIVATE include)
+
+set_target_properties(testplugin1 PROPERTIES
+    FOLDER dep/libaeon/tests/plugins
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    PREFIX ""
+)
+
+# On linux, the plugin library and all plugins must be build with
+# position independent code (-fPIC)
+if (UNIX AND NOT APPLE)
+    set_target_properties(testplugin1 PROPERTIES
+        POSITION_INDEPENDENT_CODE ON
+    )
+endif ()

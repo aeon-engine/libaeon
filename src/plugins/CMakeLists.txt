@@ -40,6 +40,15 @@ set_target_properties(aeon_plugins PROPERTIES
 target_include_directories(aeon_plugins PUBLIC include)
 target_link_libraries(aeon_plugins aeon_common aeon_utility)
 
+# On linux, the plugin library and all plugins must be build with
+# position independent code (-fPIC)
+if (UNIX AND NOT APPLE)
+    set_target_properties(aeon_plugins PROPERTIES
+        POSITION_INDEPENDENT_CODE ON
+    )
+endif ()
+
+
 install(
     DIRECTORY include
     DESTINATION include

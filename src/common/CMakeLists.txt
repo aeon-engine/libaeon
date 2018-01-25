@@ -57,6 +57,11 @@ set_target_properties(aeon_common PROPERTIES
 
 target_include_directories(aeon_common PUBLIC include)
 
+# On linux, we must link with libdl to use dlopen, dlclose etc.
+if (UNIX AND NOT APPLE)
+    target_link_libraries(aeon_common dl)
+endif ()
+
 install(
     DIRECTORY include
     DESTINATION include
