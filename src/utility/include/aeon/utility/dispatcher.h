@@ -31,6 +31,7 @@
 #include <mutex>
 #include <future>
 #include <queue>
+#include <atomic>
 
 namespace aeon
 {
@@ -159,7 +160,7 @@ private:
     std::mutex mutex_;
     std::condition_variable signal_cv_;
     std::queue<std::function<void()>> queue_;
-    bool running_;
+    std::atomic<bool> running_;
     dispatcher_stop_mode stop_mode_;
 };
 
