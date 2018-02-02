@@ -33,9 +33,7 @@
 #include <queue>
 #include <atomic>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 /*!
@@ -164,5 +162,4 @@ private:
     dispatcher_stop_mode stop_mode_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility
