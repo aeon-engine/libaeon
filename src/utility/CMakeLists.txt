@@ -22,7 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_UTILITY_SOURCE
-    include/aeon/utility/asynchronizer.h
     include/aeon/utility/configfile.h
     src/configfile.cpp
     include/aeon/utility/cached_container.h
