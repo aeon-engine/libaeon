@@ -33,9 +33,7 @@
 #include <memory>
 #include <cstdint>
 
-namespace aeon
-{
-namespace sockets
+namespace aeon::sockets
 {
 
 template <typename socket_handler_type>
@@ -49,15 +47,23 @@ public:
     public:
         explicit protocol_handler(asio::ip::tcp::socket socket)
             : socket_(std::move(socket))
+            , data_()
+            , send_data_queue_()
         {
         }
 
         virtual ~protocol_handler() = default;
 
-        virtual void on_connected(){};
-        virtual void on_disconnected(){};
+        virtual void on_connected()
+        {
+        }
+        virtual void on_disconnected()
+        {
+        }
         virtual void on_data(std::uint8_t *data, std::size_t size) = 0;
-        virtual void on_error(asio::error_code ec){};
+        virtual void on_error(asio::error_code ec)
+        {
+        }
 
         void send(streams::stream &stream)
         {
@@ -90,7 +96,7 @@ public:
         }
 
     protected:
-        asio::io_service &io_service()
+        auto &io_service()
         {
             return socket_.get_io_service();
         }
@@ -167,5 +173,4 @@ protected:
     asio::io_service &io_service_;
 };
 
-} // namespace sockets
-} // namespace aeon
+} // namespace aeon::sockets
