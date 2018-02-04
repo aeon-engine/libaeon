@@ -58,9 +58,9 @@ void http_protocol_handler::on_line(const std::string &line)
                 return;
             }
 
-            auto method = method_line_split[0];
-            auto request_uri = method_line_split[1];
-            auto version_string = method_line_split[2];
+            const auto method = method_line_split[0];
+            const auto request_uri = method_line_split[1];
+            const auto version_string = method_line_split[2];
 
             http_request request(this, method, request_uri, version_string);
 
@@ -91,8 +91,8 @@ void http_protocol_handler::on_line(const std::string &line)
         case http_state::reply:
         {
             std::cout << "TODO: Did not expect to receive more data in "
-                         "reply state"
-                      << std::endl;
+                         "reply state: '"
+                      << line << "'\n";
             return;
         }
         break;

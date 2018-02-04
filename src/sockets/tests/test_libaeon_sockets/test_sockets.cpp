@@ -25,32 +25,24 @@
 
 #include <gtest/gtest.h>
 #include <aeon/sockets/tcp_server.h>
+#include <aeon/sockets/webserver/http_protocol_handler.h>
 
-class test_protocol_handler : public aeon::sockets::tcp_server<test_protocol_handler>::protocol_handler
+using namespace aeon;
+
+class test_protocol_handler : public webserver::http_protocol_handler
 {
 public:
-    test_protocol_handler(asio::ip::tcp::socket socket)
-        : aeon::sockets::tcp_server<test_protocol_handler>::protocol_handler(std::move(socket))
+    explicit test_protocol_handler(asio::ip::tcp::socket socket)
+        : webserver::http_protocol_handler(std::move(socket))
     {
     }
 
-    ~test_protocol_handler() override
-    {
-    }
+    virtual ~test_protocol_handler() = default;
 
-    void on_connected() override
+    void on_http_request(webserver::http_request &request) override
     {
-        std::cout << "on_connected." << std::endl;
-    }
-
-    void on_disconnected() override
-    {
-        std::cout << "on_disconnected." << std::endl;
-    }
-
-    void on_data(std::uint8_t * /*data*/, std::size_t size) override
-    {
-        std::cout << "on_data " << size << " bytes." << std::endl;
+        std::cout << "Request: " << request.uri() << "\n";
+        respond("text/plain", "Hello!");
     }
 
     void on_error(asio::error_code /*ec*/) override
@@ -68,6 +60,7 @@ TEST(test_sockets, test_sockets_create)
 TEST(test_sockets, test_sockets_create)
 {
     asio::io_service service;
-    aeon::sockets::tcp_server<aeon::webserver::http_protocol_handler> handler(service, 80);
+    sockets::tcp_server<test_protocol_handler> handler(service, 80);
+    service.run();
 }
 */

@@ -47,32 +47,30 @@ public:
         friend class tcp_server;
 
     public:
-        protocol_handler(asio::ip::tcp::socket socket)
+        explicit protocol_handler(asio::ip::tcp::socket socket)
             : socket_(std::move(socket))
         {
         }
 
         virtual ~protocol_handler() = default;
 
-        virtual void on_connected() = 0;
-        virtual void on_disconnected() = 0;
+        virtual void on_connected(){};
+        virtual void on_disconnected(){};
         virtual void on_data(std::uint8_t *data, std::size_t size) = 0;
-        virtual void on_error(asio::error_code ec) = 0;
+        virtual void on_error(asio::error_code ec){};
 
         void send(streams::stream &stream)
         {
-            std::vector<std::uint8_t> buffer(std::move(stream.read_to_vector()));
-
-            auto memorystream = std::make_shared<streams::memory_stream>(std::move(buffer));
+            const auto memorystream = std::make_shared<streams::memory_stream>(stream.read_to_vector());
             send(memorystream);
         }
 
-        void send(std::shared_ptr<streams::memory_stream> stream)
+        void send(const std::shared_ptr<streams::memory_stream> &stream)
         {
             send_data_queue_.push(stream);
 
             if (send_data_queue_.size() == 1)
-                tcp_server_handle_write_();
+                tcp_server_handle_write();
         }
 
         void disconnect()
@@ -85,9 +83,9 @@ public:
             on_disconnected();
         }
 
-        void tcp_server_socket_start_()
+        void tcp_server_socket_start()
         {
-            tcp_server_handle_read_();
+            tcp_server_handle_read();
             on_connected();
         }
 
@@ -98,7 +96,7 @@ public:
         }
 
     private:
-        void tcp_server_handle_read_()
+        void tcp_server_handle_read()
         {
             auto self(protocol_handler::shared_from_this());
 
@@ -112,7 +110,7 @@ public:
                                             self->on_data(self->data_.data(), length);
 
                                             if (!ec)
-                                                self->tcp_server_handle_read_();
+                                                self->tcp_server_handle_read();
                                         }
                                         else
                                         {
@@ -122,12 +120,12 @@ public:
                                     });
         }
 
-        void tcp_server_handle_write_()
+        void tcp_server_handle_write()
         {
             if (send_data_queue_.empty())
                 return;
 
-            auto buffer = send_data_queue_.front();
+            const auto buffer = send_data_queue_.front();
             auto self(protocol_handler::shared_from_this());
 
             asio::async_write(socket_, asio::buffer(buffer->data(), buffer->size()),
@@ -135,7 +133,7 @@ public:
                                   self->send_data_queue_.pop();
 
                                   if (!ec)
-                                      self->tcp_server_handle_write_();
+                                      self->tcp_server_handle_write();
                               });
         }
 
@@ -144,24 +142,23 @@ public:
         std::queue<std::shared_ptr<streams::memory_stream>> send_data_queue_;
     };
 
-public:
-    tcp_server(asio::io_service &io_service, std::uint16_t port)
+    explicit tcp_server(asio::io_service &io_service, std::uint16_t port)
         : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
         , socket_(io_service)
         , io_service_(io_service)
     {
-        start_async_accept_();
+        start_async_accept();
     }
 
 protected:
-    void start_async_accept_()
+    void start_async_accept()
     {
         acceptor_.async_accept(socket_, [this](asio::error_code ec) {
             if (!ec)
             {
-                std::make_shared<socket_handler_type>(std::move(socket_))->tcp_server_socket_start_();
+                std::make_shared<socket_handler_type>(std::move(socket_))->tcp_server_socket_start();
             }
-            start_async_accept_();
+            start_async_accept();
         });
     }
 
