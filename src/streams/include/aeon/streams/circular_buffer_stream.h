@@ -30,9 +30,7 @@
 #include <array>
 #include <cstring>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class circular_buffer_stream_exception : public stream_exception
@@ -150,9 +148,9 @@ public:
     auto max_size() const;
 
 protected:
-    auto is_out_of_bounds_(std::size_t offset) const;
+    auto is_out_of_bounds_(std::size_t offset) const -> bool;
 
-    auto fits_in_buffer_(std::size_t size) const;
+    auto fits_in_buffer_(std::size_t size) const -> bool;
 
     std::array<std::uint8_t, circular_buffer_size> buffer_;
     std::size_t tail_;
@@ -161,7 +159,7 @@ protected:
 };
 
 template <unsigned circular_buffer_size>
-circular_buffer_stream<circular_buffer_size>::circular_buffer_stream()
+inline circular_buffer_stream<circular_buffer_size>::circular_buffer_stream()
     : buffer_()
     , tail_(0)
     , head_(0)
@@ -170,7 +168,7 @@ circular_buffer_stream<circular_buffer_size>::circular_buffer_stream()
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::read(std::uint8_t *data, std::size_t size) -> std::size_t
+inline auto circular_buffer_stream<circular_buffer_size>::read(std::uint8_t *data, std::size_t size) -> std::size_t
 {
     // Can we read this size at all?
     if (is_out_of_bounds_(size))
@@ -208,7 +206,7 @@ auto circular_buffer_stream<circular_buffer_size>::read(std::uint8_t *data, std:
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::peek(std::uint8_t *data, std::size_t size) -> std::size_t
+inline auto circular_buffer_stream<circular_buffer_size>::peek(std::uint8_t *data, std::size_t size) -> std::size_t
 {
     // Can we read this size at all?
     if (is_out_of_bounds_(size))
@@ -242,7 +240,8 @@ auto circular_buffer_stream<circular_buffer_size>::peek(std::uint8_t *data, std:
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::write(const std::uint8_t *data, std::size_t size) -> std::size_t
+inline auto circular_buffer_stream<circular_buffer_size>::write(const std::uint8_t *data, std::size_t size)
+    -> std::size_t
 {
     // Can we fit this in at all?
     if (is_out_of_bounds_(size))
@@ -286,7 +285,8 @@ auto circular_buffer_stream<circular_buffer_size>::write(const std::uint8_t *dat
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::seek(std::ptrdiff_t offset, stream::seek_direction direction) -> bool
+inline auto circular_buffer_stream<circular_buffer_size>::seek(std::ptrdiff_t offset, stream::seek_direction direction)
+    -> bool
 {
     if (direction != stream::seek_direction::current)
         return false;
@@ -310,63 +310,62 @@ auto circular_buffer_stream<circular_buffer_size>::seek(std::ptrdiff_t offset, s
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::seekw(std::ptrdiff_t, stream::seek_direction) -> bool
+inline auto circular_buffer_stream<circular_buffer_size>::seekw(std::ptrdiff_t, stream::seek_direction) -> bool
 {
     return false;
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::tell() -> std::size_t
+inline auto circular_buffer_stream<circular_buffer_size>::tell() -> std::size_t
 {
     return tail_;
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::tellw() -> std::size_t
+inline auto circular_buffer_stream<circular_buffer_size>::tellw() -> std::size_t
 {
     return head_;
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::eof() const -> bool
+inline auto circular_buffer_stream<circular_buffer_size>::eof() const -> bool
 {
     return size_ == circular_buffer_size;
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::size() const -> std::size_t
+inline auto circular_buffer_stream<circular_buffer_size>::size() const -> std::size_t
 {
     return size_;
 }
 
 template <unsigned circular_buffer_size>
-void circular_buffer_stream<circular_buffer_size>::flush()
+inline void circular_buffer_stream<circular_buffer_size>::flush()
 {
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::good() const -> bool
+inline auto circular_buffer_stream<circular_buffer_size>::good() const -> bool
 {
     return true;
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::max_size() const
+inline auto circular_buffer_stream<circular_buffer_size>::max_size() const
 {
     return circular_buffer_size;
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::is_out_of_bounds_(std::size_t offset) const
+inline auto circular_buffer_stream<circular_buffer_size>::is_out_of_bounds_(std::size_t offset) const -> bool
 {
     return (offset > circular_buffer_size);
 }
 
 template <unsigned circular_buffer_size>
-auto circular_buffer_stream<circular_buffer_size>::fits_in_buffer_(std::size_t size) const
+inline auto circular_buffer_stream<circular_buffer_size>::fits_in_buffer_(std::size_t size) const -> bool
 {
     return ((size_ + size) <= circular_buffer_size);
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams
