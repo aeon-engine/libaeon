@@ -65,8 +65,11 @@ public:
 
     virtual ~access_mode_mixin() = default;
 
-    access_mode_mixin(access_mode_mixin &&o) = default;
-    access_mode_mixin &operator=(access_mode_mixin &&other) = default;
+    access_mode_mixin(access_mode_mixin &&) = default;
+    auto operator=(access_mode_mixin &&) -> access_mode_mixin & = default;
+
+    access_mode_mixin(const access_mode_mixin &) = default;
+    auto operator=(const access_mode_mixin &) -> access_mode_mixin & = default;
 
     virtual auto get_access_mode() const -> int
     {

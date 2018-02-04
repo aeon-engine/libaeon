@@ -51,7 +51,7 @@ class stream_exception : public std::exception
  * Beware that the exact behavior of various functions may vary between stream
  * implementations.
  */
-class stream : public common::noncopyable, public access_mode_mixin, public stream_name_mixin
+class stream : public access_mode_mixin, public stream_name_mixin
 {
 public:
     /*!
@@ -84,8 +84,11 @@ public:
      */
     virtual ~stream() = default;
 
-    stream(stream &&o) = default;
-    stream &operator=(stream &&other) = default;
+    stream(stream &&) = default;
+    auto operator=(stream &&) -> stream & = default;
+
+    stream(const stream &) = default;
+    auto operator=(const stream &) -> stream & = default;
 
     /*!
      * Read from the stream. This may move the internal read index, based on

@@ -46,8 +46,11 @@ public:
 
     virtual ~memory_stream() = default;
 
-    memory_stream(memory_stream &&o) = default;
-    memory_stream &operator=(memory_stream &&other) = default;
+    memory_stream(memory_stream &&) = default;
+    auto operator=(memory_stream &&) -> memory_stream & = default;
+
+    memory_stream(const memory_stream &) = default;
+    auto operator=(const memory_stream &) -> memory_stream & = default;
 
     auto read(std::uint8_t *data, std::size_t size) -> std::size_t override;
 
