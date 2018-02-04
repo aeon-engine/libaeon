@@ -301,6 +301,11 @@ auto circular_buffer_stream<circular_buffer_size>::seek(std::ptrdiff_t offset, s
 
     tail_ = static_cast<std::size_t>(tail);
 
+    size_ -= offset;
+
+    if (size_ > circular_buffer_size)
+        size_ = circular_buffer_size;
+
     return true;
 }
 
