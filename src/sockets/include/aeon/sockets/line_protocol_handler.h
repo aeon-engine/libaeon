@@ -54,7 +54,7 @@ public:
         {
             if (data[i] == '\n')
             {
-                streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_MAX_BUFF_LEN>> reader(
+                streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
                     circular_buffer_);
                 on_line(reader.read_line());
             }
@@ -64,7 +64,7 @@ public:
     virtual void on_line(const std::string &line) = 0;
 
 private:
-    streams::circular_buffer_stream<AEON_TCP_SOCKET_MAX_BUFF_LEN> circular_buffer_;
+    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
 };
 
 } // namespace sockets
