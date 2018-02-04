@@ -282,3 +282,49 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_peek)
     ASSERT_EQ(1, peek_size);
     ASSERT_EQ('D', peek_value);
 }
+
+TEST(test_circular_buffer_stream, test_circular_buffer_seek)
+{
+    aeon::streams::circular_buffer_stream<5> buffer;
+    std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
+    buffer.write(data, sizeof(data));
+
+    std::uint8_t peek_data = 0;
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'A');
+
+    buffer.seek(1, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'B');
+
+    buffer.seek(1, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'C');
+
+    buffer.seek(-1, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'B');
+
+    buffer.seek(-2, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'E');
+
+    buffer.seek(-6, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'D');
+
+    buffer.seek(-8, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'A');
+
+    buffer.seek(7, aeon::streams::stream::seek_direction::current);
+
+    buffer.peek(&peek_data, 1);
+    EXPECT_EQ(peek_data, 'C');
+}

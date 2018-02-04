@@ -110,6 +110,14 @@ public:
      */
     auto write(const std::uint8_t *data, std::size_t size) -> std::size_t override;
 
+    /*!
+     * Be very careful seeking within the circular buffer. If you seek backwards, the
+     * read pointer might end up overlapping the new data that came in, which means
+     * you'll end up with undefined behavior.
+     *
+     * Only seek_direction::current is supported, as begin and end don't make much sense
+     * in the context of a circular buffer.
+     */
     auto seek(std::ptrdiff_t offset, stream::seek_direction direction) -> bool override;
 
     auto seekw(std::ptrdiff_t, stream::seek_direction) -> bool override;
@@ -283,16 +291,17 @@ auto circular_buffer_stream<circular_buffer_size>::seek(std::ptrdiff_t offset, s
     if (direction != stream::seek_direction::current)
         return false;
 
-    if (offset <= 0)
-        return false;
+    auto tail = static_cast<std::int64_t>(tail_);
 
-    if (static_cast<std::size_t>(offset) > size_)
-        return false;
+    tail += offset;
+    tail = tail % circular_buffer_size;
 
-    tail_ += offset;
-    tail_ = tail_ % circular_buffer_size;
+    if (tail < 0)
+        tail = circular_buffer_size + tail;
 
-    return false;
+    tail_ = static_cast<std::size_t>(tail);
+
+    return true;
 }
 
 template <unsigned circular_buffer_size>
