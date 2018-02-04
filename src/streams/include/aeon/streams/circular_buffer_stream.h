@@ -178,7 +178,7 @@ auto circular_buffer_stream<circular_buffer_size>::read(std::uint8_t *data, std:
 
     // Do we have this many bytes in the buffer?
     if (size > size_)
-        return 0;
+        size = size_;
 
     auto bytes_to_read = size;
     std::size_t write_offset = 0;
