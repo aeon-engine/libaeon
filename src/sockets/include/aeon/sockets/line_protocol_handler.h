@@ -29,11 +29,8 @@
 #include <aeon/sockets/config.h>
 #include <aeon/streams/circular_buffer_stream.h>
 #include <aeon/streams/stream_reader.h>
-#include <asio/ip/tcp.hpp>
 
-namespace aeon
-{
-namespace sockets
+namespace aeon::sockets
 {
 
 class line_protocol_handler : public tcp_server<line_protocol_handler>::protocol_handler
@@ -67,5 +64,4 @@ private:
     streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
 };
 
-} // namespace sockets
-} // namespace aeon
+} // namespace aeon::sockets
