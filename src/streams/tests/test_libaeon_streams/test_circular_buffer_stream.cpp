@@ -32,7 +32,7 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_read_write_basic)
 {
     aeon::streams::circular_buffer_stream<100> buffer;
 
-    std::uint8_t data1[] = {'A', 'B', 'C', 'D', 'E'};
+    const std::uint8_t data1[] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data1, sizeof(data1));
     ASSERT_EQ(sizeof(data1), result);
     ASSERT_EQ(sizeof(data1), buffer.size());
@@ -44,7 +44,7 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_read_write_basic)
 
     ASSERT_THAT(data1_readback, ::testing::ElementsAreArray(data1));
 
-    std::uint8_t data2[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
+    const std::uint8_t data2[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
     result = buffer.write(data2, sizeof(data2));
     ASSERT_EQ(sizeof(data2), result);
     ASSERT_EQ(sizeof(data2), buffer.size());
@@ -152,7 +152,7 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_read_write_multipl
 {
     aeon::streams::circular_buffer_stream<50> buffer;
 
-    std::uint8_t base_character = 'A';
+    const auto base_character = 'A';
 
     for (int i = 0; i < 26; ++i)
     {
@@ -228,7 +228,7 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_move_assignment)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
 
-    std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
+    const std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data, sizeof(data));
 
     ASSERT_EQ(sizeof(data), result);
@@ -256,7 +256,7 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_peek)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
 
-    std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
+    const std::uint8_t data[] = {'A', 'B', 'C', 'D', 'E'};
     std::size_t result = buffer.write(data, sizeof(data));
     ASSERT_EQ(result, sizeof(data));
 
