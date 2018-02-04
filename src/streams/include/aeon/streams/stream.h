@@ -133,6 +133,19 @@ public:
     virtual auto write(const std::uint8_t *data, std::size_t size) -> std::size_t = 0;
 
     /*!
+     * Write to the stream. This may move the internal write index, based on
+     * the stream implementation.
+     *
+     * \param data Vector containing the data to be written.
+     * \return The amount of bytes that were actually written into the stream.
+     *         This may be less than the given size.
+     */
+    auto vector_write(const std::vector<uint8_t> &data) -> std::size_t
+    {
+        return write(data.data(), data.size());
+    }
+
+    /*!
      * Peek bytes from the stream. This is like reading bytes from the stream,
      * without moving the internal read index. Actual implementation may vary between
      * different stream types.
