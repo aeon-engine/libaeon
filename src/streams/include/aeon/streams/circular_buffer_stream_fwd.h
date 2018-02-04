@@ -28,6 +28,7 @@
 namespace aeon::streams
 {
 
-class memory_stream;
+template <unsigned int circular_buffer_size>
+class circular_buffer_stream;
 
 } // namespace aeon::streams

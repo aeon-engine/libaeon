@@ -24,6 +24,7 @@
 set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/access_mode_mixin.h
     include/aeon/streams/circular_buffer_stream.h
+    include/aeon/streams/circular_buffer_stream_fwd.h
     include/aeon/streams/config.h
     include/aeon/streams/file_stream.h
     src/file_stream.cpp
