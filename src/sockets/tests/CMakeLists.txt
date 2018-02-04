@@ -29,6 +29,6 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_sockets.cpp
-    LIBRARIES aeon_sockets
+    LIBRARIES aeon_sockets aeon_utility
     FOLDER dep/libaeon/tests
 )

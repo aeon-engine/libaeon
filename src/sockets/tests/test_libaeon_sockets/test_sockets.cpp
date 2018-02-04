@@ -26,6 +26,7 @@
 #include <gtest/gtest.h>
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/webserver/http_protocol_handler.h>
+#include <aeon/utility/hexdump.h>
 
 using namespace aeon;
 
@@ -42,6 +43,15 @@ public:
     void on_http_request(webserver::http_request &request) override
     {
         std::cout << "Request: " << request.uri() << "\n";
+
+        if (request.method() == webserver::http_method::post)
+        {
+            std::cout << "Received post data: " << request.content_length() << "\n";
+            auto content = request.content();
+
+            utility::hexdump(stdout, content.data(), content.size());
+        }
+
         respond("text/plain", "Hello!");
     }
 
