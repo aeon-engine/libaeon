@@ -36,7 +36,7 @@ static const auto status_ok = "Ok";
 static const auto status_not_found = "Not Found";
 static const auto status_internal_server_error = "Internal Server Error";
 
-static const auto content_length_key = "Content-Length";
+static const auto content_length_key = "content-length";
 
 http_protocol_handler::http_protocol_handler(asio::ip::tcp::socket socket)
     : sockets::tcp_server<http_protocol_handler>::protocol_handler(std::move(socket))
