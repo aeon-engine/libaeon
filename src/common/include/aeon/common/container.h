@@ -103,4 +103,10 @@ auto count_until(input_itr_t first, input_itr_t last, unary_predicate_t p) noexc
     return count;
 }
 
+template <typename map_type_t, typename value_type_t>
+auto find_in_map_by_value(const map_type_t &map, const value_type_t &value) noexcept
+{
+    return std::find_if(map.begin(), map.end(), [&value](const auto &pair) { return pair.second == value; });
+}
+
 } // namespace aeon::common::container
