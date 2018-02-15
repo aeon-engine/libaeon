@@ -25,13 +25,14 @@
 
 #include <aeon/sockets/tcp_socket.h>
 #include <asio/write.hpp>
+#include <asio/buffered_stream.hpp>
 #include <asio/connect.hpp>
 
 namespace aeon::sockets
 {
 
-tcp_socket::tcp_socket(asio::io_service &service)
-    : socket_(service)
+tcp_socket::tcp_socket(asio::io_context &context)
+    : socket_(context)
     , data_()
     , send_data_queue_()
 {
@@ -82,11 +83,11 @@ void tcp_socket::disconnect()
     on_disconnected();
 }
 
-void tcp_socket::internal_connect(const asio::ip::tcp::resolver::iterator &endpoint)
+void tcp_socket::internal_connect(const asio::ip::basic_resolver_results<asio::ip::tcp> &endpoint)
 {
     auto self(shared_from_this());
 
-    asio::async_connect(socket_, endpoint, [self](std::error_code ec, asio::ip::tcp::resolver::iterator) {
+    asio::async_connect(socket_, endpoint, [self](std::error_code ec, auto) {
         if (ec && ec != asio::error::eof)
             self->on_error(ec);
 

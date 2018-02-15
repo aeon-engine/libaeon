@@ -87,6 +87,10 @@ target_link_libraries(aeon_sockets
     json11
 )
 
+target_compile_definitions(aeon_sockets PUBLIC
+    ASIO_NO_DEPRECATED
+)
+
 install(
     DIRECTORY include
     DESTINATION include

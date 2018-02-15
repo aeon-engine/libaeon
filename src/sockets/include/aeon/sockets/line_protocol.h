@@ -46,7 +46,7 @@ public:
     /*!
      * Client socket ctor
      */
-    explicit line_protocol(asio::io_service &service);
+    explicit line_protocol(asio::io_context &service);
 
     /*!
      * Server socket ctor

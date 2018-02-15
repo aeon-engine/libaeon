@@ -47,7 +47,7 @@ class http_client_protocol : public tcp_socket
     };
 
 public:
-    explicit http_client_protocol(asio::io_service &service);
+    explicit http_client_protocol(asio::io_context &context);
 
     virtual ~http_client_protocol();
 

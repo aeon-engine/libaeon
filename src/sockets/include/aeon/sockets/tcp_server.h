@@ -26,7 +26,7 @@
 #pragma once
 
 #include <aeon/sockets/tcp_socket.h>
-#include <asio/io_service.hpp>
+#include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
 #include <memory>
 #include <cstdint>
@@ -38,7 +38,7 @@ template <typename socket_handler_t>
 class tcp_server
 {
 public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
+    explicit tcp_server(asio::io_context &io_context, const std::uint16_t port);
     ~tcp_server() = default;
 
 protected:
@@ -46,14 +46,14 @@ protected:
 
     asio::ip::tcp::acceptor acceptor_;
     asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
+    asio::io_context &io_context_;
 };
 
 template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
+inline tcp_server<socket_handler_t>::tcp_server(asio::io_context &io_context, const std::uint16_t port)
+    : acceptor_(io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
+    , socket_(io_context)
+    , io_context_(io_context)
 {
     start_async_accept();
 }

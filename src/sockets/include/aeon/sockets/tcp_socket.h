@@ -27,8 +27,9 @@
 
 #include <aeon/sockets/config.h>
 #include <aeon/streams/memory_stream.h>
-#include <asio/io_service.hpp>
+#include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
+#include <asio/strand.hpp>
 #include <queue>
 #include <array>
 #include <memory>
@@ -49,7 +50,7 @@ public:
     /*!
      * Client socket ctor
      */
-    explicit tcp_socket(asio::io_service &service);
+    explicit tcp_socket(asio::io_context &context);
 
     /*!
      * Server socket ctor
@@ -70,7 +71,7 @@ public:
     void disconnect();
 
 private:
-    void internal_connect(const asio::ip::tcp::resolver::iterator &endpoint);
+    void internal_connect(const asio::ip::basic_resolver_results<asio::ip::tcp> &endpoint);
     void internal_socket_start();
     void internal_handle_read();
     void internal_handle_write();

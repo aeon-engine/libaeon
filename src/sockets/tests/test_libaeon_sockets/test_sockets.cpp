@@ -99,7 +99,7 @@ class test_server : public sockets::http::http_server_protocol
 /*
 TEST(test_sockets, test_sockets_create)
 {
-    asio::io_service service;
+    asio::io_context service;
     aeon::sockets::tcp_server<test_protocol_handler> handler(service, 1337);
 }
 */
@@ -107,7 +107,7 @@ TEST(test_sockets, test_sockets_create)
 
 /*TEST(test_sockets, test_sockets_create)
 {
-    asio::io_service service;
+    asio::io_context service;
     sockets::tcp_server<test_protocol_handler> handler(service, 80);
     service.run();
 }
@@ -116,7 +116,7 @@ TEST(test_sockets, test_sockets_create)
 /*
 TEST(test_sockets, test_sockets_http_rest_create)
 {
-    asio::io_service service;
+    asio::io_context service;
     sockets::tcp_server<test_server> handler(service, 80);
 
     sockets::tcp_client<test_client> client(service, "localhost", 80);

@@ -33,8 +33,8 @@
 namespace aeon::sockets::http
 {
 
-http_client_protocol::http_client_protocol(asio::io_service &service)
-    : tcp_socket(service)
+http_client_protocol::http_client_protocol(asio::io_context &context)
+    : tcp_socket(context)
     , state_(http_state::client_read_status)
     , reply_()
     , circular_buffer_()

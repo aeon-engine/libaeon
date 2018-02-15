@@ -28,7 +28,7 @@
 namespace aeon::sockets
 {
 
-line_protocol::line_protocol(asio::io_service &service)
+line_protocol::line_protocol(asio::io_context &service)
     : tcp_socket(service)
 {
 }
