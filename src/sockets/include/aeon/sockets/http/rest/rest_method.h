@@ -25,49 +25,27 @@
 
 #pragma once
 
-#include <aeon/sockets/tcp_socket.h>
-#include <asio/io_service.hpp>
-#include <asio/ip/tcp.hpp>
-#include <memory>
-#include <cstdint>
+#include <aeon/sockets/http/method.h>
+#include <string>
+#include <functional>
+#include <set>
 
-namespace aeon::sockets
+namespace aeon::sockets::http::rest
 {
 
-template <typename socket_handler_t>
-class tcp_server
+class rest_method
 {
 public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
+    explicit rest_method(const std::set<method> &http_methods, const std::function<void()> &func);
 
-protected:
-    void start_async_accept();
+    auto get_http_methods() const -> const std::set<method> &;
+    auto get_function() const -> const std::function<void()> &;
 
-    asio::ip::tcp::acceptor acceptor_;
-    asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
+    auto has_http_method(const method method) const -> bool;
+
+private:
+    std::set<method> http_methods_;
+    std::function<void()> func_;
 };
 
-template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
-{
-    start_async_accept();
-}
-
-template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
-{
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
-        {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
-        }
-        start_async_accept();
-    });
-}
-
-} // namespace aeon::sockets
+} // namespace aeon::sockets::http::rest

@@ -23,51 +23,33 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
-#include <aeon/sockets/tcp_socket.h>
-#include <asio/io_service.hpp>
-#include <asio/ip/tcp.hpp>
-#include <memory>
-#include <cstdint>
+#include <aeon/sockets/line_protocol.h>
 
 namespace aeon::sockets
 {
 
-template <typename socket_handler_t>
-class tcp_server
+line_protocol::line_protocol(asio::io_service &service)
+    : tcp_socket(service)
 {
-public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
-
-protected:
-    void start_async_accept();
-
-    asio::ip::tcp::acceptor acceptor_;
-    asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
-};
-
-template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
-{
-    start_async_accept();
 }
 
-template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
+line_protocol::line_protocol(asio::ip::tcp::socket socket)
+    : tcp_socket(std::move(socket))
 {
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
-        {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
-        }
-        start_async_accept();
-    });
+}
+
+line_protocol::~line_protocol() = default;
+
+void line_protocol::on_data(const std::uint8_t *data, const std::size_t size)
+{
+    circular_buffer_.write(data, size);
+    streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
+        circular_buffer_);
+
+    while (circular_buffer_.size() != 0)
+    {
+        on_line(reader.read_line());
+    }
 }
 
 } // namespace aeon::sockets

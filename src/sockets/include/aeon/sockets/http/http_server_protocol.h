@@ -25,59 +25,65 @@
 
 #pragma once
 
-#include <aeon/sockets/webserver/http_request.h>
+#include <aeon/sockets/http/request.h>
+#include <aeon/sockets/http/status_code.h>
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/config.h>
 #include <aeon/streams/circular_buffer_stream.h>
 #include <asio.hpp>
 #include <string>
 
-namespace aeon::webserver
+namespace aeon::sockets::http
 {
 
-enum class status_code
+namespace detail
 {
-    ok = 200,
-    not_found = 404,
-    internal_server_error = 500,
-};
+auto validate_http_version_string(const std::string &version_string) -> bool;
+auto validate_uri(const std::string &uri) -> bool;
+}
 
-class http_protocol_handler : public sockets::tcp_server<http_protocol_handler>::protocol_handler
+class http_server_protocol : public tcp_socket
 {
     enum class http_state
     {
-        read_method,
-        read_headers,
-        read_body,
-        reply
+        server_read_method,
+        server_read_headers,
+        server_read_body,
+        server_reply
     };
 
 public:
-    explicit http_protocol_handler(asio::ip::tcp::socket socket);
+    /*!
+     * Server socket ctor
+     */
+    explicit http_server_protocol(asio::ip::tcp::socket socket);
 
-    void respond(const std::string &content_type, const std::string &data, status_code code = status_code::ok);
-    void respond(const std::string &content_type, streams::stream &data, status_code code = status_code::ok);
+    virtual ~http_server_protocol();
+
+    void respond(const std::string &content_type, const std::string &data, const status_code code = status_code::ok);
+    void respond(const std::string &content_type, streams::stream &data, const status_code code = status_code::ok);
 
     void respond_default(const status_code code);
 
-    virtual void on_http_request(http_request &request) = 0;
+    virtual void on_http_request(request &request) = 0;
 
 private:
-    void on_data(std::uint8_t *data, std::size_t size) override;
+    void on_data(const std::uint8_t *data, const std::size_t size) override;
 
-    void __on_line(const std::string &line);
+    auto __on_line(const std::string &line) -> status_code;
 
-    auto __http_status_to_string(status_code const code) const -> const char *;
+    auto __parse_expected_content_length() -> status_code;
 
-    void __parse_expected_content_length();
-
-    void __enter_parse_body_state();
+    auto __enter_parse_body_state() -> status_code;
     void __enter_reply_state();
 
+    auto __handle_read_method_state(const std::string &line) -> status_code;
+    auto __handle_read_headers_state(const std::string &line) -> status_code;
+
     http_state state_;
-    http_request request_;
+    request request_;
     streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
     std::uint64_t expected_content_length_;
 };
 
-} // namespace aeon::webserver
+} // namespace aeon::sockets::http

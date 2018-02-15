@@ -23,97 +23,46 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/webserver/http_request.h>
+#include <aeon/sockets/http/request.h>
 #include <aeon/common/string.h>
-#include <iostream>
 
-namespace aeon::webserver
+namespace aeon::sockets::http
 {
 
-static const auto expected_http_version_string = "HTTP/1.1";
-
-http_request::http_request(http_protocol_handler *handler, const http_method method)
+request::request(const method method)
     : method_(method)
     , uri_()
-    , version_string_()
-    , handler_(handler)
     , raw_headers_()
     , content_()
 {
 }
 
-http_request::http_request(http_protocol_handler *handler, const std::string &method, const std::string &uri,
-                           const std::string &version_string)
-    : method_(__string_to_http_method(method))
+request::request(const std::string &method, const std::string &uri)
+    : method_(string_to_method(method))
     , uri_(uri)
-    , version_string_(version_string)
-    , handler_(handler)
     , raw_headers_()
     , content_()
 {
-    if (!__validate_http_version_string())
-        method_ = http_method::invalid;
-
-    if (!__validate_uri())
-        method_ = http_method::invalid;
 }
 
-auto http_request::content() -> std::vector<std::uint8_t>
+auto request::get_content() -> std::vector<std::uint8_t>
 {
     return content_.read_to_vector();
 }
 
-auto http_request::raw_headers() const -> const std::vector<std::string> &
+auto request::get_raw_headers() const -> const std::vector<std::string> &
 {
     return raw_headers_;
 }
 
-void http_request::append_raw_http_header_line(const std::string &header_line)
+void request::append_raw_http_header_line(const std::string &header_line)
 {
     raw_headers_.push_back(header_line);
 }
 
-void http_request::append_raw_content_data(const std::vector<std::uint8_t> &data)
+void request::append_raw_content_data(const std::vector<std::uint8_t> &data)
 {
     content_.vector_write(data);
-}
-
-auto http_request::__validate_http_version_string() const -> bool
-{
-    return version_string_ == expected_http_version_string;
-}
-
-auto http_request::__validate_uri() const -> bool
-{
-    for (const auto c : uri_)
-    {
-        // Valid character?
-        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '/' || c == '?' ||
-              c == '%' || c == '&' || c == '=' || c == '+' || c == '-' || c == '*' || c == '.' || c == '_' ||
-              c == '@' || c == ','))
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-auto http_request::__string_to_http_method(const std::string &str) const -> http_method
-{
-    if (str == "GET")
-        return http_method::get;
-
-    if (str == "POST")
-        return http_method::post;
-
-    if (str == "HEAD")
-        return http_method::head;
-
-    if (str == "OPTIONS")
-        return http_method::options;
-
-    return http_method::invalid;
 }
 
 auto stip_uri_prefix(const std::string &uri, const std::string &prefix) -> std::string
@@ -153,4 +102,4 @@ auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std:
     return headers;
 }
 
-} // namespace aeon::webserver
+} // namespace aeon::sockets::http

@@ -25,49 +25,31 @@
 
 #pragma once
 
-#include <aeon/sockets/tcp_socket.h>
-#include <asio/io_service.hpp>
-#include <asio/ip/tcp.hpp>
-#include <memory>
-#include <cstdint>
+#include <aeon/sockets/http/validators.h>
+#include <aeon/sockets/http/constants.h>
 
-namespace aeon::sockets
+namespace aeon::sockets::http::detail
 {
 
-template <typename socket_handler_t>
-class tcp_server
+auto validate_http_version_string(const std::string &version_string) -> bool
 {
-public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
-
-protected:
-    void start_async_accept();
-
-    asio::ip::tcp::acceptor acceptor_;
-    asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
-};
-
-template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
-{
-    start_async_accept();
+    return version_string == http_version_string;
 }
 
-template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
+auto validate_uri(const std::string &uri) -> bool
 {
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
+    for (const auto c : uri)
+    {
+        // Valid character?
+        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '/' || c == '?' ||
+              c == '%' || c == '&' || c == '=' || c == '+' || c == '-' || c == '*' || c == '.' || c == '_' ||
+              c == '@' || c == ','))
         {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
+            return false;
         }
-        start_async_accept();
-    });
+    }
+
+    return true;
 }
 
-} // namespace aeon::sockets
+} // namespace aeon::sockets::http::detail

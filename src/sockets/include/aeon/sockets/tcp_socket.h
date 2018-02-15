@@ -25,49 +25,59 @@
 
 #pragma once
 
-#include <aeon/sockets/tcp_socket.h>
+#include <aeon/sockets/config.h>
+#include <aeon/streams/memory_stream.h>
 #include <asio/io_service.hpp>
 #include <asio/ip/tcp.hpp>
+#include <queue>
+#include <array>
 #include <memory>
 #include <cstdint>
 
 namespace aeon::sockets
 {
 
-template <typename socket_handler_t>
-class tcp_server
+class tcp_socket : public std::enable_shared_from_this<tcp_socket>
 {
+    template <typename socket_handler_t>
+    friend class tcp_server;
+
+    template <typename socket_handler_t>
+    friend class tcp_client;
+
 public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
+    /*!
+     * Client socket ctor
+     */
+    explicit tcp_socket(asio::io_service &service);
 
-protected:
-    void start_async_accept();
+    /*!
+     * Server socket ctor
+     */
+    explicit tcp_socket(asio::ip::tcp::socket socket);
 
-    asio::ip::tcp::acceptor acceptor_;
+    virtual ~tcp_socket();
+
+    virtual void on_connected();
+    virtual void on_disconnected();
+    virtual void on_data(const std::uint8_t *data, const std::size_t size) = 0;
+    virtual void on_error(const std::error_code &ec);
+
+    void send(streams::stream &stream);
+
+    void send(const std::shared_ptr<streams::memory_stream> &stream);
+
+    void disconnect();
+
+private:
+    void internal_connect(const asio::ip::tcp::resolver::iterator &endpoint);
+    void internal_socket_start();
+    void internal_handle_read();
+    void internal_handle_write();
+
     asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
+    std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
+    std::queue<std::shared_ptr<streams::memory_stream>> send_data_queue_;
 };
-
-template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
-{
-    start_async_accept();
-}
-
-template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
-{
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
-        {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
-        }
-        start_async_accept();
-    });
-}
 
 } // namespace aeon::sockets

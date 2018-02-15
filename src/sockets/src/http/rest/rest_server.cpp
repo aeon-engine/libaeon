@@ -25,49 +25,44 @@
 
 #pragma once
 
-#include <aeon/sockets/tcp_socket.h>
-#include <asio/io_service.hpp>
-#include <asio/ip/tcp.hpp>
-#include <memory>
-#include <cstdint>
+#include <aeon/sockets/http/rest/rest_server.h>
 
-namespace aeon::sockets
+namespace aeon::sockets::http::rest
 {
 
-template <typename socket_handler_t>
-class tcp_server
+rest_server::rest_server(asio::ip::tcp::socket socket)
+    : http_server_protocol(std::move(socket))
+    , methods_()
 {
-public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
-
-protected:
-    void start_async_accept();
-
-    asio::ip::tcp::acceptor acceptor_;
-    asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
-};
-
-template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
-{
-    start_async_accept();
 }
 
-template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
+rest_server::~rest_server() = default;
+
+void rest_server::register_rest_method(const std::string &uri, const rest_method &method)
 {
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
-        {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
-        }
-        start_async_accept();
-    });
+    assert(!method.has_http_method(method::invalid));
+    assert(!method.has_http_method(method::head));
+
+    methods_.insert({uri, method});
 }
 
-} // namespace aeon::sockets
+void rest_server::on_http_request(request &request)
+{
+    // std::cout << "Request: " << request.get_uri() << "\n";
+
+    if (request.get_method() == method::post)
+    {
+        // std::cout << "Received post data: " << request.get_content_length() << "\n";
+        auto content = request.get_content();
+
+        // utility::hexdump(stdout, content.data(), content.size());
+    }
+
+    respond("text/plain", "Hello!");
+}
+
+void rest_server::on_error(const std::error_code &)
+{
+}
+
+} // namespace aeon::sockets::http::rest

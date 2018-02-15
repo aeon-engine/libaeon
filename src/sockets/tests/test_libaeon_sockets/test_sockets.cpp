@@ -24,41 +24,78 @@
  */
 
 #include <gtest/gtest.h>
+#include <aeon/sockets/http/rest/rest_server.h>
+#include <aeon/sockets/http/http_server_protocol.h>
+#include <aeon/sockets/http/http_client_protocol.h>
 #include <aeon/sockets/tcp_server.h>
-#include <aeon/sockets/webserver/http_protocol_handler.h>
+#include <aeon/sockets/tcp_client.h>
 #include <aeon/utility/hexdump.h>
 
 using namespace aeon;
 
-class test_protocol_handler : public webserver::http_protocol_handler
+class test_client : public sockets::http::http_client_protocol
 {
 public:
-    explicit test_protocol_handler(asio::ip::tcp::socket socket)
-        : webserver::http_protocol_handler(std::move(socket))
+    using sockets::http::http_client_protocol::http_client_protocol;
+
+    void on_connected() override
     {
+        std::cout << "On Connected.\n";
+        request_async("localhost", "/test");
     }
 
-    virtual ~test_protocol_handler() = default;
-
-    void on_http_request(webserver::http_request &request) override
+    void on_error(const std::error_code &ec) override
     {
-        std::cout << "Request: " << request.uri() << "\n";
+        std::cout << "On error: " << ec.message() << "\n";
+    }
 
-        if (request.method() == webserver::http_method::post)
+    void on_disconnected() override
+    {
+        std::cout << "On Disconnected.\n";
+    }
+
+    void on_http_reply(sockets::http::reply &reply) override
+    {
+        std::cout << "Reply: " << sockets::http::status_code_to_string(reply.get_status_code()) << "\n"
+                  << reply.get_content_length() << "\n";
+    }
+};
+
+class test_server : public sockets::http::http_server_protocol
+{
+    using sockets::http::http_server_protocol::http_server_protocol;
+
+    void on_connected() override
+    {
+        std::cout << "Server: on connected.\n";
+    }
+
+    void on_error(const std::error_code &ec) override
+    {
+        std::cout << "On error: " << ec.message() << "\n";
+    }
+
+    void on_disconnected() override
+    {
+        std::cout << "On Disconnected.\n";
+    }
+
+    void on_http_request(sockets::http::request &request) override
+    {
+        std::cout << "Request: " << request.get_uri() << "\n";
+
+        if (request.get_method() == sockets::http::method::post)
         {
-            std::cout << "Received post data: " << request.content_length() << "\n";
-            auto content = request.content();
+            std::cout << "Received post data: " << request.get_content_length() << "\n";
+            auto content = request.get_content();
 
             utility::hexdump(stdout, content.data(), content.size());
         }
 
         respond("text/plain", "Hello!");
     }
-
-    void on_error(asio::error_code /*ec*/) override
-    {
-    }
 };
+
 /*
 TEST(test_sockets, test_sockets_create)
 {
@@ -67,10 +104,23 @@ TEST(test_sockets, test_sockets_create)
 }
 */
 /*
-TEST(test_sockets, test_sockets_create)
+
+/*TEST(test_sockets, test_sockets_create)
 {
     asio::io_service service;
     sockets::tcp_server<test_protocol_handler> handler(service, 80);
+    service.run();
+}
+*/
+
+/*
+TEST(test_sockets, test_sockets_http_rest_create)
+{
+    asio::io_service service;
+    sockets::tcp_server<test_server> handler(service, 80);
+
+    sockets::tcp_client<test_client> client(service, "localhost", 80);
+
     service.run();
 }
 */

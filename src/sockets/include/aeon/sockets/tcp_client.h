@@ -30,44 +30,49 @@
 #include <asio/ip/tcp.hpp>
 #include <memory>
 #include <cstdint>
+#include <string_view>
 
 namespace aeon::sockets
 {
 
 template <typename socket_handler_t>
-class tcp_server
+class tcp_client
 {
 public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
+    explicit tcp_client(asio::io_service &io_service, const std::string_view &host, const std::uint16_t port);
+    explicit tcp_client(asio::io_service &io_service, const std::string_view &host, const std::string_view &service);
+    ~tcp_client() = default;
+
+    auto operator-> () const -> socket_handler_t *;
 
 protected:
-    void start_async_accept();
-
-    asio::ip::tcp::acceptor acceptor_;
-    asio::ip::tcp::socket socket_;
+    asio::ip::tcp::resolver resolver_;
+    std::shared_ptr<socket_handler_t> socket_;
     asio::io_service &io_service_;
 };
 
 template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
+inline tcp_client<socket_handler_t>::tcp_client(asio::io_service &io_service, const std::string_view &host,
+                                                const std::uint16_t port)
+    : tcp_client(io_service, host, std::to_string(port))
 {
-    start_async_accept();
 }
 
 template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
+inline tcp_client<socket_handler_t>::tcp_client(asio::io_service &io_service, const std::string_view &host,
+                                                const std::string_view &service)
+    : resolver_(io_service)
+    , socket_(std::make_shared<socket_handler_t>(io_service))
+    , io_service_(io_service)
 {
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
-        {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
-        }
-        start_async_accept();
-    });
+    auto result = resolver_.resolve(host, service);
+    socket_->internal_connect(result);
+}
+
+template <typename socket_handler_t>
+inline auto tcp_client<socket_handler_t>::operator-> () const -> socket_handler_t *
+{
+    return socket_.get();
 }
 
 } // namespace aeon::sockets

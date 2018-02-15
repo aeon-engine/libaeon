@@ -25,76 +25,48 @@
 
 #pragma once
 
+#include <aeon/sockets/http/method.h>
 #include <aeon/streams/memory_stream.h>
 #include <string>
 #include <vector>
 #include <map>
 
-namespace aeon::webserver
+namespace aeon::sockets::http
 {
 
-enum class http_method
+class request
 {
-    invalid,
-    get,
-    post,
-    head,
-    options
-};
-
-class http_protocol_handler;
-
-class http_request
-{
-    friend class http_protocol_handler;
+    friend class http_server_protocol;
 
 public:
-    explicit http_request(http_protocol_handler *handler, const http_method method);
-    explicit http_request(http_protocol_handler *handler, const std::string &method, const std::string &uri,
-                          const std::string &version_string);
+    explicit request(const method method);
+    explicit request(const std::string &method, const std::string &uri);
 
-    auto method() const
+    auto get_method() const
     {
         return method_;
     }
 
-    auto uri() const
+    auto get_uri() const
     {
         return uri_;
     }
 
-    auto version_string() const
-    {
-        return version_string_;
-    }
-
-    auto handler() const
-    {
-        return handler_;
-    }
-
-    auto content_length() const
+    auto get_content_length() const
     {
         return content_.size();
     }
 
-    auto content() -> std::vector<std::uint8_t>;
+    auto get_content() -> std::vector<std::uint8_t>;
 
-    auto raw_headers() const -> const std::vector<std::string> &;
+    auto get_raw_headers() const -> const std::vector<std::string> &;
 
 private:
     void append_raw_http_header_line(const std::string &header_line);
     void append_raw_content_data(const std::vector<std::uint8_t> &data);
 
-    auto __string_to_http_method(const std::string &str) const -> http_method;
-
-    auto __validate_http_version_string() const -> bool;
-    auto __validate_uri() const -> bool;
-
-    http_method method_;
+    method method_;
     std::string uri_;
-    std::string version_string_;
-    http_protocol_handler *handler_;
     std::vector<std::string> raw_headers_;
     streams::memory_stream content_;
 };
@@ -102,4 +74,4 @@ private:
 auto stip_uri_prefix(const std::string &uri, const std::string &prefix) -> std::string;
 auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
 
-} // namespace aeon::webserver
+} // namespace aeon::sockets::http

@@ -25,49 +25,44 @@
 
 #pragma once
 
-#include <aeon/sockets/tcp_socket.h>
-#include <asio/io_service.hpp>
-#include <asio/ip/tcp.hpp>
-#include <memory>
-#include <cstdint>
+#include <aeon/sockets/http/status_code.h>
+#include <aeon/streams/memory_stream.h>
+#include <string>
+#include <vector>
+#include <map>
 
-namespace aeon::sockets
+namespace aeon::sockets::http
 {
 
-template <typename socket_handler_t>
-class tcp_server
+class reply
 {
+    friend class http_client_protocol;
+
 public:
-    explicit tcp_server(asio::io_service &io_service, const std::uint16_t port);
-    ~tcp_server() = default;
+    reply();
+    explicit reply(const status_code status);
 
-protected:
-    void start_async_accept();
+    auto get_status_code() const
+    {
+        return status_;
+    }
 
-    asio::ip::tcp::acceptor acceptor_;
-    asio::ip::tcp::socket socket_;
-    asio::io_service &io_service_;
+    auto get_content_length() const
+    {
+        return content_.size();
+    }
+
+    auto get_content() -> std::vector<std::uint8_t>;
+
+    auto get_raw_headers() const -> const std::vector<std::string> &;
+
+private:
+    void append_raw_http_header_line(const std::string &header_line);
+    void append_raw_content_data(const std::vector<std::uint8_t> &data);
+
+    status_code status_;
+    std::vector<std::string> raw_headers_;
+    streams::memory_stream content_;
 };
 
-template <typename socket_handler_t>
-inline tcp_server<socket_handler_t>::tcp_server(asio::io_service &io_service, const std::uint16_t port)
-    : acceptor_(io_service, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_service)
-    , io_service_(io_service)
-{
-    start_async_accept();
-}
-
-template <typename socket_handler_t>
-inline void tcp_server<socket_handler_t>::start_async_accept()
-{
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
-        {
-            std::make_shared<socket_handler_t>(std::move(socket_))->internal_socket_start();
-        }
-        start_async_accept();
-    });
-}
-
-} // namespace aeon::sockets
+} // namespace aeon::sockets::http

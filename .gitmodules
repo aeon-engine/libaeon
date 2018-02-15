@@ -22,3 +22,7 @@
 	path = dep/hdf5
 	url = ../../aeon-external-dependencies/hdf5.git
 	branch = submodule
+[submodule "dep/json11"]
+	path = dep/json11
+	url = ../../aeon-external-dependencies/json11.git
+	branch = submodule
