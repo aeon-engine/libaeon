@@ -231,6 +231,13 @@ void replace(std::string &str, const std::string &from, const std::string &to)
     }
 }
 
+auto replace_copy(const std::string &str, const std::string &from, const std::string &to) -> std::string
+{
+    std::string copy = str;
+    replace(copy, from, to);
+    return copy;
+}
+
 auto to_lower(const std::string &str) -> std::string
 {
     auto to_lower_internal = [](const char c) { return std::use_facet<std::ctype<char>>(std::locale()).tolower(c); };

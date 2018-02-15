@@ -179,6 +179,11 @@ auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>;
 void replace(std::string &str, const std::string &from, const std::string &to);
 
 /*!
+ * Replace all occurances of a string with another string.
+ */
+auto replace_copy(const std::string &str, const std::string &from, const std::string &to) -> std::string;
+
+/*!
  * Convert the current string to lowercase based to the locale settings
  */
 auto to_lower(const std::string &str) -> std::string;
