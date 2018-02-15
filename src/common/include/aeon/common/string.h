@@ -214,6 +214,11 @@ auto ends_with(const std::string &str, const std::string &val) -> bool;
 auto ends_withsv(const std::string_view &str, const std::string_view &val) -> bool;
 
 /*!
+ * Check if the string "val" is found within "str".
+ */
+auto contains(const std::string_view &str, const std::string_view &val) -> bool;
+
+/*!
  * Convert a string in HEX format ("0x1234") to an integer.
  */
 template <typename T>

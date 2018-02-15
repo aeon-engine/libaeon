@@ -288,4 +288,9 @@ auto ends_withsv(const std::string_view &str, const std::string_view &val) -> bo
     return rightsv(str, val.size()) == val;
 }
 
+auto contains(const std::string_view &str, const std::string_view &val) -> bool
+{
+    return str.find(val) != std::string::npos;
+}
+
 } // namespace aeon::common::string
