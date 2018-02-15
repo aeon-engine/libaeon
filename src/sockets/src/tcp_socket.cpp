@@ -114,7 +114,7 @@ void tcp_socket::internal_handle_read()
                                 {
                                     self->on_data(self->data_.data(), length);
 
-                                    if (!ec)
+                                    if (!ec && self->socket_.is_open())
                                         self->internal_handle_read();
                                 }
                                 else
@@ -140,7 +140,7 @@ void tcp_socket::internal_handle_write()
 
                           self->send_data_queue_.pop();
 
-                          if (!ec)
+                          if (!ec && self->socket_.is_open())
                               self->internal_handle_write();
                       });
 }
