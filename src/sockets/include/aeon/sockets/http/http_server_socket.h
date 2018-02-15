@@ -82,6 +82,8 @@ private:
     auto __handle_read_method_state(const std::string &line) -> status_code;
     auto __handle_read_headers_state(const std::string &line) -> status_code;
 
+    void __reset_state();
+
     http_state state_;
     request request_;
     streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;

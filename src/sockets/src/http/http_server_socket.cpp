@@ -57,7 +57,7 @@ void http_server_socket::respond(const std::string &content_type, streams::strea
     auto headers = detail::http_version_string + " " + std::to_string(static_cast<int>(code)) + " " +
                    status_code_to_string(code) +
                    "\r\n"
-                   "Connection: close\r\n" // TODO: Support keep-alive
+                   "Connection: keep-alive\r\n"
                    "Content-type: " +
                    content_type +
                    "\r\n"
@@ -67,6 +67,7 @@ void http_server_socket::respond(const std::string &content_type, streams::strea
     stream.write(reinterpret_cast<const std::uint8_t *>(headers.c_str()), headers.size());
     send(stream);
     send(data);
+    __reset_state();
 }
 
 void http_server_socket::on_data(const std::uint8_t *data, const std::size_t size)
@@ -206,4 +207,10 @@ auto http_server_socket::__handle_read_headers_state(const std::string &line) ->
     return status_code::ok;
 }
 
+void http_server_socket::__reset_state()
+{
+    state_ = http_state::server_read_method;
+    request_ = request{method::invalid};
+    expected_content_length_ = 0;
+}
 } // namespace aeon::sockets::http
