@@ -77,6 +77,7 @@ private:
     void internal_handle_write();
 
     asio::ip::tcp::socket socket_;
+    asio::io_context::strand strand_;
     std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
     std::queue<std::shared_ptr<streams::memory_stream>> send_data_queue_;
 };

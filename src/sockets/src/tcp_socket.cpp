@@ -27,12 +27,14 @@
 #include <asio/write.hpp>
 #include <asio/buffered_stream.hpp>
 #include <asio/connect.hpp>
+#include <asio/bind_executor.hpp>
 
 namespace aeon::sockets
 {
 
 tcp_socket::tcp_socket(asio::io_context &context)
     : socket_(context)
+    , strand_(context)
     , data_()
     , send_data_queue_()
 {
@@ -40,6 +42,7 @@ tcp_socket::tcp_socket(asio::io_context &context)
 
 tcp_socket::tcp_socket(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
+    , strand_(socket.get_executor().context())
     , data_()
     , send_data_queue_()
 {
@@ -67,33 +70,59 @@ void tcp_socket::send(streams::stream &stream)
 
 void tcp_socket::send(const std::shared_ptr<streams::memory_stream> &stream)
 {
-    send_data_queue_.push(stream);
+    auto self(shared_from_this());
 
-    if (send_data_queue_.size() == 1)
-        internal_handle_write();
+    auto send_impl = [self, stream]() {
+        self->send_data_queue_.push(stream);
+
+        if (self->send_data_queue_.size() == 1)
+            self->internal_handle_write();
+    };
+
+    if (strand_.running_in_this_thread())
+    {
+        send_impl();
+    }
+    else
+    {
+        asio::post(strand_, send_impl);
+    }
 }
 
 void tcp_socket::disconnect()
 {
-    if (!socket_.is_open())
-        return;
+    auto self(shared_from_this());
 
-    socket_.shutdown(asio::ip::tcp::socket::shutdown_both);
-    socket_.close();
-    on_disconnected();
+    auto disconnect_impl = [self]() {
+        if (!self->socket_.is_open())
+            return;
+
+        self->socket_.shutdown(asio::ip::tcp::socket::shutdown_both);
+        self->socket_.close();
+        self->on_disconnected();
+    };
+
+    if (strand_.running_in_this_thread())
+    {
+        disconnect_impl();
+    }
+    else
+    {
+        asio::post(strand_, disconnect_impl);
+    }
 }
 
 void tcp_socket::internal_connect(const asio::ip::basic_resolver_results<asio::ip::tcp> &endpoint)
 {
     auto self(shared_from_this());
 
-    asio::async_connect(socket_, endpoint, [self](std::error_code ec, auto) {
-        if (ec && ec != asio::error::eof)
-            self->on_error(ec);
+    asio::async_connect(socket_, endpoint, asio::bind_executor(strand_, [self](std::error_code ec, auto) {
+                            if (ec && ec != asio::error::eof)
+                                self->on_error(ec);
 
-        self->internal_handle_read();
-        self->on_connected();
-    });
+                            self->internal_handle_read();
+                            self->on_connected();
+                        }));
 }
 
 void tcp_socket::internal_socket_start()
@@ -107,7 +136,7 @@ void tcp_socket::internal_handle_read()
     auto self(shared_from_this());
 
     socket_.async_read_some(asio::buffer(data_, AEON_TCP_SOCKET_MAX_BUFF_LEN),
-                            [self](std::error_code ec, std::size_t length) {
+                            asio::bind_executor(strand_, [self](std::error_code ec, std::size_t length) {
                                 if (ec && ec != asio::error::eof)
                                     self->on_error(ec);
 
@@ -123,27 +152,31 @@ void tcp_socket::internal_handle_read()
                                     self->socket_.close();
                                     self->on_disconnected();
                                 }
-                            });
+                            }));
 }
 
 void tcp_socket::internal_handle_write()
 {
-    if (send_data_queue_.empty())
-        return;
-
-    const auto buffer = send_data_queue_.front();
     auto self(shared_from_this());
 
-    asio::async_write(socket_, asio::buffer(buffer->data(), buffer->size()),
-                      [self, buffer](std::error_code ec, std::size_t /*length*/) {
-                          if (ec && ec != asio::error::eof)
-                              self->on_error(ec);
+    asio::post(strand_, [self]() {
+        if (self->send_data_queue_.empty())
+            return;
 
-                          self->send_data_queue_.pop();
+        const auto buffer = self->send_data_queue_.front();
 
-                          if (!ec && self->socket_.is_open())
-                              self->internal_handle_write();
-                      });
+        asio::async_write(
+            self->socket_, asio::buffer(buffer->data(), buffer->size()),
+            asio::bind_executor(self->strand_, [self, buffer](std::error_code ec, std::size_t /*length*/) {
+                if (ec && ec != asio::error::eof)
+                    self->on_error(ec);
+
+                self->send_data_queue_.pop();
+
+                if (!ec && self->socket_.is_open())
+                    self->internal_handle_write();
+            }));
+    });
 }
 
 } // namespace aeon::sockets
