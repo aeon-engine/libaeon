@@ -23,33 +23,34 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/line_protocol.h>
+#pragma once
 
-namespace aeon::sockets
+#include <aeon/sockets/http/route.h>
+#include <aeon/common/stdfilesystem.h>
+#include <string>
+#include <vector>
+
+namespace aeon::sockets::http
 {
 
-line_protocol::line_protocol(asio::io_context &service)
-    : tcp_socket(service)
+namespace detail
 {
+auto to_url_path(const std::string &path) -> std::string;
 }
 
-line_protocol::line_protocol(asio::ip::tcp::socket socket)
-    : tcp_socket(std::move(socket))
+class static_route : public route
 {
-}
+public:
+    explicit static_route(const std::string &mount_point, const std::filesystem::path &base_path);
+    explicit static_route(const std::string &mount_point, const std::filesystem::path &base_path,
+                          const std::vector<std::string> &default_files);
+    virtual ~static_route() = default;
 
-line_protocol::~line_protocol() = default;
+private:
+    void on_http_request(http_server_socket &source, http_server_session &session, const request &request) override;
 
-void line_protocol::on_data(const std::uint8_t *data, const std::size_t size)
-{
-    circular_buffer_.write(data, size);
-    streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
-        circular_buffer_);
+    std::filesystem::path base_path_;
+    std::vector<std::string> default_files_;
+};
 
-    while (circular_buffer_.size() != 0)
-    {
-        on_line(reader.read_line());
-    }
-}
-
-} // namespace aeon::sockets
+} // namespace aeon::sockets::http

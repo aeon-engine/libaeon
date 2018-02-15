@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/http/http_server_protocol.h>
+#include <aeon/sockets/http/http_server_socket.h>
 #include <aeon/streams/memory_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/common/string.h>
@@ -32,18 +32,18 @@
 namespace aeon::sockets::http
 {
 
-http_server_protocol::http_server_protocol(asio::ip::tcp::socket socket)
-    : tcp_socket(std::move(socket))
-    , state_(http_state::server_read_method)
-    , request_(method::invalid)
-    , circular_buffer_()
-    , expected_content_length_(0)
+http_server_socket::http_server_socket(asio::ip::tcp::socket socket)
+    : tcp_socket{std::move(socket)}
+    , state_{http_state::server_read_method}
+    , request_{method::invalid}
+    , circular_buffer_{}
+    , expected_content_length_{0}
 {
 }
 
-http_server_protocol::~http_server_protocol() = default;
+http_server_socket::~http_server_socket() = default;
 
-void http_server_protocol::respond(const std::string &content_type, const std::string &data, const status_code code)
+void http_server_socket::respond(const std::string &content_type, const std::string &data, const status_code code)
 {
     streams::memory_stream stream;
 
@@ -51,7 +51,7 @@ void http_server_protocol::respond(const std::string &content_type, const std::s
     respond(content_type, stream, code);
 }
 
-void http_server_protocol::respond(const std::string &content_type, streams::stream &data, const status_code code)
+void http_server_socket::respond(const std::string &content_type, streams::stream &data, const status_code code)
 {
     streams::memory_stream stream;
     auto headers = detail::http_version_string + " " + std::to_string(static_cast<int>(code)) + " " +
@@ -69,7 +69,7 @@ void http_server_protocol::respond(const std::string &content_type, streams::str
     send(data);
 }
 
-void http_server_protocol::on_data(const std::uint8_t *data, const std::size_t size)
+void http_server_socket::on_data(const std::uint8_t *data, const std::size_t size)
 {
     circular_buffer_.write(data, size);
     streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
@@ -97,7 +97,7 @@ void http_server_protocol::on_data(const std::uint8_t *data, const std::size_t s
     }
 }
 
-auto http_server_protocol::__on_line(const std::string &line) -> status_code
+auto http_server_socket::__on_line(const std::string &line) -> status_code
 {
     switch (state_)
     {
@@ -120,12 +120,12 @@ auto http_server_protocol::__on_line(const std::string &line) -> status_code
     }
 }
 
-void http_server_protocol::respond_default(const status_code code)
+void http_server_socket::respond_default(const status_code code)
 {
     respond(detail::default_response_content_type, status_code_to_string(code), code);
 }
 
-auto http_server_protocol::__parse_expected_content_length() -> status_code
+auto http_server_socket::__parse_expected_content_length() -> status_code
 {
     const auto http_headers = parse_raw_http_headers(request_.get_raw_headers());
 
@@ -138,7 +138,7 @@ auto http_server_protocol::__parse_expected_content_length() -> status_code
     return status_code::ok;
 }
 
-auto http_server_protocol::__enter_parse_body_state() -> status_code
+auto http_server_socket::__enter_parse_body_state() -> status_code
 {
     const auto result = __parse_expected_content_length();
 
@@ -157,13 +157,13 @@ auto http_server_protocol::__enter_parse_body_state() -> status_code
     return status_code::ok;
 }
 
-void http_server_protocol::__enter_reply_state()
+void http_server_socket::__enter_reply_state()
 {
     state_ = http_state::server_reply;
     on_http_request(request_);
 }
 
-auto http_server_protocol::__handle_read_method_state(const std::string &line) -> status_code
+auto http_server_socket::__handle_read_method_state(const std::string &line) -> status_code
 {
     auto method_line_split = common::string::split(line, ' ');
 
@@ -191,7 +191,7 @@ auto http_server_protocol::__handle_read_method_state(const std::string &line) -
     return status_code::ok;
 }
 
-auto http_server_protocol::__handle_read_headers_state(const std::string &line) -> status_code
+auto http_server_socket::__handle_read_headers_state(const std::string &line) -> status_code
 {
     if (line.empty())
     {

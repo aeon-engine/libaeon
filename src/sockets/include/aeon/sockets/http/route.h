@@ -25,44 +25,37 @@
 
 #pragma once
 
-#include <aeon/sockets/http/rest/rest_server.h>
+#include <string>
 
-namespace aeon::sockets::http::rest
+namespace aeon::sockets::http
 {
 
-rest_server::rest_server(asio::ip::tcp::socket socket)
-    : http_server_protocol(std::move(socket))
-    , methods_()
+class request;
+class http_server_socket;
+class http_server_session;
+
+class route
 {
-}
+public:
+    explicit route(const std::string &mount_point);
+    virtual ~route() = default;
 
-rest_server::~rest_server() = default;
+    virtual void on_http_request(http_server_socket &source, http_server_session &session, const request &request) = 0;
 
-void rest_server::register_rest_method(const std::string &uri, const rest_method &method)
-{
-    assert(!method.has_http_method(method::invalid));
-    assert(!method.has_http_method(method::head));
+    auto mount_point() const noexcept -> const std::string &;
 
-    methods_.insert({uri, method});
-}
+private:
+    std::string mount_point_;
+};
 
-void rest_server::on_http_request(request &request)
-{
-    // std::cout << "Request: " << request.get_uri() << "\n";
-
-    if (request.get_method() == method::post)
-    {
-        // std::cout << "Received post data: " << request.get_content_length() << "\n";
-        auto content = request.get_content();
-
-        // utility::hexdump(stdout, content.data(), content.size());
-    }
-
-    respond("text/plain", "Hello!");
-}
-
-void rest_server::on_error(const std::error_code &)
+inline route::route(const std::string &mount_point)
+    : mount_point_{mount_point}
 {
 }
 
-} // namespace aeon::sockets::http::rest
+inline auto route::mount_point() const noexcept -> const std::string &
+{
+    return mount_point_;
+}
+
+} // namespace aeon::sockets::http

@@ -25,31 +25,41 @@
 
 #pragma once
 
-#include <aeon/sockets/http/http_server_protocol.h>
-#include <aeon/sockets/http/rest/rest_method.h>
-#include <string>
-#include <map>
+#include <aeon/sockets/tcp_socket.h>
+#include <aeon/sockets/config.h>
+#include <aeon/streams/circular_buffer_stream.h>
 
-namespace aeon::sockets::http::rest
+namespace aeon::sockets
 {
 
-class rest_server : public http_server_protocol
+/*!
+ * Protocol implementation for a line protocol.
+ * A line protocol can be any generic text-based TCP protocol that uses
+ * line endings to distinguish between different packets.
+ *
+ * Examples of line protocols are: Telnet, HTTP and IRC.
+ */
+class line_protocol_socket : public tcp_socket
 {
 public:
     /*!
+     * Client socket ctor
+     */
+    explicit line_protocol_socket(asio::io_context &service);
+
+    /*!
      * Server socket ctor
      */
-    explicit rest_server(asio::ip::tcp::socket socket);
+    explicit line_protocol_socket(asio::ip::tcp::socket socket);
 
-    virtual ~rest_server();
+    virtual ~line_protocol_socket();
 
-    void register_rest_method(const std::string &uri, const rest_method &method);
+    virtual void on_line(const std::string &line) = 0;
 
 private:
-    void on_http_request(request &request) override;
-    void on_error(const std::error_code & /*ec*/) override;
+    void on_data(const std::uint8_t *data, const std::size_t size) override;
 
-    std::map<std::string, rest_method> methods_;
+    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
 };
 
-} // namespace aeon::sockets::http::rest
+} // namespace aeon::sockets

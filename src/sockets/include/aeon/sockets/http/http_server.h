@@ -25,50 +25,14 @@
 
 #pragma once
 
-#include <aeon/sockets/http/request.h>
-#include <aeon/sockets/http/status_code.h>
-#include <aeon/sockets/http/reply.h>
+#include <aeon/sockets/http/http_server_socket.h>
+#include <aeon/sockets/http/http_server_session.h>
 #include <aeon/sockets/tcp_server.h>
-#include <aeon/sockets/config.h>
-#include <aeon/streams/circular_buffer_stream.h>
-#include <asio.hpp>
-#include <string>
 
 namespace aeon::sockets::http
 {
 
-class http_client_protocol : public tcp_socket
-{
-    enum class http_state
-    {
-        client_read_status,
-        client_read_headers,
-        client_read_body
-    };
-
-public:
-    explicit http_client_protocol(asio::io_context &context);
-
-    virtual ~http_client_protocol();
-
-    void request_async(const std::string &host, const std::string &uri, const method method = method::get);
-
-    virtual void on_http_reply(reply &reply) = 0;
-
-private:
-    void on_data(const std::uint8_t *data, const std::size_t size) override;
-
-    auto __on_line(const std::string &line) -> bool;
-
-    auto __parse_expected_content_length() -> bool;
-
-    auto __handle_read_status_state(const std::string &line) -> bool;
-    auto __handle_read_headers_state(const std::string &line) -> bool;
-
-    http_state state_;
-    reply reply_;
-    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
-    std::uint64_t expected_content_length_;
-};
+template <typename http_server_socket_t>
+using http_server = sockets::tcp_server<typename http_server_socket_t, sockets::http::http_server_session>;
 
 } // namespace aeon::sockets::http

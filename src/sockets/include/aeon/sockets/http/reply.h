@@ -36,7 +36,7 @@ namespace aeon::sockets::http
 
 class reply
 {
-    friend class http_client_protocol;
+    friend class http_client_socket;
 
 public:
     reply();

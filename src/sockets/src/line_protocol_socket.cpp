@@ -23,44 +23,34 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
-#include <aeon/sockets/tcp_socket.h>
-#include <aeon/sockets/config.h>
-#include <aeon/streams/circular_buffer_stream.h>
+#include <aeon/sockets/line_protocol_socket.h>
 #include <aeon/streams/stream_reader.h>
 
 namespace aeon::sockets
 {
 
-/*!
- * Protocol implementation for a line protocol.
- * A line protocol can be any generic text-based TCP protocol that uses
- * line endings to distinguish between different packets.
- *
- * Examples of line protocols are: Telnet, HTTP and IRC.
- */
-class line_protocol : public tcp_socket
+line_protocol_socket::line_protocol_socket(asio::io_context &service)
+    : tcp_socket(service)
 {
-public:
-    /*!
-     * Client socket ctor
-     */
-    explicit line_protocol(asio::io_context &service);
+}
 
-    /*!
-     * Server socket ctor
-     */
-    explicit line_protocol(asio::ip::tcp::socket socket);
+line_protocol_socket::line_protocol_socket(asio::ip::tcp::socket socket)
+    : tcp_socket(std::move(socket))
+{
+}
 
-    virtual ~line_protocol();
+line_protocol_socket::~line_protocol_socket() = default;
 
-    virtual void on_line(const std::string &line) = 0;
+void line_protocol_socket::on_data(const std::uint8_t *data, const std::size_t size)
+{
+    circular_buffer_.write(data, size);
+    streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
+        circular_buffer_);
 
-private:
-    void on_data(const std::uint8_t *data, const std::size_t size) override;
-
-    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
-};
+    while (circular_buffer_.size() != 0)
+    {
+        on_line(reader.read_line());
+    }
+}
 
 } // namespace aeon::sockets

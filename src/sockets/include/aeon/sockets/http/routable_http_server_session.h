@@ -25,57 +25,28 @@
 
 #pragma once
 
-#include <aeon/sockets/http/method.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/sockets/http/http_server_socket.h>
+#include <aeon/sockets/http/route.h>
+#include <aeon/sockets/http/http_server_session.h>
 #include <string>
-#include <vector>
-#include <map>
+#include <memory>
 
 namespace aeon::sockets::http
 {
 
-class request
+class routable_http_server_session : public http_server_session
 {
-    friend class http_server_socket;
-
 public:
-    explicit request(const method method);
-    explicit request(const std::string &method, const std::string &uri);
+    explicit routable_http_server_session();
+    virtual ~routable_http_server_session();
 
-    auto get_method() const noexcept
-    {
-        return method_;
-    }
+    void add_route(std::unique_ptr<route> route);
+    void remove_route(const std::string &mountpoint);
 
-    auto get_uri() const
-    {
-        return uri_;
-    }
-
-    void set_uri(const std::string &uri)
-    {
-        uri_ = uri;
-    }
-
-    auto get_content_length() const
-    {
-        return content_.size();
-    }
-
-    auto get_content() const -> std::vector<std::uint8_t>;
-
-    auto get_raw_headers() const -> const std::vector<std::string> &;
+    auto find_best_match_route(const std::string &path, std::string &route_path) const -> route *;
 
 private:
-    void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
-
-    method method_;
-    std::string uri_;
-    std::vector<std::string> raw_headers_;
-    mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
+    std::map<std::string, std::unique_ptr<route>> routes_;
 };
-
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
 
 } // namespace aeon::sockets::http

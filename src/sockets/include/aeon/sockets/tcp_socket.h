@@ -40,7 +40,7 @@ namespace aeon::sockets
 
 class tcp_socket : public std::enable_shared_from_this<tcp_socket>
 {
-    template <typename socket_handler_t>
+    template <typename socket_handler_t, typename session_handler_t>
     friend class tcp_server;
 
     template <typename socket_handler_t>

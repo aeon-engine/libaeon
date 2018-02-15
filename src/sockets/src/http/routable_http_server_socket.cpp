@@ -23,59 +23,38 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
-#include <aeon/sockets/http/method.h>
-#include <aeon/streams/memory_stream.h>
-#include <string>
-#include <vector>
-#include <map>
+#include <aeon/sockets/http/routable_http_server_socket.h>
+#include <aeon/sockets/http/routable_http_server_session.h>
 
 namespace aeon::sockets::http
 {
 
-class request
+routable_http_server_socket::routable_http_server_socket(asio::ip::tcp::socket socket,
+                                                         routable_http_server_session &session)
+    : http_server_socket{std::move(socket)}
+    , session_{session}
 {
-    friend class http_server_socket;
+}
 
-public:
-    explicit request(const method method);
-    explicit request(const std::string &method, const std::string &uri);
+routable_http_server_socket::~routable_http_server_socket() = default;
 
-    auto get_method() const noexcept
+void routable_http_server_socket::on_http_request(const request &request)
+{
+    std::string route_path;
+    auto route = session_.find_best_match_route(request.get_uri(), route_path);
+
+    if (!route)
     {
-        return method_;
+        respond_default(status_code::not_found);
+        return;
     }
 
-    auto get_uri() const
-    {
-        return uri_;
-    }
+    // Change the request so actually use the new route_path. This way, a route doesn't need to know
+    // what the full path is it's mounted on.
+    auto new_request = request;
+    new_request.set_uri(route_path);
 
-    void set_uri(const std::string &uri)
-    {
-        uri_ = uri;
-    }
-
-    auto get_content_length() const
-    {
-        return content_.size();
-    }
-
-    auto get_content() const -> std::vector<std::uint8_t>;
-
-    auto get_raw_headers() const -> const std::vector<std::string> &;
-
-private:
-    void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
-
-    method method_;
-    std::string uri_;
-    std::vector<std::string> raw_headers_;
-    mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
-};
-
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
+    route->on_http_request(*this, session_, new_request);
+}
 
 } // namespace aeon::sockets::http

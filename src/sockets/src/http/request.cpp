@@ -30,22 +30,22 @@ namespace aeon::sockets::http
 {
 
 request::request(const method method)
-    : method_(method)
-    , uri_()
-    , raw_headers_()
-    , content_()
+    : method_{method}
+    , uri_{}
+    , raw_headers_{}
+    , content_{}
 {
 }
 
 request::request(const std::string &method, const std::string &uri)
-    : method_(string_to_method(method))
-    , uri_(uri)
-    , raw_headers_()
-    , content_()
+    : method_{string_to_method(method)}
+    , uri_{uri}
+    , raw_headers_{}
+    , content_{}
 {
 }
 
-auto request::get_content() -> std::vector<std::uint8_t>
+auto request::get_content() const -> std::vector<std::uint8_t>
 {
     return content_.read_to_vector();
 }
@@ -65,20 +65,6 @@ void request::append_raw_content_data(const std::vector<std::uint8_t> &data)
     content_.vector_write(data);
 }
 
-auto stip_uri_prefix(const std::string &uri, const std::string &prefix) -> std::string
-{
-    const auto last_char = *(--prefix.end());
-
-    auto strip_length = prefix.size();
-    if (last_char == '/')
-        --strip_length;
-
-    if (strip_length > 0)
-        return uri.substr(strip_length);
-
-    return uri;
-}
-
 auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>
 {
     std::map<std::string, std::string> headers;
@@ -96,7 +82,7 @@ auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std:
         const auto header_name = common::string::to_lower(header_line.substr(0, header_name_end));
         const auto header_value = header_line.substr(header_name_end + 2);
 
-        headers[header_name] = header_value;
+        headers.insert({header_name, header_value});
     }
 
     return headers;

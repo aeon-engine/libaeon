@@ -25,57 +25,14 @@
 
 #pragma once
 
-#include <aeon/sockets/http/method.h>
-#include <aeon/streams/memory_stream.h>
-#include <string>
-#include <vector>
-#include <map>
+#include <aeon/sockets/http/routable_http_server_socket.h>
+#include <aeon/sockets/http/routable_http_server_session.h>
+#include <aeon/sockets/tcp_server.h>
 
 namespace aeon::sockets::http
 {
 
-class request
-{
-    friend class http_server_socket;
-
-public:
-    explicit request(const method method);
-    explicit request(const std::string &method, const std::string &uri);
-
-    auto get_method() const noexcept
-    {
-        return method_;
-    }
-
-    auto get_uri() const
-    {
-        return uri_;
-    }
-
-    void set_uri(const std::string &uri)
-    {
-        uri_ = uri;
-    }
-
-    auto get_content_length() const
-    {
-        return content_.size();
-    }
-
-    auto get_content() const -> std::vector<std::uint8_t>;
-
-    auto get_raw_headers() const -> const std::vector<std::string> &;
-
-private:
-    void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
-
-    method method_;
-    std::string uri_;
-    std::vector<std::string> raw_headers_;
-    mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
-};
-
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
+using routable_http_server =
+    sockets::tcp_server<sockets::http::routable_http_server_socket, sockets::http::routable_http_server_session>;
 
 } // namespace aeon::sockets::http

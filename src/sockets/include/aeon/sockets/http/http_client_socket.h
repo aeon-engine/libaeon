@@ -25,57 +25,50 @@
 
 #pragma once
 
-#include <aeon/sockets/http/method.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/sockets/http/request.h>
+#include <aeon/sockets/http/status_code.h>
+#include <aeon/sockets/http/reply.h>
+#include <aeon/sockets/tcp_socket.h>
+#include <aeon/sockets/config.h>
+#include <aeon/streams/circular_buffer_stream.h>
+#include <asio.hpp>
 #include <string>
-#include <vector>
-#include <map>
 
 namespace aeon::sockets::http
 {
 
-class request
+class http_client_socket : public tcp_socket
 {
-    friend class http_server_socket;
+    enum class http_state
+    {
+        client_read_status,
+        client_read_headers,
+        client_read_body
+    };
 
 public:
-    explicit request(const method method);
-    explicit request(const std::string &method, const std::string &uri);
+    explicit http_client_socket(asio::io_context &context);
 
-    auto get_method() const noexcept
-    {
-        return method_;
-    }
+    virtual ~http_client_socket();
 
-    auto get_uri() const
-    {
-        return uri_;
-    }
+    void request_async(const std::string &host, const std::string &uri, const method method = method::get);
 
-    void set_uri(const std::string &uri)
-    {
-        uri_ = uri;
-    }
-
-    auto get_content_length() const
-    {
-        return content_.size();
-    }
-
-    auto get_content() const -> std::vector<std::uint8_t>;
-
-    auto get_raw_headers() const -> const std::vector<std::string> &;
+    virtual void on_http_reply(reply &reply) = 0;
 
 private:
-    void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
+    void on_data(const std::uint8_t *data, const std::size_t size) override;
 
-    method method_;
-    std::string uri_;
-    std::vector<std::string> raw_headers_;
-    mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
+    auto __on_line(const std::string &line) -> bool;
+
+    auto __parse_expected_content_length() -> bool;
+
+    auto __handle_read_status_state(const std::string &line) -> bool;
+    auto __handle_read_headers_state(const std::string &line) -> bool;
+
+    http_state state_;
+    reply reply_;
+    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
+    std::uint64_t expected_content_length_;
 };
-
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
 
 } // namespace aeon::sockets::http

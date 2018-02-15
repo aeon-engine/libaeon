@@ -25,57 +25,30 @@
 
 #pragma once
 
-#include <aeon/sockets/http/method.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/sockets/http/http_server_socket.h>
+#include <aeon/sockets/http/route.h>
 #include <string>
-#include <vector>
-#include <map>
+#include <memory>
 
 namespace aeon::sockets::http
 {
 
-class request
+class routable_http_server_session;
+
+class routable_http_server_socket : public http_server_socket
 {
-    friend class http_server_socket;
-
 public:
-    explicit request(const method method);
-    explicit request(const std::string &method, const std::string &uri);
+    /*!
+     * Server socket ctor
+     */
+    explicit routable_http_server_socket(asio::ip::tcp::socket socket, routable_http_server_session &session);
 
-    auto get_method() const noexcept
-    {
-        return method_;
-    }
-
-    auto get_uri() const
-    {
-        return uri_;
-    }
-
-    void set_uri(const std::string &uri)
-    {
-        uri_ = uri;
-    }
-
-    auto get_content_length() const
-    {
-        return content_.size();
-    }
-
-    auto get_content() const -> std::vector<std::uint8_t>;
-
-    auto get_raw_headers() const -> const std::vector<std::string> &;
+    virtual ~routable_http_server_socket();
 
 private:
-    void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
+    void on_http_request(const request &request) override;
 
-    method method_;
-    std::string uri_;
-    std::vector<std::string> raw_headers_;
-    mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
+    routable_http_server_session &session_;
 };
-
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
 
 } // namespace aeon::sockets::http

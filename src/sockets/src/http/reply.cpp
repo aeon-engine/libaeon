@@ -29,16 +29,14 @@ namespace aeon::sockets::http
 {
 
 reply::reply()
-    : status_(status_code::internal_server_error)
-    , raw_headers_()
-    , content_()
+    : reply{status_code::internal_server_error}
 {
 }
 
 reply::reply(const status_code status)
-    : status_(status)
-    , raw_headers_()
-    , content_()
+    : status_{status}
+    , raw_headers_{}
+    , content_{}
 {
 }
 

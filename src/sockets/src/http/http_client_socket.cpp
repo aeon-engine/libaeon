@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/http/http_client_protocol.h>
+#include <aeon/sockets/http/http_client_socket.h>
 #include <aeon/streams/memory_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/sockets/http/constants.h>
@@ -33,18 +33,18 @@
 namespace aeon::sockets::http
 {
 
-http_client_protocol::http_client_protocol(asio::io_context &context)
-    : tcp_socket(context)
-    , state_(http_state::client_read_status)
-    , reply_()
-    , circular_buffer_()
-    , expected_content_length_(0)
+http_client_socket::http_client_socket(asio::io_context &context)
+    : tcp_socket{context}
+    , state_{http_state::client_read_status}
+    , reply_{}
+    , circular_buffer_{}
+    , expected_content_length_{0}
 {
 }
 
-http_client_protocol::~http_client_protocol() = default;
+http_client_socket::~http_client_socket() = default;
 
-void http_client_protocol::request_async(const std::string &host, const std::string &uri, const method method)
+void http_client_socket::request_async(const std::string &host, const std::string &uri, const method method)
 {
     streams::memory_stream stream;
     auto request = "GET " + uri + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
@@ -53,7 +53,7 @@ void http_client_protocol::request_async(const std::string &host, const std::str
     send(stream);
 }
 
-void http_client_protocol::on_data(const std::uint8_t *data, const std::size_t size)
+void http_client_socket::on_data(const std::uint8_t *data, const std::size_t size)
 {
     circular_buffer_.write(data, size);
     streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
@@ -77,7 +77,7 @@ void http_client_protocol::on_data(const std::uint8_t *data, const std::size_t s
             if (!result)
             {
                 // TODO: Better error code here.
-                on_error(std::error_code());
+                on_error(std::error_code{});
                 disconnect();
                 return;
             }
@@ -85,7 +85,7 @@ void http_client_protocol::on_data(const std::uint8_t *data, const std::size_t s
     }
 }
 
-auto http_client_protocol::__on_line(const std::string &line) -> bool
+auto http_client_socket::__on_line(const std::string &line) -> bool
 {
     /*
     HTTP/1.1 200 Ok
@@ -95,8 +95,6 @@ auto http_client_protocol::__on_line(const std::string &line) -> bool
 
     Hello!
     */
-
-    std::cout << "CL << " << line << "\n";
 
     switch (state_)
     {
@@ -115,7 +113,7 @@ auto http_client_protocol::__on_line(const std::string &line) -> bool
     }
 }
 
-auto http_client_protocol::__parse_expected_content_length() -> bool
+auto http_client_socket::__parse_expected_content_length() -> bool
 {
     const auto http_headers = parse_raw_http_headers(reply_.get_raw_headers());
 
@@ -128,7 +126,7 @@ auto http_client_protocol::__parse_expected_content_length() -> bool
     return true;
 }
 
-auto http_client_protocol::__handle_read_status_state(const std::string &line) -> bool
+auto http_client_socket::__handle_read_status_state(const std::string &line) -> bool
 {
     auto status_line_split = common::string::split(line, ' ');
 
@@ -161,7 +159,7 @@ auto http_client_protocol::__handle_read_status_state(const std::string &line) -
     return true;
 }
 
-auto http_client_protocol::__handle_read_headers_state(const std::string &line) -> bool
+auto http_client_socket::__handle_read_headers_state(const std::string &line) -> bool
 {
     if (line.empty())
     {

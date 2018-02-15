@@ -24,19 +24,20 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/sockets/http/rest/rest_server.h>
-#include <aeon/sockets/http/http_server_protocol.h>
-#include <aeon/sockets/http/http_client_protocol.h>
+#include <aeon/sockets/http/http_server_socket.h>
+#include <aeon/sockets/http/http_client_socket.h>
+#include <aeon/sockets/http/routable_http_server.h>
+#include <aeon/sockets/http/static_route.h>
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/tcp_client.h>
 #include <aeon/utility/hexdump.h>
 
 using namespace aeon;
 
-class test_client : public sockets::http::http_client_protocol
+class test_client : public sockets::http::http_client_socket
 {
 public:
-    using sockets::http::http_client_protocol::http_client_protocol;
+    using sockets::http::http_client_socket::http_client_socket;
 
     void on_connected() override
     {
@@ -61,9 +62,9 @@ public:
     }
 };
 
-class test_server : public sockets::http::http_server_protocol
+class test_server : public sockets::http::http_server_socket
 {
-    using sockets::http::http_server_protocol::http_server_protocol;
+    using sockets::http::http_server_socket::http_server_socket;
 
     void on_connected() override
     {
@@ -80,7 +81,7 @@ class test_server : public sockets::http::http_server_protocol
         std::cout << "On Disconnected.\n";
     }
 
-    void on_http_request(sockets::http::request &request) override
+    void on_http_request(const sockets::http::request &request) override
     {
         std::cout << "Request: " << request.get_uri() << "\n";
 
@@ -96,30 +97,17 @@ class test_server : public sockets::http::http_server_protocol
     }
 };
 
-/*
-TEST(test_sockets, test_sockets_create)
-{
-    asio::io_context service;
-    aeon::sockets::tcp_server<test_protocol_handler> handler(service, 1337);
-}
-*/
-/*
-
-/*TEST(test_sockets, test_sockets_create)
-{
-    asio::io_context service;
-    sockets::tcp_server<test_protocol_handler> handler(service, 80);
-    service.run();
-}
-*/
+// TODO: Write socket tests
 
 /*
 TEST(test_sockets, test_sockets_http_rest_create)
 {
     asio::io_context service;
-    sockets::tcp_server<test_server> handler(service, 80);
 
-    sockets::tcp_client<test_client> client(service, "localhost", 80);
+    sockets::http::routable_http_server handler(service, 80);
+
+    handler.get_session().add_route(std::make_unique<sockets::http::static_route>(
+        "/", "/Test"));
 
     service.run();
 }
