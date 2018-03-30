@@ -59,15 +59,15 @@ auto routable_http_server_session::find_best_match_route(const std::string &path
     auto best_match_length = 0_size_t;
     route *best_match_route = nullptr;
 
-    for (auto & [ route_path, route_ptr ] : routes_)
+    for (auto & [ route, route_ptr ] : routes_)
     {
-        const auto route_path_length = route_path.length();
+        const auto route_path_length = route.length();
 
         // Due to possible mountpoints being inside other mountpoints, the best match provider is the one that
         // has the most in common with the path
         if (route_path_length > best_match_length)
         {
-            if (actual_path.compare(0, route_path_length, route_path) == 0)
+            if (actual_path.compare(0, route_path_length, route) == 0)
             {
                 best_match_length = route_path_length;
                 best_match_route = route_ptr.get();
