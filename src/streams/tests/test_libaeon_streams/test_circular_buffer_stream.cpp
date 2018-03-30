@@ -182,19 +182,19 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_overread)
     std::size_t result = buffer.read(data, sizeof(data));
 
     ASSERT_EQ(0, result);
-    ASSERT_EQ(0, buffer.size());
+    ASSERT_EQ(0u, buffer.size());
 }
 
 TEST(test_circular_buffer_stream, test_circular_buffer_stream_default_size)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
-    ASSERT_EQ(0, buffer.size());
+    ASSERT_EQ(0u, buffer.size());
 }
 
 TEST(test_circular_buffer_stream, test_circular_buffer_stream_maximum_size)
 {
     aeon::streams::circular_buffer_stream<10> buffer;
-    ASSERT_EQ(10, buffer.max_size());
+    ASSERT_EQ(10u, buffer.max_size());
 }
 
 /*
@@ -233,21 +233,21 @@ TEST(test_circular_buffer_stream, test_circular_buffer_stream_move_assignment)
 
     ASSERT_EQ(sizeof(data), result);
     ASSERT_EQ(sizeof(data), buffer.size());
-    ASSERT_EQ(10, buffer.max_size());
+    ASSERT_EQ(10u, buffer.max_size());
 
     aeon::streams::circular_buffer_stream<10> buffer2;
-    ASSERT_EQ(0, buffer2.size());
+    ASSERT_EQ(0u, buffer2.size());
 
     buffer2 = std::move(buffer);
 
     ASSERT_EQ(sizeof(data), buffer2.size());
-    ASSERT_EQ(10, buffer2.max_size());
+    ASSERT_EQ(10u, buffer2.max_size());
 
     std::uint8_t readbackdata[sizeof(data)];
     result = buffer2.read(readbackdata, sizeof(readbackdata));
 
     ASSERT_EQ(sizeof(readbackdata), result);
-    ASSERT_EQ(0, buffer2.size());
+    ASSERT_EQ(0u, buffer2.size());
 
     ASSERT_THAT(readbackdata, ::testing::ElementsAreArray(data));
 }
