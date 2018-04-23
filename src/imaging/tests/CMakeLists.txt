@@ -21,55 +21,23 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Curl
-option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." OFF)
+include(Unittests)
 
-# Mono
-option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
+add_unit_test_suite(
+    NO_GTEST_MAIN
+    TARGET test_libaeon_imaging
+    SOURCES
+        main.cpp
+        test_imaging.cpp
+        test_file_bmp.cpp
+        test_file_png.cpp
+        test_file_jpg.cpp
+        test_generators.cpp
+    INCLUDES
+        ${CMAKE_CURRENT_BINARY_DIR}
+        LIBRARIES aeon_imaging aeon_testing
+    FOLDER dep/libaeon/tests
+)
 
-# Sockets
-option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
-
-# Midi
-option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
-
-# HDF5
-option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
-
-# Imaging
-option(AEON_ENABLE_IMAGING "Enable the Aeon imaging library." OFF)
-
-################################################################################
-
-add_subdirectory(common)
-add_subdirectory(streams)
-add_subdirectory(utility)
-add_subdirectory(filesystem)
-add_subdirectory(testing)
-add_subdirectory(math)
-add_subdirectory(logger)
-add_subdirectory(plugins)
-
-if (AEON_ENABLE_CURL)
-    add_subdirectory(curl)
-endif ()
-
-if (AEON_ENABLE_MONO)
-    add_subdirectory(mono)
-endif ()
-
-if (AEON_ENABLE_MIDI)
-    add_subdirectory(midi)
-endif ()
-
-if (AEON_ENABLE_SOCKETS)
-    add_subdirectory(sockets)
-endif ()
-
-if (AEON_ENABLE_HDF5)
-    add_subdirectory(hdf5)
-endif ()
-
-if (AEON_ENABLE_IMAGING)
-    add_subdirectory(imaging)
-endif ()
+set(AEON_IMAGING_UNITTEST_DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/data/)
+configure_file(imaging_unittest_data.h.in imaging_unittest_data.h @ONLY)

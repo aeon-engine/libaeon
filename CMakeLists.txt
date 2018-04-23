@@ -63,6 +63,7 @@ set(AEON_ENABLE_CURL OFF CACHE BOOL "")
 set(AEON_ENABLE_SOCKETS ON CACHE BOOL "")
 set(AEON_ENABLE_MIDI OFF CACHE BOOL "")
 set(AEON_ENABLE_HDF5 OFF CACHE BOOL "")
+set(AEON_ENABLE_IMAGING ON CACHE BOOL "")
 
 ################################################################################
 

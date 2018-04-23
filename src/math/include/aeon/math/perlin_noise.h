@@ -37,66 +37,66 @@ public:
     perlin_noise(const double persistence, const double frequency, const double amplitude, const int octaves,
                  const int randomseed);
 
-    auto get_height(const double x, const double y) const -> double;
+    auto get_height(const double x, const double y) const noexcept -> double;
 
-    auto get_persistance() const
+    auto get_persistance() const noexcept
     {
         return persistence_;
     }
 
-    auto get_frequency() const
+    auto get_frequency() const noexcept
     {
         return frequency_;
     }
 
-    auto get_amplitude() const
+    auto get_amplitude() const noexcept
     {
         return amplitude_;
     }
 
-    auto get_octaves() const
+    auto get_octaves() const noexcept
     {
         return octaves_;
     }
 
-    auto get_randomseed() const
+    auto get_randomseed() const noexcept
     {
         return randomseed_;
     }
 
-    void set(const double _persistence, const double _frequency, const double _amplitude, const int _octaves,
-             const int _randomseed);
+    void set(const double persistence, const double frequency, const double amplitude, const int octaves,
+             const int randomseed) noexcept;
 
-    void set_persistance(const double persistence)
+    void set_persistance(const double persistence) noexcept
     {
         persistence_ = persistence;
     }
 
-    void set_frequency(const double frequency)
+    void set_frequency(const double frequency) noexcept
     {
         frequency_ = frequency;
     }
 
-    void set_amplitude(const double amplitude)
+    void set_amplitude(const double amplitude) noexcept
     {
         amplitude_ = amplitude;
     }
 
-    void set_octaves(const int octaves)
+    void set_octaves(const int octaves) noexcept
     {
         octaves_ = octaves;
     }
 
-    void set_random_seed(const int randomseed)
+    void set_random_seed(const int randomseed) noexcept
     {
         randomseed_ = randomseed;
     }
 
 private:
-    auto total(double i, double j) const -> double;
-    auto get_value(double x, double y) const -> double;
-    auto interpolate(double x, double y, double a) const -> double;
-    auto noise(int x, int y) const -> double;
+    auto total(double i, double j) const noexcept -> double;
+    auto get_value(double x, double y) const noexcept -> double;
+    auto interpolate(double x, double y, double a) const noexcept -> double;
+    auto noise(int x, int y) const noexcept -> double;
 
     double persistence_;
     double frequency_;
