@@ -23,26 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-#include <aeon/utility/uuid.h>
-#include <aeon/streams/stream_writer.h>
-#include <aeon/streams/stream_reader.h>
-
-namespace aeon::utility
+int main(int argc, char **argv)
 {
-
-inline auto operator<<(streams::stream_writer &stream, const uuid &val) -> streams::stream_writer &
-{
-    stream.internal_stream().write(val.data.data(), val.size());
-    return stream;
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
-
-template <typename T>
-inline auto operator>>(streams::stream_reader<T> &stream, uuid &val) -> streams::stream_reader<T> &
-{
-    stream.internal_stream().read(val.data.data(), val.size());
-    return stream;
-}
-
-} // namespace aeon::utility

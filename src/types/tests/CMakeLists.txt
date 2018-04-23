@@ -21,39 +21,18 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-set(LIB_AEON_UTILITY_SOURCE
-    include/aeon/utility/configfile.h
-    src/configfile.cpp
-    include/aeon/utility/cached_container.h
-    include/aeon/utility/dispatcher.h
-    include/aeon/utility/dispatcher_fwd.h
-    include/aeon/utility/hexdump.h
-    src/hexdump.cpp
-    include/aeon/utility/linear_map.h
-    include/aeon/utility/listener_subject.h
-    include/aeon/utility/parallelizer.h
-    include/aeon/utility/parameters.h
-    include/aeon/utility/signals.h
-    include/aeon/utility/timer.h
-    src/timer.cpp
+include(Unittests)
+
+add_unit_test_suite(
+    NO_GTEST_MAIN
+    TARGET test_libaeon_types
+    SOURCES
+        main.cpp
+        test_rectangle.cpp
+        test_size2d.cpp
+        test_uuid.cpp
+    INCLUDES
+        ${CMAKE_CURRENT_BINARY_DIR}
+    LIBRARIES aeon_types
+    FOLDER dep/libaeon/tests
 )
-
-source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
-
-add_library(aeon_utility STATIC ${LIB_AEON_UTILITY_SOURCE})
-
-set_target_properties(aeon_utility PROPERTIES
-    FOLDER dep/libaeon
-    LINKER_LANGUAGE CXX
-)
-
-target_include_directories(aeon_utility PUBLIC include)
-
-target_link_libraries(aeon_utility aeon_common aeon_streams)
-
-install(
-    DIRECTORY include
-    DESTINATION include
-)
-
-add_subdirectory(tests)

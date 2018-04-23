@@ -21,35 +21,26 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-set(LIB_AEON_UTILITY_SOURCE
-    include/aeon/utility/configfile.h
-    src/configfile.cpp
-    include/aeon/utility/cached_container.h
-    include/aeon/utility/dispatcher.h
-    include/aeon/utility/dispatcher_fwd.h
-    include/aeon/utility/hexdump.h
-    src/hexdump.cpp
-    include/aeon/utility/linear_map.h
-    include/aeon/utility/listener_subject.h
-    include/aeon/utility/parallelizer.h
-    include/aeon/utility/parameters.h
-    include/aeon/utility/signals.h
-    include/aeon/utility/timer.h
-    src/timer.cpp
+set(LIB_AEON_TYPES_SOURCE
+    include/aeon/types/rectangle.h
+    include/aeon/types/size2d.h
+    include/aeon/types/uuid.h
+    include/aeon/types/uuid_stream.h
+    src/uuid.cpp
 )
 
-source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
+source_group(types FILES ${LIB_AEON_TYPES_SOURCE})
 
-add_library(aeon_utility STATIC ${LIB_AEON_UTILITY_SOURCE})
+add_library(aeon_types STATIC ${LIB_AEON_TYPES_SOURCE})
 
-set_target_properties(aeon_utility PROPERTIES
+set_target_properties(aeon_types PROPERTIES
     FOLDER dep/libaeon
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_utility PUBLIC include)
+target_include_directories(aeon_types PUBLIC include)
 
-target_link_libraries(aeon_utility aeon_common aeon_streams)
+target_link_libraries(aeon_types aeon_common aeon_streams aeon_math)
 
 install(
     DIRECTORY include

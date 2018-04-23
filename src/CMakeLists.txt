@@ -49,6 +49,7 @@ add_subdirectory(testing)
 add_subdirectory(math)
 add_subdirectory(logger)
 add_subdirectory(plugins)
+add_subdirectory(types)
 
 if (AEON_ENABLE_CURL)
     add_subdirectory(curl)

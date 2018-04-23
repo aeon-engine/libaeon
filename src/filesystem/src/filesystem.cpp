@@ -25,7 +25,7 @@
 
 #include <aeon/filesystem/filesystem.h>
 #include <aeon/common/platform.h>
-#include <aeon/utility/uuid.h>
+#include <aeon/types/uuid.h>
 #include <stdexcept>
 #include <stdlib.h>
 #include <stdio.h>
@@ -79,7 +79,7 @@ void delete_directory(const std::string &path)
 
 auto generate_temporary_file_path() -> std::filesystem::path
 {
-    auto uuid = utility::uuid::generate();
+    auto uuid = types::uuid::generate();
     return std::filesystem::temp_directory_path() / uuid.str();
 }
 
