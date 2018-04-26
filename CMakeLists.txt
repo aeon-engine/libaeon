@@ -23,7 +23,11 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-project(libAeon)
+if (DEFINED ENV{LIBAEON_PROJECT_NAME})
+    project($ENV{LIBAEON_PROJECT_NAME})
+else ()
+    project(libAeon)
+endif ()
 
 # Create compile_commands.json when possible, which can be used for
 # analysis tools.
