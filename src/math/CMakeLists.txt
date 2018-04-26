@@ -22,15 +22,38 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_MATH_SOURCE
+    include/aeon/math/mat3.h
+    include/aeon/math/mat4.h
     include/aeon/math/perlin_noise.h
     src/perlin_noise.cpp
+    include/aeon/math/quaternion.h
     include/aeon/math/simplex_noise.h
     src/simplex_noise.cpp
+    include/aeon/math/vector2.h
+    include/aeon/math/vector3.h
+    include/aeon/math/vector4.h
 )
 
 source_group(math FILES ${LIB_AEON_MATH_SOURCE})
 
-add_library(aeon_math STATIC ${LIB_AEON_MATH_SOURCE})
+set(LIB_AEON_MATH_IMPL_SOURCE
+    include/aeon/math/impl/mat3_impl.h
+    include/aeon/math/impl/mat3_operators_impl.h
+    include/aeon/math/impl/mat4_impl.h
+    include/aeon/math/impl/mat4_operators_impl.h
+    include/aeon/math/impl/quaternion_impl.h
+    include/aeon/math/impl/quaternion_operators_impl.h
+    include/aeon/math/impl/vector2_impl.h
+    include/aeon/math/impl/vector2_operators_impl.h
+    include/aeon/math/impl/vector3_impl.h
+    include/aeon/math/impl/vector3_operators_impl.h
+    include/aeon/math/impl/vector4_impl.h
+    include/aeon/math/impl/vector4_operators_impl.h
+)
+
+source_group(math\\impl FILES ${LIB_AEON_MATH_IMPL_SOURCE})
+
+add_library(aeon_math STATIC ${LIB_AEON_MATH_SOURCE} ${LIB_AEON_MATH_IMPL_SOURCE})
 
 set_target_properties(aeon_math PROPERTIES
     FOLDER dep/libaeon
@@ -43,3 +66,5 @@ install(
     DIRECTORY include
     DESTINATION include
 )
+
+add_subdirectory(tests)
