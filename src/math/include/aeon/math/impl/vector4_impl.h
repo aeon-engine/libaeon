@@ -122,12 +122,32 @@ inline vector4<T>::vector4(const vector3<T> vec, const T w) noexcept
 }
 
 template <typename T>
-vector4<T>::vector4(const T xyzw[4]) noexcept
+inline vector4<T>::vector4(const T xyzw[4]) noexcept
     : x{xyzw[0]}
     , y{xyzw[1]}
     , z{xyzw[2]}
     , w{xyzw[3]}
 {
+}
+
+template <typename T>
+inline auto vector4<T>::operator=(const vector2<T> &vec) noexcept -> vector4<T> &
+{
+    x = vec.x;
+    y = vec.y;
+    z = 0.0f;
+    w = 0.0f;
+    return *this;
+}
+
+template <typename T>
+inline auto vector4<T>::operator=(const vector3<T> &vec) noexcept -> vector4<T> &
+{
+    x = vec.x;
+    y = vec.y;
+    z = vec.z;
+    w = 0.0f;
+    return *this;
 }
 
 template <typename T>

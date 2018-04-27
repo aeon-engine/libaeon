@@ -53,7 +53,7 @@ inline vector2<T>::vector2(const T x, const T y) noexcept
 }
 
 template <typename T>
-vector2<T>::vector2(const T xy[2]) noexcept
+inline vector2<T>::vector2(const T xy[2]) noexcept
     : x{xy[0]}
     , y{xy[1]}
 {

@@ -56,6 +56,8 @@ public:
     vector3(vector3<T> &&) noexcept = default;
     auto operator=(vector3<T> &&) noexcept -> vector3<T> & = default;
 
+    auto operator=(const vector2<T> &vec) noexcept -> vector3<T> &;
+
     static auto zero() noexcept -> vector3<T>;
 
     void set(const T new_x, const T new_y, const T new_z) noexcept;

@@ -64,7 +64,7 @@ inline vector3<T>::vector3(const T x, const T y, const T z) noexcept
 }
 
 template <typename T>
-vector3<T>::vector3(const vector2<T> vec) noexcept
+inline vector3<T>::vector3(const vector2<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{0}
@@ -72,7 +72,7 @@ vector3<T>::vector3(const vector2<T> vec) noexcept
 }
 
 template <typename T>
-vector3<T>::vector3(const vector2<T> vec, const T z) noexcept
+inline vector3<T>::vector3(const vector2<T> vec, const T z) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{z}
@@ -80,7 +80,7 @@ vector3<T>::vector3(const vector2<T> vec, const T z) noexcept
 }
 
 template <typename T>
-vector3<T>::vector3(const T xyz[3]) noexcept
+inline vector3<T>::vector3(const T xyz[3]) noexcept
     : x{xyz[0]}
     , y{xyz[1]}
     , z{xyz[2]}
@@ -88,13 +88,22 @@ vector3<T>::vector3(const T xyz[3]) noexcept
 }
 
 template <typename T>
-auto vector3<T>::zero() noexcept -> vector3<T>
+inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> &
+{
+    x = vec.x;
+    y = vec.y;
+    z = 0.0f;
+    return *this;
+}
+
+template <typename T>
+inline auto vector3<T>::zero() noexcept -> vector3<T>
 {
     return vector3<T>{};
 }
 
 template <typename T>
-void vector3<T>::set(const T new_x, const T new_y, const T new_z) noexcept
+inline void vector3<T>::set(const T new_x, const T new_y, const T new_z) noexcept
 {
     x = new_x;
     y = new_y;
