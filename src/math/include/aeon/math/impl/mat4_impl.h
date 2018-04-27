@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <cmath>
+
 namespace aeon::math
 {
 
@@ -335,6 +337,34 @@ inline auto inverse(const mat4 &mat) noexcept -> mat4
         d30, d31, d32, d33
     };
     // clang-format on
+}
+
+inline auto to_mat3(const mat4 &mat) noexcept -> mat3
+{
+    // clang-format off
+    return {
+        mat.m00, mat.m10, mat.m20,
+        mat.m01, mat.m11, mat.m21,
+        mat.m02, mat.m12, mat.m22
+    };
+    // clang-format on
+}
+
+inline auto is_affine(const mat4 &mat) noexcept -> bool
+{
+    return (mat.m30 == 0.0f) && (mat.m31 == 0.0f) && (mat.m32 == 0.0f) && (mat.m33 == 1.0f);
+}
+
+inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<float> &scale,
+                      quaternion &orientation) noexcept
+{
+    const auto mat3 = to_mat3(mat);
+
+    vector3<float> shear;
+    const auto q = qr_decompose(mat3, scale, shear);
+
+    orientation = quaternion{q};
+    translation.set(mat.m03, mat.m13, mat.m23);
 }
 
 inline auto ptr(mat4 &mat) noexcept -> float *

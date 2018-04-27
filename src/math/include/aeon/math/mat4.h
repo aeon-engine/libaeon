@@ -27,7 +27,8 @@
 
 #include <aeon/math/vector3.h>
 #include <aeon/math/vector4.h>
-#include <cmath>
+#include <aeon/math/mat3.h>
+#include <aeon/math/quaternion.h>
 
 namespace aeon::math
 {
@@ -106,6 +107,13 @@ inline auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 inline auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 
 inline auto inverse(const mat4 &mat) noexcept -> mat4;
+
+inline auto to_mat3(const mat4 &mat) noexcept -> mat3;
+
+inline auto is_affine(const mat4 &mat) noexcept -> bool;
+
+inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<float> &scale,
+                      quaternion &orientation) noexcept;
 
 inline auto ptr(mat4 &mat) noexcept -> float *;
 

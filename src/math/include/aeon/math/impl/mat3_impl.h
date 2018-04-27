@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/math/quaternion.h>
+
 namespace aeon::math
 {
 
@@ -120,6 +122,69 @@ inline auto mat3::rotate(const float angle) noexcept -> mat3
         0.0f, 0.0f, 1.0f
     };
     // clang-format on
+}
+
+inline auto determinant(const mat3 &mat) noexcept -> float
+{
+    return (mat.m00 * mat.m11 * mat.m22) + (mat.m01 * mat.m12 * mat.m20) + (mat.m02 * mat.m10 * mat.m21) -
+           (mat.m02 * mat.m11 * mat.m20) - (mat.m01 * mat.m10 * mat.m22) - (mat.m00 * mat.m12 * mat.m21);
+}
+
+inline auto qr_decompose(const mat3 &mat, vector3<float> &scale, vector3<float> &shear) noexcept -> mat3
+{
+    auto inv_length = 1.0f / std::sqrt(mat.m00 * mat.m00 + mat.m10 * mat.m10 + mat.m20 * mat.m20);
+
+    mat3 q;
+
+    q.m00 = mat.m00 * inv_length;
+    q.m10 = mat.m10 * inv_length;
+    q.m20 = mat.m20 * inv_length;
+
+    auto dot = q.m00 * mat.m01 + q.m10 * mat.m11 + q.m20 * mat.m21;
+
+    q.m01 = mat.m01 - dot * q.m00;
+    q.m11 = mat.m11 - dot * q.m10;
+    q.m21 = mat.m21 - dot * q.m20;
+
+    inv_length = 1.0f / std::sqrt(q.m01 * q.m01 + q.m11 * q.m11 + q.m21 * q.m21);
+
+    q.m01 *= inv_length;
+    q.m11 *= inv_length;
+    q.m21 *= inv_length;
+
+    dot = q.m00 * mat.m02 + q.m10 * mat.m12 + q.m20 * mat.m22;
+    q.m02 = mat.m02 - dot * q.m00;
+    q.m12 = mat.m12 - dot * q.m10;
+    q.m22 = mat.m22 - dot * q.m20;
+
+    dot = q.m01 * mat.m02 + q.m11 * mat.m12 + q.m21 * mat.m22;
+    q.m02 -= dot * q.m01;
+    q.m12 -= dot * q.m11;
+    q.m22 -= dot * q.m21;
+
+    inv_length = 1.0f / std::sqrt(q.m02 * q.m02 + q.m12 * q.m12 + q.m22 * q.m22);
+
+    q.m02 *= inv_length;
+    q.m12 *= inv_length;
+    q.m22 *= inv_length;
+
+    if (determinant(q) < 0.0f)
+        q = -q;
+
+    mat3 r;
+    r.m00 = q.m00 * mat.m00 + q.m10 * mat.m10 + q.m20 * mat.m20;
+    r.m01 = q.m00 * mat.m01 + q.m10 * mat.m11 + q.m20 * mat.m21;
+    r.m11 = q.m01 * mat.m01 + q.m11 * mat.m11 + q.m21 * mat.m21;
+    r.m02 = q.m00 * mat.m02 + q.m10 * mat.m12 + q.m20 * mat.m22;
+    r.m12 = q.m01 * mat.m02 + q.m11 * mat.m12 + q.m21 * mat.m22;
+    r.m22 = q.m02 * mat.m02 + q.m12 * mat.m12 + q.m22 * mat.m22;
+
+    scale.set(r.m00, r.m11, r.m22);
+
+    const auto inv_rm00 = 1.0f / r.m00;
+    shear.set(r.m01 * inv_rm00, r.m02 * inv_rm00, r.m12 / r.m11);
+
+    return q;
 }
 
 inline auto ptr(mat3 &mat) noexcept -> float *

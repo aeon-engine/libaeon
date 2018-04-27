@@ -64,6 +64,16 @@ inline auto operator*(const mat3 &lhs, const float rhs) noexcept -> mat3
     // clang-format on
 }
 
+inline auto operator-(const mat3 &mat) noexcept -> mat3
+{
+    // clang-format off
+    return {
+        -mat.m00, -mat.m10, -mat.m20,
+        -mat.m01, -mat.m11, -mat.m21,
+        -mat.m02, -mat.m12, -mat.m22};
+    // clang-format on
+}
+
 inline auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
 {
     // clang-format off

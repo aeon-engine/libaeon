@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <aeon/math/mat4.h>
+#include <aeon/math/math.h>
 
 using namespace aeon;
 
@@ -83,4 +84,21 @@ TEST(test_mat4, test_mat4_at)
     EXPECT_EQ(mat.m13, mat.at(1, 3));
     EXPECT_EQ(mat.m23, mat.at(2, 3));
     EXPECT_EQ(mat.m33, mat.at(3, 3));
+}
+
+TEST(test_mat4, test_mat4_decompose)
+{
+    const auto expected_translation = math::vector3<float>{10.0f, 20.0f, 30.0f};
+
+    const auto matrix = math::mat4::rotate(math::degree_to_radian(90.0f), {1.0f, 0.0f, 0.0f}) *
+                        math::mat4::translate(expected_translation);
+
+    math::vector3<float> translation;
+    math::vector3<float> scale;
+    math::quaternion orientation;
+    math::decompose(matrix, translation, scale, orientation);
+
+    EXPECT_FLOAT_EQ(expected_translation.x, translation.x);
+    EXPECT_FLOAT_EQ(expected_translation.y, translation.y);
+    EXPECT_FLOAT_EQ(expected_translation.z, translation.z);
 }

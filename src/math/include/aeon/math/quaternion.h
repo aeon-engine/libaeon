@@ -30,10 +30,19 @@
 namespace aeon::math
 {
 
+class mat3;
+
 class quaternion
 {
 public:
     quaternion() noexcept;
+
+    quaternion(const float w, const float x, const float y, const float z) noexcept;
+
+    explicit quaternion(const vector3<float> &euler) noexcept;
+
+    explicit quaternion(const mat3 &mat) noexcept;
+
     ~quaternion() noexcept = default;
 
     quaternion(const quaternion &) noexcept = default;
@@ -41,10 +50,6 @@ public:
 
     quaternion(quaternion &&) noexcept = default;
     auto operator=(quaternion &&) noexcept -> quaternion & = default;
-
-    quaternion(const float w, const float x, const float y, const float z) noexcept;
-
-    explicit quaternion(const vector3<float> &euler) noexcept;
 
     static auto indentity() noexcept -> quaternion;
 

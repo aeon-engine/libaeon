@@ -27,10 +27,11 @@
 
 #include <aeon/math/vector3.h>
 #include <aeon/math/vector4.h>
-#include <cmath>
 
 namespace aeon::math
 {
+
+class quaternion;
 
 class mat3
 {
@@ -80,11 +81,15 @@ inline auto operator*(const mat3 &lhs, const vector3<float> &rhs) noexcept -> ve
 
 inline auto operator*(const mat3 &lhs, const float rhs) noexcept -> mat3;
 
+inline auto operator-(const mat3 &mat) noexcept -> mat3;
+
 inline auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool;
 
 inline auto operator!=(const mat3 &lhs, const mat3 &rhs) noexcept -> bool;
 
-inline auto inverse(const mat3 &mat) noexcept -> mat3;
+inline auto determinant(const mat3 &mat) noexcept -> float;
+
+inline auto qr_decompose(const mat3 &mat, vector3<float> &scale, vector3<float> &shear) noexcept -> mat3;
 
 inline auto ptr(mat3 &mat) noexcept -> float *;
 
