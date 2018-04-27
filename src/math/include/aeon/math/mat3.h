@@ -35,6 +35,17 @@ namespace aeon::math
 class mat3
 {
 public:
+    mat3() noexcept;
+    mat3(const float m00, const float m10, const float m20, const float m01, const float m11, const float m21,
+         const float m02, const float m12, const float m22) noexcept;
+    ~mat3() noexcept = default;
+
+    mat3(const mat3 &) noexcept = default;
+    auto operator=(const mat3 &) noexcept -> mat3 & = default;
+
+    mat3(mat3 &&) noexcept = default;
+    auto operator=(mat3 &&) noexcept -> mat3 & = default;
+
     static auto zero() noexcept -> mat3;
 
     static auto indentity() noexcept -> mat3;
@@ -45,18 +56,17 @@ public:
 
     static auto rotate(const float angle) noexcept -> mat3;
 
-    float m00 = 0.0f;
-    float m10 = 0.0f;
-    float m20 = 0.0f;
-    float m01 = 0.0f;
-    float m11 = 0.0f;
-    float m21 = 0.0f;
-    float m02 = 0.0f;
-    float m12 = 0.0f;
-    float m22 = 0.0f;
-    float m03 = 0.0f;
-    float m13 = 0.0f;
-    float m23 = 0.0f;
+    float m00;
+    float m10;
+    float m20;
+
+    float m01;
+    float m11;
+    float m21;
+
+    float m02;
+    float m12;
+    float m22;
 };
 
 inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3;

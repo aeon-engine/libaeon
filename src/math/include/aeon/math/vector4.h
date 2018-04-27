@@ -57,6 +57,14 @@ public:
 
     explicit vector4(const T xyzw[4]) noexcept;
 
+    ~vector4() noexcept = default;
+
+    vector4(const vector4<T> &) noexcept = default;
+    auto operator=(const vector4<T> &) noexcept -> vector4<T> & = default;
+
+    vector4(vector4<T> &&) noexcept = default;
+    auto operator=(vector4<T> &&) noexcept -> vector4<T> & = default;
+
     static auto zero() noexcept -> vector4<T>;
 
     void set(const T new_x, const T new_y, const T new_z, const T new_w) noexcept;

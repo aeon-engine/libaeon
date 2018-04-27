@@ -40,6 +40,14 @@ public:
 
     explicit vector2(const T xy[2]) noexcept;
 
+    ~vector2() noexcept = default;
+
+    vector2(const vector2<T> &) noexcept = default;
+    auto operator=(const vector2<T> &) noexcept -> vector2<T> & = default;
+
+    vector2(vector2<T> &&) noexcept = default;
+    auto operator=(vector2<T> &&) noexcept -> vector2<T> & = default;
+
     static auto zero() noexcept -> vector2<T>;
 
     void set(const T new_x, const T new_y) noexcept;

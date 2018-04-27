@@ -34,6 +34,13 @@ class quaternion
 {
 public:
     quaternion() noexcept;
+    ~quaternion() noexcept = default;
+
+    quaternion(const quaternion &) noexcept = default;
+    auto operator=(const quaternion &) noexcept -> quaternion & = default;
+
+    quaternion(quaternion &&) noexcept = default;
+    auto operator=(quaternion &&) noexcept -> quaternion & = default;
 
     quaternion(const float w, const float x, const float y, const float z) noexcept;
 

@@ -76,10 +76,7 @@ inline auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
         lhs.m21 == rhs.m21 &&
         lhs.m02 == rhs.m02 &&
         lhs.m12 == rhs.m12 &&
-        lhs.m22 == rhs.m22 &&
-        lhs.m03 == rhs.m03 &&
-        lhs.m13 == rhs.m13 &&
-        lhs.m23 == rhs.m23;
+        lhs.m22 == rhs.m22;
     // clang-format on
 }
 

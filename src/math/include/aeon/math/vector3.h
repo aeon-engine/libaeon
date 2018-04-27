@@ -48,6 +48,14 @@ public:
 
     explicit vector3(const T xyz[3]) noexcept;
 
+    ~vector3() noexcept = default;
+
+    vector3(const vector3<T> &) noexcept = default;
+    auto operator=(const vector3<T> &) noexcept -> vector3<T> & = default;
+
+    vector3(vector3<T> &&) noexcept = default;
+    auto operator=(vector3<T> &&) noexcept -> vector3<T> & = default;
+
     static auto zero() noexcept -> vector3<T>;
 
     void set(const T new_x, const T new_y, const T new_z) noexcept;
