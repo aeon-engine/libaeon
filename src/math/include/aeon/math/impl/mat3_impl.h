@@ -75,6 +75,16 @@ inline auto mat3::indentity() noexcept -> mat3
     // clang-format on
 }
 
+inline auto mat3::scale(const float xy) noexcept -> mat3
+{
+    return scale(vector2<float>{xy});
+}
+
+inline auto mat3::scale(const float x, const float y) noexcept -> mat3
+{
+    return scale({x, y});
+}
+
 inline auto mat3::scale(const vector2<float> &vec) noexcept -> mat3
 {
     // clang-format off
@@ -82,6 +92,11 @@ inline auto mat3::scale(const vector2<float> &vec) noexcept -> mat3
             0.0f,  vec.y, 0.0f,
             0.0f,  0.0f,  1.0f};
     // clang-format on
+}
+
+inline auto mat3::translate(const float x, const float y) noexcept -> mat3
+{
+    return translate({x, y});
 }
 
 inline auto mat3::translate(const vector2<float> &vec) noexcept -> mat3

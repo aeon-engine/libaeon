@@ -52,8 +52,11 @@ public:
 
     static auto indentity() noexcept -> mat3;
 
+    static auto scale(const float xy) noexcept -> mat3;
+    static auto scale(const float x, const float y) noexcept -> mat3;
     static auto scale(const vector2<float> &vec) noexcept -> mat3;
 
+    static auto translate(const float x, const float y) noexcept -> mat3;
     static auto translate(const vector2<float> &vec) noexcept -> mat3;
 
     static auto rotate(const float angle) noexcept -> mat3;
