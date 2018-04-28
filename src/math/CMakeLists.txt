@@ -24,6 +24,7 @@
 set(LIB_AEON_MATH_SOURCE
     include/aeon/math/mat3.h
     include/aeon/math/mat4.h
+    include/aeon/math/math.h
     include/aeon/math/perlin_noise.h
     src/perlin_noise.cpp
     include/aeon/math/quaternion.h
