@@ -85,6 +85,16 @@ inline auto mat4::indentity() noexcept -> mat4
     // clang-format on
 }
 
+inline auto mat4::scale(const float xyz) noexcept -> mat4
+{
+    return scale(vector3<float>{xyz});
+}
+
+inline auto mat4::scale(const float x, const float y, const float z) noexcept -> mat4
+{
+    return scale({x, y, z});
+}
+
 inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
 {
     // clang-format off
@@ -93,6 +103,16 @@ inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
             0.0f,  0.0f,  vec.z, 0.0f,
             0.0f,  0.0f,  0.0f,  1.0f};
     // clang-format on
+}
+
+inline auto mat4::translate(const float x, const float y) noexcept -> mat4
+{
+    return translate({x, y, 0.0f});
+}
+
+inline auto mat4::translate(const float x, const float y, const float z) noexcept -> mat4
+{
+    return translate({x, y, z});
 }
 
 inline auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
