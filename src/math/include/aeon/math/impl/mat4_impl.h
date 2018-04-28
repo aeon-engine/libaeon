@@ -70,6 +70,12 @@ inline mat4::mat4(const float m00, const float m10, const float m20, const float
 {
 }
 
+inline auto mat4::at(const int row, const int column) const noexcept -> float
+{
+    const auto value = ptr(*this);
+    return value[(column * 4) + row];
+}
+
 inline auto mat4::zero() noexcept -> mat4
 {
     return {};

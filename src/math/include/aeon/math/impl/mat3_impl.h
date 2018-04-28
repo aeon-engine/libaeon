@@ -55,6 +55,12 @@ inline mat3::mat3(const float m00, const float m10, const float m20, const float
 {
 }
 
+inline auto mat3::at(const int row, const int column) const noexcept -> float
+{
+    const auto value = ptr(*this);
+    return value[(column * 3) + row];
+}
+
 inline auto mat3::zero() noexcept -> mat3
 {
     return {};

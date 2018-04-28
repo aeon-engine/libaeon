@@ -46,6 +46,8 @@ public:
     mat3(mat3 &&) noexcept = default;
     auto operator=(mat3 &&) noexcept -> mat3 & = default;
 
+    auto at(const int row, const int column) const noexcept -> float;
+
     static auto zero() noexcept -> mat3;
 
     static auto indentity() noexcept -> mat3;

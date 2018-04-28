@@ -48,6 +48,8 @@ public:
     mat4(mat4 &&) noexcept = default;
     auto operator=(mat4 &&) noexcept -> mat4 & = default;
 
+    auto at(const int row, const int column) const noexcept -> float;
+
     static auto zero() noexcept -> mat4;
 
     static auto indentity() noexcept -> mat4;

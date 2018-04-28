@@ -51,3 +51,36 @@ TEST(test_mat4, test_mat4_multiply_identity)
     EXPECT_EQ(mat2, math::mat4::indentity());
     EXPECT_EQ(mat3, math::mat4::indentity());
 }
+
+TEST(test_mat4, test_mat4_at)
+{
+    // clang-format off
+    math::mat4 mat
+    {
+        1.0f,  2.0f,  3.0f,  4.0f,
+        5.0f,  6.0f,  7.0f,  8.0f,
+        9.0f,  10.0f, 11.0f, 12.0f,
+        13.0f, 14.0f, 15.0f, 16.0f
+    };
+    // clang-format on
+
+    EXPECT_EQ(mat.m00, mat.at(0, 0));
+    EXPECT_EQ(mat.m10, mat.at(1, 0));
+    EXPECT_EQ(mat.m20, mat.at(2, 0));
+    EXPECT_EQ(mat.m30, mat.at(3, 0));
+
+    EXPECT_EQ(mat.m01, mat.at(0, 1));
+    EXPECT_EQ(mat.m11, mat.at(1, 1));
+    EXPECT_EQ(mat.m21, mat.at(2, 1));
+    EXPECT_EQ(mat.m31, mat.at(3, 1));
+
+    EXPECT_EQ(mat.m02, mat.at(0, 2));
+    EXPECT_EQ(mat.m12, mat.at(1, 2));
+    EXPECT_EQ(mat.m22, mat.at(2, 2));
+    EXPECT_EQ(mat.m32, mat.at(3, 2));
+
+    EXPECT_EQ(mat.m03, mat.at(0, 3));
+    EXPECT_EQ(mat.m13, mat.at(1, 3));
+    EXPECT_EQ(mat.m23, mat.at(2, 3));
+    EXPECT_EQ(mat.m33, mat.at(3, 3));
+}
