@@ -30,7 +30,7 @@
 namespace aeon::sockets::http
 {
 
-enum class method
+enum class http_method
 {
     invalid,
     get,
@@ -42,6 +42,6 @@ enum class method
     patch
 };
 
-auto string_to_method(const std::string_view &str) noexcept -> method;
+auto string_to_method(const std::string_view &str) noexcept -> http_method;
 
 } // namespace aeon::sockets::http

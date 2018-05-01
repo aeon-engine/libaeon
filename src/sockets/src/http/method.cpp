@@ -24,6 +24,7 @@
  */
 
 #include <aeon/sockets/http/method.h>
+#include <string>
 
 namespace aeon::sockets::http
 {
@@ -31,18 +32,18 @@ namespace aeon::sockets::http
 struct method_string_lookup_t
 {
     std::string str;
-    method method = method::invalid;
+    http_method method = http_method::invalid;
 };
 
-static const method_string_lookup_t method_string_lookup[] = {{"GET", method::get},
-                                                              {"HEAD", method::head},
-                                                              {"POST", method::post},
-                                                              {"PUT", method::put},
-                                                              {"DELETE", method::delete_method},
-                                                              {"OPTIONS", method::options},
-                                                              {"PATCH", method::patch}};
+static const method_string_lookup_t method_string_lookup[] = {{"GET", http_method::get},
+                                                              {"HEAD", http_method::head},
+                                                              {"POST", http_method::post},
+                                                              {"PUT", http_method::put},
+                                                              {"DELETE", http_method::delete_method},
+                                                              {"OPTIONS", http_method::options},
+                                                              {"PATCH", http_method::patch}};
 
-auto string_to_method(const std::string_view &str) noexcept -> method
+auto string_to_method(const std::string_view &str) noexcept -> http_method
 {
     for (const auto &method_string : method_string_lookup)
     {
@@ -50,7 +51,7 @@ auto string_to_method(const std::string_view &str) noexcept -> method
             return method_string.method;
     }
 
-    return method::invalid;
+    return http_method::invalid;
 }
 
 } // namespace aeon::sockets::http

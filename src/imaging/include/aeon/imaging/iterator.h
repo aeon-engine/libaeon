@@ -56,7 +56,7 @@ public:
     auto operator-> () const noexcept -> pointer;
 
     auto operator++() noexcept -> iterator &;
-    auto operator++(int)noexcept -> iterator;
+    auto operator++(int) noexcept -> iterator;
 
     auto operator==(const iterator &other) const noexcept -> bool;
     auto operator!=(const iterator &other) const noexcept -> bool;
@@ -96,7 +96,7 @@ inline auto iterator<pixel_type_t>::operator++() noexcept -> iterator &
 }
 
 template <typename pixel_type_t>
-inline auto iterator<pixel_type_t>::operator++(int)noexcept -> iterator
+inline auto iterator<pixel_type_t>::operator++(int) noexcept -> iterator
 {
     const auto temp(*this);
     ++*this;

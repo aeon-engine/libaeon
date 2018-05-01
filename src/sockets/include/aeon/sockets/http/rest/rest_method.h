@@ -36,15 +36,15 @@ namespace aeon::sockets::http::rest
 class rest_method
 {
 public:
-    explicit rest_method(const std::set<method> &http_methods, const std::function<void()> &func);
+    explicit rest_method(const std::set<http_method> &http_methods, const std::function<void()> &func);
 
-    auto get_http_methods() const -> const std::set<method> &;
+    auto get_http_methods() const -> const std::set<http_method> &;
     auto get_function() const -> const std::function<void()> &;
 
-    auto has_http_method(const method method) const -> bool;
+    auto has_http_method(const http_method method) const -> bool;
 
 private:
-    std::set<method> http_methods_;
+    std::set<http_method> http_methods_;
     std::function<void()> func_;
 };
 

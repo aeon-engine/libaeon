@@ -40,7 +40,7 @@ namespace detail
 {
 auto validate_http_version_string(const std::string &version_string) -> bool;
 auto validate_uri(const std::string &uri) -> bool;
-}
+} // namespace detail
 
 class http_server_session;
 

@@ -46,7 +46,7 @@ auto plugin_loader::is_loaded(const plugin *p) const -> bool
 {
     for (auto itr = cache_.begin(); itr != cache_.end(); ++itr)
     {
-        if (itr->second.plugin.get() == p)
+        if (itr->second.plugin_instance.get() == p)
             return true;
     }
 
@@ -63,7 +63,7 @@ void plugin_loader::unload(const plugin *p)
 {
     for (auto itr = cache_.begin(); itr != cache_.end(); ++itr)
     {
-        if (itr->second.plugin.get() == p)
+        if (itr->second.plugin_instance.get() == p)
         {
             unload(itr);
             return;
@@ -130,13 +130,13 @@ auto plugin_loader::find_in_cache(const std::string_view &name) -> plugin *
     if (result == cache_.end())
         return nullptr;
 
-    return result->second.plugin.get();
+    return result->second.plugin_instance.get();
 }
 
 void plugin_loader::unload(std::map<std::string, plugin_cache>::iterator itr)
 {
     const auto &cache = itr->second;
-    cache.plugin->plugin_on_unload();
+    cache.plugin_instance->plugin_on_unload();
 
     cache_.erase(itr);
 }

@@ -35,7 +35,7 @@ namespace aeon::sockets::http
 http_server_socket::http_server_socket(asio::ip::tcp::socket socket)
     : tcp_socket{std::move(socket)}
     , state_{http_state::server_read_method}
-    , request_{method::invalid}
+    , request_{http_method::invalid}
     , circular_buffer_{}
     , expected_content_length_{0}
 {
@@ -183,7 +183,7 @@ auto http_server_socket::__handle_read_method_state(const std::string &line) -> 
 
     request request(method, request_uri);
 
-    if (request.get_method() == method::invalid)
+    if (request.get_method() == http_method::invalid)
         return status_code::method_not_allowed;
 
     request_ = request;
@@ -196,7 +196,7 @@ auto http_server_socket::__handle_read_headers_state(const std::string &line) ->
 {
     if (line.empty())
     {
-        if (request_.get_method() == method::post)
+        if (request_.get_method() == http_method::post)
             return __enter_parse_body_state();
 
         __enter_reply_state();
@@ -210,7 +210,7 @@ auto http_server_socket::__handle_read_headers_state(const std::string &line) ->
 void http_server_socket::__reset_state()
 {
     state_ = http_state::server_read_method;
-    request_ = request{method::invalid};
+    request_ = request{http_method::invalid};
     expected_content_length_ = 0;
 }
 } // namespace aeon::sockets::http

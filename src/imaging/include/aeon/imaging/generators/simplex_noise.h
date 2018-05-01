@@ -49,4 +49,4 @@ inline void simplex_noise(image &image, const float octaves, const float persist
     }
 }
 
-} // namespace aeon::imaging::file::generators
+} // namespace aeon::imaging::generators

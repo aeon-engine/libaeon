@@ -29,7 +29,7 @@
 namespace aeon::sockets::http
 {
 
-request::request(const method method)
+request::request(const http_method method)
     : method_{method}
     , uri_{}
     , raw_headers_{}

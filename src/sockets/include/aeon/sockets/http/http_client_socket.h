@@ -51,7 +51,7 @@ public:
 
     virtual ~http_client_socket();
 
-    void request_async(const std::string &host, const std::string &uri, const method method = method::get);
+    void request_async(const std::string &host, const std::string &uri, const http_method method = http_method::get);
 
     virtual void on_http_reply(reply &reply) = 0;
 

@@ -29,6 +29,7 @@
 #include <vector>
 #include <memory>
 #include <array>
+#include <algorithm>
 
 namespace aeon::common::container
 {

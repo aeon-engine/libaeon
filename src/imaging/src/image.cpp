@@ -24,6 +24,7 @@
  */
 
 #include <aeon/imaging/image.h>
+#include <cstring>
 
 namespace aeon::imaging
 {

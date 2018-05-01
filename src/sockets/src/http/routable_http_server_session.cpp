@@ -59,7 +59,7 @@ auto routable_http_server_session::find_best_match_route(const std::string &path
     auto best_match_length = 0_size_t;
     route *best_match_route = nullptr;
 
-    for (auto & [ route, route_ptr ] : routes_)
+    for (auto &[route, route_ptr] : routes_)
     {
         const auto route_path_length = route.length();
 

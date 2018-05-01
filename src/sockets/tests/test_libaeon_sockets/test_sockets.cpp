@@ -85,7 +85,7 @@ class test_server : public sockets::http::http_server_socket
     {
         std::cout << "Request: " << request.get_uri() << "\n";
 
-        if (request.get_method() == sockets::http::method::post)
+        if (request.get_method() == sockets::http::http_method::post)
         {
             std::cout << "Received post data: " << request.get_content_length() << "\n";
             auto content = request.get_content();

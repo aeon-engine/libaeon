@@ -95,7 +95,7 @@ private:
     {
         // Order here is important. The plugin must be deleted before the handle.
         common::dll_loader::scoped_dll_handle handle;
-        std::unique_ptr<plugin, cleanup_plugin_proc> plugin;
+        std::unique_ptr<plugin, cleanup_plugin_proc> plugin_instance;
     };
 
     /*!
@@ -125,8 +125,7 @@ private:
 };
 
 template <typename T>
-class[[nodiscard]] scoped_plugin
-{
+class [[nodiscard]] scoped_plugin {
 public:
     scoped_plugin(T * p)
         : plugin_interface_(p)

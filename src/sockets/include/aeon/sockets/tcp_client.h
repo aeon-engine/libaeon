@@ -30,7 +30,7 @@
 #include <asio/ip/tcp.hpp>
 #include <memory>
 #include <cstdint>
-#include <string_view>
+#include <string>
 
 namespace aeon::sockets
 {
@@ -39,8 +39,8 @@ template <typename socket_handler_t>
 class tcp_client
 {
 public:
-    explicit tcp_client(asio::io_context &io_context, const std::string_view &host, const std::uint16_t port);
-    explicit tcp_client(asio::io_context &io_context, const std::string_view &host, const std::string_view &service);
+    explicit tcp_client(asio::io_context &io_context, const std::string &host, const std::uint16_t port);
+    explicit tcp_client(asio::io_context &io_context, const std::string &host, const std::string &service);
     ~tcp_client() = default;
 
     auto operator-> () const -> socket_handler_t *;
@@ -52,15 +52,15 @@ protected:
 };
 
 template <typename socket_handler_t>
-inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const std::string_view &host,
+inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const std::string &host,
                                                 const std::uint16_t port)
     : tcp_client(io_context, host, std::to_string(port))
 {
 }
 
 template <typename socket_handler_t>
-inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const std::string_view &host,
-                                                const std::string_view &service)
+inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const std::string &host,
+                                                const std::string &service)
     : resolver_(io_context)
     , socket_(std::make_shared<socket_handler_t>(io_context))
     , io_context_(io_context)

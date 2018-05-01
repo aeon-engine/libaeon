@@ -30,13 +30,13 @@
 namespace aeon::sockets::http::rest
 {
 
-rest_method::rest_method(const std::set<method> &http_methods, const std::function<void()> &func)
+rest_method::rest_method(const std::set<http_method> &http_methods, const std::function<void()> &func)
     : http_methods_(http_methods)
     , func_(func)
 {
 }
 
-auto rest_method::get_http_methods() const -> const std::set<method> &
+auto rest_method::get_http_methods() const -> const std::set<http_method> &
 {
     return http_methods_;
 }
@@ -46,7 +46,7 @@ auto rest_method::get_function() const -> const std::function<void()> &
     return func_;
 }
 
-auto rest_method::has_http_method(const method method) const -> bool
+auto rest_method::has_http_method(const http_method method) const -> bool
 {
     return http_methods_.count(method) != 0;
 }
