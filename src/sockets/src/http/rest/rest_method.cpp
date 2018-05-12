@@ -23,8 +23,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
 #include <aeon/sockets/http/rest/rest_method.h>
 
 namespace aeon::sockets::http::rest

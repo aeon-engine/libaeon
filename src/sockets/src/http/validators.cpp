@@ -23,8 +23,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
-
 #include <aeon/sockets/http/validators.h>
 #include <aeon/sockets/http/constants.h>
 
