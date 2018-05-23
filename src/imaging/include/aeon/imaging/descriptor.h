@@ -144,9 +144,9 @@ inline auto contains(const descriptor &descriptor, const dimension x, const dime
     return x < width(descriptor) && y < height(descriptor);
 }
 
-inline auto pixel_offset(const dimension x, const dimension y, const dimension stride) noexcept
+inline auto pixel_offset(const dimension x, const dimension y, const descriptor descriptor) noexcept
 {
-    return y * stride + x;
+    return y * stride(descriptor) + (x * bytes_per_pixel(descriptor));
 }
 
 inline auto operator==(const descriptor &lhs, const descriptor &rhs) noexcept

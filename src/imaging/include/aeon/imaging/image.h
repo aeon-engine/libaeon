@@ -110,14 +110,14 @@ inline auto image::pixel(const dimension x, const dimension y) noexcept -> void 
 {
     assert(x < width(descriptor_));
     assert(y < height(descriptor_));
-    return data_.data() + pixel_offset(x, y, stride(descriptor_));
+    return data_.data() + pixel_offset(x, y, descriptor_);
 }
 
 inline auto image::pixel(const dimension x, const dimension y) const noexcept -> const void *
 {
     assert(x < width(descriptor_));
     assert(y < height(descriptor_));
-    return data_.data() + pixel_offset(x, y, stride(descriptor_));
+    return data_.data() + pixel_offset(x, y, descriptor_);
 }
 
 template <typename T>
@@ -125,7 +125,7 @@ inline auto image::pixel(const dimension x, const dimension y) noexcept -> T *
 {
     assert(x < width(descriptor_));
     assert(y < height(descriptor_));
-    return reinterpret_cast<T *>(data_.data() + pixel_offset(x, y, stride(descriptor_)));
+    return reinterpret_cast<T *>(data_.data() + pixel_offset(x, y, descriptor_));
 }
 
 template <typename T>
@@ -133,7 +133,7 @@ inline auto image::pixel(const dimension x, const dimension y) const noexcept ->
 {
     assert(x < width(descriptor_));
     assert(y < height(descriptor_));
-    return reinterpret_cast<const T *>(data_.data() + pixel_offset(x, y, stride(descriptor_)));
+    return reinterpret_cast<const T *>(data_.data() + pixel_offset(x, y, descriptor_));
 }
 
 inline auto data(image &image) noexcept
