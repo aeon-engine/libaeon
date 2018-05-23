@@ -36,7 +36,7 @@ template <typename pixel_type_t>
 class pixel_type_iterator
 {
 public:
-    explicit pixel_type_iterator(std::uint8_t *begin, std::uint8_t *end, const dimension bytes_per_pixel);
+    explicit pixel_type_iterator(std::uint8_t *begin, std::uint8_t *end, const std::ptrdiff_t bytes_per_pixel);
 
     ~pixel_type_iterator() = default;
 
@@ -52,12 +52,12 @@ public:
 private:
     std::uint8_t *begin_;
     std::uint8_t *end_;
-    dimension bytes_per_pixel_;
+    std::ptrdiff_t bytes_per_pixel_;
 };
 
 template <typename pixel_type_t>
 pixel_type_iterator<pixel_type_t>::pixel_type_iterator(std::uint8_t *begin, std::uint8_t *end,
-                                                       const dimension bytes_per_pixel)
+                                                       const std::ptrdiff_t bytes_per_pixel)
     : begin_(begin)
     , end_(end)
     , bytes_per_pixel_(bytes_per_pixel)

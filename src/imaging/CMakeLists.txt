@@ -95,6 +95,7 @@ target_link_libraries(aeon_imaging
     aeon_utility
     aeon_common
     aeon_math
+    aeon_types
     png_static
     turbojpeg-static
 )

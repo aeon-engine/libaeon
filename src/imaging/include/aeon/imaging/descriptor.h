@@ -27,6 +27,7 @@
 
 #include <aeon/imaging/pixel_encoding.h>
 #include <aeon/imaging/dimension.h>
+#include <aeon/types/size2d.h>
 
 namespace aeon::imaging
 {
@@ -34,8 +35,11 @@ namespace aeon::imaging
 class descriptor
 {
 public:
+    explicit descriptor(const types::size2d<dimension> size, const pixel_encoding encoding) noexcept;
+    explicit descriptor(const types::size2d<dimension> size, const std::ptrdiff_t stride,
+                        const pixel_encoding encoding) noexcept;
     explicit descriptor(const dimension width, const dimension height, const pixel_encoding encoding) noexcept;
-    explicit descriptor(const dimension width, const dimension height, const dimension stride,
+    explicit descriptor(const dimension width, const dimension height, const std::ptrdiff_t stride,
                         const pixel_encoding encoding) noexcept;
 
     ~descriptor() = default;
@@ -47,44 +51,59 @@ public:
 
     auto width() const noexcept -> dimension;
     auto height() const noexcept -> dimension;
-    auto stride() const noexcept -> dimension;
+    auto image_size() const noexcept -> types::size2d<dimension>;
+    auto stride() const noexcept -> std::ptrdiff_t;
     auto encoding() const noexcept -> pixel_encoding;
-    auto bytes_per_pixel() const noexcept -> dimension;
+    auto bytes_per_pixel() const noexcept -> std::ptrdiff_t;
 
 private:
-    dimension width_;
-    dimension height_;
-    dimension stride_;
+    types::size2d<dimension> size_;
+    std::ptrdiff_t stride_;
     pixel_encoding encoding_;
-    dimension bytes_per_pixel_;
+    std::ptrdiff_t bytes_per_pixel_;
 };
 
-inline descriptor::descriptor(const dimension width, const dimension height, const pixel_encoding encoding) noexcept
-    : descriptor{width, height, width * imaging::bytes_per_pixel(encoding), encoding}
+inline descriptor::descriptor(const types::size2d<dimension> size, const pixel_encoding encoding) noexcept
+    : descriptor{size, imaging::bytes_per_pixel(encoding) * types::width(size), encoding}
 {
 }
 
-inline descriptor::descriptor(const dimension width, const dimension height, const dimension stride,
+inline descriptor::descriptor(const types::size2d<dimension> size, const std::ptrdiff_t stride,
                               const pixel_encoding encoding) noexcept
-    : width_{width}
-    , height_{height}
+    : size_{size}
     , stride_{stride}
     , encoding_{encoding}
     , bytes_per_pixel_{imaging::bytes_per_pixel(encoding)}
 {
 }
 
+inline descriptor::descriptor(const dimension width, const dimension height, const pixel_encoding encoding) noexcept
+    : descriptor{{width, height}, imaging::bytes_per_pixel(encoding) * width, encoding}
+{
+}
+
+inline descriptor::descriptor(const dimension width, const dimension height, const std::ptrdiff_t stride,
+                              const pixel_encoding encoding) noexcept
+    : descriptor{{width, height}, stride, encoding}
+{
+}
+
 inline auto descriptor::width() const noexcept -> dimension
 {
-    return width_;
+    return types::width(size_);
 }
 
 inline auto descriptor::height() const noexcept -> dimension
 {
-    return height_;
+    return types::height(size_);
 }
 
-inline auto descriptor::stride() const noexcept -> dimension
+inline auto descriptor::image_size() const noexcept -> types::size2d<dimension>
+{
+    return size_;
+}
+
+inline auto descriptor::stride() const noexcept -> std::ptrdiff_t
 {
     return stride_;
 }
@@ -94,7 +113,7 @@ inline auto descriptor::encoding() const noexcept -> pixel_encoding
     return encoding_;
 }
 
-inline auto descriptor::bytes_per_pixel() const noexcept -> dimension
+inline auto descriptor::bytes_per_pixel() const noexcept -> std::ptrdiff_t
 {
     return bytes_per_pixel_;
 }
@@ -107,6 +126,11 @@ inline auto width(const descriptor &descriptor) noexcept
 inline auto height(const descriptor &descriptor) noexcept
 {
     return descriptor.height();
+}
+
+inline auto image_size(const descriptor &descriptor) noexcept
+{
+    return descriptor.image_size();
 }
 
 inline auto stride(const descriptor &descriptor) noexcept
@@ -151,8 +175,7 @@ inline auto pixel_offset(const dimension x, const dimension y, const descriptor 
 
 inline auto operator==(const descriptor &lhs, const descriptor &rhs) noexcept
 {
-    return lhs.width() == rhs.width() && lhs.height() == rhs.height() && lhs.stride() == rhs.stride() &&
-           lhs.encoding() == rhs.encoding();
+    return lhs.image_size() == rhs.image_size() && lhs.stride() == rhs.stride() && lhs.encoding() == rhs.encoding();
 }
 
 inline auto operator!=(const descriptor &lhs, const descriptor &rhs) noexcept

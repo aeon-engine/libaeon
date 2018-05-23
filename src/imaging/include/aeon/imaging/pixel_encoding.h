@@ -68,14 +68,14 @@ enum class pixel_encoding
     bgr24
 };
 
-static constexpr dimension bytes_per_pixel_lookup[]{
-    1, // unsigned8
-    2, // unsigned16
-    4, // unsigned32
-    4, // float32
-    3, // rgb24
-    4, // rgba32
-    3, // bgr24
+static constexpr std::ptrdiff_t bytes_per_pixel_lookup[]{
+    sizeof(std::uint8_t),  // unsigned8
+    sizeof(std::uint16_t), // unsigned16
+    sizeof(std::uint32_t), // unsigned32
+    sizeof(float),         // float32
+    sizeof(rgb24),         // rgb24
+    sizeof(rgba32),        // rgba32
+    sizeof(bgr24),         // bgr24
 };
 
 // Detect possible mismatch between the encoding enum and the lookup table.

@@ -36,7 +36,7 @@ template <typename pixel_type_t>
 class scanline_iterator
 {
 public:
-    explicit scanline_iterator(std::uint8_t *begin, std::uint8_t *end, const dimension stride);
+    explicit scanline_iterator(std::uint8_t *begin, std::uint8_t *end, const std::ptrdiff_t stride);
 
     ~scanline_iterator() = default;
 
@@ -56,7 +56,7 @@ private:
 };
 
 template <typename pixel_type_t>
-scanline_iterator<pixel_type_t>::scanline_iterator(std::uint8_t *begin, std::uint8_t *end, const dimension stride)
+scanline_iterator<pixel_type_t>::scanline_iterator(std::uint8_t *begin, std::uint8_t *end, const std::ptrdiff_t stride)
     : begin_(begin)
     , end_(end)
     , stride_(stride)
