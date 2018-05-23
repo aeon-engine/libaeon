@@ -43,7 +43,7 @@ public:
     {
     }
 
-    rectangle(T left, T top, T right, T bottom) noexcept
+    rectangle(const T left, const T top, const T right, const T bottom) noexcept
         : left{left}
         , top{top}
         , right{right}
@@ -53,11 +53,11 @@ public:
 
     ~rectangle() noexcept = default;
 
-    rectangle(const rectangle &) noexcept = default;
-    auto operator=(const rectangle &) noexcept -> rectangle & = default;
+    rectangle(const rectangle<T> &) noexcept = default;
+    auto operator=(const rectangle<T> &) noexcept -> rectangle<T> & = default;
 
-    rectangle(rectangle &&) noexcept = default;
-    auto operator=(rectangle &&) noexcept -> rectangle & = default;
+    rectangle(rectangle<T> &&) noexcept = default;
+    auto operator=(rectangle<T> &&) noexcept -> rectangle<T> & = default;
 
     T left;
     T top;
