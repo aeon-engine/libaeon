@@ -30,29 +30,8 @@
 namespace aeon::imaging::convert
 {
 
-template <typename source_pixel_type_t>
-auto to_rgb24(const image &img) -> image
+auto to_rgb24(const dynamic_image &img) -> image<rgb24>
 {
-    const descriptor d(width(img), height(img), pixel_encoding::rgb24);
-    image new_image(d);
-
-    const auto src_image_data = data<source_pixel_type_t>(img);
-    const auto new_image_data = data<imaging::rgb24>(new_image);
-
-    const auto dims = dimensions(img);
-
-    for (auto i = 0u; i < dims; ++i)
-    {
-        new_image_data[i] = pixel<source_pixel_type_t>::to_rgb24(src_image_data[i]);
-    }
-
-    return new_image;
-}
-
-auto to_rgb24(const image &img) -> image
-{
-    assert(continuous(img));
-
     switch (encoding(img))
     {
         case pixel_encoding::unsigned8:
@@ -64,7 +43,7 @@ auto to_rgb24(const image &img) -> image
         case pixel_encoding::float32:
             return to_rgb24<float>(img);
         case pixel_encoding::rgb24:
-            return img.clone();
+            return img.get_image<rgb24>().clone();
         case pixel_encoding::rgba32:
             return to_rgb24<rgba32>(img);
         case pixel_encoding::bgr24:
@@ -72,6 +51,27 @@ auto to_rgb24(const image &img) -> image
         default:
             throw convert_exception();
     }
+}
+
+template <typename T>
+auto to_rgb24(const image<T> &img) -> image<rgb24>
+{
+    assert(continuous(img));
+
+    const image_descriptor<rgb24> d{width(img), height(img)};
+    image<rgb24> new_image(d);
+
+    const auto src_image_data = view(img).data();
+    const auto new_image_data = view(new_image).data();
+
+    const auto dims = width(img) * height(img);
+
+    for (auto i = 0; i < dims; ++i)
+    {
+        new_image_data[i] = pixel<T>::to_rgb24(src_image_data[i]);
+    }
+
+    return new_image;
 }
 
 } // namespace aeon::imaging::convert

@@ -71,13 +71,13 @@ auto calculate_stride(const bitmap_info_header &info_header) noexcept
 
 } // namespace detail
 
-auto load(const std::filesystem::path &path) -> image
+auto load(const std::filesystem::path &path) -> dynamic_image
 {
     auto stream = streams::file_stream{path, streams::access_mode::read, streams::file_mode::binary};
     return load(stream);
 }
 
-auto load(streams::stream &stream) -> image
+auto load(streams::stream &stream) -> dynamic_image
 {
     detail::bitmap_file_header header{};
 
@@ -97,16 +97,17 @@ auto load(streams::stream &stream) -> image
     if (!stream.seek(header.offbits, streams::stream::seek_direction::begin))
         throw load_exception();
 
-    std::vector<std::uint8_t> pixel_data(info_header.size_image);
+    std::vector<std::byte> pixel_data(info_header.size_image);
 
-    if (stream.read(pixel_data.data(), info_header.size_image) != info_header.size_image)
+    if (stream.read(reinterpret_cast<uint8_t *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
         throw load_exception();
 
-    const auto d = descriptor{static_cast<dimension>(info_header.width), static_cast<dimension>(info_header.height),
-                              static_cast<dimension>(detail::calculate_stride(info_header)), pixel_encoding::bgr24};
+    const auto d =
+        image_descriptor<bgr24>{{static_cast<dimension>(info_header.width), static_cast<dimension>(info_header.height)},
+                                static_cast<dimension>(detail::calculate_stride(info_header))};
 
-    const auto img = image{d, std::move(pixel_data)};
-    return filters::invert_vertically(img);
+    auto img = image<bgr24>{d, std::move(pixel_data)};
+    return dynamic_image(std::move(filters::invert_vertically(view(img))));
 }
 
 } // namespace aeon::imaging::file::bmp

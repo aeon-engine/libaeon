@@ -60,41 +60,42 @@ void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
     stream->write(data, length);
 }
 
-auto color_type_to_encoding(const int color_type) -> pixel_encoding
+template <typename T>
+struct png_color_type_traits
 {
-    switch (color_type)
+    static constexpr auto color_type() noexcept
     {
-        case PNG_COLOR_TYPE_RGB:
-            return pixel_encoding::rgb24;
-        case PNG_COLOR_TYPE_RGB_ALPHA:
-            return pixel_encoding::rgba32;
-        default:
-            throw load_exception();
+        return -1;
     }
-}
+};
 
-auto encoding_to_color_type(const pixel_encoding encoding) -> int
+template <>
+struct png_color_type_traits<rgb24>
 {
-    switch (encoding)
+    static constexpr auto color_type() noexcept
     {
-        case pixel_encoding::rgb24:
-            return PNG_COLOR_TYPE_RGB;
-        case pixel_encoding::rgba32:
-            return PNG_COLOR_TYPE_RGB_ALPHA;
-        default:
-            throw save_exception();
+        return PNG_COLOR_TYPE_RGB;
     }
-}
+};
+
+template <>
+struct png_color_type_traits<rgba32>
+{
+    static constexpr auto color_type() noexcept
+    {
+        return PNG_COLOR_TYPE_RGB_ALPHA;
+    }
+};
 
 } // namespace detail
 
-auto load(const std::filesystem::path &path) -> image
+auto load(const std::filesystem::path &path) -> dynamic_image
 {
     auto stream = streams::file_stream{path, streams::access_mode::read, streams::file_mode::binary};
     return load(stream);
 }
 
-auto load(streams::stream &stream) -> image
+auto load(streams::stream &stream) -> dynamic_image
 {
     // Check our stream
     if (!stream.good())
@@ -143,8 +144,6 @@ auto load(streams::stream &stream) -> image
     png_get_IHDR(png_structs.png_ptr(), png_structs.info_ptr(), &temp_width, &temp_height, &bit_depth, &color_type,
                  nullptr, nullptr, nullptr);
 
-    const auto encoding = detail::color_type_to_encoding(color_type);
-
     // Update the png info struct.
     png_read_update_info(png_structs.png_ptr(), png_structs.info_ptr());
 
@@ -153,12 +152,12 @@ auto load(streams::stream &stream) -> image
     // Allocate the image_data as a big block
     const auto bitmap_buff_size = rowbytes * temp_height * sizeof(png_byte);
 
-    auto bitmap_buffer = std::vector<std::uint8_t>(bitmap_buff_size);
+    auto bitmap_buffer = std::vector<std::byte>(bitmap_buff_size);
 
     // Cast to png_byte since this is what libpng likes as buffer.
     // Just passing the pointer should be fine. But this ensures 100%
     // compatibility.
-    const auto image_data = static_cast<png_byte *>(&(bitmap_buffer)[0]);
+    const auto image_data = reinterpret_cast<png_byte *>(&(bitmap_buffer)[0]);
 
     // Row_pointers is for pointing to image_data for reading the
     // png with libpng
@@ -179,18 +178,53 @@ auto load(streams::stream &stream) -> image
     // Read the png into image_data through row_pointers
     png_read_image(png_structs.png_ptr(), row_pointers);
 
-    const auto d = descriptor{static_cast<dimension>(temp_width), static_cast<dimension>(temp_height), encoding};
-
-    return image{d, std::move(bitmap_buffer)};
+    switch (color_type)
+    {
+        case PNG_COLOR_TYPE_RGB:
+        {
+            const auto d =
+                image_descriptor<rgb24>{{static_cast<dimension>(temp_width), static_cast<dimension>(temp_height)}};
+            auto img = image<rgb24>{d, std::move(bitmap_buffer)};
+            return dynamic_image{std::move(img)};
+        }
+        break;
+        case PNG_COLOR_TYPE_RGB_ALPHA:
+        {
+            const auto d =
+                image_descriptor<rgba32>{{static_cast<dimension>(temp_width), static_cast<dimension>(temp_height)}};
+            auto img = image<rgba32>{d, std::move(bitmap_buffer)};
+            return dynamic_image{std::move(img)};
+        }
+        break;
+        default:
+            throw load_exception();
+    }
 }
 
-void save(const image &image, const std::filesystem::path &path)
+void save(const dynamic_image &image, const std::filesystem::path &path)
 {
     auto stream = streams::file_stream{path, streams::access_mode::write, streams::file_mode::binary};
     save(image, stream);
 }
 
-void save(const image &image, streams::stream &stream)
+void save(const dynamic_image &image, streams::stream &stream)
+{
+    assert(((encoding(image) == pixel_encoding::rgb24) || (encoding(image) == pixel_encoding::rgba32)));
+    write_image(image, save, stream);
+}
+
+template <typename T>
+void save(const image_view<T> &image, const std::filesystem::path &path)
+{
+    auto stream = streams::file_stream{path, streams::access_mode::write, streams::file_mode::binary};
+    save(image, stream);
+}
+
+template void save<rgb24>(const image_view<rgb24> &image, const std::filesystem::path &path);
+template void save<rgba32>(const image_view<rgba32> &image, const std::filesystem::path &path);
+
+template <typename T>
+void save(const image_view<T> &image, streams::stream &stream)
 {
     // Check our stream
     if (!stream.good())
@@ -204,21 +238,20 @@ void save(const image &image, streams::stream &stream)
         throw save_exception();
     AEON_IGNORE_VS_WARNING_POP()
 
-    const auto color_type = detail::encoding_to_color_type(encoding(image));
-    const auto width = static_cast<png_uint_32>(imaging::width(image));
-    const auto height = static_cast<png_uint_32>(imaging::height(image));
-    const auto bytes_per_pixel = imaging::bytes_per_pixel(image);
+    const auto color_type = detail::png_color_type_traits<T>::color_type();
+    const auto w = static_cast<png_uint_32>(width(image));
+    const auto h = static_cast<png_uint_32>(height(image));
     const auto bit_depth = 8; // TODO: store bit depth in the image data.
 
-    png_set_IHDR(png_structs.png_ptr(), png_structs.info_ptr(), width, height, bit_depth, color_type,
-                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+    png_set_IHDR(png_structs.png_ptr(), png_structs.info_ptr(), w, h, bit_depth, color_type, PNG_INTERLACE_NONE,
+                 PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
-    auto rowpointer_buffer = std::vector<const std::uint8_t *>(height);
+    auto rowpointer_buffer = std::vector<const std::uint8_t *>(h);
     const auto rowpointer_buffer_ptr = rowpointer_buffer.data();
-    const auto pixel_data_ptr = image.data<std::uint8_t>();
+    const auto pixel_data_ptr = reinterpret_cast<const std::uint8_t *>(image.data());
 
-    for (auto y = 0u; y < height; ++y)
-        rowpointer_buffer_ptr[y] = pixel_data_ptr + y * width * bytes_per_pixel;
+    for (auto y = 0u; y < h; ++y)
+        rowpointer_buffer_ptr[y] = pixel_data_ptr + y * stride_y(image);
 
     // TODO: Figure out an alternative for const cast here.
     png_set_rows(png_structs.png_ptr(), png_structs.info_ptr(), const_cast<png_bytepp>(rowpointer_buffer_ptr));
@@ -228,5 +261,8 @@ void save(const image &image, streams::stream &stream)
     // Flush the output after writing.
     stream.flush();
 }
+
+template void save<rgb24>(const image_view<rgb24> &image, streams::stream &stream);
+template void save<rgba32>(const image_view<rgba32> &image, streams::stream &stream);
 
 } // namespace aeon::imaging::file::png

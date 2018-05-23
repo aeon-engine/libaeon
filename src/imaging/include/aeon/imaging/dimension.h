@@ -30,6 +30,6 @@
 namespace aeon::imaging
 {
 
-using dimension = std::uint32_t;
+using dimension = std::int32_t;
 
 } // namespace aeon::imaging

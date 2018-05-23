@@ -25,198 +25,90 @@
 
 #pragma once
 
-#include <aeon/imaging/pixel_iterator.h>
-#include <aeon/imaging/scanline_iterator.h>
-#include <aeon/imaging/iterator.h>
-#include <aeon/imaging/descriptor.h>
+#include <aeon/imaging/image_view.h>
 #include <vector>
-#include <cstdint>
-#include <cassert>
+#include <memory>
 
 namespace aeon::imaging
 {
 
-class image
+class image_base
 {
 public:
-    explicit image(const descriptor descriptor);
-    explicit image(const descriptor descriptor, std::vector<std::uint8_t> &&data);
-    explicit image(const descriptor descriptor, const std::vector<std::uint8_t> &data);
-    explicit image(const descriptor descriptor, void *data);
+    virtual ~image_base() = default;
 
-    ~image() = default;
+    image_base(const image_base &) = delete;
+    auto operator=(const image_base &) -> image_base & = delete;
 
-    image(const image &) = delete;
-    auto operator=(const image &) -> image & = delete;
+    image_base(image_base &&o) noexcept = default;
+    auto operator=(image_base &&other) noexcept -> image_base & = default;
 
-    image(image &&o) noexcept = default;
-    auto operator=(image &&other) noexcept -> image & = default;
-
-    auto get_descriptor() const noexcept -> descriptor;
-
-    auto data() noexcept -> void *;
-    auto data() const noexcept -> const void *;
-
-    template <typename T>
-    auto data() noexcept -> T *;
-
-    template <typename T>
-    auto data() const noexcept -> const T *;
-
-    auto size() const noexcept -> std::size_t;
-
-    auto clone() const -> image;
-
-    auto begin() noexcept -> iterator<std::uint8_t>;
-    auto end() noexcept -> iterator<std::uint8_t>;
-
-    template <typename pixel_type_t>
-    auto pixel_iterator() noexcept -> pixel_type_iterator<pixel_type_t>;
-
-    auto pixel(const dimension x, const dimension y) noexcept -> void *;
-    auto pixel(const dimension x, const dimension y) const noexcept -> const void *;
-
-    template <typename T>
-    auto pixel(const dimension x, const dimension y) noexcept -> T *;
-
-    template <typename T>
-    auto pixel(const dimension x, const dimension y) const noexcept -> const T *;
-
-private:
-    descriptor descriptor_;
-    std::vector<std::uint8_t> data_;
+protected:
+    image_base() = default;
 };
 
 template <typename T>
-auto image::data() noexcept -> T *
+class image : public image_base
 {
-    return reinterpret_cast<T *>(data());
-}
+    friend class dynamic_image;
+
+public:
+    explicit image(const image_descriptor<T> descriptor);
+    explicit image(const image_descriptor<T> descriptor, const std::vector<std::byte> &data);
+    explicit image(const image_descriptor<T> descriptor, std::vector<std::byte> &&data);
+    virtual ~image();
+
+    image(const image<T> &) = delete;
+    auto operator=(const image<T> &) -> image<T> & = delete;
+
+    image(image<T> &&o) noexcept = default;
+    auto operator=(image<T> &&other) noexcept -> image<T> & = default;
+
+    operator image_view<T> &() noexcept;
+    operator const image_view<T> &() const noexcept;
+
+    auto view() noexcept -> image_view<T> &;
+    auto view() const noexcept -> const image_view<T> &;
+
+    auto clone() const -> image<T>;
+
+private:
+    auto move_to_dynamic_image() -> std::unique_ptr<image_base>;
+
+    std::vector<std::byte> data_;
+    image_view<T> view_;
+};
 
 template <typename T>
-auto image::data() const noexcept -> const T *
-{
-    return reinterpret_cast<const T *>(data());
-}
-
-template <typename pixel_type_t>
-auto image::pixel_iterator() noexcept -> pixel_type_iterator<pixel_type_t>
-{
-    const auto bpp = bytes_per_pixel(descriptor_);
-    return pixel_type_iterator<pixel_type_t>{data_.data(), data_.data() + data_.size(), bpp};
-}
-
-inline auto image::pixel(const dimension x, const dimension y) noexcept -> void *
-{
-    assert(x < width(descriptor_));
-    assert(y < height(descriptor_));
-    return data_.data() + pixel_offset(x, y, descriptor_);
-}
-
-inline auto image::pixel(const dimension x, const dimension y) const noexcept -> const void *
-{
-    assert(x < width(descriptor_));
-    assert(y < height(descriptor_));
-    return data_.data() + pixel_offset(x, y, descriptor_);
-}
+inline auto view(image<T> &image) noexcept -> image_view<T> &;
 
 template <typename T>
-inline auto image::pixel(const dimension x, const dimension y) noexcept -> T *
-{
-    assert(x < width(descriptor_));
-    assert(y < height(descriptor_));
-    return reinterpret_cast<T *>(data_.data() + pixel_offset(x, y, descriptor_));
-}
+inline auto view(const image<T> &image) noexcept -> const image_view<T> &;
 
 template <typename T>
-inline auto image::pixel(const dimension x, const dimension y) const noexcept -> const T *
-{
-    assert(x < width(descriptor_));
-    assert(y < height(descriptor_));
-    return reinterpret_cast<const T *>(data_.data() + pixel_offset(x, y, descriptor_));
-}
+inline auto descriptor(const image<T> &image) noexcept -> image_descriptor<T>;
 
-inline auto data(image &image) noexcept
-{
-    return image.data();
-}
+template <typename T>
+inline auto width(const image<T> &image) noexcept;
 
-template <typename pixel_type_t>
-inline auto data(image &image) noexcept -> pixel_type_t *
-{
-    return image.data<pixel_type_t>();
-}
+template <typename T>
+inline auto height(const image<T> &image) noexcept;
 
-inline auto data(const image &image) noexcept
-{
-    return image.data();
-}
+template <typename T>
+inline auto dimensions(const image<T> &image) noexcept;
 
-template <typename pixel_type_t>
-inline auto data(const image &image) noexcept -> const pixel_type_t *
-{
-    return image.data<pixel_type_t>();
-}
+template <typename T>
+inline auto stride_x(const image<T> &image) noexcept;
 
-inline auto size(const image &image) noexcept
-{
-    return image.size();
-}
+template <typename T>
+inline auto stride_y(const image<T> &image) noexcept;
 
-inline auto width(const image &image) noexcept
-{
-    return width(image.get_descriptor());
-}
+template <typename T>
+inline auto continuous(const image<T> &image) noexcept;
 
-inline auto height(const image &image) noexcept
-{
-    return height(image.get_descriptor());
-}
-
-inline auto stride(const image &image) noexcept
-{
-    return stride(image.get_descriptor());
-}
-
-inline auto encoding(const image &image) noexcept
-{
-    return encoding(image.get_descriptor());
-}
-
-inline auto bytes_per_pixel(const image &image) noexcept
-{
-    return bytes_per_pixel(image.get_descriptor());
-}
-
-inline auto dimensions(const image &image) noexcept
-{
-    return dimensions(image.get_descriptor());
-}
-
-inline auto clone(const image &image) noexcept
-{
-    return image.clone();
-}
-
-inline auto continuous(const image &image) noexcept
-{
-    return continuous(image.get_descriptor());
-}
-
-inline auto contains(const image &image, const dimension x, const dimension y) noexcept
-{
-    return contains(image.get_descriptor(), x, y);
-}
-
-inline auto pixel_iterator(image &image) noexcept
-{
-    return image.pixel_iterator<std::uint8_t>();
-}
-
-template <typename pixel_type_t>
-inline auto pixel_iterator(image &image) noexcept
-{
-    return image.pixel_iterator<pixel_type_t>();
-}
+template <typename T>
+inline auto size(const image<T> &image) noexcept -> std::ptrdiff_t;
 
 } // namespace aeon::imaging
+
+#include <aeon/imaging/impl/image_impl.h>

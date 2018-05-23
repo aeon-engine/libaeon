@@ -39,7 +39,7 @@ TEST(test_imaging, test_load_bmp)
     const auto image = imaging::file::bmp::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.bmp");
 
     auto new_image = imaging::convert::remove_stride(image);
-    new_image = imaging::convert::to_rgb24(new_image);
+    const auto new_image2 = imaging::convert::to_rgb24(new_image);
 
-    imaging::file::png::save(new_image, "test_load_bmp.png");
+    imaging::file::png::save(imaging::view(new_image2), "test_load_bmp.png");
 }

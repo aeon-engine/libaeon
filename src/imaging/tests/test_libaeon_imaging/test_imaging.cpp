@@ -26,33 +26,52 @@
 #include <gtest/gtest.h>
 
 #include <aeon/imaging/image.h>
+#include "aeon/imaging/pixel_encoding.h"
 
 using namespace aeon;
 
 TEST(test_imaging, test_construct_image8)
 {
-    imaging::descriptor d{10, 10, imaging::pixel_encoding::unsigned8};
-    imaging::image image{d};
+    imaging::image_descriptor<std::uint8_t> d{10, 10};
+    imaging::image<std::uint8_t> image{d};
 
-    EXPECT_EQ(10 * 10, imaging::size(image));
-    EXPECT_EQ(d, image.get_descriptor());
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(std::uint8_t), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
 }
 
 TEST(test_imaging, test_construct_image16)
 {
-    imaging::descriptor d{10, 10, imaging::pixel_encoding::unsigned16};
-    imaging::image image{d};
+    imaging::image_descriptor<std::uint16_t> d{10, 10};
+    imaging::image<std::uint16_t> image{d};
 
-    EXPECT_EQ(10 * 10 * 2, imaging::size(image));
-    EXPECT_EQ(d, image.get_descriptor());
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(std::uint16_t), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
+}
+
+TEST(test_imaging, test_construct_float32)
+{
+    imaging::image_descriptor<float> d{10, 10};
+    imaging::image<float> image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(float), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
+}
+
+TEST(test_imaging, test_construct_rgb24)
+{
+    imaging::image_descriptor<imaging::rgb24> d{10, 10};
+    imaging::image<imaging::rgb24> image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(imaging::rgb24), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
 }
 
 TEST(test_imaging, test_image_float_data)
 {
-    imaging::descriptor d{3, 3, imaging::pixel_encoding::float32};
-    imaging::image image{d};
+    imaging::image_descriptor<float> d{3, 3};
+    imaging::image<float> image{d};
 
-    const auto data = image.data<float>();
+    const auto data = image.view().data<float>();
     for (auto i = 0u; i < (3 * 3); ++i)
     {
         data[i] = 1.0f;
@@ -61,49 +80,10 @@ TEST(test_imaging, test_image_float_data)
 
 TEST(test_imaging, test_image_free_functions)
 {
-    imaging::descriptor d{3, 3, imaging::pixel_encoding::float32};
-    imaging::image image{d};
+    imaging::image_descriptor<float> d{3, 3};
+    imaging::image<float> image{d};
 
     ASSERT_EQ(imaging::width(d), imaging::width(image));
     ASSERT_EQ(imaging::height(d), imaging::height(image));
-    ASSERT_EQ(imaging::stride(d), imaging::stride(image));
-    ASSERT_EQ(imaging::encoding(d), imaging::encoding(image));
-}
-
-TEST(test_imaging, test_image_float_data_iterator)
-{
-    imaging::descriptor d{3, 3, imaging::pixel_encoding::float32};
-    imaging::image image{d};
-
-    const auto data = image.data<float>();
-    for (auto i = 0u; i < (3 * 3); ++i)
-    {
-        data[i] = static_cast<float>(i);
-    }
-
-    int counter = 0u;
-    for (auto itr = std::begin(image); itr != std::end(image); ++itr)
-    {
-        ASSERT_FLOAT_EQ(*itr.as<float>(), static_cast<float>(counter++));
-    }
-
-    ASSERT_EQ(3 * 3, counter);
-
-    counter = 0;
-    for (auto pixel : imaging::pixel_iterator<float>(image))
-    {
-        ASSERT_FLOAT_EQ(pixel, static_cast<float>(counter++));
-    }
-
-    ASSERT_EQ(3 * 3, counter);
-
-    for (auto &pixel : imaging::pixel_iterator<float>(image))
-    {
-        pixel = 3.0f;
-    }
-
-    for (auto pixel : imaging::pixel_iterator<float>(image))
-    {
-        ASSERT_FLOAT_EQ(3.0f, pixel);
-    }
+    ASSERT_EQ(imaging::stride_x(d), imaging::stride_x(image));
 }

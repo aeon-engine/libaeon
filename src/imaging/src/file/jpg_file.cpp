@@ -57,13 +57,13 @@ auto subsample_mode_to_tjsamp(const subsample_mode mode)
 
 } // namespace detail
 
-auto load(const std::filesystem::path &path) -> image
+auto load(const std::filesystem::path &path) -> dynamic_image
 {
     auto stream = streams::file_stream{path, streams::access_mode::read, streams::file_mode::binary};
     return load(stream);
 }
 
-auto load(streams::stream &stream) -> image
+auto load(streams::stream &stream) -> dynamic_image
 {
     detail::tjhandle_decompress_wrapper wrapper;
 
@@ -76,23 +76,40 @@ auto load(streams::stream &stream) -> image
     if (tjDecompressHeader(wrapper.handle(), data.data(), data_size, &width, &height) != 0)
         throw load_exception();
 
-    const descriptor d{static_cast<dimension>(width), static_cast<dimension>(height), pixel_encoding::rgb24};
-    image loaded_image{d};
+    const image_descriptor<rgb24> d{static_cast<dimension>(width), static_cast<dimension>(height)};
+    image<rgb24> loaded_image{d};
 
-    if (tjDecompress2(wrapper.handle(), data.data(), data_size, loaded_image.data<std::uint8_t>(), width, 0, height,
-                      TJPF_RGB, TJFLAG_FASTDCT) != 0)
+    if (tjDecompress2(wrapper.handle(), data.data(), data_size, view(loaded_image).data<std::uint8_t>(), width, 0,
+                      height, TJPF_RGB, TJFLAG_FASTDCT) != 0)
         throw load_exception();
 
-    return loaded_image;
+    return dynamic_image{std::move(loaded_image)};
 }
 
-void save(const image &image, const subsample_mode subsample, int quality, const std::filesystem::path &path)
+void save(const dynamic_image &image, const subsample_mode subsample, int quality, const std::filesystem::path &path)
 {
     auto stream = streams::file_stream{path, streams::access_mode::write, streams::file_mode::binary};
     save(image, subsample, quality, stream);
 }
 
-void save(const image &image, const subsample_mode subsample, int quality, streams::stream &stream)
+void save(const dynamic_image &image, const subsample_mode subsample, int quality, streams::stream &stream)
+{
+    assert(encoding(image) == pixel_encoding::rgb24);
+    write_image(image, save, subsample, quality, stream);
+}
+
+template <typename T>
+void save(const image_view<T> &image, const subsample_mode subsample, int quality, const std::filesystem::path &path)
+{
+    auto stream = streams::file_stream{path, streams::access_mode::write, streams::file_mode::binary};
+    save(image, subsample, quality, stream);
+}
+
+template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode subsample, int quality,
+                          const std::filesystem::path &path);
+
+template <typename T>
+void save(const image_view<T> &image, const subsample_mode subsample, int quality, streams::stream &stream)
 {
     assert(quality >= 1);
     assert(quality <= 100);
@@ -104,8 +121,9 @@ void save(const image &image, const subsample_mode subsample, int quality, strea
     auto dest_buffer_data = dest_buffer.data();
 
     auto actual_size = static_cast<unsigned long>(dest_buffer.size());
-    if (tjCompress2(wrapper.handle(), image.data<std::uint8_t>(), width(image), 0, height(image), TJPF_RGB,
-                    &dest_buffer_data, &actual_size, tjsubsample, quality, TJFLAG_NOREALLOC) != 0)
+    if (tjCompress2(wrapper.handle(), image.template data<std::uint8_t>(), width(image),
+                    static_cast<int>(stride_y(image)), height(image), TJPF_RGB, &dest_buffer_data, &actual_size,
+                    tjsubsample, quality, TJFLAG_NOREALLOC) != 0)
         throw save_exception();
 
     dest_buffer.resize(actual_size);
@@ -113,5 +131,8 @@ void save(const image &image, const subsample_mode subsample, int quality, strea
     stream.vector_write(dest_buffer);
     stream.flush();
 }
+
+template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode subsample, int quality,
+                          streams::stream &stream);
 
 } // namespace aeon::imaging::file::jpg

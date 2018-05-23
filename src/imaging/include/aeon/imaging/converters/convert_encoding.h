@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/imaging/image.h>
+#include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/exceptions.h>
 
 namespace aeon::imaging::convert
@@ -35,6 +36,9 @@ class convert_exception : public imaging_exception
 {
 };
 
-auto to_rgb24(const image &img) -> image;
+auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
+
+template <typename T>
+auto to_rgb24(const image<T> &img) -> image<rgb24>;
 
 } // namespace aeon::imaging::convert

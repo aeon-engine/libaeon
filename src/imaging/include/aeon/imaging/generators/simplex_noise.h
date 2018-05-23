@@ -32,20 +32,21 @@
 namespace aeon::imaging::generators
 {
 
-inline void simplex_noise(image &image, const float octaves, const float persistence, const float scale) noexcept
+inline void simplex_noise(image_view<float> &image_view, const float octaves, const float persistence,
+                          const float scale) noexcept
 {
-    assert(encoding(image) == pixel_encoding::float32);
-    assert(continuous(image));
+    assert(continuous(image_view));
 
-    const auto image_width = width(image);
+    const auto image_width = width(image_view);
+    const auto image_height = height(image_view);
 
-    auto offset = 0u;
-    for (auto &pixel : imaging::pixel_iterator<float>(image))
+    for (auto y = 0; y < image_height; ++y)
     {
-        const auto x = static_cast<float>(offset % image_width);
-        const auto y = static_cast<float>(offset / image_width);
-        pixel = math::simplex_noise::scaled_octave_noise_2d(octaves, persistence, scale, 0.0f, 1.0f, x, y);
-        ++offset;
+        for (auto x = 0; x < image_height; ++x)
+        {
+            *image_view.at({x, y}) = math::simplex_noise::scaled_octave_noise_2d(
+                octaves, persistence, scale, 0.0f, 1.0f, static_cast<float>(x), static_cast<float>(y));
+        }
     }
 }
 
