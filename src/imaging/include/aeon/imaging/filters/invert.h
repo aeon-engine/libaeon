@@ -30,6 +30,7 @@
 namespace aeon::imaging::filters
 {
 
+auto invert_horizontally(const image &img) -> image;
 auto invert_vertically(const image &img) -> image;
 
 } // namespace aeon::imaging::filters

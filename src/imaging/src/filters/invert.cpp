@@ -29,6 +29,29 @@
 namespace aeon::imaging::filters
 {
 
+auto invert_horizontally(const image &img) -> image
+{
+    const auto w = width(img);
+    const auto h = height(img);
+    const auto bpp = bytes_per_pixel(img);
+
+    image new_image(img.get_descriptor());
+
+    for (auto y = 0u; y < h; ++y)
+    {
+        for (auto x = 0u; x < w; ++x)
+        {
+            const auto pixel_offset = img.pixel<std::uint8_t>(x, y);
+            const auto new_pixel_offset = new_image.pixel<std::uint8_t>(w - x - 1, y);
+
+            for (auto offset = 0u; offset < bpp; ++offset)
+                *(new_pixel_offset + offset) = *(pixel_offset + offset);
+        }
+    }
+
+    return new_image;
+}
+
 auto invert_vertically(const image &img) -> image
 {
     assert(continuous(img));

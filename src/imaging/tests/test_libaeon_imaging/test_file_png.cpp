@@ -26,7 +26,7 @@
 #include <gtest/gtest.h>
 
 #include <aeon/imaging/file/png_file.h>
-#include <aeon/imaging/generators/simplex_noise.h>
+#include <aeon/imaging/filters/invert.h>
 
 #include "imaging_unittest_data.h"
 
@@ -36,4 +36,15 @@ TEST(test_imaging, test_load_and_save_png)
 {
     const auto image = imaging::file::png::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.png");
     imaging::file::png::save(image, "test_load_and_save_png.png");
+}
+
+TEST(test_imaging, test_load_and_save_png_invert)
+{
+    const auto image = imaging::file::png::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.png");
+
+    const auto vimage = imaging::filters::invert_vertically(image);
+    imaging::file::png::save(vimage, "felix_v_invert.png");
+
+    const auto himage = imaging::filters::invert_horizontally(image);
+    imaging::file::png::save(himage, "felix_h_invert.png");
 }
