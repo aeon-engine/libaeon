@@ -21,3 +21,5 @@ vs_build/
 build/
 cmake-build-*/
 
+# Visual Studio
+.vs/
