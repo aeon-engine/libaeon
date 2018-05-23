@@ -23,50 +23,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
+#include <aeon/math/math.h>
 
-namespace aeon::math
-{
+using namespace aeon;
 
-template <typename T>
-struct constants
+TEST(test_math, test_math_float_sigmoid)
 {
-};
-
-template <>
-struct constants<float>
-{
-    static constexpr auto pi = 3.14159265358979323846f;
-    static constexpr auto pi_2 = 1.57079632679489661923f;
-    static constexpr auto pi_4 = 0.785398163397448309616f;
-    static constexpr auto tau = pi * 2.0f;
-};
-
-template <>
-struct constants<double>
-{
-    static constexpr auto pi = 3.14159265358979323846;
-    static constexpr auto pi_2 = 1.57079632679489661923;
-    static constexpr auto pi_4 = 0.785398163397448309616;
-    static constexpr auto tau = pi * 2.0;
-};
-
-template <typename T>
-inline auto degree_to_radian(const T degree) noexcept -> T
-{
-    return degree * constants<T>::pi / static_cast<T>(180.0);
+    for (auto val = -100.0f; val <= 100.0f; val += 0.01f)
+    {
+        ASSERT_LE(math::sigmoid(val), 1.0f);
+        ASSERT_GE(math::sigmoid(val), 0.0f);
+    }
 }
 
-template <typename T>
-inline auto radian_to_degree(const T degree) noexcept -> T
+TEST(test_math, test_math_double_sigmoid)
 {
-    return degree * static_cast<T>(180.0) / constants<T>::pi;
+    for (auto val = -100.0; val <= 100.0; val += 0.01)
+    {
+        ASSERT_LE(math::sigmoid(val), 1.0);
+        ASSERT_GE(math::sigmoid(val), 0.0);
+    }
 }
-
-template <typename T>
-inline auto sigmoid(const T value) noexcept -> T
-{
-    return 1 / (1 + std::exp(-value));
-}
-
-} // namespace aeon::math

@@ -34,6 +34,7 @@ add_unit_test_suite(
         test_vector2.cpp
         test_vector3.cpp
         test_vector4.cpp
+        test_math.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_math
