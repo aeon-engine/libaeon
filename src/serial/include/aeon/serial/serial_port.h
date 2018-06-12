@@ -43,6 +43,8 @@ class serial_port_exception : public std::exception
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
 using serial_port_handle = HANDLE;
+#elif (defined(AEON_PLATFORM_OS_LINUX))
+using serial_port_handle = int;
 #endif
 
 enum class stop_bits
