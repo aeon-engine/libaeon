@@ -29,6 +29,7 @@
 #include <string_view>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 
 namespace aeon::common::string
 {
@@ -222,12 +223,32 @@ auto contains(const std::string_view &str, const std::string_view &val) -> bool;
  * Convert a string in HEX format ("0x1234") to an integer.
  */
 template <typename T>
-auto hex_string_to_int(const std::string &str)
+inline auto hex_string_to_int(const std::string &str)
 {
     T value;
     std::istringstream iss(str);
     iss >> std::hex >> value;
     return value;
+}
+
+template <>
+inline auto hex_string_to_int<std::uint8_t>(const std::string &str)
+{
+    int value;
+    std::istringstream iss(str);
+    iss >> std::hex >> value;
+    return static_cast<std::uint8_t>(value);
+}
+
+/*!
+ * Convert a value into HEX format (ie. 255 becomes "FF")
+ */
+template <typename T>
+inline auto int_to_hex_string(const T value) -> std::string
+{
+    std::stringstream stream;
+    stream << std::setfill('0') << std::setw(sizeof(T) * 2) << std::hex << static_cast<std::int64_t>(value);
+    return stream.str();
 }
 
 } // namespace aeon::common::string
