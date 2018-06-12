@@ -30,6 +30,9 @@ option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
 # Sockets
 option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
 
+# Serial
+option(AEON_ENABLE_SERIAL "Enable the Aeon Serial library." OFF)
+
 # Midi
 option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
 
@@ -65,6 +68,10 @@ endif ()
 
 if (AEON_ENABLE_SOCKETS)
     add_subdirectory(sockets)
+endif ()
+
+if (AEON_ENABLE_SERIAL)
+    add_subdirectory(serial)
 endif ()
 
 if (AEON_ENABLE_HDF5)
