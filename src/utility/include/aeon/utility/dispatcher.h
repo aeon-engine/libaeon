@@ -25,8 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
-
 #include <functional>
 #include <mutex>
 #include <future>
@@ -47,18 +45,23 @@ enum dispatcher_stop_mode
     stop_on_empty_queue
 };
 
-class dispatcher : common::noncopyable
+class dispatcher
 {
 public:
     static const int signal_wait_timeout_ms = 100;
 
-    dispatcher(dispatcher_stop_mode stop_mode = dispatcher_stop_mode::manual_stop)
-        : running_(false)
-        , stop_mode_(stop_mode)
+    explicit dispatcher(dispatcher_stop_mode stop_mode = dispatcher_stop_mode::manual_stop)
+        : running_{false}
+        , stop_mode_{stop_mode}
     {
     }
 
     ~dispatcher() = default;
+
+    dispatcher(const dispatcher &) noexcept = delete;
+    auto operator=(const dispatcher &) noexcept -> dispatcher & = delete;
+    dispatcher(dispatcher &&) noexcept = delete;
+    auto operator=(dispatcher &&) noexcept -> dispatcher & = delete;
 
     void run_one()
     {
@@ -94,19 +97,19 @@ public:
         }
     }
 
-    void post(std::function<void()> job)
+    void post(const std::function<void()> &job)
     {
         std::unique_lock<std::mutex> lock(mutex_);
         queue_.push(job);
         signal_cv_.notify_one();
     }
 
-    void call(std::function<void()> job)
+    void call(const std::function<void()> &job)
     {
         std::promise<void> promise;
-        std::future<void> future = promise.get_future();
+        auto future = promise.get_future();
 
-        post([&job, &promise]() {
+        post([job, &promise]() {
             try
             {
                 job();
@@ -122,12 +125,12 @@ public:
     }
 
     template <typename T, typename std::enable_if<!std::is_void<T>::value>::type * = nullptr>
-    T call(std::function<T()> job)
+    T call(const std::function<T()> &job)
     {
         std::promise<T> promise;
-        std::future<T> future = promise.get_future();
+        auto future = promise.get_future();
 
-        post([&job, &promise]() {
+        post([job, &promise]() {
             try
             {
                 promise.set_value(job());
