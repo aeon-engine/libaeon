@@ -28,16 +28,7 @@
 #include <aeon/common/platform.h>
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
-
 #include <filesystem>
-
-#if _MSC_VER < 1914
-namespace std
-{
-namespace filesystem = ::std::experimental::filesystem;
-}
-#endif
-
 #elif (defined(AEON_PLATFORM_OS_LINUX))
 #if __GNUC__ >= 8
 #include <filesystem>
