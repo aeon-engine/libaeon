@@ -33,6 +33,7 @@ add_unit_test_suite(
         test_literals.cpp
         test_noncopyable.cpp
         test_optional.cpp
+        test_scope_guard.cpp
         test_singleton.cpp
         test_string.cpp
         test_stringtraits.cpp

@@ -37,6 +37,7 @@ set(LIB_AEON_COMMON_SOURCE
     src/string.cpp
     include/aeon/common/string_traits.h
     include/aeon/common/signed_sizeof.h
+    include/aeon/common/scope_guard.h
     include/aeon/common/term_colors.h
     include/aeon/common/variant.h
     include/aeon/common/unused.h
