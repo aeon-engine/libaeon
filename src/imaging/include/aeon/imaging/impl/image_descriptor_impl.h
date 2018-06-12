@@ -30,13 +30,13 @@ namespace aeon::imaging
 
 template <typename T>
 inline image_descriptor<T>::image_descriptor(const types::size2d<dimension> dimensions) noexcept
-    : image_descriptor{dimensions, sizeof(T), types::width(dimensions) * sizeof(T)}
+    : image_descriptor{dimensions, sizeof(T), static_cast<std::ptrdiff_t>(types::width(dimensions) * sizeof(T))}
 {
 }
 
 template <typename T>
 inline image_descriptor<T>::image_descriptor(const dimension width, const dimension height) noexcept
-    : image_descriptor{{width, height}, sizeof(T), width * sizeof(T)}
+    : image_descriptor{{width, height}, sizeof(T), static_cast<std::ptrdiff_t>(width * sizeof(T))}
 {
 }
 

@@ -171,7 +171,7 @@ inline auto make_view(const image_view<T> &view, const types::rectangle<int> &re
 
     const image_descriptor<T> descriptor{types::size(rect), stride_x(view), stride_y(view)};
     const auto data_offset =
-        view.data<std::byte>() + types::top(rect) * stride_y(view) + types::left(rect) * stride_x(view);
+        view.template data<std::byte>() + types::top(rect) * stride_y(view) + types::left(rect) * stride_x(view);
     return image_view<T>{descriptor, data_offset};
 }
 

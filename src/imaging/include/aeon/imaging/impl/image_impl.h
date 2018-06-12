@@ -30,7 +30,7 @@ namespace aeon::imaging
 
 template <typename T>
 inline image<T>::image(const image_descriptor<T> descriptor)
-    : data_{size(descriptor)}
+    : data_(size(descriptor))
     , view_{descriptor, data_.data()}
 {
 }
