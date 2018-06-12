@@ -38,9 +38,9 @@ public:
     noncopyable() noexcept = default;
     virtual ~noncopyable() noexcept = default;
     noncopyable(const noncopyable &) noexcept = delete;
-    noncopyable &operator=(const noncopyable &) noexcept = delete;
-    noncopyable(noncopyable &&o) noexcept = default;
-    noncopyable &operator=(noncopyable &&other) noexcept = default;
+    auto operator=(const noncopyable &) noexcept -> noncopyable & = delete;
+    noncopyable(noncopyable &&) noexcept = default;
+    auto operator=(noncopyable &&) noexcept -> noncopyable & = default;
 };
 
 } // namespace aeon::common
