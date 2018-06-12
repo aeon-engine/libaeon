@@ -27,9 +27,7 @@
 
 #include <string>
 
-namespace aeon
-{
-namespace common
+namespace aeon::common
 {
 
 class variant
@@ -149,5 +147,4 @@ private:
     variant_type type_;
 };
 
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common

@@ -28,9 +28,7 @@
 #include <aeon/logger/log_level.h>
 #include <string>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class log_sink
@@ -42,5 +40,4 @@ public:
     virtual void log(const std::string &message, const std::string &module, log_level level) = 0;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

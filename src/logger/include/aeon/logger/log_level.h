@@ -25,9 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 enum class log_level : int
@@ -42,5 +40,4 @@ enum class log_level : int
 
 static const char *log_level_str[] = {"Trace", "Debug", "Message", "Warning", "Error", "Fatal"};
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

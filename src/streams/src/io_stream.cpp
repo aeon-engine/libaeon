@@ -27,9 +27,7 @@
 
 #include <limits>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 io_stream::io_stream(int mode /*= aeon::streams::access_mode::write*/)
@@ -132,5 +130,4 @@ auto io_stream::good() const -> bool
     return true;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

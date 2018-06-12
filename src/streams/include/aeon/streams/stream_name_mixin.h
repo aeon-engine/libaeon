@@ -28,9 +28,7 @@
 #include <aeon/streams/config.h>
 #include <string>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class stream_name_mixin
@@ -76,5 +74,4 @@ private:
     bool has_name_;
 };
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

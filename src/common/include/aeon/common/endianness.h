@@ -30,11 +30,7 @@
 
 #include <cstdint>
 
-namespace aeon
-{
-namespace common
-{
-namespace endianness
+namespace aeon::common::endianness
 {
 
 template <typename T>
@@ -131,6 +127,4 @@ T swap(T val)
     }
 }
 
-} // namespace endianness
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common::endianness

@@ -27,9 +27,7 @@
 #include <aeon/filesystem/filesystem.h>
 #include <aeon/common/stdfilesystem.h>
 
-namespace aeon
-{
-namespace testutils
+namespace aeon::testutils
 {
 
 temporary_file::temporary_file()
@@ -64,5 +62,4 @@ void temporary_file::delete_temporary_file() const
     std::filesystem::remove(path_);
 }
 
-} // namespace testutils
-} // namespace aeon
+} // namespace aeon::testutils

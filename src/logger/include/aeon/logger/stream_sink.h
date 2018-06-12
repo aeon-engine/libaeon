@@ -30,9 +30,7 @@
 #include <aeon/streams/stream_fwd.h>
 #include <string>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class stream_sink : public log_sink
@@ -47,5 +45,4 @@ private:
     streams::stream &stream_;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

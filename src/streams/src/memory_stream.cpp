@@ -25,9 +25,7 @@
 
 #include <aeon/streams/memory_stream.h>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 memory_stream::memory_stream()
@@ -203,5 +201,4 @@ auto memory_stream::read_to_vector() -> std::vector<std::uint8_t>
     return buffer_;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

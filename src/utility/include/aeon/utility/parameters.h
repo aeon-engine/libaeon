@@ -32,9 +32,7 @@
 
 #include <cstring>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 // Simple wrapper to convert a vector of strings to a char*[].
@@ -98,5 +96,4 @@ private:
     char **argv_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

@@ -25,11 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace common
-{
-namespace type_traits
+namespace aeon::common::type_traits
 {
 
 /*!
@@ -44,6 +40,4 @@ struct function_signature_argument_count<return_type_t(args_t...)>
     static constexpr auto value = sizeof...(args_t);
 };
 
-} // namespace type_traits
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common::type_traits

@@ -26,9 +26,7 @@
 #include <aeon/logger/multithreaded_sink_backend.h>
 #include <aeon/logger/log_sink.h>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 multithreaded_sink_backend::multithreaded_sink_backend()
@@ -133,5 +131,4 @@ void multithreaded_sink_backend::log(const std::string &message, const std::stri
     cv_.notify_one();
 }
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

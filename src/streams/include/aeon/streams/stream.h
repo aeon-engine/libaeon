@@ -33,9 +33,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class stream_exception : public std::exception
@@ -278,5 +276,4 @@ public:
     }
 };
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

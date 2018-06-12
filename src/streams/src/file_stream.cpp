@@ -25,9 +25,7 @@
 
 #include <aeon/streams/file_stream.h>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/)
@@ -240,5 +238,4 @@ auto file_stream::get_filename() const -> const std::string &
     return filename_;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

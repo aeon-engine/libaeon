@@ -28,9 +28,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 /*!
@@ -91,5 +89,4 @@ protected:
     std::vector<T *> listeners_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

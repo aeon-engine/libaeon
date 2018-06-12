@@ -33,9 +33,7 @@
     template <>                                                                                                        \
     type *aeon::common::singleton<type>::instance_ = nullptr
 
-namespace aeon
-{
-namespace common
+namespace aeon::common
 {
 
 /*!
@@ -91,5 +89,4 @@ protected:
     static type *instance_;
 };
 
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common

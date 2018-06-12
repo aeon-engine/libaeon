@@ -29,9 +29,7 @@
 #include <aeon/logger/log_level.h>
 #include <string>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class base_backend : public common::noncopyable
@@ -57,5 +55,4 @@ private:
     log_level level_;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

@@ -30,12 +30,10 @@
 
 #if (AEON_PLATFORM_OS_WINDOWS)
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <Windows.h>
 #endif
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 io_stream_colors_mixin::io_stream_colors_mixin()
@@ -144,5 +142,4 @@ void io_stream_colors_mixin::disable_colors()
     enabled_ = false;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

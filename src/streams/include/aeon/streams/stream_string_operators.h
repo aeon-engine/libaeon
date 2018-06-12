@@ -32,9 +32,7 @@
 #include <string_view>
 #include <string>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 template <typename T>
@@ -111,5 +109,4 @@ inline auto &operator>>(streams::stream_reader<streams::stream> &reader, length_
     return reader;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

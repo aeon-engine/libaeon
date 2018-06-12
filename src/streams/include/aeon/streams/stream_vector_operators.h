@@ -28,9 +28,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 template <typename T>
@@ -42,5 +40,4 @@ inline auto &operator<<(stream_writer &writer, const std::vector<T> &val)
     return writer;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

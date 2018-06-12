@@ -31,9 +31,7 @@
 #include <functional>
 #include <vector>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 class parallelizer : noncopyable
@@ -86,5 +84,4 @@ private:
     dispatcher dispatcher_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

@@ -30,9 +30,7 @@
 #include <mutex>
 #include <atomic>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 template <class... Args>
@@ -262,5 +260,4 @@ private:
     mutex_type lock_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

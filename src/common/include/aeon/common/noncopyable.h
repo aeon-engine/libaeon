@@ -25,9 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace common
+namespace aeon::common
 {
 
 /*!
@@ -45,5 +43,4 @@ public:
     noncopyable &operator=(noncopyable &&other) noexcept = default;
 };
 
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common

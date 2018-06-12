@@ -28,9 +28,7 @@
 #include <aeon/common/stdfilesystem.h>
 #include <string>
 
-namespace aeon
-{
-namespace testutils
+namespace aeon::testutils
 {
 
 class temporary_file
@@ -58,5 +56,4 @@ struct temporary_file_fixture : public temporary_file, public ::testing::Test
 };
 #endif // ENABLE_TEMPORARY_FILE_FIXTURE
 
-} // namespace testutils
-} // namespace aeon
+} // namespace aeon::testutils

@@ -30,9 +30,7 @@
 #include <stdexcept>
 #include <cstdint>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class stream;
@@ -75,5 +73,4 @@ inline auto &operator<<(stream_writer &writer, const T &val)
     return writer;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

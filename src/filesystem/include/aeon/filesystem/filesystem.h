@@ -29,9 +29,7 @@
 #include <aeon/common/stdfilesystem.h>
 #include <string>
 
-namespace aeon
-{
-namespace filesystem
+namespace aeon::filesystem
 {
 
 AEON_DEPRECATED("Replaced by std::filesystem.")
@@ -45,5 +43,4 @@ void delete_directory(const std::string &path);
 
 auto generate_temporary_file_path() -> std::filesystem::path;
 
-} // namespace filesystem
-} // namespace aeon
+} // namespace aeon::filesystem

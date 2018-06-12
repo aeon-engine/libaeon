@@ -30,9 +30,7 @@
 
 #include <fstream>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class file_stream_exception : public stream_exception
@@ -99,5 +97,4 @@ protected:
     std::string filename_;
 };
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

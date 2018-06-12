@@ -25,9 +25,7 @@
 
 #include <aeon/utility/timer.h>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 timer::timer()
@@ -53,5 +51,4 @@ double timer::get_time_difference() const
     return elapsed_seconds.count();
 }
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

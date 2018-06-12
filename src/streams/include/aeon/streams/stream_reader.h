@@ -34,9 +34,7 @@
 #include <cstdint>
 #include <cstring>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 template <typename T>
@@ -136,5 +134,4 @@ inline auto &operator>>(stream_reader<T> &writer, U &val)
     return writer;
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

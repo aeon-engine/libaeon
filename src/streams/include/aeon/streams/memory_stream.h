@@ -28,9 +28,7 @@
 #include <aeon/streams/stream.h>
 #include <cstring>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class memory_stream_exception : public stream_exception
@@ -93,5 +91,4 @@ inline auto memory_stream::data() const
     return &buffer_[0];
 }
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

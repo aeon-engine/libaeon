@@ -25,9 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 /*!
@@ -105,5 +103,4 @@ protected:
     int access_mode_;
 };
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

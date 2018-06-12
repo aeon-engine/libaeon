@@ -37,9 +37,7 @@
 
 #include <cstdint>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 class configfile_exception : public std::exception
@@ -204,5 +202,4 @@ private:
     entries entries_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

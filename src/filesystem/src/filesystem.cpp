@@ -38,9 +38,7 @@
 #include <io.h>
 #endif
 
-namespace aeon
-{
-namespace filesystem
+namespace aeon::filesystem
 {
 
 auto exists(const std::string &path) -> bool
@@ -83,5 +81,4 @@ auto generate_temporary_file_path() -> std::filesystem::path
     return std::filesystem::temp_directory_path() / uuid.str();
 }
 
-} // namespace filesystem
-} // namespace aeon
+} // namespace aeon::filesystem

@@ -28,9 +28,7 @@
 #include <functional>
 #include <vector>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 template <typename key_type, typename value_type>
@@ -175,5 +173,4 @@ private:
     map_type map_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

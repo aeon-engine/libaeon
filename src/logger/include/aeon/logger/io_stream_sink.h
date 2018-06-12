@@ -31,9 +31,7 @@
 #include <aeon/streams/io_stream_colors_mixin.h>
 #include <string>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class io_stream_sink : public log_sink
@@ -49,5 +47,4 @@ private:
     streams::io_stream &stream_;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

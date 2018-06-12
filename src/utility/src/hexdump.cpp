@@ -28,9 +28,7 @@
 #include <cstdint>
 #include <cctype>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 void hexdump(FILE *dest, const void *src, std::size_t len)
@@ -78,5 +76,4 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
     fputs("---------------------------------------------------------------------------\n", dest);
 }
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

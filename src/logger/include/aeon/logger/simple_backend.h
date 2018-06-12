@@ -27,9 +27,7 @@
 
 #include <aeon/logger/base_backend.h>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class simple_backend : public base_backend
@@ -41,5 +39,4 @@ public:
     void log(const std::string &message, const std::string &module, const log_level level) override;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

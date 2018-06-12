@@ -28,9 +28,7 @@
 #include <aeon/common/deprecated.h>
 #include <exception>
 
-namespace aeon
-{
-namespace common
+namespace aeon::common
 {
 
 class optional_value_exception : public std::exception
@@ -95,5 +93,4 @@ private:
     bool has_value_;
 };
 
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common

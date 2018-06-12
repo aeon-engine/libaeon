@@ -27,9 +27,7 @@
 
 #include <chrono>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 class timer
@@ -46,5 +44,4 @@ private:
     std::chrono::time_point<std::chrono::system_clock> start_time_;
 };
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

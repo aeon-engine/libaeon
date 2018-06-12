@@ -25,12 +25,9 @@
 
 #pragma once
 
-namespace aeon
+namespace aeon::streams
 {
 
-namespace streams
-{
 class file_stream;
-} // namespace streams
 
-} // namespace aeon
+} // namespace aeon::streams

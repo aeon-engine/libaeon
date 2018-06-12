@@ -27,12 +27,9 @@
 
 #include <cstdio>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 void hexdump(FILE *dest, const void *src, size_t len);
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

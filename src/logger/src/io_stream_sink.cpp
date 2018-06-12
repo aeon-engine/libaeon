@@ -28,9 +28,7 @@
 #include <aeon/streams/io_stream.h>
 #include <aeon/streams/stream_string_operators.h>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 io_stream_sink::io_stream_sink(streams::io_stream &stream)
@@ -84,5 +82,4 @@ auto io_stream_sink::log_level_to_color_(log_level level) const -> streams::colo
     }
 }
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

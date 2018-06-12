@@ -28,9 +28,7 @@
 #include <aeon/streams/io_stream_colors_mixin.h>
 #include <aeon/streams/stream.h>
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 class io_stream_exception : public stream_exception
@@ -65,5 +63,4 @@ public:
     auto good() const -> bool override;
 };
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

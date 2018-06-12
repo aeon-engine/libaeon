@@ -25,9 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace streams
+namespace aeon::streams
 {
 
 enum class color
@@ -63,5 +61,4 @@ private:
     bool enabled_;
 };
 
-} // namespace streams
-} // namespace aeon
+} // namespace aeon::streams

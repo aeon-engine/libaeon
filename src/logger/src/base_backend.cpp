@@ -25,9 +25,7 @@
 
 #include <aeon/logger/base_backend.h>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 base_backend::base_backend()
@@ -56,5 +54,4 @@ void base_backend::__handle_log(const std::string &message, const std::string &m
         log(message, module, level);
 }
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

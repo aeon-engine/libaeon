@@ -25,9 +25,7 @@
 
 #include <aeon/logger/simple_sink_backend.h>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 simple_sink_backend::simple_sink_backend()
@@ -58,5 +56,4 @@ void simple_sink_backend::log(const std::string &message, const std::string &mod
     }
 }
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

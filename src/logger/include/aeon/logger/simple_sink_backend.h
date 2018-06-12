@@ -30,9 +30,7 @@
 #include <aeon/logger/log_level.h>
 #include <set>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class simple_sink_backend : public base_backend
@@ -52,5 +50,4 @@ private:
     std::set<log_sink *> sinks_;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

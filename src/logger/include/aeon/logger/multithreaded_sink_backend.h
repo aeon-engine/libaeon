@@ -32,9 +32,7 @@
 #include <thread>
 #include <condition_variable>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class log_sink;
@@ -83,5 +81,4 @@ private:
     volatile bool running_;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

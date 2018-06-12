@@ -39,9 +39,7 @@
 #define AEON_LOG_DEBUG(log) AEON_LOG(log, aeon::logger::log_level::debug)
 #define AEON_LOG_TRACE(log) AEON_LOG(log, aeon::logger::log_level::trace)
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 class logger_stream
@@ -93,5 +91,4 @@ private:
     std::string module_;
 };
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

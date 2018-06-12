@@ -25,9 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace common
+namespace aeon::common
 {
 
 template <typename T>
@@ -82,5 +80,4 @@ inline static auto get_high_nibble(unsigned char value) noexcept
     return static_cast<unsigned char>((value & 0xF0) >> 4);
 }
 
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common

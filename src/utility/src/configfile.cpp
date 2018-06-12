@@ -31,9 +31,7 @@
 #include <aeon/streams/stream.h>
 #include <aeon/streams/access_mode_mixin.h>
 
-namespace aeon
-{
-namespace utility
+namespace aeon::utility
 {
 
 bool configfile::has_entry(const std::string &key)
@@ -146,5 +144,4 @@ void configfile::__read_line(const std::string &line)
     entries_[key] = val;
 }
 
-} // namespace utility
-} // namespace aeon
+} // namespace aeon::utility

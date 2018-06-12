@@ -28,9 +28,7 @@
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_string_operators.h>
 
-namespace aeon
-{
-namespace logger
+namespace aeon::logger
 {
 
 stream_sink::stream_sink(streams::stream &stream)
@@ -56,5 +54,4 @@ void stream_sink::log(const std::string &message, const std::string &module, log
     writer.write_line(message);
 }
 
-} // namespace logger
-} // namespace aeon
+} // namespace aeon::logger

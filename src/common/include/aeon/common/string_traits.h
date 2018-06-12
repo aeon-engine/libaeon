@@ -27,11 +27,7 @@
 
 #include <string>
 
-namespace aeon
-{
-namespace common
-{
-namespace string
+namespace aeon::common::string
 {
 
 template <typename T>
@@ -95,6 +91,4 @@ struct convert<bool>
     }
 };
 
-} // namespace string
-} // namespace common
-} // namespace aeon
+} // namespace aeon::common::string
