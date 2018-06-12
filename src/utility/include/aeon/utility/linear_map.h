@@ -41,8 +41,8 @@ public:
     linear_map() = default;
     ~linear_map() = default;
 
-    linear_map(const linear_map &) noexcept = default;
-    auto operator=(const linear_map &) noexcept -> linear_map & = default;
+    linear_map(const linear_map &) = default;
+    auto operator=(const linear_map &) -> linear_map & = default;
     linear_map(linear_map &&) noexcept = default;
     auto operator=(linear_map &&) noexcept -> linear_map & = default;
 
