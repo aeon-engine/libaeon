@@ -43,7 +43,7 @@ namespace aeon::common
  * longer needed to prevent leaks.
  */
 template <class type>
-class singleton : public noncopyable
+class singleton
 {
 public:
     singleton()
@@ -57,10 +57,15 @@ public:
             throw std::runtime_error("Singleton could not be created.");
     }
 
-    virtual ~singleton() noexcept
+    ~singleton() noexcept
     {
         instance_ = nullptr;
     }
+
+    singleton(const singleton<type> &) noexcept = default;
+    auto operator=(const singleton<type> &) noexcept -> singleton<type> & = default;
+    singleton(singleton<type> &&) noexcept = default;
+    auto operator=(singleton<type> &&) noexcept -> singleton<type> & = default;
 
     static auto *create()
     {
