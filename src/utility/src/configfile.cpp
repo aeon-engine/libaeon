@@ -34,10 +34,9 @@
 namespace aeon::utility
 {
 
-bool configfile::has_entry(const std::string &key)
+bool configfile::has_entry(const std::string &key) const
 {
-    auto itr = entries_.find(key);
-
+    const auto itr = entries_.find(key);
     return (itr != entries_.end());
 }
 
@@ -76,16 +75,16 @@ void configfile::load(streams::stream &stream)
     }
 }
 
-void configfile::save(streams::stream &stream)
+void configfile::save(streams::stream &stream) const
 {
     if (!stream.good())
         throw configfile_exception();
 
     streams::stream_writer writer(stream);
 
-    for (auto itr : entries_)
+    for (const auto &itr : entries_)
     {
-        std::string line = itr.first + "=" + itr.second;
+        const auto line = itr.first + "=" + itr.second;
         writer.write_line(line);
     }
 }
@@ -103,7 +102,7 @@ void configfile::load(const std::filesystem::path &path)
     }
 }
 
-void configfile::save(const std::filesystem::path &path)
+void configfile::save(const std::filesystem::path &path) const
 {
     streams::file_stream stream(path, streams::access_mode::write | streams::access_mode::truncate,
                                 streams::file_mode::text);
@@ -117,7 +116,7 @@ void configfile::load(std::vector<std::uint8_t> &&data)
     load(stream);
 }
 
-void configfile::save(std::vector<std::uint8_t> &data)
+void configfile::save(std::vector<std::uint8_t> &data) const
 {
     streams::memory_stream stream;
     save(stream);
@@ -133,13 +132,13 @@ void configfile::__read_line(const std::string &line)
     if (line[0] == '#')
         return;
 
-    size_t pos = line.find_first_of('=');
+    const auto pos = line.find_first_of('=');
 
     if (pos == std::string::npos || pos == 0)
         return;
 
-    std::string key = line.substr(0, pos);
-    std::string val = line.substr(pos + 1);
+    const auto key = line.substr(0, pos);
+    const auto val = line.substr(pos + 1);
 
     entries_[key] = val;
 }

@@ -26,7 +26,6 @@
 #pragma once
 
 #include <aeon/streams/stream_fwd.h>
-#include <aeon/common/noncopyable.h>
 #include <aeon/common/string_traits.h>
 #include <aeon/common/stdfilesystem.h>
 
@@ -51,7 +50,7 @@ class configfile_exception : public std::exception
  * means a config ini file. If the config file contains syntax errors, messages
  * are logged to the console.
  */
-class configfile : public common::noncopyable
+class configfile
 {
 public:
     using entries = std::map<std::string, std::string>;
@@ -67,7 +66,7 @@ public:
     ~configfile() = default;
 
     configfile(configfile &&other) noexcept
-        : entries_(std::move(other.entries_))
+        : entries_{std::move(other.entries_)}
     {
     }
 
@@ -77,12 +76,15 @@ public:
         return *this;
     }
 
+    configfile(const configfile &) noexcept = delete;
+    auto operator=(const configfile &) noexcept -> configfile & = delete;
+
     /*!
      * Check if the loaded config file has a certain entry key
      * \param key The entry key to be checked
      * \returns True if the entry was found
      */
-    bool has_entry(const std::string &key);
+    bool has_entry(const std::string &key) const;
 
     /*!
      * Get a value.
@@ -90,9 +92,9 @@ public:
      * \return Either the value of the entry of key, or throws an exception.
      */
     template <typename T>
-    auto get(const std::string &key)
+    auto get(const std::string &key) const
     {
-        auto itr = entries_.find(key);
+        const auto itr = entries_.find(key);
 
         // If it could not find the key...
         if (itr == entries_.end())
@@ -110,7 +112,7 @@ public:
     template <typename T>
     auto get(const std::string &key, const T &default_val)
     {
-        auto itr = entries_.find(key);
+        const auto itr = entries_.find(key);
 
         // If it could not find the key...
         if (itr == entries_.end())
@@ -143,7 +145,7 @@ public:
      * Save a config to a stream
      * \param stream The configfile to save.
      */
-    void save(streams::stream &stream);
+    void save(streams::stream &stream) const;
 
     /*!
      * Load a config from a file
@@ -156,7 +158,7 @@ public:
      * \param path The configfile path to save.
      *             File will be overwritten if it already exists.
      */
-    void save(const std::filesystem::path &path);
+    void save(const std::filesystem::path &path) const;
 
     /*!
      * Load a config from memory
@@ -175,7 +177,7 @@ public:
      *             be treated as seperators. The vector will be
      *             cleared first.
      */
-    void save(std::vector<std::uint8_t> &data);
+    void save(std::vector<std::uint8_t> &data) const;
 
     /*!
      * Begin iterator for foreach loops.
