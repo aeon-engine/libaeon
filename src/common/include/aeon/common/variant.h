@@ -43,47 +43,47 @@ public:
     };
 
     variant()
-        : int_value_(0)
-        , float_value_(0.0f)
-        , bool_value_(false)
-        , string_value_("")
+        : int_value_{}
+        , float_value_{}
+        , bool_value_{}
+        , string_value_{}
         , type_(variant_type::variant_nil)
     {
     }
 
     variant(const int &value)
-        : int_value_(value)
-        , float_value_(static_cast<float>(value))
-        , bool_value_(value >= 0)
-        , string_value_(std::to_string(value))
-        , type_(variant_type::variant_int)
+        : int_value_{value}
+        , float_value_{static_cast<float>(value)}
+        , bool_value_{value >= 0}
+        , string_value_{std::to_string(value)}
+        , type_{variant_type::variant_int}
     {
     }
 
     variant(const float &value)
-        : int_value_(static_cast<int>(value))
-        , float_value_(value)
-        , bool_value_(value >= 0.0f)
-        , string_value_(std::to_string(value))
-        , type_(variant_type::variant_float)
+        : int_value_{static_cast<int>(value)}
+        , float_value_{value}
+        , bool_value_{value >= 0.0f}
+        , string_value_{std::to_string(value)}
+        , type_{variant_type::variant_float}
     {
     }
 
     variant(const bool &value)
-        : int_value_(value == false ? 0 : 1)
-        , float_value_(value == false ? 0.0f : 1.0f)
-        , bool_value_(value)
-        , string_value_(value == false ? "false" : "true")
-        , type_(variant_type::variant_bool)
+        : int_value_{value ? 1 : 0}
+        , float_value_{value ? 1.0f : 0.0f}
+        , bool_value_{value}
+        , string_value_{value ? "true" : "false"}
+        , type_{variant_type::variant_bool}
     {
     }
 
     variant(const std::string &value)
-        : int_value_(0)
-        , float_value_(0)
-        , bool_value_(false)
-        , string_value_(value)
-        , type_(variant_type::variant_string)
+        : int_value_{}
+        , float_value_{}
+        , bool_value_{}
+        , string_value_{value}
+        , type_{variant_type::variant_string}
     {
         if (value == "true")
         {
