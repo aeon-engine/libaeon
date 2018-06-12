@@ -33,9 +33,7 @@ timer::timer()
     reset();
 }
 
-timer::~timer()
-{
-}
+timer::~timer() = default;
 
 void timer::reset()
 {
