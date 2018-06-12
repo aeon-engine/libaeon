@@ -28,9 +28,13 @@
 
 #include <type_traits>
 
+struct test_struct : public aeon::common::noncopyable
+{
+};
+
 TEST(test_noncopyable, test_noncopyable_create)
 {
-    ASSERT_NO_THROW(aeon::common::noncopyable a;);
+    ASSERT_NO_THROW(test_struct{});
 }
 
 TEST(test_noncopyable, test_noncopyable_move_create)

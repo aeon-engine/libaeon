@@ -36,7 +36,7 @@ class noncopyable
 {
 public:
     noncopyable() noexcept = default;
-    virtual ~noncopyable() noexcept = default;
+    ~noncopyable() noexcept = default;
     noncopyable(const noncopyable &) noexcept = delete;
     auto operator=(const noncopyable &) noexcept -> noncopyable & = delete;
     noncopyable(noncopyable &&) noexcept = default;
