@@ -34,7 +34,7 @@
 namespace aeon::utility
 {
 
-class parallelizer : noncopyable
+class parallelizer : common::noncopyable
 {
 public:
     using task = std::function<void()>;
