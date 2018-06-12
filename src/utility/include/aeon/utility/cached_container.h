@@ -46,7 +46,7 @@ public:
     using cached_objects = std::map<key_t, std::weak_ptr<value_t>>;
 
     cached_container() = default;
-    virtual ~cached_container() = default;
+    ~cached_container() = default;
 
     cached_container(cached_container<key_t, value_t> &&other) noexcept
         : objects_(other.objects_)
