@@ -30,6 +30,6 @@
 namespace aeon::utility
 {
 
-void hexdump(FILE *dest, const void *src, size_t len);
+void hexdump(FILE *dest, const void *src, size_t len) noexcept;
 
 } // namespace aeon::utility

@@ -31,7 +31,7 @@
 namespace aeon::utility
 {
 
-void hexdump(FILE *dest, const void *src, std::size_t len)
+void hexdump(FILE *dest, const void *src, std::size_t len) noexcept
 {
     fputs("--------|------------------------------------------------|----------------|\n", dest);
     fputs(" offset |00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |0123456789ABCDEF|\n", dest);
@@ -39,7 +39,7 @@ void hexdump(FILE *dest, const void *src, std::size_t len)
 
     auto i = 0_size_t;
     auto c = 0_size_t;
-    const unsigned char *data = reinterpret_cast<const unsigned char *>(src);
+    const auto *data = reinterpret_cast<const unsigned char *>(src);
 
     for (; i < len;)
     {
