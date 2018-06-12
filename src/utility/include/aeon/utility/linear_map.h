@@ -41,12 +41,17 @@ public:
     linear_map() = default;
     ~linear_map() = default;
 
-    typename map_type::iterator insert(const key_type &key, const value_type &value)
+    linear_map(const linear_map &) noexcept = default;
+    auto operator=(const linear_map &) noexcept -> linear_map & = default;
+    linear_map(linear_map &&) noexcept = default;
+    auto operator=(linear_map &&) noexcept -> linear_map & = default;
+
+    auto insert(const key_type &key, const value_type &value)
     {
         return insert(std::make_pair(key, value));
     }
 
-    typename map_type::iterator insert(pair_type pair)
+    auto insert(pair_type pair)
     {
         auto itr = __find_key(pair.first);
 
@@ -57,12 +62,12 @@ public:
         return itr;
     }
 
-    typename map_type::iterator insert_ex(const key_type &key, const value_type &value)
+    auto insert_ex(const key_type &key, const value_type &value)
     {
         return insert_ex(std::make_pair(key, value));
     }
 
-    typename map_type::iterator insert_ex(pair_type pair)
+    auto insert_ex(pair_type pair)
     {
         auto itr = __find_key(pair.first);
 
@@ -72,7 +77,7 @@ public:
         return map_.end();
     }
 
-    value_type &at(const key_type &key)
+    auto &at(const key_type &key)
     {
         auto itr = __find_key(key);
         if (itr == map_.end())
@@ -81,7 +86,7 @@ public:
         return itr->second;
     }
 
-    value_type &operator[](const key_type &key)
+    auto &operator[](const key_type &key)
     {
         auto itr = __find_key(key);
 
@@ -91,32 +96,32 @@ public:
         return itr->second;
     }
 
-    typename map_type::iterator find(const key_type &key)
+    auto find(const key_type &key)
     {
         return __find_key(key);
     }
 
-    typename map_type::iterator begin() noexcept
+    auto begin() noexcept
     {
         return map_.begin();
     }
 
-    typename map_type::iterator end() noexcept
+    auto end() noexcept
     {
         return map_.end();
     }
 
-    typename map_type::const_iterator begin() const noexcept
+    auto begin() const noexcept
     {
         return map_.cbegin();
     }
 
-    typename map_type::const_iterator end() const noexcept
+    auto end() const noexcept
     {
         return map_.cend();
     }
 
-    typename map_type::iterator erase(const key_type &key)
+    auto erase(const key_type &key)
     {
         auto itr = __find_key(key);
 
@@ -141,12 +146,12 @@ public:
         }
     }
 
-    typename map_type::iterator erase(typename map_type::iterator itr)
+    auto erase(typename map_type::iterator itr)
     {
         return map_.erase(itr);
     }
 
-    bool empty() const
+    auto empty() const
     {
         return map_.empty();
     }
@@ -156,18 +161,15 @@ public:
         map_.clear();
     }
 
-    std::size_t size() const noexcept
+    auto size() const noexcept
     {
         return map_.size();
     }
 
 private:
-    typename map_type::iterator __find_key(const key_type &key)
+    auto __find_key(const key_type &key)
     {
-        typename map_type::iterator itr =
-            std::find_if(map_.begin(), map_.end(), [key](const pair_type &s) { return s.first == key; });
-
-        return itr;
+        return std::find_if(map_.begin(), map_.end(), [key](const pair_type &s) { return s.first == key; });
     }
 
     map_type map_;
