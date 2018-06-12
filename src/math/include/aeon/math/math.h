@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <cmath>
+
 namespace aeon::math
 {
 
