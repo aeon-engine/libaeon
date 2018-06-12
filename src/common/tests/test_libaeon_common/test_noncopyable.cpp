@@ -42,12 +42,6 @@ TEST(test_noncopyable, test_noncopyable_move_create)
     ASSERT_NO_THROW(auto a = aeon::common::noncopyable());
 }
 
-TEST(test_noncopyable, test_noncopyable_has_virtual_destructor)
-{
-    auto is_non_copyable = std::has_virtual_destructor<aeon::common::noncopyable>::value;
-    EXPECT_TRUE(is_non_copyable);
-}
-
 TEST(test_noncopyable, test_noncopyable_is_not_copy_constructable)
 {
     auto is_copy_constructible = std::is_copy_constructible<aeon::common::noncopyable>::value;
