@@ -53,7 +53,7 @@ public:
     template <class U = T>
     auto read_line() -> typename std::enable_if<!std::is_same<U, file_stream>::value, std::string>::type;
 
-    auto &internal_stream();
+    auto &internal_stream() const noexcept;
 
 protected:
     T &stream_;
@@ -61,14 +61,14 @@ protected:
 
 template <typename T>
 stream_reader<T>::stream_reader(T &streamref)
-    : stream_(streamref)
+    : stream_{streamref}
 {
 }
 
 template <typename T>
 auto stream_reader<T>::read_as_string() const
 {
-    auto vector = stream_.read_to_vector();
+    const auto vector = stream_.read_to_vector();
     return std::string(vector.begin(), vector.end());
 }
 
@@ -120,7 +120,7 @@ auto stream_reader<T>::read_line() -> typename std::enable_if<!std::is_same<U, f
 }
 
 template <typename T>
-inline auto &stream_reader<T>::internal_stream()
+inline auto &stream_reader<T>::internal_stream() const noexcept
 {
     return stream_;
 }

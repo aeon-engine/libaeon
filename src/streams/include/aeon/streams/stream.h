@@ -72,8 +72,8 @@ public:
      * \param mode The access mode for the stream.
      * \sa AccessMode
      */
-    stream(int mode = access_mode::read)
-        : access_mode_mixin(mode)
+    stream(const int mode = access_mode::read)
+        : access_mode_mixin{mode}
     {
     }
 
@@ -113,7 +113,7 @@ public:
     virtual auto vector_read(std::vector<std::uint8_t> &data, std::size_t size) -> std::size_t
     {
         data.resize(size);
-        auto result = read(data.data(), size);
+        const auto result = read(data.data(), size);
         data.resize(result);
         return result;
     }
@@ -249,9 +249,9 @@ public:
     virtual auto read_to_vector() -> std::vector<std::uint8_t>
     {
         std::vector<std::uint8_t> buffer;
-        auto buff_size = size();
+        const auto buff_size = size();
         buffer.resize(buff_size);
-        auto read_size = read(&buffer[0], buff_size);
+        const auto read_size = read(&buffer[0], buff_size);
         buffer.resize(read_size);
         return buffer;
     }

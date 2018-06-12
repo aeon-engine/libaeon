@@ -160,10 +160,10 @@ protected:
 
 template <unsigned circular_buffer_size>
 inline circular_buffer_stream<circular_buffer_size>::circular_buffer_stream()
-    : buffer_()
-    , tail_(0)
-    , head_(0)
-    , size_(0)
+    : buffer_{}
+    , tail_{0}
+    , head_{0}
+    , size_{0}
 {
 }
 

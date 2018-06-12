@@ -28,20 +28,20 @@
 namespace aeon::streams
 {
 
-file_stream::file_stream(const std::string &filename, int mode, file_mode fm /*= file_mode::binary*/)
-    : file_stream(std::filesystem::path(filename), mode, fm)
+file_stream::file_stream(const std::string &filename, const int mode, const file_mode fm /*= file_mode::binary*/)
+    : file_stream{std::filesystem::path(filename), mode, fm}
 {
 }
 
-file_stream::file_stream(const std::string &filename, file_mode fm /*= file_mode::binary*/)
-    : file_stream(std::filesystem::path(filename), access_mode::read, fm)
+file_stream::file_stream(const std::string &filename, const file_mode fm /*= file_mode::binary*/)
+    : file_stream{std::filesystem::path(filename), access_mode::read, fm}
 {
 }
 
-file_stream::file_stream(const std::filesystem::path &path, int mode, file_mode fm)
-    : stream(mode)
-    , size_(0)
-    , filename_(path.string())
+file_stream::file_stream(const std::filesystem::path &path, const int mode, const file_mode fm)
+    : stream{mode}
+    , size_{0}
+    , filename_{path.string()}
 {
     fstream_.open(path, to_ios_open_mode_(mode, fm));
 
@@ -57,8 +57,8 @@ file_stream::file_stream(const std::filesystem::path &path, int mode, file_mode 
     }
 }
 
-file_stream::file_stream(const std::filesystem::path &path, file_mode fm)
-    : file_stream(path, access_mode::read, fm)
+file_stream::file_stream(const std::filesystem::path &path, const file_mode fm)
+    : file_stream{path, access_mode::read, fm}
 {
 }
 
@@ -102,13 +102,13 @@ auto file_stream::peek(std::uint8_t *data, std::size_t size) -> std::size_t
     if (!data || size == 0)
         throw file_stream_exception();
 
-    std::size_t original_offset = static_cast<std::size_t>(fstream_.tellg());
+    const auto original_offset = static_cast<std::size_t>(fstream_.tellg());
 
     fstream_.read(reinterpret_cast<char *>(data), size);
 
     if (fstream_.eof())
     {
-        std::size_t peek_count = static_cast<std::size_t>(fstream_.gcount());
+        const auto peek_count = static_cast<std::size_t>(fstream_.gcount());
 
         fstream_.seekg(original_offset, std::ios::beg);
 
@@ -187,7 +187,7 @@ auto file_stream::good() const -> bool
 
 auto file_stream::to_ios_open_mode_(int mode, file_mode fm) const -> std::ios::openmode
 {
-    auto openmode_zero = static_cast<std::ios::openmode>(0);
+    const auto openmode_zero = static_cast<std::ios::openmode>(0);
 
     auto m = (fm == file_mode::binary) ? std::fstream::binary : openmode_zero;
     m |= (mode & access_mode::read) ? std::fstream::in : openmode_zero;

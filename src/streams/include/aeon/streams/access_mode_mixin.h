@@ -52,12 +52,12 @@ class access_mode_mixin
 {
 public:
     access_mode_mixin()
-        : access_mode_(access_mode::none)
+        : access_mode_{access_mode::none}
     {
     }
 
-    access_mode_mixin(int access)
-        : access_mode_(access)
+    explicit access_mode_mixin(const int access)
+        : access_mode_{access}
     {
     }
 
@@ -69,28 +69,28 @@ public:
     access_mode_mixin(const access_mode_mixin &) = default;
     auto operator=(const access_mode_mixin &) -> access_mode_mixin & = default;
 
-    virtual auto get_access_mode() const -> int
+    virtual auto get_access_mode() const noexcept -> int
     {
         return access_mode_;
     }
 
-    virtual auto is_readable() const -> bool
+    virtual auto is_readable() const noexcept -> bool
     {
         return (access_mode_ & access_mode::read) != 0;
     }
 
-    virtual auto is_writable() const -> bool
+    virtual auto is_writable() const noexcept -> bool
     {
         return (access_mode_ & access_mode::write) != 0;
     }
 
-    virtual auto is_truncated() const -> bool
+    virtual auto is_truncated() const noexcept -> bool
     {
         return (access_mode_ & access_mode::truncate) != 0;
     }
 
 protected:
-    void set_access_mode(int access)
+    void set_access_mode(const int access) noexcept
     {
         access_mode_ = access;
     }

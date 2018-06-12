@@ -29,18 +29,18 @@ namespace aeon::streams
 {
 
 memory_stream::memory_stream()
-    : stream(access_mode::read_write)
-    , buffer_()
-    , offset_(0)
-    , size_(0)
+    : stream{access_mode::read_write}
+    , buffer_{}
+    , offset_{0}
+    , size_{0}
 {
 }
 
-memory_stream::memory_stream(std::vector<std::uint8_t> &&buffer, int mode)
-    : stream(mode)
-    , buffer_(std::move(buffer))
-    , offset_(0)
-    , size_(0)
+memory_stream::memory_stream(std::vector<std::uint8_t> &&buffer, const int mode)
+    : stream{mode}
+    , buffer_{std::move(buffer)}
+    , offset_{0}
+    , size_{0}
 {
     size_ = buffer_.size();
 }

@@ -35,14 +35,14 @@ class stream_name_mixin
 {
 public:
     stream_name_mixin()
-        : name_(AEON_STREAM_DEFAULT_NAME)
-        , has_name_(false)
+        : name_{AEON_STREAM_DEFAULT_NAME}
+        , has_name_{false}
     {
     }
 
     explicit stream_name_mixin(const std::string &name)
-        : name_(name)
-        , has_name_(true)
+        : name_{name}
+        , has_name_{true}
     {
     }
 
@@ -64,7 +64,7 @@ public:
         name_ = name;
     }
 
-    auto has_name() const
+    auto has_name() const noexcept
     {
         return has_name_;
     }

@@ -37,11 +37,11 @@ namespace aeon::streams
 {
 
 io_stream_colors_mixin::io_stream_colors_mixin()
-    : enabled_(true)
+    : enabled_{true}
 {
 }
 
-void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/) const
+void io_stream_colors_mixin::set_color(const color c, const weight w /*= weight::normal*/) const noexcept
 {
     if (!enabled_)
         return;
@@ -119,7 +119,7 @@ void io_stream_colors_mixin::set_color(color c, weight w /*= weight::normal*/) c
 #endif
 }
 
-void io_stream_colors_mixin::reset_color() const
+void io_stream_colors_mixin::reset_color() const noexcept
 {
     if (!enabled_)
         return;
@@ -132,12 +132,12 @@ void io_stream_colors_mixin::reset_color() const
 #endif
 }
 
-void io_stream_colors_mixin::enable_colors()
+void io_stream_colors_mixin::enable_colors() noexcept
 {
     enabled_ = true;
 }
 
-void io_stream_colors_mixin::disable_colors()
+void io_stream_colors_mixin::disable_colors() noexcept
 {
     enabled_ = false;
 }

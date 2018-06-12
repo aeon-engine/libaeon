@@ -30,8 +30,8 @@
 namespace aeon::streams
 {
 
-io_stream::io_stream(int mode /*= aeon::streams::access_mode::write*/)
-    : aeon::streams::stream(mode)
+io_stream::io_stream(const int mode /*= aeon::streams::access_mode::write*/)
+    : stream{mode}
 {
 }
 
@@ -65,7 +65,7 @@ auto io_stream::peek(std::uint8_t *data, std::size_t size) -> std::size_t
     if (size > static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()))
         throw io_stream_exception();
 
-    auto max_count = static_cast<std::ptrdiff_t>(size);
+    const auto max_count = static_cast<std::ptrdiff_t>(size);
 
     int c;
     std::ptrdiff_t count = 0;

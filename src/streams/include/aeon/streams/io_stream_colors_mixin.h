@@ -51,11 +51,11 @@ class io_stream_colors_mixin
 public:
     io_stream_colors_mixin();
 
-    void set_color(color c, weight w = weight::normal) const;
-    void reset_color() const;
+    void set_color(const color c, const weight w = weight::normal) const noexcept;
+    void reset_color() const noexcept;
 
-    void enable_colors();
-    void disable_colors();
+    void enable_colors() noexcept;
+    void disable_colors() noexcept;
 
 private:
     bool enabled_;

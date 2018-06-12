@@ -42,14 +42,14 @@ public:
 
     void write_line(const std::string &line) const;
 
-    auto &internal_stream();
+    auto &internal_stream() const noexcept;
 
 protected:
     stream &stream_;
 };
 
 inline stream_writer::stream_writer(stream &streamref)
-    : stream_(streamref)
+    : stream_{streamref}
 {
 }
 
@@ -59,7 +59,7 @@ inline void stream_writer::write_line(const std::string &line) const
     stream_.write(reinterpret_cast<const std::uint8_t *>("\n"), 1);
 }
 
-inline auto &stream_writer::internal_stream()
+inline auto &stream_writer::internal_stream() const noexcept
 {
     return stream_;
 }
