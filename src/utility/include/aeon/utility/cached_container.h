@@ -26,7 +26,6 @@
 #pragma once
 
 #include <aeon/common/container.h>
-#include <aeon/common/noncopyable.h>
 #include <map>
 #include <memory>
 
@@ -41,7 +40,7 @@ namespace aeon::utility
  * This class does not take ownership of the cached objects, as it merely stores weak pointers.
  */
 template <typename key_t, typename value_t>
-class cached_container : common::noncopyable
+class cached_container
 {
 public:
     using cached_objects = std::map<key_t, std::weak_ptr<value_t>>;
@@ -49,16 +48,19 @@ public:
     cached_container() = default;
     virtual ~cached_container() = default;
 
-    cached_container(cached_container &&other) noexcept
+    cached_container(cached_container<key_t, value_t> &&other) noexcept
         : objects_(other.objects_)
     {
     }
 
-    cached_container &operator=(cached_container &&other) noexcept
+    cached_container<key_t, value_t> &operator=(cached_container<key_t, value_t> &&other) noexcept
     {
         objects_ = std::move(other.objects_);
         return *this;
     }
+
+    cached_container(const cached_container<key_t, value_t> &) noexcept = delete;
+    auto operator=(const cached_container<key_t, value_t> &) noexcept -> cached_container<key_t, value_t> & = delete;
 
     /*!
      * Get a cached object by name. This method will return a shared pointer to the requested object
