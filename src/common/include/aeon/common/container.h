@@ -38,7 +38,7 @@ template <typename T>
 auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
     std::vector<T *> c_ptr;
-    c_ptr.reserve(c.size());
+    c_ptr.reserve(std::size(c));
 
     for (auto &i : c)
     {
@@ -52,7 +52,7 @@ template <typename U, typename T>
 auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
     std::vector<U *> c_ptr;
-    c_ptr.reserve(c.size());
+    c_ptr.reserve(std::size(c));
 
     for (auto &i : c)
     {
@@ -65,7 +65,7 @@ auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 template <typename container_t, typename unary_predicate_t>
 void erase_if(container_t &items, const unary_predicate_t &predicate)
 {
-    for (auto itr = items.begin(); itr != items.end();)
+    for (auto itr = std::begin(items); itr != std::end(items);)
     {
         if (predicate(*itr))
             itr = items.erase(itr);
