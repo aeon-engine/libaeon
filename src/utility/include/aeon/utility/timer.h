@@ -36,9 +36,9 @@ public:
     timer();
     ~timer();
 
-    void reset();
+    void reset() noexcept;
 
-    double get_time_difference() const;
+    auto get_time_difference() const noexcept -> double;
 
 private:
     std::chrono::time_point<std::chrono::system_clock> start_time_;

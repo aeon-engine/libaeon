@@ -35,17 +35,15 @@ timer::timer()
 
 timer::~timer() = default;
 
-void timer::reset()
+void timer::reset() noexcept
 {
     start_time_ = std::chrono::system_clock::now();
 }
 
-double timer::get_time_difference() const
+auto timer::get_time_difference() const noexcept -> double
 {
-    std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-
+    const auto now = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = now - start_time_;
-
     return elapsed_seconds.count();
 }
 
