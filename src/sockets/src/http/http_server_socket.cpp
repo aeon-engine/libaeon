@@ -173,7 +173,7 @@ auto http_server_socket::__handle_read_method_state(const std::string &line) -> 
         return status_code::bad_request;
 
     const auto method = method_line_split[0];
-    const auto request_uri = url_decode(method_line_split[1]);
+    const auto request_uri = method_line_split[1];
     const auto version_string = method_line_split[2];
 
     if (!detail::validate_http_version_string(version_string))
@@ -182,7 +182,7 @@ auto http_server_socket::__handle_read_method_state(const std::string &line) -> 
     if (!detail::validate_uri(request_uri))
         return status_code::bad_request;
 
-    request request(method, request_uri);
+    request request(method, url_decode(request_uri));
 
     if (request.get_method() == http_method::invalid)
         return status_code::method_not_allowed;
