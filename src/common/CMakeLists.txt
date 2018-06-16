@@ -28,6 +28,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/compilers.h
     include/aeon/common/container.h
     include/aeon/common/endianness.h
+    include/aeon/common/flags.h
     include/aeon/common/literals.h
     include/aeon/common/noncopyable.h
     include/aeon/common/optional.h

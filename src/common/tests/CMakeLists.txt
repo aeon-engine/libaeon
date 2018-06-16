@@ -30,6 +30,7 @@ add_unit_test_suite(
         main.cpp
         test_bitflags.cpp
         test_endianness.cpp
+        test_flags.cpp
         test_literals.cpp
         test_noncopyable.cpp
         test_optional.cpp
