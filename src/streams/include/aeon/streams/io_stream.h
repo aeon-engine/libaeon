@@ -38,7 +38,7 @@ class io_stream_exception : public stream_exception
 class io_stream : public stream, public io_stream_colors_mixin
 {
 public:
-    explicit io_stream(const int mode = aeon::streams::access_mode::write);
+    explicit io_stream(const common::flags<access_mode> mode = aeon::streams::access_mode::write);
 
     auto read(std::uint8_t *data, std::size_t size) -> std::size_t override;
 

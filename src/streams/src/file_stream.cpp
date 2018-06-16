@@ -28,7 +28,8 @@
 namespace aeon::streams
 {
 
-file_stream::file_stream(const std::string &filename, const int mode, const file_mode fm /*= file_mode::binary*/)
+file_stream::file_stream(const std::string &filename, const common::flags<access_mode> mode,
+                         const file_mode fm /*= file_mode::binary*/)
     : file_stream{std::filesystem::path(filename), mode, fm}
 {
 }
@@ -38,7 +39,7 @@ file_stream::file_stream(const std::string &filename, const file_mode fm /*= fil
 {
 }
 
-file_stream::file_stream(const std::filesystem::path &path, const int mode, const file_mode fm)
+file_stream::file_stream(const std::filesystem::path &path, const common::flags<access_mode> mode, const file_mode fm)
     : stream{mode}
     , size_{0}
     , filename_{path.string()}
@@ -185,14 +186,15 @@ auto file_stream::good() const -> bool
     return fstream_.good();
 }
 
-auto file_stream::to_ios_open_mode_(int mode, file_mode fm) const -> std::ios::openmode
+auto file_stream::to_ios_open_mode_(const common::flags<access_mode> mode, const file_mode fm) const
+    -> std::ios::openmode
 {
     const auto openmode_zero = static_cast<std::ios::openmode>(0);
 
     auto m = (fm == file_mode::binary) ? std::fstream::binary : openmode_zero;
-    m |= (mode & access_mode::read) ? std::fstream::in : openmode_zero;
-    m |= (mode & access_mode::write) ? std::fstream::out : openmode_zero;
-    m |= (mode & access_mode::truncate) ? std::fstream::trunc : openmode_zero;
+    m |= mode.is_set(access_mode::read) ? std::fstream::in : openmode_zero;
+    m |= mode.is_set(access_mode::write) ? std::fstream::out : openmode_zero;
+    m |= mode.is_set(access_mode::truncate) ? std::fstream::trunc : openmode_zero;
     return m;
 }
 

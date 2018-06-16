@@ -72,7 +72,7 @@ public:
      * \param mode The access mode for the stream.
      * \sa AccessMode
      */
-    stream(const int mode = access_mode::read)
+    stream(const common::flags<access_mode> mode = access_mode::read)
         : access_mode_mixin{mode}
     {
     }

@@ -53,9 +53,9 @@ struct test_fixture_memory_stream_default_data : public ::testing::Test
 
 TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_default_access_mode)
 {
-    int access_mode = stream.get_access_mode();
+    const auto access_mode = stream.get_access_mode();
 
-    ASSERT_EQ(aeon::streams::access_mode::read_write, access_mode);
+    ASSERT_TRUE(access_mode.is_set(aeon::streams::access_mode::read_write));
     ASSERT_TRUE(stream.is_readable());
     ASSERT_TRUE(stream.is_writable());
 }

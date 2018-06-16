@@ -46,11 +46,13 @@ enum class file_mode
 class file_stream : public stream
 {
 public:
-    explicit file_stream(const std::string &filename, const int mode, const file_mode fm = file_mode::binary);
+    explicit file_stream(const std::string &filename, const common::flags<access_mode> mode,
+                         const file_mode fm = file_mode::binary);
 
     explicit file_stream(const std::string &filename, const file_mode fm = file_mode::binary);
 
-    explicit file_stream(const std::filesystem::path &path, const int mode, const file_mode fm = file_mode::binary);
+    explicit file_stream(const std::filesystem::path &path, const common::flags<access_mode> mode,
+                         const file_mode fm = file_mode::binary);
 
     explicit file_stream(const std::filesystem::path &path, const file_mode fm = file_mode::binary);
 
@@ -89,7 +91,7 @@ public:
     auto get_filename() const -> const std::string &;
 
 protected:
-    auto to_ios_open_mode_(int mode, file_mode fm) const -> std::ios::openmode;
+    auto to_ios_open_mode_(const common::flags<access_mode> mode, const file_mode fm) const -> std::ios::openmode;
     auto seek_direction_to_ios_seekdir_(seek_direction direction) const -> std::ios::seekdir;
 
     std::fstream fstream_;

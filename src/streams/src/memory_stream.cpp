@@ -36,7 +36,7 @@ memory_stream::memory_stream()
 {
 }
 
-memory_stream::memory_stream(std::vector<std::uint8_t> &&buffer, const int mode)
+memory_stream::memory_stream(std::vector<std::uint8_t> &&buffer, const common::flags<access_mode> mode)
     : stream{mode}
     , buffer_{std::move(buffer)}
     , offset_{0}

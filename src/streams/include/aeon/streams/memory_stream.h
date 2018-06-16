@@ -40,7 +40,8 @@ class memory_stream : public stream
 public:
     memory_stream();
 
-    explicit memory_stream(std::vector<std::uint8_t> &&buffer, const int mode = access_mode::read_write);
+    explicit memory_stream(std::vector<std::uint8_t> &&buffer,
+                           const common::flags<access_mode> mode = access_mode::read_write);
 
     virtual ~memory_stream() = default;
 

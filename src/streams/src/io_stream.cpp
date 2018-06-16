@@ -30,7 +30,7 @@
 namespace aeon::streams
 {
 
-io_stream::io_stream(const int mode /*= aeon::streams::access_mode::write*/)
+io_stream::io_stream(const common::flags<access_mode> mode /*= aeon::streams::access_mode::write*/)
     : stream{mode}
 {
 }
