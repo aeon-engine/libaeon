@@ -24,10 +24,11 @@
  */
 
 #include <aeon/sockets/http/http_server_socket.h>
+#include <aeon/sockets/http/constants.h>
+#include <aeon/sockets/http/url_encoding.h>
 #include <aeon/streams/memory_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/common/string.h>
-#include "aeon/sockets/http/constants.h"
 
 namespace aeon::sockets::http
 {
@@ -172,7 +173,7 @@ auto http_server_socket::__handle_read_method_state(const std::string &line) -> 
         return status_code::bad_request;
 
     const auto method = method_line_split[0];
-    const auto request_uri = method_line_split[1];
+    const auto request_uri = url_decode(method_line_split[1]);
     const auto version_string = method_line_split[2];
 
     if (!detail::validate_http_version_string(version_string))

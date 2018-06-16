@@ -24,11 +24,11 @@
  */
 
 #include <aeon/sockets/http/http_client_socket.h>
+#include <aeon/sockets/http/url_encoding.h>
 #include <aeon/streams/memory_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/sockets/http/constants.h>
 #include <aeon/common/string.h>
-#include <iostream>
 
 namespace aeon::sockets::http
 {
@@ -47,7 +47,7 @@ http_client_socket::~http_client_socket() = default;
 void http_client_socket::request_async(const std::string &host, const std::string &uri, const http_method method)
 {
     streams::memory_stream stream;
-    auto request = "GET " + uri + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
+    auto request = "GET " + url_encode(uri) + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
 
     stream.write(reinterpret_cast<const std::uint8_t *>(request.c_str()), request.size());
     send(stream);
