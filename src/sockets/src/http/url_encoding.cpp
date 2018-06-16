@@ -37,7 +37,7 @@ auto url_encode(const std::string &str) -> std::string
     for (const auto t : str)
     {
         if (t == '-' || t == '.' || (t >= '0' && t <= '9') || (t >= 'A' && t <= 'Z') || t == '_' ||
-            (t >= 'a' && t <= 'z') || t == '~')
+            (t >= 'a' && t <= 'z') || t == '~' || t == '/')
         {
             out << t;
         }
