@@ -54,6 +54,7 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
     include/aeon/sockets/http/reply.h
     include/aeon/sockets/http/route.h
     include/aeon/sockets/http/static_route.h
+    include/aeon/sockets/http/url_encoding.h
     src/http/request.cpp
     src/http/http_server_socket.cpp
     src/http/http_client_socket.cpp
@@ -65,6 +66,7 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
     src/http/validators.cpp
     src/http/reply.cpp
     src/http/static_route.cpp
+    src/http/url_encoding.cpp
 )
 
 source_group(sockets\\http FILES ${LIB_AEON_SOCKETS_HTTP_SOURCE})
