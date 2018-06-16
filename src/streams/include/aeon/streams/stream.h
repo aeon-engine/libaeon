@@ -261,6 +261,17 @@ public:
     }
 
     /*!
+     * Check if the stream actually contains data (size == 0). In some stream
+     * implementations, this can be more efficient than simply checking the size.
+     *
+     * \return False if there is no data in the stream that can be read.
+     */
+    virtual auto empty() const -> bool
+    {
+        return size() == 0;
+    }
+
+    /*!
      * Check if this stream is of a certain type.
      */
     template <typename T>
