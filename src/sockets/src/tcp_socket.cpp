@@ -70,6 +70,9 @@ void tcp_socket::send(streams::stream &stream)
 
 void tcp_socket::send(const std::shared_ptr<streams::memory_stream> &stream)
 {
+    if (stream->empty())
+        return;
+
     auto self(shared_from_this());
 
     auto send_impl = [self, stream]() {
