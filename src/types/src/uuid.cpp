@@ -274,7 +274,7 @@ auto uuid::generate() -> uuid
     uuid u;
 
     int i = 0;
-    unsigned long random_value = uniform_dist(e1);
+    auto random_value = uniform_dist(e1);
     for (auto &val : u.data)
     {
         if (i == sizeof(unsigned long))
