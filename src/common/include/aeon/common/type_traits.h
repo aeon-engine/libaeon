@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace aeon::common::type_traits
 {
 
@@ -38,6 +40,40 @@ template <typename return_type_t, typename... args_t>
 struct function_signature_argument_count<return_type_t(args_t...)>
 {
     static constexpr auto value = sizeof...(args_t);
+};
+
+/*!
+ * Get a representing integer type based on given number of bits
+ */
+template <unsigned int bits>
+struct integer_type_from_bits;
+
+template<>
+struct integer_type_from_bits<8>
+{
+    using signed_t = std::int8_t;
+    using unsigned_t = std::uint8_t;
+};
+
+template<>
+struct integer_type_from_bits<16>
+{
+    using signed_t = std::int16_t;
+    using unsigned_t = std::uint16_t;
+};
+
+template<>
+struct integer_type_from_bits<32>
+{
+    using signed_t = std::int32_t;
+    using unsigned_t = std::uint32_t;
+};
+
+template<>
+struct integer_type_from_bits<64>
+{
+    using signed_t = std::int64_t;
+    using unsigned_t = std::uint64_t;
 };
 
 } // namespace aeon::common::type_traits
