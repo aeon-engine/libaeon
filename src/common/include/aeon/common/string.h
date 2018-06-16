@@ -220,6 +220,18 @@ auto ends_withsv(const std::string_view &str, const std::string_view &val) -> bo
 auto contains(const std::string_view &str, const std::string_view &val) -> bool;
 
 /*!
+ * Convert a character into a hex string.
+ * For example: 'a' becomes "61".
+ */
+auto char_to_hex(const char c) -> std::string;
+
+/*
+ * Convert a hex string into a char
+ * For example: "61" becomes 'a'.
+ */
+auto hex_to_char(const std::string &str) -> char;
+
+/*!
  * Convert a string in HEX format ("0x1234") to an integer.
  */
 template <typename T>
