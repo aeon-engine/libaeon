@@ -113,6 +113,7 @@ void http_server_session::register_mime_types()
     mime_types_.emplace(".html", "text/html");
     mime_types_.emplace(".htmls", "text/html");
     mime_types_.emplace(".ico", "image/x-icon");
+    mime_types_.emplace(".ini", "text/plain");
     mime_types_.emplace(".jar", "application/java-archive");
     mime_types_.emplace(".java", "text/plain");
     mime_types_.emplace(".jfif", "image/jpeg");
