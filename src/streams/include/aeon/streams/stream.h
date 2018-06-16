@@ -248,8 +248,12 @@ public:
      */
     virtual auto read_to_vector() -> std::vector<std::uint8_t>
     {
-        std::vector<std::uint8_t> buffer;
         const auto buff_size = size();
+
+        if (buff_size == 0)
+            return {};
+
+        std::vector<std::uint8_t> buffer;
         buffer.resize(buff_size);
         const auto read_size = read(&buffer[0], buff_size);
         buffer.resize(read_size);
