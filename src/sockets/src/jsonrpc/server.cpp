@@ -76,11 +76,23 @@ void server::register_method(const method &method)
     methods_.insert({name, method});
 }
 
-auto server::request(const std::string &request) const -> std::string
+auto server::request(const std::string &str) const -> std::string
+{
+    if (str.empty())
+        return detail::respond_error(result{json_rpc_error::parse_error, "No content"}).dump();
+
+    std::string error;
+    const auto json = json11::Json::parse(str, error);
+
+    if (json.is_null())
+        return detail::respond_error(result{json_rpc_error::parse_error, "Json parse error: " + error}).dump();
+
+    return request(json).dump();
+}
+
+auto server::request(const json11::Json &request) const -> json11::Json
 {
     auto request_result = handle_requests(request);
-
-    json11::Json response;
 
     // Batch request?
     if (request_result.size() > 1)
@@ -91,36 +103,25 @@ auto server::request(const std::string &request) const -> std::string
             response_array.emplace_back(respond(r));
         }
 
-        response = response_array;
-    }
-    else if (request_result.size() == 1)
-    {
-        response = respond(request_result.at(0));
-    }
-    else
-    {
-        response = detail::respond_error(result{json_rpc_error::server_error, "Internal server error"});
+        return response_array;
     }
 
-    return response.dump();
+    if (request_result.size() == 1)
+        return respond(request_result.at(0));
+
+    return detail::respond_error(result{json_rpc_error::invalid_request, "No content"});
 }
 
-auto server::handle_requests(const std::string &request) const -> std::vector<result>
+auto server::handle_requests(const json11::Json &request) const -> std::vector<result>
 {
-    if (request.empty())
-        return {result{json_rpc_error::parse_error, "No content"}};
-
-    std::string error;
-    const auto json = json11::Json::parse(request, error);
-
-    if (json.is_null())
-        return {result{json_rpc_error::parse_error, "Json parse error: " + error}};
+    if (request.is_null())
+        return {result{json_rpc_error::parse_error, "Json parse error."}};
 
     // Is this a batch request?
-    if (json.is_array())
+    if (request.is_array())
     {
         std::vector<result> results;
-        for (const auto &r : json.array_items())
+        for (const auto &r : request.array_items())
         {
             results.emplace_back(handle_single_rpc_request(r));
         }
@@ -128,7 +129,7 @@ auto server::handle_requests(const std::string &request) const -> std::vector<re
         return results;
     }
 
-    return {handle_single_rpc_request(json)};
+    return {handle_single_rpc_request(request)};
 }
 
 auto server::handle_single_rpc_request(const json11::Json &request) const -> result

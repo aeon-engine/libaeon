@@ -48,10 +48,12 @@ public:
     auto operator=(const server &) -> server & = default;
 
     void register_method(const method &method);
+
     auto request(const std::string &request) const -> std::string;
+    auto request(const json11::Json &request) const -> json11::Json;
 
 private:
-    auto handle_requests(const std::string &request) const -> std::vector<result>;
+    auto handle_requests(const json11::Json &request) const -> std::vector<result>;
     auto handle_single_rpc_request(const json11::Json &request) const -> result;
 
     std::map<std::string, method> methods_;
