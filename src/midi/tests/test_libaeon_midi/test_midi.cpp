@@ -49,7 +49,7 @@ TEST(test_midi_file, test_read_vtime)
     std::vector<std::uint8_t> data{0x00};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0u, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime2)
@@ -58,7 +58,7 @@ TEST(test_midi_file, test_read_vtime2)
     std::vector<std::uint8_t> data{0x40};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x40, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x40u, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime3)
@@ -67,7 +67,7 @@ TEST(test_midi_file, test_read_vtime3)
     std::vector<std::uint8_t> data{0x7f};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x7f, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x7fu, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime4)
@@ -76,7 +76,7 @@ TEST(test_midi_file, test_read_vtime4)
     std::vector<std::uint8_t> data{0x81, 0x00};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x80, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x80u, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime5)
@@ -85,7 +85,7 @@ TEST(test_midi_file, test_read_vtime5)
     std::vector<std::uint8_t> data{0xC0, 0x00};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x2000, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x2000u, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime6)
@@ -94,7 +94,7 @@ TEST(test_midi_file, test_read_vtime6)
     std::vector<std::uint8_t> data{0xff, 0x7f};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x3fff, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x3fffu, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime7)
@@ -103,7 +103,7 @@ TEST(test_midi_file, test_read_vtime7)
     std::vector<std::uint8_t> data{0x81, 0x80, 0x00};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x4000, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x4000u, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime8)
@@ -112,7 +112,7 @@ TEST(test_midi_file, test_read_vtime8)
     std::vector<std::uint8_t> data{0xff, 0xff, 0x7f};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x1fffff, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x1fffffu, reader.read_vtime(mem_stream));
 }
 
 TEST(test_midi_file, test_read_vtime9)
@@ -121,5 +121,5 @@ TEST(test_midi_file, test_read_vtime9)
     std::vector<std::uint8_t> data{0xff, 0xff, 0xff, 0x7f};
     streams::memory_stream mem_stream(std::move(data), streams::access_mode::read);
 
-    ASSERT_EQ(0x0fffffff, reader.read_vtime(mem_stream));
+    ASSERT_EQ(0x0fffffffu, reader.read_vtime(mem_stream));
 }
