@@ -35,10 +35,17 @@ namespace aeon::streams
 
 class stream;
 
-class stream_writer : common::noncopyable
+class stream_writer
 {
 public:
     explicit stream_writer(stream &streamref);
+    ~stream_writer() = default;
+
+    stream_writer(stream_writer &&) = delete;
+    auto operator=(stream_writer &&) -> stream_writer & = delete;
+
+    stream_writer(const stream_writer &) = delete;
+    auto operator=(const stream_writer &) -> stream_writer & = delete;
 
     void write_line(const std::string &line) const;
 

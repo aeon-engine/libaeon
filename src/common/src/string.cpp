@@ -211,10 +211,11 @@ auto strip_bothsv(const std::string_view &str, std::size_t len) -> std::string_v
 auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
 {
     std::vector<std::string> vec;
+    vec.reserve(argc);
 
     for (int i = 0; i < argc; ++i)
     {
-        vec.push_back(argv[i]);
+        vec.emplace_back(argv[i]);
     }
 
     return vec;
@@ -242,7 +243,9 @@ auto replace_copy(const std::string &str, const std::string &from, const std::st
 
 auto to_lower(const std::string &str) -> std::string
 {
-    auto to_lower_internal = [](const char c) { return std::use_facet<std::ctype<char>>(std::locale()).tolower(c); };
+    const auto to_lower_internal = [](const char c) {
+        return std::use_facet<std::ctype<char>>(std::locale()).tolower(c);
+    };
 
     std::string result;
     std::transform(str.begin(), str.end(), std::back_inserter(result), to_lower_internal);
@@ -251,7 +254,9 @@ auto to_lower(const std::string &str) -> std::string
 
 auto to_upper(const std::string &str) -> std::string
 {
-    auto to_upper_internal = [](const char c) { return std::use_facet<std::ctype<char>>(std::locale()).toupper(c); };
+    const auto to_upper_internal = [](const char c) {
+        return std::use_facet<std::ctype<char>>(std::locale()).toupper(c);
+    };
 
     std::string result;
     std::transform(str.begin(), str.end(), std::back_inserter(result), to_upper_internal);

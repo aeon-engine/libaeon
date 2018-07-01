@@ -245,23 +245,23 @@ auto raw_noise_2d(const float x, const float y) -> float
     auto n2 = 0.0f;
 
     // Skew the input space to determine which simplex cell we're in
-    auto F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
+    const auto F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
 
     // Hairy factor for 2D
-    auto s = (x + y) * F2;
-    auto i = fastfloor(x + s);
-    auto j = fastfloor(y + s);
+    const auto s = (x + y) * F2;
+    const auto i = fastfloor(x + s);
+    const auto j = fastfloor(y + s);
 
-    auto G2 = (3.0f - std::sqrt(3.0f)) / 6.0f;
-    auto t = (i + j) * G2;
+    const auto G2 = (3.0f - std::sqrt(3.0f)) / 6.0f;
+    const auto t = (i + j) * G2;
 
     // Unskew the cell origin back to (x,y) space
-    auto X0 = i - t;
-    auto Y0 = j - t;
+    const auto X0 = i - t;
+    const auto Y0 = j - t;
 
     // The x,y distances from the cell origin
-    auto x0 = x - X0;
-    auto y0 = y - Y0;
+    const auto x0 = x - X0;
+    const auto y0 = y - Y0;
 
     // For the 2D case, the simplex shape is an equilateral triangle.
     // Determine which simplex we are in.
@@ -281,17 +281,17 @@ auto raw_noise_2d(const float x, const float y) -> float
     // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
     // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
     // c = (3-sqrt(3))/6
-    auto x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
-    auto y1 = y0 - j1 + G2;
-    auto x2 = x0 - 1.0f + 2.0f * G2; // Offsets for last corner in (x,y) unskewed coords
-    auto y2 = y0 - 1.0f + 2.0f * G2;
+    const auto x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
+    const auto y1 = y0 - j1 + G2;
+    const auto x2 = x0 - 1.0f + 2.0f * G2; // Offsets for last corner in (x,y) unskewed coords
+    const auto y2 = y0 - 1.0f + 2.0f * G2;
 
     // Work out the hashed gradient indices of the three simplex corners
-    auto ii = i & 255;
-    auto jj = j & 255;
-    auto gi0 = perm[ii + perm[jj]] % 12;
-    auto gi1 = perm[ii + i1 + perm[jj + j1]] % 12;
-    auto gi2 = perm[ii + 1 + perm[jj + 1]] % 12;
+    const auto ii = i & 255;
+    const auto jj = j & 255;
+    const auto gi0 = perm[ii + perm[jj]] % 12;
+    const auto gi1 = perm[ii + i1 + perm[jj + j1]] % 12;
+    const auto gi2 = perm[ii + 1 + perm[jj + 1]] % 12;
 
     // Calculate the contribution from the three corners
     auto t0 = 0.5f - x0 * x0 - y0 * y0;
@@ -343,20 +343,20 @@ auto raw_noise_3d(const float x, const float y, const float z) -> float
     auto n3 = 0.0f;
 
     // Skew the input space to determine which simplex cell we're in
-    auto F3 = 1.0f / 3.0f;
-    auto s = (x + y + z) * F3; // Very nice and simple skew factor for 3D
-    auto i = fastfloor(x + s);
-    auto j = fastfloor(y + s);
-    auto k = fastfloor(z + s);
+    const auto F3 = 1.0f / 3.0f;
+    const auto s = (x + y + z) * F3; // Very nice and simple skew factor for 3D
+    const auto i = fastfloor(x + s);
+    const auto j = fastfloor(y + s);
+    const auto k = fastfloor(z + s);
 
-    auto G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
-    auto t = (i + j + k) * G3;
-    auto X0 = i - t; // Unskew the cell origin back to (x,y,z) space
-    auto Y0 = j - t;
-    auto Z0 = k - t;
-    auto x0 = x - X0; // The x,y,z distances from the cell origin
-    auto y0 = y - Y0;
-    auto z0 = z - Z0;
+    const auto G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
+    const auto t = (i + j + k) * G3;
+    const auto X0 = i - t; // Unskew the cell origin back to (x,y,z) space
+    const auto Y0 = j - t;
+    const auto Z0 = k - t;
+    const auto x0 = x - X0; // The x,y,z distances from the cell origin
+    const auto y0 = y - Y0;
+    const auto z0 = z - Z0;
 
     // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
     // Determine which simplex we are in.
@@ -434,24 +434,24 @@ auto raw_noise_3d(const float x, const float y, const float z) -> float
     // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
     // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
     // c = 1/6.
-    auto x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
-    auto y1 = y0 - j1 + G3;
-    auto z1 = z0 - k1 + G3;
-    auto x2 = x0 - i2 + 2.0f * G3; // Offsets for third corner in (x,y,z) coords
-    auto y2 = y0 - j2 + 2.0f * G3;
-    auto z2 = z0 - k2 + 2.0f * G3;
-    auto x3 = x0 - 1.0f + 3.0f * G3; // Offsets for last corner in (x,y,z) coords
-    auto y3 = y0 - 1.0f + 3.0f * G3;
-    auto z3 = z0 - 1.0f + 3.0f * G3;
+    const auto x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
+    const auto y1 = y0 - j1 + G3;
+    const auto z1 = z0 - k1 + G3;
+    const auto x2 = x0 - i2 + 2.0f * G3; // Offsets for third corner in (x,y,z) coords
+    const auto y2 = y0 - j2 + 2.0f * G3;
+    const auto z2 = z0 - k2 + 2.0f * G3;
+    const auto x3 = x0 - 1.0f + 3.0f * G3; // Offsets for last corner in (x,y,z) coords
+    const auto y3 = y0 - 1.0f + 3.0f * G3;
+    const auto z3 = z0 - 1.0f + 3.0f * G3;
 
     // Work out the hashed gradient indices of the four simplex corners
-    auto ii = i & 255;
-    auto jj = j & 255;
-    auto kk = k & 255;
-    auto gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
-    auto gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
-    auto gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
-    auto gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
+    const auto ii = i & 255;
+    const auto jj = j & 255;
+    const auto kk = k & 255;
+    const auto gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
+    const auto gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
+    const auto gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
+    const auto gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
 
     // Calculate the contribution from the four corners
     auto t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0;
@@ -507,8 +507,8 @@ auto raw_noise_3d(const float x, const float y, const float z) -> float
 auto raw_noise_4d(const float x, const float y, const float z, const float w) -> float
 {
     // The skewing and unskewing factors are hairy again for the 4D case
-    auto F4 = (std::sqrt(5.0f) - 1.0f) / 4.0f;
-    auto G4 = (5.0f - std::sqrt(5.0f)) / 20.0f;
+    const auto F4 = (std::sqrt(5.0f) - 1.0f) / 4.0f;
+    const auto G4 = (5.0f - std::sqrt(5.0f)) / 20.0f;
 
     // Noise contributions from the five corners
     auto n0 = 0.0f;
@@ -518,21 +518,21 @@ auto raw_noise_4d(const float x, const float y, const float z, const float w) ->
     auto n4 = 0.0f;
 
     // Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
-    auto s = (x + y + z + w) * F4; // Factor for 4D skewing
-    auto i = fastfloor(x + s);
-    auto j = fastfloor(y + s);
-    auto k = fastfloor(z + s);
-    auto l = fastfloor(w + s);
-    auto t = (i + j + k + l) * G4; // Factor for 4D unskewing
-    auto X0 = i - t;               // Unskew the cell origin back to (x,y,z,w) space
-    auto Y0 = j - t;
-    auto Z0 = k - t;
-    auto W0 = l - t;
+    const auto s = (x + y + z + w) * F4; // Factor for 4D skewing
+    const auto i = fastfloor(x + s);
+    const auto j = fastfloor(y + s);
+    const auto k = fastfloor(z + s);
+    const auto l = fastfloor(w + s);
+    const auto t = (i + j + k + l) * G4; // Factor for 4D unskewing
+    const auto X0 = i - t;               // Unskew the cell origin back to (x,y,z,w) space
+    const auto Y0 = j - t;
+    const auto Z0 = k - t;
+    const auto W0 = l - t;
 
-    auto x0 = x - X0; // The x,y,z,w distances from the cell origin
-    auto y0 = y - Y0;
-    auto z0 = z - Z0;
-    auto w0 = w - W0;
+    const auto x0 = x - X0; // The x,y,z,w distances from the cell origin
+    const auto y0 = y - Y0;
+    const auto z0 = z - Z0;
+    const auto w0 = w - W0;
 
     // For the 4D case, the simplex is a 4D shape I won't even try to describe.
     // To find out which of the 24 possible simplices we're in, we need to
@@ -542,13 +542,13 @@ auto raw_noise_4d(const float x, const float y, const float z, const float w) ->
     // First, six pair-wise comparisons are performed between each possible pair
     // of the four coordinates, and the results are used to add up binary bits
     // for an integer index.
-    auto c1 = (x0 > y0) ? 32 : 0;
-    auto c2 = (x0 > z0) ? 16 : 0;
-    auto c3 = (y0 > z0) ? 8 : 0;
-    auto c4 = (x0 > w0) ? 4 : 0;
-    auto c5 = (y0 > w0) ? 2 : 0;
-    auto c6 = (z0 > w0) ? 1 : 0;
-    auto c = c1 + c2 + c3 + c4 + c5 + c6;
+    const auto c1 = (x0 > y0) ? 32 : 0;
+    const auto c2 = (x0 > z0) ? 16 : 0;
+    const auto c3 = (y0 > z0) ? 8 : 0;
+    const auto c4 = (x0 > w0) ? 4 : 0;
+    const auto c5 = (y0 > w0) ? 2 : 0;
+    const auto c6 = (z0 > w0) ? 1 : 0;
+    const auto c = c1 + c2 + c3 + c4 + c5 + c6;
 
     // The integer offsets for the second simplex corner
     auto i1 = 0;
@@ -592,33 +592,33 @@ auto raw_noise_4d(const float x, const float y, const float z, const float w) ->
     l3 = simplex[c][3] >= 1 ? 1 : 0;
 
     // The fifth corner has all coordinate offsets = 1, so no need to look that up.
-    auto x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coords
-    auto y1 = y0 - j1 + G4;
-    auto z1 = z0 - k1 + G4;
-    auto w1 = w0 - l1 + G4;
-    auto x2 = x0 - i2 + 2.0f * G4; // Offsets for third corner in (x,y,z,w) coords
-    auto y2 = y0 - j2 + 2.0f * G4;
-    auto z2 = z0 - k2 + 2.0f * G4;
-    auto w2 = w0 - l2 + 2.0f * G4;
-    auto x3 = x0 - i3 + 3.0f * G4; // Offsets for fourth corner in (x,y,z,w) coords
-    auto y3 = y0 - j3 + 3.0f * G4;
-    auto z3 = z0 - k3 + 3.0f * G4;
-    auto w3 = w0 - l3 + 3.0f * G4;
-    auto x4 = x0 - 1.0f + 4.0f * G4; // Offsets for last corner in (x,y,z,w) coords
-    auto y4 = y0 - 1.0f + 4.0f * G4;
-    auto z4 = z0 - 1.0f + 4.0f * G4;
-    auto w4 = w0 - 1.0f + 4.0f * G4;
+    const auto x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coords
+    const auto y1 = y0 - j1 + G4;
+    const auto z1 = z0 - k1 + G4;
+    const auto w1 = w0 - l1 + G4;
+    const auto x2 = x0 - i2 + 2.0f * G4; // Offsets for third corner in (x,y,z,w) coords
+    const auto y2 = y0 - j2 + 2.0f * G4;
+    const auto z2 = z0 - k2 + 2.0f * G4;
+    const auto w2 = w0 - l2 + 2.0f * G4;
+    const auto x3 = x0 - i3 + 3.0f * G4; // Offsets for fourth corner in (x,y,z,w) coords
+    const auto y3 = y0 - j3 + 3.0f * G4;
+    const auto z3 = z0 - k3 + 3.0f * G4;
+    const auto w3 = w0 - l3 + 3.0f * G4;
+    const auto x4 = x0 - 1.0f + 4.0f * G4; // Offsets for last corner in (x,y,z,w) coords
+    const auto y4 = y0 - 1.0f + 4.0f * G4;
+    const auto z4 = z0 - 1.0f + 4.0f * G4;
+    const auto w4 = w0 - 1.0f + 4.0f * G4;
 
     // Work out the hashed gradient indices of the five simplex corners
-    auto ii = i & 255;
-    auto jj = j & 255;
-    auto kk = k & 255;
-    auto ll = l & 255;
-    auto gi0 = perm[ii + perm[jj + perm[kk + perm[ll]]]] % 32;
-    auto gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1 + perm[ll + l1]]]] % 32;
-    auto gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2 + perm[ll + l2]]]] % 32;
-    auto gi3 = perm[ii + i3 + perm[jj + j3 + perm[kk + k3 + perm[ll + l3]]]] % 32;
-    auto gi4 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1 + perm[ll + 1]]]] % 32;
+    const auto ii = i & 255;
+    const auto jj = j & 255;
+    const auto kk = k & 255;
+    const auto ll = l & 255;
+    const auto gi0 = perm[ii + perm[jj + perm[kk + perm[ll]]]] % 32;
+    const auto gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1 + perm[ll + l1]]]] % 32;
+    const auto gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2 + perm[ll + l2]]]] % 32;
+    const auto gi3 = perm[ii + i3 + perm[jj + j3 + perm[kk + k3 + perm[ll + l3]]]] % 32;
+    const auto gi4 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1 + perm[ll + 1]]]] % 32;
 
     // Calculate the contribution from the five corners
     auto t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;

@@ -33,7 +33,7 @@ static const auto aeon_initialize_plugin_proc_name = "aeon_initialize_plugin";
 static const auto aeon_cleanup_plugin_proc_name = "aeon_cleanup_plugin";
 
 plugin_loader::plugin_loader()
-    : cache_()
+    : cache_{}
 {
 }
 
@@ -44,9 +44,9 @@ plugin_loader::~plugin_loader()
 
 auto plugin_loader::is_loaded(const plugin *p) const -> bool
 {
-    for (auto itr = cache_.begin(); itr != cache_.end(); ++itr)
+    for (const auto &cache_obj : cache_)
     {
-        if (itr->second.plugin_instance.get() == p)
+        if (cache_obj.second.plugin_instance.get() == p)
             return true;
     }
 
@@ -103,12 +103,13 @@ auto plugin_loader::load_plugin(const std::string_view &name) -> plugin *
     if (!handle.is_valid())
         return nullptr;
 
-    auto initialize_plugin =
+    const auto initialize_plugin =
         reinterpret_cast<initialize_plugin_proc>(handle.get_proc_address(aeon_initialize_plugin_proc_name));
-    auto cleanup_plugin = reinterpret_cast<cleanup_plugin_proc>(handle.get_proc_address(aeon_cleanup_plugin_proc_name));
+    const auto cleanup_plugin =
+        reinterpret_cast<cleanup_plugin_proc>(handle.get_proc_address(aeon_cleanup_plugin_proc_name));
 
     auto plugin_instance = std::unique_ptr<plugin, cleanup_plugin_proc>(initialize_plugin(), cleanup_plugin);
-    auto plugin_instance_ptr = plugin_instance.get();
+    const auto plugin_instance_ptr = plugin_instance.get();
 
     if (!plugin_instance_ptr)
         return nullptr;

@@ -49,6 +49,12 @@ class plugin
 public:
     virtual ~plugin() = default;
 
+    plugin(const plugin &) = delete;
+    auto operator=(const plugin &) noexcept -> plugin & = delete;
+
+    plugin(plugin &&) = delete;
+    auto operator=(plugin &&) noexcept -> plugin & = delete;
+
     /*!
      * This should return a short descriptive name of the plugin.
      */

@@ -26,7 +26,6 @@
 #pragma once
 
 #include <aeon/utility/dispatcher.h>
-#include <aeon/common/noncopyable.h>
 
 #include <functional>
 #include <vector>
@@ -34,7 +33,7 @@
 namespace aeon::utility
 {
 
-class parallelizer : common::noncopyable
+class parallelizer
 {
 public:
     using task = std::function<void()>;
@@ -53,6 +52,12 @@ public:
 
     ~parallelizer() = default;
 
+    parallelizer(parallelizer &&) = delete;
+    auto operator=(parallelizer &&) -> parallelizer & = delete;
+
+    parallelizer(const parallelizer &) = delete;
+    auto operator=(const parallelizer &) -> parallelizer & = delete;
+
     void add_job(const task &task)
     {
         dispatcher_.post(task);
@@ -69,9 +74,11 @@ public:
     void run(const int concurrency)
     {
         std::vector<std::thread> threads;
+        threads.reserve(concurrency);
+
         for (int i = 0; i < concurrency; ++i)
         {
-            threads.emplace_back(std::thread([this]() { dispatcher_.run(); }));
+            threads.emplace_back([this]() { dispatcher_.run(); });
         }
 
         for (auto &thread : threads)

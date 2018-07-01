@@ -44,15 +44,14 @@ template <typename T>
 class listener_subject
 {
 public:
-    /*!
-     * Constructor
-     */
     listener_subject() = default;
-
-    /*!
-     * Destructor
-     */
     virtual ~listener_subject() = default;
+
+    listener_subject(listener_subject<T> &&) = default;
+    auto operator=(listener_subject<T> &&) -> listener_subject<T> & = default;
+
+    listener_subject(const listener_subject<T> &) = default;
+    auto operator=(const listener_subject<T> &) -> listener_subject<T> & = default;
 
     /*!
      * Attach a listener/observer to this subject.

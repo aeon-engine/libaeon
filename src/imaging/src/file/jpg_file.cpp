@@ -34,7 +34,7 @@ namespace aeon::imaging::file::jpg
 namespace detail
 {
 
-auto subsample_mode_to_tjsamp(const subsample_mode mode)
+auto subsample_mode_to_tjsamp(const subsample_mode mode) -> TJSAMP
 {
     switch (mode)
     {

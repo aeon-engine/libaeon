@@ -45,16 +45,16 @@ namespace aeon::logger
 class logger_stream
 {
 public:
-    logger_stream(base_backend &backend, const std::string &module, const log_level level)
-        : backend_(backend)
-        , module_(module)
-        , level_(level)
+    logger_stream(base_backend &backend, std::string module, const log_level level)
+        : backend_{backend}
+        , module_{std::move(module)}
+        , level_{level}
     {
     }
 
     void operator<<(std::ostream &(std::ostream &)) const
     {
-        auto message = stream_.str();
+        const auto message = stream_.str();
         backend_.__handle_log(message, module_, level_);
     }
 
@@ -75,9 +75,9 @@ private:
 class logger : public common::noncopyable
 {
 public:
-    logger(base_backend &backend, const std::string &module)
-        : backend_(backend)
-        , module_(module)
+    logger(base_backend &backend, std::string module)
+        : backend_{backend}
+        , module_{std::move(module)}
     {
     }
 

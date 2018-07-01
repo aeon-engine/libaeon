@@ -57,15 +57,12 @@ public:
      */
     circular_buffer_stream();
 
-    /*!
-     * Move constructor
-     */
-    explicit circular_buffer_stream(circular_buffer_stream &&other) = default;
-    auto operator=(circular_buffer_stream &&other) -> circular_buffer_stream & = default;
+    explicit circular_buffer_stream(circular_buffer_stream &&) = default;
+    auto operator=(circular_buffer_stream &&) -> circular_buffer_stream & = default;
 
-    /*!
-     * Destructor
-     */
+    circular_buffer_stream(const circular_buffer_stream &) noexcept = delete;
+    auto operator=(const circular_buffer_stream &) noexcept -> circular_buffer_stream & = delete;
+
     virtual ~circular_buffer_stream() = default;
 
     /*!

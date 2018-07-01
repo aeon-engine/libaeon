@@ -27,14 +27,12 @@
 #include <aeon/common/platform.h>
 #include <aeon/types/uuid.h>
 #include <stdexcept>
-#include <stdlib.h>
-#include <stdio.h>
 
 #if (defined(AEON_PLATFORM_OS_OSX) || defined(AEON_PLATFORM_OS_LINUX))
 #include <unistd.h>
 #elif (defined(AEON_PLATFORM_OS_WINDOWS))
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <Windows.h>
 #include <io.h>
 #endif
 

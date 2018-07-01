@@ -50,6 +50,13 @@ class io_stream_colors_mixin
 {
 public:
     io_stream_colors_mixin();
+    virtual ~io_stream_colors_mixin() = default;
+
+    io_stream_colors_mixin(io_stream_colors_mixin &&) noexcept = default;
+    auto operator=(io_stream_colors_mixin &&) noexcept -> io_stream_colors_mixin & = default;
+
+    io_stream_colors_mixin(const io_stream_colors_mixin &) noexcept = default;
+    auto operator=(const io_stream_colors_mixin &) noexcept -> io_stream_colors_mixin & = default;
 
     void set_color(const color c, const weight w = weight::normal) const noexcept;
     void reset_color() const noexcept;

@@ -25,14 +25,13 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <aeon/logger/log_level.h>
 #include <string>
 
 namespace aeon::logger
 {
 
-class base_backend : public common::noncopyable
+class base_backend
 {
     friend class logger_stream;
 
@@ -42,6 +41,12 @@ public:
     explicit base_backend(const log_level level);
 
     virtual ~base_backend() = default;
+
+    base_backend(const base_backend &) = delete;
+    auto operator=(const base_backend &) noexcept -> base_backend & = delete;
+
+    base_backend(base_backend &&) = delete;
+    auto operator=(base_backend &&) noexcept -> base_backend & = delete;
 
     void set_log_level(const log_level level);
 

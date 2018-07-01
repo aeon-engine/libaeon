@@ -39,6 +39,12 @@ public:
     explicit stream_sink(streams::stream &stream);
     virtual ~stream_sink() = default;
 
+    stream_sink(const stream_sink &) = delete;
+    auto operator=(const stream_sink &) noexcept -> stream_sink & = delete;
+
+    stream_sink(stream_sink &&) = delete;
+    auto operator=(stream_sink &&) noexcept -> stream_sink & = delete;
+
 private:
     void log(const std::string &message, const std::string &module, log_level level) override;
 

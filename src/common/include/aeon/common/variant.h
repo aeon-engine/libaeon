@@ -78,11 +78,11 @@ public:
     {
     }
 
-    variant(const std::string &value)
+    variant(std::string value)
         : int_value_{}
         , float_value_{}
         , bool_value_{}
-        , string_value_{value}
+        , string_value_{std::move(value)}
         , type_{variant_type::variant_string}
     {
         if (value == "true")

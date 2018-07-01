@@ -38,12 +38,19 @@ namespace aeon::streams
 {
 
 template <typename T>
-class stream_reader : common::noncopyable
+class stream_reader
 {
     static constexpr int read_line_block_size = 64;
 
 public:
     explicit stream_reader(T &streamref);
+    ~stream_reader() = default;
+
+    stream_reader(stream_reader &&) = delete;
+    auto operator=(stream_reader &&) -> stream_reader & = delete;
+
+    stream_reader(const stream_reader &) = delete;
+    auto operator=(const stream_reader &) -> stream_reader & = delete;
 
     auto read_as_string() const;
 

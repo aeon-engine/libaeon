@@ -41,19 +41,22 @@ class optional
 {
 public:
     optional()
-        : value_()
-        , has_value_(false)
+        : value_{}
+        , has_value_{false}
     {
     }
 
-    optional(const T &val)
-        : value_(val)
-        , has_value_(true)
+    optional(T val)
+        : value_{std::move(val)}
+        , has_value_{true}
     {
     }
+
+    optional(const optional &) noexcept = default;
+    auto operator=(const optional &) noexcept -> optional & = default;
 
     optional(optional &&) noexcept = default;
-    optional &operator=(optional &&) noexcept = default;
+    auto operator=(optional &&) noexcept -> optional & = default;
 
     bool has_value() const noexcept
     {

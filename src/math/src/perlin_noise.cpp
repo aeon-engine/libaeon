@@ -49,10 +49,10 @@ perlin_noise::perlin_noise(const double persistence, const double frequency, con
 {
 }
 
-void perlin_noise::set(const double persistance, const double frequency, const double amplitude, const int octaves,
+void perlin_noise::set(const double persistence, const double frequency, const double amplitude, const int octaves,
                        const int randomseed) noexcept
 {
-    persistence_ = persistance;
+    persistence_ = persistence;
     frequency_ = frequency;
     amplitude_ = amplitude;
     octaves_ = octaves;

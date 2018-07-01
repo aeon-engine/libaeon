@@ -25,8 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
-
 #include <vector>
 #include <string>
 
@@ -36,7 +34,7 @@ namespace aeon::utility
 {
 
 // Simple wrapper to convert a vector of strings to a char*[].
-class parameters : common::noncopyable
+class parameters
 {
 public:
     explicit parameters(std::vector<std::string> &params)
@@ -64,18 +62,21 @@ public:
         delete[] argv_;
     }
 
-    parameters(parameters &&other)
-        : argc_(std::move(other.argc_))
-        , argv_(std::move(other.argv_))
+    parameters(const parameters &) = delete;
+    auto operator=(const parameters &) -> parameters & = delete;
+
+    parameters(parameters &&other) noexcept
+        : argc_{other.argc_}
+        , argv_{other.argv_}
     {
         other.argc_ = 0;
         other.argv_ = nullptr;
     }
 
-    parameters &operator=(parameters &&other)
+    parameters &operator=(parameters &&other) noexcept
     {
-        argc_ = std::move(other.argc_);
-        argv_ = std::move(other.argv_);
+        argc_ = other.argc_;
+        argv_ = other.argv_;
         other.argc_ = 0;
         other.argv_ = nullptr;
         return *this;

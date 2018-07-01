@@ -47,7 +47,7 @@ void line_protocol_socket::on_data(const std::uint8_t *data, const std::size_t s
     streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
         circular_buffer_);
 
-    while (circular_buffer_.size() != 0)
+    while (!circular_buffer_.empty())
     {
         on_line(reader.read_line());
     }

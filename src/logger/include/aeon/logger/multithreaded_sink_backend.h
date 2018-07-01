@@ -57,6 +57,12 @@ public:
 
     virtual ~multithreaded_sink_backend();
 
+    multithreaded_sink_backend(const multithreaded_sink_backend &) = delete;
+    auto operator=(const multithreaded_sink_backend &) noexcept -> multithreaded_sink_backend & = delete;
+
+    multithreaded_sink_backend(multithreaded_sink_backend &&) = delete;
+    auto operator=(multithreaded_sink_backend &&) noexcept -> multithreaded_sink_backend & = delete;
+
     void add_sink(log_sink *sink);
 
     void remove_all_sinks();

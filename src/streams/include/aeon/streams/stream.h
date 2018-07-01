@@ -27,7 +27,6 @@
 
 #include <aeon/streams/access_mode_mixin.h>
 #include <aeon/streams/stream_name_mixin.h>
-#include <aeon/common/noncopyable.h>
 
 #include <vector>
 #include <cstddef>

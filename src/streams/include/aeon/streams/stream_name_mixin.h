@@ -40,8 +40,8 @@ public:
     {
     }
 
-    explicit stream_name_mixin(const std::string &name)
-        : name_{name}
+    explicit stream_name_mixin(std::string name)
+        : name_{std::move(name)}
         , has_name_{true}
     {
     }
@@ -54,14 +54,14 @@ public:
     stream_name_mixin(const stream_name_mixin &) = default;
     auto operator=(const stream_name_mixin &) -> stream_name_mixin & = default;
 
-    auto get_name() const
+    const auto &get_name() const noexcept
     {
         return name_;
     }
 
-    void set_name(const std::string &name)
+    void set_name(std::string name)
     {
-        name_ = name;
+        name_ = std::move(name);
     }
 
     auto has_name() const noexcept

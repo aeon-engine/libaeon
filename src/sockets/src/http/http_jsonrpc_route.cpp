@@ -33,7 +33,6 @@ namespace aeon::sockets::http
 {
 
 static const auto json_rpc_content_type = "application/json";
-static const auto error_respond_type = "text/plain";
 
 http_jsonrpc_route::http_jsonrpc_route(const std::string &mount_point)
     : http_jsonrpc_route{mount_point, std::make_unique<jsonrpc::server>()}

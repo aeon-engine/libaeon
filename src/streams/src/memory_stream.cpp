@@ -175,11 +175,7 @@ auto memory_stream::good() const -> bool
         return true;
 
     // Are we still within bounds?
-    if (offset_ >= buffer_.size())
-        return false;
-
-    // All ok!
-    return true;
+    return offset_ < buffer_.size();
 }
 
 void memory_stream::reserve(std::size_t size)

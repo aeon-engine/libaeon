@@ -187,7 +187,6 @@ auto load(streams::stream &stream) -> dynamic_image
             auto img = image<rgb24>{d, std::move(bitmap_buffer)};
             return dynamic_image{std::move(img)};
         }
-        break;
         case PNG_COLOR_TYPE_RGB_ALPHA:
         {
             const auto d =
@@ -195,7 +194,6 @@ auto load(streams::stream &stream) -> dynamic_image
             auto img = image<rgba32>{d, std::move(bitmap_buffer)};
             return dynamic_image{std::move(img)};
         }
-        break;
         default:
             throw load_exception();
     }

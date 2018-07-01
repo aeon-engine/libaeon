@@ -26,7 +26,6 @@
 #pragma once
 
 #include <aeon/plugins/plugin.h>
-#include <aeon/common/noncopyable.h>
 #include <aeon/common/dll_loader.h>
 #include <memory>
 #include <map>
@@ -37,11 +36,17 @@
 namespace aeon::plugins
 {
 
-class plugin_loader : common::noncopyable
+class plugin_loader
 {
 public:
     plugin_loader();
     ~plugin_loader();
+
+    plugin_loader(const plugin_loader &) = delete;
+    auto operator=(const plugin_loader &) noexcept -> plugin_loader & = delete;
+
+    plugin_loader(plugin_loader &&) = delete;
+    auto operator=(plugin_loader &&) noexcept -> plugin_loader & = delete;
 
     /*!
      * Load a plugin by name. The given template
@@ -93,6 +98,21 @@ private:
      */
     struct plugin_cache
     {
+        explicit plugin_cache(common::dll_loader::scoped_dll_handle &&handle,
+                              std::unique_ptr<plugin, cleanup_plugin_proc> &&plugin_instance)
+            : handle{std::move(handle)}
+            , plugin_instance{std::move(plugin_instance)}
+        {
+        }
+
+        ~plugin_cache() = default;
+
+        plugin_cache(const plugin_cache &) = delete;
+        auto operator=(const plugin_cache &) noexcept -> plugin_cache & = delete;
+
+        plugin_cache(plugin_cache &&) = default;
+        auto operator=(plugin_cache &&) noexcept -> plugin_cache & = default;
+
         // Order here is important. The plugin must be deleted before the handle.
         common::dll_loader::scoped_dll_handle handle;
         std::unique_ptr<plugin, cleanup_plugin_proc> plugin_instance;

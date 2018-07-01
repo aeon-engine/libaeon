@@ -54,7 +54,7 @@ public:
     {
     }
 
-    signal_connection(signal_connection<Args...> &&other)
+    signal_connection(signal_connection<Args...> &&other) noexcept
         : handle_(other.handle_)
         , func_(std::move(other.func_))
         , disconnect_(std::move(other.disconnect_))
@@ -62,7 +62,9 @@ public:
         other.handle_ = 0;
     }
 
-    signal_connection &operator=(signal_connection<Args...> &&other)
+    ~signal_connection() = default;
+
+    auto operator=(signal_connection<Args...> &&other) noexcept -> signal_connection &
     {
         handle_ = other.handle_;
         func_ = std::move(other.func_);
@@ -72,8 +74,8 @@ public:
         return *this;
     }
 
-    signal_connection(const signal_connection<Args...> &other) = default;
-    signal_connection &operator=(const signal_connection<Args...> &other) = default;
+    signal_connection(const signal_connection<Args...> &) = default;
+    auto operator=(const signal_connection<Args...> &) -> signal_connection & = default;
 
     int get_handle() const
     {
@@ -189,7 +191,7 @@ public:
 
     void operator()(Args... args)
     {
-        for (auto c : connections_)
+        for (auto &c : connections_)
         {
             c.emit(args...);
         }
@@ -229,7 +231,7 @@ public:
         auto connection = signal_connection<Args...>(++last_handle_, f, disconnect_func);
         {
             std::lock_guard<mutex_type> guard(lock_);
-            connections_.emplace_back(connection);
+            connections_.push_back(connection);
         }
 
         return connection;

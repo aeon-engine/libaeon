@@ -39,6 +39,12 @@ public:
 
     ~temporary_file();
 
+    temporary_file(temporary_file &&) = delete;
+    auto operator=(temporary_file &&) -> temporary_file & = delete;
+
+    temporary_file(const temporary_file &) = delete;
+    auto operator=(const temporary_file &) -> temporary_file & = delete;
+
     auto get_temporary_file_path() const -> std::filesystem::path;
 
     auto assert_temporary_file_present() const -> bool;

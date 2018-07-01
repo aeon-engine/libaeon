@@ -71,6 +71,9 @@ public:
         other.dismissed_ = true;
     }
 
+    scope_guard_base(const scope_guard_base<function_type_t> &) noexcept = delete;
+    auto operator=(const scope_guard_base<function_type_t> &) noexcept -> scope_guard_base<function_type_t> & = delete;
+
     ~scope_guard_base() noexcept
     {
         if (dismissed_)
@@ -98,8 +101,11 @@ public:
     {
     }
 
-    scope_guard_impl(const scope_guard_impl &other) = delete;
-    scope_guard_impl(scope_guard_impl &&other) = default;
+    scope_guard_impl(const scope_guard_impl &) = delete;
+    auto operator=(const scope_guard_impl &) noexcept -> scope_guard_impl & = delete;
+
+    scope_guard_impl(scope_guard_impl &&) = default;
+    auto operator=(scope_guard_impl &&) noexcept -> scope_guard_impl & = default;
 
     ~scope_guard_impl() noexcept(execute_on_exception)
     {

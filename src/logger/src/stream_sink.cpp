@@ -46,7 +46,7 @@ void stream_sink::log(const std::string &message, const std::string &module, log
 
     stream_.write(reinterpret_cast<const std::uint8_t *>("] ["), 3);
 
-    std::string log_level_string = log_level_str[static_cast<int>(level)];
+    const std::string log_level_string = log_level_str[static_cast<int>(level)];
     writer << log_level_string;
 
     stream_.write(reinterpret_cast<const std::uint8_t *>("]: "), 3);

@@ -56,9 +56,11 @@ public:
 
     explicit file_stream(const std::filesystem::path &path, const file_mode fm = file_mode::binary);
 
-    file_stream(file_stream &&o) = default;
+    file_stream(file_stream &&) = default;
+    auto operator=(file_stream &&) -> file_stream & = default;
 
-    file_stream &operator=(file_stream &&other) = default;
+    file_stream(const file_stream &) = delete;
+    auto operator=(const file_stream &) -> file_stream & = delete;
 
     virtual ~file_stream() = default;
 
