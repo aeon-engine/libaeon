@@ -23,12 +23,12 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/http/rpc/rpc_result.h>
+#include <aeon/sockets/jsonrpc/result.h>
 
-namespace aeon::sockets::http::rpc
+namespace aeon::sockets::jsonrpc
 {
 
-rpc_result::rpc_result(json11::Json &&result)
+result::result(json11::Json &&result)
     : id_{std::nullopt}
     , result_type_{rpc_result_type::result}
     , result_{std::move(result)}
@@ -37,7 +37,7 @@ rpc_result::rpc_result(json11::Json &&result)
 {
 }
 
-rpc_result::rpc_result(const int error_code, const std::string &description)
+result::result(const int error_code, const std::string &description)
     : id_{std::nullopt}
     , result_type_{rpc_result_type::error}
     , result_{}
@@ -46,7 +46,7 @@ rpc_result::rpc_result(const int error_code, const std::string &description)
 {
 }
 
-rpc_result::rpc_result(json11::Json &&result, const std::optional<int> id)
+result::result(json11::Json &&result, const std::optional<int> id)
     : id_{id}
     , result_type_{rpc_result_type::result}
     , result_{std::move(result)}
@@ -55,7 +55,7 @@ rpc_result::rpc_result(json11::Json &&result, const std::optional<int> id)
 {
 }
 
-rpc_result::rpc_result(const int error_code, const std::string &description, const std::optional<int> id)
+result::result(const int error_code, const std::string &description, const std::optional<int> id)
     : id_{id}
     , result_type_{rpc_result_type::error}
     , result_{}
@@ -64,4 +64,4 @@ rpc_result::rpc_result(const int error_code, const std::string &description, con
 {
 }
 
-} // namespace aeon::sockets::http::rpc
+} // namespace aeon::sockets::jsonrpc

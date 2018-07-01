@@ -28,7 +28,7 @@
 #include <aeon/sockets/http/http_client_socket.h>
 #include <aeon/sockets/http/routable_http_server.h>
 #include <aeon/sockets/http/static_route.h>
-#include <aeon/sockets/http/rpc/http_json_rpc_route.h>
+#include <aeon/sockets/http/http_jsonrpc_route.h>
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/tcp_client.h>
 #include <aeon/utility/hexdump.h>
@@ -107,13 +107,12 @@ TEST(test_sockets, test_sockets_http_rest_create)
 
     sockets::http::routable_http_server handler(service, 80);
 
-    auto route = std::make_unique<sockets::http::rpc::json_rpc_route>("/api");
-    route->register_method({"subtract", [](const json11::Json &params) -> sockets::http::rpc::rpc_result {
-                                return sockets::http::rpc::rpc_result{
-                                    {params["a"].int_value() - params["b"].int_value()}};
+    auto route = std::make_unique<sockets::http::http_jsonrpc_route>("/api");
+    route->register_method({"subtract", [](const json11::Json &params) -> sockets::jsonrpc::result {
+                                return sockets::jsonrpc::result{{params["a"].int_value() - params["b"].int_value()}};
                             }});
-    route->register_method({"raise_error", [](const json11::Json &params) -> sockets::http::rpc::rpc_result {
-                                return sockets::http::rpc::rpc_result{1337, "This is an error!"};
+    route->register_method({"raise_error", [](const json11::Json &params) -> sockets::jsonrpc::result {
+                                return sockets::jsonrpc::result{1337, "This is an error!"};
                             }});
 
     handler.get_session().add_route(std::move(route));

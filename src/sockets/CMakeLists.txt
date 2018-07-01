@@ -43,6 +43,7 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
     include/aeon/sockets/http/http_client_socket.h
     include/aeon/sockets/http/http_server_session.h
     include/aeon/sockets/http/http_server.h
+    include/aeon/sockets/http/http_jsonrpc_route.h
     include/aeon/sockets/http/routable_http_server_socket.h
     include/aeon/sockets/http/routable_http_server_session.h
     include/aeon/sockets/http/routable_http_server.h
@@ -59,6 +60,7 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
     src/http/http_server_socket.cpp
     src/http/http_client_socket.cpp
     src/http/http_server_session.cpp
+    src/http/http_jsonrpc_route.cpp
     src/http/routable_http_server_socket.cpp
     src/http/routable_http_server_session.cpp
     src/http/status_code.cpp
@@ -71,21 +73,21 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
 
 source_group(sockets\\http FILES ${LIB_AEON_SOCKETS_HTTP_SOURCE})
 
-set(LIB_AEON_SOCKETS_HTTP_RPC_SOURCE
-    include/aeon/sockets/http/rpc/rpc_method.h
-    include/aeon/sockets/http/rpc/http_json_rpc_route.h
-    include/aeon/sockets/http/rpc/rpc_result.h
-    src/http/rpc/rpc_method.cpp
-    src/http/rpc/http_json_rpc_route.cpp
-    src/http/rpc/rpc_result.cpp
+set(LIB_AEON_SOCKETS_JSONRPC_SOURCE
+    include/aeon/sockets/jsonrpc/server.h
+    include/aeon/sockets/jsonrpc/method.h
+    include/aeon/sockets/jsonrpc/result.h
+    src/jsonrpc/server.cpp
+    src/jsonrpc/method.cpp
+    src/jsonrpc/result.cpp
 )
 
-source_group(sockets\\http\\rpc FILES ${LIB_AEON_SOCKETS_HTTP_RPC_SOURCE})
+source_group(sockets\\jsonrpc FILES ${LIB_AEON_SOCKETS_JSONRPC_SOURCE})
 
 add_library(aeon_sockets STATIC
     ${LIB_AEON_SOCKETS_SOURCE}
     ${LIB_AEON_SOCKETS_HTTP_SOURCE}
-    ${LIB_AEON_SOCKETS_HTTP_RPC_SOURCE}
+    ${LIB_AEON_SOCKETS_JSONRPC_SOURCE}
 )
 
 set_target_properties(aeon_sockets PROPERTIES

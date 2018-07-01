@@ -25,27 +25,36 @@
 
 #pragma once
 
-#include <aeon/sockets/http/rpc/rpc_result.h>
-#include <string>
-#include <functional>
+#include <aeon/sockets/jsonrpc/method.h>
+#include <aeon/sockets/jsonrpc/result.h>
 #include <json11.hpp>
+#include <string>
 
-namespace aeon::sockets::http::rpc
+namespace aeon::sockets::jsonrpc
 {
 
-class rpc_method
+auto respond(const result &result) -> json11::Json;
+
+class server
 {
 public:
-    using signature = std::function<rpc_result(const json11::Json &)>;
+    server() = default;
+    ~server() = default;
 
-    rpc_method(const std::string &name, const signature &func);
+    server(server &&) = default;
+    auto operator=(server &&) -> server & = default;
 
-    auto name() const -> const std::string &;
-    auto operator()(const json11::Json &params) const -> rpc_result;
+    server(const server &) = default;
+    auto operator=(const server &) -> server & = default;
+
+    void register_method(const method &method);
+    auto request(const std::string &request) const -> std::string;
 
 private:
-    std::string name_;
-    signature func_;
+    auto handle_requests(const std::string &request) const -> std::vector<result>;
+    auto handle_single_rpc_request(const json11::Json &request) const -> result;
+
+    std::map<std::string, method> methods_;
 };
 
-} // namespace aeon::sockets::http::rpc
+} // namespace aeon::sockets::jsonrpc

@@ -23,25 +23,29 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/http/rpc/rpc_method.h>
+#pragma once
 
-namespace aeon::sockets::http::rpc
+#include <aeon/sockets/jsonrpc/result.h>
+#include <string>
+#include <functional>
+#include <json11.hpp>
+
+namespace aeon::sockets::jsonrpc
 {
 
-rpc_method::rpc_method(const std::string &name, const signature &func)
-    : name_{name}
-    , func_{func}
+class method
 {
-}
+public:
+    using signature = std::function<result(const json11::Json &)>;
 
-auto rpc_method::name() const -> const std::string &
-{
-    return name_;
-}
+    method(const std::string &name, const signature &func);
 
-auto rpc_method::operator()(const json11::Json &params) const -> rpc_result
-{
-    return func_(params);
-}
+    auto name() const noexcept -> const std::string &;
+    auto operator()(const json11::Json &params) const -> result;
 
-} // namespace aeon::sockets::http::rpc
+private:
+    std::string name_;
+    signature func_;
+};
+
+} // namespace aeon::sockets::jsonrpc

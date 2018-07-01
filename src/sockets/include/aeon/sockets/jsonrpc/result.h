@@ -25,14 +25,18 @@
 
 #pragma once
 
-#include <aeon/sockets/http/rpc/rpc_method.h>
-#include <aeon/sockets/http/route.h>
 #include <aeon/common/stdoptional.h>
+#include <json11.hpp>
 #include <string>
-#include <map>
 
-namespace aeon::sockets::http::rpc
+namespace aeon::sockets::jsonrpc
 {
+
+enum class rpc_result_type
+{
+    result,
+    error
+};
 
 namespace json_rpc_error
 {
@@ -44,36 +48,66 @@ static constexpr int internal_error = -32603;
 static constexpr int server_error = -32000; // -32000 to -32099 are reserved for implementation-defined server-errors.
 } // namespace json_rpc_error
 
-class rpc_result;
-
-class http_json_rpc_route : public route
+class result
 {
+    friend class server;
+
 public:
-    explicit http_json_rpc_route(const std::string &mount_point);
-    virtual ~http_json_rpc_route();
+    explicit result(json11::Json &&result);
+    explicit result(const int error_code, const std::string &description);
 
-    http_json_rpc_route(http_json_rpc_route &&) = default;
-    auto operator=(http_json_rpc_route &&) -> http_json_rpc_route & = default;
+    ~result() = default;
 
-    http_json_rpc_route(const http_json_rpc_route &) = delete;
-    auto operator=(const http_json_rpc_route &) -> http_json_rpc_route & = delete;
+    result(result &&) = default;
+    auto operator=(result &&) -> result & = default;
 
-    void register_method(const rpc_method &method);
+    result(const result &) = default;
+    auto operator=(const result &) -> result & = default;
+
+    auto id() const noexcept
+    {
+        return id_;
+    }
+
+    auto has_id() const noexcept
+    {
+        return id_.has_value();
+    }
+
+    auto type() const noexcept
+    {
+        return result_type_;
+    }
+
+    auto &result_type() const noexcept
+    {
+        return result_;
+    }
+
+    auto error_code() const noexcept
+    {
+        return error_code_;
+    }
+
+    auto &error_description() const noexcept
+    {
+        return error_description_;
+    }
 
 private:
-    void on_http_request(http_server_socket &source, routable_http_server_session &session,
-                         const request &request) override;
+    explicit result(json11::Json &&result, const std::optional<int> id);
+    explicit result(const int error_code, const std::string &description, const std::optional<int> id);
 
-    auto generate_response(const rpc_result &result, const std::optional<std::string> &id = std::nullopt) const
-        -> json11::Json;
-    auto generate_json_object_response(const rpc_result &result) const -> json11::Json;
-    auto generate_error_response(const rpc_result &result) const -> json11::Json;
+    void set_id(const int id) noexcept
+    {
+        id_ = id;
+    }
 
-    auto handle_rpc_requests(routable_http_server_session &session, const request &request) const
-        -> std::vector<rpc_result>;
-    auto handle_single_rpc_request(const json11::Json &request) const -> rpc_result;
-
-    std::map<std::string, rpc_method> methods_;
+    std::optional<int> id_;
+    rpc_result_type result_type_;
+    json11::Json result_;
+    int error_code_;
+    std::string error_description_;
 };
 
-} // namespace aeon::sockets::http::rpc
+} // namespace aeon::sockets::jsonrpc
