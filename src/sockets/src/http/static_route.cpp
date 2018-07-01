@@ -220,7 +220,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
         else if (std::filesystem::is_directory(file_entry))
         {
             entry.is_directory = true;
-            entry.display_name = file_entry.path().stem().u8string() + "/";
+            entry.display_name = file_entry.path().filename().u8string() + "/";
         }
         else // If it's not a regular file or folder... carry on.
         {
