@@ -49,7 +49,7 @@ public:
 
     void register_method(const method &method);
 
-    auto request(const std::string &request) const -> std::string;
+    auto request(const std::string &str) const -> std::string;
     auto request(const json11::Json &request) const -> json11::Json;
 
 private:

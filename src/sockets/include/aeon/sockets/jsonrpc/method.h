@@ -38,7 +38,14 @@ class method
 public:
     using signature = std::function<result(const json11::Json &)>;
 
-    method(const std::string &name, const signature &func);
+    method(std::string name, signature func);
+    ~method() = default;
+
+    method(method &&) = default;
+    auto operator=(method &&) -> method & = default;
+
+    method(const method &) = default;
+    auto operator=(const method &) -> method & = default;
 
     auto name() const noexcept -> const std::string &;
     auto operator()(const json11::Json &params) const -> result;

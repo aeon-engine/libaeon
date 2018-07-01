@@ -54,7 +54,7 @@ class result
 
 public:
     explicit result(json11::Json &&result);
-    explicit result(const int error_code, const std::string &description);
+    explicit result(const int error_code, std::string description);
 
     ~result() = default;
 
@@ -96,7 +96,7 @@ public:
 
 private:
     explicit result(json11::Json &&result, const std::optional<int> id);
-    explicit result(const int error_code, const std::string &description, const std::optional<int> id);
+    explicit result(const int error_code, std::string description, const std::optional<int> id);
 
     void set_id(const int id) noexcept
     {

@@ -28,9 +28,9 @@
 namespace aeon::sockets::jsonrpc
 {
 
-method::method(const std::string &name, const signature &func)
-    : name_{name}
-    , func_{func}
+method::method(std::string name, signature func)
+    : name_{std::move(name)}
+    , func_{std::move(func)}
 {
 }
 

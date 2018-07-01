@@ -37,12 +37,12 @@ result::result(json11::Json &&result)
 {
 }
 
-result::result(const int error_code, const std::string &description)
+result::result(const int error_code, std::string description)
     : id_{std::nullopt}
     , result_type_{rpc_result_type::error}
     , result_{}
     , error_code_{error_code}
-    , error_description_{description}
+    , error_description_{std::move(description)}
 {
 }
 
@@ -55,12 +55,12 @@ result::result(json11::Json &&result, const std::optional<int> id)
 {
 }
 
-result::result(const int error_code, const std::string &description, const std::optional<int> id)
+result::result(const int error_code, std::string description, const std::optional<int> id)
     : id_{id}
     , result_type_{rpc_result_type::error}
     , result_{}
     , error_code_{error_code}
-    , error_description_{description}
+    , error_description_{std::move(description)}
 {
 }
 
