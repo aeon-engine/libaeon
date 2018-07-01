@@ -43,8 +43,8 @@ public:
     explicit http_jsonrpc_route(const std::string &mount_point, jsonrpc::server &json_rpc_server);
     virtual ~http_jsonrpc_route();
 
-    http_jsonrpc_route(http_jsonrpc_route &&) = default;
-    auto operator=(http_jsonrpc_route &&) -> http_jsonrpc_route & = default;
+    http_jsonrpc_route(http_jsonrpc_route &&) = delete;
+    auto operator=(http_jsonrpc_route &&) -> http_jsonrpc_route & = delete;
 
     http_jsonrpc_route(const http_jsonrpc_route &) = delete;
     auto operator=(const http_jsonrpc_route &) -> http_jsonrpc_route & = delete;
