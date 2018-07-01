@@ -40,4 +40,6 @@ static const auto default_file_mime_type = std::string{"application/octet-stream
 
 static const auto default_files = std::vector<std::string>{"index.html", "index.htm"};
 
+static const auto hidden_files = std::vector<std::string>{".ds_store", "thumbs.db"};
+
 } // namespace aeon::sockets::http::detail

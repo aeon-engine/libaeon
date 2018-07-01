@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/sockets/http/route.h>
+#include <aeon/sockets/http/constants.h>
 #include <aeon/common/stdfilesystem.h>
 #include <string>
 #include <vector>
@@ -36,21 +37,57 @@ namespace aeon::sockets::http
 namespace detail
 {
 auto to_url_path(const std::string &path) -> std::string;
+auto is_image_extension(const std::string &extension) -> bool;
 }
+
+struct static_route_settings
+{
+    // Default files that should be displayed when a directory is requested
+    // For example: index.html, index.htm
+    std::vector<std::string> default_files = detail::default_files;
+
+    // Enable directory listing.
+    bool enable_listing = true;
+
+    // Detect if a folder contains only image files, and if so, display
+    // the images as tiles instead. This is an experimental feature.
+    bool detect_image_folder = false;
+
+    // Files that should not be displayed when listing a directory.
+    std::vector<std::string> hidden_files = detail::hidden_files;
+};
 
 class static_route : public route
 {
 public:
     explicit static_route(const std::string &mount_point, const std::filesystem::path &base_path);
     explicit static_route(const std::string &mount_point, const std::filesystem::path &base_path,
-                          const std::vector<std::string> &default_files);
-    virtual ~static_route() = default;
+                          const static_route_settings &settings);
+    virtual ~static_route();
 
 private:
+    struct directory_listing_entry
+    {
+        std::string display_name;
+        bool is_directory = false;
+    };
+
     void on_http_request(http_server_socket &source, http_server_session &session, const request &request) override;
 
+    auto get_path_for_default_files(const std::filesystem::path &path) const -> std::filesystem::path;
+
+    void reply_file(http_server_socket &source, http_server_session &session, const std::filesystem::path &file) const;
+    void reply_folder(http_server_socket &source, http_server_session &session,
+                      const std::filesystem::path &path) const;
+
+    auto get_current_directory_header_name(const std::filesystem::path &path) const -> std::string;
+    auto get_directory_listing_entries(const std::filesystem::path &path) const -> std::vector<directory_listing_entry>;
+    auto is_image_folder(const std::vector<directory_listing_entry> &entries) const -> bool;
+    auto is_hidden_file(const std::string &filename) const -> bool;
+    auto generate_hyperlink_html(const std::string &name, const std::string &destination) const -> std::string;
+
     std::filesystem::path base_path_;
-    std::vector<std::string> default_files_;
+    static_route_settings settings_;
 };
 
 } // namespace aeon::sockets::http
