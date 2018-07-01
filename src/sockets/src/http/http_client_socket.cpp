@@ -29,6 +29,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/sockets/http/constants.h>
 #include <aeon/common/string.h>
+#include <aeon/common/assert.h>
 
 namespace aeon::sockets::http
 {
@@ -106,6 +107,7 @@ auto http_client_socket::__on_line(const std::string &line) -> bool
         // Unexpected read body state. Body must be read binary.
         // If this happens, there is a bug.
         case http_state::client_read_body:
+            aeon_assert_fail("Unexpected read body state.");
             return false;
 
         default:
