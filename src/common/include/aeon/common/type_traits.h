@@ -48,28 +48,28 @@ struct function_signature_argument_count<return_type_t(args_t...)>
 template <unsigned int bits>
 struct integer_type_from_bits;
 
-template<>
+template <>
 struct integer_type_from_bits<8>
 {
     using signed_t = std::int8_t;
     using unsigned_t = std::uint8_t;
 };
 
-template<>
+template <>
 struct integer_type_from_bits<16>
 {
     using signed_t = std::int16_t;
     using unsigned_t = std::uint16_t;
 };
 
-template<>
+template <>
 struct integer_type_from_bits<32>
 {
     using signed_t = std::int32_t;
     using unsigned_t = std::uint32_t;
 };
 
-template<>
+template <>
 struct integer_type_from_bits<64>
 {
     using signed_t = std::int64_t;
