@@ -45,6 +45,12 @@ public:
 
     virtual ~routable_http_server_socket();
 
+    routable_http_server_socket(routable_http_server_socket &&) = delete;
+    auto operator=(routable_http_server_socket &&) -> routable_http_server_socket & = delete;
+
+    routable_http_server_socket(const routable_http_server_socket &) = delete;
+    auto operator=(const routable_http_server_socket &) -> routable_http_server_socket & = delete;
+
 private:
     void on_http_request(const request &request) override;
 

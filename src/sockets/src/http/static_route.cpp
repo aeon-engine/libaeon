@@ -48,16 +48,16 @@ auto detail::is_image_extension(const std::string &extension) -> bool
            extension_lower == ".gif";
 }
 
-static_route::static_route(const std::string &mount_point, const std::filesystem::path &base_path)
-    : static_route(mount_point, base_path, static_route_settings{})
+static_route::static_route(std::string mount_point, const std::filesystem::path &base_path)
+    : static_route(std::move(mount_point), base_path, static_route_settings{})
 {
 }
 
-static_route::static_route(const std::string &mount_point, const std::filesystem::path &base_path,
-                           const static_route_settings &settings)
-    : route{mount_point}
+static_route::static_route(std::string mount_point, const std::filesystem::path &base_path,
+                           static_route_settings settings)
+    : route{std::move(mount_point)}
     , base_path_{std::filesystem::canonical(base_path)}
-    , settings_{settings}
+    , settings_{std::move(settings)}
 {
     assert(std::filesystem::is_directory(base_path));
 }

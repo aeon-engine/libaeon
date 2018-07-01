@@ -40,6 +40,12 @@ public:
     explicit routable_http_server_session();
     virtual ~routable_http_server_session();
 
+    routable_http_server_session(routable_http_server_session &&) = default;
+    auto operator=(routable_http_server_session &&) -> routable_http_server_session & = default;
+
+    routable_http_server_session(const routable_http_server_session &) = delete;
+    auto operator=(const routable_http_server_session &) -> routable_http_server_session & = delete;
+
     void add_route(std::unique_ptr<route> route);
     void remove_route(const std::string &mountpoint);
 

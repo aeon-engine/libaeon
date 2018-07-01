@@ -51,6 +51,12 @@ public:
 
     virtual ~http_client_socket();
 
+    http_client_socket(http_client_socket &&) = delete;
+    auto operator=(http_client_socket &&) -> http_client_socket & = delete;
+
+    http_client_socket(const http_client_socket &) = delete;
+    auto operator=(const http_client_socket &) -> http_client_socket & = delete;
+
     void request_async(const std::string &host, const std::string &uri, const http_method method = http_method::get);
 
     virtual void on_http_reply(reply &reply) = 0;

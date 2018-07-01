@@ -38,9 +38,9 @@ request::request(const http_method method)
 {
 }
 
-request::request(const std::string &method, const std::string &uri)
+request::request(const std::string &method, std::string uri)
     : method_{string_to_method(method)}
-    , uri_{uri}
+    , uri_{std::move(uri)}
     , raw_headers_{}
     , content_type_{}
     , content_{}
@@ -74,7 +74,7 @@ void request::append_raw_http_header_line(const std::string &header_line)
     raw_headers_.push_back(header_line);
 }
 
-void request::append_raw_content_data(const std::vector<std::uint8_t> &data)
+void request::append_raw_content_data(const std::vector<std::uint8_t> &data) const
 {
     content_.vector_write(data);
 }

@@ -37,6 +37,12 @@ public:
     explicit http_server_session();
     virtual ~http_server_session();
 
+    http_server_session(http_server_session &&) = default;
+    auto operator=(http_server_session &&) -> http_server_session & = default;
+
+    http_server_session(const http_server_session &) = delete;
+    auto operator=(const http_server_session &) -> http_server_session & = delete;
+
     /*!
      * Register a mime type to a file extension. If the extension already had a
      * mime type, it will be overwritten.

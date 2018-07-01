@@ -59,6 +59,12 @@ public:
 
     virtual ~tcp_socket();
 
+    tcp_socket(tcp_socket &&) = delete;
+    auto operator=(tcp_socket &&) -> tcp_socket & = delete;
+
+    tcp_socket(const tcp_socket &) = delete;
+    auto operator=(const tcp_socket &) -> tcp_socket & = delete;
+
     virtual void on_connected();
     virtual void on_disconnected();
     virtual void on_data(const std::uint8_t *data, const std::size_t size) = 0;

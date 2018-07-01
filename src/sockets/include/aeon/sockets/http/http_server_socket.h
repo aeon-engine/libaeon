@@ -62,6 +62,12 @@ public:
 
     virtual ~http_server_socket();
 
+    http_server_socket(http_server_socket &&) = delete;
+    auto operator=(http_server_socket &&) -> http_server_socket & = delete;
+
+    http_server_socket(const http_server_socket &) = delete;
+    auto operator=(const http_server_socket &) -> http_server_socket & = delete;
+
     void respond(const std::string &content_type, const std::string &data, const status_code code = status_code::ok);
     void respond(const std::string &content_type, streams::stream &data, const status_code code = status_code::ok);
 

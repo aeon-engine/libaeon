@@ -42,6 +42,12 @@ auto is_image_extension(const std::string &extension) -> bool;
 
 struct static_route_settings
 {
+    static_route_settings(static_route_settings &&) = default;
+    auto operator=(static_route_settings &&) -> static_route_settings & = default;
+
+    static_route_settings(const static_route_settings &) = default;
+    auto operator=(const static_route_settings &) -> static_route_settings & = default;
+
     // Default files that should be displayed when a directory is requested
     // For example: index.html, index.htm
     std::vector<std::string> default_files = detail::default_files;
@@ -60,10 +66,16 @@ struct static_route_settings
 class static_route : public route
 {
 public:
-    explicit static_route(const std::string &mount_point, const std::filesystem::path &base_path);
-    explicit static_route(const std::string &mount_point, const std::filesystem::path &base_path,
-                          const static_route_settings &settings);
+    explicit static_route(std::string mount_point, const std::filesystem::path &base_path);
+    explicit static_route(std::string mount_point, const std::filesystem::path &base_path,
+                          static_route_settings settings);
     virtual ~static_route();
+
+    static_route(static_route &&) = default;
+    auto operator=(static_route &&) -> static_route & = default;
+
+    static_route(const static_route &) = delete;
+    auto operator=(const static_route &) -> static_route & = delete;
 
 private:
     struct directory_listing_entry

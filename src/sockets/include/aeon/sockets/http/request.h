@@ -40,7 +40,7 @@ class request
 
 public:
     explicit request(const http_method method);
-    explicit request(const std::string &method, const std::string &uri);
+    explicit request(const std::string &method, std::string uri);
 
     auto get_method() const noexcept
     {
@@ -77,7 +77,7 @@ public:
 
 private:
     void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
+    void append_raw_content_data(const std::vector<std::uint8_t> &data) const;
     void set_content_type(const std::string &content_type);
 
     http_method method_;

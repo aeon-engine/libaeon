@@ -37,7 +37,7 @@ class routable_http_server_session;
 class route
 {
 public:
-    explicit route(const std::string &mount_point);
+    explicit route(std::string mount_point);
     virtual ~route() = default;
 
     route(route &&) = default;
@@ -55,8 +55,8 @@ private:
     std::string mount_point_;
 };
 
-inline route::route(const std::string &mount_point)
-    : mount_point_{mount_point}
+inline route::route(std::string mount_point)
+    : mount_point_{std::move(mount_point)}
 {
 }
 
