@@ -51,7 +51,7 @@ template <typename T>
 inline vector3<T>::vector3(const T x, const T y) noexcept
     : x{x}
     , y{y}
-    , z{0}
+    , z{}
 {
 }
 
@@ -67,7 +67,7 @@ template <typename T>
 inline vector3<T>::vector3(const vector2<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}
-    , z{0}
+    , z{}
 {
 }
 
@@ -92,7 +92,7 @@ inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> 
 {
     x = vec.x;
     y = vec.y;
-    z = 0.0f;
+    z = T{};
     return *this;
 }
 

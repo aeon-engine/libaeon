@@ -53,8 +53,8 @@ template <typename T>
 inline vector4<T>::vector4(const T x, const T y) noexcept
     : x{x}
     , y{y}
-    , z{0}
-    , w{0}
+    , z{}
+    , w{}
 {
 }
 
@@ -63,7 +63,7 @@ inline vector4<T>::vector4(const T x, const T y, const T z) noexcept
     : x{x}
     , y{y}
     , z{z}
-    , w{0}
+    , w{}
 {
 }
 
@@ -80,8 +80,8 @@ template <typename T>
 inline vector4<T>::vector4(const vector2<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}
-    , z{0}
-    , w{0}
+    , z{}
+    , w{}
 {
 }
 
@@ -90,7 +90,7 @@ inline vector4<T>::vector4(const vector2<T> vec, const T z) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{z}
-    , w{0}
+    , w{}
 {
 }
 
@@ -108,7 +108,7 @@ inline vector4<T>::vector4(const vector3<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{vec.z}
-    , w{0}
+    , w{}
 {
 }
 
@@ -135,8 +135,8 @@ inline auto vector4<T>::operator=(const vector2<T> &vec) noexcept -> vector4<T> 
 {
     x = vec.x;
     y = vec.y;
-    z = 0.0f;
-    w = 0.0f;
+    z = T{};
+    w = T{};
     return *this;
 }
 
@@ -146,7 +146,7 @@ inline auto vector4<T>::operator=(const vector3<T> &vec) noexcept -> vector4<T> 
     x = vec.x;
     y = vec.y;
     z = vec.z;
-    w = 0.0f;
+    w = T{};
     return *this;
 }
 
