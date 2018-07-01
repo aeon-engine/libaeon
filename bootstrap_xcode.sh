@@ -3,7 +3,7 @@
 rm -rf build
 mkdir build
 cd build
-cmake ../ -G "Xcode" -DAEON_ENABLE_CURL=1 -DAEON_ENABLE_SOCKETS=1 -DAEON_ENABLE_MIDI=1 -DAEON_ENABLE_HDF5=1
+cmake ../ -G "Xcode"
 open .
 cd ..
 
