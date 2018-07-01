@@ -26,12 +26,12 @@
 #include <aeon/sockets/http/static_route.h>
 #include <aeon/sockets/http/http_server_socket.h>
 #include <aeon/sockets/http/http_server_session.h>
+#include <aeon/sockets/http/url_encoding.h>
 #include <aeon/sockets/http/request.h>
 #include <aeon/sockets/http/constants.h>
 #include <aeon/streams/file_stream.h>
 #include <aeon/common/string.h>
 #include <cassert>
-#include <iostream>
 
 namespace aeon::sockets::http
 {
@@ -265,7 +265,7 @@ auto static_route::is_hidden_file(const std::string &filename) const -> bool
 auto static_route::generate_hyperlink_html(const std::string &name, const std::string &destination) const -> std::string
 {
     std::string reply = "<a href=\"";
-    reply += destination;
+    reply += url_encode(destination);
     reply += "\">";
     reply += name;
     reply += "</a>";
