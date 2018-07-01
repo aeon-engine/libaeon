@@ -21,9 +21,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# Curl
-option(AEON_ENABLE_CURL "Enable the Aeon Curl wrappers." OFF)
-
 # Mono
 option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
 
@@ -53,10 +50,6 @@ add_subdirectory(math)
 add_subdirectory(logger)
 add_subdirectory(plugins)
 add_subdirectory(types)
-
-if (AEON_ENABLE_CURL)
-    add_subdirectory(curl)
-endif ()
 
 if (AEON_ENABLE_MONO)
     add_subdirectory(mono)

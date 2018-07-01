@@ -6,10 +6,6 @@
 	path = dep/cmake
 	url = ../../aeon-engine/libaeon-cmake.git
 	branch = master
-[submodule "dep/curl"]
-	path = dep/curl
-	url = ../../aeon-external-dependencies/curl.git
-	branch = submodule
 [submodule "dep/rtmidi"]
 	path = dep/rtmidi
 	url = ../../aeon-external-dependencies/rtmidi.git
