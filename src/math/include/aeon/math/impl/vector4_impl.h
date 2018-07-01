@@ -77,6 +77,36 @@ inline vector4<T>::vector4(const T x, const T y, const T z, const T w) noexcept
 }
 
 template <typename T>
+template <typename U>
+inline vector4<T>::vector4(const U x, const U y) noexcept
+    : x{static_cast<T>(x)}
+    , y{static_cast<T>(y)}
+    , z{}
+    , w{}
+{
+}
+
+template <typename T>
+template <typename U>
+inline vector4<T>::vector4(const U x, const U y, const U z) noexcept
+    : x{static_cast<T>(x)}
+    , y{static_cast<T>(y)}
+    , z{static_cast<T>(z)}
+    , w{}
+{
+}
+
+template <typename T>
+template <typename U>
+inline vector4<T>::vector4(const U x, const U y, const U z, const U w) noexcept
+    : x{static_cast<T>(x)}
+    , y{static_cast<T>(y)}
+    , z{static_cast<T>(z)}
+    , w{static_cast<T>(w)}
+{
+}
+
+template <typename T>
 inline vector4<T>::vector4(const vector2<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}

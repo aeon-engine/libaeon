@@ -45,6 +45,15 @@ public:
 
     vector4(const T x, const T y, const T z, const T w) noexcept;
 
+    template <typename U>
+    explicit vector4(const U x, const U y) noexcept;
+
+    template <typename U>
+    explicit vector4(const U x, const U y, const U z) noexcept;
+
+    template <typename U>
+    explicit vector4(const U x, const U y, const U z, const U w) noexcept;
+
     explicit vector4(const vector2<T> vec) noexcept;
 
     explicit vector4(const vector2<T> vec, const T z) noexcept;

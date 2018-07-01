@@ -42,6 +42,12 @@ public:
 
     vector3(const T x, const T y, const T z) noexcept;
 
+    template <typename U>
+    explicit vector3(const U x, const U y) noexcept;
+
+    template <typename U>
+    explicit vector3(const U x, const U y, const U z) noexcept;
+
     explicit vector3(const vector2<T> vec) noexcept;
 
     explicit vector3(const vector2<T> vec, const T z) noexcept;

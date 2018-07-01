@@ -38,6 +38,9 @@ public:
 
     vector2(const T x, const T y) noexcept;
 
+    template <typename U>
+    explicit vector2(const U x, const U y) noexcept;
+
     explicit vector2(const T xy[2]) noexcept;
 
     ~vector2() noexcept = default;
