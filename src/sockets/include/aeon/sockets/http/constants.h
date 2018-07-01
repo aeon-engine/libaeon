@@ -32,6 +32,8 @@ namespace aeon::sockets::http::detail
 {
 
 static const auto content_length_key = "content-length";
+static const auto content_type_key = "content-type";
+
 static const auto default_response_content_type = "text/plain";
 
 static const auto http_version_string = std::string{"HTTP/1.1"};

@@ -74,7 +74,7 @@ private:
 
     auto __on_line(const std::string &line) -> status_code;
 
-    auto __parse_expected_content_length() -> status_code;
+    auto __parse_expected_content_length_and_type() -> status_code;
 
     auto __enter_parse_body_state() -> status_code;
     void __enter_reply_state();

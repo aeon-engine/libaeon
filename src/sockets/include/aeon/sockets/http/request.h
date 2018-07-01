@@ -62,17 +62,29 @@ public:
         return content_.size();
     }
 
+    auto has_content() const
+    {
+        return !content_.empty();
+    }
+
     auto get_content() const -> std::vector<std::uint8_t>;
+
+    auto get_content_string() const -> std::string;
+
+    auto get_content_type() const -> std::string;
 
     auto get_raw_headers() const -> const std::vector<std::string> &;
 
 private:
     void append_raw_http_header_line(const std::string &header_line);
     void append_raw_content_data(const std::vector<std::uint8_t> &data);
+    void set_content_type(const std::string &content_type);
 
     http_method method_;
     std::string uri_;
     std::vector<std::string> raw_headers_;
+
+    std::string content_type_;
     mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
 };
 

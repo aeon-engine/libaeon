@@ -127,22 +127,28 @@ void http_server_socket::respond_default(const status_code code)
     respond(detail::default_response_content_type, status_code_to_string(code), code);
 }
 
-auto http_server_socket::__parse_expected_content_length() -> status_code
+auto http_server_socket::__parse_expected_content_length_and_type() -> status_code
 {
     const auto http_headers = parse_raw_http_headers(request_.get_raw_headers());
 
-    const auto result = http_headers.find(detail::content_length_key);
+    const auto content_length_result = http_headers.find(detail::content_length_key);
 
-    if (result == http_headers.end())
+    if (content_length_result == http_headers.end())
         return status_code::length_required;
 
-    expected_content_length_ = std::stoll(result->second);
+    const auto content_type_result = http_headers.find(detail::content_type_key);
+
+    if (content_type_result == http_headers.end())
+        return status_code::bad_request;
+
+    expected_content_length_ = std::stoll(content_length_result->second);
+    request_.set_content_type(content_type_result->second);
     return status_code::ok;
 }
 
 auto http_server_socket::__enter_parse_body_state() -> status_code
 {
-    const auto result = __parse_expected_content_length();
+    const auto result = __parse_expected_content_length_and_type();
 
     // If there was a parse error for the content length
     if (result != status_code::ok)

@@ -33,6 +33,7 @@ request::request(const http_method method)
     : method_{method}
     , uri_{}
     , raw_headers_{}
+    , content_type_{}
     , content_{}
 {
 }
@@ -41,6 +42,7 @@ request::request(const std::string &method, const std::string &uri)
     : method_{string_to_method(method)}
     , uri_{uri}
     , raw_headers_{}
+    , content_type_{}
     , content_{}
 {
 }
@@ -48,6 +50,18 @@ request::request(const std::string &method, const std::string &uri)
 auto request::get_content() const -> std::vector<std::uint8_t>
 {
     return content_.read_to_vector();
+}
+
+auto request::get_content_string() const -> std::string
+{
+    const auto data = content_.read_to_vector();
+    std::string str{std::begin(data), std::end(data)};
+    return str;
+}
+
+auto request::get_content_type() const -> std::string
+{
+    return content_type_;
 }
 
 auto request::get_raw_headers() const -> const std::vector<std::string> &
@@ -63,6 +77,11 @@ void request::append_raw_http_header_line(const std::string &header_line)
 void request::append_raw_content_data(const std::vector<std::uint8_t> &data)
 {
     content_.vector_write(data);
+}
+
+void request::set_content_type(const std::string &content_type)
+{
+    content_type_ = content_type;
 }
 
 auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>

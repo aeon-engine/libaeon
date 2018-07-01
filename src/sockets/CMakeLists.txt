@@ -21,7 +21,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-message(STATUS "Building libAeon with Socket, HTTP and REST support.")
+message(STATUS "Building libAeon with Socket, HTTP and Json-RPC support.")
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/dep/asio dep/asio)
 add_subdirectory(${CMAKE_SOURCE_DIR}/dep/json11 dep/json11)
@@ -71,17 +71,21 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
 
 source_group(sockets\\http FILES ${LIB_AEON_SOCKETS_HTTP_SOURCE})
 
-set(LIB_AEON_SOCKETS_HTTP_REST_SOURCE
-    include/aeon/sockets/http/rest/rest_method.h
-    src/http/rest/rest_method.cpp
+set(LIB_AEON_SOCKETS_HTTP_RPC_SOURCE
+    include/aeon/sockets/http/rpc/rpc_method.h
+    include/aeon/sockets/http/rpc/http_json_rpc_route.h
+    include/aeon/sockets/http/rpc/rpc_result.h
+    src/http/rpc/rpc_method.cpp
+    src/http/rpc/http_json_rpc_route.cpp
+    src/http/rpc/rpc_result.cpp
 )
 
-source_group(sockets\\http\\rest FILES ${LIB_AEON_SOCKETS_HTTP_REST_SOURCE})
+source_group(sockets\\http\\rpc FILES ${LIB_AEON_SOCKETS_HTTP_RPC_SOURCE})
 
 add_library(aeon_sockets STATIC
     ${LIB_AEON_SOCKETS_SOURCE}
     ${LIB_AEON_SOCKETS_HTTP_SOURCE}
-    ${LIB_AEON_SOCKETS_HTTP_REST_SOURCE}
+    ${LIB_AEON_SOCKETS_HTTP_RPC_SOURCE}
 )
 
 set_target_properties(aeon_sockets PROPERTIES

@@ -25,27 +25,27 @@
 
 #pragma once
 
-#include <aeon/sockets/http/method.h>
+#include <aeon/sockets/http/rpc/rpc_result.h>
 #include <string>
 #include <functional>
-#include <set>
+#include <json11.hpp>
 
-namespace aeon::sockets::http::rest
+namespace aeon::sockets::http::rpc
 {
 
-class rest_method
+class rpc_method
 {
 public:
-    explicit rest_method(const std::set<http_method> &http_methods, const std::function<void()> &func);
+    using signature = std::function<rpc_result(const json11::Json &)>;
 
-    auto get_http_methods() const -> const std::set<http_method> &;
-    auto get_function() const -> const std::function<void()> &;
+    rpc_method(const std::string &name, const signature &func);
 
-    auto has_http_method(const http_method method) const -> bool;
+    auto name() const -> const std::string &;
+    auto operator()(const json11::Json &params) const -> rpc_result;
 
 private:
-    std::set<http_method> http_methods_;
-    std::function<void()> func_;
+    std::string name_;
+    signature func_;
 };
 
-} // namespace aeon::sockets::http::rest
+} // namespace aeon::sockets::http::rpc

@@ -23,30 +23,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/sockets/http/rest/rest_method.h>
+#include <aeon/sockets/http/rpc/rpc_method.h>
 
-namespace aeon::sockets::http::rest
+namespace aeon::sockets::http::rpc
 {
 
-rest_method::rest_method(const std::set<http_method> &http_methods, const std::function<void()> &func)
-    : http_methods_(http_methods)
-    , func_(func)
+rpc_method::rpc_method(const std::string &name, const signature &func)
+    : name_{name}
+    , func_{func}
 {
 }
 
-auto rest_method::get_http_methods() const -> const std::set<http_method> &
+auto rpc_method::name() const -> const std::string &
 {
-    return http_methods_;
+    return name_;
 }
 
-auto rest_method::get_function() const -> const std::function<void()> &
+auto rpc_method::operator()(const json11::Json &params) const -> rpc_result
 {
-    return func_;
+    return func_(params);
 }
 
-auto rest_method::has_http_method(const http_method method) const -> bool
-{
-    return http_methods_.count(method) != 0;
-}
-
-} // namespace aeon::sockets::http::rest
+} // namespace aeon::sockets::http::rpc

@@ -23,46 +23,45 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <aeon/sockets/http/rpc/rpc_result.h>
 
-#include <string>
-
-namespace aeon::sockets::http
+namespace aeon::sockets::http::rpc
 {
 
-class request;
-class http_server_socket;
-class routable_http_server_session;
-
-class route
-{
-public:
-    explicit route(const std::string &mount_point);
-    virtual ~route() = default;
-
-    route(route &&) = default;
-    auto operator=(route &&) -> route & = default;
-
-    route(const route &) = delete;
-    auto operator=(const route &) -> route & = delete;
-
-    virtual void on_http_request(http_server_socket &source, routable_http_server_session &session,
-                                 const request &request) = 0;
-
-    auto mount_point() const noexcept -> const std::string &;
-
-private:
-    std::string mount_point_;
-};
-
-inline route::route(const std::string &mount_point)
-    : mount_point_{mount_point}
+rpc_result::rpc_result(json11::Json &&result)
+    : id_{std::nullopt}
+    , result_type_{rpc_result_type::result}
+    , result_{std::move(result)}
+    , error_code_{}
+    , error_description_{}
 {
 }
 
-inline auto route::mount_point() const noexcept -> const std::string &
+rpc_result::rpc_result(const int error_code, const std::string &description)
+    : id_{std::nullopt}
+    , result_type_{rpc_result_type::error}
+    , result_{}
+    , error_code_{error_code}
+    , error_description_{description}
 {
-    return mount_point_;
 }
 
-} // namespace aeon::sockets::http
+rpc_result::rpc_result(json11::Json &&result, const std::optional<int> id)
+    : id_{id}
+    , result_type_{rpc_result_type::result}
+    , result_{std::move(result)}
+    , error_code_{}
+    , error_description_{}
+{
+}
+
+rpc_result::rpc_result(const int error_code, const std::string &description, const std::optional<int> id)
+    : id_{id}
+    , result_type_{rpc_result_type::error}
+    , result_{}
+    , error_code_{error_code}
+    , error_description_{description}
+{
+}
+
+} // namespace aeon::sockets::http::rpc

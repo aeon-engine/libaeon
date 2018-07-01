@@ -25,7 +25,7 @@
 
 #include <aeon/sockets/http/static_route.h>
 #include <aeon/sockets/http/http_server_socket.h>
-#include <aeon/sockets/http/http_server_session.h>
+#include <aeon/sockets/http/routable_http_server_session.h>
 #include <aeon/sockets/http/url_encoding.h>
 #include <aeon/sockets/http/request.h>
 #include <aeon/sockets/http/constants.h>
@@ -64,7 +64,8 @@ static_route::static_route(const std::string &mount_point, const std::filesystem
 
 static_route::~static_route() = default;
 
-void static_route::on_http_request(http_server_socket &source, http_server_session &session, const request &request)
+void static_route::on_http_request(http_server_socket &source, routable_http_server_session &session,
+                                   const request &request)
 {
     std::filesystem::path uri_path(request.get_uri());
 
@@ -72,9 +73,10 @@ void static_route::on_http_request(http_server_socket &source, http_server_sessi
     if (std::filesystem::is_directory(base_path_ / uri_path))
         uri_path = get_path_for_default_files(uri_path);
 
-    const auto full_path = std::filesystem::canonical(base_path_ / uri_path);
+    std::error_code error;
+    const auto full_path = std::filesystem::canonical(base_path_ / uri_path, error);
 
-    if (!std::filesystem::exists(full_path))
+    if (error || !std::filesystem::exists(full_path))
     {
         source.respond_default(status_code::not_found);
         return;
@@ -125,7 +127,7 @@ auto static_route::get_path_for_default_files(const std::filesystem::path &path)
     return uri_path;
 }
 
-void static_route::reply_file(http_server_socket &source, http_server_session &session,
+void static_route::reply_file(http_server_socket &source, routable_http_server_session &session,
                               const std::filesystem::path &file) const
 {
     auto extension = file.extension().u8string();
@@ -139,7 +141,7 @@ void static_route::reply_file(http_server_socket &source, http_server_session &s
     source.respond(mime_type, file_stream);
 }
 
-void static_route::reply_folder(http_server_socket &source, http_server_session &session,
+void static_route::reply_folder(http_server_socket &source, routable_http_server_session &session,
                                 const std::filesystem::path &path) const
 {
     const auto header_name = get_current_directory_header_name(path);

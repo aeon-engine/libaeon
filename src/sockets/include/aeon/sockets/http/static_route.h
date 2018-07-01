@@ -38,7 +38,7 @@ namespace detail
 {
 auto to_url_path(const std::string &path) -> std::string;
 auto is_image_extension(const std::string &extension) -> bool;
-}
+} // namespace detail
 
 struct static_route_settings
 {
@@ -72,12 +72,14 @@ private:
         bool is_directory = false;
     };
 
-    void on_http_request(http_server_socket &source, http_server_session &session, const request &request) override;
+    void on_http_request(http_server_socket &source, routable_http_server_session &session,
+                         const request &request) override;
 
     auto get_path_for_default_files(const std::filesystem::path &path) const -> std::filesystem::path;
 
-    void reply_file(http_server_socket &source, http_server_session &session, const std::filesystem::path &file) const;
-    void reply_folder(http_server_socket &source, http_server_session &session,
+    void reply_file(http_server_socket &source, routable_http_server_session &session,
+                    const std::filesystem::path &file) const;
+    void reply_folder(http_server_socket &source, routable_http_server_session &session,
                       const std::filesystem::path &path) const;
 
     auto get_current_directory_header_name(const std::filesystem::path &path) const -> std::string;
