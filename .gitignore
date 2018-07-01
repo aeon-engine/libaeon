@@ -23,3 +23,6 @@ cmake-build-*/
 
 # Visual Studio
 .vs/
+
+# BeyondCompare merge
+*.orig
