@@ -48,6 +48,7 @@ public:
     ~mat4() noexcept = default;
 
     explicit mat4(const mat3 &m) noexcept;
+    explicit mat4(const quaternion &q) noexcept;
 
     mat4(const mat4 &) noexcept = default;
     auto operator=(const mat4 &) noexcept -> mat4 & = default;

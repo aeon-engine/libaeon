@@ -36,6 +36,8 @@ class vector3;
 
 class mat4;
 
+class quaternion;
+
 class mat3
 {
 public:
@@ -45,6 +47,7 @@ public:
     ~mat3() noexcept = default;
 
     explicit mat3(const mat4 &m) noexcept;
+    explicit mat3(const quaternion &q) noexcept;
 
     mat3(const mat3 &) noexcept = default;
     auto operator=(const mat3 &) noexcept -> mat3 & = default;

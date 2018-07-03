@@ -95,6 +95,11 @@ inline mat4::mat4(const mat3 &m) noexcept
 {
 }
 
+inline mat4::mat4(const quaternion &q) noexcept
+    : mat4{mat3{q}}
+{
+}
+
 inline auto mat4::at(const int row, const int column) const noexcept -> float
 {
     const auto value = ptr(*this);

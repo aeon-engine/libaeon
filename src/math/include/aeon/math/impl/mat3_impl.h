@@ -73,6 +73,31 @@ inline mat3::mat3(const mat4 &m) noexcept
 {
 }
 
+inline mat3::mat3(const quaternion &q) noexcept
+{
+    const auto qxx = q.x * q.x;
+    const auto qyy = q.y * q.y;
+    const auto qzz = q.z * q.z;
+    const auto qxz = q.x * q.z;
+    const auto qxy = q.x * q.y;
+    const auto qyz = q.y * q.z;
+    const auto qwx = q.w * q.x;
+    const auto qwy = q.w * q.y;
+    const auto qwz = q.w * q.z;
+
+    m00 = 1.0f - 2.0f * (qyy + qzz);
+    m01 = 2.0f * (qxy + qwz);
+    m02 = 2.0f * (qxz - qwy);
+
+    m10 = 2.0f * (qxy - qwz);
+    m11 = 1.0f - 2.0f * (qxx + qzz);
+    m12 = 2.0f * (qyz + qwx);
+
+    m20 = 2.0f * (qxz + qwy);
+    m21 = 2.0f * (qyz - qwx);
+    m22 = 1.0f - 2.0f * (qxx + qyy);
+}
+
 inline auto mat3::at(const int row, const int column) const noexcept -> float
 {
     const auto value = ptr(*this);
