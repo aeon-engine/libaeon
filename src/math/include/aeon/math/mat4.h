@@ -144,11 +144,11 @@ inline auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> ve
 
 inline auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4;
 
-inline auto operator*=(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4;
+inline auto operator*=(mat4 &lhs, const mat4 &rhs) noexcept -> mat4 &;
 
-inline auto operator*=(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>;
+inline auto operator*=(mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float> &;
 
-inline auto operator*=(const mat4 &lhs, const float rhs) noexcept -> mat4;
+inline auto operator*=(mat4 &lhs, const float rhs) noexcept -> mat4 &;
 
 inline auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 

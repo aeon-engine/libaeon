@@ -96,37 +96,37 @@ template <typename T>
 inline auto operator/(const vector2<T> &lhs, const T rhs) noexcept -> vector2<T>;
 
 template <typename T>
-inline auto operator+=(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator+=(vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator+=(const vector2<T> &lhs, const T rhs) noexcept -> vector2<T>;
+inline auto operator+=(vector2<T> &lhs, const T rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator+=(const T lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator+=(T &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator-=(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator-=(vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator-=(const vector2<T> &lhs, const T rhs) noexcept -> vector2<T>;
+inline auto operator-=(vector2<T> &lhs, const T rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator-=(const T lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator-=(T &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator*=(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator*=(vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator*=(const vector2<T> &lhs, const T rhs) noexcept -> vector2<T>;
+inline auto operator*=(vector2<T> &lhs, const T rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator*=(const T lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator*=(T &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator/=(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+inline auto operator/=(vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T> &;
 
 template <typename T>
-inline auto operator/=(const vector2<T> &lhs, const T rhs) noexcept -> vector2<T>;
+inline auto operator/=(vector2<T> &lhs, const T rhs) noexcept -> vector2<T> &;
 
 template <typename T>
 inline auto operator==(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> bool;

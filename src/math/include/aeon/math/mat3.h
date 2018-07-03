@@ -109,11 +109,11 @@ inline auto operator*(const mat3 &lhs, const float rhs) noexcept -> mat3;
 
 inline auto operator-(const mat3 &mat) noexcept -> mat3;
 
-inline auto operator*=(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3;
+inline auto operator*=(mat3 &lhs, const mat3 &rhs) noexcept -> mat3 &;
 
-inline auto operator*=(const mat3 &lhs, const vector3<float> &rhs) noexcept -> vector3<float>;
+inline auto operator*=(mat3 &lhs, const vector3<float> &rhs) noexcept -> vector3<float> &;
 
-inline auto operator*=(const mat3 &lhs, const float rhs) noexcept -> mat3;
+inline auto operator*=(mat3 &lhs, const float rhs) noexcept -> mat3 &;
 
 inline auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool;
 
