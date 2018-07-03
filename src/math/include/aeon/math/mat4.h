@@ -41,9 +41,9 @@ class mat4
 {
 public:
     mat4() noexcept;
-    mat4(const float m00, const float m10, const float m20, const float m30, const float m01, const float m11,
-         const float m21, const float m31, const float m02, const float m12, const float m22, const float m32,
-         const float m03, const float m13, const float m23, const float m33) noexcept;
+    mat4(const float m00, const float m01, const float m02, const float m03, const float m10, const float m11,
+         const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
+         const float m30, const float m31, const float m32, const float m33) noexcept;
 
     ~mat4() noexcept = default;
 
@@ -118,23 +118,23 @@ public:
     static auto projection_fov(const T fov, const T width, const T height, const U near, const U far) noexcept -> mat4;
 
     float m00;
-    float m10;
-    float m20;
-    float m30;
-
     float m01;
-    float m11;
-    float m21;
-    float m31;
-
     float m02;
-    float m12;
-    float m22;
-    float m32;
-
     float m03;
+
+    float m10;
+    float m11;
+    float m12;
     float m13;
+
+    float m20;
+    float m21;
+    float m22;
     float m23;
+
+    float m30;
+    float m31;
+    float m32;
     float m33;
 };
 
@@ -145,8 +145,6 @@ inline auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> ve
 inline auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4;
 
 inline auto operator*=(mat4 &lhs, const mat4 &rhs) noexcept -> mat4 &;
-
-inline auto operator*=(mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float> &;
 
 inline auto operator*=(mat4 &lhs, const float rhs) noexcept -> mat4 &;
 

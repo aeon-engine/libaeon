@@ -42,8 +42,8 @@ class mat3
 {
 public:
     mat3() noexcept;
-    mat3(const float m00, const float m10, const float m20, const float m01, const float m11, const float m21,
-         const float m02, const float m12, const float m22) noexcept;
+    mat3(const float m00, const float m01, const float m02, const float m10, const float m11, const float m12,
+         const float m20, const float m21, const float m22) noexcept;
     ~mat3() noexcept = default;
 
     explicit mat3(const mat4 &m) noexcept;
@@ -89,15 +89,15 @@ public:
     static auto rotate(const T angle) noexcept -> mat3;
 
     float m00;
-    float m10;
-    float m20;
-
     float m01;
-    float m11;
-    float m21;
-
     float m02;
+
+    float m10;
+    float m11;
     float m12;
+
+    float m20;
+    float m21;
     float m22;
 };
 
@@ -110,8 +110,6 @@ inline auto operator*(const mat3 &lhs, const float rhs) noexcept -> mat3;
 inline auto operator-(const mat3 &mat) noexcept -> mat3;
 
 inline auto operator*=(mat3 &lhs, const mat3 &rhs) noexcept -> mat3 &;
-
-inline auto operator*=(mat3 &lhs, const vector3<float> &rhs) noexcept -> vector3<float> &;
 
 inline auto operator*=(mat3 &lhs, const float rhs) noexcept -> mat3 &;
 
