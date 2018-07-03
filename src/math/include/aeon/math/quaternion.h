@@ -39,6 +39,9 @@ public:
 
     quaternion(const float w, const float x, const float y, const float z) noexcept;
 
+    template <typename T>
+    explicit quaternion(const T w, const T x, const T y, const T z) noexcept;
+
     explicit quaternion(const vector3<float> &euler) noexcept;
 
     explicit quaternion(const mat3 &mat) noexcept;

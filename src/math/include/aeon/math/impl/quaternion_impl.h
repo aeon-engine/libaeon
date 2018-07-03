@@ -48,6 +48,15 @@ inline quaternion::quaternion(const float w, const float x, const float y, const
 {
 }
 
+template <typename T>
+inline quaternion::quaternion(const T w, const T x, const T y, const T z) noexcept
+    : w{static_cast<float>(w)}
+    , x{static_cast<float>(x)}
+    , y{static_cast<float>(y)}
+    , z{static_cast<float>(z)}
+{
+}
+
 inline quaternion::quaternion(const vector3<float> &euler) noexcept
 {
     const auto c = cos(euler * 0.5f);
