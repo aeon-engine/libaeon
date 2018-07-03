@@ -38,7 +38,7 @@ inline vector4<T>::vector4() noexcept
     : x{}
     , y{}
     , z{}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -56,7 +56,7 @@ inline vector4<T>::vector4(const T x, const T y) noexcept
     : x{x}
     , y{y}
     , z{}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -65,7 +65,7 @@ inline vector4<T>::vector4(const T x, const T y, const T z) noexcept
     : x{x}
     , y{y}
     , z{z}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -84,7 +84,7 @@ inline vector4<T>::vector4(const U x, const U y) noexcept
     : x{static_cast<T>(x)}
     , y{static_cast<T>(y)}
     , z{}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -94,7 +94,7 @@ inline vector4<T>::vector4(const U x, const U y, const U z) noexcept
     : x{static_cast<T>(x)}
     , y{static_cast<T>(y)}
     , z{static_cast<T>(z)}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -113,7 +113,7 @@ inline vector4<T>::vector4(const vector2<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -122,7 +122,7 @@ inline vector4<T>::vector4(const vector2<T> vec, const T z) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{z}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -140,7 +140,7 @@ inline vector4<T>::vector4(const vector3<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}
     , z{vec.z}
-    , w{}
+    , w{static_cast<T>(1)}
 {
 }
 
@@ -168,7 +168,7 @@ inline auto vector4<T>::operator=(const vector2<T> &vec) noexcept -> vector4<T> 
     x = vec.x;
     y = vec.y;
     z = T{};
-    w = T{};
+    w = static_cast<T>(1);
     return *this;
 }
 
@@ -178,7 +178,7 @@ inline auto vector4<T>::operator=(const vector3<T> &vec) noexcept -> vector4<T> 
     x = vec.x;
     y = vec.y;
     z = vec.z;
-    w = T{};
+    w = static_cast<T>(1);
     return *this;
 }
 
