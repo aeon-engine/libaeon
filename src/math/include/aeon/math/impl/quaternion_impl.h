@@ -25,9 +25,10 @@
 
 #pragma once
 
+#include <aeon/math/mat3.h>
+#include <aeon/math/vector3.h>
 #include <cmath>
 #include <algorithm>
-#include <aeon/math/mat3.h>
 
 namespace aeon::math
 {

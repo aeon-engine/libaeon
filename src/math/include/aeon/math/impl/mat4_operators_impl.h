@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/math/vector4.h>
+
 namespace aeon::math
 {
 

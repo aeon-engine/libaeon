@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/math/vector2.h>
+#include <aeon/math/vector3.h>
 #include <cmath>
 #include <limits>
 

@@ -26,6 +26,9 @@
 #pragma once
 
 #include <aeon/math/quaternion.h>
+#include <aeon/math/vector2.h>
+#include <aeon/math/vector3.h>
+#include <aeon/math/mat4.h>
 
 namespace aeon::math
 {
@@ -54,6 +57,19 @@ inline mat3::mat3(const float m00, const float m10, const float m20, const float
     , m02{m02}
     , m12{m12}
     , m22{m22}
+{
+}
+
+inline mat3::mat3(const mat4 &m) noexcept
+    : m00{m.m00}
+    , m10{m.m10}
+    , m20{m.m20}
+    , m01{m.m01}
+    , m11{m.m11}
+    , m21{m.m21}
+    , m02{m.m02}
+    , m12{m.m12}
+    , m22{m.m22}
 {
 }
 

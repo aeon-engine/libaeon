@@ -25,10 +25,11 @@
 
 #pragma once
 
-#include <aeon/math/vector2.h>
-
 namespace aeon::math
 {
+
+template <typename T>
+class vector2;
 
 template <typename T>
 class vector3

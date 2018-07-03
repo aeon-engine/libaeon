@@ -25,13 +25,16 @@
 
 #pragma once
 
-#include <aeon/math/vector3.h>
-#include <aeon/math/vector4.h>
-
 namespace aeon::math
 {
 
-class quaternion;
+template <typename T>
+class vector2;
+
+template <typename T>
+class vector3;
+
+class mat4;
 
 class mat3
 {
@@ -40,6 +43,8 @@ public:
     mat3(const float m00, const float m10, const float m20, const float m01, const float m11, const float m21,
          const float m02, const float m12, const float m22) noexcept;
     ~mat3() noexcept = default;
+
+    explicit mat3(const mat4 &m) noexcept;
 
     mat3(const mat3 &) noexcept = default;
     auto operator=(const mat3 &) noexcept -> mat3 & = default;

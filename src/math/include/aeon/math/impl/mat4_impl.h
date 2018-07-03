@@ -25,6 +25,9 @@
 
 #pragma once
 
+#include <aeon/math/vector3.h>
+#include <aeon/math/mat3.h>
+#include <aeon/math/quaternion.h>
 #include <cmath>
 
 namespace aeon::math
@@ -69,6 +72,26 @@ inline mat4::mat4(const float m00, const float m10, const float m20, const float
     , m13{m13}
     , m23{m23}
     , m33{m33}
+{
+}
+
+inline mat4::mat4(const mat3 &m) noexcept
+    : m00{m.m00}
+    , m10{m.m10}
+    , m20{m.m20}
+    , m30{0.0f}
+    , m01{m.m01}
+    , m11{m.m11}
+    , m21{m.m21}
+    , m31{0.0f}
+    , m02{m.m02}
+    , m12{m.m12}
+    , m22{m.m22}
+    , m32{0.0f}
+    , m03{0.0f}
+    , m13{0.0f}
+    , m23{0.0f}
+    , m33{1.0f}
 {
 }
 
@@ -411,17 +434,6 @@ inline auto inverse(const mat4 &mat) noexcept -> mat4
     // clang-format on
 }
 
-inline auto to_mat3(const mat4 &mat) noexcept -> mat3
-{
-    // clang-format off
-    return {
-        mat.m00, mat.m10, mat.m20,
-        mat.m01, mat.m11, mat.m21,
-        mat.m02, mat.m12, mat.m22
-    };
-    // clang-format on
-}
-
 inline auto is_affine(const mat4 &mat) noexcept -> bool
 {
     return (mat.m30 == 0.0f) && (mat.m31 == 0.0f) && (mat.m32 == 0.0f) && (mat.m33 == 1.0f);
@@ -430,10 +442,10 @@ inline auto is_affine(const mat4 &mat) noexcept -> bool
 inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<float> &scale,
                       quaternion &orientation) noexcept
 {
-    const auto mat3 = to_mat3(mat);
+    const auto m3 = mat3{mat};
 
     vector3<float> shear;
-    const auto q = qr_decompose(mat3, scale, shear);
+    const auto q = qr_decompose(m3, scale, shear);
 
     orientation = quaternion{q};
     translation.set(mat.m03, mat.m13, mat.m23);
