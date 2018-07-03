@@ -57,10 +57,28 @@ public:
     static auto scale(const float x, const float y) noexcept -> mat3;
     static auto scale(const vector2<float> &vec) noexcept -> mat3;
 
+    template <typename T>
+    static auto scale(const T xy) noexcept -> mat3;
+
+    template <typename T>
+    static auto scale(const T x, const T y) noexcept -> mat3;
+
+    template <typename T>
+    static auto scale(const vector2<T> &vec) noexcept -> mat3;
+
     static auto translate(const float x, const float y) noexcept -> mat3;
     static auto translate(const vector2<float> &vec) noexcept -> mat3;
 
+    template <typename T>
+    static auto translate(const T x, const T y) noexcept -> mat3;
+
+    template <typename T>
+    static auto translate(const vector2<T> &vec) noexcept -> mat3;
+
     static auto rotate(const float angle) noexcept -> mat3;
+
+    template <typename T>
+    static auto rotate(const T angle) noexcept -> mat3;
 
     float m00;
     float m10;

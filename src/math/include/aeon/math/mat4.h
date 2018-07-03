@@ -59,21 +59,56 @@ public:
     static auto scale(const float x, const float y, const float z) noexcept -> mat4;
     static auto scale(const vector3<float> &vec) noexcept -> mat4;
 
+    template <typename T>
+    static auto scale(const T xyz) noexcept -> mat4;
+
+    template <typename T>
+    static auto scale(const T x, const T y, const T z) noexcept -> mat4;
+
+    template <typename T>
+    static auto scale(const vector3<T> &vec) noexcept -> mat4;
+
     static auto translate(const float x, const float y) noexcept -> mat4;
     static auto translate(const float x, const float y, const float z) noexcept -> mat4;
     static auto translate(const vector3<float> &vec) noexcept -> mat4;
 
+    template <typename T>
+    static auto translate(const T x, const T y) noexcept -> mat4;
+
+    template <typename T>
+    static auto translate(const T x, const T y, const T z) noexcept -> mat4;
+
+    template <typename T>
+    static auto translate(const vector3<T> &vec) noexcept -> mat4;
+
     static auto rotate(const float angle, const vector3<float> &vec) noexcept -> mat4;
+
+    template <typename T, typename U>
+    static auto rotate(const T angle, const vector3<U> &vec) noexcept -> mat4;
 
     static auto ortho(const float left, const float right, const float bottom, const float top) noexcept -> mat4;
 
     static auto ortho(const float left, const float right, const float bottom, const float top, const float near,
                       const float far) noexcept -> mat4;
 
+    template <typename T>
+    static auto ortho(const T left, const T right, const T bottom, const T top) noexcept -> mat4;
+
+    template <typename T, typename U>
+    static auto ortho(const T left, const T right, const T bottom, const T top, const U near, const U far) noexcept
+        -> mat4;
+
     static auto projection(const float fov_y, const float aspect_ratio, const float near, const float far) noexcept
         -> mat4;
 
-    static auto projection_fov(float fov, float width, float height, float near, float far) noexcept -> mat4;
+    template <typename T, typename U>
+    static auto projection(const T fov_y, const T aspect_ratio, const U near, const U far) noexcept -> mat4;
+
+    static auto projection_fov(const float fov, const float width, const float height, const float near,
+                               const float far) noexcept -> mat4;
+
+    template <typename T, typename U>
+    static auto projection_fov(const T fov, const T width, const T height, const U near, const U far) noexcept -> mat4;
 
     float m00;
     float m10;

@@ -113,6 +113,24 @@ inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
     // clang-format on
 }
 
+template <typename T>
+inline auto mat4::scale(const T xyz) noexcept -> mat4
+{
+    return scale(static_cast<float>(xyz));
+}
+
+template <typename T>
+inline auto mat4::scale(const T x, const T y, const T z) noexcept -> mat4
+{
+    return scale(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+}
+
+template <typename T>
+inline auto mat4::scale(const vector3<T> &vec) noexcept -> mat4
+{
+    return scale(vector3<float>{vec});
+}
+
 inline auto mat4::translate(const float x, const float y) noexcept -> mat4
 {
     return translate({x, y, 0.0f});
@@ -131,6 +149,24 @@ inline auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
             0.0f, 0.0f, 1.0f, vec.z,
             0.0f, 0.0f, 0.0f, 1.0f};
     // clang-format on
+}
+
+template <typename T>
+inline auto mat4::translate(const T x, const T y) noexcept -> mat4
+{
+    return translate(static_cast<float>(x), static_cast<float>(y));
+}
+
+template <typename T>
+inline auto mat4::translate(const T x, const T y, const T z) noexcept -> mat4
+{
+    return translate(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+}
+
+template <typename T>
+inline auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
+{
+    return translate(vector3<float>{vec});
 }
 
 inline auto mat4::rotate(const float angle, const vector3<float> &vec) noexcept -> mat4
@@ -162,6 +198,12 @@ inline auto mat4::rotate(const float angle, const vector3<float> &vec) noexcept 
         1.0f
     };
     // clang-format on
+}
+
+template <typename T, typename U>
+inline auto mat4::rotate(const T angle, const vector3<U> &vec) noexcept -> mat4
+{
+    return rotate(static_cast<float>(angle), vector3<float>{vec});
 }
 
 inline auto mat4::ortho(const float left, const float right, const float bottom, const float top) noexcept -> mat4
@@ -219,6 +261,21 @@ inline auto mat4::ortho(const float left, const float right, const float bottom,
     // clang-format on
 }
 
+template <typename T>
+inline auto mat4::ortho(const T left, const T right, const T bottom, const T top) noexcept -> mat4
+{
+    return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
+                       static_cast<float>(top));
+}
+
+template <typename T, typename U>
+inline auto mat4::ortho(const T left, const T right, const T bottom, const T top, const U near, const U far) noexcept
+    -> mat4
+{
+    return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
+                       static_cast<float>(top), static_cast<float>(near), static_cast<float>(far));
+}
+
 inline auto mat4::projection(const float fov_y, const float aspect_ratio, const float near, const float far) noexcept
     -> mat4
 {
@@ -249,7 +306,15 @@ inline auto mat4::projection(const float fov_y, const float aspect_ratio, const 
     // clang-format on
 }
 
-inline auto mat4::projection_fov(float fov, float width, float height, float near, float far) noexcept -> mat4
+template <typename T, typename U>
+inline auto mat4::projection(const T fov_y, const T aspect_ratio, const U near, const U far) noexcept -> mat4
+{
+    return projection(static_cast<float>(fov_y), static_cast<float>(aspect_ratio), static_cast<float>(near),
+                      static_cast<float>(far));
+}
+
+inline auto mat4::projection_fov(const float fov, const float width, const float height, const float near,
+                                 const float far) noexcept -> mat4
 {
     const auto h = std::cos(0.5f * fov) / std::sin(0.5f * fov);
     const auto w = h * height / width;
@@ -277,6 +342,13 @@ inline auto mat4::projection_fov(float fov, float width, float height, float nea
         1.0f
     };
     // clang-format on
+}
+
+template <typename T, typename U>
+inline auto mat4::projection_fov(const T fov, const T width, const T height, const U near, const U far) noexcept -> mat4
+{
+    return projection_fov(static_cast<float>(fov), static_cast<float>(width), static_cast<float>(height),
+                          static_cast<float>(near), static_cast<float>(far));
 }
 
 inline auto inverse(const mat4 &mat) noexcept -> mat4
