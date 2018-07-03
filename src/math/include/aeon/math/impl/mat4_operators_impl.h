@@ -73,6 +73,21 @@ inline auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4
     // clang-format on
 }
 
+inline auto operator*=(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
+{
+    return lhs * rhs;
+}
+
+inline auto operator*=(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>
+{
+    return lhs * rhs;
+}
+
+inline auto operator*=(const mat4 &lhs, const float rhs) noexcept -> mat4
+{
+    return lhs * rhs;
+}
+
 inline auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool
 {
     // clang-format off

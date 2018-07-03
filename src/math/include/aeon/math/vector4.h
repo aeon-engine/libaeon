@@ -122,6 +122,36 @@ template <typename T>
 inline auto operator/(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
 
 template <typename T>
+inline auto operator+=(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator+=(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator+=(const T lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator-=(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator-=(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator-=(const T lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator*=(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator*=(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator*=(const T lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto operator/=(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
+
+template <typename T>
 inline auto operator==(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> bool;
 
 template <typename T>
