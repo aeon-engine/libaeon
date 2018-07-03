@@ -64,6 +64,30 @@ public:
     float z;
 };
 
+inline auto operator+(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator-(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator*(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator*(const quaternion &lhs, const float rhs) noexcept -> quaternion;
+
+inline auto operator/(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator/(const quaternion &lhs, const float rhs) noexcept -> quaternion;
+
+inline auto operator+=(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator-=(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator*=(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator*=(const quaternion &lhs, const float rhs) noexcept -> quaternion;
+
+inline auto operator/=(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+
+inline auto operator/=(const quaternion &lhs, const float rhs) noexcept -> quaternion;
+
 inline auto operator==(const quaternion &lhs, const quaternion &rhs) noexcept -> bool;
 
 inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept -> bool;
