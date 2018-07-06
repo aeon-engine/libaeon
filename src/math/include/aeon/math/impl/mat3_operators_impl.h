@@ -32,17 +32,17 @@ inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 {
     // clang-format off
     return {
-		lhs.m00 * rhs.m00 + lhs.m10 * rhs.m01 + lhs.m20 * rhs.m02,
-		lhs.m01 * rhs.m00 + lhs.m11 * rhs.m01 + lhs.m21 * rhs.m02,
-		lhs.m02 * rhs.m00 + lhs.m12 * rhs.m01 + lhs.m22 * rhs.m02,
+		rhs.m00 * lhs.m00 + rhs.m10 * lhs.m01 + rhs.m20 * lhs.m02,
+		rhs.m01 * lhs.m00 + rhs.m11 * lhs.m01 + rhs.m21 * lhs.m02,
+		rhs.m02 * lhs.m00 + rhs.m12 * lhs.m01 + rhs.m22 * lhs.m02,
 
-		lhs.m00 * rhs.m10 + lhs.m10 * rhs.m11 + lhs.m20 * rhs.m12,
-		lhs.m01 * rhs.m10 + lhs.m11 * rhs.m11 + lhs.m21 * rhs.m12,
-		lhs.m02 * rhs.m10 + lhs.m12 * rhs.m11 + lhs.m22 * rhs.m12,
+		rhs.m00 * lhs.m10 + rhs.m10 * lhs.m11 + rhs.m20 * lhs.m12,
+		rhs.m01 * lhs.m10 + rhs.m11 * lhs.m11 + rhs.m21 * lhs.m12,
+		rhs.m02 * lhs.m10 + rhs.m12 * lhs.m11 + rhs.m22 * lhs.m12,
 
-		lhs.m00 * rhs.m20 + lhs.m10 * rhs.m21 + lhs.m20 * rhs.m22,
-		lhs.m01 * rhs.m20 + lhs.m11 * rhs.m21 + lhs.m21 * rhs.m22,
-		lhs.m02 * rhs.m20 + lhs.m12 * rhs.m21 + lhs.m22 * rhs.m22};
+		rhs.m00 * lhs.m20 + rhs.m10 * lhs.m21 + rhs.m20 * lhs.m22,
+		rhs.m01 * lhs.m20 + rhs.m11 * lhs.m21 + rhs.m21 * lhs.m22,
+		rhs.m02 * lhs.m20 + rhs.m12 * lhs.m21 + rhs.m22 * lhs.m22};
     // clang-format on
 }
 
