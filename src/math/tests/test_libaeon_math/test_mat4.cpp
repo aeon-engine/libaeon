@@ -53,6 +53,15 @@ TEST(test_mat4, test_mat4_multiply_identity)
     EXPECT_EQ(mat3, math::mat4::indentity());
 }
 
+TEST(test_mat4, test_mat4_multiply_position_with_identity)
+{
+    const auto mat = math::mat4::translate(math::vector3<float>{400, 300, 0});
+    const auto mat2 = mat * math::mat4::indentity();
+    const auto mat3 = math::mat4::indentity() * mat2;
+    EXPECT_EQ(mat2, mat);
+    EXPECT_EQ(mat3, mat);
+}
+
 TEST(test_mat4, test_mat4_at)
 {
     // clang-format off
@@ -101,4 +110,10 @@ TEST(test_mat4, test_mat4_decompose)
     EXPECT_FLOAT_EQ(expected_translation.x, translation.x);
     EXPECT_FLOAT_EQ(expected_translation.y, translation.y);
     EXPECT_FLOAT_EQ(expected_translation.z, translation.z);
+}
+
+TEST(test_mat4, test_mat4_identity_quaternion)
+{
+    const auto mat = math::mat4{math::quaternion::indentity()};
+    EXPECT_EQ(mat, math::mat4::indentity());
 }

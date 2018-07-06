@@ -52,6 +52,15 @@ TEST(test_mat3, test_mat3_multiply_identity)
     EXPECT_EQ(mat3, math::mat3::indentity());
 }
 
+TEST(test_mat3, test_mat3_multiply_rotation_with_identity)
+{
+    const auto mat = math::mat3::rotate(45.0f);
+    const auto mat2 = mat * math::mat3::indentity();
+    const auto mat3 = math::mat3::indentity() * mat2;
+    EXPECT_EQ(mat2, mat);
+    EXPECT_EQ(mat3, mat);
+}
+
 TEST(test_mat3, test_mat3_at)
 {
     // clang-format off
