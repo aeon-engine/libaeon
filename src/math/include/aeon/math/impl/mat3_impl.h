@@ -35,13 +35,13 @@ namespace aeon::math
 
 inline mat3::mat3() noexcept
     : m00{0.0f}
-    , m01{0.0f}
-    , m02{0.0f}
     , m10{0.0f}
-    , m11{0.0f}
-    , m12{0.0f}
     , m20{0.0f}
+    , m01{0.0f}
+    , m11{0.0f}
     , m21{0.0f}
+    , m02{0.0f}
+    , m12{0.0f}
     , m22{0.0f}
 {
 }
@@ -49,26 +49,26 @@ inline mat3::mat3() noexcept
 inline mat3::mat3(const float m00, const float m01, const float m02, const float m10, const float m11, const float m12,
                   const float m20, const float m21, const float m22) noexcept
     : m00{m00}
-    , m01{m01}
-    , m02{m02}
     , m10{m10}
-    , m11{m11}
-    , m12{m12}
     , m20{m20}
+    , m01{m01}
+    , m11{m11}
     , m21{m21}
+    , m02{m02}
+    , m12{m12}
     , m22{m22}
 {
 }
 
 inline mat3::mat3(const mat4 &m) noexcept
     : m00{m.m00}
-    , m01{m.m01}
-    , m02{m.m02}
     , m10{m.m10}
-    , m11{m.m11}
-    , m12{m.m12}
     , m20{m.m20}
+    , m01{m.m01}
+    , m11{m.m11}
     , m21{m.m21}
+    , m02{m.m02}
+    , m12{m.m12}
     , m22{m.m22}
 {
 }

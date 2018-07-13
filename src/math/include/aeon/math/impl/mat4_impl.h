@@ -35,20 +35,20 @@ namespace aeon::math
 
 inline mat4::mat4() noexcept
     : m00{0.0f}
-    , m01{0.0f}
-    , m02{0.0f}
-    , m03{0.0f}
     , m10{0.0f}
-    , m11{0.0f}
-    , m12{0.0f}
-    , m13{0.0f}
     , m20{0.0f}
-    , m21{0.0f}
-    , m22{0.0f}
-    , m23{0.0f}
     , m30{0.0f}
+    , m01{0.0f}
+    , m11{0.0f}
+    , m21{0.0f}
     , m31{0.0f}
+    , m02{0.0f}
+    , m12{0.0f}
+    , m22{0.0f}
     , m32{0.0f}
+    , m03{0.0f}
+    , m13{0.0f}
+    , m23{0.0f}
     , m33{0.0f}
 {
 }
@@ -57,40 +57,40 @@ inline mat4::mat4(const float m00, const float m01, const float m02, const float
                   const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
                   const float m30, const float m31, const float m32, const float m33) noexcept
     : m00{m00}
-    , m01{m01}
-    , m02{m02}
-    , m03{m03}
     , m10{m10}
-    , m11{m11}
-    , m12{m12}
-    , m13{m13}
     , m20{m20}
-    , m21{m21}
-    , m22{m22}
-    , m23{m23}
     , m30{m30}
+    , m01{m01}
+    , m11{m11}
+    , m21{m21}
     , m31{m31}
+    , m02{m02}
+    , m12{m12}
+    , m22{m22}
     , m32{m32}
+    , m03{m03}
+    , m13{m13}
+    , m23{m23}
     , m33{m33}
 {
 }
 
 inline mat4::mat4(const mat3 &m) noexcept
     : m00{m.m00}
-    , m01{m.m01}
-    , m02{m.m02}
-    , m03{0.0f}
     , m10{m.m10}
-    , m11{m.m11}
-    , m12{m.m12}
-    , m13{0.0f}
     , m20{m.m20}
-    , m21{m.m21}
-    , m22{m.m22}
-    , m23{0.0f}
     , m30{0.0f}
+    , m01{m.m01}
+    , m11{m.m11}
+    , m21{m.m21}
     , m31{0.0f}
+    , m02{m.m02}
+    , m12{m.m12}
+    , m22{m.m22}
     , m32{0.0f}
+    , m03{0.0f}
+    , m13{0.0f}
+    , m23{0.0f}
     , m33{1.0f}
 {
 }
@@ -241,20 +241,20 @@ inline auto mat4::ortho(const float left, const float right, const float bottom,
         2.0f / (right - left),
         0.0f,
         0.0f,
-        0.0f,
+        -(right + left) / (right - left),
 
         0.0f,
         2.0f / (top - bottom),
         0.0f,
-        0.0f,
+        -(top + bottom) / (top - bottom),
 
         0.0f,
         0.0f,
         -1.0f,
         0.0f,
 
-        -(right + left) / (right - left),
-        -(top + bottom) / (top - bottom),
+        0.0f,
+        0.0f,
         0.0f,
         1.0f
     };
@@ -269,21 +269,21 @@ inline auto mat4::ortho(const float left, const float right, const float bottom,
         2.0f / (right - left),
         0.0f,
         0.0f,
-        0.0f,
+        -(right + left) / (right - left),
 
         0.0f,
         2.0f / (top - bottom),
         0.0f,
-        0.0f,
+        -(top + bottom) / (top - bottom),
 
         0.0f,
         0.0f,
         -2.0f / (far - near),
-        0.0f,
-
-        -(right + left) / (right - left),
-        -(top + bottom) / (top - bottom),
         -(far + near) / (far - near),
+
+        0.0f,
+        0.0f,
+        0.0f,
         1.0f
     };
     // clang-format on
@@ -324,12 +324,12 @@ inline auto mat4::projection(const float fov_y, const float aspect_ratio, const 
         0.0f,
         0.0f,
         -(far + near) / (far - near),
-        1.0f,
+        -(2.0f * far * near) / (far - near),
 
         0.0f,
         0.0f,
-        -(2.0f * far * near) / (far - near),
-        1.0f
+        -1.0f,
+        0.0f
     };
     // clang-format on
 }
@@ -367,7 +367,7 @@ inline auto mat4::projection_fov(const float fov, const float width, const float
         0.0f,
         0.0f,
         -(2.0f * far * near) / (far - near),
-        1.0f
+        0.0f
     };
     // clang-format on
 }

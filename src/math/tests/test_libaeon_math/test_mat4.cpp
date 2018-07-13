@@ -99,8 +99,9 @@ TEST(test_mat4, test_mat4_decompose)
 {
     const auto expected_translation = math::vector3<float>{10.0f, 20.0f, 30.0f};
 
-    const auto matrix = math::mat4::rotate(math::degree_to_radian(90.0f), {1.0f, 0.0f, 0.0f}) *
-                        math::mat4::translate(expected_translation);
+    auto matrix = math::mat4::indentity();
+    matrix *= math::mat4::rotate(math::degree_to_radian(90.0f), {1.0f, 0.0f, 0.0f});
+    matrix *= math::mat4::translate(expected_translation);
 
     math::vector3<float> translation;
     math::vector3<float> scale;
@@ -116,4 +117,25 @@ TEST(test_mat4, test_mat4_identity_quaternion)
 {
     const auto mat = math::mat4{math::quaternion::indentity()};
     EXPECT_EQ(mat, math::mat4::indentity());
+}
+
+TEST(test_mat4, test_mat4_multiply_vector)
+{
+    const auto expected_vec = math::vector4<float>{10.0f, 20.0f, 30.0f, 1.0f};
+    const auto mat = math::mat4::translate(expected_vec.x, expected_vec.y, expected_vec.z);
+    const auto vec = mat * math::vector4<float>{};
+
+    EXPECT_EQ(expected_vec, vec);
+}
+
+TEST(test_mat4, test_mat4_multiply_multiple_with_vector)
+{
+    const auto expected_vec = math::vector4<float>{10.0f, 20.0f, 30.0f, 1.0f};
+    const auto expected_vec2 = math::vector4<float>{50.0f, 40.0f, 20.0f, 1.0f};
+    auto mat = math::mat4::translate(expected_vec.x, expected_vec.y, expected_vec.z);
+    mat *= math::mat4::translate(expected_vec2.x, expected_vec2.y, expected_vec2.z);
+
+    const auto vec = mat * math::vector4<float>{};
+
+    EXPECT_EQ(expected_vec + expected_vec2, vec);
 }
