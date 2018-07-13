@@ -52,11 +52,11 @@ public:
     {
     }
 
-    optional(const optional &) noexcept = default;
-    auto operator=(const optional &) noexcept -> optional & = default;
-
     optional(optional &&) noexcept = default;
     auto operator=(optional &&) noexcept -> optional & = default;
+
+    optional(const optional &) = default;
+    auto operator=(const optional &) -> optional & = default;
 
     bool has_value() const noexcept
     {

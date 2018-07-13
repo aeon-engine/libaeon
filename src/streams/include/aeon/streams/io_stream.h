@@ -44,8 +44,8 @@ public:
     io_stream(io_stream &&) noexcept = default;
     auto operator=(io_stream &&) noexcept -> io_stream & = default;
 
-    io_stream(const io_stream &) noexcept = default;
-    auto operator=(const io_stream &) noexcept -> io_stream & = default;
+    io_stream(const io_stream &) = default;
+    auto operator=(const io_stream &) -> io_stream & = default;
 
     auto read(std::uint8_t *data, std::size_t size) -> std::size_t override;
 

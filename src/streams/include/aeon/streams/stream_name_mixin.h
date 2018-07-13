@@ -48,8 +48,8 @@ public:
 
     virtual ~stream_name_mixin() = default;
 
-    stream_name_mixin(stream_name_mixin &&) = default;
-    auto operator=(stream_name_mixin &&) -> stream_name_mixin & = default;
+    stream_name_mixin(stream_name_mixin &&) noexcept = default;
+    auto operator=(stream_name_mixin &&) noexcept -> stream_name_mixin & = default;
 
     stream_name_mixin(const stream_name_mixin &) = default;
     auto operator=(const stream_name_mixin &) -> stream_name_mixin & = default;
