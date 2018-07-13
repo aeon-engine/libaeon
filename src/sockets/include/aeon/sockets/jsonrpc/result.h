@@ -25,9 +25,9 @@
 
 #pragma once
 
-#include <aeon/common/stdoptional.h>
 #include <json11.hpp>
 #include <string>
+#include <optional>
 
 namespace aeon::sockets::jsonrpc
 {

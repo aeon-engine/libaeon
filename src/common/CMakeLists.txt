@@ -44,7 +44,6 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/unused.h
     include/aeon/common/type_traits.h
     include/aeon/common/stdfilesystem.h
-    include/aeon/common/stdoptional.h
     include/aeon/common/deprecated.h
     include/aeon/common/dll_export.h
     include/aeon/common/dll_loader.h
