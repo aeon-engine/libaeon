@@ -86,15 +86,15 @@ inline mat3::mat3(const quaternion &q) noexcept
     const auto qwz = q.w * q.z;
 
     m00 = 1.0f - 2.0f * (qyy + qzz);
-    m01 = 2.0f * (qxy + qwz);
-    m02 = 2.0f * (qxz - qwy);
+    m01 = 2.0f * (qxy - qwz);
+    m02 = 2.0f * (qxz + qwy);
 
-    m10 = 2.0f * (qxy - qwz);
+    m10 = 2.0f * (qxy + qwz);
     m11 = 1.0f - 2.0f * (qxx + qzz);
-    m12 = 2.0f * (qyz + qwx);
+    m12 = 2.0f * (qyz - qwx);
 
-    m20 = 2.0f * (qxz + qwy);
-    m21 = 2.0f * (qyz - qwx);
+    m20 = 2.0f * (qxz - qwy);
+    m21 = 2.0f * (qyz + qwx);
     m22 = 1.0f - 2.0f * (qxx + qyy);
 }
 
