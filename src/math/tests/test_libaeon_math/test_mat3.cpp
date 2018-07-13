@@ -73,14 +73,14 @@ TEST(test_mat3, test_mat3_at)
     // clang-format on
 
     EXPECT_EQ(mat.m00, mat.at(0, 0));
-    EXPECT_EQ(mat.m10, mat.at(1, 0));
-    EXPECT_EQ(mat.m20, mat.at(2, 0));
+    EXPECT_EQ(mat.m01, mat.at(1, 0));
+    EXPECT_EQ(mat.m02, mat.at(2, 0));
 
-    EXPECT_EQ(mat.m01, mat.at(0, 1));
+    EXPECT_EQ(mat.m10, mat.at(0, 1));
     EXPECT_EQ(mat.m11, mat.at(1, 1));
-    EXPECT_EQ(mat.m21, mat.at(2, 1));
+    EXPECT_EQ(mat.m12, mat.at(2, 1));
 
-    EXPECT_EQ(mat.m02, mat.at(0, 2));
-    EXPECT_EQ(mat.m12, mat.at(1, 2));
+    EXPECT_EQ(mat.m20, mat.at(0, 2));
+    EXPECT_EQ(mat.m21, mat.at(1, 2));
     EXPECT_EQ(mat.m22, mat.at(2, 2));
 }
