@@ -69,7 +69,17 @@ set(AEON_ENABLE_MIDI OFF CACHE BOOL "")
 set(AEON_ENABLE_HDF5 OFF CACHE BOOL "")
 set(AEON_ENABLE_IMAGING ON CACHE BOOL "")
 
+add_subdirectory(dep/googletest)
+
 ################################################################################
 
-add_subdirectory(dep/googletest)
+option(AEON_ENABLE_BENCHMARK "Enable google benchmarking tests." ON)
+
+if (AEON_ENABLE_BENCHMARK)
+    message(STATUS "Building libAeon with Google Benchmark support.")
+    add_subdirectory(dep/google_benchmark)
+endif ()
+
+################################################################################
+
 add_subdirectory(src)

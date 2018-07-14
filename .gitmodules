@@ -34,3 +34,7 @@
 	path = dep/libjpeg_turbo
 	url = ../../aeon-external-dependencies/libjpeg_turbo
 	branch = submodule
+[submodule "dep/google_benchmark"]
+	path = dep/google_benchmark
+	url = ../../aeon-external-dependencies/google_benchmark.git
+	branch = submodule
