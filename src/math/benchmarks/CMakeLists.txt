@@ -28,6 +28,8 @@ add_benchmark_suite(
     TARGET benchmark_libaeon_math
     SOURCES
         main.cpp
+        benchmark_mat3.cpp
+        benchmark_mat3_sse.cpp
         benchmark_mat4.cpp
         benchmark_mat4_sse.cpp
     INCLUDES

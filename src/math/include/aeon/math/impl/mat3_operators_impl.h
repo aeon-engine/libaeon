@@ -25,10 +25,18 @@
 
 #pragma once
 
+#if (!defined(AEON_DISABLE_SSE))
+#include <xmmintrin.h>
+#include <immintrin.h>
+#endif
+
 namespace aeon::math
 {
 
-inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
+namespace detail
+{
+
+inline auto mat3_mul(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 {
     // clang-format off
     return {
@@ -44,6 +52,98 @@ inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
         lhs[1][0] * rhs[0][2] + lhs[1][1] * rhs[1][2] + lhs[1][2] * rhs[2][2],
         lhs[2][0] * rhs[0][2] + lhs[2][1] * rhs[1][2] + lhs[2][2] * rhs[2][2]};
     // clang-format on
+}
+
+#if (!defined(AEON_DISABLE_SSE))
+inline auto mat3_mul_sse(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
+{
+    const auto rhs_col0_01 = _mm_loadu_si64(&rhs[0].x);
+    const auto rhs_col0_2 = _mm_bslli_si128(_mm_loadu_si32(&rhs[0].z), 8);
+    const auto rhs_col0 = _mm_castsi128_ps(_mm_or_si128(rhs_col0_01, rhs_col0_2));
+
+    const auto rhs_col1_01 = _mm_loadu_si64(&rhs[1].x);
+    const auto rhs_col1_2 = _mm_bslli_si128(_mm_loadu_si32(&rhs[1].z), 8);
+    const auto rhs_col1 = _mm_castsi128_ps(_mm_or_si128(rhs_col1_01, rhs_col1_2));
+
+    const auto rhs_col2_01 = _mm_loadu_si64(&rhs[2].x);
+    const auto rhs_col2_2 = _mm_bslli_si128(_mm_loadu_si32(&rhs[2].z), 8);
+    const auto rhs_col2 = _mm_castsi128_ps(_mm_or_si128(rhs_col2_01, rhs_col2_2));
+
+    mat3 out;
+
+    {
+        const auto lhs_col_01 = _mm_loadu_si64(&lhs[0].x);
+        const auto lhs_col_2 = _mm_bslli_si128(_mm_loadu_si32(&lhs[0].z), 8);
+        const auto lhs_col = _mm_castsi128_ps(_mm_or_si128(lhs_col_01, lhs_col_2));
+        const auto e0 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(0, 0, 0, 0));
+        const auto e1 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(1, 1, 1, 1));
+        const auto e2 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(2, 2, 2, 2));
+
+        const auto m0 = _mm_mul_ps(rhs_col0, e0);
+        const auto m1 = _mm_mul_ps(rhs_col1, e1);
+        const auto m2 = _mm_mul_ps(rhs_col2, e2);
+
+        const auto a0 = _mm_add_ps(m0, m1);
+        const auto a1 = _mm_castps_si128(_mm_add_ps(a0, m2));
+
+        _mm_storeu_si64(&out[0].x, a1);
+        const auto a1_2 = _mm_bsrli_si128(a1, 8);
+        _mm_storeu_si32(&out[0].z, a1_2);
+    }
+
+    {
+        const auto lhs_col_01 = _mm_loadu_si64(&lhs[1].x);
+        const auto lhs_col_2 = _mm_bslli_si128(_mm_loadu_si32(&lhs[1].z), 8);
+        const auto lhs_col = _mm_castsi128_ps(_mm_or_si128(lhs_col_01, lhs_col_2));
+        const auto e0 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(0, 0, 0, 0));
+        const auto e1 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(1, 1, 1, 1));
+        const auto e2 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(2, 2, 2, 2));
+
+        const auto m0 = _mm_mul_ps(rhs_col0, e0);
+        const auto m1 = _mm_mul_ps(rhs_col1, e1);
+        const auto m2 = _mm_mul_ps(rhs_col2, e2);
+
+        const auto a0 = _mm_add_ps(m0, m1);
+        const auto a1 = _mm_castps_si128(_mm_add_ps(a0, m2));
+
+        _mm_storeu_si64(&out[1].x, a1);
+        const auto a1_2 = _mm_bsrli_si128(a1, 8);
+        _mm_storeu_si32(&out[1].z, a1_2);
+    }
+
+    {
+        const auto lhs_col_01 = _mm_loadu_si64(&lhs[2].x);
+        const auto lhs_col_2 = _mm_bslli_si128(_mm_loadu_si32(&lhs[2].z), 8);
+        const auto lhs_col = _mm_castsi128_ps(_mm_or_si128(lhs_col_01, lhs_col_2));
+        const auto e0 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(0, 0, 0, 0));
+        const auto e1 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(1, 1, 1, 1));
+        const auto e2 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(2, 2, 2, 2));
+
+        const auto m0 = _mm_mul_ps(rhs_col0, e0);
+        const auto m1 = _mm_mul_ps(rhs_col1, e1);
+        const auto m2 = _mm_mul_ps(rhs_col2, e2);
+
+        const auto a0 = _mm_add_ps(m0, m1);
+        const auto a1 = _mm_castps_si128(_mm_add_ps(a0, m2));
+
+        _mm_storeu_si64(&out[2].x, a1);
+        const auto a1_2 = _mm_bsrli_si128(a1, 8);
+        _mm_storeu_si32(&out[2].z, a1_2);
+    }
+
+    return out;
+}
+#endif
+
+} // namespace detail
+
+inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
+{
+#if (!defined(AEON_DISABLE_SSE))
+    return detail::mat3_mul_sse(lhs, rhs);
+#else
+    return detail::mat3_mul(lhs, rhs);
+#endif
 }
 
 inline auto operator*(const mat3 &lhs, const vector3<float> &rhs) noexcept -> vector3<float>

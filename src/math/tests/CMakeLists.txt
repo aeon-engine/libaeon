@@ -29,6 +29,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_mat3.cpp
+        test_mat3_sse.cpp
         test_mat4.cpp
         test_mat4_sse.cpp
         test_quaternion.cpp
