@@ -27,26 +27,27 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/bitflags.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
-    include/aeon/common/endianness.h
-    include/aeon/common/flags.h
-    include/aeon/common/literals.h
-    include/aeon/common/optional.h
-    include/aeon/common/platform.h
-    include/aeon/common/singleton.h
-    include/aeon/common/string.h
-    src/string.cpp
-    include/aeon/common/string_traits.h
-    include/aeon/common/signed_sizeof.h
-    include/aeon/common/scope_guard.h
-    include/aeon/common/term_colors.h
-    include/aeon/common/variant.h
-    include/aeon/common/unused.h
-    include/aeon/common/type_traits.h
-    include/aeon/common/stdfilesystem.h
     include/aeon/common/deprecated.h
     include/aeon/common/dll_export.h
     include/aeon/common/dll_loader.h
     src/dll_loader.cpp
+    include/aeon/common/endianness.h
+    include/aeon/common/flags.h
+    include/aeon/common/intrinsics.h
+    include/aeon/common/literals.h
+    include/aeon/common/optional.h
+    include/aeon/common/platform.h
+    include/aeon/common/scope_guard.h
+    include/aeon/common/signed_sizeof.h
+    include/aeon/common/singleton.h
+    include/aeon/common/stdfilesystem.h
+    include/aeon/common/string.h
+    src/string.cpp
+    include/aeon/common/string_traits.h
+    include/aeon/common/term_colors.h
+    include/aeon/common/type_traits.h
+    include/aeon/common/unused.h
+    include/aeon/common/variant.h
 )
 
 source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
