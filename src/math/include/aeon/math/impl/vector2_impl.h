@@ -27,6 +27,7 @@
 
 #include <cmath>
 #include <limits>
+#include <cassert>
 
 namespace aeon::math
 {

@@ -28,6 +28,7 @@
 #include <aeon/math/vector2.h>
 #include <cmath>
 #include <limits>
+#include <cassert>
 
 namespace aeon::math
 {

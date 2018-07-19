@@ -29,6 +29,7 @@
 #include <aeon/math/mat3.h>
 #include <aeon/math/quaternion.h>
 #include <cmath>
+#include <cassert>
 
 namespace aeon::math
 {

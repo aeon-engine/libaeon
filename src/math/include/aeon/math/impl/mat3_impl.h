@@ -29,6 +29,7 @@
 #include <aeon/math/vector2.h>
 #include <aeon/math/vector3.h>
 #include <aeon/math/mat4.h>
+#include <cassert>
 
 namespace aeon::math
 {
