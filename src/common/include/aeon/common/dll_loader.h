@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <string_view>
 #include <string>
 #include <cassert>
@@ -56,7 +55,7 @@ void free_dll_handle(const dll_handle handle);
  */
 [[nodiscard]] void *get_dll_proc_address(const dll_handle handle, const char *proc);
 
-class scoped_dll_handle : noncopyable
+class scoped_dll_handle
 {
 public:
     /*!
@@ -94,6 +93,9 @@ public:
         other.handle_ = nullptr;
         return *this;
     }
+
+    scoped_dll_handle(const scoped_dll_handle &) = delete;
+    auto operator=(const scoped_dll_handle &) -> scoped_dll_handle & = delete;
 
     /*!
      * Returns true if the dll was loaded correctly.
