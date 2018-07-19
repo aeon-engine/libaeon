@@ -69,11 +69,13 @@ inline mat3::mat3(const quaternion &q) noexcept
 
 inline auto mat3::operator[](const std::size_t i) noexcept -> vector3<float> &
 {
+    assert(i < 3);
     return column[i];
 }
 
 inline auto mat3::operator[](const std::size_t i) const noexcept -> const vector3<float> &
 {
+    assert(i < 3);
     return column[i];
 }
 
