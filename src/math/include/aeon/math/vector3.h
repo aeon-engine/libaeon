@@ -65,13 +65,22 @@ public:
 
     auto operator=(const vector2<T> &vec) noexcept -> vector3<T> &;
 
+    auto operator[](const std::size_t i) noexcept -> T &;
+    auto operator[](const std::size_t i) const noexcept -> const T &;
+
     static auto zero() noexcept -> vector3<T>;
 
     void set(const T new_x, const T new_y, const T new_z) noexcept;
 
-    T x;
-    T y;
-    T z;
+    union {
+        struct
+        {
+            T x;
+            T y;
+            T z;
+        };
+        T value[3];
+    };
 };
 
 template <typename T>

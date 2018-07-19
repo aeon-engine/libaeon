@@ -74,25 +74,22 @@ TEST(test_mat4, test_mat4_at)
     };
     // clang-format on
 
-    EXPECT_EQ(mat.m00, mat.at(0, 0));
-    EXPECT_EQ(mat.m01, mat.at(1, 0));
-    EXPECT_EQ(mat.m02, mat.at(2, 0));
-    EXPECT_EQ(mat.m03, mat.at(3, 0));
-
-    EXPECT_EQ(mat.m10, mat.at(0, 1));
-    EXPECT_EQ(mat.m11, mat.at(1, 1));
-    EXPECT_EQ(mat.m12, mat.at(2, 1));
-    EXPECT_EQ(mat.m13, mat.at(3, 1));
-
-    EXPECT_EQ(mat.m20, mat.at(0, 2));
-    EXPECT_EQ(mat.m21, mat.at(1, 2));
-    EXPECT_EQ(mat.m22, mat.at(2, 2));
-    EXPECT_EQ(mat.m23, mat.at(3, 2));
-
-    EXPECT_EQ(mat.m30, mat.at(0, 3));
-    EXPECT_EQ(mat.m31, mat.at(1, 3));
-    EXPECT_EQ(mat.m32, mat.at(2, 3));
-    EXPECT_EQ(mat.m33, mat.at(3, 3));
+    EXPECT_EQ(mat[0][0], mat.at(0, 0));
+    EXPECT_EQ(mat[0][1], mat.at(0, 1));
+    EXPECT_EQ(mat[0][2], mat.at(0, 2));
+    EXPECT_EQ(mat[0][3], mat.at(0, 3));
+    EXPECT_EQ(mat[1][0], mat.at(1, 0));
+    EXPECT_EQ(mat[1][1], mat.at(1, 1));
+    EXPECT_EQ(mat[1][2], mat.at(1, 2));
+    EXPECT_EQ(mat[1][3], mat.at(1, 3));
+    EXPECT_EQ(mat[2][0], mat.at(2, 0));
+    EXPECT_EQ(mat[2][1], mat.at(2, 1));
+    EXPECT_EQ(mat[2][2], mat.at(2, 2));
+    EXPECT_EQ(mat[2][3], mat.at(2, 3));
+    EXPECT_EQ(mat[3][0], mat.at(3, 0));
+    EXPECT_EQ(mat[3][1], mat.at(3, 1));
+    EXPECT_EQ(mat[3][2], mat.at(3, 2));
+    EXPECT_EQ(mat[3][3], mat.at(3, 3));
 }
 
 TEST(test_mat4, test_mat4_decompose)
@@ -123,7 +120,7 @@ TEST(test_mat4, test_mat4_multiply_vector)
 {
     const auto expected_vec = math::vector4<float>{10.0f, 20.0f, 30.0f, 1.0f};
     const auto mat = math::mat4::translate(expected_vec.x, expected_vec.y, expected_vec.z);
-    const auto vec = mat * math::vector4<float>{};
+    const auto vec = mat * math::vector4<float>{0.0f, 0.0f, 0.0f, 1.0f};
 
     EXPECT_EQ(expected_vec, vec);
 }
@@ -135,7 +132,7 @@ TEST(test_mat4, test_mat4_multiply_multiple_with_vector)
     auto mat = math::mat4::translate(expected_vec.x, expected_vec.y, expected_vec.z);
     mat *= math::mat4::translate(expected_vec2.x, expected_vec2.y, expected_vec2.z);
 
-    const auto vec = mat * math::vector4<float>{};
+    const auto vec = mat * math::vector4<float>{0.0f, 0.0f, 0.0f, 1.0f};
 
     auto expected = expected_vec + expected_vec2;
     expected.w = 1.0f;

@@ -68,6 +68,20 @@ inline vector2<T>::vector2(const T xy[2]) noexcept
 }
 
 template <typename T>
+inline auto vector2<T>::operator[](const std::size_t i) noexcept -> T &
+{
+    assert(i < 2);
+    return value[i];
+}
+
+template <typename T>
+inline auto vector2<T>::operator[](const std::size_t i) const noexcept -> const T &
+{
+    assert(i < 2);
+    return value[i];
+}
+
+template <typename T>
 inline auto vector2<T>::zero() noexcept -> vector2<T>
 {
     return vector2<T>{};

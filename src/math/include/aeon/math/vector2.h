@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <cstddef>
+
 namespace aeon::math
 {
 
@@ -51,12 +53,21 @@ public:
     vector2(vector2<T> &&) noexcept = default;
     auto operator=(vector2<T> &&) noexcept -> vector2<T> & = default;
 
+    auto operator[](const std::size_t i) noexcept -> T &;
+    auto operator[](const std::size_t i) const noexcept -> const T &;
+
     static auto zero() noexcept -> vector2<T>;
 
     void set(const T new_x, const T new_y) noexcept;
 
-    T x;
-    T y;
+    union {
+        struct
+        {
+            T x;
+            T y;
+        };
+        T value[2];
+    };
 };
 
 template <typename T>

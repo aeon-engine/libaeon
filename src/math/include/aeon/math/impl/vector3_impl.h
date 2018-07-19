@@ -116,6 +116,20 @@ inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> 
 }
 
 template <typename T>
+inline auto vector3<T>::operator[](const std::size_t i) noexcept -> T &
+{
+    assert(i < 3);
+    return value[i];
+}
+
+template <typename T>
+inline auto vector3<T>::operator[](const std::size_t i) const noexcept -> const T &
+{
+    assert(i < 3);
+    return value[i];
+}
+
+template <typename T>
 inline auto vector3<T>::zero() noexcept -> vector3<T>
 {
     return vector3<T>{};

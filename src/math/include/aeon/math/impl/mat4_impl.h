@@ -33,66 +33,24 @@
 namespace aeon::math
 {
 
-inline mat4::mat4() noexcept
-    : m00{0.0f}
-    , m10{0.0f}
-    , m20{0.0f}
-    , m30{0.0f}
-    , m01{0.0f}
-    , m11{0.0f}
-    , m21{0.0f}
-    , m31{0.0f}
-    , m02{0.0f}
-    , m12{0.0f}
-    , m22{0.0f}
-    , m32{0.0f}
-    , m03{0.0f}
-    , m13{0.0f}
-    , m23{0.0f}
-    , m33{0.0f}
-{
-}
+inline mat4::mat4() noexcept = default;
 
 inline mat4::mat4(const float m00, const float m01, const float m02, const float m03, const float m10, const float m11,
                   const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
                   const float m30, const float m31, const float m32, const float m33) noexcept
-    : m00{m00}
-    , m10{m10}
-    , m20{m20}
-    , m30{m30}
-    , m01{m01}
-    , m11{m11}
-    , m21{m21}
-    , m31{m31}
-    , m02{m02}
-    , m12{m12}
-    , m22{m22}
-    , m32{m32}
-    , m03{m03}
-    , m13{m13}
-    , m23{m23}
-    , m33{m33}
 {
+    column[0] = vector4<float>{m00, m10, m20, m30};
+    column[1] = vector4<float>{m01, m11, m21, m31};
+    column[2] = vector4<float>{m02, m12, m22, m32};
+    column[3] = vector4<float>{m03, m13, m23, m33};
 }
 
 inline mat4::mat4(const mat3 &m) noexcept
-    : m00{m.m00}
-    , m10{m.m10}
-    , m20{m.m20}
-    , m30{0.0f}
-    , m01{m.m01}
-    , m11{m.m11}
-    , m21{m.m21}
-    , m31{0.0f}
-    , m02{m.m02}
-    , m12{m.m12}
-    , m22{m.m22}
-    , m32{0.0f}
-    , m03{0.0f}
-    , m13{0.0f}
-    , m23{0.0f}
-    , m33{1.0f}
 {
+    column[0] = vector4<float>{m[0]};
+    column[1] = vector4<float>{m[1]};
+    column[2] = vector4<float>{m[2]};
+    column[3] = vector4<float>{0.0f, 0.0f, 0.0f, 1.0f};
 }
 
 inline mat4::mat4(const quaternion &q) noexcept
@@ -100,10 +58,21 @@ inline mat4::mat4(const quaternion &q) noexcept
 {
 }
 
-inline auto mat4::at(const int row, const int column) const noexcept -> float
+inline auto mat4::operator[](const std::size_t i) noexcept -> vector4<float> &
 {
-    const auto value = ptr(*this);
-    return value[(row * 4) + column];
+    assert(i < 4);
+    return column[i];
+}
+
+inline auto mat4::operator[](const std::size_t i) const noexcept -> const vector4<float> &
+{
+    assert(i < 4);
+    return column[i];
+}
+
+inline auto mat4::at(const int column, const int row) const noexcept -> float
+{
+    return operator[](column)[row];
 }
 
 inline auto mat4::zero() noexcept -> mat4
@@ -381,53 +350,53 @@ inline auto mat4::projection_fov(const T fov, const T width, const T height, con
 
 inline auto inverse(const mat4 &mat) noexcept -> mat4
 {
-    auto v0 = mat.m20 * mat.m31 - mat.m21 * mat.m30;
-    auto v1 = mat.m20 * mat.m32 - mat.m22 * mat.m30;
-    auto v2 = mat.m20 * mat.m33 - mat.m23 * mat.m30;
-    auto v3 = mat.m21 * mat.m32 - mat.m22 * mat.m31;
-    auto v4 = mat.m21 * mat.m33 - mat.m23 * mat.m31;
-    auto v5 = mat.m22 * mat.m33 - mat.m23 * mat.m32;
+    auto v0 = mat[0][2] * mat[1][3] - mat[1][2] * mat[0][3];
+    auto v1 = mat[0][2] * mat[2][3] - mat[2][2] * mat[0][3];
+    auto v2 = mat[0][2] * mat[3][3] - mat[3][2] * mat[0][3];
+    auto v3 = mat[1][2] * mat[2][3] - mat[2][2] * mat[1][3];
+    auto v4 = mat[1][2] * mat[3][3] - mat[3][2] * mat[1][3];
+    auto v5 = mat[2][2] * mat[3][3] - mat[3][2] * mat[2][3];
 
-    const auto t00 = +(v5 * mat.m11 - v4 * mat.m12 + v3 * mat.m13);
-    const auto t10 = -(v5 * mat.m10 - v2 * mat.m12 + v1 * mat.m13);
-    const auto t20 = +(v4 * mat.m10 - v2 * mat.m11 + v0 * mat.m13);
-    const auto t30 = -(v3 * mat.m10 - v1 * mat.m11 + v0 * mat.m12);
+    const auto t00 = +(v5 * mat[1][1] - v4 * mat[2][1] + v3 * mat[3][1]);
+    const auto t10 = -(v5 * mat[0][1] - v2 * mat[2][1] + v1 * mat[3][1]);
+    const auto t20 = +(v4 * mat[0][1] - v2 * mat[1][1] + v0 * mat[3][1]);
+    const auto t30 = -(v3 * mat[0][1] - v1 * mat[1][1] + v0 * mat[2][1]);
 
-    const auto inverse_determinant = 1 / (t00 * mat.m00 + t10 * mat.m01 + t20 * mat.m02 + t30 * mat.m03);
+    const auto inverse_determinant = 1 / (t00 * mat[0][0] + t10 * mat[1][0] + t20 * mat[2][0] + t30 * mat[3][0]);
 
     const auto d00 = t00 * inverse_determinant;
     const auto d10 = t10 * inverse_determinant;
     const auto d20 = t20 * inverse_determinant;
     const auto d30 = t30 * inverse_determinant;
 
-    const auto d01 = -(v5 * mat.m01 - v4 * mat.m02 + v3 * mat.m03) * inverse_determinant;
-    const auto d11 = +(v5 * mat.m00 - v2 * mat.m02 + v1 * mat.m03) * inverse_determinant;
-    const auto d21 = -(v4 * mat.m00 - v2 * mat.m01 + v0 * mat.m03) * inverse_determinant;
-    const auto d31 = +(v3 * mat.m00 - v1 * mat.m01 + v0 * mat.m02) * inverse_determinant;
+    const auto d01 = -(v5 * mat[1][0] - v4 * mat[2][0] + v3 * mat[3][0]) * inverse_determinant;
+    const auto d11 = +(v5 * mat[0][0] - v2 * mat[2][0] + v1 * mat[3][0]) * inverse_determinant;
+    const auto d21 = -(v4 * mat[0][0] - v2 * mat[1][0] + v0 * mat[3][0]) * inverse_determinant;
+    const auto d31 = +(v3 * mat[0][0] - v1 * mat[1][0] + v0 * mat[2][0]) * inverse_determinant;
 
-    v0 = mat.m10 * mat.m31 - mat.m11 * mat.m30;
-    v1 = mat.m10 * mat.m32 - mat.m12 * mat.m30;
-    v2 = mat.m10 * mat.m33 - mat.m13 * mat.m30;
-    v3 = mat.m11 * mat.m32 - mat.m12 * mat.m31;
-    v4 = mat.m11 * mat.m33 - mat.m13 * mat.m31;
-    v5 = mat.m12 * mat.m33 - mat.m13 * mat.m32;
+    v0 = mat[0][1] * mat[1][3] - mat[1][1] * mat[0][3];
+    v1 = mat[0][1] * mat[2][3] - mat[2][1] * mat[0][3];
+    v2 = mat[0][1] * mat[3][3] - mat[3][1] * mat[0][3];
+    v3 = mat[1][1] * mat[2][3] - mat[2][1] * mat[1][3];
+    v4 = mat[1][1] * mat[3][3] - mat[3][1] * mat[1][3];
+    v5 = mat[2][1] * mat[3][3] - mat[3][1] * mat[2][3];
 
-    const auto d02 = +(v5 * mat.m01 - v4 * mat.m02 + v3 * mat.m03) * inverse_determinant;
-    const auto d12 = -(v5 * mat.m00 - v2 * mat.m02 + v1 * mat.m03) * inverse_determinant;
-    const auto d22 = +(v4 * mat.m00 - v2 * mat.m01 + v0 * mat.m03) * inverse_determinant;
-    const auto d32 = -(v3 * mat.m00 - v1 * mat.m01 + v0 * mat.m02) * inverse_determinant;
+    const auto d02 = +(v5 * mat[1][0] - v4 * mat[2][0] + v3 * mat[3][0]) * inverse_determinant;
+    const auto d12 = -(v5 * mat[0][0] - v2 * mat[2][0] + v1 * mat[3][0]) * inverse_determinant;
+    const auto d22 = +(v4 * mat[0][0] - v2 * mat[1][0] + v0 * mat[3][0]) * inverse_determinant;
+    const auto d32 = -(v3 * mat[0][0] - v1 * mat[1][0] + v0 * mat[2][0]) * inverse_determinant;
 
-    v0 = mat.m21 * mat.m10 - mat.m20 * mat.m11;
-    v1 = mat.m22 * mat.m10 - mat.m20 * mat.m12;
-    v2 = mat.m23 * mat.m10 - mat.m20 * mat.m13;
-    v3 = mat.m22 * mat.m11 - mat.m21 * mat.m12;
-    v4 = mat.m23 * mat.m11 - mat.m21 * mat.m13;
-    v5 = mat.m23 * mat.m12 - mat.m22 * mat.m13;
+    v0 = mat[1][2] * mat[0][1] - mat[0][2] * mat[1][1];
+    v1 = mat[2][2] * mat[0][1] - mat[0][2] * mat[2][1];
+    v2 = mat[3][2] * mat[0][1] - mat[0][2] * mat[3][1];
+    v3 = mat[2][2] * mat[1][1] - mat[1][2] * mat[2][1];
+    v4 = mat[3][2] * mat[1][1] - mat[1][2] * mat[3][1];
+    v5 = mat[3][2] * mat[2][1] - mat[2][2] * mat[3][1];
 
-    const auto d03 = -(v5 * mat.m01 - v4 * mat.m02 + v3 * mat.m03) * inverse_determinant;
-    const auto d13 = +(v5 * mat.m00 - v2 * mat.m02 + v1 * mat.m03) * inverse_determinant;
-    const auto d23 = -(v4 * mat.m00 - v2 * mat.m01 + v0 * mat.m03) * inverse_determinant;
-    const auto d33 = +(v3 * mat.m00 - v1 * mat.m01 + v0 * mat.m02) * inverse_determinant;
+    const auto d03 = -(v5 * mat[1][0] - v4 * mat[2][0] + v3 * mat[3][0]) * inverse_determinant;
+    const auto d13 = +(v5 * mat[0][0] - v2 * mat[2][0] + v1 * mat[3][0]) * inverse_determinant;
+    const auto d23 = -(v4 * mat[0][0] - v2 * mat[1][0] + v0 * mat[3][0]) * inverse_determinant;
+    const auto d33 = +(v3 * mat[0][0] - v1 * mat[1][0] + v0 * mat[2][0]) * inverse_determinant;
 
     // clang-format off
     return {
@@ -441,7 +410,7 @@ inline auto inverse(const mat4 &mat) noexcept -> mat4
 
 inline auto is_affine(const mat4 &mat) noexcept -> bool
 {
-    return (mat.m30 == 0.0f) && (mat.m31 == 0.0f) && (mat.m32 == 0.0f) && (mat.m33 == 1.0f);
+    return (mat[0][3] == 0.0f) && (mat[1][3] == 0.0f) && (mat[2][3] == 0.0f) && (mat[3][3] == 1.0f);
 }
 
 inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<float> &scale,
@@ -453,17 +422,17 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
     const auto q = qr_decompose(m3, scale, shear);
 
     orientation = quaternion{q};
-    translation.set(mat.m03, mat.m13, mat.m23);
+    translation.set(mat[3][0], mat[3][1], mat[3][2]);
 }
 
 inline auto ptr(mat4 &mat) noexcept -> float *
 {
-    return &mat.m00;
+    return &mat[0][0];
 }
 
 inline auto ptr(const mat4 &mat) noexcept -> const float *
 {
-    return &mat.m00;
+    return &mat[0][0];
 }
 
 } // namespace aeon::math

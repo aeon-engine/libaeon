@@ -25,14 +25,13 @@
 
 #pragma once
 
+#include <aeon/math/vector4.h>
+
 namespace aeon::math
 {
 
 template <typename T>
 class vector3;
-
-template <typename T>
-class vector4;
 
 class mat3;
 class quaternion;
@@ -56,7 +55,10 @@ public:
     mat4(mat4 &&) noexcept = default;
     auto operator=(mat4 &&) noexcept -> mat4 & = default;
 
-    auto at(const int row, const int column) const noexcept -> float;
+    auto operator[](const std::size_t i) noexcept -> vector4<float> &;
+    auto operator[](const std::size_t i) const noexcept -> const vector4<float> &;
+
+    auto at(const int column, const int row) const noexcept -> float;
 
     static auto zero() noexcept -> mat4;
 
@@ -117,25 +119,7 @@ public:
     template <typename T, typename U>
     static auto projection_fov(const T fov, const T width, const T height, const U near, const U far) noexcept -> mat4;
 
-    float m00;
-    float m10;
-    float m20;
-    float m30;
-
-    float m01;
-    float m11;
-    float m21;
-    float m31;
-
-    float m02;
-    float m12;
-    float m22;
-    float m32;
-
-    float m03;
-    float m13;
-    float m23;
-    float m33;
+    vector4<float> column[4];
 };
 
 inline auto operator*(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4;

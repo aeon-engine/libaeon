@@ -71,24 +71,24 @@ inline quaternion::quaternion(const vector3<float> &euler) noexcept
 
 inline quaternion::quaternion(const mat3 &mat) noexcept
 {
-    const auto trace = mat.m00 + mat.m11 + mat.m22;
+    const auto trace = mat[0][0] + mat[1][1] + mat[2][2];
 
     if (trace > 0.0)
     {
         auto root = std::sqrt(trace + 1.0f);
         w = 0.5f * root;
         root = 0.5f / root;
-        x = (mat.m21 - mat.m12) * root;
-        y = (mat.m02 - mat.m20) * root;
-        z = (mat.m10 - mat.m01) * root;
+        x = (mat[1][2] - mat[2][1]) * root;
+        y = (mat[2][0] - mat[0][2]) * root;
+        z = (mat[0][1] - mat[1][0]) * root;
     }
     else
     {
         static int next_index[3] = {1, 2, 0};
         int i = 0;
-        if (mat.m11 > mat.m00)
+        if (mat[1][1] > mat[0][0])
             i = 1;
-        if (mat.m22 > mat.at(i, i))
+        if (mat[2][2] > mat.at(i, i))
             i = 2;
         const int j = next_index[i];
         const int k = next_index[j];
@@ -97,9 +97,9 @@ inline quaternion::quaternion(const mat3 &mat) noexcept
         float *apk_quat[3] = {&x, &y, &z};
         *apk_quat[i] = 0.5f * root;
         root = 0.5f / root;
-        w = (mat.at(k, j) - mat.at(j, k)) * root;
-        *apk_quat[j] = (mat.at(j, i) + mat.at(i, j)) * root;
-        *apk_quat[k] = (mat.at(k, i) + mat.at(i, k)) * root;
+        w = (mat.at(j, k) - mat.at(k, j)) * root;
+        *apk_quat[j] = (mat.at(i, j) + mat.at(j, i)) * root;
+        *apk_quat[k] = (mat.at(i, k) + mat.at(k, i)) * root;
     }
 }
 

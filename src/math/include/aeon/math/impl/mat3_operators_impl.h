@@ -32,17 +32,17 @@ inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 {
     // clang-format off
     return {
-        lhs.m00 * rhs.m00 + lhs.m10 * rhs.m01 + lhs.m20 * rhs.m02,
-        lhs.m01 * rhs.m00 + lhs.m11 * rhs.m01 + lhs.m21 * rhs.m02,
-        lhs.m02 * rhs.m00 + lhs.m12 * rhs.m01 + lhs.m22 * rhs.m02,
+        lhs[0][0] * rhs[0][0] + lhs[0][1] * rhs[1][0] + lhs[0][2] * rhs[2][0],
+        lhs[1][0] * rhs[0][0] + lhs[1][1] * rhs[1][0] + lhs[1][2] * rhs[2][0],
+        lhs[2][0] * rhs[0][0] + lhs[2][1] * rhs[1][0] + lhs[2][2] * rhs[2][0],
 
-        lhs.m00 * rhs.m10 + lhs.m10 * rhs.m11 + lhs.m20 * rhs.m12,
-        lhs.m01 * rhs.m10 + lhs.m11 * rhs.m11 + lhs.m21 * rhs.m12,
-        lhs.m02 * rhs.m10 + lhs.m12 * rhs.m11 + lhs.m22 * rhs.m12,
+        lhs[0][0] * rhs[0][1] + lhs[0][1] * rhs[1][1] + lhs[0][2] * rhs[2][1],
+        lhs[1][0] * rhs[0][1] + lhs[1][1] * rhs[1][1] + lhs[1][2] * rhs[2][1],
+        lhs[2][0] * rhs[0][1] + lhs[2][1] * rhs[1][1] + lhs[2][2] * rhs[2][1],
 
-        lhs.m00 * rhs.m20 + lhs.m10 * rhs.m21 + lhs.m20 * rhs.m22,
-        lhs.m01 * rhs.m20 + lhs.m11 * rhs.m21 + lhs.m21 * rhs.m22,
-        lhs.m02 * rhs.m20 + lhs.m12 * rhs.m21 + lhs.m22 * rhs.m22};
+        lhs[0][0] * rhs[0][2] + lhs[0][1] * rhs[1][2] + lhs[0][2] * rhs[2][2],
+        lhs[1][0] * rhs[0][2] + lhs[1][1] * rhs[1][2] + lhs[1][2] * rhs[2][2],
+        lhs[2][0] * rhs[0][2] + lhs[2][1] * rhs[1][2] + lhs[2][2] * rhs[2][2]};
     // clang-format on
 }
 
@@ -50,9 +50,9 @@ inline auto operator*(const mat3 &lhs, const vector3<float> &rhs) noexcept -> ve
 {
     // clang-format off
     return {
-        lhs.m00 * rhs.x + lhs.m10 * rhs.y + lhs.m20 * rhs.z,
-        lhs.m01 * rhs.x + lhs.m11 * rhs.y + lhs.m21 * rhs.z,
-        lhs.m02 * rhs.x + lhs.m12 * rhs.y + lhs.m22 * rhs.z};
+        lhs[0][0] * rhs.x + lhs[0][1] * rhs.y + lhs[0][2] * rhs.z,
+        lhs[1][0] * rhs.x + lhs[1][1] * rhs.y + lhs[1][2] * rhs.z,
+        lhs[2][0] * rhs.x + lhs[2][1] * rhs.y + lhs[2][2] * rhs.z};
     // clang-format on
 }
 
@@ -60,9 +60,9 @@ inline auto operator*(const mat3 &lhs, const float rhs) noexcept -> mat3
 {
     // clang-format off
     return {
-        lhs.m00 * rhs, lhs.m10 * rhs, lhs.m20 * rhs,
-        lhs.m01 * rhs, lhs.m11 * rhs, lhs.m21 * rhs,
-        lhs.m02 * rhs, lhs.m12 * rhs, lhs.m22 * rhs};
+        lhs[0][0] * rhs, lhs[0][1] * rhs, lhs[0][2] * rhs,
+        lhs[1][0] * rhs, lhs[1][1] * rhs, lhs[1][2] * rhs,
+        lhs[2][0] * rhs, lhs[2][1] * rhs, lhs[2][2] * rhs};
     // clang-format on
 }
 
@@ -70,9 +70,9 @@ inline auto operator-(const mat3 &mat) noexcept -> mat3
 {
     // clang-format off
     return {
-        -mat.m00, -mat.m10, -mat.m20,
-        -mat.m01, -mat.m11, -mat.m21,
-        -mat.m02, -mat.m12, -mat.m22};
+        -mat[0][0], -mat[0][1], -mat[0][2],
+        -mat[1][0], -mat[1][1], -mat[1][2],
+        -mat[2][0], -mat[2][1], -mat[2][2]};
     // clang-format on
 }
 
@@ -90,18 +90,7 @@ inline auto operator*=(mat3 &lhs, const float rhs) noexcept -> mat3 &
 
 inline auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
 {
-    // clang-format off
-    return
-        lhs.m00 == rhs.m00 &&
-        lhs.m10 == rhs.m10 &&
-        lhs.m20 == rhs.m20 &&
-        lhs.m01 == rhs.m01 &&
-        lhs.m11 == rhs.m11 &&
-        lhs.m21 == rhs.m21 &&
-        lhs.m02 == rhs.m02 &&
-        lhs.m12 == rhs.m12 &&
-        lhs.m22 == rhs.m22;
-    // clang-format on
+    return lhs[0] == rhs[0] && lhs[1] == rhs[1] && lhs[2] == rhs[2];
 }
 
 inline auto operator!=(const mat3 &lhs, const mat3 &rhs) noexcept -> bool

@@ -25,14 +25,13 @@
 
 #pragma once
 
+#include <aeon/math/vector3.h>
+
 namespace aeon::math
 {
 
 template <typename T>
 class vector2;
-
-template <typename T>
-class vector3;
 
 class mat4;
 
@@ -55,7 +54,10 @@ public:
     mat3(mat3 &&) noexcept = default;
     auto operator=(mat3 &&) noexcept -> mat3 & = default;
 
-    auto at(const int row, const int column) const noexcept -> float;
+    auto operator[](const std::size_t i) noexcept -> vector3<float> &;
+    auto operator[](const std::size_t i) const noexcept -> const vector3<float> &;
+
+    auto at(const int column, const int row) const noexcept -> float;
 
     static auto zero() noexcept -> mat3;
 
@@ -88,17 +90,7 @@ public:
     template <typename T>
     static auto rotate(const T angle) noexcept -> mat3;
 
-    float m00;
-    float m10;
-    float m20;
-
-    float m01;
-    float m11;
-    float m21;
-
-    float m02;
-    float m12;
-    float m22;
+    vector3<float> column[3];
 };
 
 inline auto operator*(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3;

@@ -35,7 +35,7 @@ template <typename T>
 class vector3;
 
 template <typename T>
-class vector4
+class alignas(16) vector4
 {
 public:
     vector4() noexcept;
@@ -81,14 +81,23 @@ public:
 
     auto operator=(const vector3<T> &vec) noexcept -> vector4<T> &;
 
+    auto operator[](const std::size_t i) noexcept -> T &;
+    auto operator[](const std::size_t i) const noexcept -> const T &;
+
     static auto zero() noexcept -> vector4<T>;
 
     void set(const T new_x, const T new_y, const T new_z, const T new_w) noexcept;
 
-    T x;
-    T y;
-    T z;
-    T w;
+    union {
+        struct
+        {
+            T x;
+            T y;
+            T z;
+            T w;
+        };
+        T value[4];
+    };
 };
 
 template <typename T>
