@@ -37,7 +37,7 @@ class vector4;
 class mat3;
 class quaternion;
 
-class mat4
+class alignas(16) mat4
 {
 public:
     mat4() noexcept;

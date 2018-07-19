@@ -27,10 +27,18 @@
 
 #include <aeon/math/vector4.h>
 
+#if (!defined(AEON_DISABLE_AVX))
+#include <xmmintrin.h>
+#include <immintrin.h>
+#endif
+
 namespace aeon::math
 {
 
-inline auto operator*(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
+namespace detail
+{
+
+inline auto mat4_mul(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
 {
     // clang-format off
     return {
@@ -54,6 +62,57 @@ inline auto operator*(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
         (lhs.m02 * rhs.m30) + (lhs.m12 * rhs.m31) + (lhs.m22 * rhs.m32) + (lhs.m32 * rhs.m33),
         (lhs.m03 * rhs.m30) + (lhs.m13 * rhs.m31) + (lhs.m23 * rhs.m32) + (lhs.m33 * rhs.m33)};
     // clang-format on
+}
+
+#if (!defined(AEON_DISABLE_AVX))
+inline void mat4_mul_column_sse(mat4 const &lhs, mat4 const &rhs, mat4 &out, const int column)
+{
+    const auto lhs_ptr = ptr(lhs);
+    const auto rhs_ptr = ptr(rhs);
+
+    const auto rhs_col0 = _mm_load_ps(&rhs_ptr[4 * 0]);
+    const auto rhs_col1 = _mm_load_ps(&rhs_ptr[4 * 1]);
+    const auto rhs_col2 = _mm_load_ps(&rhs_ptr[4 * 2]);
+    const auto rhs_col3 = _mm_load_ps(&rhs_ptr[4 * 3]);
+
+    const auto val = _mm_load_ps(&lhs_ptr[4 * column]);
+    const auto e0 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(0, 0, 0, 0));
+    const auto e1 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(1, 1, 1, 1));
+    const auto e2 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(2, 2, 2, 2));
+    const auto e3 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(3, 3, 3, 3));
+
+    const auto m0 = _mm_mul_ps(rhs_col0, e0);
+    const auto m1 = _mm_mul_ps(rhs_col1, e1);
+    const auto m2 = _mm_mul_ps(rhs_col2, e2);
+    const auto m3 = _mm_mul_ps(rhs_col3, e3);
+
+    const auto a0 = _mm_add_ps(m0, m1);
+    const auto a1 = _mm_add_ps(m2, m3);
+    const auto a2 = _mm_add_ps(a0, a1);
+
+    _mm_store_ps(&ptr(out)[4 * column], a2);
+}
+
+inline auto mat4_mul_sse(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
+{
+    mat4 out;
+    mat4_mul_column_sse(lhs, rhs, out, 0);
+    mat4_mul_column_sse(lhs, rhs, out, 1);
+    mat4_mul_column_sse(lhs, rhs, out, 2);
+    mat4_mul_column_sse(lhs, rhs, out, 3);
+    return out;
+}
+#endif
+
+} // namespace detail
+
+inline auto operator*(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
+{
+#if (!defined(AEON_DISABLE_SSE))
+    return detail::mat4_mul_sse(lhs, rhs);
+#else
+    return detail::mat4_mul(lhs, rhs);
+#endif
 }
 
 inline auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>

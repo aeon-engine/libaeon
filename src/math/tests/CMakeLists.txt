@@ -30,6 +30,7 @@ add_unit_test_suite(
         main.cpp
         test_mat3.cpp
         test_mat4.cpp
+        test_mat4_sse.cpp
         test_quaternion.cpp
         test_vector2.cpp
         test_vector3.cpp
