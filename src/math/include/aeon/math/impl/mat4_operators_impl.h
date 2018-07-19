@@ -27,7 +27,7 @@
 
 #include <aeon/math/vector4.h>
 
-#if (!defined(AEON_DISABLE_AVX))
+#if (!defined(AEON_DISABLE_SSE))
 #include <xmmintrin.h>
 #include <immintrin.h>
 #endif
@@ -64,7 +64,7 @@ inline auto mat4_mul(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
     // clang-format on
 }
 
-#if (!defined(AEON_DISABLE_AVX))
+#if (!defined(AEON_DISABLE_SSE))
 inline void mat4_mul_column_sse(mat4 const &lhs, mat4 const &rhs, mat4 &out, const int column)
 {
     const auto lhs_ptr = ptr(lhs);

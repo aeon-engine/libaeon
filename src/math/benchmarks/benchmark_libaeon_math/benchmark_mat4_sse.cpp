@@ -29,7 +29,7 @@
 
 using namespace aeon;
 
-#if (!defined(AEON_DISABLE_AVX))
+#if (!defined(AEON_DISABLE_SSE))
 
 static void benchmark_mat4_sse_multiply_identity(benchmark::State &state)
 {

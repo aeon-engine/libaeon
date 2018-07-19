@@ -29,7 +29,7 @@
 
 using namespace aeon;
 
-#if (!defined(AEON_DISABLE_AVX))
+#if (!defined(AEON_DISABLE_SSE))
 
 TEST(test_mat4_sse, test_mat4_sse_multiply)
 {
