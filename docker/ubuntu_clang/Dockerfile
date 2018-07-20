@@ -8,6 +8,10 @@ ENV CC clang
 ENV CXX clang++
 
 RUN git clone --recursive https://github.com/aeon-engine/libaeon.git
-RUN cd libaeon && ./bootstrap.sh
-RUN cd libaeon/build && make -j2
-RUN cd libaeon/build && ctest
+
+ADD . /libaeon
+
+RUN pwd
+RUN cd /libaeon && ./bootstrap.sh
+RUN cd /libaeon/build && make -j2
+RUN cd /libaeon/build && ctest
