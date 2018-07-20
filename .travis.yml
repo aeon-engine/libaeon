@@ -5,4 +5,4 @@ services:
   - docker
 
 script:
-  - docker build -t="ubuntu_clang" docker/ubuntu_clang
+  - docker build -t="ubuntu_clang" .
