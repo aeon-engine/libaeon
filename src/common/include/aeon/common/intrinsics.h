@@ -27,6 +27,30 @@
 
 #include <immintrin.h>
 
+#ifndef _mm_loadu_si16
+#define _mm_loadu_si16(p) _mm_cvtsi32_si128(*(unsigned short const *)(p))
+#endif
+
+#ifndef _mm_loadu_si32
+#define _mm_loadu_si32(p) _mm_cvtsi32_si128(*(unsigned int const *)(p))
+#endif
+
+#ifndef _mm_loadu_si64
+#define _mm_loadu_si64(p) _mm_loadl_epi64((__m128i const *)(p))
+#endif
+
+#ifndef _mm_storeu_si16
+#define _mm_storeu_si16(p, a) (void)(*(short *)(p) = (short)_mm_cvtsi128_si32((a)))
+#endif
+
+#ifndef _mm_storeu_si32
+#define _mm_storeu_si32(p, a) (void)(*(int *)(p) = _mm_cvtsi128_si32((a)))
+#endif
+
+#ifndef _mm_storeu_si64
+#define _mm_storeu_si64(p, a) (_mm_storel_epi64((__m128i *)(p), (a)))
+#endif
+
 /*!
  * Load 3 consecutive unaligned floats into an __m128.
  */
