@@ -54,13 +54,13 @@ hdf5_datatype::~hdf5_datatype()
         H5Tclose(handle_);
 }
 
-hdf5_datatype::hdf5_datatype(hdf5_datatype &&other)
+hdf5_datatype::hdf5_datatype(hdf5_datatype &&other) noexcept
     : handle_(other.handle_)
 {
     other.handle_ = -1;
 }
 
-hdf5_datatype &hdf5_datatype::operator=(hdf5_datatype &&other)
+hdf5_datatype &hdf5_datatype::operator=(hdf5_datatype &&other) noexcept
 {
     handle_ = other.handle_;
     other.handle_ = -1;

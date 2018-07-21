@@ -54,13 +54,13 @@ hdf5_iterate::hdf5_iterate(const hdf5_file &file, const std::string &path, const
         throw std::runtime_error("H5Ovisit_by_name failed.");
 }
 
-hdf5_iterate::hdf5_iterate(hdf5_iterate &&other)
+hdf5_iterate::hdf5_iterate(hdf5_iterate &&other) noexcept
     : mode_(other.mode_)
     , children_(std::move(other.children_))
 {
 }
 
-hdf5_iterate &hdf5_iterate::operator=(hdf5_iterate &&other)
+hdf5_iterate &hdf5_iterate::operator=(hdf5_iterate &&other) noexcept
 {
     mode_ = other.mode_;
     children_ = std::move(other.children_);

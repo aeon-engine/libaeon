@@ -51,7 +51,7 @@ hdf5_dataset::hdf5_dataset(hdf5_file &file, const std::string &path)
 
 hdf5_dataset::~hdf5_dataset() = default;
 
-hdf5_dataset::hdf5_dataset(hdf5_dataset &&other)
+hdf5_dataset::hdf5_dataset(hdf5_dataset &&other) noexcept
     : file_(other.file_)
     , datatype_(std::move(other.datatype_))
     , properties_(std::move(other.properties_))
@@ -59,7 +59,7 @@ hdf5_dataset::hdf5_dataset(hdf5_dataset &&other)
 {
 }
 
-hdf5_dataset &hdf5_dataset::operator=(hdf5_dataset &&other)
+hdf5_dataset &hdf5_dataset::operator=(hdf5_dataset &&other) noexcept
 {
     file_ = std::move(other.file_);
     datatype_ = std::move(other.datatype_);

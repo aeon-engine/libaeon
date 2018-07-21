@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <hdf5.h>
 #include <cstddef>
 
@@ -42,15 +41,18 @@ enum class hdf5_array_byte_order
     little_endian
 };
 
-class hdf5_datatype : common::noncopyable
+class hdf5_datatype
 {
 public:
     hdf5_datatype();
     explicit hdf5_datatype(const hdf5_array_data_type data_type, const hdf5_array_byte_order byte_order);
     ~hdf5_datatype();
 
-    hdf5_datatype(hdf5_datatype &&other);
-    hdf5_datatype &operator=(hdf5_datatype &&other);
+    hdf5_datatype(const hdf5_datatype &) = delete;
+    auto operator=(const hdf5_datatype &) -> hdf5_datatype & = delete;
+
+    hdf5_datatype(hdf5_datatype &&other) noexcept;
+    hdf5_datatype &operator=(hdf5_datatype &&other) noexcept;
 
     auto get_handle() const -> hid_t;
 

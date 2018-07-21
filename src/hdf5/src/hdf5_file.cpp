@@ -83,13 +83,13 @@ hdf5_file::~hdf5_file()
         H5Fclose(file_);
 }
 
-hdf5_file::hdf5_file(hdf5_file &&other)
+hdf5_file::hdf5_file(hdf5_file &&other) noexcept
     : file_(other.file_)
 {
     other.file_ = -1;
 }
 
-hdf5_file &hdf5_file::operator=(hdf5_file &&other)
+hdf5_file &hdf5_file::operator=(hdf5_file &&other) noexcept
 {
     file_ = other.file_;
     other.file_ = -1;

@@ -44,13 +44,13 @@ hdf5_dataset_properties::~hdf5_dataset_properties()
         H5Pclose(handle_);
 }
 
-hdf5_dataset_properties::hdf5_dataset_properties(hdf5_dataset_properties &&other)
+hdf5_dataset_properties::hdf5_dataset_properties(hdf5_dataset_properties &&other) noexcept
     : handle_(other.handle_)
 {
     other.handle_ = -1;
 }
 
-hdf5_dataset_properties &hdf5_dataset_properties::operator=(hdf5_dataset_properties &&other)
+hdf5_dataset_properties &hdf5_dataset_properties::operator=(hdf5_dataset_properties &&other) noexcept
 {
     handle_ = other.handle_;
     other.handle_ = -1;

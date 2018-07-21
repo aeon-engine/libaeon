@@ -26,7 +26,6 @@
 #pragma once
 
 #include <aeon/hdf5/hdf5_object.h>
-#include <aeon/common/noncopyable.h>
 #include <hdf5.h>
 #include <string>
 #include <vector>
@@ -42,7 +41,7 @@ enum class iterate_mode
 
 class hdf5_file;
 
-class hdf5_iterate : public common::noncopyable
+class hdf5_iterate
 {
 public:
     hdf5_iterate();
@@ -54,8 +53,11 @@ public:
 
     ~hdf5_iterate() = default;
 
-    hdf5_iterate(hdf5_iterate &&other);
-    hdf5_iterate &operator=(hdf5_iterate &&other);
+    hdf5_iterate(const hdf5_iterate &) = delete;
+    auto operator=(const hdf5_iterate &) -> hdf5_iterate & = delete;
+
+    hdf5_iterate(hdf5_iterate &&other) noexcept;
+    hdf5_iterate &operator=(hdf5_iterate &&other) noexcept;
 
     const auto &get_children() const
     {

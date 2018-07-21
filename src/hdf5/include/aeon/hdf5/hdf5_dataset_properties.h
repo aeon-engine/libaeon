@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <hdf5.h>
 
 namespace aeon::hdf5
@@ -38,14 +37,17 @@ enum class hdf5_dataset_filltime
     ifset
 };
 
-class hdf5_dataset_properties : common::noncopyable
+class hdf5_dataset_properties
 {
 public:
     explicit hdf5_dataset_properties();
     ~hdf5_dataset_properties();
 
-    hdf5_dataset_properties(hdf5_dataset_properties &&other);
-    hdf5_dataset_properties &operator=(hdf5_dataset_properties &&other);
+    hdf5_dataset_properties(const hdf5_dataset_properties &) = delete;
+    auto operator=(const hdf5_dataset_properties &) -> hdf5_dataset_properties & = delete;
+
+    hdf5_dataset_properties(hdf5_dataset_properties &&other) noexcept;
+    hdf5_dataset_properties &operator=(hdf5_dataset_properties &&other) noexcept;
 
     void set_filltime(const hdf5_dataset_filltime mode) const;
 

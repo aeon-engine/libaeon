@@ -76,14 +76,14 @@ hdf5_dataspace::~hdf5_dataspace()
         H5Sclose(handle_);
 }
 
-hdf5_dataspace::hdf5_dataspace(hdf5_dataspace &&other)
+hdf5_dataspace::hdf5_dataspace(hdf5_dataspace &&other) noexcept
     : handle_(other.handle_)
     , size_(other.size_)
 {
     other.handle_ = -1;
 }
 
-hdf5_dataspace &hdf5_dataspace::operator=(hdf5_dataspace &&other)
+hdf5_dataspace &hdf5_dataspace::operator=(hdf5_dataspace &&other) noexcept
 {
     handle_ = other.handle_;
     size_ = other.size_;

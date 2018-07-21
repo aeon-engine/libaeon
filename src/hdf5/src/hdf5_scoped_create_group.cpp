@@ -44,13 +44,13 @@ hdf5_scoped_create_group::~hdf5_scoped_create_group()
         H5Gclose(handle_);
 }
 
-hdf5_scoped_create_group::hdf5_scoped_create_group(hdf5_scoped_create_group &&other)
+hdf5_scoped_create_group::hdf5_scoped_create_group(hdf5_scoped_create_group &&other) noexcept
     : handle_(other.handle_)
 {
     other.handle_ = -1;
 }
 
-hdf5_scoped_create_group &hdf5_scoped_create_group::operator=(hdf5_scoped_create_group &&other)
+hdf5_scoped_create_group &hdf5_scoped_create_group::operator=(hdf5_scoped_create_group &&other) noexcept
 {
     handle_ = other.handle_;
     other.handle_ = -1;

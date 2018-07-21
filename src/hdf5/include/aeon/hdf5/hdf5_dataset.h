@@ -27,7 +27,6 @@
 
 #include <aeon/hdf5/hdf5_datatype.h>
 #include <aeon/hdf5/hdf5_dataset_properties.h>
-#include <aeon/common/noncopyable.h>
 #include <string>
 #include <vector>
 #include <hdf5.h>
@@ -37,15 +36,18 @@ namespace aeon::hdf5
 
 class hdf5_file;
 
-class hdf5_dataset : common::noncopyable
+class hdf5_dataset
 {
 public:
     hdf5_dataset();
     explicit hdf5_dataset(hdf5_file &file, const std::string &path);
     ~hdf5_dataset();
 
-    hdf5_dataset(hdf5_dataset &&other);
-    hdf5_dataset &operator=(hdf5_dataset &&other);
+    hdf5_dataset(const hdf5_dataset &) = delete;
+    auto operator=(const hdf5_dataset &) -> hdf5_dataset & = delete;
+
+    hdf5_dataset(hdf5_dataset &&other) noexcept;
+    hdf5_dataset &operator=(hdf5_dataset &&other) noexcept;
 
     void write(const std::uint8_t *data, const std::size_t size);
     void write(const std::vector<std::uint8_t> &data);

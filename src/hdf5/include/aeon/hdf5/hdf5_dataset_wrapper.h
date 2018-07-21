@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <hdf5.h>
 #include <cstddef>
 #include <string>
@@ -38,7 +37,7 @@ class hdf5_file;
 class hdf5_dataspace;
 class hdf5_dataset_properties;
 
-class hdf5_dataset_wrapper : common::noncopyable
+class hdf5_dataset_wrapper
 {
 public:
     hdf5_dataset_wrapper();
@@ -47,8 +46,11 @@ public:
                                   const hdf5_dataspace &dataspace, const hdf5_dataset_properties &properties);
     ~hdf5_dataset_wrapper();
 
-    hdf5_dataset_wrapper(hdf5_dataset_wrapper &&other);
-    hdf5_dataset_wrapper &operator=(hdf5_dataset_wrapper &&other);
+    hdf5_dataset_wrapper(const hdf5_dataset_wrapper &) = delete;
+    auto operator=(const hdf5_dataset_wrapper &) -> hdf5_dataset_wrapper & = delete;
+
+    hdf5_dataset_wrapper(hdf5_dataset_wrapper &&other) noexcept;
+    hdf5_dataset_wrapper &operator=(hdf5_dataset_wrapper &&other) noexcept;
 
     auto get_handle() const -> hid_t;
 

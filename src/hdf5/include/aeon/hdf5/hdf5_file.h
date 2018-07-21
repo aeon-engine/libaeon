@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <aeon/common/stdfilesystem.h>
 #include <hdf5.h>
 #include <string>
@@ -40,15 +39,18 @@ enum hdf5_file_open_mode
     read_write
 };
 
-class hdf5_file : public common::noncopyable
+class hdf5_file
 {
 public:
     hdf5_file();
     explicit hdf5_file(const std::filesystem::path &path, const hdf5_file_open_mode mode);
     ~hdf5_file();
 
-    hdf5_file(hdf5_file &&other);
-    hdf5_file &operator=(hdf5_file &&other);
+    hdf5_file(const hdf5_file &) = delete;
+    auto operator=(const hdf5_file &) -> hdf5_file & = delete;
+
+    hdf5_file(hdf5_file &&other) noexcept;
+    hdf5_file &operator=(hdf5_file &&other) noexcept;
 
     auto exists(const std::string &path) const -> bool;
 

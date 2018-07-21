@@ -65,13 +65,13 @@ hdf5_dataset_wrapper::~hdf5_dataset_wrapper()
         H5Dclose(handle_);
 }
 
-hdf5_dataset_wrapper::hdf5_dataset_wrapper(hdf5_dataset_wrapper &&other)
+hdf5_dataset_wrapper::hdf5_dataset_wrapper(hdf5_dataset_wrapper &&other) noexcept
     : handle_(other.handle_)
 {
     other.handle_ = -1;
 }
 
-hdf5_dataset_wrapper &hdf5_dataset_wrapper::operator=(hdf5_dataset_wrapper &&other)
+hdf5_dataset_wrapper &hdf5_dataset_wrapper::operator=(hdf5_dataset_wrapper &&other) noexcept
 {
     handle_ = other.handle_;
     other.handle_ = -1;

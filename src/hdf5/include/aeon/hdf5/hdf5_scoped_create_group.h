@@ -25,21 +25,23 @@
 
 #pragma once
 
-#include <aeon/common/noncopyable.h>
 #include <hdf5.h>
 #include <string>
 
 namespace aeon::hdf5
 {
 
-class hdf5_scoped_create_group : public common::noncopyable
+class hdf5_scoped_create_group
 {
 public:
     explicit hdf5_scoped_create_group(const hid_t file, const std::string &name);
     ~hdf5_scoped_create_group();
 
-    hdf5_scoped_create_group(hdf5_scoped_create_group &&other);
-    hdf5_scoped_create_group &operator=(hdf5_scoped_create_group &&other);
+    hdf5_scoped_create_group(const hdf5_scoped_create_group &) = delete;
+    auto operator=(const hdf5_scoped_create_group &) -> hdf5_scoped_create_group & = delete;
+
+    hdf5_scoped_create_group(hdf5_scoped_create_group &&other) noexcept;
+    hdf5_scoped_create_group &operator=(hdf5_scoped_create_group &&other) noexcept;
 
 private:
     hid_t handle_;
