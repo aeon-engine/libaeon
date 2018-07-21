@@ -28,6 +28,7 @@
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/exceptions.h>
+#include <aeon/imaging/converters/convert_pixel.h>
 
 namespace aeon::imaging::convert
 {
@@ -39,6 +40,24 @@ class convert_exception : public imaging_exception
 auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
 
 template <typename T>
-auto to_rgb24(const image<T> &img) -> image<rgb24>;
+inline auto to_rgb24(const image<T> &img) -> image<rgb24>
+{
+    assert(continuous(img));
+
+    const image_descriptor<rgb24> d{width(img), height(img)};
+    image<rgb24> new_image(d);
+
+    const auto src_image_data = view(img).data();
+    const auto new_image_data = view(new_image).data();
+
+    const auto dims = width(img) * height(img);
+
+    for (auto i = 0; i < dims; ++i)
+    {
+        new_image_data[i] = pixel<T>::to_rgb24(src_image_data[i]);
+    }
+
+    return new_image;
+}
 
 } // namespace aeon::imaging::convert
