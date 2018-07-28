@@ -248,7 +248,7 @@ void file_stream::write_line(const std::string &line)
     if (!is_writable())
         throw file_stream_exception();
 
-    fstream_ << line << std::endl;
+    fstream_ << line << "\n";
 }
 
 auto file_stream::get_filename() const -> const std::string &
