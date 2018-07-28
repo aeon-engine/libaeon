@@ -33,9 +33,6 @@ option(AEON_ENABLE_SERIAL "Enable the Aeon Serial library." OFF)
 # Midi
 option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
 
-# HDF5
-option(AEON_ENABLE_HDF5 "Enable the Aeon HDF5 wrapper library." OFF)
-
 # Imaging
 option(AEON_ENABLE_IMAGING "Enable the Aeon imaging library." OFF)
 
@@ -65,10 +62,6 @@ endif ()
 
 if (AEON_ENABLE_SERIAL)
     add_subdirectory(serial)
-endif ()
-
-if (AEON_ENABLE_HDF5)
-    add_subdirectory(hdf5)
 endif ()
 
 if (AEON_ENABLE_IMAGING)
