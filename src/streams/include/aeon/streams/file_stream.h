@@ -88,6 +88,10 @@ public:
 
     auto read_line() -> std::string;
 
+    void write(const std::string &str);
+
+    void write_line();
+
     void write_line(const std::string &line);
 
     auto get_filename() const -> const std::string &;

@@ -227,6 +227,22 @@ auto file_stream::read_line() -> std::string
     return line;
 }
 
+void file_stream::write(const std::string &str)
+{
+    if (!is_writable())
+        throw file_stream_exception();
+
+    fstream_ << str;
+}
+
+void file_stream::write_line()
+{
+    if (!is_writable())
+        throw file_stream_exception();
+
+    fstream_ << "\n";
+}
+
 void file_stream::write_line(const std::string &line)
 {
     if (!is_writable())
