@@ -30,56 +30,27 @@ class test_singleton : public aeon::common::singleton<test_singleton>
 {
 };
 
-aeon_utility_initialize_singleton(test_singleton);
-
 TEST(test_singleton, test_singleton_create)
 {
-    EXPECT_NE(nullptr, test_singleton::create());
-    ASSERT_NO_THROW(test_singleton::dispose());
+    EXPECT_NE(nullptr, &test_singleton::get_singleton());
 }
 
-TEST(test_singleton, test_singleton_create_multiple_throws)
+TEST(test_singleton, test_singleton_is_same)
 {
-    EXPECT_NE(nullptr, test_singleton::create());
-    ASSERT_ANY_THROW(test_singleton::create());
-    ASSERT_ANY_THROW(test_singleton::create());
-    ASSERT_ANY_THROW(test_singleton::create());
-    ASSERT_NO_THROW(test_singleton::dispose());
+    const auto singleton_ptr = &test_singleton::get_singleton();
+    const auto singleton_ptr2 = &test_singleton::get_singleton();
+    const auto singleton_ptr3 = &test_singleton::get_singleton();
+
+    EXPECT_EQ(singleton_ptr, singleton_ptr2);
+    EXPECT_EQ(singleton_ptr, singleton_ptr3);
 }
 
-TEST(test_singleton, test_singleton_ptr_is_same_as_create)
+TEST(test_singleton, test_singleton_ptr_is_same)
 {
-    auto singleton = test_singleton::create();
-    EXPECT_NE(nullptr, singleton);
-    EXPECT_EQ(singleton, test_singleton::get_singleton_ptr());
-    ASSERT_NO_THROW(test_singleton::dispose());
-}
+    const auto singleton_ptr = &test_singleton::get_singleton();
+    const auto singleton_ptr2 = test_singleton::get_singleton_ptr();
+    const auto singleton_ptr3 = test_singleton::get_singleton_ptr();
 
-TEST(test_singleton, test_singleton_ref_is_same_as_ptr)
-{
-    EXPECT_NE(nullptr, test_singleton::create());
-    auto &singleton_ref = test_singleton::get_singleton();
-    EXPECT_EQ(&singleton_ref, test_singleton::get_singleton_ptr());
-    ASSERT_NO_THROW(test_singleton::dispose());
-}
-
-TEST(test_singleton, test_singleton_null_after_dispose)
-{
-    EXPECT_NE(nullptr, test_singleton::create());
-    EXPECT_NE(nullptr, test_singleton::get_singleton_ptr());
-    ASSERT_NO_THROW(test_singleton::dispose());
-    EXPECT_EQ(nullptr, test_singleton::get_singleton_ptr());
-}
-
-TEST(test_singleton, test_singleton_ref_throws_on_empty)
-{
-    EXPECT_ANY_THROW(test_singleton::get_singleton());
-}
-
-TEST(test_singleton, test_singleton_ref_throws_after_dispose)
-{
-    EXPECT_NE(nullptr, test_singleton::create());
-    ASSERT_NO_THROW(test_singleton::get_singleton());
-    ASSERT_NO_THROW(test_singleton::dispose());
-    ASSERT_ANY_THROW(test_singleton::get_singleton());
+    EXPECT_EQ(singleton_ptr, singleton_ptr2);
+    EXPECT_EQ(singleton_ptr, singleton_ptr3);
 }

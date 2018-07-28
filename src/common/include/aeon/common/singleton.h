@@ -27,69 +27,26 @@
 
 #include <stdexcept>
 
-#define aeon_utility_initialize_singleton(type)                                                                        \
-    template <>                                                                                                        \
-    type *aeon::common::singleton<type>::instance_ = nullptr
-
 namespace aeon::common
 {
 
 /*!
- * Base class for singletons.
- * This class does not own the instance; so you must
- * take care of deleting the instance when it's no
- * longer needed to prevent leaks.
+ * Base class for thread-safe singletons.
  */
 template <class type>
 class singleton
 {
 public:
-    singleton()
-    {
-        if (instance_)
-            throw std::runtime_error("Singleton could not be created. Already exists.");
-
-        instance_ = static_cast<type *>(this);
-
-        if (!instance_)
-            throw std::runtime_error("Singleton could not be created.");
-    }
-
-    ~singleton() noexcept
-    {
-        instance_ = nullptr;
-    }
-
-    singleton(const singleton<type> &) noexcept = default;
-    auto operator=(const singleton<type> &) noexcept -> singleton<type> & = default;
-    singleton(singleton<type> &&) noexcept = default;
-    auto operator=(singleton<type> &&) noexcept -> singleton<type> & = default;
-
-    static auto *create()
-    {
-        return new type;
-    }
-
-    static void dispose()
-    {
-        delete instance_;
-    }
-
     static auto &get_singleton()
     {
-        if (!instance_)
-            throw std::runtime_error("Singleton instance is null.");
-
-        return *instance_;
+        static type instance;
+        return instance;
     }
 
-    static auto get_singleton_ptr() noexcept
+    static auto get_singleton_ptr()
     {
-        return instance_;
+        return &get_singleton();
     }
-
-protected:
-    static type *instance_;
 };
 
 } // namespace aeon::common
