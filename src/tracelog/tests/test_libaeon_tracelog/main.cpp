@@ -23,25 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-#include <chrono>
-
-namespace aeon::utility
+int main(int argc, char **argv)
 {
-
-class timer
-{
-public:
-    timer();
-    ~timer();
-
-    void reset() noexcept;
-
-    auto get_time_difference() const noexcept -> double;
-
-private:
-    std::chrono::time_point<std::chrono::system_clock> start_time_;
-};
-
-} // namespace aeon::utility
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

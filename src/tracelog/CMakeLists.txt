@@ -21,34 +21,28 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-set(LIB_AEON_UTILITY_SOURCE
-    include/aeon/utility/configfile.h
-    src/configfile.cpp
-    include/aeon/utility/cached_container.h
-    include/aeon/utility/dispatcher.h
-    include/aeon/utility/dispatcher_fwd.h
-    include/aeon/utility/hexdump.h
-    src/hexdump.cpp
-    include/aeon/utility/linear_map.h
-    include/aeon/utility/listener_subject.h
-    include/aeon/utility/parallelizer.h
-    include/aeon/utility/parameters.h
-    include/aeon/utility/signals.h
-    include/aeon/utility/tribool.h
+set(LIB_AEON_TRACELOG_SOURCE
+    include/aeon/tracelog/tracelog.h
+    src/tracelog.cpp
+    src/serializer.h
+    src/serializer.cpp
 )
 
-source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})
+source_group(tracelog FILES ${LIB_AEON_TRACELOG_SOURCE})
 
-add_library(aeon_utility STATIC ${LIB_AEON_UTILITY_SOURCE})
+add_library(aeon_tracelog STATIC ${LIB_AEON_TRACELOG_SOURCE})
 
-set_target_properties(aeon_utility PROPERTIES
+set_target_properties(aeon_tracelog PROPERTIES
     FOLDER dep/libaeon
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_utility PUBLIC include)
+target_include_directories(aeon_tracelog
+    PUBLIC include
+    PRIVATE src
+)
 
-target_link_libraries(aeon_utility aeon_common aeon_streams)
+target_link_libraries(aeon_tracelog aeon_common aeon_streams)
 
 install(
     DIRECTORY include

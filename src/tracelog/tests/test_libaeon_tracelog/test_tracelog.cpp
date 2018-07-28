@@ -23,28 +23,40 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/utility/timer.h>
+#include <gtest/gtest.h>
+#include <aeon/tracelog/tracelog.h>
 
-namespace aeon::utility
+static void test_func3(float a, const char *str)
 {
-
-timer::timer()
-{
-    reset();
+    aeon_tracelog_scoped();
 }
 
-timer::~timer() = default;
-
-void timer::reset() noexcept
+static void test_func2(int arg)
 {
-    start_time_ = std::chrono::system_clock::now();
+    aeon_tracelog_scoped();
+
+    test_func3(static_cast<float>(arg), "Hello");
+    test_func3(static_cast<float>(arg + 10), "Bye");
 }
 
-auto timer::get_time_difference() const noexcept -> double
+static void test_func1(int arg1, float arg2)
 {
-    const auto now = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = now - start_time_;
-    return elapsed_seconds.count();
+    aeon_tracelog_scoped();
+
+    for (int i = 0; i < 100; ++i)
+    {
+        test_func2(arg1);
+    }
 }
 
-} // namespace aeon::utility
+TEST(test_tracelog, test_tracelog_basic_stack)
+{
+    aeon::tracelog::initialize();
+
+    for (int i = 0; i < 100; ++i)
+    {
+        test_func1(1, 1.0f);
+    }
+
+    aeon::tracelog::write("test.trace");
+}
