@@ -22,10 +22,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_TRACELOG_SOURCE
+    src/config.h
+    src/data.h
     include/aeon/tracelog/tracelog.h
     src/tracelog.cpp
-    src/serializer.h
-    src/serializer.cpp
+    src/context.cpp
+    src/context.h
 )
 
 source_group(tracelog FILES ${LIB_AEON_TRACELOG_SOURCE})

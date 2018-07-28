@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/common/preprocessor.h>
+#include <filesystem>
 
 namespace aeon::tracelog
 {
@@ -33,22 +34,23 @@ namespace aeon::tracelog
 namespace detail
 {
 
-void add_entry(const char *func);
-void add_exit(const char *func);
+struct trace_log_entry;
+
+auto add_entry(const char *func) -> trace_log_entry *;
+void add_exit(trace_log_entry *entry);
 void add_event(const char *func);
 
 class scoped_trace_log
 {
 public:
     scoped_trace_log(const char *func)
-        : func_{func}
     {
-        detail::add_entry(func_);
+        entry_ = detail::add_entry(func);
     }
 
     ~scoped_trace_log()
     {
-        detail::add_exit(func_);
+        detail::add_exit(entry_);
     }
 
     scoped_trace_log(scoped_trace_log &&) = delete;
@@ -58,7 +60,7 @@ public:
     auto operator=(const scoped_trace_log &) -> scoped_trace_log & = delete;
 
 private:
-    const char *func_;
+    trace_log_entry *entry_;
 };
 
 } // namespace detail
@@ -72,7 +74,7 @@ void initialize();
  * Should be called at the end of tracing. This will clear all current tracing buffers.
  * The file may not already exist.
  */
-void write(const char *file);
+void write(const std::filesystem::path &file);
 
 #define aeon_tracelog_scoped() aeon::tracelog::detail::scoped_trace_log aeon_anonymous_variable(trace)(__FUNCTION__)
 

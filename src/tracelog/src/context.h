@@ -23,46 +23,42 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
-#include <aeon/tracelog/tracelog.h>
-#include <thread>
-#include <chrono>
+#pragma once
 
-static void test_func3(float a, const char *str)
+#include "data.h"
+#include <aeon/common/singleton.h>
+#include <aeon/streams/file_stream_fwd.h>
+#include <atomic>
+#include <vector>
+#include <mutex>
+#include <filesystem>
+
+namespace aeon::tracelog::detail
 {
-    aeon_tracelog_scoped();
-    std::this_thread::sleep_for(std::chrono::milliseconds(3));
-}
 
-static void test_func2(int arg)
+class trace_log_context : public common::singleton<trace_log_context>
 {
-    aeon_tracelog_scoped();
+public:
+    void initialize();
+    auto add_scoped_log_entry(const char *func) const -> trace_log_entry *;
+    void add_scoped_log_exit(trace_log_entry *entry) const;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    test_func3(static_cast<float>(arg), "Hello");
-    test_func3(static_cast<float>(arg + 10), "Bye");
-}
+    void add_event(const char *func) const;
 
-static void test_func1(int arg1, float arg2)
-{
-    aeon_tracelog_scoped();
+    void write(const std::filesystem::path &path);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+private:
+    void allocate_new_list() const;
+    auto generate_unique_thread_id() noexcept -> int;
+    void register_threadlocal_context(trace_log_thread_context *context);
 
-    for (int i = 0; i < 10; ++i)
-    {
-        test_func2(arg1);
-    }
-}
+    void append_write(streams::file_stream &stream, trace_log_thread_context *context) const;
 
-TEST(test_tracelog, test_tracelog_basic_stack)
-{
-    aeon::tracelog::initialize();
+    static thread_local trace_log_thread_context context_;
+    std::atomic<int> thread_index_ = 0;
 
-    for (int i = 0; i < 10; ++i)
-    {
-        test_func1(1, 1.0f);
-    }
+    std::vector<trace_log_thread_context *> contexts_;
+    std::mutex thread_container_lock_;
+};
 
-    aeon::tracelog::write("test.trace");
-}
+} // namespace aeon::tracelog::detail

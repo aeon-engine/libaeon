@@ -25,7 +25,5 @@
 
 #pragma once
 
-namespace aeon::tracelog::detail
-{
-
-} // namespace aeon::tracelog::detail
+// Around 300mb per list.
+#define log_entry_count 10000000ull

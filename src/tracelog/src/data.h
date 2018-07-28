@@ -23,46 +23,44 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
-#include <aeon/tracelog/tracelog.h>
-#include <thread>
-#include <chrono>
+#pragma once
 
-static void test_func3(float a, const char *str)
+#include <aeon/common/timer.h>
+#include "config.h"
+#include <memory>
+#include <cstdint>
+
+namespace aeon::tracelog::detail
 {
-    aeon_tracelog_scoped();
-    std::this_thread::sleep_for(std::chrono::milliseconds(3));
-}
 
-static void test_func2(int arg)
+enum class trace_log_entry_type
 {
-    aeon_tracelog_scoped();
+    scope,
+    event
+};
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    test_func3(static_cast<float>(arg), "Hello");
-    test_func3(static_cast<float>(arg + 10), "Bye");
-}
-
-static void test_func1(int arg1, float arg2)
+struct trace_log_entry
 {
-    aeon_tracelog_scoped();
+    double begin;
+    double end;
+    const char *function;
+    int thread_id;
+    trace_log_entry_type type;
+};
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
-    for (int i = 0; i < 10; ++i)
-    {
-        test_func2(arg1);
-    }
-}
-
-TEST(test_tracelog, test_tracelog_basic_stack)
+struct trace_log_list
 {
-    aeon::tracelog::initialize();
+    trace_log_entry entries[log_entry_count]; // Uninitialized on purpose.
+    std::unique_ptr<trace_log_list> next;
+};
 
-    for (int i = 0; i < 10; ++i)
-    {
-        test_func1(1, 1.0f);
-    }
+struct trace_log_thread_context
+{
+    trace_log_list *head = nullptr;
+    std::unique_ptr<trace_log_list> tail;
+    std::uint64_t index = 0;
+    common::timer timer;
+    int thread_id = 0;
+};
 
-    aeon::tracelog::write("test.trace");
-}
+} // namespace aeon::tracelog::detail
