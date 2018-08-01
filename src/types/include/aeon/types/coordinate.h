@@ -56,13 +56,34 @@ public:
 };
 
 template <typename T>
+inline auto contains(const coordinate<T> coord, const size2d<T> size) noexcept -> bool;
+
+template <typename T>
+inline auto translate(const coordinate<T> coord, const T x, const T y) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto translate(const coordinate<T> coord, const math::vector2<T> vec) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto translate(const coordinate<T> coord, const coordinate<T> other) noexcept -> coordinate<T>;
+
+template <typename T>
 inline auto operator==(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool;
 
 template <typename T>
 inline auto operator!=(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto contains(const coordinate<T> coord, const size2d<T> size) noexcept -> bool;
+inline auto operator+(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto operator+=(coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto operator-(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto operator-=(coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> coordinate<T>;
 
 } // namespace aeon::types
 
