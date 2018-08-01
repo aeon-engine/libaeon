@@ -113,6 +113,9 @@ template <typename T>
 inline auto contains(const coordinate<T> &coord, const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
+inline auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
+
+template <typename T>
 inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
 template <typename T>

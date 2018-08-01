@@ -146,3 +146,18 @@ TEST(test_rectangle, test_rectangle_contains_coordinate)
     EXPECT_FALSE(types::contains(coord3, rect));
     EXPECT_FALSE(types::contains(coord4, rect));
 }
+
+TEST(test_rectangle, test_rectangle_overlaps)
+{
+    const types::rectangle rect{10, 10, 20, 20};
+    const types::rectangle rect2{15, 15, 25, 25};
+    const types::rectangle rect3{21, 21, 25, 25};
+
+    EXPECT_TRUE(types::overlaps(rect, rect));
+    EXPECT_TRUE(types::overlaps(rect, rect2));
+    EXPECT_TRUE(types::overlaps(rect2, rect));
+    EXPECT_FALSE(types::overlaps(rect, rect3));
+    EXPECT_FALSE(types::overlaps(rect3, rect));
+    EXPECT_TRUE(types::overlaps(rect2, rect3));
+    EXPECT_TRUE(types::overlaps(rect3, rect2));
+}
