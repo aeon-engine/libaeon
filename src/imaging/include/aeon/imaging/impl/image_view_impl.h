@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/common/assert.h>
+
 namespace aeon::imaging
 {
 
@@ -172,8 +174,7 @@ inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t
 template <typename T>
 inline auto make_view(const image_view<T> &view, const types::rectangle<int> &rect) noexcept -> image_view<T>
 {
-    assert(types::left(rect) <= types::right(rect) && types::right(rect) <= width(view) &&
-           types::top(rect) <= types::bottom(rect) && types::bottom(rect) <= height(view));
+    aeon_assert(types::contains(rect, rectangle(view)), "View rectangle does not fit within image.");
 
     const image_descriptor<T> descriptor{types::size(rect), stride_x(view), stride_y(view)};
     const auto data_offset =
