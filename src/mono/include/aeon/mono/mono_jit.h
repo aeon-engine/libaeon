@@ -98,7 +98,7 @@ template <typename return_t, typename... args_t, return_t (&func)(args_t...)>
 struct mono_jit_internal_call_wrapper<return_t(args_t...), func>
 {
     static typename convert_mono_type<return_t>::mono_type_name
-    wrapper(typename convert_mono_type<args_t>::mono_type_name... args)
+        wrapper(typename convert_mono_type<args_t>::mono_type_name... args)
     {
         auto &internal_call_assembly = mono_jit::get_auto_wrap_assembly();
         assert(internal_call_assembly.valid() &&
