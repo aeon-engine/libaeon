@@ -80,4 +80,82 @@ inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> b
     return !(lhs == rhs);
 }
 
+template <typename T>
+inline auto operator+(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
+{
+    return {lhs.width + rhs.width, lhs.height + rhs.height};
+}
+
+template <typename T>
+inline auto operator+=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator+(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    return {lhs.width + rhs, lhs.height + rhs};
+}
+
+template <typename T>
+inline auto operator+=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator-(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
+{
+    return {lhs.width - rhs.width, lhs.height - rhs.height};
+}
+
+template <typename T>
+inline auto operator-=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs - rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator-(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    return {lhs.width - rhs, lhs.height - rhs};
+}
+
+template <typename T>
+inline auto operator-=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs - rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator*(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
+{
+    return {lhs.width * rhs.width, lhs.height * rhs.height};
+}
+
+template <typename T>
+inline auto operator*=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    return {lhs.width * rhs, lhs.height * rhs};
+}
+
+template <typename T>
+inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
 } // namespace aeon::types

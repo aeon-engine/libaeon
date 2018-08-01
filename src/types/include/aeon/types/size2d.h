@@ -69,6 +69,42 @@ inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> b
 template <typename T>
 inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
+template <typename T>
+inline auto operator+(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator+=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator+(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator+=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator-(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator-=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator-(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator-=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator*(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator*=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
 } // namespace aeon::types
 
 #include <aeon/types/impl/size2d_impl.h>
