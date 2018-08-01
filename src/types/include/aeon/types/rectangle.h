@@ -127,6 +127,12 @@ inline auto translate(const rectangle<T> &rect, const math::vector2<T> &vec) noe
 }
 
 template <typename T>
+inline auto translate(const rectangle<T> &rect, const coordinate<T> &coord) noexcept -> rectangle<T>
+{
+    return translate(rect, coord.x, coord.y);
+}
+
+template <typename T>
 inline auto contains(const rectangle<T> &small, const rectangle<T> &large) noexcept -> bool
 {
     return (left(small) >= left(large) && top(small) >= top(large) && right(small) <= right(large) &&
