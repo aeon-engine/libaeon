@@ -28,6 +28,7 @@
 #include <aeon/types/size2d.h>
 #include <aeon/types/coordinate.h>
 #include <aeon/math/vector2.h>
+#include <aeon/math/math.h>
 #include <algorithm>
 
 namespace aeon::types
@@ -176,6 +177,18 @@ inline auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) n
         std::max(top(rect1), top(rect2)),
         std::min(right(rect1), right(rect2)),
         std::min(bottom(rect1), bottom(rect2))};
+    // clang-format on
+}
+
+template <typename T, typename... U>
+inline auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept -> rectangle<T>
+{
+    // clang-format off
+    return {
+        math::min(left(first), left(rectangles)...),
+        math::min(top(first), top(rectangles)...),
+        math::max(right(first), right(rectangles)...),
+        math::max(bottom(first), bottom(rectangles)...)};
     // clang-format on
 }
 

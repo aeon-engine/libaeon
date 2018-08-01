@@ -170,3 +170,14 @@ TEST(test_rectangle, test_rectangle_intersection)
 
     ASSERT_EQ(types::intersection(rect, rect2), expected);
 }
+
+TEST(test_rectangle, test_rectangle_bounding_box)
+{
+    const types::rectangle rect{5, 5, 20, 20};
+    const types::rectangle rect2{15, 15, 25, 30};
+    const types::rectangle rect3{4, 30, 10, 50};
+
+    const types::rectangle expected{4, 5, 25, 50};
+
+    ASSERT_EQ(types::bounding_box(rect, rect2, rect3), expected);
+}
