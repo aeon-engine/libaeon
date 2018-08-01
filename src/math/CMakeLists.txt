@@ -22,6 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_MATH_SOURCE
+    include/aeon/math/math_fwd.h
     include/aeon/math/mat3.h
     include/aeon/math/mat4.h
     include/aeon/math/math.h
