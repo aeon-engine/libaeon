@@ -161,3 +161,12 @@ TEST(test_rectangle, test_rectangle_overlaps)
     EXPECT_TRUE(types::overlaps(rect2, rect3));
     EXPECT_TRUE(types::overlaps(rect3, rect2));
 }
+
+TEST(test_rectangle, test_rectangle_intersection)
+{
+    const types::rectangle rect{10, 10, 20, 20};
+    const types::rectangle rect2{15, 15, 25, 25};
+    const types::rectangle expected{15, 15, 20, 20};
+
+    ASSERT_EQ(types::intersection(rect, rect2), expected);
+}

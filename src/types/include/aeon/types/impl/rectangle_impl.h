@@ -28,6 +28,7 @@
 #include <aeon/types/size2d.h>
 #include <aeon/types/coordinate.h>
 #include <aeon/math/vector2.h>
+#include <algorithm>
 
 namespace aeon::types
 {
@@ -164,6 +165,18 @@ inline auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexc
 {
     return left(rect1) < right(rect2) && left(rect2) < right(rect1) && top(rect1) < bottom(rect2) &&
            top(rect2) < bottom(rect1);
+}
+
+template <typename T>
+inline auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> rectangle<T>
+{
+    // clang-format off
+    return {
+        std::max(left(rect1), left(rect2)),
+        std::max(top(rect1), top(rect2)),
+        std::min(right(rect1), right(rect2)),
+        std::min(bottom(rect1), bottom(rect2))};
+    // clang-format on
 }
 
 template <typename T>
