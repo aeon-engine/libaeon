@@ -181,3 +181,15 @@ TEST(test_rectangle, test_rectangle_bounding_box)
 
     ASSERT_EQ(types::bounding_box(rect, rect2, rect3), expected);
 }
+
+TEST(test_rectangle, test_rectangle_center)
+{
+    const types::rectangle rect{0, 0, 20, 20};
+    const types::rectangle rect2{10, 10, 20, 20};
+
+    const types::coordinate expected{10, 10};
+    const types::coordinate expected2{15, 15};
+
+    ASSERT_EQ(types::center(rect), expected);
+    ASSERT_EQ(types::center(rect2), expected2);
+}

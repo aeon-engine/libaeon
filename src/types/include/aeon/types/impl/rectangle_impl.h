@@ -122,6 +122,12 @@ inline auto right_bottom(const rectangle<T> &rect) noexcept -> coordinate<T>
 }
 
 template <typename T>
+inline auto center(const rectangle<T> &rect) noexcept -> coordinate<T>
+{
+    return {(left(rect) + right(rect)) / T(2), (top(rect) + bottom(rect)) / T(2)};
+}
+
+template <typename T>
 inline auto empty(const rectangle<T> &rect) noexcept -> bool
 {
     return right(rect) == left(rect) || bottom(rect) == top(rect);
