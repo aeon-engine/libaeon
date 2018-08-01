@@ -29,6 +29,7 @@
 #include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/exceptions.h>
 #include <aeon/imaging/converters/convert_pixel.h>
+#include <aeon/common/assert.h>
 
 namespace aeon::imaging::convert
 {
@@ -42,7 +43,7 @@ auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
 template <typename T>
 inline auto to_rgb24(const image<T> &img) -> image<rgb24>
 {
-    assert(continuous(img));
+    aeon_assert(continuous(img), "to_rgb24 only works on continuous images.");
 
     const image_descriptor<rgb24> d{width(img), height(img)};
     image<rgb24> new_image(d);

@@ -26,6 +26,7 @@
 #include <aeon/imaging/file/jpg_file.h>
 #include <aeon/imaging/file/tjhandle_wrapper.h>
 #include <aeon/streams/file_stream.h>
+#include <aeon/common/assert.h>
 #include <turbojpeg.h>
 
 namespace aeon::imaging::file::jpg
@@ -94,7 +95,7 @@ void save(const dynamic_image &image, const subsample_mode subsample, int qualit
 
 void save(const dynamic_image &image, const subsample_mode subsample, int quality, streams::stream &stream)
 {
-    assert(encoding(image) == pixel_encoding::rgb24);
+    aeon_assert(encoding(image) == pixel_encoding::rgb24, "Encoding mismatch.");
     write_image(image, save, subsample, quality, stream);
 }
 
@@ -111,8 +112,8 @@ template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode s
 template <typename T>
 void save(const image_view<T> &image, const subsample_mode subsample, int quality, streams::stream &stream)
 {
-    assert(quality >= 1);
-    assert(quality <= 100);
+    aeon_assert(quality >= 1, "Quality must be >= 1.");
+    aeon_assert(quality <= 100, "Quality must be <= 100.");
 
     detail::tjhandle_compress_wrapper wrapper;
 

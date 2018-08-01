@@ -207,7 +207,8 @@ void save(const dynamic_image &image, const std::filesystem::path &path)
 
 void save(const dynamic_image &image, streams::stream &stream)
 {
-    assert(((encoding(image) == pixel_encoding::rgb24) || (encoding(image) == pixel_encoding::rgba32)));
+    aeon_assert((encoding(image) == pixel_encoding::rgb24) || (encoding(image) == pixel_encoding::rgba32),
+                "Encoding mismatch.");
     write_image(image, save, stream);
 }
 

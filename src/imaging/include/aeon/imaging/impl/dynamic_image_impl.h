@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include <cassert>
+#include <aeon/common/assert.h>
 #include <cstdint>
 
 namespace aeon::imaging
@@ -50,14 +50,14 @@ inline dynamic_image::~dynamic_image() = default;
 template <typename T>
 inline dynamic_image::operator image<T> &() noexcept
 {
-    assert(pixel_encoding_trait<T>::encoding() == encoding_);
+    aeon_assert(pixel_encoding_trait<T>::encoding() == encoding_, "Encoding mismatch.");
     return *static_cast<image<T> *>(image_.get());
 }
 
 template <typename T>
 inline dynamic_image::operator const image<T> &() const noexcept
 {
-    assert(pixel_encoding_trait<T>::encoding() == encoding_);
+    aeon_assert(pixel_encoding_trait<T>::encoding() == encoding_, "Encoding mismatch.");
     return *static_cast<const image<T> *>(image_.get());
 }
 
@@ -69,14 +69,14 @@ inline auto dynamic_image::encoding() const noexcept -> pixel_encoding
 template <typename T>
 inline auto dynamic_image::get_image() noexcept -> imaging::image<T> &
 {
-    assert(pixel_encoding_trait<T>::encoding() == encoding_);
+    aeon_assert(pixel_encoding_trait<T>::encoding() == encoding_, "Encoding mismatch.");
     return *static_cast<image<T> *>(image_.get());
 }
 
 template <typename T>
 inline auto dynamic_image::get_image() const noexcept -> const imaging::image<T> &
 {
-    assert(pixel_encoding_trait<T>::encoding() == encoding_);
+    aeon_assert(pixel_encoding_trait<T>::encoding() == encoding_, "Encoding mismatch.");
     return *static_cast<const image<T> *>(image_.get());
 }
 

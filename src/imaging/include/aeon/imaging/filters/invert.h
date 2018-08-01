@@ -61,7 +61,7 @@ inline auto invert_horizontally(const dynamic_image &img) -> dynamic_image
 template <typename T>
 inline auto invert_vertically(const image_view<T> &img) -> image<T>
 {
-    assert(continuous(img));
+    aeon_assert(continuous(img), "invert_vertically only works on continuous images.");
 
     image<T> new_image(descriptor(img));
 
