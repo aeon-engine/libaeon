@@ -25,33 +25,23 @@
 
 #pragma once
 
-#include <aeon/math/vector2.h>
-#include <aeon/types/size2d.h>
+#include <aeon/math/math_fwd.h>
 
 namespace aeon::types
 {
 
 template <typename T>
+class size2d;
+
+template <typename T>
 class coordinate
 {
 public:
-    coordinate() noexcept
-        : x{}
-        , y{}
-    {
-    }
+    coordinate() noexcept;
 
-    coordinate(const T x, const T y) noexcept
-        : x{x}
-        , y{y}
-    {
-    }
+    coordinate(const T x, const T y) noexcept;
 
-    explicit coordinate(const math::vector2<T> &vec) noexcept
-        : x{vec.x}
-        , y{vec.y}
-    {
-    }
+    explicit coordinate(const math::vector2<T> &vec) noexcept;
 
     ~coordinate() noexcept = default;
 
@@ -66,21 +56,14 @@ public:
 };
 
 template <typename T>
-inline auto operator==(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool
-{
-    return lhs.x == rhs.x && lhs.y == rhs.y;
-}
+inline auto operator==(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool
-{
-    return !(lhs == rhs);
-}
+inline auto operator!=(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto contains(const coordinate<T> coord, const size2d<T> size) noexcept -> bool
-{
-    return (coord.x < width(size) && coord.y < height(size));
-}
+inline auto contains(const coordinate<T> coord, const size2d<T> size) noexcept -> bool;
 
 } // namespace aeon::types
+
+#include <aeon/types/impl/coordinate_impl.h>

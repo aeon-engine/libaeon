@@ -32,7 +32,15 @@ set(LIB_AEON_TYPES_SOURCE
 
 source_group(types FILES ${LIB_AEON_TYPES_SOURCE})
 
-add_library(aeon_types STATIC ${LIB_AEON_TYPES_SOURCE})
+set(LIB_AEON_TYPES_IMPL_SOURCE
+    include/aeon/types/impl/coordinate_impl.h
+    include/aeon/types/impl/rectangle_impl.h
+    include/aeon/types/impl/size2d_impl.h
+)
+
+source_group(types\\impl FILES ${LIB_AEON_TYPES_IMPL_SOURCE})
+
+add_library(aeon_types STATIC ${LIB_AEON_TYPES_SOURCE} ${LIB_AEON_TYPES_IMPL_SOURCE})
 
 set_target_properties(aeon_types PROPERTIES
     FOLDER dep/libaeon

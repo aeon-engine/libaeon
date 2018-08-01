@@ -29,40 +29,47 @@ namespace aeon::types
 {
 
 template <typename T>
-class size2d
+inline size2d<T>::size2d() noexcept
+    : width{}
+    , height{}
 {
-public:
-    size2d() noexcept;
-
-    size2d(T width, T height) noexcept;
-
-    ~size2d() noexcept = default;
-
-    size2d(const size2d &) noexcept = default;
-    auto operator=(const size2d &) noexcept -> size2d & = default;
-
-    size2d(size2d &&) noexcept = default;
-    auto operator=(size2d &&) noexcept -> size2d & = default;
-
-    T width;
-    T height;
-};
+}
 
 template <typename T>
-inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+inline size2d<T>::size2d(T width, T height) noexcept
+    : width{width}
+    , height{height}
+{
+}
 
 template <typename T>
-inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
+{
+    return lhs.width == rhs.width && lhs.height == rhs.height;
+}
 
 template <typename T>
-inline auto width(const size2d<T> &size) noexcept -> T;
+inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
 
 template <typename T>
-inline auto height(const size2d<T> &size) noexcept -> T;
+inline auto width(const size2d<T> &size) noexcept -> T
+{
+    return size.width;
+}
 
 template <typename T>
-inline auto surface(const size2d<T> &size) noexcept -> T;
+inline auto height(const size2d<T> &size) noexcept -> T
+{
+    return size.height;
+}
+
+template <typename T>
+inline auto surface(const size2d<T> &size) noexcept -> T
+{
+    return width(size) * height(size);
+}
 
 } // namespace aeon::types
-
-#include <aeon/types/impl/size2d_impl.h>

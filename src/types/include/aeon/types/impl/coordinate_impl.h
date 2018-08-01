@@ -25,44 +25,49 @@
 
 #pragma once
 
+#include <aeon/math/vector2.h>
+#include <aeon/types/size2d.h>
+
 namespace aeon::types
 {
 
 template <typename T>
-class size2d
+inline coordinate<T>::coordinate() noexcept
+    : x{}
+    , y{}
 {
-public:
-    size2d() noexcept;
-
-    size2d(T width, T height) noexcept;
-
-    ~size2d() noexcept = default;
-
-    size2d(const size2d &) noexcept = default;
-    auto operator=(const size2d &) noexcept -> size2d & = default;
-
-    size2d(size2d &&) noexcept = default;
-    auto operator=(size2d &&) noexcept -> size2d & = default;
-
-    T width;
-    T height;
-};
+}
 
 template <typename T>
-inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+inline coordinate<T>::coordinate(const T x, const T y) noexcept
+    : x{x}
+    , y{y}
+{
+}
 
 template <typename T>
-inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+inline coordinate<T>::coordinate(const math::vector2<T> &vec) noexcept
+    : x{vec.x}
+    , y{vec.y}
+{
+}
 
 template <typename T>
-inline auto width(const size2d<T> &size) noexcept -> T;
+inline auto operator==(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool
+{
+    return lhs.x == rhs.x && lhs.y == rhs.y;
+}
 
 template <typename T>
-inline auto height(const size2d<T> &size) noexcept -> T;
+inline auto operator!=(const coordinate<T> &lhs, const coordinate<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
 
 template <typename T>
-inline auto surface(const size2d<T> &size) noexcept -> T;
+inline auto contains(const coordinate<T> coord, const size2d<T> size) noexcept -> bool
+{
+    return (coord.x < width(size) && coord.y < height(size));
+}
 
 } // namespace aeon::types
-
-#include <aeon/types/impl/size2d_impl.h>
