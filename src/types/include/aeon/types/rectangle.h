@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/types/size2d.h>
+#include <aeon/types/coordinate.h>
 #include <aeon/math/vector2.h>
 
 namespace aeon::types
@@ -123,6 +124,25 @@ template <typename T>
 inline auto translate(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>
 {
     return translate(rect, vec.x, vec.y);
+}
+
+template <typename T>
+inline auto contains(const rectangle<T> &small, const rectangle<T> &large) noexcept -> bool
+{
+    return (left(small) >= left(large) && top(small) >= top(large) && right(small) <= right(large) &&
+            bottom(small) <= bottom(large));
+}
+
+template <typename T>
+inline auto contains(const math::vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool
+{
+    return (vec.x >= left(rect) && vec.y >= top(rect) && vec.x <= right(rect) && vec.y <= bottom(rect));
+}
+
+template <typename T>
+inline auto contains(const coordinate<T> &coord, const rectangle<T> &rect) noexcept -> bool
+{
+    return (coord.x >= left(rect) && coord.y >= top(rect) && coord.x <= right(rect) && coord.y <= bottom(rect));
 }
 
 template <typename T>
