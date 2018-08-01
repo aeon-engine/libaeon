@@ -98,6 +98,9 @@ template <typename T>
 inline auto dimensions(const image<T> &image) noexcept;
 
 template <typename T>
+inline auto rectangle(const image<T> &image) noexcept;
+
+template <typename T>
 inline auto stride_x(const image<T> &image) noexcept;
 
 template <typename T>

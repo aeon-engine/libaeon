@@ -134,6 +134,12 @@ inline auto dimensions(const image_view<T> &view) noexcept
 }
 
 template <typename T>
+inline auto rectangle(const image_view<T> &view) noexcept
+{
+    return rectangle(descriptor(view));
+}
+
+template <typename T>
 inline auto stride_x(const image_view<T> &view) noexcept
 {
     return stride_x(descriptor(view));

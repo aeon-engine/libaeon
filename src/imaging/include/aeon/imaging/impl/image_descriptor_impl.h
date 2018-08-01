@@ -108,6 +108,12 @@ inline auto dimensions(const image_descriptor<T> &descriptor) noexcept
 }
 
 template <typename T>
+inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> types::rectangle<dimension>
+{
+    return {0, 0, width(descriptor), height(descriptor)};
+}
+
+template <typename T>
 inline auto stride_x(const image_descriptor<T> &descriptor) noexcept
 {
     return descriptor.stride_x();

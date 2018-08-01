@@ -28,6 +28,7 @@
 #include <aeon/imaging/dimension.h>
 #include <aeon/types/size2d.h>
 #include <aeon/types/coordinate.h>
+#include <aeon/types/rectangle.h>
 #include <aeon/common/signed_sizeof.h>
 
 namespace aeon::imaging
@@ -71,6 +72,9 @@ inline auto height(const image_descriptor<T> &descriptor) noexcept;
 
 template <typename T>
 inline auto dimensions(const image_descriptor<T> &descriptor) noexcept;
+
+template <typename T>
+inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> types::rectangle<dimension>;
 
 template <typename T>
 inline auto stride_x(const image_descriptor<T> &descriptor) noexcept;
