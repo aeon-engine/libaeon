@@ -26,9 +26,9 @@
 #pragma once
 
 #include <aeon/math/vector2.h>
+#include <aeon/common/assert.h>
 #include <cmath>
 #include <limits>
-#include <cassert>
 
 namespace aeon::math
 {
@@ -119,14 +119,14 @@ inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> 
 template <typename T>
 inline auto vector3<T>::operator[](const std::size_t i) noexcept -> T &
 {
-    assert(i < 3);
+    aeon_assert(i < 3, "Out of bounds.");
     return value[i];
 }
 
 template <typename T>
 inline auto vector3<T>::operator[](const std::size_t i) const noexcept -> const T &
 {
-    assert(i < 3);
+    aeon_assert(i < 3, "Out of bounds.");
     return value[i];
 }
 

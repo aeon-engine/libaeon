@@ -28,8 +28,8 @@
 #include <aeon/math/vector3.h>
 #include <aeon/math/mat3.h>
 #include <aeon/math/quaternion.h>
+#include <aeon/common/assert.h>
 #include <cmath>
-#include <cassert>
 
 namespace aeon::math
 {
@@ -61,13 +61,13 @@ inline mat4::mat4(const quaternion &q) noexcept
 
 inline auto mat4::operator[](const std::size_t i) noexcept -> vector4<float> &
 {
-    assert(i < 4);
+    aeon_assert(i < 4, "Out of bounds.");
     return column[i];
 }
 
 inline auto mat4::operator[](const std::size_t i) const noexcept -> const vector4<float> &
 {
-    assert(i < 4);
+    aeon_assert(i < 4, "Out of bounds.");
     return column[i];
 }
 
