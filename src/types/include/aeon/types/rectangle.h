@@ -104,7 +104,7 @@ template <typename T>
 inline auto translate(const rectangle<T> &rect, const coordinate<T> &coord) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto contains(const rectangle<T> &small, const rectangle<T> &large) noexcept -> bool;
+inline auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
 
 template <typename T>
 inline auto contains(const math::vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;

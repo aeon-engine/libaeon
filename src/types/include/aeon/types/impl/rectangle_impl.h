@@ -141,10 +141,10 @@ inline auto translate(const rectangle<T> &rect, const coordinate<T> &coord) noex
 }
 
 template <typename T>
-inline auto contains(const rectangle<T> &small, const rectangle<T> &large) noexcept -> bool
+inline auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool
 {
-    return (left(small) >= left(large) && top(small) >= top(large) && right(small) <= right(large) &&
-            bottom(small) <= bottom(large));
+    return (left(inner) >= left(outer) && top(inner) >= top(outer) && right(inner) <= right(outer) &&
+            bottom(inner) <= bottom(outer));
 }
 
 template <typename T>
