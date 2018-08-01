@@ -86,7 +86,13 @@ inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding
 }
 
 template <typename T>
-inline auto view(const dynamic_image &image) noexcept -> image_view<T>
+inline auto view(dynamic_image &image) noexcept -> image_view<T> &
+{
+    return view(image.get_image<T>());
+}
+
+template <typename T>
+inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &
 {
     return view(image.get_image<T>());
 }
