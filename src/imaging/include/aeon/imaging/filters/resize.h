@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/imaging/image.h>
+#include <aeon/imaging/dynamic_image.h>
 
 namespace aeon::imaging::filters
 {
