@@ -240,6 +240,24 @@ inline auto scale(const rectangle<T> &rect, const T val) noexcept -> rectangle<T
 }
 
 template <typename T>
+inline auto scale(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
+{
+    return scale(rect, {x, y});
+}
+
+template <typename T>
+inline auto scale(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>
+{
+    return rect * vec;
+}
+
+template <typename T>
+inline auto scale(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>
+{
+    return rect * size;
+}
+
+template <typename T>
 inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool
 {
     return left(lhs) == left(rhs) && top(lhs) == top(rhs) && right(lhs) == right(rhs) && bottom(lhs) == bottom(rhs);
@@ -265,6 +283,32 @@ inline auto operator+=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 }
 
 template <typename T>
+inline auto operator+(const rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>
+{
+    return {left(lhs) - rhs.x, top(lhs) - rhs.y, right(lhs) + rhs.x, bottom(lhs) + rhs.y};
+}
+
+template <typename T>
+inline auto operator+=(rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator+(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>
+{
+    return {left(lhs) - rhs.x, top(lhs) - rhs.y, right(lhs) + rhs.x, bottom(lhs) + rhs.y};
+}
+
+template <typename T>
+inline auto operator+=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
+template <typename T>
 inline auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 {
     return {left(lhs) + rhs, top(lhs) + rhs, right(lhs) - rhs, bottom(lhs) - rhs};
@@ -278,6 +322,32 @@ inline auto operator-=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 }
 
 template <typename T>
+inline auto operator-(const rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>
+{
+    return {left(lhs) + rhs.x, top(lhs) + rhs.y, right(lhs) - rhs.x, bottom(lhs) - rhs.y};
+}
+
+template <typename T>
+inline auto operator-=(rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>
+{
+    lhs = lhs - rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator-(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>
+{
+    return {left(lhs) + rhs.x, top(lhs) + rhs.y, right(lhs) - rhs.x, bottom(lhs) - rhs.y};
+}
+
+template <typename T>
+inline auto operator-=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>
+{
+    lhs = lhs - rhs;
+    return lhs;
+}
+
+template <typename T>
 inline auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 {
     return {left(lhs) * -rhs, top(lhs) * -rhs, right(lhs) * rhs, bottom(lhs) * rhs};
@@ -285,6 +355,32 @@ inline auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectang
 
 template <typename T>
 inline auto operator*=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator*(const rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>
+{
+    return {left(lhs) * -rhs.width, top(lhs) * -rhs.height, right(lhs) * rhs.width, bottom(lhs) * rhs.height};
+}
+
+template <typename T>
+inline auto operator*=(rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T>
+inline auto operator*(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>
+{
+    return {left(lhs) * -rhs.x, top(lhs) * -rhs.y, right(lhs) * rhs.x, bottom(lhs) * rhs.y};
+}
+
+template <typename T>
+inline auto operator*=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>
 {
     lhs = lhs * rhs;
     return lhs;
