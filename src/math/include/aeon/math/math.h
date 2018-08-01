@@ -71,4 +71,20 @@ inline auto sigmoid(const T value) noexcept -> T
     return 1 / (1 + std::exp(-value));
 }
 
+template <typename T, typename... U>
+inline auto min(const T first, const U... values) noexcept -> T
+{
+    auto retval = &first;
+    ((retval = &std::min(*retval, values)), ...);
+    return *retval;
+}
+
+template <typename T, typename... U>
+inline auto max(const T first, const U... values) noexcept -> T
+{
+    auto retval = &first;
+    ((retval = &std::max(*retval, values)), ...);
+    return *retval;
+}
+
 } // namespace aeon::math
