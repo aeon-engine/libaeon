@@ -44,6 +44,8 @@ public:
 
     rectangle(const T left, const T top, const T right, const T bottom) noexcept;
 
+    rectangle(const coordinate<T> left_top, const coordinate<T> right_bottom) noexcept;
+
     ~rectangle() noexcept = default;
 
     rectangle(const rectangle<T> &) noexcept = default;

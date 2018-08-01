@@ -53,6 +53,15 @@ inline rectangle<T>::rectangle(const T left, const T top, const T right, const T
 }
 
 template <typename T>
+inline rectangle<T>::rectangle(const coordinate<T> left_top, const coordinate<T> right_bottom) noexcept
+    : left{left_top.x}
+    , top{left_top.y}
+    , right{right_bottom.x}
+    , bottom{right_bottom.y}
+{
+}
+
+template <typename T>
 inline auto left(const rectangle<T> &rect) noexcept -> T
 {
     return rect.left;
