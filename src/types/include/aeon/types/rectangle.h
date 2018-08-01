@@ -122,10 +122,28 @@ template <typename T, typename... U>
 inline auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept -> rectangle<T>;
 
 template <typename T>
+inline auto inflate(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto scale(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+
+template <typename T>
 inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
 template <typename T>
 inline auto operator!=(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
+
+template <typename T>
+inline auto operator+(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto operator+=(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto operator-=(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
 inline auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
