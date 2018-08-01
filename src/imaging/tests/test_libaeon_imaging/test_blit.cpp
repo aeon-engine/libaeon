@@ -53,3 +53,22 @@ TEST(test_imaging, test_blit)
 
     imaging::file::png::save(imaging::view(dst), "test_blit.png");
 }
+
+TEST(test_imaging, test_scale_blit)
+{
+    const auto dynamic_image = imaging::file::png::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.png");
+    ASSERT_EQ(imaging::encoding(dynamic_image), imaging::pixel_encoding::rgba32);
+
+    auto &image = dynamic_image.get_image<imaging::rgba32>();
+
+    const auto d = imaging::image_descriptor<imaging::rgba32>{256, 256};
+    auto dst = imaging::image{d};
+
+    auto view1 = imaging::make_view(imaging::view(image), {0, 0, 64, 64});
+    imaging::filters::scale_blit(view1, imaging::view(dst), {10, 10, 246, 246});
+
+    auto view2 = imaging::make_view(imaging::view(image), {140, 100, 210, 160});
+    imaging::filters::scale_blit(view2, imaging::view(dst), {16, 16, 32, 32});
+
+    imaging::file::png::save(imaging::view(dst), "test_scale_blit.png");
+}
