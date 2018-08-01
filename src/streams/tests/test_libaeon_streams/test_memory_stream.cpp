@@ -63,7 +63,7 @@ TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_default_acces
 TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_write)
 {
     std::uint8_t data[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L'};
-    std::size_t data_written = stream.write(data, sizeof(data));
+    const auto data_written = stream.write(data, sizeof(data));
 
     ASSERT_EQ(sizeof(data), data_written);
     ASSERT_EQ(fixture_data_written + sizeof(data), stream.tell());
@@ -77,7 +77,7 @@ TEST_F(test_fixture_memory_stream_default_data, test_memory_stream_write_read)
 
     ASSERT_TRUE(stream.seek(0, aeon::streams::stream::seek_direction::begin));
 
-    std::size_t data_read = stream.read(&readbackdata[0], readbackdata.size());
+    const auto data_read = stream.read(&readbackdata[0], readbackdata.size());
 
     ASSERT_EQ(fixture_data_written, data_read);
     ASSERT_EQ(5, stream.tell());

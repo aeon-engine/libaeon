@@ -50,13 +50,13 @@ multithreaded_sink_backend::~multithreaded_sink_backend()
 
 void multithreaded_sink_backend::add_sink(log_sink *sink)
 {
-    std::lock_guard<std::mutex> lock(sink_mutex_);
+    std::scoped_lock lock(sink_mutex_);
     sinks_.insert(sink);
 }
 
 void multithreaded_sink_backend::remove_all_sinks()
 {
-    std::lock_guard<std::mutex> lock(sink_mutex_);
+    std::scoped_lock lock(sink_mutex_);
     sinks_.clear();
 }
 
@@ -77,7 +77,7 @@ void multithreaded_sink_backend::handle_background_thread_()
     thread_ = std::thread([this]() {
         while (running_)
         {
-            std::unique_lock<std::mutex> lock(signal_mutex_);
+            std::unique_lock lock(signal_mutex_);
             cv_.wait(lock);
 
             if (!running_)
@@ -126,7 +126,7 @@ void multithreaded_sink_backend::handle_background_thread_()
 
 void multithreaded_sink_backend::log(const std::string &message, const std::string &module, const log_level level)
 {
-    std::lock_guard<std::mutex> lock(queue_mutex_);
+    std::scoped_lock lock(queue_mutex_);
     log_queue_.push_back({message, module, level});
     cv_.notify_one();
 }

@@ -51,7 +51,7 @@ midi_input_manager::~midi_input_manager() = default;
 
 void midi_input_manager::run_one()
 {
-    auto time_code = input_device_.get_message(receive_buffer_);
+    const auto time_code = input_device_.get_message(receive_buffer_);
 
     if (receive_buffer_.empty())
         return;
@@ -66,11 +66,11 @@ void midi_input_manager::run_one()
 
 void midi_input_manager::__parse_note_data(const std::vector<unsigned char> &data)
 {
-    auto message = data[0];
+    const auto message = data[0];
     if ((message & 0xF0) == messages::note_on)
     {
-        auto note_info = midi_note_parser(data);
-        notes_[note_info.channel].push_back(midi_note(note_info));
+        const auto note_info = midi_note_parser(data);
+        notes_[note_info.channel].emplace_back(note_info);
     }
     else if ((message & 0xF0) == messages::note_off)
     {

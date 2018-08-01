@@ -35,8 +35,8 @@ TEST(test_vector2, test_vector2_default_int)
 
 TEST(test_vector2, test_vector2_operators_add)
 {
-    const math::vector2<int> vec{5, 8};
-    math::vector2<int> vec2{5, 8};
+    const math::vector2 vec{5, 8};
+    math::vector2 vec2{5, 8};
 
     const auto result = vec + vec2;
     vec2 += vec;

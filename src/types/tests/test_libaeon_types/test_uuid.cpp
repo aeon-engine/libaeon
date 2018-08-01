@@ -116,7 +116,7 @@ TEST(test_uuid, test_read_from_stream)
     memstream.write(uuid.data.data(), uuid.size());
     memstream.seek(0, aeon::streams::stream::seek_direction::begin);
 
-    aeon::streams::stream_reader<aeon::streams::memory_stream> reader(memstream);
+    aeon::streams::stream_reader reader(memstream);
 
     aeon::types::uuid uuid2;
     reader >> uuid2;

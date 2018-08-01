@@ -40,18 +40,18 @@ inline mat4::mat4(const float m00, const float m01, const float m02, const float
                   const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
                   const float m30, const float m31, const float m32, const float m33) noexcept
 {
-    column[0] = vector4<float>{m00, m10, m20, m30};
-    column[1] = vector4<float>{m01, m11, m21, m31};
-    column[2] = vector4<float>{m02, m12, m22, m32};
-    column[3] = vector4<float>{m03, m13, m23, m33};
+    column[0] = vector4{m00, m10, m20, m30};
+    column[1] = vector4{m01, m11, m21, m31};
+    column[2] = vector4{m02, m12, m22, m32};
+    column[3] = vector4{m03, m13, m23, m33};
 }
 
 inline mat4::mat4(const mat3 &m) noexcept
 {
-    column[0] = vector4<float>{m[0]};
-    column[1] = vector4<float>{m[1]};
-    column[2] = vector4<float>{m[2]};
-    column[3] = vector4<float>{0.0f, 0.0f, 0.0f, 1.0f};
+    column[0] = vector4{m[0]};
+    column[1] = vector4{m[1]};
+    column[2] = vector4{m[2]};
+    column[3] = vector4{0.0f, 0.0f, 0.0f, 1.0f};
 }
 
 inline mat4::mat4(const quaternion &q) noexcept

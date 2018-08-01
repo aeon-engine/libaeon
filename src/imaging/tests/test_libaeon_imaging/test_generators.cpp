@@ -36,7 +36,7 @@ using namespace aeon;
 TEST(test_imaging, test_image_generator_perlin_noise)
 {
     const imaging::image_descriptor<float> d{128, 128};
-    imaging::image<float> image{d};
+    imaging::image image{d};
 
     imaging::generators::simplex_noise(image, 4.0f, 0.2f, 0.05f);
 
@@ -48,7 +48,7 @@ TEST(test_imaging, test_image_generator_perlin_noise)
 TEST(test_imaging, test_image_generator_scale_perlin_noise)
 {
     const imaging::image_descriptor<float> d{128, 128};
-    imaging::image<float> image{d};
+    imaging::image image{d};
 
     imaging::generators::simplex_noise(image, 4.0f, 0.2f, 0.05f);
     image = imaging::filters::resize_bilinear(view(image), {250, 500});

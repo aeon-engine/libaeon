@@ -74,8 +74,7 @@ void http_server_socket::respond(const std::string &content_type, streams::strea
 void http_server_socket::on_data(const std::uint8_t *data, const std::size_t size)
 {
     circular_buffer_.write(data, size);
-    streams::stream_reader<streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE>> reader(
-        circular_buffer_);
+    streams::stream_reader reader(circular_buffer_);
 
     while (!circular_buffer_.empty())
     {

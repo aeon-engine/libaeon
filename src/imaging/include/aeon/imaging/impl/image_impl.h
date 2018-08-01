@@ -79,7 +79,7 @@ inline auto image<T>::view() const noexcept -> const image_view<T> &
 template <typename T>
 inline auto image<T>::clone() const -> image<T>
 {
-    return image<T>{descriptor(view_), data_};
+    return image{descriptor(view_), data_};
 }
 
 template <typename T>

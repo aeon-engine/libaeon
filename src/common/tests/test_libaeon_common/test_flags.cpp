@@ -105,7 +105,7 @@ TEST(test_flags, test_flags_set_unset)
 
 TEST(test_flags, test_flags_operators)
 {
-    aeon::common::flags<test_flags> test = test_flags::flag_1 | test_flags::flag_4;
+    aeon::common::flags test = test_flags::flag_1 | test_flags::flag_4;
 
     test |= test_flags::flag_5;
     test ^= test_flags::flag_1;

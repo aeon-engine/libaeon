@@ -55,7 +55,7 @@ void configfile::load(streams::stream &stream)
     // This will likely break on files opened as binary.
     if (stream.is<streams::file_stream>())
     {
-        streams::stream_reader<streams::file_stream> reader(stream.as<streams::file_stream>());
+        streams::stream_reader reader(stream.as<streams::file_stream>());
         while (!stream.eof())
         {
             line = reader.read_line();
@@ -65,7 +65,7 @@ void configfile::load(streams::stream &stream)
     }
     else
     {
-        streams::stream_reader<streams::stream> reader(stream);
+        streams::stream_reader reader(stream);
         while (!stream.eof())
         {
             line = reader.read_line();

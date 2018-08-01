@@ -62,17 +62,17 @@ TEST(test_rectangle, test_rectangle_default_float)
 
 TEST(test_rectangle, test_rectangle_width_height)
 {
-    const types::rectangle<int> rect{0, 0, 10, 20};
+    const types::rectangle rect{0, 0, 10, 20};
 
     EXPECT_EQ(types::width(rect), 10);
     EXPECT_EQ(types::height(rect), 20);
 
-    EXPECT_EQ(types::size(rect), types::size2d<int>(10, 20));
+    EXPECT_EQ(types::size(rect), types::size2d(10, 20));
 }
 
 TEST(test_rectangle, test_rectangle_translate_positive)
 {
-    const types::rectangle<int> rect{5, 10, 15, 20};
+    const types::rectangle rect{5, 10, 15, 20};
     const auto new_rect = types::translate(rect, 10, 20);
 
     EXPECT_EQ(types::left(new_rect), 15);
@@ -88,8 +88,8 @@ TEST(test_rectangle, test_rectangle_translate_positive)
 
 TEST(test_rectangle, test_rectangle_translate_positive_vector2)
 {
-    const types::rectangle<int> rect{5, 10, 15, 20};
-    const math::vector2<int> translation_vec{10, 20};
+    const types::rectangle rect{5, 10, 15, 20};
+    const math::vector2 translation_vec{10, 20};
 
     const auto new_rect = types::translate(rect, translation_vec);
 
@@ -106,9 +106,9 @@ TEST(test_rectangle, test_rectangle_translate_positive_vector2)
 
 TEST(test_rectangle, test_rectangle_contains)
 {
-    const types::rectangle<int> rect{5, 10, 15, 20};
-    const types::rectangle<int> rect2{10, 10, 15, 20};
-    const types::rectangle<int> rect3{10, 10, 15, 19};
+    const types::rectangle rect{5, 10, 15, 20};
+    const types::rectangle rect2{10, 10, 15, 20};
+    const types::rectangle rect3{10, 10, 15, 19};
 
     EXPECT_TRUE(types::contains(rect, rect));
     EXPECT_TRUE(types::contains(rect2, rect));
@@ -121,11 +121,11 @@ TEST(test_rectangle, test_rectangle_contains)
 
 TEST(test_rectangle, test_rectangle_contains_vector)
 {
-    const types::rectangle<int> rect{5, 10, 15, 20};
-    const math::vector2<int> vec{5, 10};
-    const math::vector2<int> vec2{15, 20};
-    const math::vector2<int> vec3{16, 20};
-    const math::vector2<int> vec4{4, 10};
+    const types::rectangle rect{5, 10, 15, 20};
+    const math::vector2 vec{5, 10};
+    const math::vector2 vec2{15, 20};
+    const math::vector2 vec3{16, 20};
+    const math::vector2 vec4{4, 10};
 
     EXPECT_TRUE(types::contains(vec, rect));
     EXPECT_TRUE(types::contains(vec2, rect));
@@ -135,11 +135,11 @@ TEST(test_rectangle, test_rectangle_contains_vector)
 
 TEST(test_rectangle, test_rectangle_contains_coordinate)
 {
-    const types::rectangle<int> rect{5, 10, 15, 20};
-    const types::coordinate<int> coord{5, 10};
-    const types::coordinate<int> coord2{15, 20};
-    const types::coordinate<int> coord3{16, 20};
-    const types::coordinate<int> coord4{4, 10};
+    const types::rectangle rect{5, 10, 15, 20};
+    const types::coordinate coord{5, 10};
+    const types::coordinate coord2{15, 20};
+    const types::coordinate coord3{16, 20};
+    const types::coordinate coord4{4, 10};
 
     EXPECT_TRUE(types::contains(coord, rect));
     EXPECT_TRUE(types::contains(coord2, rect));

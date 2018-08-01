@@ -67,7 +67,7 @@ public:
     {
         std::function<void()> func;
         {
-            std::unique_lock<std::mutex> lock(mutex_);
+            std::unique_lock lock(mutex_);
             signal_cv_.wait(lock, [this]() { return !queue_.empty() || !running_; });
 
             if (!queue_.empty())
@@ -99,7 +99,7 @@ public:
 
     void post(const std::function<void()> &job)
     {
-        std::unique_lock<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         queue_.push(job);
         signal_cv_.notify_one();
     }
@@ -146,14 +146,14 @@ public:
 
     void stop()
     {
-        std::lock_guard<std::mutex> guard(mutex_);
+        std::scoped_lock guard(mutex_);
         running_ = false;
         signal_cv_.notify_all();
     }
 
     void reset()
     {
-        std::lock_guard<std::mutex> guard(mutex_);
+        std::scoped_lock guard(mutex_);
         queue_ = std::queue<std::function<void()>>();
     }
 

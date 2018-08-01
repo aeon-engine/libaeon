@@ -39,16 +39,16 @@ inline mat3::mat3() noexcept = default;
 inline mat3::mat3(const float m00, const float m01, const float m02, const float m10, const float m11, const float m12,
                   const float m20, const float m21, const float m22) noexcept
 {
-    column[0] = vector3<float>{m00, m10, m20};
-    column[1] = vector3<float>{m01, m11, m21};
-    column[2] = vector3<float>{m02, m12, m22};
+    column[0] = vector3{m00, m10, m20};
+    column[1] = vector3{m01, m11, m21};
+    column[2] = vector3{m02, m12, m22};
 }
 
 inline mat3::mat3(const mat4 &m) noexcept
 {
-    column[0] = vector3<float>{m[0][0], m[0][1], m[0][2]};
-    column[1] = vector3<float>{m[1][0], m[1][1], m[1][2]};
-    column[2] = vector3<float>{m[2][0], m[2][1], m[2][2]};
+    column[0] = vector3{m[0][0], m[0][1], m[0][2]};
+    column[1] = vector3{m[1][0], m[1][1], m[1][2]};
+    column[2] = vector3{m[2][0], m[2][1], m[2][2]};
 }
 
 inline mat3::mat3(const quaternion &q) noexcept
@@ -101,7 +101,7 @@ inline auto mat3::indentity() noexcept -> mat3
 
 inline auto mat3::scale(const float xy) noexcept -> mat3
 {
-    return scale(vector2<float>{xy});
+    return scale(vector2{xy});
 }
 
 inline auto mat3::scale(const float x, const float y) noexcept -> mat3
@@ -159,7 +159,7 @@ inline auto mat3::translate(const T x, const T y) noexcept -> mat3
 template <typename T>
 inline auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
 {
-    return translate(vector2<float>{vec});
+    return translate(vector2{vec});
 }
 
 inline auto mat3::rotate(const float angle) noexcept -> mat3

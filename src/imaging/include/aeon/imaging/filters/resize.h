@@ -33,7 +33,7 @@ namespace aeon::imaging::filters
 template <typename T>
 inline auto resize_bilinear(const image_view<T> &img, const types::size2d<dimension> size) -> image<T>
 {
-    image<T> new_image(image_descriptor<T>{size});
+    image new_image(image_descriptor<T>{size});
     const auto dst = view(new_image).data();
 
     const float x_ratio = static_cast<float>(width(img) - 1) / width(size);

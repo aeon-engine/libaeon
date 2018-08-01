@@ -79,7 +79,7 @@ void midi_output_device::__send_note_message(unsigned char message, unsigned cha
     assert(note <= 127);
     assert(velocity <= 127);
 
-    auto data = note_output_buffer_.data();
+    const auto data = note_output_buffer_.data();
     data[0] = message;
     data[1] = note;
     data[2] = velocity;

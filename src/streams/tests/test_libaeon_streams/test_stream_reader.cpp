@@ -57,13 +57,13 @@ struct test_fixture_stream_reader_default_data : public ::testing::Test
 
 TEST_F(test_fixture_stream_reader_default_data, test_stream_reader_read_line)
 {
-    aeon::streams::stream_reader<aeon::streams::memory_stream> reader(stream);
+    aeon::streams::stream_reader reader(stream);
     ASSERT_EQ("ABCDE", reader.read_line());
     ASSERT_EQ("1234", reader.read_line());
 }
 
 TEST_F(test_fixture_stream_reader_default_data, test_stream_reader_read_as_string)
 {
-    aeon::streams::stream_reader<aeon::streams::memory_stream> reader(stream);
+    aeon::streams::stream_reader reader(stream);
     ASSERT_EQ("ABCDE\r\n1234", reader.read_as_string());
 }

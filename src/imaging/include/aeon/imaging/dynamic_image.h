@@ -79,25 +79,25 @@ inline auto view(const dynamic_image &image) noexcept -> image_view<T>;
         switch (encoding(img))                                                                                         \
         {                                                                                                              \
             case pixel_encoding::unsigned8:                                                                            \
-                func<std::uint8_t>(view<std::uint8_t>(img), ##__VA_ARGS__);                                            \
+                func(view<std::uint8_t>(img), ##__VA_ARGS__);                                                          \
                 return;                                                                                                \
             case pixel_encoding::unsigned16:                                                                           \
-                func<std::uint16_t>(view<std::uint16_t>(img), ##__VA_ARGS__);                                          \
+                func(view<std::uint16_t>(img), ##__VA_ARGS__);                                                         \
                 return;                                                                                                \
             case pixel_encoding::unsigned32:                                                                           \
-                func<std::uint32_t>(view<std::uint32_t>(img), ##__VA_ARGS__);                                          \
+                func(view<std::uint32_t>(img), ##__VA_ARGS__);                                                         \
                 return;                                                                                                \
             case pixel_encoding::float32:                                                                              \
-                func<float>(view<float>(img), ##__VA_ARGS__);                                                          \
+                func(view<float>(img), ##__VA_ARGS__);                                                                 \
                 return;                                                                                                \
             case pixel_encoding::rgb24:                                                                                \
-                func<rgb24>(view<rgb24>(img), ##__VA_ARGS__);                                                          \
+                func(view<rgb24>(img), ##__VA_ARGS__);                                                                 \
                 return;                                                                                                \
             case pixel_encoding::rgba32:                                                                               \
-                func<rgba32>(view<rgba32>(img), ##__VA_ARGS__);                                                        \
+                func(view<rgba32>(img), ##__VA_ARGS__);                                                                \
                 return;                                                                                                \
             case pixel_encoding::bgr24:                                                                                \
-                func<bgr24>(view<bgr24>(img), ##__VA_ARGS__);                                                          \
+                func(view<bgr24>(img), ##__VA_ARGS__);                                                                 \
                 return;                                                                                                \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
@@ -109,19 +109,19 @@ inline auto view(const dynamic_image &image) noexcept -> image_view<T>;
         switch (encoding(img))                                                                                         \
         {                                                                                                              \
             case pixel_encoding::unsigned8:                                                                            \
-                return dynamic_image{func<std::uint8_t>(view<std::uint8_t>(img), ##__VA_ARGS__)};                      \
+                return dynamic_image{func(view<std::uint8_t>(img), ##__VA_ARGS__)};                                    \
             case pixel_encoding::unsigned16:                                                                           \
-                return dynamic_image{func<std::uint16_t>(view<std::uint16_t>(img), ##__VA_ARGS__)};                    \
+                return dynamic_image{func(view<std::uint16_t>(img), ##__VA_ARGS__)};                                   \
             case pixel_encoding::unsigned32:                                                                           \
-                return dynamic_image{func<std::uint32_t>(view<std::uint32_t>(img), ##__VA_ARGS__)};                    \
+                return dynamic_image{func(view<std::uint32_t>(img), ##__VA_ARGS__)};                                   \
             case pixel_encoding::float32:                                                                              \
-                return dynamic_image{func<float>(view<float>(img), ##__VA_ARGS__)};                                    \
+                return dynamic_image{func(view<float>(img), ##__VA_ARGS__)};                                           \
             case pixel_encoding::rgb24:                                                                                \
-                return dynamic_image{func<rgb24>(view<rgb24>(img), ##__VA_ARGS__)};                                    \
+                return dynamic_image{func(view<rgb24>(img), ##__VA_ARGS__)};                                           \
             case pixel_encoding::rgba32:                                                                               \
-                return dynamic_image{func<rgba32>(view<rgba32>(img), ##__VA_ARGS__)};                                  \
+                return dynamic_image{func(view<rgba32>(img), ##__VA_ARGS__)};                                          \
             case pixel_encoding::bgr24:                                                                                \
-                return dynamic_image{func<bgr24>(view<bgr24>(img), ##__VA_ARGS__)};                                    \
+                return dynamic_image{func(view<bgr24>(img), ##__VA_ARGS__)};                                           \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \

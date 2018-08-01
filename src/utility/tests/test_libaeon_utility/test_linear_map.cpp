@@ -47,11 +47,11 @@ struct test_fixture_linear_map_default_data : public ::testing::Test
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_at)
 {
-    int at_one = linear_map_.at("One");
-    int at_two = linear_map_.at("Two");
-    int at_three = linear_map_.at("Three");
-    int at_four = linear_map_.at("Four");
-    int at_five = linear_map_.at("Five");
+    const auto at_one = linear_map_.at("One");
+    const auto at_two = linear_map_.at("Two");
+    const auto at_three = linear_map_.at("Three");
+    const auto at_four = linear_map_.at("Four");
+    const auto at_five = linear_map_.at("Five");
 
     ASSERT_EQ(1, at_one);
     ASSERT_EQ(2, at_two);
@@ -62,11 +62,11 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_at)
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_index_operator)
 {
-    int at_one = linear_map_["One"];
-    int at_two = linear_map_["Two"];
-    int at_three = linear_map_["Three"];
-    int at_four = linear_map_["Four"];
-    int at_five = linear_map_["Five"];
+    const auto at_one = linear_map_["One"];
+    const auto at_two = linear_map_["Two"];
+    const auto at_three = linear_map_["Three"];
+    const auto at_four = linear_map_["Four"];
+    const auto at_five = linear_map_["Five"];
 
     ASSERT_EQ(1, at_one);
     ASSERT_EQ(2, at_two);
@@ -80,11 +80,11 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_index_operator_over
     linear_map_["Three"] = 42;
     linear_map_["Four"] = 32;
 
-    int at_one = linear_map_["One"];
-    int at_two = linear_map_["Two"];
-    int at_three = linear_map_["Three"];
-    int at_four = linear_map_["Four"];
-    int at_five = linear_map_["Five"];
+    const auto at_one = linear_map_["One"];
+    const auto at_two = linear_map_["Two"];
+    const auto at_three = linear_map_["Three"];
+    const auto at_four = linear_map_["Four"];
+    const auto at_five = linear_map_["Five"];
 
     ASSERT_EQ(1, at_one);
     ASSERT_EQ(2, at_two);
@@ -97,16 +97,16 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_index_operator_over
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_insert_ex_collision)
 {
-    auto result = linear_map_.insert_ex("Three", 15);
+    const auto result = linear_map_.insert_ex("Three", 15);
     ASSERT_TRUE(result == linear_map_.end());
 
-    int at_three = linear_map_["Three"];
+    const auto at_three = linear_map_["Three"];
     ASSERT_EQ(3, at_three);
 }
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_index_operator_default)
 {
-    int cant_find = linear_map_["Something! 123"];
+    const auto cant_find = linear_map_["Something! 123"];
 
     ASSERT_EQ(0, cant_find);
     ASSERT_EQ(6, linear_map_.size());
@@ -121,7 +121,7 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_empty_and_clear)
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_find)
 {
-    auto result = linear_map_.find("Three");
+    const auto result = linear_map_.find("Three");
 
     ASSERT_EQ("Three", result->first);
     ASSERT_EQ(3, result->second);
@@ -129,7 +129,7 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_find)
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_not_found)
 {
-    auto result = linear_map_.find("Something! 123");
+    const auto result = linear_map_.find("Something! 123");
 
     ASSERT_TRUE(result == linear_map_.end());
     ASSERT_EQ(5, linear_map_.size());
@@ -137,23 +137,23 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_not_found)
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_iterate)
 {
-    int loop_times = 0;
-    for (auto item : linear_map_)
+    auto loop_times = 0;
+    for (auto [key, value] : linear_map_)
     {
-        if (item.first == "One")
-            ASSERT_EQ(1, item.second);
+        if (key == "One")
+            ASSERT_EQ(1, value);
 
-        if (item.first == "Two")
-            ASSERT_EQ(2, item.second);
+        if (key == "Two")
+            ASSERT_EQ(2, value);
 
-        if (item.first == "Three")
-            ASSERT_EQ(3, item.second);
+        if (key == "Three")
+            ASSERT_EQ(3, value);
 
-        if (item.first == "Four")
-            ASSERT_EQ(4, item.second);
+        if (key == "Four")
+            ASSERT_EQ(4, value);
 
-        if (item.first == "Five")
-            ASSERT_EQ(5, item.second);
+        if (key == "Five")
+            ASSERT_EQ(5, value);
 
         ++loop_times;
     }
@@ -192,8 +192,6 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_erase_by_iterator)
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_erase_if)
 {
     ASSERT_EQ(5, linear_map_.size());
-    linear_map_.erase_if([](const aeon::utility::linear_map<std::string, int>::pair_type &pair) {
-        return (pair.first == "Two" || pair.first == "Four");
-    });
+    linear_map_.erase_if([](const auto &pair) { return (pair.first == "Two" || pair.first == "Four"); });
     ASSERT_EQ(3, linear_map_.size());
 }

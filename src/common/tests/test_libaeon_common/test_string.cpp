@@ -298,7 +298,7 @@ TEST(test_string, test_string_splitsv_double_space)
 TEST(test_string, test_string_split_one_token)
 {
     std::string str = "one";
-    std::vector<std::string> result = aeon::common::string::split(str, ' ');
+    const auto result = aeon::common::string::split(str, ' ');
     ASSERT_EQ(1, result.size());
     EXPECT_EQ("one", result[0]);
 }
@@ -306,7 +306,7 @@ TEST(test_string, test_string_split_one_token)
 TEST(test_string, test_string_splitsv_one_token)
 {
     std::string str = "one";
-    auto result = aeon::common::string::splitsv(str, ' ');
+    const auto result = aeon::common::string::splitsv(str, ' ');
     ASSERT_EQ(1, result.size());
     EXPECT_EQ("one", result[0]);
 }
@@ -369,7 +369,7 @@ TEST(test_string, test_utility_strip_bothsv)
 
 TEST(test_string, test_string_args_to_vector_empty)
 {
-    std::vector<std::string> result = aeon::common::string::args_to_vector(0, nullptr);
+    const auto result = aeon::common::string::args_to_vector(0, nullptr);
     EXPECT_TRUE(result.empty());
 }
 
