@@ -28,6 +28,7 @@
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/pixel_encoding.h>
 #include <aeon/imaging/exceptions.h>
+#include <aeon/common/assert.h>
 #include <memory>
 
 namespace aeon::imaging
@@ -125,6 +126,37 @@ inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
                 return dynamic_image{func(view<rgba32>(img), ##__VA_ARGS__)};                                          \
             case pixel_encoding::bgr24:                                                                                \
                 return dynamic_image{func(view<bgr24>(img), ##__VA_ARGS__)};                                           \
+            default:                                                                                                   \
+                throw imaging_exception();                                                                             \
+        }                                                                                                              \
+    }();
+
+#define process_image2(src, dst, func, ...)                                                                            \
+    [&]() {                                                                                                            \
+        aeon_assert(encoding(src) == encoding(dst), "Encoding mismatch between source and destination.");              \
+        switch (encoding(src))                                                                                         \
+        {                                                                                                              \
+            case pixel_encoding::unsigned8:                                                                            \
+                func(view<std::uint8_t>(src), view<std::uint8_t>(dst), ##__VA_ARGS__);                                 \
+                return;                                                                                                \
+            case pixel_encoding::unsigned16:                                                                           \
+                func(view<std::uint16_t>(src), view<std::uint16_t>(dst), ##__VA_ARGS__);                               \
+                return;                                                                                                \
+            case pixel_encoding::unsigned32:                                                                           \
+                func(view<std::uint32_t>(src), view<std::uint32_t>(dst), ##__VA_ARGS__);                               \
+                return;                                                                                                \
+            case pixel_encoding::float32:                                                                              \
+                func(view<float>(src), view<float>(dst), ##__VA_ARGS__);                                               \
+                return;                                                                                                \
+            case pixel_encoding::rgb24:                                                                                \
+                func(view<rgb24>(src), view<rgb24>(dst), ##__VA_ARGS__);                                               \
+                return;                                                                                                \
+            case pixel_encoding::rgba32:                                                                               \
+                func(view<rgba32>(src), view<rgba32>(dst), ##__VA_ARGS__);                                             \
+                return;                                                                                                \
+            case pixel_encoding::bgr24:                                                                                \
+                func(view<bgr24>(src), view<bgr24>(dst), ##__VA_ARGS__);                                               \
+                return;                                                                                                \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \

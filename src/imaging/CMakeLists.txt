@@ -77,6 +77,7 @@ set(LIB_AEON_IMAGING_CONVERTERS_SOURCE
 source_group(imaging\\converters FILES ${LIB_AEON_IMAGING_CONVERTERS_SOURCE})
 
 set(LIB_AEON_IMAGING_FILTERS_SOURCE
+    include/aeon/imaging/filters/blit.h
     include/aeon/imaging/filters/invert.h
     include/aeon/imaging/filters/resize.h
 )
