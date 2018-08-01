@@ -77,6 +77,18 @@ template <typename T>
 inline auto height(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
+inline auto left_top(const rectangle<T> &rect) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto right_top(const rectangle<T> &rect) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto left_bottom(const rectangle<T> &rect) noexcept -> coordinate<T>;
+
+template <typename T>
+inline auto right_bottom(const rectangle<T> &rect) noexcept -> coordinate<T>;
+
+template <typename T>
 inline auto empty(const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
