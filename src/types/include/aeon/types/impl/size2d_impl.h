@@ -38,7 +38,7 @@ inline size2d<T>::size2d() noexcept
 }
 
 template <typename T>
-inline size2d<T>::size2d(T width, T height) noexcept
+inline size2d<T>::size2d(const T width, const T height) noexcept
     : width{width}
     , height{height}
 {

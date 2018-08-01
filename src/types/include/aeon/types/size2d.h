@@ -37,7 +37,7 @@ class size2d
 public:
     size2d() noexcept;
 
-    size2d(T width, T height) noexcept;
+    size2d(const T width, const T height) noexcept;
 
     ~size2d() noexcept = default;
 
