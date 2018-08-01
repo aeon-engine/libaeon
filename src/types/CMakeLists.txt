@@ -23,6 +23,7 @@
 
 set(LIB_AEON_TYPES_SOURCE
     include/aeon/types/coordinate.h
+    include/aeon/types/range.h
     include/aeon/types/rectangle.h
     include/aeon/types/size2d.h
     include/aeon/types/uuid.h
@@ -34,6 +35,7 @@ source_group(types FILES ${LIB_AEON_TYPES_SOURCE})
 
 set(LIB_AEON_TYPES_IMPL_SOURCE
     include/aeon/types/impl/coordinate_impl.h
+    include/aeon/types/impl/range_impl.h
     include/aeon/types/impl/rectangle_impl.h
     include/aeon/types/impl/size2d_impl.h
 )

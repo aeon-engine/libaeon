@@ -29,6 +29,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_coordinate.cpp
+        test_range.cpp
         test_rectangle.cpp
         test_size2d.cpp
         test_uuid.cpp
