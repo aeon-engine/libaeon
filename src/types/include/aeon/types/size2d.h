@@ -29,6 +29,9 @@ namespace aeon::types
 {
 
 template <typename T>
+class rectangle;
+
+template <typename T>
 class size2d
 {
 public:
@@ -49,12 +52,6 @@ public:
 };
 
 template <typename T>
-inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
-
-template <typename T>
-inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
-
-template <typename T>
 inline auto width(const size2d<T> &size) noexcept -> T;
 
 template <typename T>
@@ -62,6 +59,15 @@ inline auto height(const size2d<T> &size) noexcept -> T;
 
 template <typename T>
 inline auto surface(const size2d<T> &size) noexcept -> T;
+
+template <typename T>
+inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+
+template <typename T>
+inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::types
 

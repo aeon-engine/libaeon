@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/types/rectangle.h>
+
 namespace aeon::types
 {
 
@@ -43,18 +45,6 @@ inline size2d<T>::size2d(T width, T height) noexcept
 }
 
 template <typename T>
-inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
-{
-    return lhs.width == rhs.width && lhs.height == rhs.height;
-}
-
-template <typename T>
-inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
-{
-    return !(lhs == rhs);
-}
-
-template <typename T>
 inline auto width(const size2d<T> &size) noexcept -> T
 {
     return size.width;
@@ -70,6 +60,24 @@ template <typename T>
 inline auto surface(const size2d<T> &size) noexcept -> T
 {
     return width(size) * height(size);
+}
+
+template <typename T>
+inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>
+{
+    return {0, 0, width(size), height(size)};
+}
+
+template <typename T>
+inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
+{
+    return lhs.width == rhs.width && lhs.height == rhs.height;
+}
+
+template <typename T>
+inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
 }
 
 } // namespace aeon::types
