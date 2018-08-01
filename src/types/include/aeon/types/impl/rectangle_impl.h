@@ -158,6 +158,26 @@ inline auto translate(const rectangle<T> &rect, const coordinate<T> &coord) noex
 }
 
 template <typename T>
+inline auto set_position(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
+{
+    const auto w = width(rect);
+    const auto h = height(rect);
+    return {x, y, x + w, y + h};
+}
+
+template <typename T>
+inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>
+{
+    return set_position(rect, vec.x, vec.y);
+}
+
+template <typename T>
+inline auto set_position(const rectangle<T> &rect, const coordinate<T> &coord) noexcept -> rectangle<T>
+{
+    return set_position(rect, coord.x, coord.y);
+}
+
+template <typename T>
 inline auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool
 {
     return (left(inner) >= left(outer) && top(inner) >= top(outer) && right(inner) <= right(outer) &&

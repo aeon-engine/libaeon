@@ -193,3 +193,15 @@ TEST(test_rectangle, test_rectangle_center)
     ASSERT_EQ(types::center(rect), expected);
     ASSERT_EQ(types::center(rect2), expected2);
 }
+
+TEST(test_rectangle, test_rectangle_set_position)
+{
+    const types::rectangle rect{0, 0, 20, 20};
+    const types::rectangle rect2{10, 10, 20, 20};
+
+    const types::rectangle expected{10, 10, 30, 30};
+    const types::rectangle expected2{0, 0, 10, 10};
+
+    ASSERT_EQ(types::set_position(rect, 10, 10), expected);
+    ASSERT_EQ(types::set_position(rect2, 0, 0), expected2);
+}
