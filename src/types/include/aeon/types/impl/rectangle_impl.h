@@ -223,9 +223,10 @@ inline auto operator+(const rectangle<T> &lhs, const T &rhs) noexcept -> rectang
 }
 
 template <typename T>
-inline auto operator+=(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
+inline auto operator+=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 {
-    return lhs + rhs;
+    lhs = lhs + rhs;
+    return lhs;
 }
 
 template <typename T>
@@ -235,9 +236,10 @@ inline auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectang
 }
 
 template <typename T>
-inline auto operator-=(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
+inline auto operator-=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 {
-    return lhs - rhs;
+    lhs = lhs - rhs;
+    return lhs;
 }
 
 template <typename T>
@@ -247,9 +249,10 @@ inline auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectang
 }
 
 template <typename T>
-inline auto operator*=(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
+inline auto operator*=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>
 {
-    return lhs * rhs;
+    lhs = lhs * rhs;
+    return lhs;
 }
 
 } // namespace aeon::types
