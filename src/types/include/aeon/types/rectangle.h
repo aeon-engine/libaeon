@@ -139,6 +139,12 @@ template <typename T>
 inline auto scale(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
 
 template <typename T>
+inline auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
+
+template <typename T>
+inline auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noexcept -> T;
+
+template <typename T>
 inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
 template <typename T>
