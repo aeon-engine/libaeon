@@ -174,6 +174,15 @@ inline auto contains(const circle<T> &c, const math::vector2<T> &vec) noexcept -
 }
 
 template <typename T>
+inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool
+{
+    const auto closest = closest_point(rect, position(c));
+    const auto distance = position(c) - closest;
+    const auto distance_squared = math::squared_length(distance);
+    return distance_squared < radius_squared(c);
+}
+
+template <typename T>
 inline auto operator==(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool
 {
     return position(lhs) == position(rhs) && radius(lhs) == radius(rhs);

@@ -104,3 +104,10 @@ TEST(test_circle, test_circle_to_rectangle)
     c = types::set_position(c, 10, 10);
     EXPECT_EQ(types::rect(c), (types::rectangle<int>{5, 5, 15, 15}));
 }
+
+TEST(test_circle, test_circle_overlaps_with_rectangle)
+{
+    EXPECT_TRUE(types::overlaps(types::circle{5.0f}, types::rectangle{0.0f, 0.0f, 5.0f, 5.0f}));
+    EXPECT_TRUE(types::overlaps(types::circle{5.0f}, types::rectangle{4.99999f, -5.0f, 10.0f, 5.0f}));
+    EXPECT_FALSE(types::overlaps(types::circle{5.0f}, types::rectangle{6.0f, -5.0f, 10.0f, 5.0f}));
+}

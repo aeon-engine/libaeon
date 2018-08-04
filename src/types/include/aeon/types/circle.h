@@ -115,6 +115,9 @@ template <typename T>
 inline auto contains(const circle<T> &c, const math::vector2<T> &vec) noexcept -> bool;
 
 template <typename T>
+inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool;
+
+template <typename T>
 inline auto operator==(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool;
 
 template <typename T>
