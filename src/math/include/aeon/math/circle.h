@@ -67,6 +67,12 @@ template <typename T>
 inline auto empty(const circle<T> &c) noexcept -> bool;
 
 template <typename T>
+inline auto null(const circle<T> &c) noexcept -> bool;
+
+template <typename T>
+inline auto valid(const circle<T> &c) noexcept -> bool;
+
+template <typename T>
 inline auto size(const circle<T> &c) noexcept -> size2d<T>;
 
 template <typename T>

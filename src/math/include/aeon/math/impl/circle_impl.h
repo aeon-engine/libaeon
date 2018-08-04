@@ -62,7 +62,19 @@ inline auto center(const circle<T> &c) noexcept -> vector2<T>
 template <typename T>
 inline auto empty(const circle<T> &c) noexcept -> bool
 {
-    return c.radius == T(0);
+    return radius(c) == T(0);
+}
+
+template <typename T>
+inline auto null(const circle<T> &c) noexcept -> bool
+{
+    return empty(c);
+}
+
+template <typename T>
+inline auto valid(const circle<T> &c) noexcept -> bool
+{
+    return radius(c) >= T(0);
 }
 
 template <typename T>
@@ -81,7 +93,7 @@ inline auto radius(const circle<T> &c) noexcept -> T
 template <typename T>
 inline auto radius_squared(const circle<T> &c) noexcept -> T
 {
-    return c.radius * c.radius;
+    return radius(c) * radius(c);
 }
 
 template <typename T>
