@@ -156,6 +156,12 @@ inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool
 }
 
 template <typename T>
+inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool
+{
+    return left(rect) < right(rect) && top(rect) < bottom(rect);
+}
+
+template <typename T>
 inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>
 {
     return {width(rect), height(rect)};

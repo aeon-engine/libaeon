@@ -103,6 +103,9 @@ template <typename T>
 inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
+inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool;
+
+template <typename T>
 inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
 
 template <typename T>
