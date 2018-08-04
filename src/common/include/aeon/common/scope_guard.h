@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include <aeon/common/anonymous_variable.h>
+#include <aeon/common/preprocessor.h>
 #include <aeon/common/assert.h>
 #include <functional>
 

@@ -22,7 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_COMMON_SOURCE
-    include/aeon/common/anonymous_variable.h
     include/aeon/common/assert.h
     include/aeon/common/bitflags.h
     include/aeon/common/compilers.h
@@ -37,6 +36,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/literals.h
     include/aeon/common/optional.h
     include/aeon/common/platform.h
+    include/aeon/common/preprocessor.h
     include/aeon/common/scope_guard.h
     include/aeon/common/signed_sizeof.h
     include/aeon/common/singleton.h

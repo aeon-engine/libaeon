@@ -25,12 +25,19 @@
 
 #pragma once
 
-#ifndef aeon_anonymous_variable
+#ifndef aeon_concatenate
 #define __aeon_concatenate_impl(s1, s2) s1##s2
-#define __aeon_concatenate(s1, s2) __aeon_concatenate_impl(s1, s2)
-#ifdef __COUNTER__
-#define aeon_anonymous_variable(str) __aeon_concatenate(str, __COUNTER__)
-#else
-#define aeon_anonymous_variable(str) __aeon_concatenate(str, __LINE__)
+#define aeon_concatenate(s1, s2) __aeon_concatenate_impl(s1, s2)
 #endif
+
+#ifndef aeon_anonymous_variable
+#ifdef __COUNTER__
+#define aeon_anonymous_variable(str) aeon_concatenate(str, __COUNTER__)
+#else
+#define aeon_anonymous_variable(str) aeon_concatenate(str, __LINE__)
+#endif
+#endif
+
+#ifndef aeon_array_length
+#define aeon_array_length(a) (sizeof(a) / sizeof(a[0]))
 #endif
