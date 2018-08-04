@@ -43,6 +43,8 @@ class circle
 public:
     circle(const T radius) noexcept;
 
+    circle(const T x, const T y, const T radius) noexcept;
+
     circle(const vector2<T> position, const T radius) noexcept;
 
     ~circle() noexcept = default;

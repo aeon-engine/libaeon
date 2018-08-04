@@ -41,6 +41,12 @@ circle<T>::circle(const T radius) noexcept
 }
 
 template <typename T>
+circle<T>::circle(const T x, const T y, const T radius) noexcept
+    : circle{vector2<T>{x, y}, radius}
+{
+}
+
+template <typename T>
 circle<T>::circle(const vector2<T> position, const T radius) noexcept
     : position{position}
     , radius{radius}
