@@ -43,6 +43,6 @@ target_link_libraries(aeon_serial
 )
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )

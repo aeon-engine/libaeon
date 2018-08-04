@@ -51,7 +51,7 @@ target_include_directories(aeon_utility PUBLIC include)
 target_link_libraries(aeon_utility aeon_common aeon_streams)
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

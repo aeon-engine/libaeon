@@ -50,7 +50,7 @@ endif ()
 
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

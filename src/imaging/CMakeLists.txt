@@ -109,7 +109,7 @@ target_link_libraries(aeon_imaging
 )
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

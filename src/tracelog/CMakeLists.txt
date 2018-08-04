@@ -45,7 +45,7 @@ target_include_directories(aeon_tracelog
 target_link_libraries(aeon_tracelog aeon_common aeon_streams)
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

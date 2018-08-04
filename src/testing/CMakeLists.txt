@@ -39,6 +39,6 @@ target_include_directories(aeon_testing PUBLIC include)
 target_link_libraries(aeon_testing aeon_common aeon_filesystem)
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )

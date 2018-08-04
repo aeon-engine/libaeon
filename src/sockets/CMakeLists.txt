@@ -109,7 +109,7 @@ target_compile_definitions(aeon_sockets PUBLIC
 )
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

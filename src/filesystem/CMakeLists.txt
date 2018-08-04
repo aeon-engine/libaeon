@@ -39,7 +39,7 @@ target_include_directories(aeon_filesystem PUBLIC include)
 target_link_libraries(aeon_filesystem aeon_types aeon_common)
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

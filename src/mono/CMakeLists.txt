@@ -96,7 +96,7 @@ target_include_directories(aeon_mono
 target_link_libraries(aeon_mono aeon_common ${MONO_LIBRARIES})
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

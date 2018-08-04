@@ -52,7 +52,7 @@ target_include_directories(aeon_midi PUBLIC include)
 target_link_libraries(aeon_midi aeon_common aeon_utility aeon_streams rtmidi)
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 
