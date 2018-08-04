@@ -251,6 +251,12 @@ inline auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noe
 }
 
 template <typename T>
+inline auto area(const rectangle<T> &rect) noexcept -> T
+{
+    return width(rect) * height(rect);
+}
+
+template <typename T>
 inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool
 {
     return left(lhs) == left(rhs) && top(lhs) == top(rhs) && right(lhs) == right(rhs) && bottom(lhs) == bottom(rhs);
