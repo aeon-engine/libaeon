@@ -139,6 +139,8 @@ inline auto scale(const circle<T> &c, const T val) noexcept -> circle<T>
 template <typename T>
 inline auto rect(const circle<T> &c) noexcept -> rectangle<T>
 {
+    // Specific code for a circle, this is faster than generating a
+    // rectangle with set_position and anchor_point::center.
     const auto r = radius(c);
     const auto d = diameter(c);
     const auto pos = position(c);
