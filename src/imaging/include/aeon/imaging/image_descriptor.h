@@ -27,8 +27,8 @@
 
 #include <aeon/imaging/dimension.h>
 #include <aeon/types/size2d.h>
-#include <aeon/types/coordinate.h>
 #include <aeon/types/rectangle.h>
+#include <aeon/math/vector2.h>
 #include <aeon/common/signed_sizeof.h>
 
 namespace aeon::imaging
@@ -86,10 +86,10 @@ template <typename T>
 inline auto continuous(const image_descriptor<T> &descriptor) noexcept;
 
 template <typename T>
-inline auto contains(const image_descriptor<T> &descriptor, const types::coordinate<dimension> coord) noexcept;
+inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept;
 
 template <typename T>
-inline auto at_offset(const types::coordinate<dimension> coord, const image_descriptor<T> descriptor) noexcept
+inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> descriptor) noexcept
     -> std::ptrdiff_t;
 
 template <typename T>

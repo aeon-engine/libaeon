@@ -133,20 +133,6 @@ TEST(test_rectangle, test_rectangle_contains_vector)
     EXPECT_FALSE(types::contains(vec4, rect));
 }
 
-TEST(test_rectangle, test_rectangle_contains_coordinate)
-{
-    const types::rectangle rect{5, 10, 15, 20};
-    const types::coordinate coord{5, 10};
-    const types::coordinate coord2{15, 20};
-    const types::coordinate coord3{16, 20};
-    const types::coordinate coord4{4, 10};
-
-    EXPECT_TRUE(types::contains(coord, rect));
-    EXPECT_TRUE(types::contains(coord2, rect));
-    EXPECT_FALSE(types::contains(coord3, rect));
-    EXPECT_FALSE(types::contains(coord4, rect));
-}
-
 TEST(test_rectangle, test_rectangle_overlaps)
 {
     const types::rectangle rect{10, 10, 20, 20};
@@ -187,8 +173,8 @@ TEST(test_rectangle, test_rectangle_center)
     const types::rectangle rect{0, 0, 20, 20};
     const types::rectangle rect2{10, 10, 20, 20};
 
-    const types::coordinate expected{10, 10};
-    const types::coordinate expected2{15, 15};
+    const math::vector2 expected{10, 10};
+    const math::vector2 expected2{15, 15};
 
     ASSERT_EQ(types::center(rect), expected);
     ASSERT_EQ(types::center(rect2), expected2);

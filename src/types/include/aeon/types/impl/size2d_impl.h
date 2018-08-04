@@ -69,6 +69,12 @@ inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>
 }
 
 template <typename T>
+inline auto contains(const math::vector2<T> &vec, const size2d<T> size) noexcept -> bool
+{
+    return (vec.x < width(size) && vec.y < height(size));
+}
+
+template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
     return lhs.width == rhs.width && lhs.height == rhs.height;

@@ -31,9 +31,6 @@ namespace aeon::types
 {
 
 template <typename T>
-class coordinate;
-
-template <typename T>
 class size2d;
 
 template <typename T>
@@ -44,7 +41,7 @@ public:
 
     rectangle(const T left, const T top, const T right, const T bottom) noexcept;
 
-    rectangle(const coordinate<T> left_top, const coordinate<T> right_bottom) noexcept;
+    rectangle(const math::vector2<T> left_top, const math::vector2<T> right_bottom) noexcept;
 
     ~rectangle() noexcept = default;
 
@@ -79,19 +76,19 @@ template <typename T>
 inline auto height(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto left_top(const rectangle<T> &rect) noexcept -> coordinate<T>;
+inline auto left_top(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto right_top(const rectangle<T> &rect) noexcept -> coordinate<T>;
+inline auto right_top(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto left_bottom(const rectangle<T> &rect) noexcept -> coordinate<T>;
+inline auto left_bottom(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto right_bottom(const rectangle<T> &rect) noexcept -> coordinate<T>;
+inline auto right_bottom(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto center(const rectangle<T> &rect) noexcept -> coordinate<T>;
+inline auto center(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
 inline auto empty(const rectangle<T> &rect) noexcept -> bool;
@@ -106,25 +103,16 @@ template <typename T>
 inline auto translate(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto translate(const rectangle<T> &rect, const coordinate<T> &coord) noexcept -> rectangle<T>;
-
-template <typename T>
 inline auto set_position(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 template <typename T>
 inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto set_position(const rectangle<T> &rect, const coordinate<T> &coord) noexcept -> rectangle<T>;
-
-template <typename T>
 inline auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
 
 template <typename T>
 inline auto contains(const math::vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;
-
-template <typename T>
-inline auto contains(const coordinate<T> &coord, const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
 inline auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
@@ -163,12 +151,6 @@ template <typename T>
 inline auto operator+=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator+(const rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>;
-
-template <typename T>
-inline auto operator+=(rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>;
-
-template <typename T>
 inline auto operator+(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
@@ -179,12 +161,6 @@ inline auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectang
 
 template <typename T>
 inline auto operator-=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
-
-template <typename T>
-inline auto operator-(const rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>;
-
-template <typename T>
-inline auto operator-=(rectangle<T> &lhs, const coordinate<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
 inline auto operator-(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;

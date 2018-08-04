@@ -133,13 +133,13 @@ inline auto continuous(const image_descriptor<T> &descriptor) noexcept
 }
 
 template <typename T>
-inline auto contains(const image_descriptor<T> &descriptor, const types::coordinate<dimension> coord) noexcept
+inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept
 {
     return types::contains(coord, dimensions(descriptor));
 }
 
 template <typename T>
-inline auto at_offset(const types::coordinate<dimension> coord, const image_descriptor<T> descriptor) noexcept
+inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> descriptor) noexcept
     -> std::ptrdiff_t
 {
     return stride_y(descriptor) * coord.y + stride_x(descriptor) * coord.x;

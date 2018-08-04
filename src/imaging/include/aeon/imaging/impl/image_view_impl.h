@@ -82,14 +82,14 @@ inline auto image_view<T>::data() const noexcept -> const U *
 }
 
 template <typename T>
-inline auto image_view<T>::at(const types::coordinate<dimension> coord) noexcept -> T *
+inline auto image_view<T>::at(const math::vector2<dimension> coord) noexcept -> T *
 {
     aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
     return reinterpret_cast<T *>(data_ + at_offset(coord, descriptor_));
 }
 
 template <typename T>
-inline auto image_view<T>::at(const types::coordinate<dimension> coord) const noexcept -> const T *
+inline auto image_view<T>::at(const math::vector2<dimension> coord) const noexcept -> const T *
 {
     aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
     return reinterpret_cast<const T *>(data_ + at_offset(coord, descriptor_));
@@ -97,7 +97,7 @@ inline auto image_view<T>::at(const types::coordinate<dimension> coord) const no
 
 template <typename T>
 template <typename U>
-inline auto image_view<T>::at(const types::coordinate<dimension> coord) noexcept -> U *
+inline auto image_view<T>::at(const math::vector2<dimension> coord) noexcept -> U *
 {
     aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
     return reinterpret_cast<U *>(data_ + at_offset(coord, descriptor_));
@@ -105,7 +105,7 @@ inline auto image_view<T>::at(const types::coordinate<dimension> coord) noexcept
 
 template <typename T>
 template <typename U>
-inline auto image_view<T>::at(const types::coordinate<dimension> coord) const noexcept -> const U *
+inline auto image_view<T>::at(const math::vector2<dimension> coord) const noexcept -> const U *
 {
     aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
     return reinterpret_cast<const U *>(data_ + at_offset(coord, descriptor_));
@@ -160,7 +160,7 @@ inline auto continuous(const image_view<T> &view) noexcept
 }
 
 template <typename T>
-inline auto contains(const image_view<T> &view, const types::coordinate<dimension> coord) noexcept
+inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept
 {
     return contains(descriptor(view), coord);
 }

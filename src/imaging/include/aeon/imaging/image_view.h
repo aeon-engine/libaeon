@@ -26,7 +26,7 @@
 #pragma once
 
 #include <aeon/imaging/image_descriptor.h>
-#include <aeon/types/coordinate.h>
+#include <aeon/math/vector2.h>
 #include <cstdint>
 #include <cstddef>
 #include <cassert>
@@ -61,14 +61,14 @@ public:
     template <typename U>
     auto data() const noexcept -> const U *;
 
-    auto at(const types::coordinate<dimension> coord) noexcept -> T *;
-    auto at(const types::coordinate<dimension> coord) const noexcept -> const T *;
+    auto at(const math::vector2<dimension> coord) noexcept -> T *;
+    auto at(const math::vector2<dimension> coord) const noexcept -> const T *;
 
     template <typename U>
-    auto at(const types::coordinate<dimension> coord) noexcept -> U *;
+    auto at(const math::vector2<dimension> coord) noexcept -> U *;
 
     template <typename U>
-    auto at(const types::coordinate<dimension> coord) const noexcept -> const U *;
+    auto at(const math::vector2<dimension> coord) const noexcept -> const U *;
 
 private:
     image_descriptor<T> descriptor_;
@@ -100,7 +100,7 @@ template <typename T>
 inline auto continuous(const image_view<T> &view) noexcept;
 
 template <typename T>
-inline auto contains(const image_view<T> &view, const types::coordinate<dimension> coord) noexcept;
+inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept;
 
 template <typename T>
 inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t;

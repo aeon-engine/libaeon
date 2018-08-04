@@ -28,14 +28,14 @@
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/filters/resize.h>
-#include <aeon/types/coordinate.h>
+#include <aeon/math/vector2.h>
 #include <aeon/common/assert.h>
 
 namespace aeon::imaging::filters
 {
 
 template <typename T>
-inline void blit(const image_view<T> &src, image_view<T> &dst, const types::coordinate<dimension> pos)
+inline void blit(const image_view<T> &src, image_view<T> &dst, const math::vector2<dimension> pos)
 {
     aeon_assert(types::contains(types::translate(rectangle(src), pos), rectangle(dst)),
                 "Source does not fit within destination.");
@@ -60,7 +60,7 @@ inline void blit(const image_view<T> &src, image_view<T> &dst, const types::coor
     }
 }
 
-inline void blit(const dynamic_image &src, dynamic_image &dst, const types::coordinate<dimension> pos)
+inline void blit(const dynamic_image &src, dynamic_image &dst, const math::vector2<dimension> pos)
 {
     process_image2(src, dst, blit, pos);
 }

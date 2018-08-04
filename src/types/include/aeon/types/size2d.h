@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <aeon/math/math_fwd.h>
+
 namespace aeon::types
 {
 
@@ -62,6 +64,9 @@ inline auto surface(const size2d<T> &size) noexcept -> T;
 
 template <typename T>
 inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto contains(const math::vector2<T> &vec, const size2d<T> size) noexcept -> bool;
 
 template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
