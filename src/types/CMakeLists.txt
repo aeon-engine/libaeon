@@ -22,6 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_TYPES_SOURCE
+    include/aeon/types/anchor_point.h
     include/aeon/types/range.h
     include/aeon/types/rectangle.h
     include/aeon/types/size2d.h

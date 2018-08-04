@@ -298,3 +298,27 @@ TEST(test_rectangle, test_rectangle_slice_horizontal_absolute)
     EXPECT_EQ(rect11, (types::rectangle{10, 10, 20, 17}));
     EXPECT_EQ(rect12, (types::rectangle{10, 17, 20, 20}));
 }
+
+TEST(test_rectangle, test_anchor_points)
+{
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::left_top}),
+              (types::rectangle{0, 0, 10, 10}));
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::left_center}),
+              (types::rectangle{0, -5, 10, 5}));
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::left_bottom}),
+              (types::rectangle{0, -10, 10, 0}));
+
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::right_top}),
+              (types::rectangle{-10, 0, 0, 10}));
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::right_center}),
+              (types::rectangle{-10, -5, 0, 5}));
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::right_bottom}),
+              (types::rectangle{-10, -10, 0, 0}));
+
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::top_center}),
+              (types::rectangle{-5, 0, 5, 10}));
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::bottom_center}),
+              (types::rectangle{-5, -10, 5, 0}));
+    EXPECT_EQ((types::rectangle{math::vector2{0, 0}, types::size2d{10, 10}, types::anchor_point::center}),
+              (types::rectangle{-5, -5, 5, 5}));
+}

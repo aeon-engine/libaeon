@@ -62,6 +62,28 @@ inline rectangle<T>::rectangle(const math::vector2<T> left_top, const math::vect
 }
 
 template <typename T>
+inline rectangle<T>::rectangle(const T left, const T top, const size2d<T> size) noexcept
+    : rectangle{math::vector2{left, top}, size}
+{
+}
+
+template <typename T>
+inline rectangle<T>::rectangle(const math::vector2<T> left_top, const size2d<T> size) noexcept
+    : left{left_top.x}
+    , top{left_top.y}
+    , right{left_top.x + width(size)}
+    , bottom{left_top.y + height(size)}
+{
+}
+
+template <typename T>
+inline rectangle<T>::rectangle(const math::vector2<T> position, const size2d<T> size,
+                               const anchor_point anchor) noexcept
+{
+    *this = set_position(rectangle{0, 0, size}, position, anchor);
+}
+
+template <typename T>
 inline auto left(const rectangle<T> &rect) noexcept -> T
 {
     return rect.left;
@@ -163,6 +185,64 @@ template <typename T>
 inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>
 {
     return set_position(rect, vec.x, vec.y);
+}
+
+template <typename T>
+inline auto set_position(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
+    -> rectangle<T>
+{
+    const auto w = width(rect);
+    const auto h = height(rect);
+
+    switch (anchor)
+    {
+        case anchor_point::left_top:
+            return {x, y, x + w, y + h};
+        case anchor_point::left_center:
+        {
+            const auto top = y - (h / T(2));
+            return {x, top, x + w, top + h};
+        }
+        case anchor_point::left_bottom:
+            return {x, y - h, x + w, y};
+        case anchor_point::right_top:
+            return {x - w, y, x, y + h};
+        case anchor_point::right_center:
+        {
+            const auto top = y - (h / T(2));
+            return {x - w, top, x, top + h};
+        }
+        case anchor_point::right_bottom:
+            return {x - w, y - h, x, y};
+        case anchor_point::top_center:
+        {
+            const auto left = x - (w / T(2));
+            return {left, y, left + w, y + h};
+        }
+        case anchor_point::bottom_center:
+        {
+            const auto left = x - (w / T(2));
+            return {left, y - h, left + w, y};
+        }
+        case anchor_point::center:
+        {
+            const auto left = x - (w / T(2));
+            const auto top = y - (h / T(2));
+            return {left, top, left + w, top + h};
+        }
+        default:
+        {
+            aeon_assert_fail("Unexpected anchor point.");
+            return {};
+        }
+    }
+}
+
+template <typename T>
+inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec, const anchor_point anchor) noexcept
+    -> rectangle<T>
+{
+    return set_position(rect, vec.x, vec.y, anchor);
 }
 
 template <typename T>

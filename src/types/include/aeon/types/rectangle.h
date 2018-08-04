@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <aeon/types/anchor_point.h>
 #include <aeon/math/math_fwd.h>
 #include <type_traits>
 #include <tuple>
@@ -44,6 +45,12 @@ public:
     rectangle(const T left, const T top, const T right, const T bottom) noexcept;
 
     rectangle(const math::vector2<T> left_top, const math::vector2<T> right_bottom) noexcept;
+
+    rectangle(const T left, const T top, const size2d<T> size) noexcept;
+
+    rectangle(const math::vector2<T> left_top, const size2d<T> size) noexcept;
+
+    rectangle(const math::vector2<T> position, const size2d<T> size, const anchor_point anchor) noexcept;
 
     ~rectangle() noexcept = default;
 
@@ -109,6 +116,14 @@ inline auto set_position(const rectangle<T> &rect, const T x, const T y) noexcep
 
 template <typename T>
 inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
+
+template <typename T>
+inline auto set_position(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
+    -> rectangle<T>;
+
+template <typename T>
+inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec, const anchor_point anchor) noexcept
+    -> rectangle<T>;
 
 template <typename T>
 inline auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
