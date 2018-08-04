@@ -79,6 +79,12 @@ inline auto radius(const circle<T> &c) noexcept -> T
 }
 
 template <typename T>
+inline auto radius_squared(const circle<T> &c) noexcept -> T
+{
+    return c.radius * c.radius;
+}
+
+template <typename T>
 inline auto diameter(const circle<T> &c) noexcept -> T
 {
     return radius(c) * T(2);

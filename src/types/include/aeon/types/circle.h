@@ -73,6 +73,9 @@ template <typename T>
 inline auto radius(const circle<T> &c) noexcept -> T;
 
 template <typename T>
+inline auto radius_squared(const circle<T> &c) noexcept -> T;
+
+template <typename T>
 inline auto diameter(const circle<T> &c) noexcept -> T;
 
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type * = nullptr>
