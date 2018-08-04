@@ -165,6 +165,9 @@ inline constexpr auto distance(const rectangle<T> &rect, const math::vector2<T> 
 template <typename T>
 inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
 
+template <typename T>
+inline constexpr auto closest_point(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> math::vector2<T>;
+
 template <typename T, typename U>
 inline constexpr auto
     slice_horizontal(const rectangle<T> &rect, const U ratio,

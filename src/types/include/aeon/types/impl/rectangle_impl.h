@@ -338,6 +338,12 @@ inline constexpr auto area(const rectangle<T> &rect) noexcept -> T
     return width(rect) * height(rect);
 }
 
+template <typename T>
+inline constexpr auto closest_point(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> math::vector2<T>
+{
+    return {std::clamp(vec.x, left(rect), right(rect)), std::clamp(vec.y, top(rect), bottom(rect))};
+}
+
 template <typename T, typename U>
 inline constexpr auto slice_horizontal(const rectangle<T> &rect, const U ratio,
                                        typename std::enable_if<std::is_floating_point_v<U>>::type *) noexcept
