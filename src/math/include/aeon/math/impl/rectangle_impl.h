@@ -350,6 +350,24 @@ inline constexpr auto closest_point(const rectangle<T> &rect, const vector2<T> &
     return {std::clamp(vec.x, left(rect), right(rect)), std::clamp(vec.y, top(rect), bottom(rect))};
 }
 
+template <typename T>
+inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle<T>
+{
+    auto l = left(rect);
+    auto r = right(rect);
+
+    if (width(rect) < T(0))
+        std::swap(l, r);
+
+    auto t = top(rect);
+    auto b = bottom(rect);
+
+    if (height(rect) < T(0))
+        std::swap(t, b);
+
+    return {l, t, r, b};
+}
+
 template <typename T, typename U>
 inline constexpr auto slice_horizontal(const rectangle<T> &rect, const U ratio,
                                        typename std::enable_if<std::is_floating_point_v<U>>::type *) noexcept

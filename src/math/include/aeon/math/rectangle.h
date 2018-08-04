@@ -171,6 +171,9 @@ inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
 template <typename T>
 inline constexpr auto closest_point(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> vector2<T>;
 
+template <typename T>
+inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle<T>;
+
 template <typename T, typename U>
 inline constexpr auto
     slice_horizontal(const rectangle<T> &rect, const U ratio,

@@ -322,3 +322,20 @@ TEST(test_rectangle, test_anchor_points)
     EXPECT_EQ((math::rectangle{math::vector2{0, 0}, math::size2d{10, 10}, math::anchor_point::center}),
               (math::rectangle{-5, -5, 5, 5}));
 }
+
+TEST(test_rectangle, test_normalized)
+{
+    const math::rectangle rect1{0, 10, 20, 30};
+    const math::rectangle rect2{20, 30, 0, 10};
+    const math::rectangle rect3{0, 30, 20, 10};
+    const math::rectangle rect4{20, 10, 0, 30};
+
+    EXPECT_EQ(math::normalized(rect1), rect1);
+    EXPECT_TRUE(math::valid(rect1));
+    EXPECT_EQ(math::normalized(rect2), rect1);
+    EXPECT_FALSE(math::valid(rect2));
+    EXPECT_EQ(math::normalized(rect3), rect1);
+    EXPECT_FALSE(math::valid(rect3));
+    EXPECT_EQ(math::normalized(rect4), rect1);
+    EXPECT_FALSE(math::valid(rect4));
+}
