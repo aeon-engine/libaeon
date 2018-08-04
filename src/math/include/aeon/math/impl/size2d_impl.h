@@ -63,6 +63,24 @@ inline auto area(const size2d<T> &size) noexcept -> T
 }
 
 template <typename T>
+inline auto empty(const size2d<T> &size) noexcept -> bool
+{
+    return width(size) == T(0) || height(size) == T(0);
+}
+
+template <typename T>
+inline auto null(const size2d<T> &size) noexcept -> bool
+{
+    return width(size) == T(0) && height(size) == T(0);
+}
+
+template <typename T>
+inline auto valid(const size2d<T> &size) noexcept -> bool
+{
+    return width(size) >= T(0) && height(size) >= T(0);
+}
+
+template <typename T>
 inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>
 {
     return {0, 0, width(size), height(size)};

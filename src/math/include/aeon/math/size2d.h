@@ -63,6 +63,15 @@ template <typename T>
 inline auto area(const size2d<T> &size) noexcept -> T;
 
 template <typename T>
+inline auto empty(const size2d<T> &size) noexcept -> bool;
+
+template <typename T>
+inline auto null(const size2d<T> &size) noexcept -> bool;
+
+template <typename T>
+inline auto valid(const size2d<T> &size) noexcept -> bool;
+
+template <typename T>
 inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
 
 template <typename T>
