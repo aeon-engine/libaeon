@@ -3,5 +3,5 @@
 rm -rf build
 mkdir build
 pushd build
-cmake ../
+cmake ../ -DCMAKE_INSTALL_PREFIX=$(pwd)/install
 popd
