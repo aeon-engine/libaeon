@@ -203,6 +203,21 @@ template <typename T>
 inline auto tan(const vector4<T> &vec) noexcept -> vector4<T>;
 
 template <typename T>
+inline auto asin(const vector4<T> &vec) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto acos(const vector4<T> &vec) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto atan(const vector4<T> &vec) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto atan2(const vector4<T> &vec) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto abs(const vector4<T> &vec) noexcept -> vector4<T>;
+
+template <typename T>
 inline auto distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
 
 template <typename T>

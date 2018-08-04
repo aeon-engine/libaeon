@@ -161,6 +161,36 @@ inline auto tan(const vector2<T> &vec) noexcept -> vector2<T>
 }
 
 template <typename T>
+inline auto asin(const vector2<T> &vec) noexcept -> vector2<T>
+{
+    return {std::asin(vec.x), std::asin(vec.y)};
+}
+
+template <typename T>
+inline auto acos(const vector2<T> &vec) noexcept -> vector2<T>
+{
+    return {std::acos(vec.x), std::acos(vec.y)};
+}
+
+template <typename T>
+inline auto atan(const vector2<T> &vec) noexcept -> vector2<T>
+{
+    return {std::atan(vec.x), std::atan(vec.y)};
+}
+
+template <typename T>
+inline auto atan2(const vector2<T> &vec) noexcept -> vector2<T>
+{
+    return {std::atan2(vec.x), std::atan2(vec.y)};
+}
+
+template <typename T>
+inline auto abs(const vector2<T> &vec) noexcept -> vector2<T>
+{
+    return {std::abs(vec.x), std::abs(vec.y)};
+}
+
+template <typename T>
 inline auto distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T
 {
     return length(lhs - rhs);

@@ -272,6 +272,36 @@ inline auto tan(const vector4<T> &vec) noexcept -> vector4<T>
 }
 
 template <typename T>
+inline auto asin(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::asin(vec.x), std::asin(vec.y), std::asin(vec.z), std::asin(vec.w)};
+}
+
+template <typename T>
+inline auto acos(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::acos(vec.x), std::acos(vec.y), std::acos(vec.z), std::acos(vec.w)};
+}
+
+template <typename T>
+inline auto atan(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::atan(vec.x), std::atan(vec.y), std::atan(vec.z), std::atan(vec.w)};
+}
+
+template <typename T>
+inline auto atan2(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::atan2(vec.x), std::atan2(vec.y), std::atan2(vec.z), std::atan2(vec.w)};
+}
+
+template <typename T>
+inline auto abs(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::abs(vec.x), std::abs(vec.y), std::abs(vec.z), std::abs(vec.w)};
+}
+
+template <typename T>
 inline auto distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T
 {
     return length(lhs - rhs);
