@@ -112,8 +112,7 @@ template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode s
 template <typename T>
 void save(const image_view<T> &image, const subsample_mode subsample, int quality, streams::stream &stream)
 {
-    aeon_assert(quality >= 1, "Quality must be >= 1.");
-    aeon_assert(quality <= 100, "Quality must be <= 100.");
+    aeon_assert_value_in_range(quality, 1, 100);
 
     detail::tjhandle_compress_wrapper wrapper;
 

@@ -186,14 +186,14 @@ inline auto vector4<T>::operator=(const vector3<T> &vec) noexcept -> vector4<T> 
 template <typename T>
 inline auto vector4<T>::operator[](const std::size_t i) noexcept -> T &
 {
-    aeon_assert(i < 4, "Out of bounds.");
+    aeon_assert_array_bounds(value, i);
     return value[i];
 }
 
 template <typename T>
 inline auto vector4<T>::operator[](const std::size_t i) const noexcept -> const T &
 {
-    aeon_assert(i < 4, "Out of bounds.");
+    aeon_assert_array_bounds(value, i);
     return value[i];
 }
 

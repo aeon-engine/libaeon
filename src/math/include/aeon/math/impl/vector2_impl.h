@@ -71,14 +71,14 @@ inline vector2<T>::vector2(const T xy[2]) noexcept
 template <typename T>
 inline auto vector2<T>::operator[](const std::size_t i) noexcept -> T &
 {
-    aeon_assert(i < 2, "Out of bounds.");
+    aeon_assert_array_bounds(value, i);
     return value[i];
 }
 
 template <typename T>
 inline auto vector2<T>::operator[](const std::size_t i) const noexcept -> const T &
 {
-    aeon_assert(i < 2, "Out of bounds.");
+    aeon_assert_array_bounds(value, i);
     return value[i];
 }
 
