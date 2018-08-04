@@ -152,6 +152,12 @@ template <typename T>
 inline auto operator>(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> bool;
 
 template <typename T>
+inline auto translate(const vector2<T> &lhs, const T x, const T y) noexcept -> vector2<T>;
+
+template <typename T>
+inline auto translate(const vector2<T> &lhs, const math::vector2<T> &rhs) noexcept -> vector2<T>;
+
+template <typename T>
 inline auto dot(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 template <typename T>

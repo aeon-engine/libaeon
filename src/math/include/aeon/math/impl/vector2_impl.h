@@ -96,6 +96,18 @@ inline void vector2<T>::set(const T new_x, const T new_y) noexcept
 }
 
 template <typename T>
+inline auto translate(const vector2<T> &lhs, const T x, const T y) noexcept -> vector2<T>
+{
+    return lhs + vector2{x, y};
+}
+
+template <typename T>
+inline auto translate(const vector2<T> &lhs, const math::vector2<T> &rhs) noexcept -> vector2<T>
+{
+    return lhs + rhs;
+}
+
+template <typename T>
 inline auto dot(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T
 {
     return (lhs.x * rhs.x) + (lhs.y * rhs.y);
