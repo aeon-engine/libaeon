@@ -26,6 +26,8 @@
 #pragma once
 
 #include <aeon/math/math_fwd.h>
+#include <type_traits>
+#include <tuple>
 
 namespace aeon::types
 {
@@ -146,6 +148,24 @@ inline auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noe
 
 template <typename T>
 inline auto area(const rectangle<T> &rect) noexcept -> T;
+
+template <typename T, typename U>
+inline auto slice_horizontal(const rectangle<T> &rect, const U ratio,
+                             typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>;
+
+template <typename T>
+inline auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>;
+
+template <typename T, typename U>
+inline auto slice_vertical(const rectangle<T> &rect, const U ratio,
+                           typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>;
+
+template <typename T>
+inline auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>;
 
 template <typename T>
 inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;

@@ -28,6 +28,7 @@
 #include <aeon/types/size2d.h>
 #include <aeon/math/vector2.h>
 #include <aeon/math/math.h>
+#include <aeon/common/assert.h>
 #include <algorithm>
 
 namespace aeon::types
@@ -254,6 +255,46 @@ template <typename T>
 inline auto area(const rectangle<T> &rect) noexcept -> T
 {
     return width(rect) * height(rect);
+}
+
+template <typename T, typename U>
+inline auto slice_horizontal(const rectangle<T> &rect, const U ratio,
+                             typename std::enable_if<std::is_floating_point_v<U>>::type *) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>
+{
+    aeon_assert_value_in_range(ratio, 0.0f, 1.0f);
+
+    const auto slice_point = static_cast<T>((static_cast<U>(height(rect)) * ratio) + top(rect));
+    return slice_horizontal_absolute(rect, slice_point);
+}
+
+template <typename T>
+inline auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>
+{
+    aeon_assert_value_in_range(value, top(rect), bottom(rect));
+
+    return {{left(rect), top(rect), right(rect), value}, {left(rect), value, right(rect), bottom(rect)}};
+}
+
+template <typename T, typename U>
+inline auto slice_vertical(const rectangle<T> &rect, const U ratio,
+                           typename std::enable_if<std::is_floating_point_v<U>>::type *) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>
+{
+    aeon_assert_value_in_range(ratio, 0.0f, 1.0f);
+
+    const auto slice_point = static_cast<T>((static_cast<U>(width(rect)) * ratio) + left(rect));
+    return slice_vertical_absolute(rect, slice_point);
+}
+
+template <typename T>
+inline auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
+    -> std::tuple<rectangle<T>, rectangle<T>>
+{
+    aeon_assert_value_in_range(value, left(rect), right(rect));
+
+    return {{left(rect), top(rect), value, bottom(rect)}, {value, top(rect), right(rect), bottom(rect)}};
 }
 
 template <typename T>

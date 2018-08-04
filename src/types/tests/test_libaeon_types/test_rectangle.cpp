@@ -152,9 +152,8 @@ TEST(test_rectangle, test_rectangle_intersection)
 {
     const types::rectangle rect{10, 10, 20, 20};
     const types::rectangle rect2{15, 15, 25, 25};
-    const types::rectangle expected{15, 15, 20, 20};
 
-    ASSERT_EQ(types::intersection(rect, rect2), expected);
+    ASSERT_EQ(types::intersection(rect, rect2), (types::rectangle{15, 15, 20, 20}));
 }
 
 TEST(test_rectangle, test_rectangle_bounding_box)
@@ -163,9 +162,7 @@ TEST(test_rectangle, test_rectangle_bounding_box)
     const types::rectangle rect2{15, 15, 25, 30};
     const types::rectangle rect3{4, 30, 10, 50};
 
-    const types::rectangle expected{4, 5, 25, 50};
-
-    ASSERT_EQ(types::bounding_box(rect, rect2, rect3), expected);
+    ASSERT_EQ(types::bounding_box(rect, rect2, rect3), (types::rectangle{4, 5, 25, 50}));
 }
 
 TEST(test_rectangle, test_rectangle_center)
@@ -173,11 +170,8 @@ TEST(test_rectangle, test_rectangle_center)
     const types::rectangle rect{0, 0, 20, 20};
     const types::rectangle rect2{10, 10, 20, 20};
 
-    const math::vector2 expected{10, 10};
-    const math::vector2 expected2{15, 15};
-
-    ASSERT_EQ(types::center(rect), expected);
-    ASSERT_EQ(types::center(rect2), expected2);
+    ASSERT_EQ(types::center(rect), (math::vector2{10, 10}));
+    ASSERT_EQ(types::center(rect2), (math::vector2{15, 15}));
 }
 
 TEST(test_rectangle, test_rectangle_set_position)
@@ -185,9 +179,122 @@ TEST(test_rectangle, test_rectangle_set_position)
     const types::rectangle rect{0, 0, 20, 20};
     const types::rectangle rect2{10, 10, 20, 20};
 
-    const types::rectangle expected{10, 10, 30, 30};
-    const types::rectangle expected2{0, 0, 10, 10};
+    ASSERT_EQ(types::set_position(rect, 10, 10), (types::rectangle{10, 10, 30, 30}));
+    ASSERT_EQ(types::set_position(rect2, 0, 0), (types::rectangle{0, 0, 10, 10}));
+}
 
-    ASSERT_EQ(types::set_position(rect, 10, 10), expected);
-    ASSERT_EQ(types::set_position(rect2, 0, 0), expected2);
+TEST(test_rectangle, test_rectangle_slice_vertical)
+{
+    const types::rectangle rect{10, 10, 20, 20};
+
+    const auto [rect1, rect2] = types::slice_vertical(rect, 0.5f);
+    EXPECT_EQ(rect1, (types::rectangle{10, 10, 15, 20}));
+    EXPECT_EQ(rect2, (types::rectangle{15, 10, 20, 20}));
+
+    const auto [rect3, rect4] = types::slice_vertical(rect, 0.5);
+    EXPECT_EQ(rect3, (types::rectangle{10, 10, 15, 20}));
+    EXPECT_EQ(rect4, (types::rectangle{15, 10, 20, 20}));
+
+    const auto [rect5, rect6] = types::slice_vertical(rect, 0.25f);
+    EXPECT_EQ(rect5, (types::rectangle{10, 10, 12, 20}));
+    EXPECT_EQ(rect6, (types::rectangle{12, 10, 20, 20}));
+
+    const auto [rect7, rect8] = types::slice_vertical(rect, 0.25);
+    EXPECT_EQ(rect7, (types::rectangle{10, 10, 12, 20}));
+    EXPECT_EQ(rect8, (types::rectangle{12, 10, 20, 20}));
+
+    const auto [rect9, rect10] = types::slice_vertical(rect, 0.75f);
+    EXPECT_EQ(rect9, (types::rectangle{10, 10, 17, 20}));
+    EXPECT_EQ(rect10, (types::rectangle{17, 10, 20, 20}));
+
+    const auto [rect11, rect12] = types::slice_vertical(rect, 0.75);
+    EXPECT_EQ(rect11, (types::rectangle{10, 10, 17, 20}));
+    EXPECT_EQ(rect12, (types::rectangle{17, 10, 20, 20}));
+}
+
+TEST(test_rectangle, test_rectangle_slice_vertical_absolute)
+{
+    const types::rectangle rect{10, 10, 20, 20};
+
+    const auto [rect1, rect2] = types::slice_vertical_absolute(rect, 15);
+    EXPECT_EQ(rect1, (types::rectangle{10, 10, 15, 20}));
+    EXPECT_EQ(rect2, (types::rectangle{15, 10, 20, 20}));
+
+    const auto [rect3, rect4] = types::slice_vertical_absolute(rect, 15);
+    EXPECT_EQ(rect3, (types::rectangle{10, 10, 15, 20}));
+    EXPECT_EQ(rect4, (types::rectangle{15, 10, 20, 20}));
+
+    const auto [rect5, rect6] = types::slice_vertical_absolute(rect, 12);
+    EXPECT_EQ(rect5, (types::rectangle{10, 10, 12, 20}));
+    EXPECT_EQ(rect6, (types::rectangle{12, 10, 20, 20}));
+
+    const auto [rect7, rect8] = types::slice_vertical_absolute(rect, 12);
+    EXPECT_EQ(rect7, (types::rectangle{10, 10, 12, 20}));
+    EXPECT_EQ(rect8, (types::rectangle{12, 10, 20, 20}));
+
+    const auto [rect9, rect10] = types::slice_vertical_absolute(rect, 17);
+    EXPECT_EQ(rect9, (types::rectangle{10, 10, 17, 20}));
+    EXPECT_EQ(rect10, (types::rectangle{17, 10, 20, 20}));
+
+    const auto [rect11, rect12] = types::slice_vertical_absolute(rect, 17);
+    EXPECT_EQ(rect11, (types::rectangle{10, 10, 17, 20}));
+    EXPECT_EQ(rect12, (types::rectangle{17, 10, 20, 20}));
+}
+
+TEST(test_rectangle, test_rectangle_slice_horizontal)
+{
+    const types::rectangle rect{10, 10, 20, 20};
+
+    const auto [rect1, rect2] = types::slice_horizontal(rect, 0.5f);
+    EXPECT_EQ(rect1, (types::rectangle{10, 10, 20, 15}));
+    EXPECT_EQ(rect2, (types::rectangle{10, 15, 20, 20}));
+
+    const auto [rect3, rect4] = types::slice_horizontal(rect, 0.5);
+    EXPECT_EQ(rect3, (types::rectangle{10, 10, 20, 15}));
+    EXPECT_EQ(rect4, (types::rectangle{10, 15, 20, 20}));
+
+    const auto [rect5, rect6] = types::slice_horizontal(rect, 0.25f);
+    EXPECT_EQ(rect5, (types::rectangle{10, 10, 20, 12}));
+    EXPECT_EQ(rect6, (types::rectangle{10, 12, 20, 20}));
+
+    const auto [rect7, rect8] = types::slice_horizontal(rect, 0.25);
+    EXPECT_EQ(rect7, (types::rectangle{10, 10, 20, 12}));
+    EXPECT_EQ(rect8, (types::rectangle{10, 12, 20, 20}));
+
+    const auto [rect9, rect10] = types::slice_horizontal(rect, 0.75f);
+    EXPECT_EQ(rect9, (types::rectangle{10, 10, 20, 17}));
+    EXPECT_EQ(rect10, (types::rectangle{10, 17, 20, 20}));
+
+    const auto [rect11, rect12] = types::slice_horizontal(rect, 0.75);
+    EXPECT_EQ(rect11, (types::rectangle{10, 10, 20, 17}));
+    EXPECT_EQ(rect12, (types::rectangle{10, 17, 20, 20}));
+}
+
+TEST(test_rectangle, test_rectangle_slice_horizontal_absolute)
+{
+    const types::rectangle rect{10, 10, 20, 20};
+
+    const auto [rect1, rect2] = types::slice_horizontal_absolute(rect, 15);
+    EXPECT_EQ(rect1, (types::rectangle{10, 10, 20, 15}));
+    EXPECT_EQ(rect2, (types::rectangle{10, 15, 20, 20}));
+
+    const auto [rect3, rect4] = types::slice_horizontal_absolute(rect, 15);
+    EXPECT_EQ(rect3, (types::rectangle{10, 10, 20, 15}));
+    EXPECT_EQ(rect4, (types::rectangle{10, 15, 20, 20}));
+
+    const auto [rect5, rect6] = types::slice_horizontal_absolute(rect, 12);
+    EXPECT_EQ(rect5, (types::rectangle{10, 10, 20, 12}));
+    EXPECT_EQ(rect6, (types::rectangle{10, 12, 20, 20}));
+
+    const auto [rect7, rect8] = types::slice_horizontal_absolute(rect, 12);
+    EXPECT_EQ(rect7, (types::rectangle{10, 10, 20, 12}));
+    EXPECT_EQ(rect8, (types::rectangle{10, 12, 20, 20}));
+
+    const auto [rect9, rect10] = types::slice_horizontal_absolute(rect, 17);
+    EXPECT_EQ(rect9, (types::rectangle{10, 10, 20, 17}));
+    EXPECT_EQ(rect10, (types::rectangle{10, 17, 20, 20}));
+
+    const auto [rect11, rect12] = types::slice_horizontal_absolute(rect, 17);
+    EXPECT_EQ(rect11, (types::rectangle{10, 10, 20, 17}));
+    EXPECT_EQ(rect12, (types::rectangle{10, 17, 20, 20}));
 }
