@@ -23,6 +23,7 @@
 
 set(LIB_AEON_TYPES_SOURCE
     include/aeon/types/anchor_point.h
+    include/aeon/types/circle.h
     include/aeon/types/range.h
     include/aeon/types/rectangle.h
     include/aeon/types/size2d.h
@@ -34,6 +35,7 @@ set(LIB_AEON_TYPES_SOURCE
 source_group(types FILES ${LIB_AEON_TYPES_SOURCE})
 
 set(LIB_AEON_TYPES_IMPL_SOURCE
+    include/aeon/types/impl/circle_impl.h
     include/aeon/types/impl/range_impl.h
     include/aeon/types/impl/rectangle_impl.h
     include/aeon/types/impl/size2d_impl.h
