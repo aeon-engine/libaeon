@@ -156,6 +156,12 @@ inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool
 }
 
 template <typename T>
+inline constexpr auto null(const rectangle<T> &rect) noexcept -> bool
+{
+    return right(rect) == left(rect) && bottom(rect) == top(rect);
+}
+
+template <typename T>
 inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool
 {
     return left(rect) < right(rect) && top(rect) < bottom(rect);
