@@ -48,10 +48,16 @@ if (UNIX AND NOT APPLE)
     )
 endif ()
 
-
 install(
     DIRECTORY include/aeon
     DESTINATION include
+)
+
+install(
+    TARGETS aeon_plugins
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
 )
 
 add_subdirectory(tests)

@@ -43,4 +43,11 @@ install(
     DESTINATION include
 )
 
+install(
+    TARGETS aeon_filesystem
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+
 add_subdirectory(tests)

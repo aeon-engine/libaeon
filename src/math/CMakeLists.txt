@@ -71,5 +71,12 @@ install(
     DESTINATION include
 )
 
+install(
+    TARGETS aeon_math
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+
 add_subdirectory(tests)
 add_subdirectory(benchmarks)

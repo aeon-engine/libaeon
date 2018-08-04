@@ -46,3 +46,10 @@ install(
     DIRECTORY include/aeon
     DESTINATION include
 )
+
+install(
+    TARGETS aeon_serial
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)

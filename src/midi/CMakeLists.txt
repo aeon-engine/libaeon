@@ -56,4 +56,11 @@ install(
     DESTINATION include
 )
 
+install(
+    TARGETS aeon_midi
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+
 add_subdirectory(tests)
