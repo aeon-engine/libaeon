@@ -60,7 +60,7 @@ template <typename T>
 inline auto height(const size2d<T> &size) noexcept -> T;
 
 template <typename T>
-inline auto surface(const size2d<T> &size) noexcept -> T;
+inline auto area(const size2d<T> &size) noexcept -> T;
 
 template <typename T>
 inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
