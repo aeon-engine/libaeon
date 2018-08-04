@@ -23,13 +23,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
+#pragma once
+
 #include <aeon/math/vector4.h>
-#include <aeon/math/vector4_stream.h>
+#include <ostream>
 
-using namespace aeon;
-
-TEST(test_vector4, test_vector4_default_int)
+namespace aeon::math
 {
-    math::vector4<int> vec;
+
+template <typename T>
+inline auto operator<<(std::ostream &os, const vector4<T> &v) -> std::ostream &
+{
+    return os << "vector4<" << typeid(T).name() << ">(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
 }
+
+} // namespace aeon::math

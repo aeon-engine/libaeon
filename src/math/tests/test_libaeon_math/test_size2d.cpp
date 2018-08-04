@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <aeon/math/size2d.h>
+#include <aeon/math/size2d_stream.h>
 
 using namespace aeon;
 

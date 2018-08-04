@@ -23,13 +23,20 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
-#include <aeon/math/vector4.h>
-#include <aeon/math/vector4_stream.h>
+#pragma once
 
-using namespace aeon;
+#include <aeon/math/circle.h>
+#include <ostream>
+#include <typeinfo>
 
-TEST(test_vector4, test_vector4_default_int)
+namespace aeon::math
 {
-    math::vector4<int> vec;
+
+template <typename T>
+inline auto operator<<(std::ostream &os, const circle<T> &c) -> std::ostream &
+{
+    const auto pos = position(c);
+    return os << "circle<" << typeid(T).name() << ">({" << pos.x << ", " << pos.y << "}, r=" << radius(c) << ")";
 }
+
+} // namespace aeon::math

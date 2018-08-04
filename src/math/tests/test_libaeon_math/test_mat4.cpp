@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <aeon/math/mat4.h>
+#include <aeon/math/mat4_stream.h>
 #include <aeon/math/math.h>
 
 using namespace aeon;
@@ -60,6 +61,12 @@ TEST(test_mat4, test_mat4_multiply_position_with_identity)
     const auto mat3 = math::mat4::indentity() * mat2;
     EXPECT_EQ(mat2, mat);
     EXPECT_EQ(mat3, mat);
+}
+
+TEST(test_mat4, test_mat4_equals)
+{
+    EXPECT_EQ(math::mat4::indentity(), math::mat4::indentity());
+    EXPECT_NE((math::mat4{}), math::mat4::indentity());
 }
 
 TEST(test_mat4, test_mat4_at)

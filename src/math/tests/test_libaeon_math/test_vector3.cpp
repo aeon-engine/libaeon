@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <aeon/math/vector3.h>
+#include <aeon/math/vector3_stream.h>
 
 using namespace aeon;
 

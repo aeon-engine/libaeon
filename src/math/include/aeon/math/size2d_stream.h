@@ -23,13 +23,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
-#include <aeon/math/vector4.h>
-#include <aeon/math/vector4_stream.h>
+#pragma once
 
-using namespace aeon;
+#include <aeon/math/size2d.h>
+#include <ostream>
 
-TEST(test_vector4, test_vector4_default_int)
+namespace aeon::math
 {
-    math::vector4<int> vec;
+
+template <typename T>
+inline auto operator<<(std::ostream &os, const size2d<T> &s) -> std::ostream &
+{
+    return os << "size2d<" << typeid(T).name() << ">(" << width(s) << ", " << height(s) << ")";
 }
+
+} // namespace aeon::math

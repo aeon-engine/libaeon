@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <aeon/math/rectangle.h>
+#include <aeon/math/rectangle_stream.h>
 
 using namespace aeon;
 

@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <aeon/math/mat3.h>
+#include <aeon/math/mat3_stream.h>
 
 using namespace aeon;
 
@@ -41,6 +42,12 @@ TEST(test_mat3, test_mat3_zero)
 TEST(test_mat3, test_mat3_identity)
 {
     const auto mat = math::mat3::indentity();
+}
+
+TEST(test_mat3, test_mat3_equals)
+{
+    EXPECT_EQ(math::mat3::indentity(), math::mat3::indentity());
+    EXPECT_NE((math::mat3{}), math::mat3::indentity());
 }
 
 TEST(test_mat3, test_mat3_multiply_identity)

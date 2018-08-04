@@ -23,13 +23,17 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
-#include <aeon/math/vector4.h>
-#include <aeon/math/vector4_stream.h>
+#pragma once
 
-using namespace aeon;
+#include <aeon/math/quaternion.h>
+#include <ostream>
 
-TEST(test_vector4, test_vector4_default_int)
+namespace aeon::math
 {
-    math::vector4<int> vec;
+
+inline auto operator<<(std::ostream &os, const quaternion &q) -> std::ostream &
+{
+    return os << "quaternion(" << q.w << ", " << q.x << ", " << q.y << ", " << q.z << ")";
 }
+
+} // namespace aeon::math

@@ -24,7 +24,8 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/math/mat4.h>
+#include <aeon/math/mat3.h>
+#include <aeon/math/mat3_stream.h>
 #include <aeon/math/math.h>
 
 using namespace aeon;

@@ -24,21 +24,31 @@
 set(LIB_AEON_MATH_SOURCE
     include/aeon/math/anchor_point.h
     include/aeon/math/circle.h
+    include/aeon/math/circle_stream.h
     include/aeon/math/mat3.h
+    include/aeon/math/mat3_stream.h
     include/aeon/math/mat4.h
+    include/aeon/math/mat4_stream.h
     include/aeon/math/math.h
     include/aeon/math/math_fwd.h
     include/aeon/math/perlin_noise.h
     src/perlin_noise.cpp
     include/aeon/math/quaternion.h
+    include/aeon/math/quaternion_stream.h
     include/aeon/math/range.h
+    include/aeon/math/range_stream.h
     include/aeon/math/rectangle.h
+    include/aeon/math/rectangle_stream.h
     include/aeon/math/simplex_noise.h
     src/simplex_noise.cpp
     include/aeon/math/size2d.h
+    include/aeon/math/size2d_stream.h
     include/aeon/math/vector2.h
+    include/aeon/math/vector2_stream.h
     include/aeon/math/vector3.h
+    include/aeon/math/vector3_stream.h
     include/aeon/math/vector4.h
+    include/aeon/math/vector4_stream.h
 )
 
 source_group(math FILES ${LIB_AEON_MATH_SOURCE})
