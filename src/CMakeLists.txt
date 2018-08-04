@@ -46,7 +46,6 @@ add_subdirectory(plugins)
 add_subdirectory(streams)
 add_subdirectory(testing)
 add_subdirectory(tracelog)
-add_subdirectory(types)
 add_subdirectory(utility)
 
 if (AEON_ENABLE_MONO)

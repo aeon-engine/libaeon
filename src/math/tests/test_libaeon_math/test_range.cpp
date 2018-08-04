@@ -23,34 +23,45 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
+#include <aeon/math/range.h>
 
-namespace aeon::types
+using namespace aeon;
+
+TEST(test_range, test_range_default_int)
 {
+    math::range<int> range;
+    EXPECT_EQ(math::begin(range), 0);
+    EXPECT_EQ(math::end(range), 0);
+    EXPECT_EQ(math::size(range), 0);
+}
 
-/*!
- * Anchor points to indicate where the given position should be in relation to the object being moved.
- *
- *       left_top     top_center     right_top
- *              **********************
- *              *                    *
- *  left_center *       center       * right_center
- *              *                    *
- *              **********************
- *   left_bottom    bottom_center    right_bottom
- *
- */
-enum class anchor_point
+TEST(test_range, test_range_default_float)
 {
-    left_top,
-    left_center,
-    left_bottom,
-    right_top,
-    right_center,
-    right_bottom,
-    top_center,
-    bottom_center,
-    center
-};
+    math::range<float> range;
+    EXPECT_EQ(math::begin(range), 0.0f);
+    EXPECT_EQ(math::end(range), 0.0f);
+    EXPECT_EQ(math::size(range), 0.0f);
+}
 
-} // namespace aeon::types
+TEST(test_range, test_range_int)
+{
+    math::range<int> range{10, 25};
+    EXPECT_EQ(math::begin(range), 10);
+    EXPECT_EQ(math::end(range), 25);
+    EXPECT_EQ(math::size(range), 15);
+}
+
+TEST(test_range, test_range_equals)
+{
+    math::range<int> range{10, 25};
+    math::range<int> range2{25, 10};
+    math::range<int> range3{10, 25};
+
+    EXPECT_FALSE(range == range2);
+    EXPECT_TRUE(range != range2);
+    EXPECT_FALSE(range2 == range3);
+    EXPECT_TRUE(range2 != range3);
+    EXPECT_TRUE(range == range3);
+    EXPECT_FALSE(range != range3);
+}

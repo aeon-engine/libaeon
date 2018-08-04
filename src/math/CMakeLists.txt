@@ -22,15 +22,20 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_MATH_SOURCE
-    include/aeon/math/math_fwd.h
+    include/aeon/math/anchor_point.h
+    include/aeon/math/circle.h
     include/aeon/math/mat3.h
     include/aeon/math/mat4.h
     include/aeon/math/math.h
+    include/aeon/math/math_fwd.h
     include/aeon/math/perlin_noise.h
     src/perlin_noise.cpp
     include/aeon/math/quaternion.h
+    include/aeon/math/range.h
+    include/aeon/math/rectangle.h
     include/aeon/math/simplex_noise.h
     src/simplex_noise.cpp
+    include/aeon/math/size2d.h
     include/aeon/math/vector2.h
     include/aeon/math/vector3.h
     include/aeon/math/vector4.h
@@ -39,12 +44,16 @@ set(LIB_AEON_MATH_SOURCE
 source_group(math FILES ${LIB_AEON_MATH_SOURCE})
 
 set(LIB_AEON_MATH_IMPL_SOURCE
+    include/aeon/math/impl/circle_impl.h
     include/aeon/math/impl/mat3_impl.h
     include/aeon/math/impl/mat3_operators_impl.h
     include/aeon/math/impl/mat4_impl.h
     include/aeon/math/impl/mat4_operators_impl.h
     include/aeon/math/impl/quaternion_impl.h
     include/aeon/math/impl/quaternion_operators_impl.h
+    include/aeon/math/impl/range_impl.h
+    include/aeon/math/impl/rectangle_impl.h
+    include/aeon/math/impl/size2d_impl.h
     include/aeon/math/impl/vector2_impl.h
     include/aeon/math/impl/vector2_operators_impl.h
     include/aeon/math/impl/vector3_impl.h

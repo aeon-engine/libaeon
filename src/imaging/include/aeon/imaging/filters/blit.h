@@ -37,7 +37,7 @@ namespace aeon::imaging::filters
 template <typename T>
 inline void blit(const image_view<T> &src, image_view<T> &dst, const math::vector2<dimension> pos)
 {
-    aeon_assert(types::contains(types::translate(rectangle(src), pos), rectangle(dst)),
+    aeon_assert(math::contains(math::translate(rectangle(src), pos), rectangle(dst)),
                 "Source does not fit within destination.");
 
     const auto w = width(src);
@@ -66,15 +66,15 @@ inline void blit(const dynamic_image &src, dynamic_image &dst, const math::vecto
 }
 
 template <typename T>
-inline void scale_blit(const image_view<T> &src, image_view<T> &dst, const types::rectangle<dimension> rect)
+inline void scale_blit(const image_view<T> &src, image_view<T> &dst, const math::rectangle<dimension> rect)
 {
-    aeon_assert(types::contains(rect, rectangle(dst)), "Source does not fit within destination.");
+    aeon_assert(math::contains(rect, rectangle(dst)), "Source does not fit within destination.");
 
-    const auto new_src = resize_bilinear(src, types::size(rect));
-    blit<T>(new_src, dst, types::left_top(rect));
+    const auto new_src = resize_bilinear(src, math::size(rect));
+    blit<T>(new_src, dst, math::left_top(rect));
 }
 
-inline void scale_blit(const dynamic_image &src, dynamic_image &dst, const types::rectangle<dimension> rect)
+inline void scale_blit(const dynamic_image &src, dynamic_image &dst, const math::rectangle<dimension> rect)
 {
     process_image2(src, dst, scale_blit, rect);
 }

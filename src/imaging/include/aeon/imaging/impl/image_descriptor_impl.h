@@ -29,8 +29,8 @@ namespace aeon::imaging
 {
 
 template <typename T>
-inline image_descriptor<T>::image_descriptor(const types::size2d<dimension> dimensions) noexcept
-    : image_descriptor{dimensions, sizeof(T), static_cast<std::ptrdiff_t>(types::width(dimensions) * sizeof(T))}
+inline image_descriptor<T>::image_descriptor(const math::size2d<dimension> dimensions) noexcept
+    : image_descriptor{dimensions, sizeof(T), static_cast<std::ptrdiff_t>(math::width(dimensions) * sizeof(T))}
 {
 }
 
@@ -41,14 +41,14 @@ inline image_descriptor<T>::image_descriptor(const dimension width, const dimens
 }
 
 template <typename T>
-inline image_descriptor<T>::image_descriptor(const types::size2d<dimension> dimensions,
+inline image_descriptor<T>::image_descriptor(const math::size2d<dimension> dimensions,
                                              const std::ptrdiff_t stride_y) noexcept
     : image_descriptor{dimensions, sizeof(T), stride_y}
 {
 }
 
 template <typename T>
-inline image_descriptor<T>::image_descriptor(const types::size2d<dimension> dimensions, const std::ptrdiff_t stride_x,
+inline image_descriptor<T>::image_descriptor(const math::size2d<dimension> dimensions, const std::ptrdiff_t stride_x,
                                              const std::ptrdiff_t stride_y) noexcept
     : dimensions_{dimensions}
     , stride_x_{stride_x}
@@ -62,17 +62,17 @@ inline image_descriptor<T>::~image_descriptor() = default;
 template <typename T>
 inline auto image_descriptor<T>::width() const noexcept -> dimension
 {
-    return types::width(dimensions_);
+    return math::width(dimensions_);
 }
 
 template <typename T>
 inline auto image_descriptor<T>::height() const noexcept -> dimension
 {
-    return types::height(dimensions_);
+    return math::height(dimensions_);
 }
 
 template <typename T>
-inline auto image_descriptor<T>::dimensions() const noexcept -> types::size2d<dimension>
+inline auto image_descriptor<T>::dimensions() const noexcept -> math::size2d<dimension>
 {
     return dimensions_;
 }
@@ -108,7 +108,7 @@ inline auto dimensions(const image_descriptor<T> &descriptor) noexcept
 }
 
 template <typename T>
-inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> types::rectangle<dimension>
+inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>
 {
     return {0, 0, width(descriptor), height(descriptor)};
 }
@@ -135,7 +135,7 @@ inline auto continuous(const image_descriptor<T> &descriptor) noexcept
 template <typename T>
 inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept
 {
-    return types::contains(coord, dimensions(descriptor));
+    return math::contains(coord, dimensions(descriptor));
 }
 
 template <typename T>

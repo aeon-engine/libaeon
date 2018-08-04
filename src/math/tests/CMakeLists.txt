@@ -28,15 +28,19 @@ add_unit_test_suite(
     TARGET test_libaeon_math
     SOURCES
         main.cpp
+        test_circle.cpp
         test_mat3.cpp
         test_mat3_sse.cpp
         test_mat4.cpp
         test_mat4_sse.cpp
+        test_math.cpp
         test_quaternion.cpp
+        test_range.cpp
+        test_rectangle.cpp
+        test_size2d.cpp
         test_vector2.cpp
         test_vector3.cpp
         test_vector4.cpp
-        test_math.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_math

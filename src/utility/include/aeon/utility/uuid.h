@@ -29,7 +29,7 @@
 #include <cstdint>
 #include <string>
 
-namespace aeon::types
+namespace aeon::utility
 {
 
 /*!
@@ -113,4 +113,4 @@ inline bool operator>=(uuid const &lhs, uuid const &rhs) noexcept
     return !(lhs < rhs);
 }
 
-} // namespace aeon::types
+} // namespace aeon::utility

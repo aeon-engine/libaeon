@@ -26,8 +26,8 @@
 #pragma once
 
 #include <aeon/imaging/dimension.h>
-#include <aeon/types/size2d.h>
-#include <aeon/types/rectangle.h>
+#include <aeon/math/size2d.h>
+#include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
 #include <aeon/common/signed_sizeof.h>
 
@@ -38,10 +38,10 @@ template <typename T>
 class image_descriptor
 {
 public:
-    explicit image_descriptor(const types::size2d<dimension> dimensions) noexcept;
+    explicit image_descriptor(const math::size2d<dimension> dimensions) noexcept;
     explicit image_descriptor(const dimension width, const dimension height) noexcept;
-    explicit image_descriptor(const types::size2d<dimension> dimensions, const std::ptrdiff_t stride_y) noexcept;
-    explicit image_descriptor(const types::size2d<dimension> dimensions, const std::ptrdiff_t stride_x,
+    explicit image_descriptor(const math::size2d<dimension> dimensions, const std::ptrdiff_t stride_y) noexcept;
+    explicit image_descriptor(const math::size2d<dimension> dimensions, const std::ptrdiff_t stride_x,
                               const std::ptrdiff_t stride_y) noexcept;
 
     ~image_descriptor();
@@ -53,13 +53,13 @@ public:
 
     auto width() const noexcept -> dimension;
     auto height() const noexcept -> dimension;
-    auto dimensions() const noexcept -> types::size2d<dimension>;
+    auto dimensions() const noexcept -> math::size2d<dimension>;
 
     auto stride_x() const noexcept -> std::ptrdiff_t;
     auto stride_y() const noexcept -> std::ptrdiff_t;
 
 private:
-    types::size2d<dimension> dimensions_;
+    math::size2d<dimension> dimensions_;
     std::ptrdiff_t stride_x_;
     std::ptrdiff_t stride_y_;
 };
@@ -74,7 +74,7 @@ template <typename T>
 inline auto dimensions(const image_descriptor<T> &descriptor) noexcept;
 
 template <typename T>
-inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> types::rectangle<dimension>;
+inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>;
 
 template <typename T>
 inline auto stride_x(const image_descriptor<T> &descriptor) noexcept;

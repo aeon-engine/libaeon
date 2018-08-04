@@ -28,7 +28,7 @@
 #include <aeon/math/vector2.h>
 #include <type_traits>
 
-namespace aeon::types
+namespace aeon::math
 {
 
 template <typename T>
@@ -43,7 +43,7 @@ class circle
 public:
     circle(const T radius) noexcept;
 
-    circle(const math::vector2<T> position, const T radius) noexcept;
+    circle(const vector2<T> position, const T radius) noexcept;
 
     ~circle() noexcept = default;
 
@@ -53,15 +53,15 @@ public:
     circle(circle &&) noexcept = default;
     auto operator=(circle &&) noexcept -> circle & = default;
 
-    math::vector2<T> position;
+    vector2<T> position;
     T radius;
 };
 
 template <typename T>
-inline auto position(const circle<T> &c) noexcept -> math::vector2<T>;
+inline auto position(const circle<T> &c) noexcept -> vector2<T>;
 
 template <typename T>
-inline auto center(const circle<T> &c) noexcept -> math::vector2<T>;
+inline auto center(const circle<T> &c) noexcept -> vector2<T>;
 
 template <typename T>
 inline auto empty(const circle<T> &c) noexcept -> bool;
@@ -94,7 +94,7 @@ template <typename T>
 inline auto set_position(const circle<T> &c, const T x, const T y) noexcept -> circle<T>;
 
 template <typename T>
-inline auto set_position(const circle<T> &c, const math::vector2<T> &vec) noexcept -> circle<T>;
+inline auto set_position(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>;
 
 template <typename T>
 inline auto inflate(const circle<T> &c, const T val) noexcept -> circle<T>;
@@ -109,10 +109,10 @@ template <typename T>
 inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T;
 
 template <typename T>
-inline auto distance(const circle<T> &lhs, const math::vector2<T> &rhs) noexcept -> T;
+inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 template <typename T>
-inline auto contains(const circle<T> &c, const math::vector2<T> &vec) noexcept -> bool;
+inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool;
 
 template <typename T>
 inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool;
@@ -123,6 +123,6 @@ inline auto operator==(const circle<T> &lhs, const circle<T> &rhs) noexcept -> b
 template <typename T>
 inline auto operator!=(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool;
 
-} // namespace aeon::types
+} // namespace aeon::math
 
-#include <aeon/types/impl/circle_impl.h>
+#include <aeon/math/impl/circle_impl.h>

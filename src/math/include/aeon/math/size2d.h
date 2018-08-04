@@ -27,7 +27,7 @@
 
 #include <aeon/math/math_fwd.h>
 
-namespace aeon::types
+namespace aeon::math
 {
 
 template <typename T>
@@ -66,7 +66,7 @@ template <typename T>
 inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto contains(const math::vector2<T> &vec, const size2d<T> size) noexcept -> bool;
+inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
 
 template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
@@ -110,6 +110,6 @@ inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 template <typename T>
 inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
-} // namespace aeon::types
+} // namespace aeon::math
 
-#include <aeon/types/impl/size2d_impl.h>
+#include <aeon/math/impl/size2d_impl.h>

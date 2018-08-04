@@ -27,10 +27,10 @@
 
 #include <aeon/math/math.h>
 #include <aeon/math/vector2.h>
-#include <aeon/types/size2d.h>
-#include <aeon/types/rectangle.h>
+#include <aeon/math/size2d.h>
+#include <aeon/math/rectangle.h>
 
-namespace aeon::types
+namespace aeon::math
 {
 
 template <typename T>
@@ -41,20 +41,20 @@ circle<T>::circle(const T radius) noexcept
 }
 
 template <typename T>
-circle<T>::circle(const math::vector2<T> position, const T radius) noexcept
+circle<T>::circle(const vector2<T> position, const T radius) noexcept
     : position{position}
     , radius{radius}
 {
 }
 
 template <typename T>
-inline auto position(const circle<T> &c) noexcept -> math::vector2<T>
+inline auto position(const circle<T> &c) noexcept -> vector2<T>
 {
     return c.position;
 }
 
 template <typename T>
-inline auto center(const circle<T> &c) noexcept -> math::vector2<T>
+inline auto center(const circle<T> &c) noexcept -> vector2<T>
 {
     return position(c);
 }
@@ -93,13 +93,13 @@ inline auto diameter(const circle<T> &c) noexcept -> T
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type *>
 inline auto circumference(const circle<T> &c) noexcept -> float
 {
-    return static_cast<float>(diameter(c)) * math::constants<float>::pi;
+    return static_cast<float>(diameter(c)) * constants<float>::pi;
 }
 
 template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type *>
 inline auto circumference(const circle<T> &c) noexcept -> T
 {
-    return diameter(c) * math::constants<T>::pi;
+    return diameter(c) * constants<T>::pi;
 }
 
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type *>
@@ -107,7 +107,7 @@ inline auto area(const circle<T> &c) noexcept -> float
 {
     const auto r = radius(c);
     const auto r2 = r * r;
-    return math::constants<float>::pi * static_cast<float>(r2);
+    return constants<float>::pi * static_cast<float>(r2);
 }
 
 template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type *>
@@ -115,17 +115,17 @@ inline auto area(const circle<T> &c) noexcept -> T
 {
     const auto r = radius(c);
     const auto r2 = r * r;
-    return math::constants<T>::pi * r2;
+    return constants<T>::pi * r2;
 }
 
 template <typename T>
 inline auto set_position(const circle<T> &c, const T x, const T y) noexcept -> circle<T>
 {
-    return set_position(c, math::vector2{x, y});
+    return set_position(c, vector2{x, y});
 }
 
 template <typename T>
-inline auto set_position(const circle<T> &c, const math::vector2<T> &vec) noexcept -> circle<T>
+inline auto set_position(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>
 {
     return {vec, radius(c)};
 }
@@ -158,19 +158,19 @@ inline auto rect(const circle<T> &c) noexcept -> rectangle<T>
 template <typename T>
 inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T
 {
-    return math::distance(position(lhs), position(rhs));
+    return distance(position(lhs), position(rhs));
 }
 
 template <typename T>
-inline auto distance(const circle<T> &lhs, const math::vector2<T> &rhs) noexcept -> T
+inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T
 {
-    return math::distance(position(lhs), rhs);
+    return distance(position(lhs), rhs);
 }
 
 template <typename T>
-inline auto contains(const circle<T> &c, const math::vector2<T> &vec) noexcept -> bool
+inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool
 {
-    return math::distance(position(c), vec) <= radius(c);
+    return distance(position(c), vec) <= radius(c);
 }
 
 template <typename T>
@@ -178,7 +178,7 @@ inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> b
 {
     const auto closest = closest_point(rect, position(c));
     const auto distance = position(c) - closest;
-    const auto distance_squared = math::squared_length(distance);
+    const auto distance_squared = squared_length(distance);
     return distance_squared < radius_squared(c);
 }
 
@@ -194,4 +194,4 @@ inline auto operator!=(const circle<T> &lhs, const circle<T> &rhs) noexcept -> b
     return !(lhs == rhs);
 }
 
-} // namespace aeon::types
+} // namespace aeon::math

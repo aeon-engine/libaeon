@@ -24,19 +24,19 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/types/uuid.h>
-#include <aeon/types/uuid_stream.h>
+#include <aeon/utility/uuid.h>
+#include <aeon/utility/uuid_stream.h>
 #include <aeon/streams/memory_stream.h>
 
 TEST(test_uuid, test_uuid_default_nil)
 {
-    aeon::types::uuid uuid;
+    aeon::utility::uuid uuid;
     ASSERT_TRUE(uuid.is_nil());
 }
 
 TEST(test_uuid, test_uuid_is_nil)
 {
-    aeon::types::uuid uuid;
+    aeon::utility::uuid uuid;
     ASSERT_TRUE(uuid.is_nil());
 
     uuid.data[0] = 1;
@@ -48,37 +48,37 @@ TEST(test_uuid, test_uuid_is_nil)
 
 TEST(test_uuid, test_uuid_create_nil_is_nil)
 {
-    auto uuid = aeon::types::uuid::nil();
-    aeon::types::uuid uuid2;
+    auto uuid = aeon::utility::uuid::nil();
+    aeon::utility::uuid uuid2;
     ASSERT_TRUE(uuid.is_nil());
     ASSERT_EQ(uuid, uuid2);
 }
 
 TEST(test_uuid, test_uuid_random)
 {
-    auto uuid = aeon::types::uuid::generate();
+    auto uuid = aeon::utility::uuid::generate();
     ASSERT_FALSE(uuid.is_nil());
 
     for (int i = 0; i < 100; ++i)
     {
-        auto uuid2 = aeon::types::uuid::generate();
+        auto uuid2 = aeon::utility::uuid::generate();
         ASSERT_NE(uuid, uuid2);
     }
 }
 
 TEST(test_uuid, test_uuid_nil_string)
 {
-    ASSERT_TRUE(aeon::types::uuid("00000000-0000-0000-0000-000000000000").is_nil());
-    ASSERT_TRUE(aeon::types::uuid("{00000000-0000-0000-0000-000000000000}").is_nil());
-    ASSERT_TRUE(aeon::types::uuid("00000000000000000000000000000000").is_nil());
-    ASSERT_TRUE(aeon::types::uuid("{00000000000000000000000000000000}").is_nil());
-    ASSERT_ANY_THROW(aeon::types::uuid("0").is_nil());
+    ASSERT_TRUE(aeon::utility::uuid("00000000-0000-0000-0000-000000000000").is_nil());
+    ASSERT_TRUE(aeon::utility::uuid("{00000000-0000-0000-0000-000000000000}").is_nil());
+    ASSERT_TRUE(aeon::utility::uuid("00000000000000000000000000000000").is_nil());
+    ASSERT_TRUE(aeon::utility::uuid("{00000000000000000000000000000000}").is_nil());
+    ASSERT_ANY_THROW(aeon::utility::uuid("0").is_nil());
 }
 
 TEST(test_uuid, test_uuid_from_and_to_string)
 {
     auto str = "00000000-0000-0000-0000-000000000000";
-    auto uuid = aeon::types::uuid("00000000-0000-0000-0000-000000000000");
+    auto uuid = aeon::utility::uuid("00000000-0000-0000-0000-000000000000");
     ASSERT_EQ(str, uuid.str());
 }
 
@@ -86,10 +86,10 @@ TEST(test_uuid, test_uuid_from_and_to_string_random)
 {
     for (int i = 0; i < 100; ++i)
     {
-        auto uuid = aeon::types::uuid::generate();
+        auto uuid = aeon::utility::uuid::generate();
         auto str = uuid.str();
 
-        auto uuid2 = aeon::types::uuid(str);
+        auto uuid2 = aeon::utility::uuid(str);
 
         ASSERT_EQ(uuid, uuid2);
         ASSERT_EQ(str, uuid2.str());
@@ -98,7 +98,7 @@ TEST(test_uuid, test_uuid_from_and_to_string_random)
 
 TEST(test_uuid, test_write_to_stream)
 {
-    auto uuid = aeon::types::uuid::generate();
+    auto uuid = aeon::utility::uuid::generate();
 
     aeon::streams::memory_stream memstream;
     aeon::streams::stream_writer writer(memstream);
@@ -110,7 +110,7 @@ TEST(test_uuid, test_write_to_stream)
 
 TEST(test_uuid, test_read_from_stream)
 {
-    auto uuid = aeon::types::uuid::generate();
+    auto uuid = aeon::utility::uuid::generate();
 
     aeon::streams::memory_stream memstream;
     memstream.write(uuid.data.data(), uuid.size());
@@ -118,7 +118,7 @@ TEST(test_uuid, test_read_from_stream)
 
     aeon::streams::stream_reader reader(memstream);
 
-    aeon::types::uuid uuid2;
+    aeon::utility::uuid uuid2;
     reader >> uuid2;
 
     ASSERT_EQ(uuid, uuid2);

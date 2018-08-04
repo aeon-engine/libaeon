@@ -24,9 +24,11 @@
  */
 
 #include <gtest/gtest.h>
-#include <aeon/types/size2d.h>
+#include <aeon/math/size2d.h>
+
+using namespace aeon;
 
 TEST(test_size2d, test_size2d_default_int)
 {
-    aeon::types::size2d<int> size;
+    math::size2d<int> size;
 }

@@ -25,9 +25,9 @@
 
 #pragma once
 
-#include <aeon/types/rectangle.h>
+#include <aeon/math/rectangle.h>
 
-namespace aeon::types
+namespace aeon::math
 {
 
 template <typename T>
@@ -69,7 +69,7 @@ inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>
 }
 
 template <typename T>
-inline auto contains(const math::vector2<T> &vec, const size2d<T> size) noexcept -> bool
+inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool
 {
     return (vec.x < width(size) && vec.y < height(size));
 }
@@ -164,4 +164,4 @@ inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
     return lhs;
 }
 
-} // namespace aeon::types
+} // namespace aeon::math

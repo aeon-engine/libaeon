@@ -26,11 +26,10 @@
 #pragma once
 
 #include <aeon/imaging/image_descriptor.h>
+#include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
 #include <cstdint>
 #include <cstddef>
-#include <cassert>
-#include "aeon/types/rectangle.h"
 
 namespace aeon::imaging
 {
@@ -106,7 +105,7 @@ template <typename T>
 inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t;
 
 template <typename T>
-inline auto make_view(const image_view<T> &view, const types::rectangle<int> &rect) noexcept -> image_view<T>;
+inline auto make_view(const image_view<T> &view, const math::rectangle<int> &rect) noexcept -> image_view<T>;
 
 } // namespace aeon::imaging
 

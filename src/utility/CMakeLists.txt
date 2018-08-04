@@ -22,9 +22,9 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 set(LIB_AEON_UTILITY_SOURCE
+    include/aeon/utility/cached_container.h
     include/aeon/utility/configfile.h
     src/configfile.cpp
-    include/aeon/utility/cached_container.h
     include/aeon/utility/dispatcher.h
     include/aeon/utility/dispatcher_fwd.h
     include/aeon/utility/hexdump.h
@@ -35,6 +35,9 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/parameters.h
     include/aeon/utility/signals.h
     include/aeon/utility/tribool.h
+    include/aeon/utility/uuid.h
+    src/uuid.cpp
+    include/aeon/utility/uuid_stream.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

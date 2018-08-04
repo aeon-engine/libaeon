@@ -32,7 +32,7 @@ namespace aeon::imaging::filters
 {
 
 template <typename T>
-inline auto resize_bilinear(const image_view<T> &img, const types::size2d<dimension> size) -> image<T>
+inline auto resize_bilinear(const image_view<T> &img, const math::size2d<dimension> size) -> image<T>
 {
     image new_image(image_descriptor<T>{size});
     const auto dst = view(new_image).data();
@@ -63,7 +63,7 @@ inline auto resize_bilinear(const image_view<T> &img, const types::size2d<dimens
     return new_image;
 }
 
-inline auto resize_bilinear(const dynamic_image &img, const types::size2d<dimension> size) -> dynamic_image
+inline auto resize_bilinear(const dynamic_image &img, const math::size2d<dimension> size) -> dynamic_image
 {
     return process_image(img, resize_bilinear, size);
 }

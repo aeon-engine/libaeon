@@ -25,44 +25,51 @@
 
 #pragma once
 
-namespace aeon::types
+namespace aeon::math
 {
 
 template <typename T>
-class range
+inline range<T>::range() noexcept
+    : begin{}
+    , end{}
 {
-public:
-    range() noexcept;
-
-    range(const T begin, const T end) noexcept;
-
-    ~range() noexcept = default;
-
-    range(const range &) noexcept = default;
-    auto operator=(const range &) noexcept -> range & = default;
-
-    range(range &&) noexcept = default;
-    auto operator=(range &&) noexcept -> range & = default;
-
-    T begin;
-    T end;
-};
+}
 
 template <typename T>
-inline auto begin(const range<T> &range) noexcept -> T;
+inline range<T>::range(const T begin, const T end) noexcept
+    : begin{begin}
+    , end{end}
+{
+}
 
 template <typename T>
-inline auto end(const range<T> &range) noexcept -> T;
+inline auto begin(const range<T> &range) noexcept -> T
+{
+    return range.begin;
+}
 
 template <typename T>
-inline auto size(const range<T> &range) noexcept -> T;
+inline auto end(const range<T> &range) noexcept -> T
+{
+    return range.end;
+}
 
 template <typename T>
-inline auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
+inline auto size(const range<T> &range) noexcept -> T
+{
+    return range.end - range.begin;
+}
 
 template <typename T>
-inline auto operator!=(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
+inline auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool
+{
+    return begin(lhs) == begin(rhs) && end(lhs) == end(rhs);
+}
 
-} // namespace aeon::types
+template <typename T>
+inline auto operator!=(const range<T> &lhs, const range<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
 
-#include <aeon/types/impl/range_impl.h>
+} // namespace aeon::math

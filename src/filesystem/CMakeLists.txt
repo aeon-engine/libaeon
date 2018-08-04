@@ -36,7 +36,7 @@ set_target_properties(aeon_filesystem PROPERTIES
 )
 
 target_include_directories(aeon_filesystem PUBLIC include)
-target_link_libraries(aeon_filesystem aeon_types aeon_common)
+target_link_libraries(aeon_filesystem aeon_utility aeon_common)
 
 install(
     DIRECTORY include/aeon

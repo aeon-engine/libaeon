@@ -23,14 +23,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <aeon/types/uuid.h>
+#include <aeon/utility/uuid.h>
 #include <aeon/common/literals.h>
 #include <algorithm>
 #include <random>
 #include <stdexcept>
 #include <cstring>
 
-namespace aeon::types
+namespace aeon::utility
 {
 
 namespace detail
@@ -314,4 +314,4 @@ bool operator<(uuid const &lhs, uuid const &rhs) noexcept
 {
     return std::memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
 }
-} // namespace aeon::types
+} // namespace aeon::utility
