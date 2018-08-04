@@ -160,7 +160,7 @@ template <typename T>
 inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
 
 template <typename T>
-inline constexpr auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noexcept -> T;
+inline constexpr auto distance(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> T;
 
 template <typename T>
 inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;

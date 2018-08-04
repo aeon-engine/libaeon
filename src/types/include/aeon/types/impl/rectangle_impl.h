@@ -327,9 +327,9 @@ inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &re
 }
 
 template <typename T>
-inline constexpr auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noexcept -> T
+inline constexpr auto distance(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> T
 {
-    return math::distance(center(rect1), vec);
+    return math::distance(center(rect), vec);
 }
 
 template <typename T>
