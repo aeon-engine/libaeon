@@ -151,7 +151,7 @@ inline auto translate(const vector3<T> &lhs, const T x, const T y, const T z) no
 }
 
 template <typename T>
-inline auto translate(const vector3<T> &lhs, const math::vector3<T> &rhs) noexcept -> vector3<T>
+inline auto translate(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     return lhs + rhs;
 }
