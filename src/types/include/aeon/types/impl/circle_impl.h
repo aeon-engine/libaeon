@@ -150,6 +150,17 @@ inline auto rect(const circle<T> &c) noexcept -> rectangle<T>
 }
 
 template <typename T>
+inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T
+{
+    return math::distance(position(lhs), position(rhs));
+}
+
+template <typename T>
+inline auto distance(const circle<T> &lhs, const math::vector2<T> &rhs) noexcept -> T
+{
+    return math::distance(position(lhs), rhs);
+}
+template <typename T>
 inline auto operator==(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool
 {
     return position(lhs) == position(rhs) && radius(lhs) == radius(rhs);
