@@ -40,25 +40,25 @@ template <typename T>
 class rectangle
 {
 public:
-    rectangle() noexcept;
+    constexpr rectangle() noexcept;
 
-    rectangle(const T left, const T top, const T right, const T bottom) noexcept;
+    constexpr rectangle(const T left, const T top, const T right, const T bottom) noexcept;
 
-    rectangle(const math::vector2<T> left_top, const math::vector2<T> right_bottom) noexcept;
+    constexpr rectangle(const math::vector2<T> left_top, const math::vector2<T> right_bottom) noexcept;
 
-    rectangle(const T left, const T top, const size2d<T> size) noexcept;
+    constexpr rectangle(const T left, const T top, const size2d<T> size) noexcept;
 
-    rectangle(const math::vector2<T> left_top, const size2d<T> size) noexcept;
+    constexpr rectangle(const math::vector2<T> left_top, const size2d<T> size) noexcept;
 
-    rectangle(const math::vector2<T> position, const size2d<T> size, const anchor_point anchor) noexcept;
+    constexpr rectangle(const math::vector2<T> position, const size2d<T> size, const anchor_point anchor) noexcept;
 
     ~rectangle() noexcept = default;
 
-    rectangle(const rectangle<T> &) noexcept = default;
-    auto operator=(const rectangle<T> &) noexcept -> rectangle<T> & = default;
+    constexpr rectangle(const rectangle<T> &) noexcept = default;
+    constexpr auto operator=(const rectangle<T> &) noexcept -> rectangle<T> & = default;
 
-    rectangle(rectangle<T> &&) noexcept = default;
-    auto operator=(rectangle<T> &&) noexcept -> rectangle<T> & = default;
+    constexpr rectangle(rectangle<T> &&) noexcept = default;
+    constexpr auto operator=(rectangle<T> &&) noexcept -> rectangle<T> & = default;
 
     T left;
     T top;
@@ -67,168 +67,171 @@ public:
 };
 
 template <typename T>
-inline auto left(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto left(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto top(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto top(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto right(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto right(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto bottom(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto bottom(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto width(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto width(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto height(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto height(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T>
-inline auto left_top(const rectangle<T> &rect) noexcept -> math::vector2<T>;
+inline constexpr auto left_top(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto right_top(const rectangle<T> &rect) noexcept -> math::vector2<T>;
+inline constexpr auto right_top(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto left_bottom(const rectangle<T> &rect) noexcept -> math::vector2<T>;
+inline constexpr auto left_bottom(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto right_bottom(const rectangle<T> &rect) noexcept -> math::vector2<T>;
+inline constexpr auto right_bottom(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto center(const rectangle<T> &rect) noexcept -> math::vector2<T>;
+inline constexpr auto center(const rectangle<T> &rect) noexcept -> math::vector2<T>;
 
 template <typename T>
-inline auto empty(const rectangle<T> &rect) noexcept -> bool;
+inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
-inline auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
+inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto translate(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
+inline constexpr auto translate(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto translate(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
+inline constexpr auto translate(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto set_position(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
+inline constexpr auto set_position(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
+inline constexpr auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto set_position(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
+inline constexpr auto set_position(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
     -> rectangle<T>;
 
 template <typename T>
-inline auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec, const anchor_point anchor) noexcept
-    -> rectangle<T>;
+inline constexpr auto set_position(const rectangle<T> &rect, const math::vector2<T> &vec,
+                                   const anchor_point anchor) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
+inline constexpr auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
 
 template <typename T>
-inline auto contains(const math::vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;
+inline constexpr auto contains(const math::vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
-inline auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
+inline constexpr auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
 
 template <typename T>
-inline auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> rectangle<T>;
+inline constexpr auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> rectangle<T>;
 
 template <typename T, typename... U>
-inline auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept -> rectangle<T>;
+inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept
+    -> rectangle<T>;
 
 template <typename T>
-inline auto inflate(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+inline constexpr auto inflate(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto scale(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+inline constexpr auto scale(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto scale(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
+inline constexpr auto scale(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto scale(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
+inline constexpr auto scale(const rectangle<T> &rect, const math::vector2<T> &vec) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto scale(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
+inline constexpr auto scale(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
+inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
 
 template <typename T>
-inline auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noexcept -> T;
+inline constexpr auto distance(const rectangle<T> &rect1, const math::vector2<T> &vec) noexcept -> T;
 
 template <typename T>
-inline auto area(const rectangle<T> &rect) noexcept -> T;
+inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
 
 template <typename T, typename U>
-inline auto slice_horizontal(const rectangle<T> &rect, const U ratio,
-                             typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
+inline constexpr auto
+    slice_horizontal(const rectangle<T> &rect, const U ratio,
+                     typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 template <typename T>
-inline auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
+inline constexpr auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 template <typename T, typename U>
-inline auto slice_vertical(const rectangle<T> &rect, const U ratio,
-                           typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
+inline constexpr auto
+    slice_vertical(const rectangle<T> &rect, const U ratio,
+                   typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 template <typename T>
-inline auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
+inline constexpr auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 template <typename T>
-inline auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator+(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator+(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator+=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator+=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator+(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator+(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator+=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator+=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator-=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator-=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator-(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator-(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator-=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator-=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator*=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator*=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator*(const rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator*(const rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator*=(rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator*=(rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator*(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator*(const rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 template <typename T>
-inline auto operator*=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
+inline constexpr auto operator*=(rectangle<T> &lhs, const math::vector2<T> &rhs) noexcept -> rectangle<T>;
 
 } // namespace aeon::types
 
