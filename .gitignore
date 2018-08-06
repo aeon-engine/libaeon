@@ -26,3 +26,6 @@ cmake-build-*/
 
 # BeyondCompare merge
 *.orig
+
+*.tmp
+*.TMP
