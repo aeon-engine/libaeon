@@ -95,11 +95,11 @@ TEST(test_circle, test_circle_set_position)
     EXPECT_EQ(math::radius(c), 10);
     EXPECT_EQ(math::position(c), (math::vector2{0, 0}));
 
-    c = math::set_position(c, 20, 30);
+    math::set_position(c, 20, 30);
     EXPECT_EQ(math::radius(c), 10);
     EXPECT_EQ(math::position(c), (math::vector2{20, 30}));
 
-    c = math::set_position(c, math::vector2{40, 50});
+    math::set_position(c, math::vector2{40, 50});
     EXPECT_EQ(math::radius(c), 10);
     EXPECT_EQ(math::position(c), (math::vector2{40, 50}));
 }
@@ -109,7 +109,7 @@ TEST(test_circle, test_circle_to_rectangle)
     math::circle<int> c{5};
     EXPECT_EQ(math::rect(c), (math::rectangle<int>{-5, -5, 5, 5}));
 
-    c = math::set_position(c, 10, 10);
+    math::set_position(c, 10, 10);
     EXPECT_EQ(math::rect(c), (math::rectangle<int>{5, 5, 15, 15}));
 }
 

@@ -137,25 +137,49 @@ inline auto area(const circle<T> &c) noexcept -> T
 }
 
 template <typename T>
-inline auto set_position(const circle<T> &c, const T x, const T y) noexcept -> circle<T>
+inline void set_position(circle<T> &c, const T x, const T y) noexcept
 {
-    return set_position(c, vector2{x, y});
+    c = positioned(c, x, y);
 }
 
 template <typename T>
-inline auto set_position(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>
+inline void set_position(circle<T> &c, const vector2<T> &vec) noexcept
+{
+    c = positioned(c, vec);
+}
+
+template <typename T>
+inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>
+{
+    return positioned(c, vector2{x, y});
+}
+
+template <typename T>
+inline auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>
 {
     return {vec, radius(c)};
 }
 
 template <typename T>
-inline auto inflate(const circle<T> &c, const T val) noexcept -> circle<T>
+inline void inflate(circle<T> &c, const T val) noexcept
+{
+    c = inflated(c, val);
+}
+
+template <typename T>
+inline auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>
 {
     return {position(c), radius(c) + val};
 }
 
 template <typename T>
-inline auto scale(const circle<T> &c, const T val) noexcept -> circle<T>
+inline void scale(circle<T> &c, const T val) noexcept
+{
+    c = scaled(c);
+}
+
+template <typename T>
+inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>
 {
     return {position(c), radius(c) * val};
 }

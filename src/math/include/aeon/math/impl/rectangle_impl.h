@@ -80,7 +80,7 @@ template <typename T>
 inline constexpr rectangle<T>::rectangle(const vector2<T> position, const size2d<T> size,
                                          const anchor_point anchor) noexcept
 {
-    *this = set_position(rectangle{0, 0, size}, position, anchor);
+    *this = positioned(rectangle{0, 0, size}, position, anchor);
 }
 
 template <typename T>
@@ -174,19 +174,43 @@ inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>
 }
 
 template <typename T>
-inline constexpr auto translate(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
+inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
 {
     return {rect.left + x, rect.top + y, rect.right + x, rect.bottom + y};
 }
 
 template <typename T>
-inline constexpr auto translate(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
+inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
 {
-    return translate(rect, vec.x, vec.y);
+    return translated(rect, vec.x, vec.y);
 }
 
 template <typename T>
-inline constexpr auto set_position(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
+inline constexpr void set_position(rectangle<T> &rect, const T x, const T y) noexcept
+{
+    rect = positioned(rect, x, y);
+}
+
+template <typename T>
+inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec) noexcept
+{
+    rect = positioned(rect, vec);
+}
+
+template <typename T>
+inline constexpr void set_position(rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
+{
+    rect = positioned(rect, x, y, anchor);
+}
+
+template <typename T>
+inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec, const anchor_point anchor) noexcept
+{
+    rect = positioned(rect, vec, anchor);
+}
+
+template <typename T>
+inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
 {
     const auto w = width(rect);
     const auto h = height(rect);
@@ -194,13 +218,13 @@ inline constexpr auto set_position(const rectangle<T> &rect, const T x, const T 
 }
 
 template <typename T>
-inline constexpr auto set_position(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
+inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
 {
-    return set_position(rect, vec.x, vec.y);
+    return positioned(rect, vec.x, vec.y);
 }
 
 template <typename T>
-inline constexpr auto set_position(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
+inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
     -> rectangle<T>
 {
     const auto w = width(rect);
@@ -251,10 +275,10 @@ inline constexpr auto set_position(const rectangle<T> &rect, const T x, const T 
 }
 
 template <typename T>
-inline constexpr auto set_position(const rectangle<T> &rect, const vector2<T> &vec, const anchor_point anchor) noexcept
+inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec, const anchor_point anchor) noexcept
     -> rectangle<T>
 {
-    return set_position(rect, vec.x, vec.y, anchor);
+    return positioned(rect, vec.x, vec.y, anchor);
 }
 
 template <typename T>
@@ -303,31 +327,61 @@ inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U>
 }
 
 template <typename T>
-inline constexpr auto inflate(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>
+inline constexpr void inflate(rectangle<T> &rect, const T val) noexcept
+{
+    rect = inflated(rect, val);
+}
+
+template <typename T>
+inline constexpr auto inflated(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>
 {
     return rect + val;
 }
 
 template <typename T>
-inline constexpr auto scale(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>
+inline constexpr void scale(rectangle<T> &rect, const T val) noexcept
+{
+    rect = scaled(rect, val);
+}
+
+template <typename T>
+inline constexpr void scale(rectangle<T> &rect, const T x, const T y) noexcept
+{
+    rect = scaled(rect, x, y);
+}
+
+template <typename T>
+inline constexpr void scale(rectangle<T> &rect, const vector2<T> &vec) noexcept
+{
+    rect = scaled(rect, vec);
+}
+
+template <typename T>
+inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept
+{
+    rect = scaled(rect, size);
+}
+
+template <typename T>
+inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>
 {
     return rect * val;
 }
 
 template <typename T>
-inline constexpr auto scale(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
+inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
 {
-    return scale(rect, {x, y});
+    return scaled(rect, {x, y});
 }
 
 template <typename T>
-inline constexpr auto scale(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
+inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
 {
     return rect * vec;
 }
 
 template <typename T>
-inline constexpr auto scale(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>
+inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>
 {
     return rect * size;
 }
@@ -354,6 +408,12 @@ template <typename T>
 inline constexpr auto closest_point(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> vector2<T>
 {
     return {std::clamp(vec.x, left(rect), right(rect)), std::clamp(vec.y, top(rect), bottom(rect))};
+}
+
+template <typename T>
+inline constexpr void normalize(rectangle<T> &rect) noexcept
+{
+    rect = normalized(rect);
 }
 
 template <typename T>

@@ -99,16 +99,28 @@ template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type
 inline auto area(const circle<T> &c) noexcept -> T;
 
 template <typename T>
-inline auto set_position(const circle<T> &c, const T x, const T y) noexcept -> circle<T>;
+inline void set_position(circle<T> &c, const T x, const T y) noexcept;
 
 template <typename T>
-inline auto set_position(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>;
+inline void set_position(circle<T> &c, const vector2<T> &vec) noexcept;
 
 template <typename T>
-inline auto inflate(const circle<T> &c, const T val) noexcept -> circle<T>;
+inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>;
 
 template <typename T>
-inline auto scale(const circle<T> &c, const T val) noexcept -> circle<T>;
+inline auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>;
+
+template <typename T>
+inline void inflate(circle<T> &c, const T val) noexcept;
+
+template <typename T>
+inline auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>;
+
+template <typename T>
+inline void scale(circle<T> &c, const T val) noexcept;
+
+template <typename T>
+inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>;
 
 template <typename T>
 inline auto rect(const circle<T> &c) noexcept -> rectangle<T>;

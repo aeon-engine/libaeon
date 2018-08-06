@@ -37,7 +37,7 @@ namespace aeon::imaging::filters
 template <typename T>
 inline void blit(const image_view<T> &src, image_view<T> &dst, const math::vector2<dimension> pos)
 {
-    aeon_assert(math::contains(math::translate(rectangle(src), pos), rectangle(dst)),
+    aeon_assert(math::contains(math::translated(rectangle(src), pos), rectangle(dst)),
                 "Source does not fit within destination.");
 
     const auto w = width(src);

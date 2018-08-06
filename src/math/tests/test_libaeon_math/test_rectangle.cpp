@@ -74,7 +74,7 @@ TEST(test_rectangle, test_rectangle_width_height)
 TEST(test_rectangle, test_rectangle_translate_positive)
 {
     const math::rectangle rect{5, 10, 15, 20};
-    const auto new_rect = math::translate(rect, 10, 20);
+    const auto new_rect = math::translated(rect, 10, 20);
 
     EXPECT_EQ(math::left(new_rect), 15);
     EXPECT_EQ(math::top(new_rect), 30);
@@ -92,7 +92,7 @@ TEST(test_rectangle, test_rectangle_translate_positive_vector2)
     const math::rectangle rect{5, 10, 15, 20};
     const math::vector2 translation_vec{10, 20};
 
-    const auto new_rect = math::translate(rect, translation_vec);
+    const auto new_rect = math::translated(rect, translation_vec);
 
     EXPECT_EQ(math::left(new_rect), 15);
     EXPECT_EQ(math::top(new_rect), 30);
@@ -180,8 +180,8 @@ TEST(test_rectangle, test_rectangle_set_position)
     const math::rectangle rect{0, 0, 20, 20};
     const math::rectangle rect2{10, 10, 20, 20};
 
-    ASSERT_EQ(math::set_position(rect, 10, 10), (math::rectangle{10, 10, 30, 30}));
-    ASSERT_EQ(math::set_position(rect2, 0, 0), (math::rectangle{0, 0, 10, 10}));
+    ASSERT_EQ(math::positioned(rect, 10, 10), (math::rectangle{10, 10, 30, 30}));
+    ASSERT_EQ(math::positioned(rect2, 0, 0), (math::rectangle{0, 0, 10, 10}));
 }
 
 TEST(test_rectangle, test_rectangle_slice_vertical)
