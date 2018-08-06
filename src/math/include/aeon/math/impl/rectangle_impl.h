@@ -174,6 +174,18 @@ inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>
 }
 
 template <typename T>
+inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexcept
+{
+    rect = translated(rect, x, y);
+}
+
+template <typename T>
+inline constexpr void translate(rectangle<T> &rect, const vector2<T> &vec) noexcept
+{
+    rect = translated(rect, vec);
+}
+
+template <typename T>
 inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
 {
     return {rect.left + x, rect.top + y, rect.right + x, rect.bottom + y};
