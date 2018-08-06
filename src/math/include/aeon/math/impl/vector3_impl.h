@@ -145,13 +145,25 @@ inline void vector3<T>::set(const T new_x, const T new_y, const T new_z) noexcep
 }
 
 template <typename T>
-inline auto translate(const vector3<T> &lhs, const T x, const T y, const T z) noexcept -> vector3<T>
+inline void translate(vector3<T> &lhs, const T x, const T y, const T z) noexcept
+{
+    lhs += vector3{x, y, z};
+}
+
+template <typename T>
+inline void translate(vector3<T> &lhs, const vector3<T> &rhs) noexcept
+{
+    lhs += rhs;
+}
+
+template <typename T>
+inline auto translated(const vector3<T> &lhs, const T x, const T y, const T z) noexcept -> vector3<T>
 {
     return lhs + vector3{x, y, z};
 }
 
 template <typename T>
-inline auto translate(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
+inline auto translated(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     return lhs + rhs;
 }

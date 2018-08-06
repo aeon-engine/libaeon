@@ -176,10 +176,16 @@ template <typename T>
 inline auto operator>(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto translate(const vector4<T> &lhs, const T x, const T y, const T z, const T w) noexcept -> vector4<T>;
+inline void translate(vector4<T> &lhs, const T x, const T y, const T z, const T w) noexcept;
 
 template <typename T>
-inline auto translate(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
+inline void translate(vector4<T> &lhs, const vector4<T> &rhs) noexcept;
+
+template <typename T>
+inline auto translated(const vector4<T> &lhs, const T x, const T y, const T z, const T w) noexcept -> vector4<T>;
+
+template <typename T>
+inline auto translated(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
 template <typename T>
 inline auto dot(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
