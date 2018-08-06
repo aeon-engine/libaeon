@@ -28,6 +28,7 @@
 #include <aeon/math/vector3.h>
 #include <aeon/math/mat3.h>
 #include <aeon/math/quaternion.h>
+#include <aeon/math/rectangle.h>
 #include <aeon/common/assert.h>
 #include <cmath>
 
@@ -272,6 +273,18 @@ inline auto mat4::ortho(const T left, const T right, const T bottom, const T top
 {
     return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
                        static_cast<float>(top), static_cast<float>(near), static_cast<float>(far));
+}
+
+template <typename T>
+inline auto mat4::ortho(const rectangle<T> &rect) noexcept -> mat4
+{
+    return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect));
+}
+
+template <typename T, typename U>
+inline auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4
+{
+    return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect), near, far);
 }
 
 inline auto mat4::projection(const float fov_y, const float aspect_ratio, const float near, const float far) noexcept

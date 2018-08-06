@@ -31,6 +31,9 @@ namespace aeon::math
 {
 
 template <typename T>
+class rectangle;
+
+template <typename T>
 class vector3;
 
 class mat3;
@@ -106,6 +109,12 @@ public:
     template <typename T, typename U>
     static auto ortho(const T left, const T right, const T bottom, const T top, const U near, const U far) noexcept
         -> mat4;
+
+    template <typename T>
+    static auto ortho(const rectangle<T> &rect) noexcept -> mat4;
+
+    template <typename T, typename U>
+    static auto ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4;
 
     static auto projection(const float fov_y, const float aspect_ratio, const float near, const float far) noexcept
         -> mat4;
