@@ -197,6 +197,9 @@ template <typename T>
 inline auto squared_length(const vector4<T> &vec) noexcept -> T;
 
 template <typename T>
+inline void normalize(vector4<T> &vec) noexcept;
+
+template <typename T>
 inline auto normalized(const vector4<T> &vec) noexcept -> vector4<T>;
 
 template <typename T>
