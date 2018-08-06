@@ -81,4 +81,33 @@ endif ()
 
 ################################################################################
 
+option(AEON_ENABLE_DOXYGEN "Enable doxygen documentation (if doxygen is installed)." ON)
+
+if (AEON_ENABLE_DOXYGEN)
+    find_package(Doxygen)
+
+    if (DOXYGEN_FOUND)
+        message(STATUS "Generating doxygen documentation.")
+
+        set(DOXYGEN_PROJECT_NAME "libAeon")
+        set(DOXYGEN_PROJECT_BRIEF "A C++17 support library.")
+
+        if (MSVC)
+            set(DOXYGEN_WARN_FORMAT "$file($line) : $text")
+        endif()
+
+        doxygen_add_docs(aeon_documentation src)
+
+        set_target_properties(aeon_documentation PROPERTIES
+            FOLDER dep/libaeon/docs
+            EXCLUDE_FROM_ALL 1
+            EXCLUDE_FROM_DEFAULT_BUILD 1
+        )
+    else ()
+        message(STATUS "Doxygen not installed. Skipping generating documentation.")
+    endif()
+endif ()
+
+################################################################################
+
 add_subdirectory(src)
