@@ -23,17 +23,31 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*!
+ * \file
+ * \brief Mathmatical operations for a range.
+ */
+
 #pragma once
 
 namespace aeon::math
 {
 
+/*!
+ * Class that represents a range (begin-end).
+ */
 template <typename T>
 class range
 {
 public:
+    /*!
+     * Create an empty range. This initializes begin and end to 0.
+     */
     range() noexcept;
 
+    /*!
+     * Create a range based on the given begin and end.
+     */
     range(const T begin, const T end) noexcept;
 
     ~range() noexcept = default;
@@ -48,12 +62,27 @@ public:
     T end;
 };
 
+/*!
+ * Get the begin of a range
+ * \param[in] range - Range
+ * \return Begin of a range
+ */
 template <typename T>
 inline auto begin(const range<T> &range) noexcept -> T;
 
+/*!
+ * Get the end of a range
+ * \param[in] range - Range
+ * \return End of a range
+ */
 template <typename T>
 inline auto end(const range<T> &range) noexcept -> T;
 
+/*!
+ * Get the size of a range
+ * \param[in] range - Range
+ * \return Size of a range (end-begin)
+ */
 template <typename T>
 inline auto size(const range<T> &range) noexcept -> T;
 

@@ -31,14 +31,15 @@ namespace aeon::math
 /*!
  * Anchor points to indicate where the given position should be in relation to the object being moved.
  *
+ *\verbatim
  *       left_top     top_center     right_top
- *              **********************
- *              *                    *
- *  left_center *       center       * right_center
- *              *                    *
- *              **********************
+ *              ######################
+ *              #                    #
+ *  left_center #       center       # right_center
+ *              #                    #
+ *              ######################
  *   left_bottom    bottom_center    right_bottom
- *
+ *\endverbatim
  */
 enum class anchor_point
 {

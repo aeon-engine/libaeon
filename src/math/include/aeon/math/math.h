@@ -23,13 +23,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*!
+ * \file
+ * \brief Common mathmatical constants and functions.
+ */
+
 #pragma once
 
 #include <cmath>
 
+/*!
+ * Various classes and functions for math with SSE support where applicable.
+ */
 namespace aeon::math
 {
 
+/*!
+ * Various common constants for use in mathmatical formulas.
+ * There are constants available in float and double precision.
+ */
 template <typename T>
 struct constants
 {
@@ -53,24 +65,47 @@ struct constants<double>
     static constexpr auto tau = pi * 2.0;
 };
 
+/*!
+ * Convert from degrees to radians
+ * \param[in] degree - Angle in degrees
+ * \return Angle in radians
+ */
 template <typename T>
 inline auto degree_to_radian(const T degree) noexcept -> T
 {
     return degree * constants<T>::pi / static_cast<T>(180.0);
 }
 
+/*!
+ * Convert from radians to degrees
+ * \param[in] rad - Angle in radians
+ * \return Angle in degrees
+ */
 template <typename T>
-inline auto radian_to_degree(const T degree) noexcept -> T
+inline auto radian_to_degree(const T rad) noexcept -> T
 {
-    return degree * static_cast<T>(180.0) / constants<T>::pi;
+    return rad * static_cast<T>(180.0) / constants<T>::pi;
 }
 
+/*!
+ * Calculate a sigmoid function of a given value.
+ * A sigmoid function is used to clip any value between 0.0 and 1.0 trough a curve.
+ * This is commonly used for weights in neural networks.
+ * \param[in] value - Value
+ * \return Sigmoid curve value between 0 and 1.
+ */
 template <typename T>
 inline auto sigmoid(const T value) noexcept -> T
 {
     return 1 / (1 + std::exp(-value));
 }
 
+/*!
+ * Variadic version of std::min
+ * \param[in] first - First value
+ * \param[in] values - All other values (at least one). Must be the same type as first.
+ * \return Lowest value out of all given values
+ */
 template <typename T, typename... U>
 inline auto min(const T first, const U... values) noexcept -> T
 {
@@ -79,6 +114,12 @@ inline auto min(const T first, const U... values) noexcept -> T
     return *retval;
 }
 
+/*!
+ * Variadic version of std::max
+ * \param[in] first - First value
+ * \param[in] values - All other values (at least one). Must be the same type as first.
+ * \return Highest value out of all given values
+ */
 template <typename T, typename... U>
 inline auto max(const T first, const U... values) noexcept -> T
 {

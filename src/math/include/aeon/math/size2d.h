@@ -23,6 +23,11 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*!
+ * \file
+ * \brief Mathmatical operations for size2d.
+ */
+
 #pragma once
 
 #include <aeon/math/math_fwd.h>
@@ -33,12 +38,21 @@ namespace aeon::math
 template <typename T>
 class rectangle;
 
+/*!
+ * Class that represents a size (width and height).
+ */
 template <typename T>
 class size2d
 {
 public:
+    /*!
+     * Create an empty rectangle. This initializes all values to 0.
+     */
     size2d() noexcept;
 
+    /*!
+     * Create a size based on the given width and height.
+     */
     size2d(const T width, const T height) noexcept;
 
     ~size2d() noexcept = default;
@@ -53,57 +67,155 @@ public:
     T height;
 };
 
+/*!
+ * Get the width value of a given size.
+ * \param[in] size - Size2d
+ * \return The width value
+ */
 template <typename T>
 inline auto width(const size2d<T> &size) noexcept -> T;
 
+/*!
+ * Get the height value of a given size.
+ * \param[in] size - Size2d
+ * \return The height value
+ */
 template <typename T>
 inline auto height(const size2d<T> &size) noexcept -> T;
 
+/*!
+ * Get the area of a given size.
+ * \param[in] size - Size2d
+ * \return The area (width * height)
+ */
 template <typename T>
 inline auto area(const size2d<T> &size) noexcept -> T;
 
+/*!
+ * Check if a size is empty (width == 0 or height == 0)
+ * \param[in] size - Size2d
+ * \return True if the size is empty
+ */
 template <typename T>
 inline auto empty(const size2d<T> &size) noexcept -> bool;
 
+/*!
+ * Check if a size is null (width == 0 and height == 0)
+ * \param[in] size - Size2d
+ * \return True if the size is null
+ */
 template <typename T>
 inline auto null(const size2d<T> &size) noexcept -> bool;
 
+/*!
+ * Check if a size is valid (width >= 0 and height >= 0)
+ * \param[in] size - Size2d
+ * \return True if the size is valid
+ */
 template <typename T>
 inline auto valid(const size2d<T> &size) noexcept -> bool;
 
+/*!
+ * Get the rectangle for a given size with left-top at [0, 0].
+ * \param[in] size - Size2d
+ * \return Rectangle
+ */
 template <typename T>
 inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
 
+/*!
+ * Check if the given inner point is completely contained within the given size.
+ * \param[in] vec - A point
+ * \param[in] size - Size2d
+ * \return True if the point is contained with in the size.
+ */
 template <typename T>
 inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
 
+/*!
+ * Inflate (grow, add) a size in all directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] val - Value to inflate with
+ */
 template <typename T>
 inline constexpr void inflate(size2d<T> &size, const T val) noexcept;
 
+/*!
+ * Inflate (grow, add) a size in all directions by a given value to a new copy.
+ * \param[in] size - Size2d
+ * \param[in] val - Value to inflate with
+ * \return Inflated size copy based on the given one.
+ */
 template <typename T>
 inline constexpr auto inflated(const size2d<T> &size, const T val) noexcept -> size2d<T>;
 
+/*!
+ * Scale (multiply) a size in all directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] val - Value to scale with
+ */
 template <typename T>
 inline constexpr void scale(size2d<T> &size, const T val) noexcept;
 
+/*!
+ * Scale (multiply) a size in all two directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] x - Horizontal scale value
+ * \param[in] y - Vertical scale value
+ */
 template <typename T>
 inline constexpr void scale(size2d<T> &size, const T x, const T y) noexcept;
 
+/*!
+ * Scale (multiply) a size in all two directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] vec - Horizontal and vertical scale value
+ */
 template <typename T>
 inline constexpr void scale(size2d<T> &size, const vector2<T> &vec) noexcept;
 
+/*!
+ * Scale (multiply) a size in all two directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] val - Horizontal and vertical scale value
+ */
 template <typename T>
 inline constexpr void scale(size2d<T> &size, const size2d<T> &val) noexcept;
 
+/*!
+ * Scale (multiply) a size in all directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] val - Value to scale with
+ * \return A scaled size copy based on the given one.
+ */
 template <typename T>
 inline constexpr auto scaled(const size2d<T> &size, const T val) noexcept -> size2d<T>;
 
+/*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] x - Horizontal scale value
+ * \param[in] y - Vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
 template <typename T>
 inline constexpr auto scaled(const size2d<T> &size, const T x, const T y) noexcept -> size2d<T>;
 
+/*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] vec - Horizontal and vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
 template <typename T>
 inline constexpr auto scaled(const size2d<T> &size, const vector2<T> &vec) noexcept -> size2d<T>;
 
+/*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] val - Horizontal and vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
 template <typename T>
 inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexcept -> size2d<T>;
 
