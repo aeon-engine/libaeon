@@ -25,9 +25,7 @@
 
 #include <aeon/math/perlin_noise.h>
 
-namespace aeon
-{
-namespace math
+namespace aeon::math
 {
 
 perlin_noise::perlin_noise()
@@ -142,5 +140,4 @@ auto perlin_noise::noise(const int x, const int y) const noexcept -> double
     return 1.0 - static_cast<double>(t) * 0.931322574615478515625e-9;
 }
 
-} // namespace math
-} // namespace aeon
+} // namespace aeon::math

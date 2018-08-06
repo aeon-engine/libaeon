@@ -19,11 +19,7 @@
 
 #include <cmath>
 
-namespace aeon
-{
-namespace math
-{
-namespace simplex_noise
+namespace aeon::math::simplex_noise
 {
 
 // The gradients are the midpoints of the vertices of a cube.
@@ -700,6 +696,4 @@ auto dot(const int *g, const float x, const float y, const float z, const float 
     return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
 }
 
-} // namespace simplex_noise
-} // namespace math
-} // namespace aeon
+} // namespace aeon::math::simplex_noise

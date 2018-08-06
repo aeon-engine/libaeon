@@ -25,9 +25,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace math
+namespace aeon::math
 {
 
 class perlin_noise
@@ -105,5 +103,4 @@ private:
     int randomseed_;
 };
 
-} // namespace math
-} // namespace aeon
+} // namespace aeon::math

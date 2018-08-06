@@ -40,11 +40,7 @@ dimension, you can ensure that each gets a unique noise value and they don't
 all look identical.
 */
 
-namespace aeon
-{
-namespace math
-{
-namespace simplex_noise
+namespace aeon::math::simplex_noise
 {
 
 // Multi-octave Simplex noise
@@ -91,6 +87,4 @@ auto dot(const int *g, const float x, const float y) -> float;
 auto dot(const int *g, const float x, const float y, const float z) -> float;
 auto dot(const int *g, const float x, const float y, const float z, const float w) -> float;
 
-} // namespace simplex_noise
-} // namespace math
-} // namespace aeon
+} // namespace aeon::math::simplex_noise
