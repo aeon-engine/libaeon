@@ -78,6 +78,36 @@ template <typename T>
 inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
 
 template <typename T>
+inline constexpr void inflate(size2d<T> &size, const T val) noexcept;
+
+template <typename T>
+inline constexpr auto inflated(const size2d<T> &size, const T val) noexcept -> size2d<T>;
+
+template <typename T>
+inline constexpr void scale(size2d<T> &size, const T val) noexcept;
+
+template <typename T>
+inline constexpr void scale(size2d<T> &size, const T x, const T y) noexcept;
+
+template <typename T>
+inline constexpr void scale(size2d<T> &size, const vector2<T> &vec) noexcept;
+
+template <typename T>
+inline constexpr void scale(size2d<T> &size, const size2d<T> &val) noexcept;
+
+template <typename T>
+inline constexpr auto scaled(const size2d<T> &size, const T val) noexcept -> size2d<T>;
+
+template <typename T>
+inline constexpr auto scaled(const size2d<T> &size, const T x, const T y) noexcept -> size2d<T>;
+
+template <typename T>
+inline constexpr auto scaled(const size2d<T> &size, const vector2<T> &vec) noexcept -> size2d<T>;
+
+template <typename T>
+inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexcept -> size2d<T>;
+
+template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
 template <typename T>
@@ -112,6 +142,12 @@ inline auto operator*(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> si
 
 template <typename T>
 inline auto operator*=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator*(const size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>;
+
+template <typename T>
+inline auto operator*=(size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
 inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
