@@ -197,9 +197,9 @@ inline auto atan(const vector2<T> &vec) noexcept -> vector2<T>
 }
 
 template <typename T>
-inline auto atan2(const vector2<T> &vec) noexcept -> vector2<T>
+inline auto atan2(const vector2<T> &vec) noexcept -> T
 {
-    return {std::atan2(vec.x), std::atan2(vec.y)};
+    return {std::atan2(vec.y), std::atan2(vec.x)};
 }
 
 template <typename T>

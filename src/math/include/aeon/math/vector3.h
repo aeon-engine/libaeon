@@ -213,9 +213,6 @@ template <typename T>
 inline auto atan(const vector3<T> &vec) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto atan2(const vector3<T> &vec) noexcept -> vector3<T>;
-
-template <typename T>
 inline auto abs(const vector3<T> &vec) noexcept -> vector3<T>;
 
 template <typename T>

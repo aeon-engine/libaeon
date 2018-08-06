@@ -246,12 +246,6 @@ inline auto atan(const vector3<T> &vec) noexcept -> vector3<T>
 }
 
 template <typename T>
-inline auto atan2(const vector3<T> &vec) noexcept -> vector3<T>
-{
-    return {std::atan2(vec.x), std::atan2(vec.y), std::atan2(vec.z)};
-}
-
-template <typename T>
 inline auto abs(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::abs(vec.x), std::abs(vec.y), std::abs(vec.z)};

@@ -221,9 +221,6 @@ template <typename T>
 inline auto atan(const vector4<T> &vec) noexcept -> vector4<T>;
 
 template <typename T>
-inline auto atan2(const vector4<T> &vec) noexcept -> vector4<T>;
-
-template <typename T>
 inline auto abs(const vector4<T> &vec) noexcept -> vector4<T>;
 
 template <typename T>
