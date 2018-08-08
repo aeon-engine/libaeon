@@ -85,7 +85,7 @@ inline void mono_jit::add_internal_call(const std::string &name, T func)
     __add_internal_call(name, reinterpret_cast<const void *>(func));
 }
 
-template <typename signature_t, signature_t &signature>
+template <typename signature_t, signature_t &signature, class enable = void>
 struct mono_jit_internal_call_wrapper;
 
 template <typename... args_t, void (&func)(args_t...)>
@@ -98,7 +98,8 @@ struct mono_jit_internal_call_wrapper<void(args_t...), func>
 };
 
 template <typename return_t, typename... args_t, return_t (&func)(args_t...)>
-struct mono_jit_internal_call_wrapper<return_t(args_t...), func>
+struct mono_jit_internal_call_wrapper<return_t(args_t...), func,
+                                      typename std::enable_if<!std::is_void_v<return_t>>::type>
 {
     static typename convert_mono_type<return_t>::mono_type_name
         wrapper(typename convert_mono_type<args_t>::mono_type_name... args)

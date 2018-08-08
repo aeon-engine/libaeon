@@ -68,7 +68,7 @@ public:
     mono_thunk(const mono_thunk &) = delete;
     auto operator=(const mono_thunk &) -> mono_thunk & = delete;
 
-    mono_thunk(mono_thunk &&o) =  delete;
+    mono_thunk(mono_thunk &&o) = delete;
     auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
 
     void operator()(args_t... args)
@@ -101,7 +101,7 @@ public:
     mono_thunk(const mono_thunk &) = delete;
     auto operator=(const mono_thunk &) -> mono_thunk & = delete;
 
-    mono_thunk(mono_thunk &&o) =  delete;
+    mono_thunk(mono_thunk &&o) = delete;
     auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
 
     auto operator()(args_t... args)
