@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 MAINTAINER Robin Degen version: 1.0
 
-RUN apt-get update && apt-get install -y clang cmake libmono-2.0-dev git
+RUN apt-get update && apt-get install -y clang cmake mono-devel libmono-2.0-dev git
 
 ENV CC clang
 ENV CXX clang++
