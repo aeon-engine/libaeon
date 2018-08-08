@@ -47,9 +47,12 @@ std::string MyObject_ReturnAString(MonoObject *this_ptr, std::string value)
     return "The value: " + value;
 }
 
+mono_jit_fixture *mono_jit_fixture::singleton_ = nullptr;
+
 mono_jit_fixture::mono_jit_fixture()
     : jit_("Aeon Mono Test Jit")
 {
+    singleton_ = this;
 }
 
 void mono_jit_fixture::SetUp()
@@ -69,5 +72,6 @@ void mono_jit_fixture::TearDown()
 
 aeon::mono::mono_jit &mono_jit_fixture::get_jit()
 {
-    return jit_;
+    assert(singleton_);
+    return singleton_->jit_;
 }

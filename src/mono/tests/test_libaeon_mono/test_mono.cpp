@@ -36,19 +36,19 @@
 
 TEST(test_mono, test_mono_jit_load_assembly_fail)
 {
-    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
+    aeon::mono::mono_jit &jit = mono_jit_fixture::get_jit();
     EXPECT_THROW(jit.load_assembly("some_assembly_that_doesnt_exist_12345.dll"), aeon::mono::mono_exception);
 }
 
 TEST(test_mono, test_mono_jit_load_assembly)
 {
-    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
+    aeon::mono::mono_jit &jit = mono_jit_fixture::get_jit();
     EXPECT_NO_THROW(jit.load_assembly("MonoTests.dll"));
 }
 
 TEST(test_mono, test_mono_jit_get_class_fail)
 {
-    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
+    aeon::mono::mono_jit &jit = mono_jit_fixture::get_jit();
     EXPECT_NO_THROW(aeon::mono::mono_assembly assembly = jit.load_assembly("MonoTests.dll");
                     EXPECT_THROW(aeon::mono::mono_class cls = assembly.get_class("SomeClassThatDoesntExist12345"),
                                  aeon::mono::mono_exception););
@@ -56,7 +56,7 @@ TEST(test_mono, test_mono_jit_get_class_fail)
 
 TEST(test_mono, test_mono_jit_get_class)
 {
-    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
+    aeon::mono::mono_jit &jit = mono_jit_fixture::get_jit();
 
     EXPECT_NO_THROW(aeon::mono::mono_assembly assembly = jit.load_assembly("MonoTests.dll");
                     aeon::mono::mono_class cls = assembly.get_class("ClassInstanceTest"););
@@ -64,7 +64,7 @@ TEST(test_mono, test_mono_jit_get_class)
 
 TEST(test_mono, test_mono_jit_get_method)
 {
-    aeon::mono::mono_jit &jit = mono_jit_fixture::get_singleton().get_jit();
+    aeon::mono::mono_jit &jit = mono_jit_fixture::get_jit();
 
     EXPECT_NO_THROW(aeon::mono::mono_assembly assembly = jit.load_assembly("MonoTests.dll");
 
@@ -80,7 +80,7 @@ TEST(test_mono, test_mono_jit_get_method)
 
 TEST(test_mono, test_mono_call_thunk)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<int(int)>("FunctionWithIntParam");
@@ -91,7 +91,7 @@ TEST(test_mono, test_mono_call_thunk)
 
 TEST(test_mono, test_mono_call_thunk2)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<void(float, int, float)>("VoidFunction");
@@ -100,7 +100,7 @@ TEST(test_mono, test_mono_call_thunk2)
 
 TEST(test_mono, test_mono_call_thunk3)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<void(std::string)>("FunctionWithStringParam");
@@ -109,7 +109,7 @@ TEST(test_mono, test_mono_call_thunk3)
 
 TEST(test_mono, test_mono_call_thunk4)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<std::string(std::string)>("StringReturnFunction");
@@ -120,7 +120,7 @@ TEST(test_mono, test_mono_call_thunk4)
 
 TEST(test_mono, test_mono_call_thunk_with_exception)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto method_thunk = cls.get_static_function_thunk<void()>("ExceptionFunction");
@@ -129,7 +129,7 @@ TEST(test_mono, test_mono_call_thunk_with_exception)
 
 TEST(test_mono, test_mono_call_method)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto cls_instance = assembly.new_class_instance(cls);
@@ -139,7 +139,7 @@ TEST(test_mono, test_mono_call_method)
 
 TEST(test_mono, test_mono_call_method2)
 {
-    auto &jit = mono_jit_fixture::get_singleton().get_jit();
+    auto &jit = mono_jit_fixture::get_jit();
     auto assembly = jit.load_assembly("MonoTests.dll");
     auto cls = assembly.get_class("ClassInstanceTest");
     auto cls_instance = assembly.new_class_instance(cls);
