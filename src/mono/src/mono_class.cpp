@@ -29,52 +29,50 @@
 #include <aeon/mono/mono_class_field.h>
 #include <cassert>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
-mono_class::mono_class()
-    : class_(nullptr)
-    , assembly_(nullptr)
+mono_class::mono_class() noexcept
+    : class_{nullptr}
+    , assembly_{nullptr}
 {
 }
 
-mono_class::mono_class(mono_assembly *assembly, MonoClass *cls)
-    : class_(cls)
-    , assembly_(assembly)
+mono_class::mono_class(const mono_assembly *assembly, MonoClass *cls) noexcept
+    : class_{cls}
+    , assembly_{assembly}
 {
 }
 
-mono_class::mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name)
-    : mono_class(assembly, image, "", name)
+mono_class::mono_class(const mono_assembly *assembly, MonoImage *image, const std::string &name)
+    : mono_class{assembly, image, "", name}
 {
 }
 
-mono_class::mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name_space,
+mono_class::mono_class(const mono_assembly *assembly, MonoImage *image, const std::string &name_space,
                        const std::string &name)
-    : class_(nullptr)
-    , assembly_(assembly)
+    : class_{nullptr}
+    , assembly_{assembly}
 {
     class_ = mono_class_from_name(image, name_space.c_str(), name.c_str());
 
     if (!class_)
-        throw mono_exception();
+        throw mono_exception{};
 }
 
 mono_class::~mono_class() = default;
-mono_class::mono_class(mono_class &&o) = default;
+mono_class::mono_class(mono_class &&o) noexcept = default;
 
-auto mono_class::operator=(mono_class &&o) -> mono_class & = default;
+auto mono_class::operator=(mono_class &&o) noexcept -> mono_class & = default;
 
 auto mono_class::get_static_function(const std::string &name, int argc /*= 0*/) const -> mono_static_function
 {
     assert(class_);
     assert(assembly_);
-    return mono_static_function(assembly_, class_, name, argc);
+    return mono_static_function{assembly_, class_, name, argc};
 }
 
-auto mono_class::get_mono_class_ptr() const -> MonoClass *
+auto mono_class::get_mono_class_ptr() const noexcept -> MonoClass *
 {
     assert(class_);
     return class_;
@@ -82,8 +80,7 @@ auto mono_class::get_mono_class_ptr() const -> MonoClass *
 
 auto mono_class::get_field(const std::string &name) const -> mono_class_field
 {
-    return mono_class_field(get_mono_class_ptr(), name);
+    return mono_class_field{get_mono_class_ptr(), name};
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

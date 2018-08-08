@@ -31,9 +31,7 @@
 #include <string>
 #include <cassert>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_method;
@@ -43,17 +41,17 @@ class mono_assembly;
 class mono_class_instance : public mono_object
 {
 public:
-    mono_class_instance();
-    explicit mono_class_instance(MonoObject *obj);
-    explicit mono_class_instance(mono_assembly *assembly, MonoObject *obj);
-    explicit mono_class_instance(mono_assembly *assembly, MonoDomain *domain, MonoClass *cls);
+    mono_class_instance() noexcept;
+    explicit mono_class_instance(MonoObject *obj) noexcept;
+    explicit mono_class_instance(const mono_assembly *assembly, MonoObject *obj) noexcept;
+    explicit mono_class_instance(const mono_assembly *assembly, MonoDomain *domain, MonoClass *cls) noexcept;
     virtual ~mono_class_instance();
 
     mono_class_instance(const mono_class_instance &) = delete;
     auto operator=(const mono_class_instance &) -> mono_class_instance & = delete;
 
-    mono_class_instance(mono_class_instance &&o);
-    auto operator=(mono_class_instance &&o) -> mono_class_instance &;
+    mono_class_instance(mono_class_instance &&o) noexcept;
+    auto operator=(mono_class_instance &&o) noexcept -> mono_class_instance &;
 
     auto get_method(const std::string &name, int argc = 0) -> mono_method;
 
@@ -75,7 +73,7 @@ public:
 
 private:
     MonoClass *class_;
-    mono_assembly *assembly_;
+    const mono_assembly *assembly_;
 };
 
 template <typename function_signature_t>
@@ -110,5 +108,4 @@ void mono_class_instance::set_field_value(mono_class_field &field, T &val) const
     mono_field_set_value(object_, field.get_mono_class_field_ptr(), reinterpret_cast<void *>(&val));
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

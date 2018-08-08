@@ -33,29 +33,26 @@
 
 #include <mono/jit/jit.h>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_object
 {
 public:
-    mono_object();
-    explicit mono_object(MonoObject *object);
+    mono_object() noexcept;
+    explicit mono_object(MonoObject *object) noexcept;
     virtual ~mono_object();
 
-    auto get_mono_object() const -> MonoObject *;
+    auto get_mono_object() const noexcept -> MonoObject *;
 
     mono_object(const mono_object &) = default;
     auto operator=(const mono_object &) -> mono_object & = default;
 
-    mono_object(mono_object &&o) = default;
-    auto operator=(mono_object &&o) -> mono_object & = default;
+    mono_object(mono_object &&o) noexcept = default;
+    auto operator=(mono_object &&o) noexcept -> mono_object & = default;
 
 protected:
     MonoObject *object_;
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

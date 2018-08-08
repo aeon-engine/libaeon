@@ -25,39 +25,35 @@
 
 #include <aeon/mono/mono_gc_handle.h>
 #include <aeon/mono/mono_object.h>
-#include <utility>
 #include <cassert>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
-mono_gc_handle::mono_gc_handle(mono_object &obj)
-    : mono_gc_handle(obj.get_mono_object())
+mono_gc_handle::mono_gc_handle(mono_object &obj) noexcept
+    : mono_gc_handle{obj.get_mono_object()}
 {
 }
 
-mono_gc_handle::mono_gc_handle(MonoObject *obj)
-    : handle_(0)
-    , object_(obj)
+mono_gc_handle::mono_gc_handle(MonoObject *obj) noexcept
+    : handle_{0}
+    , object_{obj}
 {
 }
 
 mono_gc_handle::~mono_gc_handle() = default;
 
-void mono_gc_handle::lock()
+void mono_gc_handle::lock() noexcept
 {
     assert(handle_ == 0);
     handle_ = mono_gchandle_new(object_, 1);
 }
 
-void mono_gc_handle::unlock()
+void mono_gc_handle::unlock() noexcept
 {
     assert(handle_ != 0);
     mono_gchandle_free(handle_);
     handle_ = 0;
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

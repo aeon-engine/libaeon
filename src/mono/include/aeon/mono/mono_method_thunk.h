@@ -34,16 +34,12 @@
 #include <aeon/mono/mono_thunk_base.h>
 #include <aeon/mono/mono_type_conversion.h>
 #include <aeon/mono/mono_assembly.h>
-#include <aeon/mono/mono_string.h>
 #include <aeon/mono/mono_exception.h>
 #include <aeon/mono/mono_object.h>
 #include <mono/jit/jit.h>
 #include <utility>
-#include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 template <typename return_type_t>
@@ -59,13 +55,19 @@ public:
     {
     }
 
-    explicit mono_method_thunk(mono_assembly &assembly, MonoObject *object, MonoMethod *method)
+    explicit mono_method_thunk(const mono_assembly &assembly, MonoObject *object, MonoMethod *method)
         : mono_thunk_base<void(MonoObject *, args_t...)>(assembly, method)
         , mono_object(object)
     {
     }
 
     ~mono_method_thunk() = default;
+
+    mono_method_thunk(const mono_method_thunk &) = delete;
+    auto operator=(const mono_method_thunk &) -> mono_method_thunk & = delete;
+
+    mono_method_thunk(mono_method_thunk &&o) = default;
+    auto operator=(mono_method_thunk &&o) -> mono_method_thunk & = default;
 
     void operator()(args_t... args)
     {
@@ -74,7 +76,7 @@ public:
                       convert_mono_type<args_t>::to_mono(*this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
-            throw mono_thunk_exception(ex);
+            throw mono_thunk_exception{ex};
     }
 };
 
@@ -89,13 +91,19 @@ public:
     {
     }
 
-    explicit mono_method_thunk(mono_assembly &assembly, MonoObject *object, MonoMethod *method)
+    explicit mono_method_thunk(const mono_assembly &assembly, MonoObject *object, MonoMethod *method)
         : mono_thunk_base<return_type_t(MonoObject *, args_t...)>(assembly, method)
         , mono_object(object)
     {
     }
 
     ~mono_method_thunk() = default;
+
+    mono_method_thunk(const mono_method_thunk &) = delete;
+    auto operator=(const mono_method_thunk &) -> mono_method_thunk & = delete;
+
+    mono_method_thunk(mono_method_thunk &&o) = default;
+    auto operator=(mono_method_thunk &&o) -> mono_method_thunk & = default;
 
     auto operator()(args_t... args)
     {
@@ -104,11 +112,10 @@ public:
             this->object_, convert_mono_type<args_t>::to_mono(*this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
-            throw mono_thunk_exception(ex);
+            throw mono_thunk_exception{ex};
 
         return convert_mono_type<return_type_t>::from_mono(std::move(result));
     }
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

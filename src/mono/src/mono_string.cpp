@@ -24,37 +24,32 @@
  */
 
 #include <aeon/mono/mono_string.h>
-#include <cassert>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
-mono_string::mono_string(MonoString *mono_string)
-    : mono_object(reinterpret_cast<MonoObject *>(mono_string))
-    , domain_(nullptr)
+mono_string::mono_string(MonoString *mono_string) noexcept
+    : mono_object{reinterpret_cast<MonoObject *>(mono_string)}
+    , domain_{nullptr}
 {
 }
 
-mono_string::mono_string(MonoDomain *domain, const std::string &str)
-    : mono_object(reinterpret_cast<MonoObject *>(mono_string_new(domain, str.c_str())))
-    , domain_(domain)
+mono_string::mono_string(MonoDomain *domain, const std::string &str) noexcept
+    : mono_object{reinterpret_cast<MonoObject *>(mono_string_new(domain, str.c_str()))}
+    , domain_{domain}
 {
 }
 
 mono_string::~mono_string() = default;
 
-mono_string::mono_string(mono_string &&o) = default;
+mono_string::mono_string(mono_string &&o) noexcept = default;
 
-auto mono_string::operator=(mono_string &&o) -> mono_string & = default;
+auto mono_string::operator=(mono_string &&o) noexcept -> mono_string & = default;
 
-auto mono_string::operator=(const std::string &str) -> mono_string &
+auto mono_string::operator=(const std::string &str) noexcept -> mono_string &
 {
     if (domain_ == nullptr)
-    {
         domain_ = mono_object_get_domain(object_);
-    }
 
     object_ = reinterpret_cast<MonoObject *>(mono_string_new(domain_, str.c_str()));
     return *this;
@@ -64,7 +59,7 @@ auto mono_string::str() const -> std::string
 {
     // TODO: This could be probably optimized by doing no additional
     // allocation though mono_string_chars and mono_string_length.
-    auto raw_utf8_str = mono_string_to_utf8(get_mono_string());
+    const auto raw_utf8_str = mono_string_to_utf8(get_mono_string());
     std::string str = raw_utf8_str;
     mono_free(raw_utf8_str);
     return str;
@@ -75,5 +70,4 @@ auto mono_string::get_mono_string() const -> MonoString *
     return reinterpret_cast<MonoString *>(object_);
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

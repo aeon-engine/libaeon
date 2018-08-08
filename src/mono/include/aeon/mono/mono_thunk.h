@@ -38,11 +38,8 @@
 #include <aeon/mono/mono_exception.h>
 #include <mono/jit/jit.h>
 #include <utility>
-#include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 template <typename return_type_t>
@@ -52,13 +49,13 @@ template <typename... args_t>
 class mono_thunk<void(args_t...)> : public mono_thunk_base<void(args_t...)>
 {
 public:
-    mono_thunk()
+    mono_thunk() noexcept
         : mono_thunk_base<void(args_t...)>()
         , mono_object()
     {
     }
 
-    explicit mono_thunk(mono_assembly &assembly, MonoMethod *method)
+    explicit mono_thunk(const mono_assembly &assembly, MonoMethod *method) noexcept
         : mono_thunk_base<void(args_t...)>(assembly, method)
     {
     }
@@ -71,13 +68,13 @@ public:
     mono_thunk(mono_thunk &&o) = delete;
     auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
 
-    void operator()(args_t... args)
+    void operator()(args_t... args) const
     {
         MonoException *ex = nullptr;
         this->method_(convert_mono_type<args_t>::to_mono(*this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
-            throw mono_thunk_exception(ex);
+            throw mono_thunk_exception{ex};
     }
 };
 
@@ -85,13 +82,13 @@ template <typename return_type_t, typename... args_t>
 class mono_thunk<return_type_t(args_t...)> : public mono_thunk_base<return_type_t(args_t...)>
 {
 public:
-    mono_thunk()
-        : mono_thunk_base<return_type_t(args_t...)>()
-        , mono_object()
+    mono_thunk() noexcept
+        : mono_thunk_base<return_type_t(args_t...)>{}
+        , mono_object{}
     {
     }
 
-    explicit mono_thunk(mono_assembly &assembly, MonoMethod *method)
+    explicit mono_thunk(const mono_assembly &assembly, MonoMethod *method) noexcept
         : mono_thunk_base<return_type_t(args_t...)>(assembly, method)
     {
     }
@@ -104,18 +101,17 @@ public:
     mono_thunk(mono_thunk &&o) = delete;
     auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
 
-    auto operator()(args_t... args)
+    auto operator()(args_t... args) const
     {
         MonoException *ex = nullptr;
         auto result =
             this->method_(convert_mono_type<args_t>::to_mono(*this->assembly_, std::forward<args_t>(args))..., &ex);
 
         if (ex)
-            throw mono_thunk_exception(ex);
+            throw mono_thunk_exception{ex};
 
         return convert_mono_type<return_type_t>::from_mono(std::move(result));
     }
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

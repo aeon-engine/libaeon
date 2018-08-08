@@ -24,31 +24,28 @@
  */
 
 #include <aeon/mono/mono_static_function.h>
-#include <utility>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
-mono_static_function::mono_static_function()
-    : method_(nullptr)
-    , assembly_(nullptr)
+mono_static_function::mono_static_function() noexcept
+    : method_{nullptr}
+    , assembly_{nullptr}
 {
 }
 
-mono_static_function::mono_static_function(mono_assembly *assembly, MonoClass *cls, const std::string &name, int argc)
-    : method_(nullptr)
-    , assembly_(assembly)
+mono_static_function::mono_static_function(const mono_assembly *assembly, MonoClass *cls, const std::string &name,
+                                           int argc) noexcept
+    : method_{nullptr}
+    , assembly_{assembly}
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
 mono_static_function::~mono_static_function() = default;
 
-mono_static_function::mono_static_function(mono_static_function &&o) = default;
+mono_static_function::mono_static_function(mono_static_function &&o) noexcept = default;
 
-auto mono_static_function::operator=(mono_static_function &&o) -> mono_static_function & = default;
+auto mono_static_function::operator=(mono_static_function &&o) noexcept -> mono_static_function & = default;
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

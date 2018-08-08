@@ -36,9 +36,7 @@
 #include <mono/jit/jit.h>
 #include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_assembly;
@@ -47,31 +45,31 @@ class mono_class_field;
 class mono_class
 {
 public:
-    mono_class();
-    explicit mono_class(mono_assembly *assembly, MonoClass *cls);
-    explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name);
-    explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name_space,
+    mono_class() noexcept;
+    explicit mono_class(const mono_assembly *assembly, MonoClass *cls) noexcept;
+    explicit mono_class(const mono_assembly *assembly, MonoImage *image, const std::string &name);
+    explicit mono_class(const mono_assembly *assembly, MonoImage *image, const std::string &name_space,
                         const std::string &name);
     virtual ~mono_class();
 
     mono_class(const mono_class &) = delete;
     auto operator=(const mono_class &) -> mono_class & = delete;
 
-    mono_class(mono_class &&o);
-    auto operator=(mono_class &&o) -> mono_class &;
+    mono_class(mono_class &&o) noexcept;
+    auto operator=(mono_class &&o) noexcept -> mono_class &;
 
     auto get_static_function(const std::string &name, int argc = 0) const -> mono_static_function;
 
     template <typename function_signature_t>
     auto get_static_function_thunk(const std::string &name);
 
-    auto get_mono_class_ptr() const -> MonoClass *;
+    auto get_mono_class_ptr() const noexcept -> MonoClass *;
 
     auto get_field(const std::string &name) const -> mono_class_field;
 
 private:
     MonoClass *class_;
-    mono_assembly *assembly_;
+    const mono_assembly *assembly_;
 };
 
 template <typename function_signature_t>
@@ -82,5 +80,4 @@ auto mono_class::get_static_function_thunk(const std::string &name)
     return func.template get_thunk<function_signature_t>();
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

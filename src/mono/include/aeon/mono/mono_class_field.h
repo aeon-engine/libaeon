@@ -34,9 +34,7 @@
 #include <mono/jit/jit.h>
 #include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_class;
@@ -44,22 +42,21 @@ class mono_class;
 class mono_class_field
 {
 public:
-    mono_class_field();
-    explicit mono_class_field(mono_class &monoclass, const std::string &name);
-    explicit mono_class_field(MonoClass *monoclass, const std::string &name);
+    mono_class_field() noexcept;
+    explicit mono_class_field(mono_class &monoclass, const std::string &name) noexcept;
+    explicit mono_class_field(MonoClass *monoclass, const std::string &name) noexcept;
     ~mono_class_field();
 
     mono_class_field(const mono_class_field &) = delete;
     auto operator=(const mono_class_field &) -> mono_class_field & = delete;
 
-    mono_class_field(mono_class_field &&o);
-    auto operator=(mono_class_field &&o) -> mono_class_field &;
+    mono_class_field(mono_class_field &&o) noexcept;
+    auto operator=(mono_class_field &&o) noexcept -> mono_class_field &;
 
-    auto get_mono_class_field_ptr() const -> MonoClassField *;
+    auto get_mono_class_field_ptr() const noexcept -> MonoClassField *;
 
 private:
     MonoClassField *field_;
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

@@ -35,9 +35,7 @@
 #include <aeon/mono/mono_assembly.h>
 #include <mono/jit/jit.h>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 template <typename return_type_t>
@@ -46,33 +44,31 @@ class mono_thunk_base;
 template <typename return_type_t, typename... args_t>
 class mono_thunk_base<return_type_t(args_t...)>
 {
-public:
+protected:
     using signature = typename mono_thunk_signature<return_type_t(args_t...)>::type;
 
-    mono_thunk_base()
-        : assembly_(nullptr)
-        , method_(nullptr)
+    mono_thunk_base() noexcept
+        : assembly_{nullptr}
+        , method_{nullptr}
     {
     }
 
-    explicit mono_thunk_base(mono_assembly &assembly, MonoMethod *method)
-        : assembly_(&assembly)
-        , method_(reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method)))
+    explicit mono_thunk_base(const mono_assembly &assembly, MonoMethod *method) noexcept
+        : assembly_{&assembly}
+        , method_{reinterpret_cast<signature>(mono_method_get_unmanaged_thunk(method))}
     {
     }
 
     ~mono_thunk_base() = default;
 
-    mono_thunk_base(const mono_thunk_base &) = default;
-    auto operator=(const mono_thunk_base &) -> mono_thunk_base & = default;
+    mono_thunk_base(const mono_thunk_base &) noexcept = default;
+    auto operator=(const mono_thunk_base &) noexcept -> mono_thunk_base & = default;
 
-    mono_thunk_base(mono_thunk_base &&o) = default;
-    auto operator=(mono_thunk_base &&o) -> mono_thunk_base & = default;
+    mono_thunk_base(mono_thunk_base &&o) noexcept = default;
+    auto operator=(mono_thunk_base &&o) noexcept -> mono_thunk_base & = default;
 
-protected:
-    mono_assembly *assembly_;
+    const mono_assembly *assembly_;
     signature method_;
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

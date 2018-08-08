@@ -30,26 +30,24 @@
 
 #include <mono/metadata/assembly.h>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 mono_assembly mono_jit::internal_call_assembly_;
 
 mono_jit::mono_jit()
-    : mono_jit("AeonMono")
+    : mono_jit{"AeonMono"}
 {
 }
 
 mono_jit::mono_jit(const std::string &domain)
-    : domain_(nullptr)
+    : domain_{nullptr}
 {
     mono_set_dirs(AEON_MONO_ASSEMBLY_DIR, AEON_MONO_CONFIG_DIR);
     domain_ = mono_jit_init(domain.c_str());
 
     if (!domain_)
-        throw mono_exception();
+        throw mono_exception{};
 }
 
 mono_jit::~mono_jit()
@@ -60,17 +58,17 @@ mono_jit::~mono_jit()
 
 auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
 {
-    auto assembly = mono_assembly(domain_, path);
+    auto assembly = mono_assembly{domain_, path};
 
     if (!internal_call_assembly_.valid())
-        internal_call_assembly_ = mono_assembly(domain_, assembly.get_mono_assembly_ptr());
+        internal_call_assembly_ = mono_assembly{domain_, assembly.get_mono_assembly_ptr()};
 
     return assembly;
 }
 
 void mono_jit::set_auto_wrap_assembly(const mono_assembly &assembly)
 {
-    internal_call_assembly_ = mono_assembly(assembly.get_mono_domain_ptr(), assembly.get_mono_assembly_ptr());
+    internal_call_assembly_ = mono_assembly{assembly.get_mono_domain_ptr(), assembly.get_mono_assembly_ptr()};
 }
 
 auto mono_jit::get_auto_wrap_assembly() -> mono_assembly &
@@ -83,5 +81,4 @@ void mono_jit::__add_internal_call(const std::string &name, const void *func)
     mono_add_internal_call(name.c_str(), func);
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

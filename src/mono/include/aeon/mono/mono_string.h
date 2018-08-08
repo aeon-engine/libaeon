@@ -35,25 +35,23 @@
 #include <mono/jit/jit.h>
 #include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_string : public mono_object
 {
 public:
-    explicit mono_string(MonoString *mono_string);
-    explicit mono_string(MonoDomain *domain, const std::string &str);
+    explicit mono_string(MonoString *mono_string) noexcept;
+    explicit mono_string(MonoDomain *domain, const std::string &str) noexcept;
     virtual ~mono_string();
 
     mono_string(const mono_string &) = delete;
     auto operator=(const mono_string &) -> mono_string & = delete;
 
-    mono_string(mono_string &&o);
-    auto operator=(mono_string &&o) -> mono_string &;
+    mono_string(mono_string &&o) noexcept;
+    auto operator=(mono_string &&o) noexcept -> mono_string &;
 
-    auto operator=(const std::string &str) -> mono_string &;
+    auto operator=(const std::string &str) noexcept -> mono_string &;
 
     auto str() const -> std::string;
 
@@ -63,5 +61,4 @@ private:
     MonoDomain *domain_;
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

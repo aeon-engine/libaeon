@@ -34,11 +34,8 @@
 #include <aeon/mono/mono_method_thunk.h>
 #include <mono/jit/jit.h>
 #include <string>
-#include <vector>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_object;
@@ -47,17 +44,17 @@ class mono_assembly;
 class mono_method
 {
 public:
-    mono_method();
-    explicit mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name,
-                         int argc);
+    mono_method() noexcept;
+    explicit mono_method(const mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name,
+                         int argc) noexcept;
 
     ~mono_method();
 
     mono_method(const mono_method &) = delete;
     auto operator=(const mono_method &) -> mono_method & = delete;
 
-    mono_method(mono_method &&o);
-    auto operator=(mono_method &&o) -> mono_method &;
+    mono_method(mono_method &&o) noexcept;
+    auto operator=(mono_method &&o) noexcept -> mono_method &;
 
     template <typename function_signature_t>
     auto get_thunk();
@@ -65,7 +62,7 @@ public:
 private:
     MonoMethod *method_;
     MonoObject *object_;
-    mono_assembly *assembly_;
+    const mono_assembly *assembly_;
 };
 
 template <typename function_signature_t>
@@ -74,5 +71,4 @@ auto mono_method::get_thunk()
     return mono_method_thunk<function_signature_t>(*assembly_, object_, method_);
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

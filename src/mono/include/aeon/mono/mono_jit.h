@@ -36,9 +36,7 @@
 #include <string>
 #include <cassert>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_assembly;
@@ -119,5 +117,4 @@ struct mono_jit_internal_call_wrapper<return_t(args_t...), func,
  */
 #define aeon_mono_auto_wrap(func) &aeon::mono::mono_jit_internal_call_wrapper<decltype(func), func>::wrapper
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

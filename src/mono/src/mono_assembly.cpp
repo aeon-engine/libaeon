@@ -30,78 +30,75 @@
 #include <aeon/mono/mono_string.h>
 #include <mono/metadata/assembly.h>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
-mono_assembly::mono_assembly()
-    : domain_(nullptr)
-    , assembly_(nullptr)
-    , image_(nullptr)
+mono_assembly::mono_assembly() noexcept
+    : domain_{nullptr}
+    , assembly_{nullptr}
+    , image_{nullptr}
 {
 }
 
-mono_assembly::mono_assembly(MonoDomain *domain, MonoAssembly *assembly)
-    : domain_(domain)
-    , assembly_(assembly)
-    , image_(mono_assembly_get_image(assembly_))
+mono_assembly::mono_assembly(MonoDomain *domain, MonoAssembly *assembly) noexcept
+    : domain_{domain}
+    , assembly_{assembly}
+    , image_{mono_assembly_get_image(assembly_)}
 {
 }
 
 mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
-    : domain_(domain)
-    , assembly_(nullptr)
-    , image_(nullptr)
+    : domain_{domain}
+    , assembly_{nullptr}
+    , image_{nullptr}
 {
     assembly_ = mono_domain_assembly_open(domain, path.c_str());
 
     if (!assembly_)
-        throw mono_exception();
+        throw mono_exception{};
 
     image_ = mono_assembly_get_image(assembly_);
 }
 
 mono_assembly::~mono_assembly() = default;
 
-mono_assembly::mono_assembly(mono_assembly &&o) = default;
+mono_assembly::mono_assembly(mono_assembly &&o) noexcept = default;
 
-auto mono_assembly::operator=(mono_assembly &&o) -> mono_assembly & = default;
+auto mono_assembly::operator=(mono_assembly &&o) noexcept -> mono_assembly & = default;
 
-auto mono_assembly::get_mono_assembly_ptr() const -> MonoAssembly *
+auto mono_assembly::get_mono_assembly_ptr() const noexcept -> MonoAssembly *
 {
     return assembly_;
 }
 
-auto mono_assembly::get_mono_domain_ptr() const -> MonoDomain *
+auto mono_assembly::get_mono_domain_ptr() const noexcept -> MonoDomain *
 {
     return domain_;
 }
 
-auto mono_assembly::get_class(const std::string &name) -> mono_class
+auto mono_assembly::get_class(const std::string &name) const -> mono_class
 {
-    return mono_class(this, image_, name);
+    return mono_class{this, image_, name};
 }
 
-auto mono_assembly::get_class(const std::string &name_space, const std::string &name) -> mono_class
+auto mono_assembly::get_class(const std::string &name_space, const std::string &name) const -> mono_class
 {
-    return mono_class(this, image_, name_space, name);
+    return mono_class{this, image_, name_space, name};
 }
 
-auto mono_assembly::new_class_instance(const mono_class &cls) -> mono_class_instance
+auto mono_assembly::new_class_instance(const mono_class &cls) const noexcept -> mono_class_instance
 {
-    return mono_class_instance(this, domain_, cls.get_mono_class_ptr());
+    return mono_class_instance{this, domain_, cls.get_mono_class_ptr()};
 }
 
-auto mono_assembly::new_string(const std::string &str) const -> mono_string
+auto mono_assembly::new_string(const std::string &str) const noexcept -> mono_string
 {
-    return mono_string(domain_, str);
+    return mono_string{domain_, str};
 }
 
-auto mono_assembly::valid() const -> bool
+auto mono_assembly::valid() const noexcept -> bool
 {
     return domain_ != nullptr && assembly_ != nullptr && image_ != nullptr;
 }
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

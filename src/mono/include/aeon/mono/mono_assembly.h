@@ -34,9 +34,7 @@
 #include <mono/jit/jit.h>
 #include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_class;
@@ -46,27 +44,27 @@ class mono_string;
 class mono_assembly
 {
 public:
-    mono_assembly();
-    explicit mono_assembly(MonoDomain *domain, MonoAssembly *assembly);
+    mono_assembly() noexcept;
+    explicit mono_assembly(MonoDomain *domain, MonoAssembly *assembly) noexcept;
     explicit mono_assembly(MonoDomain *domain, const std::string &path);
     ~mono_assembly();
 
     mono_assembly(const mono_assembly &) = delete;
     auto operator=(const mono_assembly &) -> mono_assembly & = delete;
 
-    mono_assembly(mono_assembly &&o);
-    auto operator=(mono_assembly &&o) -> mono_assembly &;
+    mono_assembly(mono_assembly &&o) noexcept;
+    auto operator=(mono_assembly &&o) noexcept -> mono_assembly &;
 
-    auto get_mono_assembly_ptr() const -> MonoAssembly *;
-    auto get_mono_domain_ptr() const -> MonoDomain *;
+    auto get_mono_assembly_ptr() const noexcept -> MonoAssembly *;
+    auto get_mono_domain_ptr() const noexcept -> MonoDomain *;
 
-    auto get_class(const std::string &name) -> mono_class;
-    auto get_class(const std::string &name_space, const std::string &name) -> mono_class;
+    auto get_class(const std::string &name) const -> mono_class;
+    auto get_class(const std::string &name_space, const std::string &name) const -> mono_class;
 
-    auto new_class_instance(const mono_class &cls) -> mono_class_instance;
-    auto new_string(const std::string &str) const -> mono_string;
+    auto new_class_instance(const mono_class &cls) const noexcept -> mono_class_instance;
+    auto new_string(const std::string &str) const noexcept -> mono_string;
 
-    auto valid() const -> bool;
+    auto valid() const noexcept -> bool;
 
 private:
     MonoDomain *domain_;
@@ -74,5 +72,4 @@ private:
     MonoImage *image_;
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

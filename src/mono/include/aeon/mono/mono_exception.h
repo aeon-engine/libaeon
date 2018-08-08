@@ -29,9 +29,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 class mono_exception : public std::runtime_error
@@ -46,17 +44,17 @@ class mono_thunk_exception : public mono_exception
 public:
     explicit mono_thunk_exception(MonoException *ex);
 
-    auto exception_typename() const
+    const auto &exception_typename() const noexcept
     {
         return exception_typename_;
     }
 
-    auto message() const
+    const auto &message() const noexcept
     {
         return message_;
     }
 
-    auto stacktrace() const
+    const auto &stacktrace() const noexcept
     {
         return stacktrace_;
     }
@@ -71,13 +69,12 @@ private:
 
     explicit mono_thunk_exception(const exception_info &info);
 
-    static auto __get_exception_info(MonoException *ex) -> exception_info;
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) -> char *;
+    static auto __get_exception_info(MonoException *ex) noexcept -> exception_info;
+    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) noexcept -> char *;
 
     std::string exception_typename_;
     std::string message_;
     std::string stacktrace_;
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

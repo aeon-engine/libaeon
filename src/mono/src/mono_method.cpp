@@ -24,35 +24,30 @@
  */
 
 #include <aeon/mono/mono_method.h>
-#include <aeon/mono/mono_object.h>
 
-#include <utility>
-
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
-mono_method::mono_method()
-    : method_(nullptr)
-    , object_(nullptr)
-    , assembly_(nullptr)
+mono_method::mono_method() noexcept
+    : method_{nullptr}
+    , object_{nullptr}
+    , assembly_{nullptr}
 {
 }
 
-mono_method::mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name, int argc)
-    : method_(nullptr)
-    , object_(object)
-    , assembly_(assembly)
+mono_method::mono_method(const mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name,
+                         int argc) noexcept
+    : method_{nullptr}
+    , object_{object}
+    , assembly_{assembly}
 {
     method_ = mono_class_get_method_from_name(cls, name.c_str(), argc);
 }
 
 mono_method::~mono_method() = default;
 
-mono_method::mono_method(mono_method &&o) = default;
+mono_method::mono_method(mono_method &&o) noexcept = default;
 
-auto mono_method::operator=(mono_method &&o) -> mono_method & = default;
+auto mono_method::operator=(mono_method &&o) noexcept -> mono_method & = default;
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

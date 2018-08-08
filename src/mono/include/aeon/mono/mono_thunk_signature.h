@@ -27,9 +27,7 @@
 
 #include <aeon/mono/mono_type_conversion.h>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 template <typename return_type_t>
@@ -50,5 +48,4 @@ public:
         typename convert_mono_type<args_t>::mono_type_name..., MonoException **ex);
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono

@@ -36,9 +36,7 @@
 #include <aeon/mono/mono_string.h>
 #include <string>
 
-namespace aeon
-{
-namespace mono
+namespace aeon::mono
 {
 
 template <typename T>
@@ -46,12 +44,12 @@ struct convert_mono_type
 {
     using mono_type_name = T;
 
-    static auto to_mono(mono_assembly &, T &&t) -> T
+    static auto to_mono(const mono_assembly &, T &&t) noexcept -> T
     {
         return std::forward<T>(t);
     }
 
-    static auto from_mono(T &&t) -> T
+    static auto from_mono(T &&t) noexcept -> T
     {
         return std::forward<T>(t);
     }
@@ -62,7 +60,7 @@ struct convert_mono_type<std::string>
 {
     using mono_type_name = MonoString *;
 
-    static auto to_mono(mono_assembly &assembly, const std::string &str) -> MonoString *
+    static auto to_mono(const mono_assembly &assembly, const std::string &str) -> MonoString *
     {
         return assembly.new_string(str).get_mono_string();
     }
@@ -73,5 +71,4 @@ struct convert_mono_type<std::string>
     }
 };
 
-} // namespace mono
-} // namespace aeon
+} // namespace aeon::mono
