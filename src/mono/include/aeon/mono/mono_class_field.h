@@ -31,7 +31,6 @@
 #endif
 #endif
 
-#include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 #include <string>
 
@@ -42,13 +41,16 @@ namespace mono
 
 class mono_class;
 
-class mono_class_field : public common::noncopyable
+class mono_class_field
 {
 public:
     mono_class_field();
     explicit mono_class_field(mono_class &monoclass, const std::string &name);
     explicit mono_class_field(MonoClass *monoclass, const std::string &name);
-    virtual ~mono_class_field();
+    ~mono_class_field();
+
+    mono_class_field(const mono_class_field &) = delete;
+    auto operator=(const mono_class_field &) -> mono_class_field & = delete;
 
     mono_class_field(mono_class_field &&o);
     auto operator=(mono_class_field &&o) -> mono_class_field &;

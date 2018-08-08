@@ -63,6 +63,12 @@ public:
 
     ~mono_thunk_base() = default;
 
+    mono_thunk_base(const mono_thunk_base &) = delete;
+    auto operator=(const mono_thunk_base &) -> mono_thunk_base & = delete;
+
+    mono_thunk_base(mono_thunk_base &&o) =  delete;
+    auto operator=(mono_thunk_base &&o) -> mono_thunk_base & = delete;
+
 protected:
     mono_assembly *assembly_;
     signature method_;

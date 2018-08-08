@@ -32,7 +32,6 @@
 #endif
 
 #include <aeon/mono/mono_type_conversion.h>
-#include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 #include <string>
 #include <cassert>
@@ -52,12 +51,18 @@ class mono_assembly;
  * at runtime after it was cleaned up. You must keep this class instanced
  * during the full runtime of the application.
  */
-class mono_jit : public common::noncopyable
+class mono_jit
 {
 public:
     mono_jit();
     explicit mono_jit(const std::string &domain);
-    virtual ~mono_jit();
+    ~mono_jit();
+
+    mono_jit(const mono_jit &) = delete;
+    auto operator=(const mono_jit &) -> mono_jit & = delete;
+
+    mono_jit(mono_jit &&o) = delete;
+    auto operator=(mono_jit &&o) -> mono_jit & = delete;
 
     auto load_assembly(const std::string &path) const -> mono_assembly;
 
@@ -91,8 +96,6 @@ struct mono_jit_internal_call_wrapper<void(args_t...), func>
         func(convert_mono_type<args_t>::from_mono(std::move(args))...);
     }
 };
-
-extern mono_assembly assembly_blah;
 
 template <typename return_t, typename... args_t, return_t (&func)(args_t...)>
 struct mono_jit_internal_call_wrapper<return_t(args_t...), func>

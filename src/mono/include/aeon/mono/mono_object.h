@@ -43,9 +43,15 @@ class mono_object
 public:
     mono_object();
     explicit mono_object(MonoObject *object);
-    ~mono_object();
+    virtual ~mono_object();
 
     auto get_mono_object() const -> MonoObject *;
+
+    mono_object(const mono_object &) = default;
+    auto operator=(const mono_object &) -> mono_object & = default;
+
+    mono_object(mono_object &&o) = default;
+    auto operator=(mono_object &&o) -> mono_object & = default;
 
 protected:
     MonoObject *object_;

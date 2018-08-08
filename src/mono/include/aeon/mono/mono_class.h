@@ -32,7 +32,6 @@
 #endif
 
 #include <aeon/mono/mono_static_function.h>
-#include <aeon/common/noncopyable.h>
 #include <aeon/common/type_traits.h>
 #include <mono/jit/jit.h>
 #include <string>
@@ -45,7 +44,7 @@ namespace mono
 class mono_assembly;
 class mono_class_field;
 
-class mono_class : public common::noncopyable
+class mono_class
 {
 public:
     mono_class();
@@ -54,6 +53,9 @@ public:
     explicit mono_class(mono_assembly *assembly, MonoImage *image, const std::string &name_space,
                         const std::string &name);
     virtual ~mono_class();
+
+    mono_class(const mono_class &) = delete;
+    auto operator=(const mono_class &) -> mono_class & = delete;
 
     mono_class(mono_class &&o);
     auto operator=(mono_class &&o) -> mono_class &;

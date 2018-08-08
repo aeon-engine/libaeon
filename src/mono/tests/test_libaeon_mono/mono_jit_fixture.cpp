@@ -26,8 +26,6 @@
 #include "mono_jit_fixture.h"
 #include <aeon/mono/mono_string.h>
 
-aeon_utility_initialize_singleton(mono_jit_fixture);
-
 void MyObject_CreateInternal(MonoObject *this_ptr)
 {
     std::cout << "MyObject created." << std::endl;

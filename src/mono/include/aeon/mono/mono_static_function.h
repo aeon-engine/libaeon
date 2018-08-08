@@ -31,7 +31,6 @@
 #endif
 #endif
 
-#include <aeon/common/noncopyable.h>
 #include <aeon/mono/mono_thunk.h>
 #include <mono/jit/jit.h>
 #include <string>
@@ -44,13 +43,16 @@ namespace mono
 
 class mono_assembly;
 
-class mono_static_function : public common::noncopyable
+class mono_static_function
 {
 public:
     mono_static_function();
     explicit mono_static_function(mono_assembly *assembly, MonoClass *cls, const std::string &name, int argc);
 
-    virtual ~mono_static_function();
+    ~mono_static_function();
+
+    mono_static_function(const mono_static_function &) = delete;
+    auto operator=(const mono_static_function &) -> mono_static_function & = delete;
 
     mono_static_function(mono_static_function &&o);
     auto operator=(mono_static_function &&o) -> mono_static_function &;

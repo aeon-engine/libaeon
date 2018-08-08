@@ -31,7 +31,6 @@
 #endif
 #endif
 
-#include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 #include <string>
 
@@ -44,13 +43,16 @@ class mono_class;
 class mono_class_instance;
 class mono_string;
 
-class mono_assembly : public common::noncopyable
+class mono_assembly
 {
 public:
     mono_assembly();
     explicit mono_assembly(MonoDomain *domain, MonoAssembly *assembly);
     explicit mono_assembly(MonoDomain *domain, const std::string &path);
-    virtual ~mono_assembly();
+    ~mono_assembly();
+
+    mono_assembly(const mono_assembly &) = delete;
+    auto operator=(const mono_assembly &) -> mono_assembly & = delete;
 
     mono_assembly(mono_assembly &&o);
     auto operator=(mono_assembly &&o) -> mono_assembly &;

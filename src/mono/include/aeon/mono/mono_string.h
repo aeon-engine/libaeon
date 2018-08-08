@@ -32,7 +32,6 @@
 #endif
 
 #include <aeon/mono/mono_object.h>
-#include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 #include <string>
 
@@ -47,6 +46,9 @@ public:
     explicit mono_string(MonoString *mono_string);
     explicit mono_string(MonoDomain *domain, const std::string &str);
     virtual ~mono_string();
+
+    mono_string(const mono_string &) = delete;
+    auto operator=(const mono_string &) -> mono_string & = delete;
 
     mono_string(mono_string &&o);
     auto operator=(mono_string &&o) -> mono_string &;

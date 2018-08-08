@@ -31,7 +31,6 @@
 #endif
 #endif
 
-#include <aeon/common/noncopyable.h>
 #include <aeon/mono/mono_method_thunk.h>
 #include <mono/jit/jit.h>
 #include <string>
@@ -45,14 +44,17 @@ namespace mono
 class mono_object;
 class mono_assembly;
 
-class mono_method : public common::noncopyable
+class mono_method
 {
 public:
     mono_method();
     explicit mono_method(mono_assembly *assembly, MonoClass *cls, MonoObject *object, const std::string &name,
                          int argc);
 
-    virtual ~mono_method();
+    ~mono_method();
+
+    mono_method(const mono_method &) = delete;
+    auto operator=(const mono_method &) -> mono_method & = delete;
 
     mono_method(mono_method &&o);
     auto operator=(mono_method &&o) -> mono_method &;

@@ -31,7 +31,6 @@
 #endif
 #endif
 
-#include <aeon/common/noncopyable.h>
 #include <mono/jit/jit.h>
 #include <cstdint>
 
@@ -47,7 +46,7 @@ class mono_gc_handle
 public:
     explicit mono_gc_handle(mono_object &obj);
     explicit mono_gc_handle(MonoObject *obj);
-    virtual ~mono_gc_handle();
+    ~mono_gc_handle();
 
     void lock();
     void unlock();
@@ -57,7 +56,7 @@ private:
     MonoObject *object_;
 };
 
-class mono_scoped_gc_handle : public common::noncopyable
+class mono_scoped_gc_handle
 {
 public:
     explicit mono_scoped_gc_handle(mono_gc_handle &handle)
@@ -71,10 +70,16 @@ public:
         handle_.unlock();
     }
 
-    auto &get_handle() const
+    auto &get_handle() const noexcept
     {
         return handle_;
     }
+
+    mono_scoped_gc_handle(const mono_scoped_gc_handle &) = delete;
+    auto operator=(const mono_scoped_gc_handle &) -> mono_scoped_gc_handle & = delete;
+
+    mono_scoped_gc_handle(mono_scoped_gc_handle &&o) = delete;
+    auto operator=(mono_scoped_gc_handle &&o) -> mono_scoped_gc_handle & = delete;
 
 private:
     mono_gc_handle &handle_;

@@ -49,6 +49,9 @@ public:
     explicit mono_class_instance(mono_assembly *assembly, MonoDomain *domain, MonoClass *cls);
     virtual ~mono_class_instance();
 
+    mono_class_instance(const mono_class_instance &) = delete;
+    auto operator=(const mono_class_instance &) -> mono_class_instance & = delete;
+
     mono_class_instance(mono_class_instance &&o);
     auto operator=(mono_class_instance &&o) -> mono_class_instance &;
 
