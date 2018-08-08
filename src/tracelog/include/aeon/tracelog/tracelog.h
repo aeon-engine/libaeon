@@ -26,7 +26,7 @@
 #pragma once
 
 #include <aeon/common/preprocessor.h>
-#include <filesystem>
+#include <aeon/common/stdfilesystem.h>
 
 namespace aeon::tracelog
 {

@@ -27,11 +27,11 @@
 
 #include "data.h"
 #include <aeon/common/singleton.h>
+#include <aeon/common/stdfilesystem.h>
 #include <aeon/streams/file_stream_fwd.h>
 #include <atomic>
 #include <vector>
 #include <mutex>
-#include <filesystem>
 
 namespace aeon::tracelog::detail
 {
