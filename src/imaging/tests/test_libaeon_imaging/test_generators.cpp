@@ -51,7 +51,7 @@ TEST(test_imaging, test_image_generator_scale_perlin_noise)
     imaging::image image{d};
 
     imaging::generators::simplex_noise(image, 4.0f, 0.2f, 0.05f);
-    image = imaging::filters::resize_bilinear(view(image), {250, 500});
+    image = imaging::filters::resize_bilinear(imaging::view(image), {250, 500});
 
     const auto rgb_image = imaging::convert::to_rgb24(image);
 
