@@ -41,7 +41,7 @@ class convert_exception : public imaging_exception
 auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
 
 template <typename T>
-inline auto to_rgb24(const image<T> &img) -> image<rgb24>
+inline auto to_rgb24(const image_view<T> &img) -> image<rgb24>
 {
     aeon_assert(continuous(img), "to_rgb24 only works on continuous images.");
 
