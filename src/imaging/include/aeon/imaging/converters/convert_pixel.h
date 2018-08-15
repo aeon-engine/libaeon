@@ -47,6 +47,18 @@ struct pixel
             return {pixel, pixel, pixel};
         }
     }
+
+    static auto to_rgba32(const pixel_type_t pixel) noexcept -> rgba32
+    {
+        const auto rgb = to_rgb24(pixel);
+        return {rgb.r, rgb.g, rgb.b, 255};
+    }
+
+    static auto to_bgr24(const pixel_type_t pixel) noexcept -> bgr24
+    {
+        const auto rgb = to_rgb24(pixel);
+        return {rgb.b, rgb.g, rgb.r};
+    }
 };
 
 template <>
@@ -57,6 +69,18 @@ struct pixel<float>
         const auto rgb_pixel = static_cast<std::uint8_t>(pixel * 255.0f);
         return {rgb_pixel, rgb_pixel, rgb_pixel};
     }
+
+    static auto to_rgba32(const float pixel) noexcept -> rgba32
+    {
+        const auto rgb = to_rgb24(pixel);
+        return {rgb.r, rgb.g, rgb.b, 255};
+    }
+
+    static auto to_bgr24(const float pixel) noexcept -> bgr24
+    {
+        const auto rgb = to_rgb24(pixel);
+        return {rgb.b, rgb.g, rgb.r};
+    }
 };
 
 template <>
@@ -65,6 +89,16 @@ struct pixel<rgb24>
     static auto to_rgb24(const rgb24 pixel) noexcept -> rgb24
     {
         return pixel;
+    }
+
+    static auto to_rgba32(const rgb24 pixel) noexcept -> rgba32
+    {
+        return {pixel.r, pixel.g, pixel.b, 255};
+    }
+
+    static auto to_bgr24(const rgb24 pixel) noexcept -> bgr24
+    {
+        return {pixel.b, pixel.g, pixel.r};
     }
 };
 
@@ -75,6 +109,16 @@ struct pixel<rgba32>
     {
         return {pixel.r, pixel.g, pixel.b};
     }
+
+    static auto to_rgba32(const rgba32 pixel) noexcept -> rgba32
+    {
+        return pixel;
+    }
+
+    static auto to_bgr24(const rgba32 pixel) noexcept -> bgr24
+    {
+        return {pixel.b, pixel.g, pixel.r};
+    }
 };
 
 template <>
@@ -83,6 +127,16 @@ struct pixel<bgr24>
     static auto to_rgb24(const bgr24 pixel) noexcept -> rgb24
     {
         return {pixel.r, pixel.g, pixel.b};
+    }
+
+    static auto to_rgba32(const bgr24 pixel) noexcept -> rgba32
+    {
+        return {pixel.r, pixel.g, pixel.b, 255};
+    }
+
+    static auto to_bgr24(const bgr24 pixel) noexcept -> bgr24
+    {
+        return pixel;
     }
 };
 

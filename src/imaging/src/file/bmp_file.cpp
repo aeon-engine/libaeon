@@ -106,7 +106,7 @@ auto load(streams::stream &stream) -> dynamic_image
         image_descriptor<bgr24>{{static_cast<dimension>(info_header.width), static_cast<dimension>(info_header.height)},
                                 static_cast<dimension>(detail::calculate_stride(info_header))};
 
-    auto img = image<bgr24>{d, std::move(pixel_data)};
+    const auto img = image<bgr24>{d, std::move(pixel_data)};
     return dynamic_image(filters::invert_vertically(img));
 }
 

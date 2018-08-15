@@ -34,19 +34,16 @@
 namespace aeon::imaging::convert
 {
 
-class convert_exception : public imaging_exception
+namespace internal
 {
-};
 
-auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
-
-template <typename T>
-inline auto to_rgb24(const image_view<T> &img) -> image<rgb24>
+template <typename from_t, typename to_t>
+inline auto to_pixel_encoding(const image_view<from_t> &img, to_t (*converter)(const from_t)) -> image<to_t>
 {
-    aeon_assert(continuous(img), "to_rgb24 only works on continuous images.");
+    aeon_assert(continuous(img), "to_pixel_encoding only works on continuous images.");
 
-    const image_descriptor<rgb24> d{width(img), height(img)};
-    image<rgb24> new_image(d);
+    const image_descriptor<to_t> d{width(img), height(img)};
+    image<to_t> new_image(d);
 
     const auto src_image_data = img.data();
     const auto new_image_data = new_image.data();
@@ -55,10 +52,38 @@ inline auto to_rgb24(const image_view<T> &img) -> image<rgb24>
 
     for (auto i = 0; i < dims; ++i)
     {
-        new_image_data[i] = pixel<T>::to_rgb24(src_image_data[i]);
+        new_image_data[i] = converter(src_image_data[i]);
     }
 
     return new_image;
+}
+
+} // namespace internal
+
+class convert_exception : public imaging_exception
+{
+};
+
+auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
+auto to_bgr24(const dynamic_image &img) -> image<bgr24>;
+auto to_rgba32(const dynamic_image &img) -> image<rgba32>;
+
+template <typename T>
+inline auto to_rgb24(const image_view<T> &img) -> image<rgb24>
+{
+    return internal::to_pixel_encoding<T, rgb24>(img, pixel<T>::to_rgb24);
+}
+
+template <typename T>
+inline auto to_bgr24(const image_view<T> &img) -> image<bgr24>
+{
+    return internal::to_pixel_encoding<T, bgr24>(img, pixel<T>::to_bgr24);
+}
+
+template <typename T>
+inline auto to_rgba32(const image_view<T> &img) -> image<rgba32>
+{
+    return internal::to_pixel_encoding<T, rgba32>(img, pixel<T>::to_rgba32);
 }
 
 } // namespace aeon::imaging::convert
