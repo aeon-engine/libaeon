@@ -48,3 +48,15 @@ TEST(test_imaging, test_fill)
 
     imaging::file::png::save(imaging::view(image), "test_fill_rgb24.png");
 }
+
+TEST(test_imaging, test_fill_rect)
+{
+    const imaging::image_descriptor<imaging::rgb24> d{256, 256};
+    imaging::image<imaging::rgb24> image{d};
+
+    imaging::filters::fill(imaging::view(image), {0, 0, 64, 64}, {255, 0, 0});
+    imaging::filters::fill(imaging::view(image), {200, 200, 220, 255}, {0, 255, 0});
+    imaging::filters::fill(imaging::view(image), {140, 100, 210, 160}, {0, 0, 255});
+
+    imaging::file::png::save(imaging::view(image), "test_fill_rect_rgb24.png");
+}
