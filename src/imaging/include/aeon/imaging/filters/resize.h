@@ -35,7 +35,7 @@ template <typename T>
 inline auto resize_bilinear(const image_view<T> &img, const math::size2d<dimension> size) -> image<T>
 {
     image new_image(image_descriptor<T>{size});
-    const auto dst = view(new_image).data();
+    const auto dst = new_image.data();
 
     const float x_ratio = static_cast<float>(width(img) - 1) / width(size);
     const float y_ratio = static_cast<float>(height(img) - 1) / height(size);

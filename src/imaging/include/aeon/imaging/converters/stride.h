@@ -41,8 +41,8 @@ inline auto remove_stride(const image<T> &img) -> image<T>
     const image_descriptor<T> d{width(img), height(img)};
     image<T> new_image{d};
 
-    const auto src_data = view(img).template data<std::uint8_t>();
-    const auto dst_data = view(new_image).template data<std::uint8_t>();
+    const auto src_data = img.template data<std::uint8_t>();
+    const auto dst_data = new_image.template data<std::uint8_t>();
 
     for (auto y = 0; y < height(img); ++y)
     {

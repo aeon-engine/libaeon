@@ -42,16 +42,16 @@ TEST(test_imaging, test_blit)
     const auto d = imaging::image_descriptor<imaging::rgba32>{256, 256};
     auto dst = imaging::image{d};
 
-    auto view1 = imaging::make_view(imaging::view(image), {0, 0, 64, 64});
-    imaging::filters::blit(view1, imaging::view(dst), {10, 10});
+    auto view1 = imaging::make_view(image, {0, 0, 64, 64});
+    imaging::filters::blit(view1, dst, {10, 10});
 
-    auto view2 = imaging::make_view(imaging::view(image), {128, 128, 150, 160});
-    imaging::filters::blit(view2, imaging::view(dst), {40, 40});
+    auto view2 = imaging::make_view(image, {128, 128, 150, 160});
+    imaging::filters::blit(view2, dst, {40, 40});
 
-    auto view3 = imaging::make_view(imaging::view(image), {140, 100, 210, 160});
-    imaging::filters::blit(view3, imaging::view(dst), {100, 100});
+    auto view3 = imaging::make_view(image, {140, 100, 210, 160});
+    imaging::filters::blit(view3, dst, {100, 100});
 
-    imaging::file::png::save(imaging::view(dst), "test_blit.png");
+    imaging::file::png::save(dst, "test_blit.png");
 }
 
 TEST(test_imaging, test_scale_blit)
@@ -64,11 +64,11 @@ TEST(test_imaging, test_scale_blit)
     const auto d = imaging::image_descriptor<imaging::rgba32>{256, 256};
     auto dst = imaging::image{d};
 
-    auto view1 = imaging::make_view(imaging::view(image), {0, 0, 64, 64});
-    imaging::filters::scale_blit(view1, imaging::view(dst), {10, 10, 246, 246});
+    auto view1 = imaging::make_view(image, {0, 0, 64, 64});
+    imaging::filters::scale_blit(view1, dst, {10, 10, 246, 246});
 
-    auto view2 = imaging::make_view(imaging::view(image), {140, 100, 210, 160});
-    imaging::filters::scale_blit(view2, imaging::view(dst), {16, 16, 32, 32});
+    auto view2 = imaging::make_view(image, {140, 100, 210, 160});
+    imaging::filters::scale_blit(view2, dst, {16, 16, 32, 32});
 
-    imaging::file::png::save(imaging::view(dst), "test_scale_blit.png");
+    imaging::file::png::save(dst, "test_scale_blit.png");
 }

@@ -33,7 +33,7 @@ namespace aeon::imaging
 template <typename T>
 inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte *data) noexcept
     : descriptor_{descriptor}
-    , data_{data}
+    , data_ptr_{data}
 {
     aeon_assert(data, "Data is nullptr.");
 }
@@ -41,9 +41,16 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte
 template <typename T>
 inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std::byte *data) noexcept
     : descriptor_{descriptor}
-    , data_{const_cast<std::byte *>(data)}
+    , data_ptr_{const_cast<std::byte *>(data)}
 {
     aeon_assert(data, "Data is nullptr.");
+}
+
+template <typename T>
+inline image_view<T>::image_view(const image_descriptor<T> descriptor) noexcept
+    : descriptor_{descriptor}
+    , data_ptr_{}
+{
 }
 
 template <typename T>
@@ -58,41 +65,41 @@ inline auto image_view<T>::descriptor() const noexcept -> image_descriptor<T>
 template <typename T>
 inline auto image_view<T>::data() noexcept -> T *
 {
-    return reinterpret_cast<T *>(data_);
+    return reinterpret_cast<T *>(data_ptr_);
 }
 
 template <typename T>
 inline auto image_view<T>::data() const noexcept -> const T *
 {
-    return reinterpret_cast<const T *>(data_);
+    return reinterpret_cast<const T *>(data_ptr_);
 }
 
 template <typename T>
 template <typename U>
 inline auto image_view<T>::data() noexcept -> U *
 {
-    return reinterpret_cast<U *>(data_);
+    return reinterpret_cast<U *>(data_ptr_);
 }
 
 template <typename T>
 template <typename U>
 inline auto image_view<T>::data() const noexcept -> const U *
 {
-    return reinterpret_cast<const U *>(data_);
+    return reinterpret_cast<const U *>(data_ptr_);
 }
 
 template <typename T>
 inline auto image_view<T>::data(const math::vector2<dimension> coord) noexcept -> T *
 {
     aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
-    return reinterpret_cast<T *>(data_ + at_offset(coord, descriptor_));
+    return reinterpret_cast<T *>(data_ptr_ + at_offset(coord, descriptor_));
 }
 
 template <typename T>
 inline auto image_view<T>::data(const math::vector2<dimension> coord) const noexcept -> const T *
 {
     aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
-    return reinterpret_cast<const T *>(data_ + at_offset(coord, descriptor_));
+    return reinterpret_cast<const T *>(data_ptr_ + at_offset(coord, descriptor_));
 }
 
 template <typename T>

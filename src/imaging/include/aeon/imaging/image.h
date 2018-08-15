@@ -48,7 +48,7 @@ protected:
 };
 
 template <typename T>
-class image : public image_base
+class image : public image_view<T>, public image_base
 {
     friend class dynamic_image;
 
@@ -64,53 +64,13 @@ public:
     image(image<T> &&o) noexcept = default;
     auto operator=(image<T> &&other) noexcept -> image<T> & = default;
 
-    operator image_view<T> &() noexcept;
-    operator const image_view<T> &() const noexcept;
-
-    auto view() noexcept -> image_view<T> &;
-    auto view() const noexcept -> const image_view<T> &;
-
     auto clone() const -> image<T>;
 
 private:
     auto move_to_dynamic_image() -> std::unique_ptr<image_base>;
 
     std::vector<std::byte> data_;
-    image_view<T> view_;
 };
-
-template <typename T>
-inline auto view(image<T> &image) noexcept -> image_view<T> &;
-
-template <typename T>
-inline auto view(const image<T> &image) noexcept -> const image_view<T> &;
-
-template <typename T>
-inline auto descriptor(const image<T> &image) noexcept -> image_descriptor<T>;
-
-template <typename T>
-inline auto width(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto height(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto dimensions(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto rectangle(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto stride_x(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto stride_y(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto continuous(const image<T> &image) noexcept;
-
-template <typename T>
-inline auto size(const image<T> &image) noexcept -> std::ptrdiff_t;
 
 } // namespace aeon::imaging
 

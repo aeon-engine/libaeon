@@ -41,7 +41,7 @@ public:
     explicit image_view(const image_descriptor<T> descriptor, std::byte *data) noexcept;
     explicit image_view(const image_descriptor<T> descriptor, const std::byte *data) noexcept;
 
-    ~image_view() noexcept;
+    virtual ~image_view() noexcept;
 
     image_view(const image_view<T> &) = default;
     auto operator=(const image_view<T> &) -> image_view<T> & = default;
@@ -72,9 +72,11 @@ public:
     auto at(const math::vector2<dimension> coord) noexcept -> T &;
     auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
 
-private:
+protected:
+    explicit image_view(const image_descriptor<T> descriptor) noexcept;
+
     image_descriptor<T> descriptor_;
-    std::byte *data_;
+    std::byte *data_ptr_;
 };
 
 template <typename T>

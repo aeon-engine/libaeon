@@ -47,20 +47,6 @@ inline dynamic_image::dynamic_image(std::unique_ptr<image<T>> image)
 
 inline dynamic_image::~dynamic_image() = default;
 
-template <typename T>
-inline dynamic_image::operator image<T> &() noexcept
-{
-    aeon_assert(pixel_encoding_trait<T>::encoding() == encoding_, "Encoding mismatch.");
-    return *static_cast<image<T> *>(image_.get());
-}
-
-template <typename T>
-inline dynamic_image::operator const image<T> &() const noexcept
-{
-    aeon_assert(pixel_encoding_trait<T>::encoding() == encoding_, "Encoding mismatch.");
-    return *static_cast<const image<T> *>(image_.get());
-}
-
 inline auto dynamic_image::encoding() const noexcept -> pixel_encoding
 {
     return encoding_;
@@ -88,13 +74,13 @@ inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding
 template <typename T>
 inline auto view(dynamic_image &image) noexcept -> image_view<T> &
 {
-    return view(image.get_image<T>());
+    return image.get_image<T>();
 }
 
 template <typename T>
 inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &
 {
-    return view(image.get_image<T>());
+    return image.get_image<T>();
 }
 
 } // namespace aeon::imaging

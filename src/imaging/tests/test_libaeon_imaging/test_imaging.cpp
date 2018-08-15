@@ -71,7 +71,7 @@ TEST(test_imaging, test_image_float_data)
     imaging::image_descriptor<float> d{3, 3};
     imaging::image image{d};
 
-    const auto data = image.view().data<float>();
+    const auto data = image.data<float>();
     for (auto i = 0u; i < (3 * 3); ++i)
     {
         data[i] = 1.0f;

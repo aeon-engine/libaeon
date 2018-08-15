@@ -107,7 +107,7 @@ auto load(streams::stream &stream) -> dynamic_image
                                 static_cast<dimension>(detail::calculate_stride(info_header))};
 
     auto img = image<bgr24>{d, std::move(pixel_data)};
-    return dynamic_image(filters::invert_vertically(view(img)));
+    return dynamic_image(filters::invert_vertically(img));
 }
 
 } // namespace aeon::imaging::file::bmp

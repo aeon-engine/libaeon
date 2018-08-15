@@ -51,12 +51,6 @@ public:
     dynamic_image(dynamic_image &&o) noexcept = default;
     auto operator=(dynamic_image &&other) noexcept -> dynamic_image & = default;
 
-    template <typename T>
-    operator image<T> &() noexcept;
-
-    template <typename T>
-    operator const image<T> &() const noexcept;
-
     auto encoding() const noexcept -> pixel_encoding;
 
     template <typename T>

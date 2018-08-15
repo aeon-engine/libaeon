@@ -45,7 +45,7 @@ TEST(test_imaging, test_load_and_save_png_make_view_crop)
     ASSERT_EQ(imaging::encoding(dynamic_image), imaging::pixel_encoding::rgba32);
     auto &image = dynamic_image.get_image<imaging::rgba32>();
 
-    auto view = imaging::make_view(imaging::view(image), {70, 50, 70 + 32, 50 + 50});
+    const auto view = imaging::make_view(image, {70, 50, 70 + 32, 50 + 50});
     imaging::file::png::save(view, "test_load_and_save_png_cropped.png");
 }
 
@@ -55,8 +55,8 @@ TEST(test_imaging, test_load_and_save_png_make_view_crop_scale)
     ASSERT_EQ(imaging::encoding(dynamic_image), imaging::pixel_encoding::rgba32);
     auto &image = dynamic_image.get_image<imaging::rgba32>();
 
-    auto view = imaging::make_view(imaging::view(image), {70, 50, 70 + 32, 50 + 50});
-    auto scaled_dynamic_image = imaging::dynamic_image{imaging::filters::resize_bilinear(view, {64, 64})};
+    const auto view = imaging::make_view(image, {70, 50, 70 + 32, 50 + 50});
+    const auto scaled_dynamic_image = imaging::dynamic_image{imaging::filters::resize_bilinear(view, {64, 64})};
     imaging::file::png::save(scaled_dynamic_image, "test_load_and_save_png_cropped_scaled.png");
 }
 

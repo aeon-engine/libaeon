@@ -48,8 +48,8 @@ inline auto to_rgb24(const image<T> &img) -> image<rgb24>
     const image_descriptor<rgb24> d{width(img), height(img)};
     image<rgb24> new_image(d);
 
-    const auto src_image_data = view(img).data();
-    const auto new_image_data = view(new_image).data();
+    const auto src_image_data = img.data();
+    const auto new_image_data = new_image.data();
 
     const auto dims = width(img) * height(img);
 

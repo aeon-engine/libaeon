@@ -80,8 +80,8 @@ auto load(streams::stream &stream) -> dynamic_image
     const image_descriptor<rgb24> d{static_cast<dimension>(width), static_cast<dimension>(height)};
     image<rgb24> loaded_image{d};
 
-    if (tjDecompress2(wrapper.handle(), data.data(), data_size, view(loaded_image).data<std::uint8_t>(), width, 0,
-                      height, TJPF_RGB, TJFLAG_FASTDCT) != 0)
+    if (tjDecompress2(wrapper.handle(), data.data(), data_size, loaded_image.data<std::uint8_t>(), width, 0, height,
+                      TJPF_RGB, TJFLAG_FASTDCT) != 0)
         throw load_exception();
 
     return dynamic_image{std::move(loaded_image)};

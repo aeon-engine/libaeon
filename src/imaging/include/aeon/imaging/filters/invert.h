@@ -43,7 +43,7 @@ inline auto invert_horizontally(const image_view<T> &img) -> image<T>
         for (auto x = 0; x < w; ++x)
         {
             const auto pixel_offset = img.template data<std::uint8_t>({x, y});
-            const auto new_pixel_offset = view(new_image).template data<std::uint8_t>({w - x - 1, y});
+            const auto new_pixel_offset = new_image.template data<std::uint8_t>({w - x - 1, y});
 
             for (auto offset = 0u; offset < sizeof(T); ++offset)
                 *(new_pixel_offset + offset) = *(pixel_offset + offset);
@@ -66,7 +66,7 @@ inline auto invert_vertically(const image_view<T> &img) -> image<T>
     image<T> new_image(descriptor(img));
 
     const auto src_data = img.template data<std::uint8_t>();
-    const auto dst_data = view(new_image).template data<std::uint8_t>();
+    const auto dst_data = new_image.template data<std::uint8_t>();
 
     for (auto y = 0; y < height(img); ++y)
     {
