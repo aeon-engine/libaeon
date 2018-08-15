@@ -60,14 +60,17 @@ public:
     template <typename U>
     auto data() const noexcept -> const U *;
 
-    auto at(const math::vector2<dimension> coord) noexcept -> T *;
-    auto at(const math::vector2<dimension> coord) const noexcept -> const T *;
+    auto data(const math::vector2<dimension> coord) noexcept -> T *;
+    auto data(const math::vector2<dimension> coord) const noexcept -> const T *;
 
     template <typename U>
-    auto at(const math::vector2<dimension> coord) noexcept -> U *;
+    auto data(const math::vector2<dimension> coord) noexcept -> U *;
 
     template <typename U>
-    auto at(const math::vector2<dimension> coord) const noexcept -> const U *;
+    auto data(const math::vector2<dimension> coord) const noexcept -> const U *;
+
+    auto at(const math::vector2<dimension> coord) noexcept -> T &;
+    auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
 
 private:
     image_descriptor<T> descriptor_;

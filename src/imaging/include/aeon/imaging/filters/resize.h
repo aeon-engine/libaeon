@@ -49,10 +49,10 @@ inline auto resize_bilinear(const image_view<T> &img, const math::size2d<dimensi
             const auto x_diff = (x_ratio * j) - x;
             const auto y_diff = (y_ratio * i) - y;
 
-            const auto A = *img.at({x, y});
-            const auto B = *img.at({x + 1, y});
-            const auto C = *img.at({x, y + 1});
-            const auto D = *img.at({x + 1, y + 1});
+            const auto &A = img.at({x, y});
+            const auto &B = img.at({x + 1, y});
+            const auto &C = img.at({x, y + 1});
+            const auto &D = img.at({x + 1, y + 1});
 
             // Y = A(1-w)(1-h) + B(w)(1-h) + C(h)(1-w) + Dwh
             dst[offset++] = static_cast<T>((A * (1.0f - x_diff) * (1.0f - y_diff)) + (B * (x_diff) * (1.0f - y_diff)) +
