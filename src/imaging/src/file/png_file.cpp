@@ -209,7 +209,7 @@ void save(const dynamic_image &image, streams::stream &stream)
 {
     aeon_assert((encoding(image) == pixel_encoding::rgb24) || (encoding(image) == pixel_encoding::rgba32),
                 "Encoding mismatch.");
-    write_image(image, save, stream);
+    process_image(image, save, stream);
 }
 
 template <typename T>

@@ -65,7 +65,7 @@ inline auto resize_bilinear(const image_view<T> &img, const math::size2d<dimensi
 
 inline auto resize_bilinear(const dynamic_image &img, const math::size2d<dimension> size) -> dynamic_image
 {
-    return process_image(img, resize_bilinear, size);
+    return process_image_to_copy(img, resize_bilinear, size);
 }
 
 } // namespace aeon::imaging::filters

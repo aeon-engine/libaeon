@@ -27,56 +27,29 @@
 
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/dynamic_image.h>
-#include <aeon/imaging/filters/resize.h>
-#include <aeon/math/vector2.h>
-#include <aeon/common/assert.h>
 
 namespace aeon::imaging::filters
 {
 
 template <typename T>
-inline void blit(const image_view<T> &src, image_view<T> &dst, const math::vector2<dimension> pos)
+inline void fill(image_view<T> &img, const T color)
 {
-    aeon_assert(math::contains(math::translated(rectangle(src), pos), rectangle(dst)),
-                "Source does not fit within destination.");
-
-    const auto w = width(src);
-    const auto h = height(src);
-    const auto src_stride = stride_y(src) / sizeof(T);
-    const auto src_data = src.data();
-
-    auto dst_data = dst.data();
-    const auto dst_stride = stride_y(dst) / sizeof(T);
+    const auto w = imaging::width(img);
+    const auto h = imaging::height(img);
 
     for (auto y = 0; y < h; ++y)
     {
-        const auto src_row = &src_data[y * src_stride];
-        auto dst_row = &dst_data[(pos.y + y) * dst_stride];
-
         for (auto x = 0; x < w; ++x)
         {
-            dst_row[x + pos.x] = src_row[x];
+            img.at({x, y}) = color;
         }
     }
 }
 
-inline void blit(const dynamic_image &src, dynamic_image &dst, const math::vector2<dimension> pos)
-{
-    process_image_with_dst(src, dst, blit, pos);
-}
-
 template <typename T>
-inline void scale_blit(const image_view<T> &src, image_view<T> &dst, const math::rectangle<dimension> rect)
+inline void fill(dynamic_image &img, const T color)
 {
-    aeon_assert(math::contains(rect, rectangle(dst)), "Source does not fit within destination.");
-
-    const auto new_src = resize_bilinear(src, math::size(rect));
-    blit<T>(new_src, dst, math::left_top(rect));
-}
-
-inline void scale_blit(const dynamic_image &src, dynamic_image &dst, const math::rectangle<dimension> rect)
-{
-    process_image_with_dst(src, dst, scale_blit, rect);
+    process_image(img, fill, color);
 }
 
 } // namespace aeon::imaging::filters

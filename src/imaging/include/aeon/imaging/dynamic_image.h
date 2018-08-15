@@ -78,7 +78,7 @@ inline auto view(dynamic_image &image) noexcept -> image_view<T> &;
 template <typename T>
 inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
 
-#define write_image(img, func, ...)                                                                                    \
+#define process_image(img, func, ...)                                                                                  \
     [&]() {                                                                                                            \
         switch (encoding(img))                                                                                         \
         {                                                                                                              \
@@ -108,7 +108,7 @@ inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
         }                                                                                                              \
     }();
 
-#define process_image(img, func, ...)                                                                                  \
+#define process_image_to_copy(img, func, ...)                                                                          \
     [&]() -> dynamic_image {                                                                                           \
         switch (encoding(img))                                                                                         \
         {                                                                                                              \
@@ -131,7 +131,7 @@ inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
         }                                                                                                              \
     }();
 
-#define process_image2(src, dst, func, ...)                                                                            \
+#define process_image_with_dst(src, dst, func, ...)                                                                    \
     [&]() {                                                                                                            \
         aeon_assert(encoding(src) == encoding(dst), "Encoding mismatch between source and destination.");              \
         switch (encoding(src))                                                                                         \

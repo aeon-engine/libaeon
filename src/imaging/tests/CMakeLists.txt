@@ -33,6 +33,7 @@ add_unit_test_suite(
         test_file_bmp.cpp
         test_file_png.cpp
         test_file_jpg.cpp
+        test_fill.cpp
         test_generators.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}

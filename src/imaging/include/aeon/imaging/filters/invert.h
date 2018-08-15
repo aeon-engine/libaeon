@@ -55,7 +55,7 @@ inline auto invert_horizontally(const image_view<T> &img) -> image<T>
 
 inline auto invert_horizontally(const dynamic_image &img) -> dynamic_image
 {
-    return process_image(img, invert_horizontally);
+    return process_image_to_copy(img, invert_horizontally);
 }
 
 template <typename T>
@@ -85,7 +85,7 @@ inline auto invert_vertically(const image_view<T> &img) -> image<T>
 
 inline auto invert_vertically(const dynamic_image &img) -> dynamic_image
 {
-    return process_image(img, invert_vertically);
+    return process_image_to_copy(img, invert_vertically);
 }
 
 } // namespace aeon::imaging::filters

@@ -96,7 +96,7 @@ void save(const dynamic_image &image, const subsample_mode subsample, int qualit
 void save(const dynamic_image &image, const subsample_mode subsample, int quality, streams::stream &stream)
 {
     aeon_assert(encoding(image) == pixel_encoding::rgb24, "Encoding mismatch.");
-    write_image(image, save, subsample, quality, stream);
+    process_image(image, save, subsample, quality, stream);
 }
 
 template <typename T>
