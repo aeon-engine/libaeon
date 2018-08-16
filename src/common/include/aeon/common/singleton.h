@@ -37,13 +37,13 @@ template <class type>
 class singleton
 {
 public:
-    static auto &get_singleton()
+    static auto get_singleton() -> type &
     {
         static type instance;
         return instance;
     }
 
-    static auto get_singleton_ptr()
+    static auto get_singleton_ptr() -> type *
     {
         return &get_singleton();
     }
