@@ -34,3 +34,7 @@
 	path = dep/google_benchmark
 	url = ../../aeon-external-dependencies/google_benchmark.git
 	branch = submodule
+[submodule "dep/freetype2"]
+	path = dep/freetype2
+	url = ../../aeon-external-dependencies/freetype2.git
+	branch = submodule

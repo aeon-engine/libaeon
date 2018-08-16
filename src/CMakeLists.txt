@@ -36,6 +36,9 @@ option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
 # Imaging
 option(AEON_ENABLE_IMAGING "Enable the Aeon imaging library." OFF)
 
+# Fonts
+option(AEON_ENABLE_FONTS "Enable the Aeon fonts library (requires AEON_ENABLE_IMAGING)." OFF)
+
 ################################################################################
 
 add_subdirectory(common)
@@ -66,4 +69,12 @@ endif ()
 
 if (AEON_ENABLE_IMAGING)
     add_subdirectory(imaging)
+endif ()
+
+if (AEON_ENABLE_FONTS)
+    if (NOT AEON_ENABLE_IMAGING)
+        message(FATAL_ERROR "The Aeon Fonts library requires Imaging.")
+    endif ()
+
+    add_subdirectory(fonts)
 endif ()
