@@ -55,6 +55,13 @@ public:
      */
     size2d(const T width, const T height) noexcept;
 
+    /*!
+     * Create a size based on the given width and height.
+     * Converting constructor
+     */
+    template <typename U>
+    explicit size2d(const U width, const U height) noexcept;
+
     ~size2d() noexcept = default;
 
     size2d(const size2d &) noexcept = default;
