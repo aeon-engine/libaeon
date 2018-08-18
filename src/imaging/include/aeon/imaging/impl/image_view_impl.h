@@ -31,6 +31,13 @@ namespace aeon::imaging
 {
 
 template <typename T>
+inline image_view<T>::image_view() noexcept
+    : descriptor_{}
+    , data_ptr_{}
+{
+}
+
+template <typename T>
 inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte *data) noexcept
     : descriptor_{descriptor}
     , data_ptr_{data}
@@ -46,13 +53,6 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std
 {
     aeon_assert(data, "Data is nullptr.");
     aeon_assert(valid(descriptor), "Descriptor must be valid.");
-}
-
-template <typename T>
-inline image_view<T>::image_view() noexcept
-    : descriptor_{}
-    , data_ptr_{}
-{
 }
 
 template <typename T>

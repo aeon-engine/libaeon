@@ -38,6 +38,7 @@ template <typename T>
 class image_view
 {
 public:
+    image_view() noexcept;
     explicit image_view(const image_descriptor<T> descriptor, std::byte *data) noexcept;
     explicit image_view(const image_descriptor<T> descriptor, const std::byte *data) noexcept;
 
@@ -73,7 +74,6 @@ public:
     auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
 
 protected:
-    image_view() noexcept;
     explicit image_view(const image_descriptor<T> descriptor) noexcept;
 
     image_descriptor<T> descriptor_;
