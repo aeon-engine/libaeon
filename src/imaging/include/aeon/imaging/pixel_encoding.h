@@ -50,11 +50,23 @@ inline auto operator*(const rgb24 lhs, const float rhs) noexcept -> rgb24
             static_cast<std::uint8_t>(std::clamp(lhs.b * rhs, 0.0f, 255.0f))};
 }
 
+inline auto operator*=(rgb24 &lhs, const float rhs) noexcept -> rgb24
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
 inline auto operator*(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.r * rhs.r, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.g * rhs.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.b * rhs.b, 0, 255))};
+}
+
+inline auto operator*=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24
+{
+    lhs = lhs * rhs;
+    return lhs;
 }
 
 inline auto operator+(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24
@@ -64,11 +76,23 @@ inline auto operator+(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24
             static_cast<std::uint8_t>(std::clamp(lhs.b + rhs.b, 0, 255))};
 }
 
+inline auto operator+=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
 inline auto operator-(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.r - rhs.r, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.g - rhs.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.b - rhs.b, 0, 255))};
+}
+
+inline auto operator-=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24
+{
+    lhs = lhs + rhs;
+    return lhs;
 }
 
 AEON_PACK_STRUCT_PUSH(1)
@@ -92,12 +116,24 @@ inline auto operator*(const rgba32 lhs, const float rhs) noexcept -> rgba32
     };
 }
 
+inline auto operator*=(rgba32 &lhs, const float rhs) noexcept -> rgba32
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
 inline auto operator*(const rgba32 lhs, const rgba32 rhs) noexcept -> rgba32
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.r * rhs.r, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.g * rhs.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.b * rhs.b, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.a * rhs.a, 0, 255))};
+}
+
+inline auto operator*=(rgba32 &lhs, const rgba32 rhs) noexcept -> rgba32
+{
+    lhs = lhs * rhs;
+    return lhs;
 }
 
 inline auto operator+(const rgba32 lhs, const rgba32 rhs) noexcept -> rgba32
@@ -108,12 +144,24 @@ inline auto operator+(const rgba32 lhs, const rgba32 rhs) noexcept -> rgba32
             static_cast<std::uint8_t>(std::clamp(lhs.a + rhs.a, 0, 255))};
 }
 
+inline auto operator+=(rgba32 &lhs, const rgba32 rhs) noexcept -> rgba32
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
 inline auto operator-(const rgba32 lhs, const rgba32 rhs) noexcept -> rgba32
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.r - rhs.r, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.g - rhs.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.b - rhs.b, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.a - rhs.a, 0, 255))};
+}
+
+inline auto operator-=(rgba32 &lhs, const rgba32 rhs) noexcept -> rgba32
+{
+    lhs = lhs - rhs;
+    return lhs;
 }
 
 AEON_PACK_STRUCT_PUSH(1)
@@ -133,11 +181,23 @@ inline auto operator*(const bgr24 lhs, const float rhs) noexcept -> bgr24
             static_cast<std::uint8_t>(std::clamp(lhs.r * rhs, 0.0f, 255.0f))};
 }
 
+inline auto operator*=(bgr24 &lhs, const float rhs) noexcept -> bgr24
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
 inline auto operator*(const bgr24 lhs, const bgr24 rhs) noexcept -> bgr24
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.b * rhs.b, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.g * rhs.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.r * rhs.r, 0, 255))};
+}
+
+inline auto operator*=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24
+{
+    lhs = lhs * rhs;
+    return lhs;
 }
 
 inline auto operator+(const bgr24 lhs, const bgr24 rhs) noexcept -> bgr24
@@ -147,11 +207,23 @@ inline auto operator+(const bgr24 lhs, const bgr24 rhs) noexcept -> bgr24
             static_cast<std::uint8_t>(std::clamp(lhs.r + rhs.r, 0, 255))};
 }
 
+inline auto operator+=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
 inline auto operator-(const bgr24 lhs, const bgr24 rhs) noexcept -> bgr24
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.b - rhs.b, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.g - rhs.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(lhs.r - rhs.r, 0, 255))};
+}
+
+inline auto operator-=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24
+{
+    lhs = lhs - rhs;
+    return lhs;
 }
 
 enum class pixel_encoding
