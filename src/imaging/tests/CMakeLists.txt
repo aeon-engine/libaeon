@@ -35,9 +35,8 @@ add_unit_test_suite(
         test_file_jpg.cpp
         test_fill.cpp
         test_generators.cpp
-    INCLUDES
-        ${CMAKE_CURRENT_BINARY_DIR}
-        LIBRARIES aeon_imaging aeon_testing
+    INCLUDES ${CMAKE_CURRENT_BINARY_DIR}
+    LIBRARIES aeon_imaging aeon_testing
     FOLDER dep/libaeon/tests
 )
 
