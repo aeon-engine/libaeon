@@ -36,6 +36,7 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte
     , data_ptr_{data}
 {
     aeon_assert(data, "Data is nullptr.");
+    aeon_assert(valid(descriptor), "Descriptor must be valid.");
 }
 
 template <typename T>
@@ -44,6 +45,14 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std
     , data_ptr_{const_cast<std::byte *>(data)}
 {
     aeon_assert(data, "Data is nullptr.");
+    aeon_assert(valid(descriptor), "Descriptor must be valid.");
+}
+
+template <typename T>
+inline image_view<T>::image_view() noexcept
+    : descriptor_{}
+    , data_ptr_{}
+{
 }
 
 template <typename T>
@@ -51,6 +60,7 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor) noexcept
     : descriptor_{descriptor}
     , data_ptr_{}
 {
+    aeon_assert(valid(descriptor), "Descriptor must be valid.");
 }
 
 template <typename T>
@@ -126,6 +136,18 @@ template <typename T>
 inline auto image_view<T>::at(const math::vector2<dimension> coord) const noexcept -> const T &
 {
     return *data(coord);
+}
+
+template <typename T>
+inline auto null(const image_view<T> &view) noexcept -> bool
+{
+    return null(descriptor(view)) || view.data() == nullptr;
+}
+
+template <typename T>
+inline auto valid(const image_view<T> &view) noexcept -> bool
+{
+    return !null(view);
 }
 
 template <typename T>

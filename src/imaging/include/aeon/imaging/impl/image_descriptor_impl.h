@@ -57,6 +57,14 @@ inline image_descriptor<T>::image_descriptor(const math::size2d<dimension> dimen
 }
 
 template <typename T>
+inline image_descriptor<T>::image_descriptor() noexcept
+    : dimensions_{}
+    , stride_x_{}
+    , stride_y_{}
+{
+}
+
+template <typename T>
 inline image_descriptor<T>::~image_descriptor() = default;
 
 template <typename T>
@@ -87,6 +95,18 @@ template <typename T>
 inline auto image_descriptor<T>::stride_y() const noexcept -> std::ptrdiff_t
 {
     return stride_y_;
+}
+
+template <typename T>
+inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool
+{
+    return stride_x(descriptor) == 0 && stride_y(descriptor) == 0 && math::null(dimensions(descriptor));
+}
+
+template <typename T>
+inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool
+{
+    return !null(descriptor);
 }
 
 template <typename T>

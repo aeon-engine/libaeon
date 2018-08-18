@@ -29,6 +29,13 @@ namespace aeon::imaging
 {
 
 template <typename T>
+inline image<T>::image()
+    : image_view<T>{}
+    , data_{}
+{
+}
+
+template <typename T>
 inline image<T>::image(const image_descriptor<T> descriptor)
     : image_view<T>{descriptor}
     , data_(size(descriptor))

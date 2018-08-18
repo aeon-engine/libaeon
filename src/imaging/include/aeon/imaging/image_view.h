@@ -73,11 +73,18 @@ public:
     auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
 
 protected:
+    image_view() noexcept;
     explicit image_view(const image_descriptor<T> descriptor) noexcept;
 
     image_descriptor<T> descriptor_;
     std::byte *data_ptr_;
 };
+
+template <typename T>
+inline auto null(const image_view<T> &view) noexcept -> bool;
+
+template <typename T>
+inline auto valid(const image_view<T> &view) noexcept -> bool;
 
 template <typename T>
 inline auto descriptor(const image_view<T> &view) noexcept -> image_descriptor<T>;

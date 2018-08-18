@@ -37,6 +37,10 @@ namespace aeon::imaging
 template <typename T>
 class image_descriptor
 {
+
+    template <typename U>
+    friend class image_view;
+
 public:
     explicit image_descriptor(const math::size2d<dimension> dimensions) noexcept;
     explicit image_descriptor(const dimension width, const dimension height) noexcept;
@@ -59,10 +63,18 @@ public:
     auto stride_y() const noexcept -> std::ptrdiff_t;
 
 private:
+    image_descriptor() noexcept;
+
     math::size2d<dimension> dimensions_;
     std::ptrdiff_t stride_x_;
     std::ptrdiff_t stride_y_;
 };
+
+template <typename T>
+inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool;
+
+template <typename T>
+inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool;
 
 template <typename T>
 inline auto width(const image_descriptor<T> &descriptor) noexcept;
