@@ -305,4 +305,106 @@ struct pixel_encoding_trait<bgr24>
     }
 };
 
+template <typename T>
+struct pixel_math
+{
+    static constexpr auto min() noexcept -> T
+    {
+        return std::numeric_limits<T>::min();
+    }
+
+    static constexpr auto max() noexcept -> T
+    {
+        return std::numeric_limits<T>::max();
+    }
+
+    static constexpr auto clamp(const int value) noexcept -> T
+    {
+        return static_cast<T>(std::clamp(value, static_cast<int>(min()), static_cast<int>(max())));
+    }
+};
+
+template <>
+struct pixel_math<float>
+{
+    static constexpr auto min() noexcept -> float
+    {
+        return 0.0f;
+    }
+
+    static constexpr auto max() noexcept -> float
+    {
+        return 1.0f;
+    }
+
+    static constexpr auto clamp(const float value) noexcept -> float
+    {
+        return std::clamp(value, min(), max());
+    }
+};
+
+template <>
+struct pixel_math<rgb24>
+{
+    static constexpr auto min() noexcept -> rgb24
+    {
+        return {0, 0, 0};
+    }
+
+    static constexpr auto max() noexcept -> rgb24
+    {
+        return {255, 255, 255};
+    }
+
+    static constexpr auto clamp(const rgb24 value) noexcept -> rgb24
+    {
+        return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255))};
+    }
+};
+
+template <>
+struct pixel_math<rgba32>
+{
+    static constexpr auto min() noexcept -> rgba32
+    {
+        return {0, 0, 0, 0};
+    }
+
+    static constexpr auto max() noexcept -> rgba32
+    {
+        return {255, 255, 255, 255};
+    }
+
+    static constexpr auto clamp(const rgba32 value) noexcept -> rgba32
+    {
+        return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.a), 0, 255))};
+    }
+};
+
+template <>
+struct pixel_math<bgr24>
+{
+    static constexpr auto min() noexcept -> bgr24
+    {
+        return {0, 0, 0};
+    }
+
+    static constexpr auto max() noexcept -> bgr24
+    {
+        return {255, 255, 255};
+    }
+
+    static constexpr auto clamp(const bgr24 value) noexcept -> bgr24
+    {
+        return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255))};
+    }
+};
+
 } // namespace aeon::imaging
