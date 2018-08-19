@@ -35,8 +35,6 @@ namespace aeon::imaging::generators
 inline void simplex_noise(image_view<float> &image_view, const float octaves, const float persistence,
                           const float scale) noexcept
 {
-    aeon_assert(continuous(image_view), "simplex_noise only works on continuous images.");
-
     const auto image_width = width(image_view);
     const auto image_height = height(image_view);
 
