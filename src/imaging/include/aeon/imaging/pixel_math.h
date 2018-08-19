@@ -47,6 +47,11 @@ struct pixel_math
     {
         return static_cast<T>(std::clamp(value, static_cast<int>(min()), static_cast<int>(max())));
     }
+
+    static constexpr auto alpha(const int value) noexcept -> T
+    {
+        return value;
+    }
 };
 
 template <>
@@ -65,6 +70,11 @@ struct pixel_math<float>
     static constexpr auto clamp(const float value) noexcept -> float
     {
         return std::clamp(value, min(), max());
+    }
+
+    static constexpr auto alpha(const float value) noexcept -> float
+    {
+        return value;
     }
 };
 
@@ -86,6 +96,11 @@ struct pixel_math<rgb24>
         return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255))};
+    }
+
+    static constexpr auto alpha(const rgb24 value) noexcept -> std::uint8_t
+    {
+        return 255;
     }
 };
 
@@ -109,6 +124,11 @@ struct pixel_math<rgba32>
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.a), 0, 255))};
     }
+
+    static constexpr auto alpha(const rgba32 value) noexcept -> std::uint8_t
+    {
+        return value.a;
+    }
 };
 
 template <>
@@ -129,6 +149,11 @@ struct pixel_math<bgr24>
         return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255))};
+    }
+
+    static constexpr auto alpha(const bgr24 value) noexcept -> std::uint8_t
+    {
+        return 255;
     }
 };
 
@@ -151,6 +176,11 @@ struct pixel_math<bgra32>
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.a), 0, 255))};
+    }
+
+    static constexpr auto alpha(const bgra32 value) noexcept -> std::uint8_t
+    {
+        return value.a;
     }
 };
 
