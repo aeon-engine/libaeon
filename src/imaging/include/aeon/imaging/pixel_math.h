@@ -48,9 +48,24 @@ struct pixel_math
         return static_cast<T>(std::clamp(value, static_cast<int>(min()), static_cast<int>(max())));
     }
 
+    static constexpr auto clamp(const unsigned int value) noexcept -> T
+    {
+        return static_cast<T>(std::clamp(static_cast<int>(value), static_cast<int>(min()), static_cast<int>(max())));
+    }
+
+    static constexpr auto clamp(const float value) noexcept -> T
+    {
+        return static_cast<T>(std::clamp(static_cast<int>(value), static_cast<int>(min()), static_cast<int>(max())));
+    }
+
     static constexpr auto alpha(const T value) noexcept -> T
     {
         return value;
+    }
+
+    static constexpr auto alpha_ratio(const T value) noexcept -> float
+    {
+        return static_cast<float>(value) / static_cast<float>(max());
     }
 };
 
@@ -76,19 +91,24 @@ struct pixel_math<float>
     {
         return value;
     }
+
+    static constexpr auto alpha_ratio(const float value) noexcept -> float
+    {
+        return value / max();
+    }
 };
 
 template <>
 struct pixel_math<rgb24>
 {
-    static constexpr auto min() noexcept -> rgb24
+    static constexpr auto min() noexcept -> std::uint8_t
     {
-        return {0, 0, 0};
+        return 0;
     }
 
-    static constexpr auto max() noexcept -> rgb24
+    static constexpr auto max() noexcept -> std::uint8_t
     {
-        return {255, 255, 255};
+        return 255;
     }
 
     static constexpr auto clamp(const rgb24 value) noexcept -> rgb24
@@ -102,19 +122,24 @@ struct pixel_math<rgb24>
     {
         return 255;
     }
+
+    static constexpr auto alpha_ratio(const rgb24 value) noexcept -> float
+    {
+        return 1.0f;
+    }
 };
 
 template <>
 struct pixel_math<rgba32>
 {
-    static constexpr auto min() noexcept -> rgba32
+    static constexpr auto min() noexcept -> std::uint8_t
     {
-        return {0, 0, 0, 0};
+        return 0;
     }
 
-    static constexpr auto max() noexcept -> rgba32
+    static constexpr auto max() noexcept -> std::uint8_t
     {
-        return {255, 255, 255, 255};
+        return 255;
     }
 
     static constexpr auto clamp(const rgba32 value) noexcept -> rgba32
@@ -129,19 +154,24 @@ struct pixel_math<rgba32>
     {
         return value.a;
     }
+
+    static constexpr auto alpha_ratio(const rgba32 value) noexcept -> float
+    {
+        return static_cast<float>(alpha(value)) / static_cast<float>(max());
+    }
 };
 
 template <>
 struct pixel_math<bgr24>
 {
-    static constexpr auto min() noexcept -> bgr24
+    static constexpr auto min() noexcept -> std::uint8_t
     {
-        return {0, 0, 0};
+        return 0;
     }
 
-    static constexpr auto max() noexcept -> bgr24
+    static constexpr auto max() noexcept -> std::uint8_t
     {
-        return {255, 255, 255};
+        return 255;
     }
 
     static constexpr auto clamp(const bgr24 value) noexcept -> bgr24
@@ -155,19 +185,24 @@ struct pixel_math<bgr24>
     {
         return 255;
     }
+
+    static constexpr auto alpha_ratio(const bgr24 value) noexcept -> float
+    {
+        return 1.0f;
+    }
 };
 
 template <>
 struct pixel_math<bgra32>
 {
-    static constexpr auto min() noexcept -> bgra32
+    static constexpr auto min() noexcept -> std::uint8_t
     {
-        return {0, 0, 0, 0};
+        return 0;
     }
 
-    static constexpr auto max() noexcept -> bgra32
+    static constexpr auto max() noexcept -> std::uint8_t
     {
-        return {255, 255, 255, 255};
+        return 255;
     }
 
     static constexpr auto clamp(const bgra32 value) noexcept -> bgra32
@@ -181,6 +216,11 @@ struct pixel_math<bgra32>
     static constexpr auto alpha(const bgra32 value) noexcept -> std::uint8_t
     {
         return value.a;
+    }
+
+    static constexpr auto alpha_ratio(const bgra32 value) noexcept -> float
+    {
+        return static_cast<float>(alpha(value)) / static_cast<float>(max());
     }
 };
 
