@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <aeon/imaging/pixel_encoding_traits.h>
 #include <aeon/common/assert.h>
 #include <cstdint>
 

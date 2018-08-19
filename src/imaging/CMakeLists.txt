@@ -29,6 +29,8 @@ set(LIB_AEON_IMAGING_SOURCE
     include/aeon/imaging/exceptions.h
     include/aeon/imaging/dimension.h
     include/aeon/imaging/pixel_encoding.h
+    include/aeon/imaging/pixel_encoding_traits.h
+    include/aeon/imaging/pixel_math.h
     include/aeon/imaging/image_descriptor.h
     include/aeon/imaging/image.h
     include/aeon/imaging/image_view.h
