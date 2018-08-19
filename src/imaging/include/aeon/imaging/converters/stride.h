@@ -33,11 +33,8 @@ namespace aeon::imaging::convert
 {
 
 template <typename T>
-inline auto remove_stride(const image<T> &img) -> image<T>
+inline auto remove_stride(const image_view<T> &img) -> image<T>
 {
-    if (continuous(img))
-        return img.clone();
-
     const image_descriptor<T> d{width(img), height(img)};
     image<T> new_image{d};
 
@@ -61,27 +58,7 @@ inline auto remove_stride(const image<T> &img) -> image<T>
 
 inline auto remove_stride(const dynamic_image &img) -> dynamic_image
 {
-    switch (encoding(img))
-    {
-        case pixel_encoding::unsigned8:
-            return dynamic_image(remove_stride(img.get_image<std::uint8_t>()));
-        case pixel_encoding::unsigned16:
-            return dynamic_image(remove_stride(img.get_image<std::uint16_t>()));
-        case pixel_encoding::unsigned32:
-            return dynamic_image(remove_stride(img.get_image<std::uint32_t>()));
-        case pixel_encoding::float32:
-            return dynamic_image(remove_stride(img.get_image<float>()));
-        case pixel_encoding::rgb24:
-            return dynamic_image(remove_stride(img.get_image<rgb24>()));
-        case pixel_encoding::rgba32:
-            return dynamic_image(remove_stride(img.get_image<rgba32>()));
-        case pixel_encoding::bgr24:
-            return dynamic_image(remove_stride(img.get_image<bgr24>()));
-        case pixel_encoding::bgra32:
-            return dynamic_image(remove_stride(img.get_image<bgra32>()));
-        default:
-            throw imaging_exception();
-    }
+    return process_image_to_copy(img, remove_stride);
 }
 
 } // namespace aeon::imaging::convert
