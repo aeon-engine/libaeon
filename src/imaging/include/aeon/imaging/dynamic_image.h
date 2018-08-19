@@ -97,6 +97,8 @@ inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
             case pixel_encoding::bgr24:                                                                                \
                 func(view<bgr24>(img), ##__VA_ARGS__);                                                                 \
                 return;                                                                                                \
+            case pixel_encoding::bgra32:                                                                               \
+                func(view<bgra32>(img), ##__VA_ARGS__);                                                                \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \
@@ -120,6 +122,8 @@ inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
                 return dynamic_image{func(view<rgba32>(img), ##__VA_ARGS__)};                                          \
             case pixel_encoding::bgr24:                                                                                \
                 return dynamic_image{func(view<bgr24>(img), ##__VA_ARGS__)};                                           \
+            case pixel_encoding::bgra32:                                                                               \
+                return dynamic_image{func(view<bgra32>(img), ##__VA_ARGS__)};                                          \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \
@@ -151,6 +155,8 @@ inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
             case pixel_encoding::bgr24:                                                                                \
                 func(view<bgr24>(src), view<bgr24>(dst), ##__VA_ARGS__);                                               \
                 return;                                                                                                \
+            case pixel_encoding::bgra32:                                                                               \
+                func(view<bgra32>(src), view<bgra32>(dst), ##__VA_ARGS__);                                             \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \

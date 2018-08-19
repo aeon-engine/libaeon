@@ -77,6 +77,8 @@ inline auto remove_stride(const dynamic_image &img) -> dynamic_image
             return dynamic_image(remove_stride(img.get_image<rgba32>()));
         case pixel_encoding::bgr24:
             return dynamic_image(remove_stride(img.get_image<bgr24>()));
+        case pixel_encoding::bgra32:
+            return dynamic_image(remove_stride(img.get_image<bgra32>()));
         default:
             throw imaging_exception();
     }

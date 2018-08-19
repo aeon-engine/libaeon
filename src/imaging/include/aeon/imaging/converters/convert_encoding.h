@@ -40,6 +40,7 @@ namespace internal
 template <typename from_t, typename to_t>
 inline auto to_pixel_encoding(const image_view<from_t> &img, to_t (*converter)(const from_t)) -> image<to_t>
 {
+    aeon_assert(!null(img), "Given image can not be null.");
     aeon_assert(continuous(img), "to_pixel_encoding only works on continuous images.");
 
     const image_descriptor<to_t> d{width(img), height(img)};
@@ -67,6 +68,7 @@ class convert_exception : public imaging_exception
 auto to_rgb24(const dynamic_image &img) -> image<rgb24>;
 auto to_bgr24(const dynamic_image &img) -> image<bgr24>;
 auto to_rgba32(const dynamic_image &img) -> image<rgba32>;
+auto to_bgra32(const dynamic_image &img) -> image<bgra32>;
 
 template <typename T>
 inline auto to_rgb24(const image_view<T> &img) -> image<rgb24>
@@ -84,6 +86,12 @@ template <typename T>
 inline auto to_rgba32(const image_view<T> &img) -> image<rgba32>
 {
     return internal::to_pixel_encoding<T, rgba32>(img, pixel<T>::to_rgba32);
+}
+
+template <typename T>
+inline auto to_bgra32(const image_view<T> &img) -> image<bgra32>
+{
+    return internal::to_pixel_encoding<T, bgra32>(img, pixel<T>::to_bgra32);
 }
 
 } // namespace aeon::imaging::convert

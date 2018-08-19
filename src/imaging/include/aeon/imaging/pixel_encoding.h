@@ -226,6 +226,75 @@ inline auto operator-=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24
     return lhs;
 }
 
+AEON_PACK_STRUCT_PUSH(1)
+struct bgra32
+{
+    std::uint8_t b = 0;
+    std::uint8_t g = 0;
+    std::uint8_t r = 0;
+    std::uint8_t a = 0;
+} AEON_PACK_STRUCT_POP(1);
+
+static_assert(sizeof(bgra32) == 4, "Alignment problem: bgra32 must be 4 bytes in size.");
+
+inline auto operator*(const bgra32 lhs, const float rhs) noexcept -> bgra32
+{
+    return {
+        static_cast<std::uint8_t>(std::clamp(lhs.b * rhs, 0.0f, 255.0f)),
+        static_cast<std::uint8_t>(std::clamp(lhs.g * rhs, 0.0f, 255.0f)),
+        static_cast<std::uint8_t>(std::clamp(lhs.r * rhs, 0.0f, 255.0f)),
+        static_cast<std::uint8_t>(std::clamp(lhs.a * rhs, 0.0f, 255.0f)),
+    };
+}
+
+inline auto operator*=(bgra32 &lhs, const float rhs) noexcept -> bgra32
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+inline auto operator*(const bgra32 lhs, const bgra32 rhs) noexcept -> bgra32
+{
+    return {static_cast<std::uint8_t>(std::clamp(lhs.b * rhs.b, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.g * rhs.g, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.r * rhs.r, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.a * rhs.a, 0, 255))};
+}
+
+inline auto operator*=(bgra32 &lhs, const bgra32 rhs) noexcept -> bgra32
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+inline auto operator+(const bgra32 lhs, const bgra32 rhs) noexcept -> bgra32
+{
+    return {static_cast<std::uint8_t>(std::clamp(lhs.b + rhs.b, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.g + rhs.g, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.r + rhs.r, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.a + rhs.a, 0, 255))};
+}
+
+inline auto operator+=(bgra32 &lhs, const bgra32 rhs) noexcept -> bgra32
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+
+inline auto operator-(const bgra32 lhs, const bgra32 rhs) noexcept -> bgra32
+{
+    return {static_cast<std::uint8_t>(std::clamp(lhs.b - rhs.b, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.g - rhs.g, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.r - rhs.r, 0, 255)),
+            static_cast<std::uint8_t>(std::clamp(lhs.a - rhs.a, 0, 255))};
+}
+
+inline auto operator-=(bgra32 &lhs, const bgra32 rhs) noexcept -> bgra32
+{
+    lhs = lhs - rhs;
+    return lhs;
+}
+
 enum class pixel_encoding
 {
     unsigned8,
@@ -234,7 +303,8 @@ enum class pixel_encoding
     float32,
     rgb24,
     rgba32,
-    bgr24
+    bgr24,
+    bgra32
 };
 
 template <typename T>
@@ -302,6 +372,15 @@ struct pixel_encoding_trait<bgr24>
     static constexpr auto encoding() noexcept
     {
         return pixel_encoding::bgr24;
+    }
+};
+
+template <>
+struct pixel_encoding_trait<bgra32>
+{
+    static constexpr auto encoding() noexcept
+    {
+        return pixel_encoding::bgra32;
     }
 };
 
@@ -404,6 +483,28 @@ struct pixel_math<bgr24>
         return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255))};
+    }
+};
+
+template <>
+struct pixel_math<bgra32>
+{
+    static constexpr auto min() noexcept -> bgra32
+    {
+        return {0, 0, 0, 0};
+    }
+
+    static constexpr auto max() noexcept -> bgra32
+    {
+        return {255, 255, 255, 255};
+    }
+
+    static constexpr auto clamp(const bgra32 value) noexcept -> bgra32
+    {
+        return {static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.g), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255)),
+                static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.a), 0, 255))};
     }
 };
 
