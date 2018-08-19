@@ -91,7 +91,7 @@ inline auto operator-(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24
 
 inline auto operator-=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24
 {
-    lhs = lhs + rhs;
+    lhs = lhs - rhs;
     return lhs;
 }
 
