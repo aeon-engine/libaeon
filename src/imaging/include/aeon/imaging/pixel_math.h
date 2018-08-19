@@ -48,7 +48,7 @@ struct pixel_math
         return static_cast<T>(std::clamp(value, static_cast<int>(min()), static_cast<int>(max())));
     }
 
-    static constexpr auto alpha(const int value) noexcept -> T
+    static constexpr auto alpha(const T value) noexcept -> T
     {
         return value;
     }
