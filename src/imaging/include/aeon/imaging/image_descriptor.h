@@ -39,7 +39,7 @@ class image_descriptor
 {
 
     template <typename U>
-    friend class image_view;
+    friend class image_view_base;
 
 public:
     explicit image_descriptor(const math::size2d<dimension> dimensions) noexcept;

@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/imaging/image_descriptor.h>
+#include <aeon/imaging/image_view_base.h>
 #include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
 #include <cstdint>
@@ -35,7 +36,7 @@ namespace aeon::imaging
 {
 
 template <typename T>
-class image_view
+class image_view : public image_view_base<T>
 {
 public:
     image_view() noexcept;
@@ -47,10 +48,8 @@ public:
     image_view(const image_view<T> &) = default;
     auto operator=(const image_view<T> &) -> image_view<T> & = default;
 
-    image_view(image_view<T> &&o) noexcept = default;
-    auto operator=(image_view<T> &&other) noexcept -> image_view<T> & = default;
-
-    auto descriptor() const noexcept -> image_descriptor<T>;
+    image_view(image_view<T> &&) noexcept = default;
+    auto operator=(image_view<T> &&) noexcept -> image_view<T> & = default;
 
     auto data() noexcept -> T *;
     auto data() const noexcept -> const T *;
@@ -76,7 +75,6 @@ public:
 protected:
     explicit image_view(const image_descriptor<T> descriptor) noexcept;
 
-    image_descriptor<T> descriptor_;
     std::byte *data_ptr_;
 };
 
@@ -85,36 +83,6 @@ inline auto null(const image_view<T> &view) noexcept -> bool;
 
 template <typename T>
 inline auto valid(const image_view<T> &view) noexcept -> bool;
-
-template <typename T>
-inline auto descriptor(const image_view<T> &view) noexcept -> image_descriptor<T>;
-
-template <typename T>
-inline auto width(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto height(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto dimensions(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto rectangle(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto stride_x(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto stride_y(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto continuous(const image_view<T> &view) noexcept;
-
-template <typename T>
-inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept;
-
-template <typename T>
-inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t;
 
 template <typename T>
 inline auto make_view(const image_view<T> &view, const math::rectangle<int> &rect) noexcept -> image_view<T>;

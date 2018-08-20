@@ -34,6 +34,7 @@ set(LIB_AEON_IMAGING_SOURCE
     include/aeon/imaging/image_descriptor.h
     include/aeon/imaging/image.h
     include/aeon/imaging/image_view.h
+    include/aeon/imaging/image_view_base.h
     include/aeon/imaging/dynamic_image.h
 )
 
@@ -43,6 +44,7 @@ set(LIB_AEON_IMAGING_IMPL_SOURCE
     include/aeon/imaging/impl/dynamic_image_impl.h
     include/aeon/imaging/impl/image_descriptor_impl.h
     include/aeon/imaging/impl/image_view_impl.h
+    include/aeon/imaging/impl/image_view_base_impl.h
     include/aeon/imaging/impl/image_impl.h
 )
 

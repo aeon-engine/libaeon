@@ -32,14 +32,14 @@ namespace aeon::imaging
 
 template <typename T>
 inline image_view<T>::image_view() noexcept
-    : descriptor_{}
+    : image_view_base<T>{}
     , data_ptr_{}
 {
 }
 
 template <typename T>
 inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte *data) noexcept
-    : descriptor_{descriptor}
+    : image_view_base<T>{descriptor}
     , data_ptr_{data}
 {
     aeon_assert(data, "Data is nullptr.");
@@ -48,7 +48,7 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte
 
 template <typename T>
 inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std::byte *data) noexcept
-    : descriptor_{descriptor}
+    : image_view_base<T>{descriptor}
     , data_ptr_{const_cast<std::byte *>(data)}
 {
     aeon_assert(data, "Data is nullptr.");
@@ -57,7 +57,7 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std
 
 template <typename T>
 inline image_view<T>::image_view(const image_descriptor<T> descriptor) noexcept
-    : descriptor_{descriptor}
+    : image_view_base<T>{descriptor}
     , data_ptr_{}
 {
     aeon_assert(valid(descriptor), "Descriptor must be valid.");
@@ -65,12 +65,6 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor) noexcept
 
 template <typename T>
 inline image_view<T>::~image_view() noexcept = default;
-
-template <typename T>
-inline auto image_view<T>::descriptor() const noexcept -> image_descriptor<T>
-{
-    return descriptor_;
-}
 
 template <typename T>
 inline auto image_view<T>::data() noexcept -> T *
@@ -101,15 +95,15 @@ inline auto image_view<T>::data() const noexcept -> const U *
 template <typename T>
 inline auto image_view<T>::data(const math::vector2<dimension> coord) noexcept -> T *
 {
-    aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
-    return reinterpret_cast<T *>(data_ptr_ + at_offset(coord, descriptor_));
+    aeon_assert(contains(image_view_base<T>::descriptor_, coord), "Given coordinate was out of bounds.");
+    return reinterpret_cast<T *>(data_ptr_ + at_offset(coord, image_view_base<T>::descriptor_));
 }
 
 template <typename T>
 inline auto image_view<T>::data(const math::vector2<dimension> coord) const noexcept -> const T *
 {
-    aeon_assert(contains(descriptor_, coord), "Given coordinate was out of bounds.");
-    return reinterpret_cast<const T *>(data_ptr_ + at_offset(coord, descriptor_));
+    aeon_assert(contains(image_view_base<T>::descriptor_, coord), "Given coordinate was out of bounds.");
+    return reinterpret_cast<const T *>(data_ptr_ + at_offset(coord, image_view_base<T>::descriptor_));
 }
 
 template <typename T>
@@ -148,66 +142,6 @@ template <typename T>
 inline auto valid(const image_view<T> &view) noexcept -> bool
 {
     return !null(view);
-}
-
-template <typename T>
-inline auto descriptor(const image_view<T> &view) noexcept -> image_descriptor<T>
-{
-    return view.descriptor();
-}
-
-template <typename T>
-inline auto width(const image_view<T> &view) noexcept
-{
-    return width(descriptor(view));
-}
-
-template <typename T>
-inline auto height(const image_view<T> &view) noexcept
-{
-    return height(descriptor(view));
-}
-
-template <typename T>
-inline auto dimensions(const image_view<T> &view) noexcept
-{
-    return dimensions(descriptor(view));
-}
-
-template <typename T>
-inline auto rectangle(const image_view<T> &view) noexcept
-{
-    return rectangle(descriptor(view));
-}
-
-template <typename T>
-inline auto stride_x(const image_view<T> &view) noexcept
-{
-    return stride_x(descriptor(view));
-}
-
-template <typename T>
-inline auto stride_y(const image_view<T> &view) noexcept
-{
-    return stride_y(descriptor(view));
-}
-
-template <typename T>
-inline auto continuous(const image_view<T> &view) noexcept
-{
-    return continuous(descriptor(view));
-}
-
-template <typename T>
-inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept
-{
-    return contains(descriptor(view), coord);
-}
-
-template <typename T>
-inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t
-{
-    return size(descriptor(view));
 }
 
 template <typename T>
