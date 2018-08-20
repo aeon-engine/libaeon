@@ -130,7 +130,7 @@ inline auto dimensions(const image_descriptor<T> &descriptor) noexcept
 template <typename T>
 inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>
 {
-    return {0, 0, width(descriptor), height(descriptor)};
+    return math::rect(dimensions(descriptor));
 }
 
 template <typename T>
