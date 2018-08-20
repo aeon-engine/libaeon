@@ -171,4 +171,20 @@ inline void scale_blit(const dynamic_image &src, dynamic_image &dst, const math:
     process_image_with_dst(src, dst, scale_blit, rect);
 }
 
+template <typename T>
+inline void blend_scale_blit(const image_view<T> &src, image_view<T> &dst, const math::rectangle<dimension> rect,
+                             const blend_blit_mode mode)
+{
+    aeon_assert(math::contains(rect, rectangle(dst)), "Source does not fit within destination.");
+
+    const auto new_src = resize_bilinear(src, math::size(rect));
+    blend_blit<T>(new_src, dst, math::left_top(rect), mode);
+}
+
+inline void blend_scale_blit(const dynamic_image &src, dynamic_image &dst, const math::rectangle<dimension> rect,
+                             const blend_blit_mode mode)
+{
+    process_image_with_dst(src, dst, blend_scale_blit, rect, mode);
+}
+
 } // namespace aeon::imaging::filters
