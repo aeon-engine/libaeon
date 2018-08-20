@@ -46,6 +46,7 @@ set(LIB_AEON_IMAGING_IMPL_SOURCE
     include/aeon/imaging/impl/image_view_impl.h
     include/aeon/imaging/impl/image_view_base_impl.h
     include/aeon/imaging/impl/image_impl.h
+    include/aeon/imaging/impl/pixel_encoding_impl.h
 )
 
 source_group(imaging\\impl FILES ${LIB_AEON_IMAGING_IMPL_SOURCE})
