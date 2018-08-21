@@ -26,26 +26,28 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/dep/png dep/png)
 add_subdirectory(${CMAKE_SOURCE_DIR}/dep/libjpeg_turbo dep/libjpeg_turbo)
 
 set(LIB_AEON_IMAGING_SOURCE
-    include/aeon/imaging/exceptions.h
     include/aeon/imaging/dimension.h
+    include/aeon/imaging/dynamic_image.h
+    include/aeon/imaging/dynamic_image_descriptor.h
+    include/aeon/imaging/exceptions.h
+    include/aeon/imaging/image.h
+    include/aeon/imaging/image_descriptor.h
+    include/aeon/imaging/image_view.h
+    include/aeon/imaging/image_view_base.h
     include/aeon/imaging/pixel_encoding.h
     include/aeon/imaging/pixel_encoding_traits.h
     include/aeon/imaging/pixel_math.h
-    include/aeon/imaging/image_descriptor.h
-    include/aeon/imaging/image.h
-    include/aeon/imaging/image_view.h
-    include/aeon/imaging/image_view_base.h
-    include/aeon/imaging/dynamic_image.h
 )
 
 source_group(imaging FILES ${LIB_AEON_IMAGING_SOURCE})
 
 set(LIB_AEON_IMAGING_IMPL_SOURCE
+    include/aeon/imaging/impl/dynamic_image_descriptor_impl.h
     include/aeon/imaging/impl/dynamic_image_impl.h
     include/aeon/imaging/impl/image_descriptor_impl.h
-    include/aeon/imaging/impl/image_view_impl.h
-    include/aeon/imaging/impl/image_view_base_impl.h
     include/aeon/imaging/impl/image_impl.h
+    include/aeon/imaging/impl/image_view_base_impl.h
+    include/aeon/imaging/impl/image_view_impl.h
     include/aeon/imaging/impl/pixel_encoding_impl.h
 )
 

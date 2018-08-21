@@ -26,7 +26,8 @@
 #include <gtest/gtest.h>
 
 #include <aeon/imaging/image.h>
-#include "aeon/imaging/pixel_encoding.h"
+#include <aeon/imaging/dynamic_image.h>
+#include <aeon/imaging/pixel_encoding.h>
 
 using namespace aeon;
 
@@ -86,4 +87,14 @@ TEST(test_imaging, test_image_free_functions)
     ASSERT_EQ(imaging::width(d), imaging::width(image));
     ASSERT_EQ(imaging::height(d), imaging::height(image));
     ASSERT_EQ(imaging::stride_x(d), imaging::stride_x(image));
+}
+
+TEST(test_imaging, test_construct_dynamic_image)
+{
+    imaging::dynamic_image_descriptor d{imaging::pixel_encoding::unsigned8, 10, 10};
+    imaging::dynamic_image image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(std::uint8_t), imaging::size(image));
+    EXPECT_EQ(imaging::pixel_encoding::unsigned8, imaging::encoding(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
 }

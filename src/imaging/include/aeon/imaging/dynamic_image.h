@@ -27,6 +27,7 @@
 
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/pixel_encoding.h>
+#include <aeon/imaging/dynamic_image_descriptor.h>
 #include <aeon/imaging/exceptions.h>
 #include <aeon/common/assert.h>
 #include <memory>
@@ -37,6 +38,8 @@ namespace aeon::imaging
 class dynamic_image
 {
 public:
+    explicit dynamic_image(const dynamic_image_descriptor &dynamic_descriptor);
+
     template <typename T>
     explicit dynamic_image(image<T> &&image);
 
@@ -51,7 +54,7 @@ public:
     dynamic_image(dynamic_image &&o) noexcept = default;
     auto operator=(dynamic_image &&other) noexcept -> dynamic_image & = default;
 
-    auto encoding() const noexcept -> pixel_encoding;
+    auto descriptor() const noexcept -> dynamic_image_descriptor;
 
     template <typename T>
     auto get_image() noexcept -> image<T> &;
@@ -60,11 +63,35 @@ public:
     auto get_image() const noexcept -> const image<T> &;
 
 private:
+    dynamic_image_descriptor dynamic_descriptor_;
     std::unique_ptr<image_base> image_;
-    pixel_encoding encoding_;
 };
 
+inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_descriptor;
+
+inline auto null(const dynamic_image &image) noexcept -> bool;
+
+inline auto valid(const dynamic_image &image) noexcept -> bool;
+
 inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding;
+
+inline auto width(const dynamic_image &image) noexcept -> dimension;
+
+inline auto height(const dynamic_image &image) noexcept -> dimension;
+
+inline auto dimensions(const dynamic_image &image) noexcept -> math::size2d<dimension>;
+
+inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<dimension>;
+
+inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t;
+
+inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t;
+
+inline auto continuous(const dynamic_image &image) noexcept -> bool;
+
+inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool;
+
+inline auto size(const dynamic_image &image) noexcept -> std::ptrdiff_t;
 
 template <typename T>
 inline auto view(dynamic_image &image) noexcept -> image_view<T> &;
