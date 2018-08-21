@@ -36,7 +36,7 @@ inline image<T>::image()
 }
 
 template <typename T>
-inline image<T>::image(const image_descriptor<T> descriptor)
+inline image<T>::image(const image_descriptor<T> &descriptor)
     : image_view<T>{descriptor}
     , data_(size(descriptor))
 {
@@ -44,7 +44,7 @@ inline image<T>::image(const image_descriptor<T> descriptor)
 }
 
 template <typename T>
-inline image<T>::image(const image_descriptor<T> descriptor, const std::vector<std::byte> &data)
+inline image<T>::image(const image_descriptor<T> &descriptor, const std::vector<std::byte> &data)
     : image_view<T>{descriptor}
     , data_{data}
 {
@@ -52,7 +52,7 @@ inline image<T>::image(const image_descriptor<T> descriptor, const std::vector<s
 }
 
 template <typename T>
-inline image<T>::image(const image_descriptor<T> descriptor, std::vector<std::byte> &&data)
+inline image<T>::image(const image_descriptor<T> &descriptor, std::vector<std::byte> &&data)
     : image_view<T>{descriptor}
     , data_{std::move(data)}
 {

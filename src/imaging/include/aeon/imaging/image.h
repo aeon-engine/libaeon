@@ -54,9 +54,9 @@ class image : public image_view<T>, public image_base
 
 public:
     image();
-    explicit image(const image_descriptor<T> descriptor);
-    explicit image(const image_descriptor<T> descriptor, const std::vector<std::byte> &data);
-    explicit image(const image_descriptor<T> descriptor, std::vector<std::byte> &&data);
+    explicit image(const image_descriptor<T> &descriptor);
+    explicit image(const image_descriptor<T> &descriptor, const std::vector<std::byte> &data);
+    explicit image(const image_descriptor<T> &descriptor, std::vector<std::byte> &&data);
     virtual ~image();
 
     image(const image<T> &) = delete;

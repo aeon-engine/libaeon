@@ -159,14 +159,14 @@ inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<
 }
 
 template <typename T>
-inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> descriptor) noexcept
+inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> &descriptor) noexcept
     -> std::ptrdiff_t
 {
     return stride_y(descriptor) * coord.y + stride_x(descriptor) * coord.x;
 }
 
 template <typename T>
-inline auto size(const image_descriptor<T> descriptor) noexcept -> std::ptrdiff_t
+inline auto size(const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t
 {
     return stride_y(descriptor) * height(descriptor);
 }

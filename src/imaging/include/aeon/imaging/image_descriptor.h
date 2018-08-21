@@ -101,11 +101,11 @@ template <typename T>
 inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept;
 
 template <typename T>
-inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> descriptor) noexcept
+inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> &descriptor) noexcept
     -> std::ptrdiff_t;
 
 template <typename T>
-inline auto size(const image_descriptor<T> descriptor) noexcept -> std::ptrdiff_t;
+inline auto size(const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t;
 
 template <typename T>
 inline auto operator==(const image_descriptor<T> &lhs, const image_descriptor<T> &rhs) noexcept;

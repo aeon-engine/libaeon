@@ -38,7 +38,7 @@ inline image_view<T>::image_view() noexcept
 }
 
 template <typename T>
-inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte *data) noexcept
+inline image_view<T>::image_view(const image_descriptor<T> &descriptor, std::byte *data) noexcept
     : image_view_base<T>{descriptor}
     , data_ptr_{data}
 {
@@ -47,7 +47,7 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, std::byte
 }
 
 template <typename T>
-inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std::byte *data) noexcept
+inline image_view<T>::image_view(const image_descriptor<T> &descriptor, const std::byte *data) noexcept
     : image_view_base<T>{descriptor}
     , data_ptr_{const_cast<std::byte *>(data)}
 {
@@ -56,7 +56,7 @@ inline image_view<T>::image_view(const image_descriptor<T> descriptor, const std
 }
 
 template <typename T>
-inline image_view<T>::image_view(const image_descriptor<T> descriptor) noexcept
+inline image_view<T>::image_view(const image_descriptor<T> &descriptor) noexcept
     : image_view_base<T>{descriptor}
     , data_ptr_{}
 {
