@@ -107,4 +107,30 @@ struct pixel_encoding_trait<bgra32>
     }
 };
 
+inline constexpr auto bytes_per_pixel(const pixel_encoding encoding) noexcept -> std::ptrdiff_t
+{
+    switch (encoding)
+    {
+        case pixel_encoding::unsigned8:
+            return sizeof(std::uint8_t);
+        case pixel_encoding::unsigned16:
+            return sizeof(std::uint16_t);
+        case pixel_encoding::unsigned32:
+            return sizeof(std::uint32_t);
+        case pixel_encoding::float32:
+            return sizeof(float);
+        case pixel_encoding::rgb24:
+            return sizeof(rgb24);
+        case pixel_encoding::rgba32:
+            return sizeof(rgba32);
+        case pixel_encoding::bgr24:
+            return sizeof(bgr24);
+        case pixel_encoding::bgra32:
+            return sizeof(bgra32);
+        default:
+            aeon_assert_fail("Invalid pixel encoding.");
+            return 1;
+    }
+}
+
 } // namespace aeon::imaging
