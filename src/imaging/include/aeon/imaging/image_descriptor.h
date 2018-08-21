@@ -52,8 +52,8 @@ public:
 
     image_descriptor(const image_descriptor &) noexcept = default;
     auto operator=(const image_descriptor &) noexcept -> image_descriptor & = default;
-    image_descriptor(image_descriptor &&o) noexcept = default;
-    auto operator=(image_descriptor &&other) noexcept -> image_descriptor & = default;
+    image_descriptor(image_descriptor &&) noexcept = default;
+    auto operator=(image_descriptor &&) noexcept -> image_descriptor & = default;
 
     auto width() const noexcept -> dimension;
     auto height() const noexcept -> dimension;
