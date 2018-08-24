@@ -28,17 +28,17 @@
 #include <cstddef>
 #include <cstdint>
 
-inline constexpr std::size_t operator"" _size_t(unsigned long long int x) noexcept
+inline constexpr auto operator"" _size_t(unsigned long long int x) noexcept -> std::size_t
 {
     return static_cast<std::size_t>(x);
 }
 
-inline constexpr std::uint8_t operator"" _uint8_t(unsigned long long int x) noexcept
+inline constexpr auto operator"" _uint8_t(unsigned long long int x) noexcept -> std::uint8_t
 {
     return static_cast<std::uint8_t>(x);
 }
 
-inline constexpr std::uint16_t operator"" _uint16_t(unsigned long long int x) noexcept
+inline constexpr auto operator"" _uint16_t(unsigned long long int x) noexcept -> std::uint16_t
 {
     return static_cast<std::uint16_t>(x);
 }
