@@ -71,3 +71,18 @@ TEST(test_math, test_math_variadic_max)
     EXPECT_EQ(5.0f, math::max(1.0f, 2.0f, 3.0f, 4.0f, 5.0f));
     EXPECT_EQ(5.0f, math::max(5.0f, 4.0f, 3.0f, 2.0f, 1.0f));
 }
+
+TEST(test_math, test_math_constexpr_pow_int)
+{
+    EXPECT_EQ(4, math::constexpr_pow(2, 2));
+    EXPECT_EQ(4.0f, math::constexpr_pow(2.0f, 2));
+    EXPECT_EQ(4.0, math::constexpr_pow(2.0, 2));
+
+    EXPECT_EQ(8, math::constexpr_pow(2, 3));
+    EXPECT_EQ(8.0f, math::constexpr_pow(2.0f, 3));
+    EXPECT_EQ(8.0, math::constexpr_pow(2.0, 3));
+
+    EXPECT_EQ(16, math::constexpr_pow(2, 4));
+    EXPECT_EQ(16.0f, math::constexpr_pow(2.0f, 4));
+    EXPECT_EQ(16.0, math::constexpr_pow(2.0, 4));
+}

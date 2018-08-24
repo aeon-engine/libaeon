@@ -30,6 +30,7 @@
 
 #pragma once
 
+#include <type_traits>
 #include <cmath>
 
 /*!
@@ -126,6 +127,25 @@ inline auto max(const T first, const U... values) noexcept -> T
     auto retval = &first;
     ((retval = &std::max(*retval, values)), ...);
     return *retval;
+}
+
+/*!
+ * Constexpr version of pow (base<SUP>exponent</SUP>)
+ * \param[in] base - The base value (must be arithmetic type)
+ * \param[in] exponent - The exponent value
+ * \return The result of base<SUP>exponent</SUP>
+ */
+template <typename T>
+inline constexpr auto constexpr_pow(const T base, const int exponent) noexcept -> T
+{
+    static_assert(std::is_arithmetic_v<T>, "Base must be arithmetic type.");
+
+    auto val = base;
+
+    for (auto i = 1; i < exponent; ++i)
+        val *= base;
+
+    return val;
 }
 
 } // namespace aeon::math
