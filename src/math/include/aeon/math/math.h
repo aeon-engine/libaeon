@@ -25,7 +25,7 @@
 
 /*!
  * \file
- * \brief Common mathmatical constants and functions.
+ * \brief Common mathematical constants and functions.
  */
 
 #pragma once
@@ -39,7 +39,7 @@ namespace aeon::math
 {
 
 /*!
- * Various common constants for use in mathmatical formulas.
+ * Various common constants for use in mathematical formulas.
  * There are constants available in float and double precision.
  */
 template <typename T>
