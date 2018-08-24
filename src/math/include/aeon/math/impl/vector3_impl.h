@@ -84,6 +84,15 @@ inline vector3<T>::vector3(const U x, const U y, const U z) noexcept
 }
 
 template <typename T>
+template <typename U>
+inline vector3<T>::vector3(const vector3<U> &vec) noexcept
+    : x{static_cast<T>(vec.x)}
+    , y{static_cast<T>(vec.y)}
+    , z{static_cast<T>(vec.z)}
+{
+}
+
+template <typename T>
 inline vector3<T>::vector3(const vector2<T> vec) noexcept
     : x{vec.x}
     , y{vec.y}

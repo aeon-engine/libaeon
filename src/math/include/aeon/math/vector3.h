@@ -63,8 +63,17 @@ public:
      */
     vector3(const T x, const T y, const T z) noexcept;
 
+    /*!
+     * Create a vector based on the given values. Converting constructor.
+     */
     template <typename U>
     explicit vector3(const U x, const U y) noexcept;
+
+    /*!
+     * Create a vector based on the given vector. Converting constructor.
+     */
+    template <typename U>
+    explicit vector3(const vector3<U> &vec) noexcept;
 
     /*!
      * Create a vector based on the given values.

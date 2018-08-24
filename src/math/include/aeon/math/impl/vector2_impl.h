@@ -62,6 +62,14 @@ inline vector2<T>::vector2(const U x, const U y) noexcept
 }
 
 template <typename T>
+template <typename U>
+inline vector2<T>::vector2(const vector2<U> &vec) noexcept
+    : x{static_cast<T>(vec.x)}
+    , y{static_cast<T>(vec.y)}
+{
+}
+
+template <typename T>
 inline vector2<T>::vector2(const T xy[2]) noexcept
     : x{xy[0]}
     , y{xy[1]}

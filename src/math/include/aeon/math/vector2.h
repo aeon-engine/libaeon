@@ -58,10 +58,16 @@ public:
     vector2(const T x, const T y) noexcept;
 
     /*!
-     * Create a vector based on the given values.
+     * Create a vector based on the given values. Converting constructor.
      */
     template <typename U>
     explicit vector2(const U x, const U y) noexcept;
+
+    /*!
+     * Create a vector based on the given vector. Converting constructor.
+     */
+    template <typename U>
+    explicit vector2(const vector2<U> &vec) noexcept;
 
     /*!
      * Create a vector based on the given array values (index 0 is X, 1 is Y)

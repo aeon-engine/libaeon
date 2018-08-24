@@ -81,15 +81,22 @@ public:
 
     /*!
      * Create a vector based on the given values. W will be initialized to 0.
+     * Converting contstructor.
      */
     template <typename U>
     explicit vector4(const U x, const U y, const U z) noexcept;
 
     /*!
-     * Create a vector based on the given values.
+     * Create a vector based on the given values. Converting constructor
      */
     template <typename U>
     explicit vector4(const U x, const U y, const U z, const U w) noexcept;
+
+    /*!
+     * Create a vector based on the given vector. Converting constructor.
+     */
+    template <typename U>
+    explicit vector4(const vector4<U> &vec) noexcept;
 
     /*!
      * Create a vector based on the given 2D vector. Z and W will be initialized to 0.
