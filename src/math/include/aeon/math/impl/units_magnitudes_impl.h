@@ -115,4 +115,32 @@ struct byte
     static constexpr auto value = 1.0;
 };
 
+template <typename unit_t>
+struct units_convert_magnitude
+{
+    static constexpr auto to_base_type(const double value) noexcept -> double
+    {
+        if constexpr (is_base_type_v<unit_t>)
+        {
+            return value;
+        }
+        else
+        {
+            return value / unit_t::value;
+        }
+    }
+
+    static constexpr auto from_base_type(const double value) noexcept -> double
+    {
+        if constexpr (is_base_type_v<unit_t>)
+        {
+            return value;
+        }
+        else
+        {
+            return (value * unit_t::value);
+        }
+    }
+};
+
 } // namespace aeon::math

@@ -67,14 +67,7 @@ inline constexpr auto unit<param1_t, param2_t>::operator=(const unit<T, U> &othe
 template <typename param1_t, typename param2_t>
 inline constexpr auto unit<param1_t, param2_t>::count() const noexcept -> double
 {
-    if constexpr (is_base_type_v<unit_t>)
-    {
-        return value_ / prefix_value_v<param1_t>;
-    }
-    else
-    {
-        return (value_ * unit_t::value) / prefix_value_v<param1_t>;
-    }
+    return units_convert_magnitude<unit_t>::from_base_type(value_) / prefix_value_v<param1_t>;
 }
 
 template <typename param1_t, typename param2_t>
@@ -106,16 +99,7 @@ inline constexpr unit<param1_t, param2_t>::unit(const double value, const intern
 template <typename param1_t, typename param2_t>
 inline constexpr void unit<param1_t, param2_t>::set_absolute_value(const double value)
 {
-    if constexpr (is_base_type_v<unit_t>)
-    {
-        value_ = value;
-    }
-    else
-    {
-        value_ = value / unit_t::value;
-    }
-
-    value_ *= prefix_value_v<param1_t>;
+    value_ = units_convert_magnitude<unit_t>::to_base_type(value) * prefix_value_v<param1_t>;
 }
 
 template <typename T, typename U>
