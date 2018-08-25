@@ -35,7 +35,6 @@ struct meter
 {
     using type = unit_distance_tag;
     using has_prefix = std::true_type;
-    static constexpr auto value = 1.0;
 };
 
 struct angstrom
@@ -98,7 +97,6 @@ struct gram
 {
     using type = unit_mass_tag;
     using has_prefix = std::true_type;
-    static constexpr auto value = 1.0;
 };
 
 struct pound
@@ -112,7 +110,6 @@ struct byte
 {
     using type = computer_storage_tag;
     using has_prefix = std::true_type;
-    static constexpr auto value = 1.0;
 };
 
 template <typename unit_t>

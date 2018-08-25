@@ -69,7 +69,21 @@ using unit_type_t = typename unit_type<T, U>::type;
 template <typename T>
 struct prefix_value
 {
-    static constexpr auto value = std::is_base_of_v<prefix, T> ? T::value : 1.0;
+private:
+    static constexpr auto get() noexcept -> double
+    {
+        if constexpr (std::is_base_of_v<prefix, T>)
+        {
+            return T::value;
+        }
+        else
+        {
+            return 1.0;
+        }
+    }
+
+public:
+    static constexpr auto value = get();
 };
 
 /*!
