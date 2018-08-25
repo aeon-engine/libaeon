@@ -242,3 +242,17 @@ TEST(test_units, test_units_literals)
     const auto meters = 10.0_m;
     EXPECT_DOUBLE_EQ(meters, 10.0);
 }
+
+TEST(test_units, test_units_offset_multiplier)
+{
+    const auto celsius_temperature = 30.0_C;
+    const math::unit<math::kelvin> kelvin_temperature = celsius_temperature;
+    EXPECT_DOUBLE_EQ(kelvin_temperature, 303.15);
+
+    const math::unit<math::fahrenheit> fahrenheit_temperature = celsius_temperature;
+    EXPECT_DOUBLE_EQ(fahrenheit_temperature, 86.0);
+
+    const auto a = 300_K;
+    const math::unit<math::fahrenheit> b = a;
+    EXPECT_DOUBLE_EQ(b, 80.33);
+}

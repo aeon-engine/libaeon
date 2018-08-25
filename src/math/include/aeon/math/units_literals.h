@@ -183,3 +183,33 @@ inline constexpr auto operator"" _TiB(const long double val) noexcept
 {
     return {val};
 }
+
+inline constexpr auto operator"" _K(const unsigned long long val) noexcept -> aeon::math::unit<aeon::math::kelvin>
+{
+    return {val};
+}
+
+inline constexpr auto operator"" _K(const long double val) noexcept -> aeon::math::unit<aeon::math::kelvin>
+{
+    return {val};
+}
+
+inline constexpr auto operator"" _C(const unsigned long long val) noexcept -> aeon::math::unit<aeon::math::celsius>
+{
+    return {val};
+}
+
+inline constexpr auto operator"" _C(const long double val) noexcept -> aeon::math::unit<aeon::math::celsius>
+{
+    return {val};
+}
+
+inline constexpr auto operator"" _F(const unsigned long long val) noexcept -> aeon::math::unit<aeon::math::fahrenheit>
+{
+    return {val};
+}
+
+inline constexpr auto operator"" _F(const long double val) noexcept -> aeon::math::unit<aeon::math::fahrenheit>
+{
+    return {val};
+}

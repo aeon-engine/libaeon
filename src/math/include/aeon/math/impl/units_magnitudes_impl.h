@@ -106,6 +106,27 @@ struct pound
     static constexpr auto multiplier = 1.0 / 453.59237;
 };
 
+struct kelvin
+{
+    using type = unit_temperature_tag;
+    using has_prefix = std::false_type;
+};
+
+struct celsius
+{
+    using type = unit_temperature_tag;
+    using has_prefix = std::false_type;
+    static constexpr auto offset = -273.15;
+};
+
+struct fahrenheit
+{
+    using type = unit_temperature_tag;
+    using has_prefix = std::false_type;
+    static constexpr auto multiplier = 9.0 / 5.0;
+    static constexpr auto offset = -459.67;
+};
+
 struct byte
 {
     using type = computer_storage_tag;
