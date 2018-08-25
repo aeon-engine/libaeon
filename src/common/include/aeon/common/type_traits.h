@@ -43,6 +43,36 @@ struct function_signature_argument_count<return_type_t(args_t...)>
 };
 
 /*!
+ * Define a trait to check if a certain struct or class has a member variable.
+ * \param trait_name The name of the type trait
+ * \param member_type The value type of the member variable to be checked
+ * \param member_name The name of the member variable to be checked.
+ */
+#define aeon_define_member_value_check_trait(trait_name, member_type, member_name)                                     \
+    template <typename T>                                                                                              \
+    struct trait_name                                                                                                  \
+    {                                                                                                                  \
+        struct member_value_t                                                                                          \
+        {                                                                                                              \
+            member_type member_name;                                                                                   \
+        };                                                                                                             \
+                                                                                                                       \
+        struct member_value_check_t : T, member_value_t                                                                \
+        {                                                                                                              \
+        };                                                                                                             \
+                                                                                                                       \
+        template <typename C, C>                                                                                       \
+        struct check_member_type_t;                                                                                    \
+                                                                                                                       \
+        template <typename C>                                                                                          \
+        static constexpr char (&f(check_member_type_t<double member_value_t::*, &C::member_name> *))[1];               \
+        template <typename C>                                                                                          \
+        static constexpr char (&f(...))[2];                                                                            \
+                                                                                                                       \
+        static constexpr auto value = sizeof(f<member_value_check_t>(nullptr)) == 2;                                   \
+    }
+
+/*!
  * Get a representing integer type based on given number of bits
  */
 template <unsigned int bits>
