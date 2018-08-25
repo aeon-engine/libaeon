@@ -41,56 +41,56 @@ struct angstrom
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 10000000000.0;
+    static constexpr auto multiplier = 10000000000.0;
 };
 
 struct micron
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 1000000.0;
+    static constexpr auto multiplier = 1000000.0;
 };
 
 struct mil
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 39370.0787;
+    static constexpr auto multiplier = 39370.0787;
 };
 
 struct inch
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 39.3700787;
+    static constexpr auto multiplier = 39.3700787;
 };
 
 struct mile
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 1.0 / 16093.440;
+    static constexpr auto multiplier = 1.0 / 16093.440;
 };
 
 struct nautical_mile
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 1.0 / 1852.0;
+    static constexpr auto multiplier = 1.0 / 1852.0;
 };
 
 struct lightyear
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 1.0 / 9.4605284e15;
+    static constexpr auto multiplier = 1.0 / 9.4605284e15;
 };
 
 struct astronomical_unit
 {
     using type = unit_distance_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 1.0 / 149597870700.0;
+    static constexpr auto multiplier = 1.0 / 149597870700.0;
 };
 
 struct gram
@@ -103,7 +103,7 @@ struct pound
 {
     using type = unit_mass_tag;
     using has_prefix = std::false_type;
-    static constexpr auto value = 1.0 / 453.59237;
+    static constexpr auto multiplier = 1.0 / 453.59237;
 };
 
 struct byte
@@ -123,7 +123,15 @@ struct units_convert_magnitude
         }
         else
         {
-            return value / unit_t::value;
+            auto val = value;
+
+            if constexpr (type_has_offset_value_v<unit_t>)
+                val -= unit_t::offset;
+
+            if constexpr (type_has_multiplier_value_v<unit_t>)
+                val /= unit_t::multiplier;
+
+            return val;
         }
     }
 
@@ -135,7 +143,15 @@ struct units_convert_magnitude
         }
         else
         {
-            return (value * unit_t::value);
+            auto val = value;
+
+            if constexpr (type_has_multiplier_value_v<unit_t>)
+                val *= unit_t::multiplier;
+
+            if constexpr (type_has_offset_value_v<unit_t>)
+                val += unit_t::offset;
+
+            return val;
         }
     }
 };
