@@ -170,18 +170,40 @@ private:
     unit_value_type_t value_;
 };
 
+/*!
+ * Unit type with a double as underlying data size.
+ * Recommended when using large scale units such as lightyear and AU.
+ */
 template <typename T, typename U = void>
 using unitd = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, double>;
 
+/*!
+ * Unit type with a float as underlying data size.
+ * Recommended for normal use.
+ */
 template <typename T, typename U = void>
 using unitf = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, float>;
 
+/*!
+ * Unit type with an int as underlying data size.
+ * Warning: Most units will not convert well with int types. This can only realistically
+ * be used with bytes (megabyte to bytes etc.)
+ */
 template <typename T, typename U = void>
 using uniti = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, int>;
 
+/*!
+ * Unit type with a long long as underlying data size.
+ * Warning: Most units will not convert well with long long types. This can only realistically
+ * be used with bytes (megabyte to bytes etc.)
+ */
 template <typename T, typename U = void>
 using unitll = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, long long>;
 
+/*!
+ * Unit type with a double as underlying data size.
+ * Recommended when using large scale units such as lightyear and AU.
+ */
 template <typename T, typename U = void>
 using unit = unitd<T, U>;
 
