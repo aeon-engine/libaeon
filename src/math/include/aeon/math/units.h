@@ -41,88 +41,149 @@ struct unit_value_placeholder_t
 
 } // namespace internal
 
-template <typename param1_t, typename param2_t = void>
-class unit
+template <typename prefix_type_t, typename unit_type_t, typename unit_value_type_t>
+class unit_base
 {
-    using unit_t = std::conditional_t<std::is_same_v<param2_t, void>, param1_t, param2_t>;
-    static_assert(
-        std::conditional_t<std::is_base_of_v<prefix, param1_t>, typename unit_t::has_prefix, std::true_type>(),
-        "Only SI units can have a prefix.");
+    static_assert(std::conditional_t<std::is_base_of_v<prefix, prefix_type_t>, typename unit_type_t::has_prefix,
+                                     std::true_type>(),
+                  "Only SI units can have a prefix.");
 
 public:
-    template <typename value_type_t, std::enable_if_t<std::is_arithmetic_v<value_type_t>> * = nullptr>
-    constexpr unit(const value_type_t value) noexcept;
+    template <typename conversion_value_type_t,
+              std::enable_if_t<std::is_arithmetic_v<conversion_value_type_t>> * = nullptr>
+    constexpr unit_base(const conversion_value_type_t value) noexcept;
 
-    template <typename value_type_t, std::enable_if_t<std::is_arithmetic_v<value_type_t>> * = nullptr>
-    constexpr auto operator=(const value_type_t value) noexcept -> unit &;
+    template <typename conversion_value_type_t,
+              std::enable_if_t<std::is_arithmetic_v<conversion_value_type_t>> * = nullptr>
+    constexpr auto operator=(const conversion_value_type_t value) noexcept -> unit_base &;
 
-    template <typename T, typename U>
-    constexpr unit(const unit<T, U> &other) noexcept;
+    template <typename other_prefix_type_t, typename other_unit_type_t>
+    constexpr unit_base(const unit_base<other_prefix_type_t, other_unit_type_t, unit_value_type_t> &other) noexcept;
 
-    template <typename T, typename U>
-    constexpr auto operator=(const unit<T, U> &other) noexcept -> unit &;
+    template <typename other_prefix_type_t, typename other_unit_type_t>
+    constexpr auto operator=(const unit_base<other_prefix_type_t, other_unit_type_t, unit_value_type_t> &other) noexcept
+        -> unit_base &;
 
-    ~unit() = default;
+    ~unit_base() = default;
 
-    constexpr auto count() const noexcept -> double;
+    constexpr auto count() const noexcept -> unit_value_type_t;
 
-    template <typename value_type_t>
-    constexpr auto count(std::enable_if_t<std::is_arithmetic_v<value_type_t>> * = nullptr) const noexcept
-        -> value_type_t;
+    template <typename conversion_value_type_t>
+    constexpr auto count(std::enable_if_t<std::is_arithmetic_v<conversion_value_type_t>> * = nullptr) const noexcept
+        -> conversion_value_type_t;
 
-    constexpr operator double() const noexcept;
+    constexpr operator unit_value_type_t() const noexcept;
 
-    constexpr auto base_unit_count() const noexcept -> double;
+    constexpr auto base_unit_count() const noexcept -> unit_value_type_t;
 
-    constexpr unit(const unit &) = default;
-    constexpr auto operator=(const unit &) -> unit & = default;
+    constexpr unit_base(const unit_base &) = default;
+    constexpr auto operator=(const unit_base &) -> unit_base & = default;
 
-    constexpr unit(unit &&) = default;
-    constexpr auto operator=(unit &&) -> unit & = default;
+    constexpr unit_base(unit_base &&) = default;
+    constexpr auto operator=(unit_base &&) -> unit_base & = default;
 
-    template <typename T, typename U>
-    friend constexpr auto operator+(const unit<T, U> &lhs, const unit<T, U> &rhs) noexcept -> unit<T, U>;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto operator+(
+        const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+        const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t>;
 
-    template <typename T, typename U>
-    friend constexpr auto operator+=(unit<T, U> &lhs, const unit<T, U> &rhs) noexcept -> unit<T, U> &;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto operator+=(
+        unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+        const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &;
 
-    template <typename T, typename U, typename value_type_t>
-    friend constexpr auto operator+(const unit<T, U> &lhs, const value_type_t &rhs) noexcept -> unit<T, U>;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t,
+              typename operator_value_type_t>
+    friend constexpr auto
+        operator+(const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+                  const operator_value_type_t &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t>;
 
-    template <typename T, typename U, typename value_type_t>
-    friend constexpr auto operator+=(unit<T, U> &lhs, const value_type_t &rhs) noexcept -> unit<T, U> &;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t,
+              typename operator_value_type_t>
+    friend constexpr auto
+        operator+=(unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+                   const operator_value_type_t &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &;
 
-    template <typename T, typename U, typename V, typename W>
-    friend constexpr auto operator+(const unit<T, U> &lhs, const unit<V, W> &rhs) noexcept -> unit<T, U>;
+    template <typename lhs_prefix_type_t, typename lhs_unit_type_t, typename rhs_prefix_type_t,
+              typename rhs_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto
+        operator+(const unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t> &lhs,
+                  const unit_base<rhs_prefix_type_t, rhs_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t>;
 
-    template <typename T, typename U, typename V, typename W>
-    friend constexpr auto operator+=(unit<T, U> &lhs, const unit<V, W> &rhs) noexcept -> unit<T, U> &;
+    template <typename lhs_prefix_type_t, typename lhs_unit_type_t, typename rhs_prefix_type_t,
+              typename rhs_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto
+        operator+=(unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t> &lhs,
+                   const unit_base<rhs_prefix_type_t, rhs_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t> &;
 
-    template <typename T, typename U>
-    friend constexpr auto operator-(const unit<T, U> &lhs, const unit<T, U> &rhs) noexcept -> unit<T, U>;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto operator-(
+        const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+        const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t>;
 
-    template <typename T, typename U>
-    friend constexpr auto operator-=(unit<T, U> &lhs, const unit<T, U> &rhs) noexcept -> unit<T, U> &;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto operator-=(
+        unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+        const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &;
 
-    template <typename T, typename U, typename value_type_t>
-    friend constexpr auto operator-(const unit<T, U> &lhs, const value_type_t &rhs) noexcept -> unit<T, U>;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t,
+              typename operator_value_type_t>
+    friend constexpr auto
+        operator-(const unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+                  const operator_value_type_t &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t>;
 
-    template <typename T, typename U, typename value_type_t>
-    friend constexpr auto operator-=(unit<T, U> &lhs, const value_type_t &rhs) noexcept -> unit<T, U> &;
+    template <typename operator_prefix_type_t, typename operator_unit_type_t, typename operator_unit_value_type_t,
+              typename operator_value_type_t>
+    friend constexpr auto
+        operator-=(unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &lhs,
+                   const operator_value_type_t &rhs) noexcept
+        -> unit_base<operator_prefix_type_t, operator_unit_type_t, operator_unit_value_type_t> &;
 
-    template <typename T, typename U, typename V, typename W>
-    friend constexpr auto operator-(const unit<T, U> &lhs, const unit<V, W> &rhs) noexcept -> unit<T, U>;
+    template <typename lhs_prefix_type_t, typename lhs_unit_type_t, typename rhs_prefix_type_t,
+              typename rhs_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto
+        operator-(const unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t> &lhs,
+                  const unit_base<rhs_prefix_type_t, rhs_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t>;
 
-    template <typename T, typename U, typename V, typename W>
-    friend constexpr auto operator-=(unit<T, U> &lhs, const unit<V, W> &rhs) noexcept -> unit<T, U> &;
+    template <typename lhs_prefix_type_t, typename lhs_unit_type_t, typename rhs_prefix_type_t,
+              typename rhs_unit_type_t, typename operator_unit_value_type_t>
+    friend constexpr auto
+        operator-=(unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t> &lhs,
+                   const unit_base<rhs_prefix_type_t, rhs_unit_type_t, operator_unit_value_type_t> &rhs) noexcept
+        -> unit_base<lhs_prefix_type_t, lhs_unit_type_t, operator_unit_value_type_t> &;
 
 private:
-    constexpr unit(const double value, const internal::unit_value_placeholder_t);
+    constexpr unit_base(const unit_value_type_t value, const internal::unit_value_placeholder_t);
 
-    constexpr void set_absolute_value(const double value);
+    constexpr void set_absolute_value(const unit_value_type_t value);
 
-    double value_;
+    unit_value_type_t value_;
 };
+
+template <typename T, typename U = void>
+using unitd = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, double>;
+
+template <typename T, typename U = void>
+using unitf = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, float>;
+
+template <typename T, typename U = void>
+using uniti = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, int>;
+
+template <typename T, typename U = void>
+using unitll = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, long long>;
+
+template <typename T, typename U = void>
+using unit = unitd<T, U>;
 
 } // namespace aeon::math
 

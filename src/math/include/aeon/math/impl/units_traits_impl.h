@@ -64,6 +64,22 @@ template <typename T, typename U>
 using unit_type_t = typename unit_type<T, U>::type;
 
 /*!
+ * Get the unit prefix from a given combination of unit template arguments (or void).
+ * <type, void> or <prefix, type>
+ */
+template <typename T, typename U>
+struct unit_prefix
+{
+    using type = std::conditional_t<std::is_same_v<U, void>, void, T>;
+};
+
+/*!
+ * Convenience type variant of unit_prefix.
+ */
+template <typename T, typename U>
+using unit_prefix_t = typename unit_prefix<T, U>::type;
+
+/*!
  * Get the prefix multiplication modifier value for a given template.
  * If the template isn't a prefix, value is 1.0.
  */

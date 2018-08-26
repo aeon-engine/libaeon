@@ -58,6 +58,18 @@ TEST(test_units, test_units_length_conversion)
     EXPECT_DOUBLE_EQ(kg_in_pound.count(), 2.2046226218487757);
 }
 
+TEST(test_units, test_units_length_conversion_float)
+{
+    const math::unitf<math::meter> a = 3;
+    const math::unitf<math::inch> b = a;
+
+    EXPECT_FLOAT_EQ(b.count(), 118.110236f);
+
+    const math::unitf<math::gram> kg = 1000;
+    const math::unitf<math::pound> kg_in_pound = kg;
+    EXPECT_FLOAT_EQ(kg_in_pound.count(), 2.204622f);
+}
+
 TEST(test_units, test_units_length_conversion_prefixes)
 {
     const math::unit<math::kilo, math::meter> a = 3;
@@ -120,6 +132,19 @@ TEST(test_units, test_units_bytes_conversion_prefixes)
     const math::unit<math::kibi, math::byte> d = c;
 
     EXPECT_DOUBLE_EQ(d.count(), 1024.0);
+}
+
+TEST(test_units, test_units_bytes_conversion_prefixes_int)
+{
+    const math::uniti<math::kibi, math::byte> a = 3;
+    const math::uniti<math::byte> b = a;
+
+    EXPECT_EQ(b.count(), 3072);
+
+    const math::uniti<math::mebi, math::byte> c = 1;
+    const math::uniti<math::kibi, math::byte> d = c;
+
+    EXPECT_EQ(d.count(), 1024);
 }
 
 TEST(test_units, test_units_km_to_cm_assignment)

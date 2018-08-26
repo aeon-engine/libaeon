@@ -133,10 +133,10 @@ struct byte
     using has_prefix = std::true_type;
 };
 
-template <typename unit_t>
+template <typename unit_t, typename unit_value_type_t>
 struct units_convert_magnitude
 {
-    static constexpr auto to_base_type(const double value) noexcept -> double
+    static constexpr auto to_base_type(const unit_value_type_t value) noexcept -> unit_value_type_t
     {
         if constexpr (is_base_type_v<unit_t>)
         {
@@ -147,16 +147,16 @@ struct units_convert_magnitude
             auto val = value;
 
             if constexpr (type_has_offset_value_v<unit_t>)
-                val -= unit_t::offset;
+                val -= static_cast<unit_value_type_t>(unit_t::offset);
 
             if constexpr (type_has_multiplier_value_v<unit_t>)
-                val /= unit_t::multiplier;
+                val /= static_cast<unit_value_type_t>(unit_t::multiplier);
 
             return val;
         }
     }
 
-    static constexpr auto from_base_type(const double value) noexcept -> double
+    static constexpr auto from_base_type(const unit_value_type_t value) noexcept -> unit_value_type_t
     {
         if constexpr (is_base_type_v<unit_t>)
         {
@@ -167,10 +167,10 @@ struct units_convert_magnitude
             auto val = value;
 
             if constexpr (type_has_multiplier_value_v<unit_t>)
-                val *= unit_t::multiplier;
+                val *= static_cast<unit_value_type_t>(unit_t::multiplier);
 
             if constexpr (type_has_offset_value_v<unit_t>)
-                val += unit_t::offset;
+                val += static_cast<unit_value_type_t>(unit_t::offset);
 
             return val;
         }
