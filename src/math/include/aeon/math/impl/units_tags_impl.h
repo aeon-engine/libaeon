@@ -49,6 +49,13 @@ struct unit_temperature_tag
     using base_type = kelvin;
 };
 
+struct radian;
+
+struct unit_angle_tag
+{
+    using base_type = radian;
+};
+
 struct byte;
 
 struct computer_storage_tag

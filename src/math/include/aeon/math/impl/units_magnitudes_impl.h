@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/math/impl/units_tags_impl.h>
+#include <aeon/math/math.h>
 #include <type_traits>
 
 namespace aeon::math
@@ -125,6 +126,19 @@ struct fahrenheit
     using has_prefix = std::false_type;
     static constexpr auto multiplier = 9.0 / 5.0;
     static constexpr auto offset = -459.67;
+};
+
+struct radian
+{
+    using type = unit_angle_tag;
+    using has_prefix = std::false_type;
+};
+
+struct degree
+{
+    using type = unit_angle_tag;
+    using has_prefix = std::false_type;
+    static constexpr auto multiplier = 180.0 / constants<double>::pi;
 };
 
 struct byte

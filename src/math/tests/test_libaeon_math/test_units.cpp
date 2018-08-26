@@ -281,3 +281,14 @@ TEST(test_units, test_units_offset_multiplier)
     const math::unit<math::fahrenheit> b = a;
     EXPECT_DOUBLE_EQ(b, 80.33);
 }
+
+TEST(test_units, test_units_angles)
+{
+    const math::unit<math::radian> radians = 3;
+    const math::unit<math::degree> degree = radians;
+    EXPECT_DOUBLE_EQ(degree, 171.88733853924697);
+
+    const math::unitf<math::radian> radians_f = 3;
+    const math::unitf<math::degree> degree_f = radians_f;
+    EXPECT_FLOAT_EQ(degree_f, 171.88733854f);
+}
