@@ -159,7 +159,7 @@ inline auto mat3::translate(const T x, const T y) noexcept -> mat3
 template <typename T>
 inline auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
 {
-    return translate(vector2{vec});
+    return translate(vector2<float>{vec});
 }
 
 inline auto mat3::rotate(const float angle) noexcept -> mat3
