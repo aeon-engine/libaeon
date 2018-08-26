@@ -31,6 +31,7 @@
 #pragma once
 
 #include <aeon/math/vector3.h>
+#include <aeon/math/units.h>
 
 namespace aeon::math
 {
@@ -196,15 +197,7 @@ public:
      * \param[in] angle - Angle in radians.
      * \return A rotation matrix.
      */
-    static auto rotate(const float angle) noexcept -> mat3;
-
-    /*!
-     * Create a rotation matrix based on a given value.
-     * \param[in] angle - Angle in radians.
-     * \return A rotation matrix.
-     */
-    template <typename T>
-    static auto rotate(const T angle) noexcept -> mat3;
+    static auto rotate(const unitf<radian> angle) noexcept -> mat3;
 
     vector3<float> column[3];
 };

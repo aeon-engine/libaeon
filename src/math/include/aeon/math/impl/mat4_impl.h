@@ -168,7 +168,7 @@ inline auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
     return translate(vector3<float>{vec});
 }
 
-inline auto mat4::rotate(const float angle, const vector3<float> &vec) noexcept -> mat4
+inline auto mat4::rotate(const unitf<radian> angle, const vector3<float> &vec) noexcept -> mat4
 {
     const auto c = std::cos(angle);
     const auto s = std::sin(angle);
@@ -199,10 +199,10 @@ inline auto mat4::rotate(const float angle, const vector3<float> &vec) noexcept 
     // clang-format on
 }
 
-template <typename T, typename U>
-inline auto mat4::rotate(const T angle, const vector3<U> &vec) noexcept -> mat4
+template <typename T>
+inline auto mat4::rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4
 {
-    return rotate(static_cast<float>(angle), vector3<float>{vec});
+    return rotate(angle, vector3<float>{vec});
 }
 
 inline auto mat4::ortho(const float left, const float right, const float bottom, const float top) noexcept -> mat4

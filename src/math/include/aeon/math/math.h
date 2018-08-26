@@ -67,28 +67,6 @@ struct constants<double>
 };
 
 /*!
- * Convert from degrees to radians
- * \param[in] degree - Angle in degrees
- * \return Angle in radians
- */
-template <typename T>
-inline auto degree_to_radian(const T degree) noexcept -> T
-{
-    return degree * constants<T>::pi / static_cast<T>(180.0);
-}
-
-/*!
- * Convert from radians to degrees
- * \param[in] rad - Angle in radians
- * \return Angle in degrees
- */
-template <typename T>
-inline auto radian_to_degree(const T rad) noexcept -> T
-{
-    return rad * static_cast<T>(180.0) / constants<T>::pi;
-}
-
-/*!
  * Calculate a sigmoid function of a given value.
  * A sigmoid function is used to clip any value between 0.0 and 1.0 trough a curve.
  * This is commonly used for weights in neural networks.

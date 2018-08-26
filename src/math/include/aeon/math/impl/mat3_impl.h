@@ -162,7 +162,7 @@ inline auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
     return translate(vector2<float>{vec});
 }
 
-inline auto mat3::rotate(const float angle) noexcept -> mat3
+inline auto mat3::rotate(const unitf<radian> angle) noexcept -> mat3
 {
     const auto c = std::cos(angle);
     const auto s = std::sin(angle);
@@ -174,12 +174,6 @@ inline auto mat3::rotate(const float angle) noexcept -> mat3
         0.0f, 0.0f, 1.0f
     };
     // clang-format on
-}
-
-template <typename T>
-inline auto mat3::rotate(const T angle) noexcept -> mat3
-{
-    return rotate(static_cast<float>(angle));
 }
 
 inline auto determinant(const mat3 &mat) noexcept -> float

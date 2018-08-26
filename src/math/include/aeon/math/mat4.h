@@ -31,6 +31,7 @@
 #pragma once
 
 #include <aeon/math/vector4.h>
+#include <aeon/math/units.h>
 
 namespace aeon::math
 {
@@ -232,7 +233,7 @@ public:
      * \param[in] vec - Vector that determines which axis will be rotated with the given angle.
      * \return A rotation matrix.
      */
-    static auto rotate(const float angle, const vector3<float> &vec) noexcept -> mat4;
+    static auto rotate(const unitf<radian> angle, const vector3<float> &vec) noexcept -> mat4;
 
     /*!
      * Create a rotation matrix based on given values.
@@ -240,8 +241,8 @@ public:
      * \param[in] vec - Vector that determines which axis will be rotated with the given angle.
      * \return A rotation matrix.
      */
-    template <typename T, typename U>
-    static auto rotate(const T angle, const vector3<U> &vec) noexcept -> mat4;
+    template <typename T>
+    static auto rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4;
 
     /*!
      * Create an orthographic matrix based on given values.
