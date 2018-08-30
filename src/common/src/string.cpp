@@ -36,7 +36,7 @@
 namespace aeon::common::string
 {
 
-auto split(const std::string &str, char delim, std::vector<std::string> &elements) -> std::vector<std::string> &
+auto split(const std::string &str, const char delim, std::vector<std::string> &elements) -> std::vector<std::string> &
 {
     std::stringstream ss(str);
     std::string item;
@@ -49,14 +49,14 @@ auto split(const std::string &str, char delim, std::vector<std::string> &element
     return elements;
 }
 
-auto split(const std::string &str, char delim) -> std::vector<std::string>
+auto split(const std::string &str, const char delim) -> std::vector<std::string>
 {
     std::vector<std::string> elements;
     split(str, delim, elements);
     return elements;
 }
 
-auto splitsv(const std::string_view &str, char delim, std::vector<std::string_view> &elements)
+auto splitsv(const std::string_view &str, const char delim, std::vector<std::string_view> &elements)
     -> std::vector<std::string_view>
 {
     auto start = 0_size_t;
@@ -75,7 +75,7 @@ auto splitsv(const std::string_view &str, char delim, std::vector<std::string_vi
     return elements;
 }
 
-auto splitsv(const std::string_view &str, char delim) -> std::vector<std::string_view>
+auto splitsv(const std::string_view &str, const char delim) -> std::vector<std::string_view>
 {
     std::vector<std::string_view> elements;
     splitsv(str, delim, elements);
@@ -158,52 +158,52 @@ auto trimmedsv(const std::string_view &str) -> std::string_view
     return trimstr;
 }
 
-auto left(const std::string &str, std::size_t len) -> std::string
+auto left(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(0, len);
 }
 
-auto leftsv(const std::string_view &str, std::size_t len) -> std::string_view
+auto leftsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(0, len);
 }
 
-auto right(const std::string &str, std::size_t len) -> std::string
+auto right(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(str.size() - len);
 }
 
-auto rightsv(const std::string_view &str, std::size_t len) -> std::string_view
+auto rightsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(str.size() - len);
 }
 
-auto strip_left(const std::string &str, std::size_t len) -> std::string
+auto strip_left(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(len);
 }
 
-auto strip_leftsv(const std::string_view &str, std::size_t len) -> std::string_view
+auto strip_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(len);
 }
 
-auto strip_right(const std::string &str, std::size_t len) -> std::string
+auto strip_right(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(0, str.size() - len);
 }
 
-auto strip_rightsv(const std::string_view &str, std::size_t len) -> std::string_view
+auto strip_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(0, str.size() - len);
 }
 
-auto strip_both(const std::string &str, std::size_t len) -> std::string
+auto strip_both(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(len, str.size() - len - len);
 }
 
-auto strip_bothsv(const std::string_view &str, std::size_t len) -> std::string_view
+auto strip_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(len, str.size() - len - len);
 }

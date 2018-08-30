@@ -38,26 +38,26 @@ namespace aeon::common::string
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Appends tokens to the given elements vector and returns it.
  */
-auto split(const std::string &str, char delim, std::vector<std::string> &elements) -> std::vector<std::string> &;
+auto split(const std::string &str, const char delim, std::vector<std::string> &elements) -> std::vector<std::string> &;
 
 /*!
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Returns a vector of split elements.
  */
-auto split(const std::string &str, char delim) -> std::vector<std::string>;
+auto split(const std::string &str, const char delim) -> std::vector<std::string>;
 
 /*!
  * Split/tokenize a string_view into a vector of string_views based on a delimiter.
  * Appends tokens to the given elements vector and returns it.
  */
-auto splitsv(const std::string_view &str, char delim, std::vector<std::string_view> &elements)
+auto splitsv(const std::string_view &str, const char delim, std::vector<std::string_view> &elements)
     -> std::vector<std::string_view>;
 
 /*!
  * Split/tokenize a string_view into a vector of string_views based on a delimiter.
  * Returns a vector of split elements.
  */
-auto splitsv(const std::string_view &str, char delim) -> std::vector<std::string_view>;
+auto splitsv(const std::string_view &str, const char delim) -> std::vector<std::string_view>;
 
 /*!
  * Trim from the start of a string
@@ -122,52 +122,52 @@ auto trimmedsv(const std::string_view &str) -> std::string_view;
 /*!
  * Get len characters from the left of the string.
  */
-auto left(const std::string &str, std::size_t len) -> std::string;
+auto left(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Get len characters from the left of the string_view.
  */
-auto leftsv(const std::string_view &str, std::size_t len) -> std::string_view;
+auto leftsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Get len characters from the right of the string.
  */
-auto right(const std::string &str, std::size_t len) -> std::string;
+auto right(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Get len characters from the right of the string_view.
  */
-auto rightsv(const std::string_view &str, std::size_t len) -> std::string_view;
+auto rightsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Trim len characters at the left of the string
  */
-auto strip_left(const std::string &str, std::size_t len) -> std::string;
+auto strip_left(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Trim len characters at the left of the string_view
  */
-auto strip_leftsv(const std::string_view &str, std::size_t len) -> std::string_view;
+auto strip_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Trim len characters at the right of the string
  */
-auto strip_right(const std::string &str, std::size_t len) -> std::string;
+auto strip_right(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Trim len characters at the right of the string_view
  */
-auto strip_rightsv(const std::string_view &str, std::size_t len) -> std::string_view;
+auto strip_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Tren len characters on both sides of the string.
  */
-auto strip_both(const std::string &str, std::size_t len) -> std::string;
+auto strip_both(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Tren len characters on both sides of the string_view.
  */
-auto strip_bothsv(const std::string_view &str, std::size_t len) -> std::string_view;
+auto strip_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Convert standard argc and argv arguments into a vector of strings.
