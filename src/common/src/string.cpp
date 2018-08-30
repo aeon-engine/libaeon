@@ -38,12 +38,12 @@ namespace aeon::common::string
 
 auto split(const std::string &str, const char delim, std::vector<std::string> &elements) -> std::vector<std::string> &
 {
-    std::stringstream ss(str);
+    std::stringstream ss{str};
     std::string item;
 
     while (std::getline(ss, item, delim))
     {
-        elements.push_back(item);
+        elements.emplace_back(item);
     }
 
     return elements;
@@ -64,13 +64,13 @@ auto splitsv(const std::string_view &str, const char delim, std::vector<std::str
 
     while (pos != std::string_view::npos)
     {
-        elements.push_back(str.substr(start, pos - start));
+        elements.emplace_back(str.substr(start, pos - start));
         start = pos + 1;
         pos = str.find_first_of(delim, start);
     }
 
     if (start < str.length())
-        elements.push_back(str.substr(start, str.length() - start));
+        elements.emplace_back(str.substr(start, str.length() - start));
 
     return elements;
 }
@@ -84,7 +84,8 @@ auto splitsv(const std::string_view &str, const char delim) -> std::vector<std::
 
 void ltrim(std::string &str)
 {
-    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](const int c) { return !std::isspace(c); }));
+    str.erase(std::begin(str),
+              std::find_if(std::begin(str), std::end(str), [](const int c) { return !std::isspace(c); }));
 }
 
 void ltrimsv(std::string_view &str)
@@ -95,7 +96,8 @@ void ltrimsv(std::string_view &str)
 
 void rtrim(std::string &str)
 {
-    str.erase(std::find_if(str.rbegin(), str.rend(), [](const int c) { return !std::isspace(c); }).base(), str.end());
+    str.erase(std::find_if(std::rbegin(str), std::rend(str), [](const int c) { return !std::isspace(c); }).base(),
+              std::end(str));
 }
 
 void rtrimsv(std::string_view &str)
