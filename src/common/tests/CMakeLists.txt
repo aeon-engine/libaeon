@@ -37,6 +37,7 @@ add_unit_test_suite(
         test_singleton.cpp
         test_string.cpp
         test_stringtraits.cpp
+        test_utf8.cpp
         test_variant.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
