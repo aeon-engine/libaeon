@@ -142,32 +142,62 @@ auto rightsv(const std::string_view &str, const std::size_t len) -> std::string_
 /*!
  * Strip len characters at the left of the string
  */
-auto strip_left(const std::string &str, const std::size_t len) -> std::string;
+auto stripped_left(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Strip len characters at the left of the string_view
  */
-auto strip_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view;
+auto stripped_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Strip len characters at the right of the string
  */
-auto strip_right(const std::string &str, const std::size_t len) -> std::string;
+auto stripped_right(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Strip len characters at the right of the string_view
  */
-auto strip_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view;
+auto stripped_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
  * Strip len characters on both sides of the string.
  */
-auto strip_both(const std::string &str, const std::size_t len) -> std::string;
+auto stripped_both(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
  * Strip len characters on both sides of the string_view.
  */
-auto strip_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view;
+auto stripped_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view;
+
+/*!
+ * Strip len characters at the left of the string
+ */
+void strip_left(std::string &str, const std::size_t len);
+
+/*!
+ * Strip len characters at the left of the string_view
+ */
+void strip_leftsv(std::string_view &str, const std::size_t len);
+
+/*!
+ * Strip len characters at the right of the string
+ */
+void strip_right(std::string &str, const std::size_t len);
+
+/*!
+ * Strip len characters at the right of the string_view
+ */
+void strip_rightsv(std::string_view &str, const std::size_t len);
+
+/*!
+ * Strip len characters on both sides of the string.
+ */
+void strip_both(std::string &str, const std::size_t len);
+
+/*!
+ * Strip len characters on both sides of the string_view.
+ */
+void strip_bothsv(std::string_view &str, const std::size_t len);
 
 /*!
  * Convert standard argc and argv arguments into a vector of strings.

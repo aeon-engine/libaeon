@@ -333,38 +333,92 @@ TEST(test_string, test_string_rightsv)
 
 TEST(test_string, test_utility_strip_left)
 {
-    EXPECT_EQ("two three", aeon::common::string::strip_left("one two three", 4));
+    EXPECT_EQ("two three", aeon::common::string::stripped_left("one two three", 4));
+
+    std::string str = "one two three";
+    aeon::common::string::strip_left(str, 4);
+    EXPECT_EQ("two three", str);
 }
 
 TEST(test_string, test_utility_strip_leftsv)
 {
-    EXPECT_EQ("two three", aeon::common::string::strip_leftsv("one two three", 4));
+    EXPECT_EQ("two three", aeon::common::string::stripped_leftsv("one two three", 4));
+
+    const std::string str = "one two three";
+    std::string_view view = str;
+    aeon::common::string::strip_leftsv(view, 4);
+    EXPECT_EQ("two three", view);
 }
 
 TEST(test_string, test_utility_strip_right)
 {
-    EXPECT_EQ("one two ", aeon::common::string::strip_right("one two three", 5));
+    EXPECT_EQ("one two ", aeon::common::string::stripped_right("one two three", 5));
+
+    std::string str = "one two three";
+    aeon::common::string::strip_right(str, 5);
+    EXPECT_EQ("one two ", str);
 }
 
 TEST(test_string, test_utility_strip_rightsv)
 {
-    EXPECT_EQ("one two ", aeon::common::string::strip_rightsv("one two three", 5));
+    EXPECT_EQ("one two ", aeon::common::string::stripped_rightsv("one two three", 5));
+
+    const std::string str = "one two three";
+    std::string_view view = str;
+    aeon::common::string::strip_rightsv(view, 5);
+    EXPECT_EQ("one two ", view);
 }
 
 TEST(test_string, test_utility_strip_both)
 {
-    EXPECT_EQ("test", aeon::common::string::strip_both("test", 0));
-    EXPECT_EQ("test", aeon::common::string::strip_both("'test'", 1));
-    EXPECT_EQ("ABC", aeon::common::string::strip_both("123ABC123", 3));
-    EXPECT_EQ("", aeon::common::string::strip_both("''", 1));
+    EXPECT_EQ("test", aeon::common::string::stripped_both("test", 0));
+    EXPECT_EQ("test", aeon::common::string::stripped_both("'test'", 1));
+    EXPECT_EQ("ABC", aeon::common::string::stripped_both("123ABC123", 3));
+    EXPECT_EQ("", aeon::common::string::stripped_both("''", 1));
+
+    std::string test = "test";
+    aeon::common::string::strip_both(test, 0);
+    EXPECT_EQ("test", test);
+
+    std::string test2 = "'test'";
+    aeon::common::string::strip_both(test2, 1);
+    EXPECT_EQ("test", test2);
+
+    std::string test3 = "123ABC123";
+    aeon::common::string::strip_both(test3, 3);
+    EXPECT_EQ("ABC", test3);
+
+    std::string test4 = "''";
+    aeon::common::string::strip_both(test4, 1);
+    EXPECT_EQ("", test4);
 }
 
 TEST(test_string, test_utility_strip_bothsv)
 {
-    EXPECT_EQ("test", aeon::common::string::strip_bothsv("test", 0));
-    EXPECT_EQ("test", aeon::common::string::strip_bothsv("'test'", 1));
-    EXPECT_EQ("ABC", aeon::common::string::strip_bothsv("123ABC123", 3));
-    EXPECT_EQ("", aeon::common::string::strip_bothsv("''", 1));
+    EXPECT_EQ("test", aeon::common::string::stripped_bothsv("test", 0));
+    EXPECT_EQ("test", aeon::common::string::stripped_bothsv("'test'", 1));
+    EXPECT_EQ("ABC", aeon::common::string::stripped_bothsv("123ABC123", 3));
+    EXPECT_EQ("", aeon::common::string::stripped_bothsv("''", 1));
+
+    const std::string test = "test";
+    std::string_view view = test;
+    aeon::common::string::strip_bothsv(view, 0);
+    EXPECT_EQ("test", view);
+
+    const std::string test2 = "'test'";
+    std::string_view view2 = test2;
+    aeon::common::string::strip_bothsv(view2, 1);
+    EXPECT_EQ("test", view2);
+
+    const std::string test3 = "123ABC123";
+    std::string_view view3 = test3;
+    aeon::common::string::strip_bothsv(view3, 3);
+    EXPECT_EQ("ABC", view3);
+
+    const std::string test4 = "''";
+    std::string_view view4 = test4;
+    aeon::common::string::strip_bothsv(view4, 1);
+    EXPECT_EQ("", view4);
 }
 
 TEST(test_string, test_string_args_to_vector_empty)
