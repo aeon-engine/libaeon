@@ -26,10 +26,12 @@
 #include <gtest/gtest.h>
 #include <aeon/common/bitflags.h>
 
+using namespace aeon;
+
 template <typename T>
 static void check_get_bit(const T input, const unsigned int bit, const T expected)
 {
-    EXPECT_EQ(expected, aeon::common::get_bit<T>(input, bit));
+    EXPECT_EQ(expected, common::get_bit<T>(input, bit));
 }
 
 TEST(test_bitflags, test_bitflags_get_bit)
