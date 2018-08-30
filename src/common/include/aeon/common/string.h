@@ -140,32 +140,32 @@ auto right(const std::string &str, const std::size_t len) -> std::string;
 auto rightsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
- * Trim len characters at the left of the string
+ * Strip len characters at the left of the string
  */
 auto strip_left(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
- * Trim len characters at the left of the string_view
+ * Strip len characters at the left of the string_view
  */
 auto strip_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
- * Trim len characters at the right of the string
+ * Strip len characters at the right of the string
  */
 auto strip_right(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
- * Trim len characters at the right of the string_view
+ * Strip len characters at the right of the string_view
  */
 auto strip_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
- * Tren len characters on both sides of the string.
+ * Strip len characters on both sides of the string.
  */
 auto strip_both(const std::string &str, const std::size_t len) -> std::string;
 
 /*!
- * Tren len characters on both sides of the string_view.
+ * Strip len characters on both sides of the string_view.
  */
 auto strip_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
@@ -175,12 +175,12 @@ auto strip_bothsv(const std::string_view &str, const std::size_t len) -> std::st
 auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>;
 
 /*!
- * Replace all occurances of a string with another string.
+ * Replace all occurrences of a string with another string.
  */
 void replace(std::string &str, const std::string &from, const std::string &to);
 
 /*!
- * Replace all occurances of a string with another string.
+ * Replace all occurrences of a string with another string.
  */
 auto replace_copy(const std::string &str, const std::string &from, const std::string &to) -> std::string;
 
