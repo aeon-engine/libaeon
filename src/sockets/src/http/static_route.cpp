@@ -43,7 +43,7 @@ auto detail::to_url_path(const std::string &path) -> std::string
 
 auto detail::is_image_extension(const std::string &extension) -> bool
 {
-    const auto extension_lower = common::string::to_lower(extension);
+    const auto extension_lower = common::string::to_lower_copy(extension);
     return extension_lower == ".jpg" || extension_lower == ".jpeg" || extension_lower == ".png" ||
            extension_lower == ".gif";
 }
@@ -253,7 +253,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
 
 auto static_route::is_hidden_file(const std::string &filename) const -> bool
 {
-    const auto filename_str = common::string::to_lower(filename);
+    const auto filename_str = common::string::to_lower_copy(filename);
 
     for (const auto &hidden_file : settings_.hidden_files)
     {

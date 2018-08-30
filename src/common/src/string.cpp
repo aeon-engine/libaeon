@@ -241,25 +241,35 @@ auto replace_copy(const std::string &str, const std::string &from, const std::st
     return copy;
 }
 
-auto to_lower(const std::string &str) -> std::string
+void to_lower(std::string &str)
 {
     const auto to_lower_internal = [](const char c) {
         return std::use_facet<std::ctype<char>>(std::locale()).tolower(c);
     };
 
-    std::string result;
-    std::transform(str.begin(), str.end(), std::back_inserter(result), to_lower_internal);
+    std::transform(std::begin(str), std::end(str), std::begin(str), to_lower_internal);
+}
+
+auto to_lower_copy(const std::string &str) -> std::string
+{
+    std::string result = str;
+    to_lower(result);
     return result;
 }
 
-auto to_upper(const std::string &str) -> std::string
+void to_upper(std::string &str)
 {
     const auto to_upper_internal = [](const char c) {
         return std::use_facet<std::ctype<char>>(std::locale()).toupper(c);
     };
 
-    std::string result;
-    std::transform(str.begin(), str.end(), std::back_inserter(result), to_upper_internal);
+    std::transform(std::begin(str), std::end(str), std::begin(str), to_upper_internal);
+}
+
+auto to_upper_copy(const std::string &str) -> std::string
+{
+    std::string result = str;
+    to_upper(result);
     return result;
 }
 

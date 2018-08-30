@@ -375,14 +375,30 @@ TEST(test_string, test_string_args_to_vector_empty)
 
 TEST(test_string, test_string_to_lower)
 {
-    EXPECT_EQ("test", aeon::common::string::to_lower("TeSt"));
-    EXPECT_EQ("this is a test.", aeon::common::string::to_lower("THIS iS a TeSt."));
+    EXPECT_EQ("test", aeon::common::string::to_lower_copy("TeSt"));
+    EXPECT_EQ("this is a test.", aeon::common::string::to_lower_copy("THIS iS a TeSt."));
+
+    std::string test = "TeSt";
+    aeon::common::string::to_lower(test);
+    EXPECT_EQ("test", test);
+
+    std::string this_is_a_test = "THIS iS a TeSt.";
+    aeon::common::string::to_lower(this_is_a_test);
+    EXPECT_EQ("this is a test.", this_is_a_test);
 }
 
 TEST(test_string, test_string_to_upper)
 {
-    EXPECT_EQ("TEST", aeon::common::string::to_upper("TeSt"));
-    EXPECT_EQ("THIS IS A TEST.", aeon::common::string::to_upper("THiS iS a TeSt."));
+    EXPECT_EQ("TEST", aeon::common::string::to_upper_copy("TeSt"));
+    EXPECT_EQ("THIS IS A TEST.", aeon::common::string::to_upper_copy("THiS iS a TeSt."));
+
+    std::string test = "TeSt";
+    aeon::common::string::to_upper(test);
+    EXPECT_EQ("TEST", test);
+
+    std::string this_is_a_test = "THIS iS a TeSt.";
+    aeon::common::string::to_upper(this_is_a_test);
+    EXPECT_EQ("THIS IS A TEST.", this_is_a_test);
 }
 
 TEST(test_string, test_string_begins_with)

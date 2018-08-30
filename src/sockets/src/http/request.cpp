@@ -98,7 +98,7 @@ auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std:
         if (header_name_end + 2 >= header_line.size())
             return {};
 
-        const auto header_name = common::string::to_lower(header_line.substr(0, header_name_end));
+        const auto header_name = common::string::to_lower_copy(header_line.substr(0, header_name_end));
         const auto header_value = header_line.substr(header_name_end + 2);
 
         headers.insert({header_name, header_value});

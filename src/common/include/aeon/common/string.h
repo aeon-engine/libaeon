@@ -187,12 +187,22 @@ auto replace_copy(const std::string &str, const std::string &from, const std::st
 /*!
  * Convert the current string to lowercase based to the locale settings
  */
-auto to_lower(const std::string &str) -> std::string;
+void to_lower(std::string &str);
+
+/*!
+ * Convert the current string to lowercase based to the locale settings
+ */
+auto to_lower_copy(const std::string &str) -> std::string;
 
 /*!
  * Convert the current string to uppercase based to the locale settings
  */
-auto to_upper(const std::string &str) -> std::string;
+void to_upper(std::string &str);
+
+/*!
+ * Convert the current string to uppercase based to the locale settings
+ */
+auto to_upper_copy(const std::string &str) -> std::string;
 
 /*!
  * Check if a string begins with another string
