@@ -25,6 +25,9 @@
 
 #pragma once
 
+#include <cstdint>
+#include <limits>
+
 namespace aeon::common
 {
 
@@ -78,6 +81,36 @@ inline static constexpr auto get_low_nibble(const unsigned char value) noexcept
 inline static constexpr auto get_high_nibble(const unsigned char value) noexcept
 {
     return static_cast<unsigned char>((value & 0xF0) >> 4);
+}
+
+template <typename T, typename U>
+inline static constexpr auto mask(const U value) noexcept
+{
+    return static_cast<T>(value & std::numeric_limits<T>::max());
+}
+
+template <typename T>
+inline static constexpr auto mask_u8(const T value) noexcept
+{
+    return mask<std::uint8_t>(value);
+}
+
+template <typename T>
+inline static constexpr auto mask_u16(const T value) noexcept
+{
+    return mask<std::uint16_t>(value);
+}
+
+template <typename T>
+inline static constexpr auto mask_u32(const T value) noexcept
+{
+    return mask<std::uint32_t>(value);
+}
+
+template <typename T>
+inline static constexpr auto mask_u64(const T value) noexcept
+{
+    return mask<std::uint64_t>(value);
 }
 
 } // namespace aeon::common

@@ -56,4 +56,13 @@ TEST(test_bitflags, test_bitflags_get_bit)
     check_get_bit(0xAAAA, 7, 1);
 }
 
+TEST(test_bitflags, test_bitflags_mask)
+{
+    const auto val = 0x12345678abcdef01u;
+    EXPECT_EQ(0x01, common::mask_u8(val));
+    EXPECT_EQ(0xef01, common::mask_u16(val));
+    EXPECT_EQ(0xabcdef01, common::mask_u32(val));
+    EXPECT_EQ(val, common::mask_u64(val));
+}
+
 // TODO: Add more unittests for bitflags.
