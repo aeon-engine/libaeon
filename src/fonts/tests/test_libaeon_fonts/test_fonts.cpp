@@ -30,6 +30,8 @@
 #include <aeon/imaging/file/png_file.h>
 #include <aeon/imaging/filters/blit.h>
 #include <aeon/imaging/converters/convert_encoding.h>
+#include <aeon/common/preprocessor.h>
+#include <aeon/common/utf8_string_view.h>
 #include "fonts_unittest_data.h"
 
 using namespace aeon;
@@ -77,8 +79,13 @@ static auto generate_text_image(const fonts::face &face, const std::string &str)
 
     math::vector2<int> position{30, 60};
 
-    for (const auto c : str)
+    common::utf8::utf8_string_view view(str);
+
+    for (const auto c : view)
     {
+        if (c == '\r')
+            continue;
+
         if (c == '\n')
         {
             position.x = 30;
@@ -101,14 +108,14 @@ static auto generate_text_image(const fonts::face &face, const std::string &str)
 TEST(test_fonts, test_load_text_string)
 {
     fonts::font_manager mgr;
-    streams::file_stream font_file(std::string{AEON_FONTS_UNITTEST_DATA_PATH "Precious.ttf"});
+    streams::file_stream font_file(std::string{AEON_FONTS_UNITTEST_DATA_PATH "mikiyu-newpenji-p.ttf"});
 
     const auto face = mgr.load_face(font_file, 40.0f);
 
-    const auto str =
-        "Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor incididunt ut\nlabore et dolore magna aliqua."s;
+    streams::file_stream text_file(std::string{AEON_FONTS_UNITTEST_DATA_PATH "lucky_star.txt"});
+    const auto str = text_file.read_to_vector();
 
-    const auto image = generate_text_image(face, str);
+    const auto image = generate_text_image(face, std::string{std::begin(str), std::end(str)});
 
     const auto rgb_image = imaging::convert::to_rgb24(image);
     imaging::file::png::save(rgb_image, "test_fonts_text.png");
@@ -121,8 +128,8 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
 
     // Generate text image
     const auto face = mgr.load_face(font_file, 40.0f);
-    const auto str =
-        "Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor incididunt ut\nlabore et dolore magna aliqua."s;
+    const auto str = aeon_text("Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor "
+                               "incididunt ut\nlabore et dolore magna aliqua.");
     auto text_image = imaging::convert::to_rgba32(generate_text_image(face, str));
 
     // Generate color emoji
