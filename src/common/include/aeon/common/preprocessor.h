@@ -41,3 +41,31 @@
 #ifndef aeon_array_length
 #define aeon_array_length(a) (sizeof(a) / sizeof(a[0]))
 #endif
+
+#ifndef aeon_string_encoding_none
+#define aeon_string_encoding_none
+#endif
+
+#ifndef aeon_string_encoding_utf8
+#define aeon_string_encoding_utf8 u8
+#endif
+
+#ifndef aeon_string_encoding_utf16
+#define aeon_string_encoding_utf16 u
+#endif
+
+#ifndef aeon_string_encoding_utf32
+#define aeon_string_encoding_utf32 U
+#endif
+
+#ifndef aeon_string_encoding_wide
+#define aeon_string_encoding_wide L
+#endif
+
+#ifndef aeon_string_encoding
+#define aeon_string_encoding aeon_string_encoding_utf8
+#endif
+
+#ifndef aeon_text
+#define aeon_text(str) aeon_concatenate(aeon_string_encoding, str)
+#endif
