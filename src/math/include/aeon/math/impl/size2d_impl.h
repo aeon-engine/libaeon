@@ -26,6 +26,7 @@
 #pragma once
 
 #include <aeon/math/rectangle.h>
+#include <aeon/math/vector2.h>
 
 namespace aeon::math
 {
@@ -160,6 +161,54 @@ inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexce
     return size * val;
 }
 
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const U val) noexcept
+{
+    size = scaled(size, val);
+}
+
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const U x, const U y) noexcept
+{
+    size = scaled(size, x, y);
+}
+
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const vector2<U> &vec) noexcept
+{
+    size = scaled(size, vec);
+}
+
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const size2d<U> &val) noexcept
+{
+    size = scaled(size, val);
+}
+
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const U val) noexcept -> size2d<T>
+{
+    return size * val;
+}
+
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const U x, const U y) noexcept -> size2d<T>
+{
+    return scaled(size, {x, y});
+}
+
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>
+{
+    return size * vec;
+}
+
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>
+{
+    return size * val;
+}
+
 template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
@@ -258,6 +307,46 @@ inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 
 template <typename T>
 inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator*(const size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.width) * rhs.width),
+            static_cast<T>(static_cast<U>(lhs.height) * rhs.height)};
+}
+
+template <typename T, typename U>
+inline auto operator*=(size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator*(const size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.width) * rhs.x), static_cast<T>(static_cast<U>(lhs.height) * rhs.y)};
+}
+
+template <typename T, typename U>
+inline auto operator*=(size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator*(const size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.width) * rhs), static_cast<T>(static_cast<U>(lhs.height) * rhs)};
+}
+
+template <typename T, typename U>
+inline auto operator*=(size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>
 {
     lhs = lhs * rhs;
     return lhs;

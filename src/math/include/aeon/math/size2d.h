@@ -226,6 +226,76 @@ inline constexpr auto scaled(const size2d<T> &size, const vector2<T> &vec) noexc
 template <typename T>
 inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexcept -> size2d<T>;
 
+/*!
+ * Scale (multiply) a size in all directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] val - Value to scale with
+ */
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const U val) noexcept;
+
+/*!
+ * Scale (multiply) a size in all two directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] x - Horizontal scale value
+ * \param[in] y - Vertical scale value
+ */
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const U x, const U y) noexcept;
+
+/*!
+ * Scale (multiply) a size in all two directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] vec - Horizontal and vertical scale value
+ */
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const vector2<U> &vec) noexcept;
+
+/*!
+ * Scale (multiply) a size in all two directions by a given value.
+ * \param[in, out] size - Size2d
+ * \param[in] val - Horizontal and vertical scale value
+ */
+template <typename T, typename U>
+inline constexpr void scale(size2d<T> &size, const size2d<U> &val) noexcept;
+
+/*!
+ * Scale (multiply) a size in all directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] val - Value to scale with
+ * \return A scaled size copy based on the given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const U val) noexcept -> size2d<T>;
+
+/*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] x - Horizontal scale value
+ * \param[in] y - Vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const U x, const U y) noexcept -> size2d<T>;
+
+/*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] vec - Horizontal and vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>;
+
+/*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] val - Horizontal and vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>;
+
 template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
@@ -273,6 +343,24 @@ inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T>
 inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+
+template <typename T, typename U>
+inline auto operator*(const size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>;
+
+template <typename T, typename U>
+inline auto operator*=(size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>;
+
+template <typename T, typename U>
+inline auto operator*(const size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>;
+
+template <typename T, typename U>
+inline auto operator*=(size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>;
+
+template <typename T, typename U>
+inline auto operator*(const size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>;
+
+template <typename T, typename U>
+inline auto operator*=(size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>;
 
 } // namespace aeon::math
 
