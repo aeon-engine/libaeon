@@ -72,9 +72,9 @@ TEST(test_fonts, test_load_rgb_glyph)
     imaging::file::png::save(rgb_image, "test_fonts_emoji.png");
 }
 
-static auto generate_text_image(const fonts::face &face, const std::string &str) -> imaging::image<std::uint8_t>
+static auto generate_text_image(const fonts::face &face, const std::string &str) -> imaging::image<imaging::rgb24>
 {
-    const imaging::image_descriptor<std::uint8_t> descriptor{{1024, 256}};
+    const imaging::image_descriptor<imaging::rgb24> descriptor{{1024, 256}};
     imaging::image image{descriptor};
 
     math::vector2<int> position{30, 60};
@@ -96,8 +96,14 @@ static auto generate_text_image(const fonts::face &face, const std::string &str)
         const auto glyph = face.load_glyph(c);
 
         if (imaging::valid(glyph.view()))
-            imaging::filters::blend_blit(glyph.view(), image, position + glyph.offset(),
+            imaging::filters::blend_blit(imaging::convert::to_rgb24(glyph.view()), image, position + glyph.offset(),
                                          imaging::filters::blend_blit_mode::add);
+
+        if (imaging::valid(glyph.color_view()))
+            imaging::filters::blend_scale_blit(
+                imaging::convert::to_rgb24(glyph.color_view()), image,
+                {position + glyph.offset(), math::size2d<imaging::dimension>{glyph.dimensions(), glyph.dimensions()}},
+                imaging::filters::blend_blit_mode::add);
 
         position.x += glyph.advance().x;
     }
@@ -108,9 +114,10 @@ static auto generate_text_image(const fonts::face &face, const std::string &str)
 TEST(test_fonts, test_load_text_string)
 {
     fonts::font_manager mgr;
-    streams::file_stream font_file{std::string{AEON_FONTS_UNITTEST_DATA_PATH "mikiyu-newpenji-p.ttf"}};
+    streams::file_stream font_file1{std::string{AEON_FONTS_UNITTEST_DATA_PATH "mikiyu-newpenji-p.ttf"}};
+    streams::file_stream font_file2{std::string{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"}};
 
-    const auto face = mgr.load_face(font_file, 40.0f);
+    const auto face = mgr.load_multi_face({font_file1, font_file2}, 40.0f);
 
     streams::file_stream text_file{std::string{AEON_FONTS_UNITTEST_DATA_PATH "lucky_star.txt"}};
     const auto str = text_file.read_to_vector();

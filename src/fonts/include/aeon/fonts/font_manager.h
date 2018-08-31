@@ -28,6 +28,8 @@
 #include <aeon/fonts/face.h>
 #include <aeon/fonts/config.h>
 #include <memory>
+#include <vector>
+#include <functional>
 
 // Forward declare for FreeType.
 struct FT_LibraryRec_;
@@ -57,6 +59,10 @@ public:
 
     auto load_face(streams::stream &stream, const float points = AEON_FONT_DEFAULT_POINTS,
                    const int dpi = AEON_FONT_DEFAULT_DPI) const -> face;
+
+    auto load_multi_face(const std::vector<std::reference_wrapper<streams::stream>> &streams,
+                         const float points = AEON_FONT_DEFAULT_POINTS, const int dpi = AEON_FONT_DEFAULT_DPI) const
+        -> face;
 
 private:
     std::unique_ptr<FT_LibraryRec_, decltype(&internal::free_freetype_library)> freetype_;

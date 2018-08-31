@@ -64,4 +64,10 @@ auto font_manager::load_face(streams::stream &stream, const float points, const 
     return face{freetype_.get(), stream, points, dpi};
 }
 
+auto font_manager::load_multi_face(const std::vector<std::reference_wrapper<streams::stream>> &streams,
+                                   const float points, const int dpi) const -> face
+{
+    return face{freetype_.get(), streams, points, dpi};
+}
+
 } // namespace aeon::fonts

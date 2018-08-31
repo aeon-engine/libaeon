@@ -28,6 +28,8 @@ set(LIB_AEON_FONTS_SOURCE
     include/aeon/fonts/exceptions.h
     include/aeon/fonts/face.h
     src/face.cpp
+    include/aeon/fonts/face_wrapper.h
+    src/face_wrapper.cpp
     include/aeon/fonts/font_manager.h
     src/font_manager.cpp
     include/aeon/fonts/glyph.h
