@@ -100,6 +100,34 @@ inline auto operator/(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>
     return {lhs.x / rhs, lhs.y / rhs, lhs.z / rhs};
 }
 
+template <typename T, typename U>
+inline auto operator*(const vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.x) * rhs.x), static_cast<T>(static_cast<U>(lhs.y) * rhs.y),
+            static_cast<T>(static_cast<U>(lhs.z) * rhs.z)};
+}
+
+template <typename T, typename U>
+inline auto operator*(const vector3<T> &lhs, const U rhs) noexcept -> vector3<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.x) * rhs), static_cast<T>(static_cast<U>(lhs.y) * rhs),
+            static_cast<T>(static_cast<U>(lhs.z) * rhs)};
+}
+
+template <typename T, typename U>
+inline auto operator/(const vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.x) / rhs.x), static_cast<T>(static_cast<U>(lhs.y) / rhs.y),
+            static_cast<T>(static_cast<U>(lhs.z) / rhs.z)};
+}
+
+template <typename T, typename U>
+inline auto operator/(const vector3<T> &lhs, const U rhs) noexcept -> vector3<T>
+{
+    return {static_cast<T>(static_cast<U>(lhs.x) / rhs), static_cast<T>(static_cast<U>(lhs.y) / rhs),
+            static_cast<T>(static_cast<U>(lhs.z) / rhs)};
+}
+
 template <typename T>
 inline auto operator+=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &
 {
@@ -109,13 +137,6 @@ inline auto operator+=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vecto
 
 template <typename T>
 inline auto operator+=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &
-{
-    lhs = lhs + rhs;
-    return lhs;
-}
-
-template <typename T>
-inline auto operator+=(T &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &
 {
     lhs = lhs + rhs;
     return lhs;
@@ -136,13 +157,6 @@ inline auto operator-=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &
 }
 
 template <typename T>
-inline auto operator-=(T &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &
-{
-    lhs = lhs - rhs;
-    return lhs;
-}
-
-template <typename T>
 inline auto operator*=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &
 {
     lhs = lhs * rhs;
@@ -157,13 +171,6 @@ inline auto operator*=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &
 }
 
 template <typename T>
-inline auto operator*=(T &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &
-{
-    lhs = lhs * rhs;
-    return lhs;
-}
-
-template <typename T>
 inline auto operator/=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &
 {
     lhs = lhs / rhs;
@@ -172,6 +179,34 @@ inline auto operator/=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vecto
 
 template <typename T>
 inline auto operator/=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &
+{
+    lhs = lhs / rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator*=(vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T> &
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator*=(vector3<T> &lhs, const U rhs) noexcept -> vector3<T> &
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator/=(vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T> &
+{
+    lhs = lhs / rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline auto operator/=(vector3<T> &lhs, const U rhs) noexcept -> vector3<T> &
 {
     lhs = lhs / rhs;
     return lhs;
