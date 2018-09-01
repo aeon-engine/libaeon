@@ -54,8 +54,8 @@ public:
     image_base(const image_base &) = delete;
     auto operator=(const image_base &) -> image_base & = delete;
 
-    image_base(image_base &&o) noexcept = default;
-    auto operator=(image_base &&other) noexcept -> image_base & = default;
+    image_base(image_base &&) noexcept = default;
+    auto operator=(image_base &&) noexcept -> image_base & = default;
 
 protected:
     image_base() = default;
