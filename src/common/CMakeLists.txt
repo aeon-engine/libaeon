@@ -40,6 +40,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/scope_guard.h
     include/aeon/common/signed_sizeof.h
     include/aeon/common/singleton.h
+    include/aeon/common/span.h
     include/aeon/common/stdfilesystem.h
     include/aeon/common/string.h
     src/string.cpp

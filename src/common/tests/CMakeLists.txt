@@ -35,6 +35,7 @@ add_unit_test_suite(
         test_optional.cpp
         test_scope_guard.cpp
         test_singleton.cpp
+        test_span.cpp
         test_string.cpp
         test_stringtraits.cpp
         test_utf8.cpp
