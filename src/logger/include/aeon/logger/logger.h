@@ -27,7 +27,6 @@
 
 #include <aeon/logger/base_backend.h>
 #include <aeon/logger/log_level.h>
-#include <aeon/common/noncopyable.h>
 #include <string>
 #include <sstream>
 
@@ -72,7 +71,7 @@ private:
     std::stringstream stream_;
 };
 
-class logger : public common::noncopyable
+class logger
 {
 public:
     logger(base_backend &backend, std::string module)
@@ -85,6 +84,12 @@ public:
     {
         return logger_stream(backend_, module_, level);
     }
+
+    logger(const logger &) noexcept = delete;
+    auto operator=(const logger &) noexcept -> logger & = delete;
+
+    logger(logger &&) noexcept = default;
+    auto operator=(logger &&) noexcept -> logger & = default;
 
 private:
     base_backend &backend_;
