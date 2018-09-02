@@ -318,8 +318,8 @@ public:
      * \param[in] far - Far clip plane
      * \return A projection (perspective) matrix.
      */
-    static auto projection(const float fov_y, const float aspect_ratio, const float near, const float far) noexcept
-        -> mat4;
+    static auto projection(const unitf<radian> fov_y, const float aspect_ratio, const float near,
+                           const float far) noexcept -> mat4;
 
     /*!
      * Create a projection (perspective) matrix based on given values.
@@ -330,7 +330,8 @@ public:
      * \return A projection (perspective) matrix.
      */
     template <typename T, typename U>
-    static auto projection(const T fov_y, const T aspect_ratio, const U near, const U far) noexcept -> mat4;
+    static auto projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio, const U near,
+                           const U far) noexcept -> mat4;
 
     /*!
      * Create a projection (perspective) matrix based on given values.
@@ -341,7 +342,7 @@ public:
      * \param[in] far - Far clip plane
      * \return A projection (perspective) matrix.
      */
-    static auto projection_fov(const float fov, const float width, const float height, const float near,
+    static auto projection_fov(const unitf<radian> fov, const float width, const float height, const float near,
                                const float far) noexcept -> mat4;
 
     /*!
@@ -354,7 +355,8 @@ public:
      * \return A projection (perspective) matrix.
      */
     template <typename T, typename U>
-    static auto projection_fov(const T fov, const T width, const T height, const U near, const U far) noexcept -> mat4;
+    static auto projection_fov(const unit_base<radian, void, U> fov, const T width, const T height, const U near,
+                               const U far) noexcept -> mat4;
 
     vector4<float> column[4];
 };

@@ -287,8 +287,8 @@ inline auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noe
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect), near, far);
 }
 
-inline auto mat4::projection(const float fov_y, const float aspect_ratio, const float near, const float far) noexcept
-    -> mat4
+inline auto mat4::projection(const unitf<radian> fov_y, const float aspect_ratio, const float near,
+                             const float far) noexcept -> mat4
 {
     const auto tan_half_fov_y = std::tan(0.5f * fov_y);
 
@@ -318,13 +318,14 @@ inline auto mat4::projection(const float fov_y, const float aspect_ratio, const 
 }
 
 template <typename T, typename U>
-inline auto mat4::projection(const T fov_y, const T aspect_ratio, const U near, const U far) noexcept -> mat4
+inline auto mat4::projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio, const U near,
+                             const U far) noexcept -> mat4
 {
     return projection(static_cast<float>(fov_y), static_cast<float>(aspect_ratio), static_cast<float>(near),
                       static_cast<float>(far));
 }
 
-inline auto mat4::projection_fov(const float fov, const float width, const float height, const float near,
+inline auto mat4::projection_fov(const unitf<radian> fov, const float width, const float height, const float near,
                                  const float far) noexcept -> mat4
 {
     const auto h = std::cos(0.5f * fov) / std::sin(0.5f * fov);
@@ -356,7 +357,8 @@ inline auto mat4::projection_fov(const float fov, const float width, const float
 }
 
 template <typename T, typename U>
-inline auto mat4::projection_fov(const T fov, const T width, const T height, const U near, const U far) noexcept -> mat4
+inline auto mat4::projection_fov(const unit_base<radian, void, U> fov, const T width, const T height, const U near,
+                                 const U far) noexcept -> mat4
 {
     return projection_fov(static_cast<float>(fov), static_cast<float>(width), static_cast<float>(height),
                           static_cast<float>(near), static_cast<float>(far));
