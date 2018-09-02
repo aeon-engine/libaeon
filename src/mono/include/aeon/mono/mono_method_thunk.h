@@ -66,8 +66,8 @@ public:
     mono_method_thunk(const mono_method_thunk &) = delete;
     auto operator=(const mono_method_thunk &) -> mono_method_thunk & = delete;
 
-    mono_method_thunk(mono_method_thunk &&o) = default;
-    auto operator=(mono_method_thunk &&o) -> mono_method_thunk & = default;
+    mono_method_thunk(mono_method_thunk &&) noexcept = default;
+    auto operator=(mono_method_thunk &&) noexcept -> mono_method_thunk & = default;
 
     void operator()(args_t... args)
     {
@@ -102,8 +102,8 @@ public:
     mono_method_thunk(const mono_method_thunk &) = delete;
     auto operator=(const mono_method_thunk &) -> mono_method_thunk & = delete;
 
-    mono_method_thunk(mono_method_thunk &&o) = default;
-    auto operator=(mono_method_thunk &&o) -> mono_method_thunk & = default;
+    mono_method_thunk(mono_method_thunk &&) noexcept = default;
+    auto operator=(mono_method_thunk &&) noexcept -> mono_method_thunk & = default;
 
     auto operator()(args_t... args)
     {
