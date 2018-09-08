@@ -52,6 +52,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/utf8_string_view.h
     include/aeon/common/utf8_utils.h
     include/aeon/common/variant.h
+    include/aeon/common/version.h
 )
 
 source_group(common FILES ${LIB_AEON_COMMON_SOURCE})

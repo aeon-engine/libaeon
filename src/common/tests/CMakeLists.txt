@@ -40,6 +40,7 @@ add_unit_test_suite(
         test_stringtraits.cpp
         test_utf8.cpp
         test_variant.cpp
+        test_version.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_common
