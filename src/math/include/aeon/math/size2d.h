@@ -62,6 +62,9 @@ public:
     template <typename U>
     explicit size2d(const U width, const U height) noexcept;
 
+    template <typename U>
+    explicit size2d(const convert_type, const U &t) noexcept;
+
     ~size2d() noexcept = default;
 
     size2d(const size2d &) noexcept = default;
@@ -69,6 +72,9 @@ public:
 
     size2d(size2d &&) noexcept = default;
     auto operator=(size2d &&) noexcept -> size2d & = default;
+
+    template <typename U>
+    auto convert_to() const noexcept -> U;
 
     T width;
     T height;

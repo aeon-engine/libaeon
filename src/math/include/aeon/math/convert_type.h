@@ -23,32 +23,21 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
-#include <aeon/math/size2d.h>
-#include <aeon/math/size2d_stream.h>
+#pragma once
 
-using namespace aeon;
-
-TEST(test_size2d, test_size2d_default_int)
+namespace aeon::math
 {
-    math::size2d<int> size;
-}
 
-struct external_size2d
+/*!
+ * Placeholder type to indicate that the given argument must be converted
+ * from an unknown type.
+ *
+ * For example an external library may have it's own size2d class with
+ * width and height as member variables. Specifying this type in a constructor
+ * will automatically convert that unknown external type to an aeon::math::size2d.
+ */
+struct convert_type
 {
-    int width{};
-    int height{};
 };
 
-TEST(test_size2d, test_size2d_convert_from_unknown)
-{
-    const external_size2d s{10, 20};
-
-    math::size2d<int> size{math::convert_type{}, s};
-    EXPECT_EQ(size.width, 10);
-    EXPECT_EQ(size.height, 20);
-
-    const auto s2 = size.convert_to<external_size2d>();
-    EXPECT_EQ(s2.width, 10);
-    EXPECT_EQ(s2.height, 20);
-}
+} // namespace aeon::math

@@ -25,6 +25,7 @@ set(LIB_AEON_MATH_SOURCE
     include/aeon/math/anchor_point.h
     include/aeon/math/circle.h
     include/aeon/math/circle_stream.h
+    include/aeon/math/convert_type.h
     include/aeon/math/mat3.h
     include/aeon/math/mat3_stream.h
     include/aeon/math/mat4.h

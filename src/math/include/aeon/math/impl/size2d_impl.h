@@ -54,6 +54,21 @@ inline size2d<T>::size2d(const U width, const U height) noexcept
 }
 
 template <typename T>
+template <typename U>
+inline size2d<T>::size2d(const convert_type, const U &t) noexcept
+    : width{static_cast<T>(t.width)}
+    , height{static_cast<T>(t.height)}
+{
+}
+
+template <typename T>
+template <typename U>
+auto size2d<T>::convert_to() const noexcept -> U
+{
+    return U{width, height};
+}
+
+template <typename T>
 inline auto width(const size2d<T> &size) noexcept -> T
 {
     return size.width;
