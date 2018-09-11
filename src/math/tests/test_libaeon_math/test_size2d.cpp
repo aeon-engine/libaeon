@@ -52,3 +52,16 @@ TEST(test_size2d, test_size2d_convert_from_unknown)
     EXPECT_EQ(s2.width, 10);
     EXPECT_EQ(s2.height, 20);
 }
+
+TEST(test_size2d, test_size2d_clamp)
+{
+    const math::size2d min{5, 10};
+    const math::size2d max{50, 100};
+
+    EXPECT_EQ(math::clamp(math::size2d{10, 20}, min, max), (math::size2d{10, 20}));
+    EXPECT_EQ(math::clamp(math::size2d{40, 90}, min, max), (math::size2d{40, 90}));
+    EXPECT_EQ(math::clamp(math::size2d{4, 20}, min, max), (math::size2d{5, 20}));
+    EXPECT_EQ(math::clamp(math::size2d{5, 9}, min, max), (math::size2d{5, 10}));
+    EXPECT_EQ(math::clamp(math::size2d{51, 90}, min, max), (math::size2d{50, 90}));
+    EXPECT_EQ(math::clamp(math::size2d{50, 110}, min, max), (math::size2d{50, 100}));
+}

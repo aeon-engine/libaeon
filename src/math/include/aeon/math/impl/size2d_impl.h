@@ -27,6 +27,7 @@
 
 #include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
+#include <algorithm>
 
 namespace aeon::math
 {
@@ -216,6 +217,24 @@ template <typename T, typename U>
 inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>
 {
     return size * vec;
+}
+
+template <typename T>
+constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
+{
+    return {std::min(a.width, b.width), std::min(a.height, b.height)};
+}
+
+template <typename T>
+constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
+{
+    return {std::max(a.width, b.width), std::max(a.height, b.height)};
+}
+
+template <typename T>
+constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size2d<T> &max_size) noexcept -> size2d<T>
+{
+    return max(min_size, min(max_size, val));
 }
 
 template <typename T, typename U>

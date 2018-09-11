@@ -294,6 +294,35 @@ template <typename T, typename U>
 inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>;
 
 /*!
+ * Get the minimum values from the given size2d for both width and height.
+ * \param[in] a - Size2d
+ * \param[in] b - Size2d
+ * \return The minimum values for width and height.
+ */
+template <typename T>
+inline constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>;
+
+/*!
+ * Get the maximum values from the given size2d for both width and height.
+ * \param[in] a - Size2d
+ * \param[in] b - Size2d
+ * \return The minimum values for width and height.
+ */
+template <typename T>
+inline constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>;
+
+/*!
+ * Clamp the values of the given width and height in val to min and max.
+ * \param[in] val - Size2d value
+ * \param[in] min_size - Size2d minimum
+ * \param[in] max_size - Size2d maximum
+ * \return Clamped value between min and max.
+ */
+template <typename T>
+inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size2d<T> &max_size) noexcept
+    -> size2d<T>;
+
+/*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
  * \param[in] size - Size2d
  * \param[in] val - Horizontal and vertical scale value
