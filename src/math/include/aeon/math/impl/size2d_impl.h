@@ -66,7 +66,7 @@ template <typename T>
 template <typename U>
 auto size2d<T>::convert_to() const noexcept -> U
 {
-    return U{width, height};
+    return U{static_cast<decltype(U::width)>(width), static_cast<decltype(U::height)>(height)};
 }
 
 template <typename T>
