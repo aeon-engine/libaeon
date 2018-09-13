@@ -315,7 +315,7 @@ inline constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> si
  * Get the maximum values from the given size2d for both width and height.
  * \param[in] a - Size2d
  * \param[in] b - Size2d
- * \return The minimum values for width and height.
+ * \return The maximum values for width and height.
  */
 template <typename T>
 inline constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>;
