@@ -146,3 +146,14 @@ TEST(test_mat4, test_mat4_multiply_multiple_with_vector)
 
     EXPECT_EQ(expected, vec);
 }
+
+TEST(test_mat4, test_mat4_determinant)
+{
+    EXPECT_EQ(1, math::determinant(math::mat4::indentity()));
+
+    const auto mat = math::mat4::scale(2);
+    EXPECT_EQ(8, math::determinant(mat));
+
+    const auto mat2 = math::mat4::scale(3);
+    EXPECT_EQ(27, math::determinant(mat2));
+}

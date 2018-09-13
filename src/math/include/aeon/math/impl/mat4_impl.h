@@ -364,6 +364,38 @@ inline auto mat4::projection_fov(const unit_base<radian, void, U> fov, const T w
                           static_cast<float>(near), static_cast<float>(far));
 }
 
+inline auto determinant(const mat4 &mat) noexcept -> float
+{
+    // clang-format off
+    const auto a = mat3{
+        mat[1][1], mat[2][1], mat[3][1],
+        mat[1][2], mat[2][2], mat[3][2],
+        mat[1][3], mat[2][3], mat[3][3],
+    };
+
+    const auto b = mat3{
+        mat[0][1], mat[2][1], mat[3][1],
+        mat[0][2], mat[2][2], mat[3][2],
+        mat[0][3], mat[2][3], mat[3][3],
+    };
+
+    const auto c = mat3{
+        mat[0][1], mat[1][1], mat[3][1],
+        mat[0][2], mat[1][2], mat[3][2],
+        mat[0][3], mat[1][3], mat[3][3],
+    };
+
+    const auto d = mat3{
+        mat[0][1], mat[1][1], mat[2][1],
+        mat[0][2], mat[1][2], mat[2][2],
+        mat[0][3], mat[1][3], mat[2][3],
+    };
+    // clang-format on
+
+    return mat[0][0] * determinant(a) - mat[1][0] * determinant(b) + mat[2][0] * determinant(c) -
+           mat[3][0] * determinant(d);
+}
+
 inline auto inverse(const mat4 &mat) noexcept -> mat4
 {
     auto v0 = mat[0][2] * mat[1][3] - mat[1][2] * mat[0][3];

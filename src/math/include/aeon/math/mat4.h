@@ -376,6 +376,13 @@ inline auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 inline auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 
 /*!
+ * Calculate the determinant of a given matrix.
+ * \param[in] mat - Matrix
+ * \return Determinant (ie. |mat|)
+ */
+inline auto determinant(const mat4 &mat) noexcept -> float;
+
+/*!
  * Calculate the inverse of a given matrix
  * \param[in] mat - Matrix
  * \return Inverse of mat (mat<SUP>-1</SUP>)
