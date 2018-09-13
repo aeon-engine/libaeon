@@ -44,6 +44,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/stdfilesystem.h
     include/aeon/common/string.h
     src/string.cpp
+    include/aeon/common/string_table.h
     include/aeon/common/string_traits.h
     include/aeon/common/term_colors.h
     include/aeon/common/timer.h

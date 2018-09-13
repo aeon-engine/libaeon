@@ -37,6 +37,7 @@ add_unit_test_suite(
         test_singleton.cpp
         test_span.cpp
         test_string.cpp
+        test_string_table.cpp
         test_stringtraits.cpp
         test_utf8.cpp
         test_variant.cpp
