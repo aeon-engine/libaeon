@@ -228,13 +228,13 @@ inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexce
 template <typename T>
 constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
 {
-    return {std::min(a.width, b.width), std::min(a.height, b.height)};
+    return {std::min(width(a), width(b)), std::min(height(a), height(b))};
 }
 
 template <typename T>
 constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
 {
-    return {std::max(a.width, b.width), std::max(a.height, b.height)};
+    return {std::max(width(a), width(b)), std::max(height(a), height(b))};
 }
 
 template <typename T>
@@ -246,7 +246,7 @@ constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size
 template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
-    return lhs.width == rhs.width && lhs.height == rhs.height;
+    return width(lhs) == width(rhs) && height(lhs) == height(rhs);
 }
 
 template <typename T>
@@ -258,7 +258,7 @@ inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> b
 template <typename T>
 inline auto operator+(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width + rhs.width, lhs.height + rhs.height};
+    return {width(lhs) + width(rhs), height(lhs) + height(rhs)};
 }
 
 template <typename T>
@@ -271,7 +271,7 @@ inline auto operator+=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<
 template <typename T>
 inline auto operator+(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width + rhs, lhs.height + rhs};
+    return {width(lhs) + rhs, height(lhs) + rhs};
 }
 
 template <typename T>
@@ -284,7 +284,7 @@ inline auto operator+=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 template <typename T>
 inline auto operator-(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width - rhs.width, lhs.height - rhs.height};
+    return {width(lhs) - width(rhs), height(lhs) - height(rhs)};
 }
 
 template <typename T>
@@ -297,7 +297,7 @@ inline auto operator-=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<
 template <typename T>
 inline auto operator-(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width - rhs, lhs.height - rhs};
+    return {width(lhs) - rhs, height(lhs) - rhs};
 }
 
 template <typename T>
@@ -310,7 +310,7 @@ inline auto operator-=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 template <typename T>
 inline auto operator*(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width * rhs.width, lhs.height * rhs.height};
+    return {width(lhs) * width(rhs), height(lhs) * height(rhs)};
 }
 
 template <typename T>
@@ -323,7 +323,7 @@ inline auto operator*=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<
 template <typename T>
 inline auto operator*(const size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width * rhs.x, lhs.height * rhs.y};
+    return {width(lhs) * rhs.x, height(lhs) * rhs.y};
 }
 
 template <typename T>
@@ -336,7 +336,7 @@ inline auto operator*=(size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d
 template <typename T>
 inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 {
-    return {lhs.width * rhs, lhs.height * rhs};
+    return {width(lhs) * rhs, height(lhs) * rhs};
 }
 
 template <typename T>
@@ -349,8 +349,8 @@ inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
 template <typename T, typename U>
 inline auto operator*(const size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>
 {
-    return {static_cast<T>(static_cast<U>(lhs.width) * rhs.width),
-            static_cast<T>(static_cast<U>(lhs.height) * rhs.height)};
+    return {static_cast<T>(static_cast<U>(width(lhs)) * width(rhs)),
+            static_cast<T>(static_cast<U>(height(lhs)) * height(rhs))};
 }
 
 template <typename T, typename U>
@@ -363,7 +363,7 @@ inline auto operator*=(size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<
 template <typename T, typename U>
 inline auto operator*(const size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>
 {
-    return {static_cast<T>(static_cast<U>(lhs.width) * rhs.x), static_cast<T>(static_cast<U>(lhs.height) * rhs.y)};
+    return {static_cast<T>(static_cast<U>(width(lhs)) * rhs.x), static_cast<T>(static_cast<U>(height(lhs)) * rhs.y)};
 }
 
 template <typename T, typename U>
@@ -376,7 +376,7 @@ inline auto operator*=(size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d
 template <typename T, typename U>
 inline auto operator*(const size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>
 {
-    return {static_cast<T>(static_cast<U>(lhs.width) * rhs), static_cast<T>(static_cast<U>(lhs.height) * rhs)};
+    return {static_cast<T>(static_cast<U>(width(lhs)) * rhs), static_cast<T>(static_cast<U>(height(lhs)) * rhs)};
 }
 
 template <typename T, typename U>
