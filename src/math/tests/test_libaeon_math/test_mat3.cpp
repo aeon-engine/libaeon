@@ -91,3 +91,14 @@ TEST(test_mat3, test_mat3_at)
     EXPECT_EQ(mat[2][1], mat.at(2, 1));
     EXPECT_EQ(mat[2][2], mat.at(2, 2));
 }
+
+TEST(test_mat3, test_mat3_determinant)
+{
+    EXPECT_EQ(1, math::determinant(math::mat3::indentity()));
+
+    const auto mat = math::mat3::scale(2);
+    EXPECT_EQ(4, math::determinant(mat));
+
+    const auto mat2 = math::mat3::scale(3);
+    EXPECT_EQ(9, math::determinant(mat2));
+}
