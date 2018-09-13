@@ -219,6 +219,12 @@ inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexc
     return size * vec;
 }
 
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>
+{
+    return size * val;
+}
+
 template <typename T>
 constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
 {
@@ -235,12 +241,6 @@ template <typename T>
 constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size2d<T> &max_size) noexcept -> size2d<T>
 {
     return max(min_size, min(max_size, val));
-}
-
-template <typename T, typename U>
-inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>
-{
-    return size * val;
 }
 
 template <typename T>

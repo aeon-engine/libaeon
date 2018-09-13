@@ -294,6 +294,15 @@ template <typename T, typename U>
 inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>;
 
 /*!
+ * Scale (multiply) a size in all two directions by a given value to a copy.
+ * \param[in] size - Size2d
+ * \param[in] val - Horizontal and vertical scale value
+ * \return A scaled size copy based on the given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>;
+
+/*!
  * Get the minimum values from the given size2d for both width and height.
  * \param[in] a - Size2d
  * \param[in] b - Size2d
@@ -321,15 +330,6 @@ inline constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> si
 template <typename T>
 inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size2d<T> &max_size) noexcept
     -> size2d<T>;
-
-/*!
- * Scale (multiply) a size in all two directions by a given value to a copy.
- * \param[in] size - Size2d
- * \param[in] val - Horizontal and vertical scale value
- * \return A scaled size copy based on the given one.
- */
-template <typename T, typename U>
-inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>;
 
 template <typename T>
 inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
