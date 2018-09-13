@@ -25,33 +25,16 @@
 
 #pragma once
 
-#include <aeon/math/convert_type.h>
+#include <aeon/math/size3d.h>
+#include <ostream>
 
 namespace aeon::math
 {
 
-class mat3;
-
-class mat4;
-
-class quaternion;
-
 template <typename T>
-class vector2;
-
-template <typename T>
-class vector3;
-
-template <typename T>
-class vector4;
-
-template <typename T>
-class size2d;
-
-template <typename T>
-class size3d;
-
-template <typename T>
-class range;
+inline auto operator<<(std::ostream &os, const size3d<T> &s) -> std::ostream &
+{
+    return os << "size3d<" << typeid(T).name() << ">(" << width(s) << ", " << height(s) << ", " << depth(s) << ")";
+}
 
 } // namespace aeon::math

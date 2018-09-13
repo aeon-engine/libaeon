@@ -23,35 +23,26 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#include <gtest/gtest.h>
+#include <aeon/math/size3d.h>
+#include <aeon/math/size3d_stream.h>
 
-#include <aeon/math/convert_type.h>
+using namespace aeon;
 
-namespace aeon::math
+TEST(test_size3d, test_size3d_default_int)
 {
+    math::size3d<int> size;
+}
 
-class mat3;
+TEST(test_size3d, test_size3d_clamp)
+{
+    const math::size3d min{5, 10, 20};
+    const math::size3d max{50, 100, 200};
 
-class mat4;
-
-class quaternion;
-
-template <typename T>
-class vector2;
-
-template <typename T>
-class vector3;
-
-template <typename T>
-class vector4;
-
-template <typename T>
-class size2d;
-
-template <typename T>
-class size3d;
-
-template <typename T>
-class range;
-
-} // namespace aeon::math
+    EXPECT_EQ(math::clamp(math::size3d{10, 20, 30}, min, max), (math::size3d{10, 20, 30}));
+    EXPECT_EQ(math::clamp(math::size3d{40, 90, 190}, min, max), (math::size3d{40, 90, 190}));
+    EXPECT_EQ(math::clamp(math::size3d{4, 20, 19}, min, max), (math::size3d{5, 20, 20}));
+    EXPECT_EQ(math::clamp(math::size3d{5, 9, 201}, min, max), (math::size3d{5, 10, 200}));
+    EXPECT_EQ(math::clamp(math::size3d{51, 90, 300}, min, max), (math::size3d{50, 90, 200}));
+    EXPECT_EQ(math::clamp(math::size3d{50, 110, 1}, min, max), (math::size3d{50, 100, 20}));
+}

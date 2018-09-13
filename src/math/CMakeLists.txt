@@ -44,6 +44,8 @@ set(LIB_AEON_MATH_SOURCE
     src/simplex_noise.cpp
     include/aeon/math/size2d.h
     include/aeon/math/size2d_stream.h
+    include/aeon/math/size3d.h
+    include/aeon/math/size3d_stream.h
     include/aeon/math/units.h
     include/aeon/math/units_literals.h
     include/aeon/math/vector2.h
@@ -67,6 +69,7 @@ set(LIB_AEON_MATH_IMPL_SOURCE
     include/aeon/math/impl/range_impl.h
     include/aeon/math/impl/rectangle_impl.h
     include/aeon/math/impl/size2d_impl.h
+    include/aeon/math/impl/size3d_impl.h
     include/aeon/math/impl/units_impl.h
     include/aeon/math/impl/units_magnitudes_impl.h
     include/aeon/math/impl/units_prefixes.h
