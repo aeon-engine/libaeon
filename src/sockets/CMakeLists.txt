@@ -23,8 +23,13 @@
 
 message(STATUS "Building libAeon with Socket, HTTP and Json-RPC support.")
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/asio dep/asio)
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/json11 dep/json11)
+if (NOT TARGET asio)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/asio dep/asio)
+endif ()
+
+if (NOT TARGET json11)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/json11 dep/json11)
+endif ()
 
 set(LIB_AEON_SOCKETS_SOURCE
     include/aeon/sockets/config.h

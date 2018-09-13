@@ -21,7 +21,9 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/freetype2 dep/freetype2)
+if (NOT TARGET freetype)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/freetype2 dep/freetype2)
+endif ()
 
 set(LIB_AEON_FONTS_SOURCE
     include/aeon/fonts/config.h

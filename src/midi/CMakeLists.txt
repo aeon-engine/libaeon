@@ -23,7 +23,9 @@
 
 message(STATUS "Building libAeon with RtMidi support.")
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/rtmidi dep/rtmidi)
+if (NOT TARGET rtmidi)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/rtmidi dep/rtmidi)
+endif ()
 
 set(LIB_AEON_RTMIDI_SOURCE
     include/aeon/midi/midi_device.h

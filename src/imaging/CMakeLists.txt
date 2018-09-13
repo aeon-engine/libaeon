@@ -21,9 +21,17 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/zlib dep/zlib)
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/png dep/png)
-add_subdirectory(${CMAKE_SOURCE_DIR}/dep/libjpeg_turbo dep/libjpeg_turbo)
+if (NOT TARGET zlibstatic)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/zlib dep/zlib)
+endif ()
+
+if (NOT TARGET png_static)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/png dep/png)
+endif ()
+
+if (NOT TARGET turbojpeg-static)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/libjpeg_turbo dep/libjpeg_turbo)
+endif ()
 
 set(LIB_AEON_IMAGING_SOURCE
     include/aeon/imaging/dimension.h
