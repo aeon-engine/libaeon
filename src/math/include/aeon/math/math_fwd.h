@@ -45,4 +45,10 @@ class vector3;
 template <typename T>
 class vector4;
 
+template <typename T>
+class size2d;
+
+template <typename T>
+class range;
+
 } // namespace aeon::math
