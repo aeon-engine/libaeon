@@ -30,6 +30,16 @@
 namespace aeon::common::type_traits
 {
 
+namespace internal
+{
+
+template <typename T>
+struct empty_base
+{
+};
+
+} // namespace internal
+
 /*!
  * Get the amount of arguments in a function signature type.
  */
@@ -71,6 +81,13 @@ struct function_signature_argument_count<return_type_t(args_t...)>
                                                                                                                        \
         static constexpr auto value = sizeof(f<member_value_check_t>(nullptr)) == 2;                                   \
     }
+
+/*!
+ * Derive from another class/struct optionally based on a given condition.
+ * If the condition is false, a dummy inheritance will take place instead.
+ */
+template <bool condition, typename T>
+using optional_base = std::conditional_t<condition, T, internal::empty_base<T>>;
 
 /*!
  * Get a representing integer type based on given number of bits
