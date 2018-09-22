@@ -200,10 +200,10 @@ inline constexpr auto span<T>::back() const noexcept -> reference
     return *(data() + size() - 1);
 }
 
-template <class T, size_t N>
+template <typename T, size_t N>
 span(std::array<T, N> &)->span<T>;
 
-template <class T, size_t N>
+template <typename T, size_t N>
 span(const std::array<T, N> &)->span<const T>;
 
 } // namespace aeon::common
