@@ -82,6 +82,28 @@ TEST(test_span, test_span_pointers)
     EXPECT_EQ(amount, s.size());
 }
 
+TEST(test_span, test_span_container)
+{
+    const std::vector<int> test{1, 2, 3, 4, 5};
+
+    common::span s{test};
+
+    EXPECT_EQ(5, s.size());
+    EXPECT_EQ(1, s.front());
+    EXPECT_EQ(5, s.back());
+
+    int expected = 1;
+    int amount = 0;
+
+    for (const auto c : s)
+    {
+        EXPECT_EQ(c, expected++);
+        ++amount;
+    }
+
+    EXPECT_EQ(amount, s.size());
+}
+
 TEST(test_span, test_span_std_array)
 {
     const std::array<int, 5> test{1, 2, 3, 4, 5};

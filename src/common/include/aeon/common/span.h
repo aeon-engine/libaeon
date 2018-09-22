@@ -61,6 +61,12 @@ public:
     template <std::size_t N>
     explicit constexpr span(const std::array<value_type, N> &array) noexcept;
 
+    template <typename container_t>
+    explicit constexpr span(container_t &cont);
+
+    template <typename container_t>
+    explicit constexpr span(const container_t &cont);
+
     ~span() = default;
 
     span(const span &) noexcept = default;
@@ -132,7 +138,23 @@ inline constexpr span<T>::span(const std::array<value_type, N> &array) noexcept
 }
 
 template <typename T>
-constexpr auto span<T>::data() const noexcept -> pointer
+template <typename container_t>
+inline constexpr span<T>::span(container_t &cont)
+    : data_{std::data(cont)}
+    , size_{static_cast<index_type>(std::size(cont))}
+{
+}
+
+template <typename T>
+template <typename container_t>
+inline constexpr span<T>::span(const container_t &cont)
+    : data_{std::data(cont)}
+    , size_{static_cast<index_type>(std::size(cont))}
+{
+}
+
+template <typename T>
+inline constexpr auto span<T>::data() const noexcept -> pointer
 {
     return data_;
 }
@@ -205,5 +227,11 @@ span(std::array<T, N> &)->span<T>;
 
 template <typename T, size_t N>
 span(const std::array<T, N> &)->span<const T>;
+
+template <typename container_t>
+span(container_t &)->span<typename container_t::value_type>;
+
+template <typename container_t>
+span(const container_t &)->span<const typename container_t::value_type>;
 
 } // namespace aeon::common
