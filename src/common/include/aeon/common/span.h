@@ -95,21 +95,21 @@ private:
 };
 
 template <typename T>
-constexpr span<T>::span() noexcept
+inline constexpr span<T>::span() noexcept
     : data_{nullptr}
     , size_{0}
 {
 }
 
 template <typename T>
-constexpr span<T>::span(pointer ptr, const index_type count) noexcept
+inline constexpr span<T>::span(pointer ptr, const index_type count) noexcept
     : data_{ptr}
     , size_{count}
 {
 }
 
 template <typename T>
-constexpr span<T>::span(pointer first, pointer last) noexcept
+inline constexpr span<T>::span(pointer first, pointer last) noexcept
     : data_{first}
     , size_{std::distance(first, last)}
 {
@@ -117,7 +117,7 @@ constexpr span<T>::span(pointer first, pointer last) noexcept
 
 template <typename T>
 template <std::size_t N>
-constexpr span<T>::span(std::array<value_type, N> &array) noexcept
+inline constexpr span<T>::span(std::array<value_type, N> &array) noexcept
     : data_{array.data()}
     , size_{static_cast<index_type>(array.size())}
 {
@@ -125,7 +125,7 @@ constexpr span<T>::span(std::array<value_type, N> &array) noexcept
 
 template <typename T>
 template <std::size_t N>
-constexpr span<T>::span(const std::array<value_type, N> &array) noexcept
+inline constexpr span<T>::span(const std::array<value_type, N> &array) noexcept
     : data_{array.data()}
     , size_{static_cast<index_type>(array.size())}
 {
@@ -138,19 +138,19 @@ constexpr auto span<T>::data() const noexcept -> pointer
 }
 
 template <typename T>
-constexpr auto span<T>::size() const noexcept -> index_type
+inline constexpr auto span<T>::size() const noexcept -> index_type
 {
     return size_;
 }
 
 template <typename T>
-constexpr auto span<T>::empty() const noexcept -> bool
+inline constexpr auto span<T>::empty() const noexcept -> bool
 {
     return size() == 0;
 }
 
 template <typename T>
-constexpr auto span<T>::operator[](const index_type i) const noexcept -> reference
+inline constexpr auto span<T>::operator[](const index_type i) const noexcept -> reference
 {
     aeon_assert(i >= 0, "Out of range.");
     aeon_assert(i < size(), "Out of range.");
@@ -158,7 +158,7 @@ constexpr auto span<T>::operator[](const index_type i) const noexcept -> referen
 }
 
 template <typename T>
-constexpr auto span<T>::operator()(const index_type i) const noexcept -> reference
+inline constexpr auto span<T>::operator()(const index_type i) const noexcept -> reference
 {
     aeon_assert(i >= 0, "Out of range.");
     aeon_assert(i < size(), "Out of range.");
@@ -166,7 +166,7 @@ constexpr auto span<T>::operator()(const index_type i) const noexcept -> referen
 }
 
 template <typename T>
-constexpr auto span<T>::at(const index_type i) const -> reference
+inline constexpr auto span<T>::at(const index_type i) const -> reference
 {
     if (i < 0 || i > size())
         throw std::out_of_range{"Out of range."};
@@ -175,26 +175,26 @@ constexpr auto span<T>::at(const index_type i) const -> reference
 }
 
 template <typename T>
-constexpr auto span<T>::begin() const noexcept -> iterator
+inline constexpr auto span<T>::begin() const noexcept -> iterator
 {
     return data();
 }
 
 template <typename T>
-constexpr auto span<T>::end() const noexcept -> iterator
+inline constexpr auto span<T>::end() const noexcept -> iterator
 {
     return data() + size();
 }
 
 template <typename T>
-constexpr auto span<T>::front() const noexcept -> reference
+inline constexpr auto span<T>::front() const noexcept -> reference
 {
     aeon_assert(!empty(), "Span empty.");
     return *data();
 }
 
 template <typename T>
-constexpr auto span<T>::back() const noexcept -> reference
+inline constexpr auto span<T>::back() const noexcept -> reference
 {
     aeon_assert(!empty(), "Span empty.");
     return *(data() + size() - 1);
