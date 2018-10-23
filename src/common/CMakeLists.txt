@@ -61,6 +61,7 @@ source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
 set(LIB_AEON_COMMON_IMPL_SOURCE
     include/aeon/common/impl/utf8_string_view_impl.h
     include/aeon/common/impl/utf8_utils_impl.h
+    include/aeon/common/impl/string_impl.h
 )
 
 source_group(common\\impl FILES ${LIB_AEON_COMMON_IMPL_SOURCE})
