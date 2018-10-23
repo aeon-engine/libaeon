@@ -293,7 +293,7 @@ inline auto hex_string_to_int<std::uint8_t>(const std::string &str)
 }
 
 /*!
- * Convert a value into HEX format (ie. 255 becomes "FF")
+ * Convert a value into HEX format (ie. 255 becomes "ff")
  */
 template <typename T>
 inline auto int_to_hex_string(const T value) -> std::string
