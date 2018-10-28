@@ -306,7 +306,7 @@ inline auto int_to_hex_string(const T value) -> std::string
 /*!
  * Convert a byte into HEX format (ie. 255 becomes "ff")
  */
-inline constexpr auto uint8_to_hex_string(const std::uint8_t value) noexcept -> const char *;
+inline auto uint8_to_hex_string(const std::uint8_t value) noexcept -> const char *;
 
 } // namespace aeon::common::string
 
