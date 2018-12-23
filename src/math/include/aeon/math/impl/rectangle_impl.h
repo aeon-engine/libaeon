@@ -179,8 +179,20 @@ inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexce
     rect = translated(rect, x, y);
 }
 
+template <typename T, typename U>
+inline constexpr void translate(rectangle<T> &rect, const U x, const U y) noexcept
+{
+    rect = translated(rect, x, y);
+}
+
 template <typename T>
 inline constexpr void translate(rectangle<T> &rect, const vector2<T> &vec) noexcept
+{
+    rect = translated(rect, vec);
+}
+
+template <typename T, typename U>
+inline constexpr void translate(rectangle<T> &rect, const vector2<U> &vec) noexcept
 {
     rect = translated(rect, vec);
 }
@@ -191,10 +203,24 @@ inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y)
     return {rect.left + x, rect.top + y, rect.right + x, rect.bottom + y};
 }
 
+template <typename T, typename U>
+inline constexpr auto translated(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>
+{
+    const auto x_new = static_cast<T>(x);
+    const auto y_new = static_cast<T>(y);
+    return {rect.left + x_new, rect.top + y_new, rect.right + x_new, rect.bottom + y_new};
+}
+
 template <typename T>
 inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>
 {
     return translated(rect, vec.x, vec.y);
+}
+
+template <typename T, typename U>
+inline constexpr auto translated(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>
+{
+    return translated(rect, static_cast<T>(vec.x), static_cast<T>(vec.y));
 }
 
 template <typename T>
@@ -356,8 +382,20 @@ inline constexpr void scale(rectangle<T> &rect, const T val) noexcept
     rect = scaled(rect, val);
 }
 
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const U val) noexcept
+{
+    rect = scaled(rect, val);
+}
+
 template <typename T>
 inline constexpr void scale(rectangle<T> &rect, const T x, const T y) noexcept
+{
+    rect = scaled(rect, x, y);
+}
+
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const U x, const U y) noexcept
 {
     rect = scaled(rect, x, y);
 }
@@ -368,8 +406,20 @@ inline constexpr void scale(rectangle<T> &rect, const vector2<T> &vec) noexcept
     rect = scaled(rect, vec);
 }
 
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const vector2<U> &vec) noexcept
+{
+    rect = scaled(rect, vec);
+}
+
 template <typename T>
 inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept
+{
+    rect = scaled(rect, size);
+}
+
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const size2d<U> &size) noexcept
 {
     rect = scaled(rect, size);
 }
@@ -380,10 +430,22 @@ inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> 
     return rect * val;
 }
 
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const U val) noexcept -> rectangle<T>
+{
+    return rect * static_cast<T>(val);
+}
+
 template <typename T>
 inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>
 {
     return scaled(rect, {x, y});
+}
+
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>
+{
+    return scaled(rect, {static_cast<T>(x), static_cast<T>(y)});
 }
 
 template <typename T>
@@ -392,10 +454,22 @@ inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) no
     return rect * vec;
 }
 
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>
+{
+    return rect * vector2<T>{vec};
+}
+
 template <typename T>
 inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>
 {
     return rect * size;
+}
+
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const size2d<U> &size) noexcept -> rectangle<T>
+{
+    return rect * size2d<T>{size};
 }
 
 template <typename T>

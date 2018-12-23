@@ -239,10 +239,27 @@ inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexce
 /*!
  * Translate (move) an existing rectangle.
  * \param[in, out] rect - Rectangle
+ * \param[in] x - Relative X coordinate
+ * \param[in] y - Relative Y coordinate
+ */
+template <typename T, typename U>
+inline constexpr void translate(rectangle<T> &rect, const U x, const U y) noexcept;
+
+/*!
+ * Translate (move) an existing rectangle.
+ * \param[in, out] rect - Rectangle
  * \param[in] vec - Relative X and Y coordinates.
  */
 template <typename T>
 inline constexpr void translate(rectangle<T> &rect, const vector2<T> &vec) noexcept;
+
+/*!
+ * Translate (move) an existing rectangle.
+ * \param[in, out] rect - Rectangle
+ * \param[in] vec - Relative X and Y coordinates.
+ */
+template <typename T, typename U>
+inline constexpr void translate(rectangle<T> &rect, const vector2<U> &vec) noexcept;
 
 /*!
  * Translate (move) a rectangle to a new copy
@@ -257,11 +274,30 @@ inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y)
 /*!
  * Translate (move) a rectangle to a new copy
  * \param[in] rect - Rectangle
+ * \param[in] x - Relative X coordinate
+ * \param[in] y - Relative Y coordinate
+ * \return A new rectangle moved with the given offset
+ */
+template <typename T, typename U>
+inline constexpr auto translated(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
+
+/*!
+ * Translate (move) a rectangle to a new copy
+ * \param[in] rect - Rectangle
  * \param[in] vec - Relative X and Y coordinates.
  * \return A new rectangle moved with the given offset
  */
 template <typename T>
 inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>;
+
+/*!
+ * Translate (move) a rectangle to a new copy
+ * \param[in] rect - Rectangle
+ * \param[in] vec - Relative X and Y coordinates.
+ * \return A new rectangle moved with the given offset
+ */
+template <typename T, typename U>
+inline constexpr auto translated(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>;
 
 /*!
  * Set the position of an existing rectangle.
@@ -413,6 +449,14 @@ template <typename T>
 inline constexpr void scale(rectangle<T> &rect, const T val) noexcept;
 
 /*!
+ * Scale (multiply) a rectangle in all directions by a given value.
+ * \param[in, out] rect - Rectangle
+ * \param[in] val - Value to scale with
+ */
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const U val) noexcept;
+
+/*!
  * Scale (multiply) a rectangle in all two directions by a given value.
  * \param[in, out] rect - Rectangle
  * \param[in] x - Horizontal scale value
@@ -420,6 +464,15 @@ inline constexpr void scale(rectangle<T> &rect, const T val) noexcept;
  */
 template <typename T>
 inline constexpr void scale(rectangle<T> &rect, const T x, const T y) noexcept;
+
+/*!
+ * Scale (multiply) a rectangle in all two directions by a given value.
+ * \param[in, out] rect - Rectangle
+ * \param[in] x - Horizontal scale value
+ * \param[in] y - Vertical scale value
+ */
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const U x, const U y) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
@@ -432,10 +485,26 @@ inline constexpr void scale(rectangle<T> &rect, const vector2<T> &vec) noexcept;
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
  * \param[in, out] rect - Rectangle
+ * \param[in] vec - Horizontal and vertical scale value
+ */
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const vector2<U> &vec) noexcept;
+
+/*!
+ * Scale (multiply) a rectangle in all two directions by a given value.
+ * \param[in, out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  */
 template <typename T>
 inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept;
+
+/*!
+ * Scale (multiply) a rectangle in all two directions by a given value.
+ * \param[in, out] rect - Rectangle
+ * \param[in] size - Horizontal and vertical scale value
+ */
+template <typename T, typename U>
+inline constexpr void scale(rectangle<T> &rect, const size2d<U> &size) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value to a new copy.
@@ -445,6 +514,15 @@ inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept;
  */
 template <typename T>
 inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+
+/*!
+ * Scale (multiply) a rectangle in all directions by a given value to a new copy.
+ * \param[in, out] rect - Rectangle
+ * \param[in] val - Value to scale with
+ * \return Scaled rectangle based on given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const U val) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -459,6 +537,16 @@ inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noe
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
  * \param[in, out] rect - Rectangle
+ * \param[in] x - Horizontal scale value
+ * \param[in] y - Vertical scale value
+ * \return Scaled rectangle based on given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
+
+/*!
+ * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
+ * \param[in, out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
@@ -468,11 +556,29 @@ inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) no
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
  * \param[in, out] rect - Rectangle
+ * \param[in] vec - Horizontal and vertical scale value
+ * \return Scaled rectangle based on given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>;
+
+/*!
+ * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
+ * \param[in, out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
 template <typename T>
 inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
+
+/*!
+ * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
+ * \param[in, out] rect - Rectangle
+ * \param[in] size - Horizontal and vertical scale value
+ * \return Scaled rectangle based on given one.
+ */
+template <typename T, typename U>
+inline constexpr auto scaled(const rectangle<T> &rect, const size2d<U> &size) noexcept -> rectangle<T>;
 
 /*!
  * Get the distance between the centers of 2 rectangles.
