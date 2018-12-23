@@ -145,7 +145,8 @@ private:
 };
 
 template <typename T>
-class [[nodiscard]] scoped_plugin {
+class [[nodiscard]] scoped_plugin
+{
 public:
     scoped_plugin(T * p)
         : plugin_interface_(p)
