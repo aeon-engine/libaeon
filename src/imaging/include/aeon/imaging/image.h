@@ -57,6 +57,9 @@ public:
     image_base(image_base &&) noexcept = default;
     auto operator=(image_base &&) noexcept -> image_base & = default;
 
+    virtual auto raw_data() noexcept -> std::byte * = 0;
+    virtual auto raw_data() const noexcept -> const std::byte * = 0;
+
 protected:
     image_base() = default;
 };
@@ -111,6 +114,20 @@ public:
      */
     auto clone() const -> image<T>;
 
+    /*!
+     * Access the raw internal data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A pointer to the raw data.
+     */
+    auto raw_data() noexcept -> std::byte * override;
+
+    /*!
+     * Access the raw internal data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A const pointer to the raw data.
+     */
+    auto raw_data() const noexcept -> const std::byte * override;
+
 private:
     /*!
      * Internal helper method to transfer the data to a std::unique_ptr<image_base>.
@@ -123,6 +140,22 @@ private:
 
     std::vector<std::byte> data_;
 };
+
+/*!
+ * Access the raw internal data of an image without any bounds checks.
+ * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
+ * \return A pointer to the raw data.
+ */
+template <typename T>
+inline auto raw_data(image<T> &image) noexcept -> std::byte *;
+
+/*!
+ * Access the raw internal data of an image without any bounds checks.
+ * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
+ * \return A const pointer to the raw data.
+ */
+template <typename T>
+inline auto raw_data(const image<T> &image) noexcept -> const std::byte *;
 
 } // namespace aeon::imaging
 

@@ -110,6 +110,16 @@ inline auto dynamic_image::get_image() const noexcept -> const imaging::image<T>
     return *static_cast<const image<T> *>(image_.get());
 }
 
+inline auto dynamic_image::raw_data() noexcept -> std::byte *
+{
+    return image_->raw_data();
+}
+
+inline auto dynamic_image::raw_data() const noexcept -> const std::byte *
+{
+    return image_->raw_data();
+}
+
 inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_descriptor
 {
     return image.descriptor();
@@ -185,6 +195,16 @@ template <typename T>
 inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &
 {
     return image.get_image<T>();
+}
+
+inline auto raw_data(dynamic_image &image) noexcept -> std::byte *
+{
+    return image.raw_data();
+}
+
+inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *
+{
+    return image.raw_data();
 }
 
 } // namespace aeon::imaging

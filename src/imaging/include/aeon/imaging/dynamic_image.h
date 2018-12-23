@@ -102,6 +102,20 @@ public:
     template <typename T>
     auto get_image() const noexcept -> const image<T> &;
 
+    /*!
+     * Access the raw internal data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A pointer to the raw data.
+     */
+    auto raw_data() noexcept -> std::byte *;
+
+    /*!
+     * Access the raw internal data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A const pointer to the raw data.
+     */
+    auto raw_data() const noexcept -> const std::byte *;
+
 private:
     dynamic_image_descriptor dynamic_descriptor_;
     std::unique_ptr<image_base> image_;
@@ -223,6 +237,20 @@ inline auto view(dynamic_image &image) noexcept -> image_view<T> &;
  */
 template <typename T>
 inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
+
+/*!
+ * Access the raw internal data of an image without any bounds checks.
+ * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
+ * \return A pointer to the raw data.
+ */
+inline auto raw_data(dynamic_image &image) noexcept -> std::byte *;
+
+/*!
+ * Access the raw internal data of an image without any bounds checks.
+ * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
+ * \return A const pointer to the raw data.
+ */
+inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *;
 
 #define process_image(img, func, ...)                                                                                  \
     [&]() {                                                                                                            \

@@ -69,9 +69,33 @@ inline auto image<T>::clone() const -> image<T>
 }
 
 template <typename T>
+inline auto image<T>::raw_data() noexcept -> std::byte *
+{
+    return std::data(data_);
+}
+
+template <typename T>
+inline auto image<T>::raw_data() const noexcept -> const std::byte *
+{
+    return std::data(data_);
+}
+
+template <typename T>
 inline auto image<T>::move_to_dynamic_image() -> std::unique_ptr<image_base>
 {
     return std::make_unique<image<T>>(image_view<T>::descriptor_, std::move(data_));
+}
+
+template <typename T>
+inline auto raw_data(image<T> &image) noexcept -> std::byte *
+{
+    return image.raw_data();
+}
+
+template <typename T>
+inline auto raw_data(const image<T> &image) noexcept -> const std::byte *
+{
+    return image.raw_data();
 }
 
 } // namespace aeon::imaging
