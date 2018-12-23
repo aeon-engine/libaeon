@@ -36,7 +36,7 @@
 #define aeon_assert_value_max(val, max)                                                                                \
     aeon_assert((val <= max), "Value " #val " is out of range. Given value must be <= " #max)
 #define aeon_assert_value_in_range(val, min, max)                                                                      \
-    aeon_assert((val >= min || val <= max),                                                                            \
+    aeon_assert((val >= min && val <= max),                                                                            \
                 "Value " #val " is out of range. Given value must be >= " #min " and <= " #max)
 
 #define aeon_assert_index_bounds(val, count)                                                                           \
