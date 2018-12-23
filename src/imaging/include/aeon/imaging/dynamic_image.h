@@ -45,7 +45,7 @@ namespace aeon::imaging
  * A dynamic image. This image wraps the typed image<T> class for runtime use
  * so that differently typed images can be used in runtime (for example when loading image files)
  *
- * This class owns the underlaying pixel data of the image.
+ * This class owns the underlying pixel data of the image.
  */
 class dynamic_image
 {
