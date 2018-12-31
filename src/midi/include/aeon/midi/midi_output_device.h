@@ -27,7 +27,7 @@
 
 #include <aeon/midi/midi_device.h>
 
-#include <RtMidi.h>
+#include <rtmidi/RtMidi.h>
 
 #include <string>
 #include <vector>

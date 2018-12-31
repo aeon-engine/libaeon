@@ -26,7 +26,7 @@
 #pragma once
 
 #include <aeon/midi/midi_device.h>
-#include <RtMidi.h>
+#include <rtmidi/RtMidi.h>
 #include <vector>
 
 namespace aeon

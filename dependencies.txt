@@ -21,46 +21,25 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-set(LIB_AEON_FONTS_SOURCE
-    include/aeon/fonts/config.h
-    include/aeon/fonts/exceptions.h
-    include/aeon/fonts/face.h
-    src/face.cpp
-    include/aeon/fonts/face_wrapper.h
-    src/face_wrapper.cpp
-    include/aeon/fonts/font_manager.h
-    src/font_manager.cpp
-    include/aeon/fonts/glyph.h
-)
+# The bintray_url directive sets the URL for the Bintray archive.
+# In order to use packages from Bintray, this must be set first.
+#
+# Download from Bintray
+# Format: bintray [dependency name] [version]
+#
+# Download from Git
+# Format: git [name] [url] [branch/tag/hash/tree-ish]
+#
+# Each dependency is automatically checked for a dependencies.txt file
+# after downloading. These dependencies are also downloaded.
 
-source_group(fonts FILES ${LIB_AEON_FONTS_SOURCE})
+bintray_url https://dl.bintray.com/aeon-engine/aeon_dependencies
 
-add_library(aeon_fonts STATIC
-    ${LIB_AEON_FONTS_SOURCE}
-)
-
-set_target_properties(aeon_fonts PROPERTIES
-    FOLDER dep/libaeon
-    LINKER_LANGUAGE CXX
-)
-
-target_include_directories(aeon_fonts PUBLIC include)
-target_link_libraries(aeon_fonts
-    aeon_imaging
-    aeon_streams
-    Freetype::Freetype
-)
-
-install(
-    DIRECTORY include/aeon
-    DESTINATION include
-)
-
-install(
-    TARGETS aeon_fonts
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-)
-
-add_subdirectory(tests)
+bintray libpng 1.6.36
+bintray libjpeg-turbo 2.0.1
+bintray googletest 1.8.1
+bintray google-benchmark 1.4.1
+bintray json11 1.0.0
+bintray freetype2 2.9.1
+bintray rtmidi 3.0.0
+bintray asio 1.12.2

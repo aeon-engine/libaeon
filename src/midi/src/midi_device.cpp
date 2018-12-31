@@ -24,7 +24,7 @@
  */
 
 #include <aeon/midi/midi_device.h>
-#include <RtMidi.h>
+#include <rtmidi/RtMidi.h>
 
 namespace aeon
 {

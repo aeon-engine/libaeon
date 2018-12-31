@@ -38,6 +38,9 @@ enable_testing()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dep/cmake")
 
+include(Dependencies)
+handle_dependencies_file("${CMAKE_SOURCE_DIR}/dependencies.txt")
+
 include(CompilerFlags)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -69,15 +72,12 @@ set(AEON_ENABLE_MIDI ON CACHE BOOL "")
 set(AEON_ENABLE_IMAGING ON CACHE BOOL "")
 set(AEON_ENABLE_FONTS ON CACHE BOOL "")
 
-add_subdirectory(dep/googletest)
-
 ################################################################################
 
 option(AEON_ENABLE_BENCHMARK "Enable google benchmarking tests." ON)
 
 if (AEON_ENABLE_BENCHMARK)
     message(STATUS "Building libAeon with Google Benchmark support.")
-    add_subdirectory(dep/google_benchmark)
 endif ()
 
 ################################################################################

@@ -8,6 +8,9 @@
 CMakeFiles/
 cmake_install.cmake
 
+# Infra
+external_dependencies/
+
 # Linux
 Makefile
 *.a

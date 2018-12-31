@@ -23,14 +23,6 @@
 
 message(STATUS "Building libAeon with Socket, HTTP and Json-RPC support.")
 
-if (NOT TARGET asio)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/asio dep/asio)
-endif ()
-
-if (NOT TARGET json11)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/json11 dep/json11)
-endif ()
-
 set(LIB_AEON_SOCKETS_SOURCE
     include/aeon/sockets/config.h
     include/aeon/sockets/tcp_socket.h
@@ -105,12 +97,8 @@ target_include_directories(aeon_sockets PUBLIC include)
 target_link_libraries(aeon_sockets
     aeon_common
     aeon_streams
-    asio
-    json11
-)
-
-target_compile_definitions(aeon_sockets PUBLIC
-    ASIO_NO_DEPRECATED
+    Asio::Asio
+    Json11::Json11
 )
 
 install(

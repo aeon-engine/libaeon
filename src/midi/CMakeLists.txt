@@ -23,10 +23,6 @@
 
 message(STATUS "Building libAeon with RtMidi support.")
 
-if (NOT TARGET rtmidi)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/dep/rtmidi dep/rtmidi)
-endif ()
-
 set(LIB_AEON_RTMIDI_SOURCE
     include/aeon/midi/midi_device.h
     src/midi_device.cpp
@@ -50,8 +46,17 @@ set_target_properties(aeon_midi PROPERTIES
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_midi PUBLIC include)
-target_link_libraries(aeon_midi aeon_common aeon_utility aeon_streams rtmidi)
+target_include_directories(aeon_midi
+    PUBLIC
+        include
+)
+
+target_link_libraries(aeon_midi
+    aeon_common
+    aeon_utility
+    aeon_streams
+    RTMidi::RTMidi
+)
 
 install(
     DIRECTORY include/aeon
