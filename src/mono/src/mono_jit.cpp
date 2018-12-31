@@ -52,8 +52,9 @@ mono_jit::mono_jit(const std::string &domain)
 
 mono_jit::~mono_jit()
 {
-    if (domain_)
-        mono_jit_cleanup(domain_);
+    // FIXME #35 Calling mono_jit_cleanup causes deadlock
+    //if (domain_)
+    //    mono_jit_cleanup(domain_);
 }
 
 auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
