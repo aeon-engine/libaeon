@@ -53,7 +53,7 @@ mono_jit::mono_jit(const std::string &domain)
 mono_jit::~mono_jit()
 {
     // FIXME #35 Calling mono_jit_cleanup causes deadlock
-    //if (domain_)
+    // if (domain_)
     //    mono_jit_cleanup(domain_);
 }
 
