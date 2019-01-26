@@ -38,6 +38,7 @@ set(LIB_AEON_UTILITY_SOURCE
     include/aeon/utility/uuid.h
     src/uuid.cpp
     include/aeon/utility/uuid_stream.h
+    include/aeon/utility/tempfile.h
 )
 
 source_group(utility FILES ${LIB_AEON_UTILITY_SOURCE})

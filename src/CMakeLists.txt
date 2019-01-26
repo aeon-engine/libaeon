@@ -42,7 +42,6 @@ option(AEON_ENABLE_FONTS "Enable the Aeon fonts library (requires AEON_ENABLE_IM
 ################################################################################
 
 add_subdirectory(common)
-add_subdirectory(filesystem)
 add_subdirectory(logger)
 add_subdirectory(math)
 add_subdirectory(plugins)

@@ -36,7 +36,7 @@ set_target_properties(aeon_testing PROPERTIES
 )
 
 target_include_directories(aeon_testing PUBLIC include)
-target_link_libraries(aeon_testing aeon_common aeon_filesystem)
+target_link_libraries(aeon_testing aeon_common aeon_utility)
 
 install(
     DIRECTORY include/aeon

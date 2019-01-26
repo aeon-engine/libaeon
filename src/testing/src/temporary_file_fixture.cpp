@@ -24,19 +24,19 @@
  */
 
 #include <aeon/testing/temporary_file_fixture.h>
-#include <aeon/filesystem/filesystem.h>
+#include <aeon/utility/tempfile.h>
 #include <aeon/common/stdfilesystem.h>
 
 namespace aeon::testutils
 {
 
 temporary_file::temporary_file()
-    : path_(filesystem::generate_temporary_file_path())
+    : path_(utility::generate_temporary_file_path())
 {
 }
 
 temporary_file::temporary_file(const std::string &extension)
-    : path_(filesystem::generate_temporary_file_path())
+    : path_(utility::generate_temporary_file_path())
 {
     path_.replace_extension(extension);
 }

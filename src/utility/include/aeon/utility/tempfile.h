@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2018 Robin Degen
+ * Copyright (c) 2012-2019 Robin Degen
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -23,10 +23,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <gtest/gtest.h>
+#pragma once
 
-int main(int argc, char **argv)
+#include <aeon/utility/uuid.h>
+#include <aeon/common/stdfilesystem.h>
+
+namespace aeon::utility
 {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+
+inline auto generate_temporary_file_path()
+{
+    auto uuid = uuid::generate();
+    return std::filesystem::temp_directory_path() / uuid.str();
 }
+
+} // namespace aeon::utility
