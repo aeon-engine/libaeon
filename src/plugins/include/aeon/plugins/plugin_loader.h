@@ -31,7 +31,6 @@
 #include <map>
 #include <functional>
 #include <string>
-#include <string_view>
 
 namespace aeon::plugins
 {
@@ -121,19 +120,19 @@ private:
     /*!
      * Load a plugin by name.
      */
-    auto load(const std::string_view &name) -> plugin *;
+    auto load(const std::string &name) -> plugin *;
 
     /*!
      * Actually load the plugin by loading in the dll, getting the proc addresses
      * and calling them. Returns nullptr in case of an error.
      */
-    auto load_plugin(const std::string_view &name) -> plugin *;
+    auto load_plugin(const std::string &name) -> plugin *;
 
     /*!
      * Get a previously loaded plugin by name from the cache. Returns nullptr if
      * not found.
      */
-    auto find_in_cache(const std::string_view &name) -> plugin *;
+    auto find_in_cache(const std::string &name) -> plugin *;
 
     /*!
      * Unload a plugin based on iterator. This is a helper method called by the

@@ -86,7 +86,7 @@ void plugin_loader::unload_all()
     cache_.clear();
 }
 
-auto plugin_loader::load(const std::string_view &name) -> plugin *
+auto plugin_loader::load(const std::string &name) -> plugin *
 {
     const auto result = find_in_cache(name);
 
@@ -96,7 +96,7 @@ auto plugin_loader::load(const std::string_view &name) -> plugin *
     return load_plugin(name);
 }
 
-auto plugin_loader::load_plugin(const std::string_view &name) -> plugin *
+auto plugin_loader::load_plugin(const std::string &name) -> plugin *
 {
     common::dll_loader::scoped_dll_handle handle(name);
 
@@ -119,14 +119,14 @@ auto plugin_loader::load_plugin(const std::string_view &name) -> plugin *
     plugin_instance->plugin_on_load();
 
     plugin_cache cache{std::move(handle), std::move(plugin_instance)};
-    cache_.insert({std::string{name}, std::move(cache)});
+    cache_.insert({name, std::move(cache)});
 
     return plugin_instance_ptr;
 }
 
-auto plugin_loader::find_in_cache(const std::string_view &name) -> plugin *
+auto plugin_loader::find_in_cache(const std::string &name) -> plugin *
 {
-    const auto result = cache_.find(std::string{name});
+    const auto result = cache_.find(name);
 
     if (result == cache_.end())
         return nullptr;

@@ -25,9 +25,13 @@
 
 #include <aeon/common/dll_loader.h>
 #include <aeon/common/platform.h>
+
 #include <cassert>
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
+#if (defined(UNICODE))
+#include <aeon/common/utf8_convert.h>
+#endif
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 static const std::string dll_extension = ".dll";
@@ -43,10 +47,16 @@ namespace aeon::common::dll_loader
 {
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
-dll_handle get_dll_handle(const char *filename)
+dll_handle get_dll_handle(const std::string &filename)
 {
     const auto real_filename = filename + dll_extension;
+
+#if (defined(UNICODE))
+    const auto wstr_filename = utf8::to_wstring(real_filename);
+    return LoadLibrary(wstr_filename.c_str());
+#else
     return LoadLibrary(real_filename.c_str());
+#endif
 }
 
 void free_dll_handle(const dll_handle handle)
@@ -61,7 +71,7 @@ void *get_dll_proc_address(const dll_handle handle, const char *proc)
 }
 
 #elif (defined(AEON_PLATFORM_OS_LINUX) || defined(AEON_PLATFORM_OS_MACOS))
-dll_handle get_dll_handle(const char *filename)
+dll_handle get_dll_handle(const std::string &filename)
 {
 #if (defined(AEON_PLATFORM_OS_LINUX))
     // On linux, the given path must be prepended by "./", otherwise
@@ -71,7 +81,7 @@ dll_handle get_dll_handle(const char *filename)
     // "If filename contains a slash ("/"), then it is interpreted as a
     // (relative or absolute) pathname. Otherwise, the dynamic linker searches
     // for the library (...)"
-    const auto real_filename = std::string("./") + filename + dll_extension;
+    const auto real_filename = "./" + filename + dll_extension;
 #else
     const auto real_filename = filename + dll_extension;
 #endif

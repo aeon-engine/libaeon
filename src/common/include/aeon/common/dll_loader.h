@@ -25,7 +25,6 @@
 
 #pragma once
 
-#include <string_view>
 #include <string>
 #include <cassert>
 
@@ -41,7 +40,7 @@ using dll_handle = void *;
  * The given filename should not contain any file extension
  * as it is added automatically based on the platform.
  */
-[[nodiscard]] dll_handle get_dll_handle(const char *filename);
+[[nodiscard]] dll_handle get_dll_handle(const std::string &filename);
 
 /*!
  * Free a dll by handle. If the given handle is nullptr, nothing
@@ -62,17 +61,8 @@ public:
      * Attempt to load a dll by filename. Be sure to check is_valid()
      * to see if the dll was loaded correctly.
      */
-    explicit scoped_dll_handle(const char *filename)
+    explicit scoped_dll_handle(const std::string &filename)
         : handle_(get_dll_handle(filename))
-    {
-    }
-
-    /*!
-     * Attempt to load a dll by filename. Be sure to check is_valid()
-     * to see if the dll was loaded correctly.
-     */
-    explicit scoped_dll_handle(const std::string_view &filename)
-        : scoped_dll_handle(std::string{filename}.c_str()) // TODO: There must be a better way than this...
     {
     }
 
@@ -114,16 +104,6 @@ public:
     {
         assert(is_valid());
         return get_dll_proc_address(handle_, proc);
-    }
-
-    /*!
-     * Get the address of a proc inside of the loaded dll or nullptr
-     * if it was not found. Be sure to check is_valid() first to see
-     * if the dll was loaded correctly.
-     */
-    [[nodiscard]] auto get_proc_address(const std::string_view &proc) const
-    {
-        return get_proc_address(std::string{proc}.c_str()); // TODO: Find a better way.
     }
 
     /*!
