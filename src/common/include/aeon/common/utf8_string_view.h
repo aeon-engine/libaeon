@@ -31,7 +31,7 @@
 namespace aeon::common::utf8
 {
 
-class utf8_string_iterator
+class utf8_string_iterator final
 {
 public:
     using value_type = const char32_t;
@@ -69,7 +69,7 @@ private:
     char32_t current_;
 };
 
-class utf8_string_view
+class utf8_string_view final
 {
 public:
     explicit utf8_string_view(const std::string_view view) noexcept;
