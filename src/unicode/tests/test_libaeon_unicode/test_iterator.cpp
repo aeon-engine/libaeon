@@ -1,0 +1,26 @@
+﻿// Copyright (c) 2012-2019 Robin Degen
+
+#include <aeon/unicode/encoding.h>
+#include <aeon/unicode/utf_string_view.h>
+#include <array>
+
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+using namespace aeon;
+
+TEST(test_iterator, test_iterator_utf)
+{
+    const auto utf8_str = u8"らき☆すた";
+    const auto utf16_str = unicode::utf8::to_utf16(utf8_str);
+
+    unicode::utf_string_view utf8_view{utf8_str};
+    const std::vector<char32_t> decoded_utf8(std::begin(utf8_view), std::end(utf8_view));
+    EXPECT_EQ(5, std::size(decoded_utf8));
+    EXPECT_THAT(decoded_utf8, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
+
+    unicode::utf_string_view utf16_view{utf16_str};
+    const std::vector<char32_t> decoded_utf16(std::begin(utf16_view), std::end(utf16_view));
+    EXPECT_EQ(5, std::size(decoded_utf16));
+    EXPECT_THAT(decoded_utf16, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
+}

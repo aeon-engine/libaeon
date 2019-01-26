@@ -26,6 +26,12 @@ set(LIB_AEON_UNICODE_SOURCE
     src/ucnv_wrapper.h
     include/aeon/unicode/encoding.h
     include/aeon/unicode/exception.h
+    include/aeon/unicode/utf_string_view.h
+    include/aeon/unicode/base_utf_iterator.h
+    src/utf8_iterator.cpp
+    include/aeon/unicode/utf8_iterator.h
+    src/utf16_iterator.cpp
+    include/aeon/unicode/utf16_iterator.h
 )
 
 source_group(unicode FILES ${LIB_AEON_UNICODE_SOURCE})

@@ -29,6 +29,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_encoding.cpp
+        test_iterator.cpp
     LIBRARIES aeon_unicode
     FOLDER dep/libaeon/tests
 )

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/unicode/encoding.h>
 #include <array>
+
+#include <gtest/gtest.h>
 
 using namespace aeon;
 
