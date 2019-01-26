@@ -6,7 +6,7 @@ License
 --------------
 The Aeon Library is released under the MIT license.
 
-Copyright (c) 2012-2018 Robin Degen
+Copyright (c) 2012-2019 Robin Degen
 
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
