@@ -13,7 +13,6 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/flags.h
     include/aeon/common/intrinsics.h
     include/aeon/common/literals.h
-    include/aeon/common/optional.h
     include/aeon/common/platform.h
     include/aeon/common/preprocessor.h
     include/aeon/common/scope_guard.h

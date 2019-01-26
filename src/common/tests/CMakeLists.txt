@@ -11,7 +11,6 @@ add_unit_test_suite(
         test_endianness.cpp
         test_flags.cpp
         test_literals.cpp
-        test_optional.cpp
         test_scope_guard.cpp
         test_singleton.cpp
         test_span.cpp
