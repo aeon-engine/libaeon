@@ -28,6 +28,7 @@ add_subdirectory(streams)
 add_subdirectory(testing)
 add_subdirectory(tracelog)
 add_subdirectory(utility)
+add_subdirectory(unicode)
 
 if (AEON_ENABLE_MONO)
     add_subdirectory(mono)

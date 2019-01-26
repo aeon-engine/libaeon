@@ -22,3 +22,4 @@ bintray json11 1.0.0
 bintray freetype2 2.9.1
 bintray rtmidi 3.0.0
 bintray asio 1.12.2
+bintray icu 64.0.81
