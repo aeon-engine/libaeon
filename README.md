@@ -41,4 +41,4 @@ In short:
 - No CamelCase. Variables and types must be named_like_this.
 - 120 character maximum line length.
 - No compiler or static analysis warnings. Ever.
-
+- Use the SOLID principles. [Free your functions](https://www.youtube.com/watch?v=WLDT1lDOsb4).
