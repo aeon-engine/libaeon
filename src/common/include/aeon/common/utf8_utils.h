@@ -69,8 +69,6 @@ inline auto utf8_append(iterator_t itr, const char32_t c) -> iterator_t;
 
 inline void utf8_append(std::string &str, const char32_t c);
 
-inline auto utf8_to_string(const char32_t c) -> std::string;
-
 } // namespace aeon::common::utf8
 
 #include <aeon/common/impl/utf8_utils_impl.h>
