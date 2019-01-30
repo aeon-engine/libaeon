@@ -20,6 +20,7 @@ public:
     explicit utf8_iterator(const std::string_view &str) noexcept
         : base_utf_iterator<std::string_view, std::uint8_t>{str}
     {
+        consume_bom();
         advance();
     }
 
@@ -62,6 +63,15 @@ public:
     }
 
 private:
+    void consume_bom() noexcept
+    {
+        if (len_ < 3)
+            return;
+
+        if (str_[0] == 0xEF && str_[1] == 0xBB && str_[2] == 0xBF)
+            next_offset_ += 3;
+    }
+
     void advance() noexcept;
 };
 

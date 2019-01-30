@@ -20,6 +20,7 @@ public:
     explicit utf16_iterator(const std::wstring_view &str) noexcept
         : base_utf_iterator<std::wstring_view, char16_t>{str}
     {
+        consume_bom();
         advance();
     }
 
@@ -62,6 +63,15 @@ public:
     }
 
 private:
+    void consume_bom() noexcept
+    {
+        if (len_ == 0)
+            return;
+
+        if (str_[0] == 0xFEFF || str_[0] == 0xFFFE)
+            ++next_offset_;
+    }
+
     void advance() noexcept;
 };
 
