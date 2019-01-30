@@ -28,9 +28,6 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/timer.h
     include/aeon/common/type_traits.h
     include/aeon/common/unused.h
-    include/aeon/common/utf8_string_view.h
-    include/aeon/common/utf8_utils.h
-    include/aeon/common/utf8_convert.h
     include/aeon/common/variant.h
     include/aeon/common/version.h
 )
@@ -38,9 +35,6 @@ set(LIB_AEON_COMMON_SOURCE
 source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
 
 set(LIB_AEON_COMMON_IMPL_SOURCE
-    include/aeon/common/impl/utf8_string_view_impl.h
-    include/aeon/common/impl/utf8_utils_impl.h
-    include/aeon/common/impl/utf8_convert_impl.h
     include/aeon/common/impl/string_impl.h
 )
 

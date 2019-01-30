@@ -8,7 +8,7 @@
 #include <aeon/imaging/filters/blit.h>
 #include <aeon/imaging/converters/convert_encoding.h>
 #include <aeon/common/preprocessor.h>
-#include <aeon/common/utf8_string_view.h>
+#include <aeon/unicode/utf_string_view.h>
 #include "fonts_unittest_data.h"
 
 using namespace aeon;
@@ -56,7 +56,7 @@ static auto generate_text_image(const fonts::face &face, const std::string &str)
 
     math::vector2<int> position{30, 60};
 
-    common::utf8::utf8_string_view view{str};
+    unicode::utf_string_view view{str};
 
     for (const auto c : view)
     {

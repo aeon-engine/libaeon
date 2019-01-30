@@ -25,6 +25,7 @@ set_target_properties(aeon_fonts PROPERTIES
 
 target_include_directories(aeon_fonts PUBLIC include)
 target_link_libraries(aeon_fonts
+    aeon_common
     aeon_imaging
     aeon_streams
     Freetype::Freetype

@@ -9,7 +9,7 @@ add_unit_test_suite(
         main.cpp
         test_fonts.cpp
     INCLUDES ${CMAKE_CURRENT_BINARY_DIR}
-    LIBRARIES aeon_fonts aeon_testing
+    LIBRARIES aeon_fonts aeon_unicode aeon_testing
     FOLDER dep/libaeon/tests
 )
 
