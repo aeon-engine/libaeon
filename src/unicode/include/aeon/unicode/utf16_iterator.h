@@ -53,7 +53,7 @@ public:
 
     auto operator==(const utf16_iterator &other) const noexcept
     {
-        aeon_assert(begin_ == other.begin_ && len_ == other.len_, "utf8_string_iterator range mismatch.");
+        aeon_assert(str_ == other.str_ && len_ == other.len_, "utf8_string_iterator range mismatch.");
         return offset_ == other.offset_;
     }
 

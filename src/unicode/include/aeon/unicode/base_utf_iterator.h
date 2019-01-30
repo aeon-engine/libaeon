@@ -54,8 +54,7 @@ public:
 
 protected:
     explicit base_utf_iterator(const string_view_type_t &str) noexcept
-        : begin_{reinterpret_cast<const char_type_t *>(std::data(str))}
-        , str_{begin_}
+        : str_{reinterpret_cast<const char_type_t *>(std::data(str))}
         , len_{static_cast<std::int32_t>(std::size(str))}
         , offset_{0}
         , next_offset_{0}
@@ -66,8 +65,7 @@ protected:
     }
 
     explicit base_utf_iterator(const string_view_type_t &str, const std::int32_t offset) noexcept
-        : begin_{reinterpret_cast<const char_type_t *>(std::data(str))}
-        , str_{begin_}
+        : str_{reinterpret_cast<const char_type_t *>(std::data(str))}
         , len_{static_cast<std::int32_t>(std::size(str))}
         , offset_{offset}
         , next_offset_{0}
@@ -79,7 +77,6 @@ protected:
 
     ~base_utf_iterator() = default;
 
-    const char_type_t *begin_;
     const char_type_t *str_;
     std::int32_t len_;
     std::int32_t offset_;
