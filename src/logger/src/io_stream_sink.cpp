@@ -2,13 +2,11 @@
 
 #include <aeon/logger/io_stream_sink.h>
 #include <aeon/streams/stream_writer.h>
-#include <aeon/streams/io_stream.h>
-#include <aeon/streams/stream_string_operators.h>
 
 namespace aeon::logger
 {
 
-io_stream_sink::io_stream_sink(streams::io_stream &stream)
+io_stream_sink::io_stream_sink(streams::stdio_device &stream)
     : stream_(stream)
 {
 }
@@ -17,8 +15,10 @@ void io_stream_sink::log(const std::string &message, const std::string &module, 
 {
     streams::stream_writer writer(stream_);
 
+    // TODO: This should be optimized with a string formatter. Perhaps a stream filter can help.
+
     stream_.set_color(aeon::streams::color::white);
-    stream_.write(reinterpret_cast<const std::uint8_t *>("["), 1);
+    writer << '[';
 
     stream_.set_color(aeon::streams::color::cyan);
 
@@ -26,7 +26,7 @@ void io_stream_sink::log(const std::string &message, const std::string &module, 
 
     stream_.set_color(aeon::streams::color::white);
 
-    stream_.write(reinterpret_cast<const std::uint8_t *>("] ["), 3);
+    writer << "] [";
 
     stream_.set_color(log_level_to_color_(level));
 
@@ -35,9 +35,9 @@ void io_stream_sink::log(const std::string &message, const std::string &module, 
 
     stream_.set_color(aeon::streams::color::white);
 
-    stream_.write(reinterpret_cast<const std::uint8_t *>("]: "), 3);
-
-    writer.write_line(message);
+    writer << "]: ";
+    writer << message;
+    writer << '\n';
 }
 
 auto io_stream_sink::log_level_to_color_(log_level level) const -> streams::color

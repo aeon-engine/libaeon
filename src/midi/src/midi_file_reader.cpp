@@ -2,8 +2,7 @@
 
 #include <aeon/midi/midi_file_reader.h>
 #include <aeon/midi/midi_messages.h>
-#include <aeon/streams/file_stream.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/common/endianness.h>
 #include <aeon/common/bitflags.h>
@@ -48,17 +47,19 @@ midi_file_reader::~midi_file_reader()
 
 void midi_file_reader::read_file(const std::string &filename)
 {
-    streams::file_stream file_stream(filename, streams::access_mode::read, streams::file_mode::binary);
-    auto midi_data = file_stream.read_to_vector();
-    streams::memory_stream memory_stream(std::move(midi_data), streams::access_mode::read);
+    streams::file_source_device stream{filename, streams::file_mode::binary};
+    streams::stream_reader reader{stream};
+
+    auto midi_data = reader.read_to_vector();
+    streams::memory_device memory_stream{std::move(midi_data)};
 
     read_header(memory_stream);
     read_all_track_chunks(memory_stream);
 }
 
-void midi_file_reader::read_header(streams::memory_stream &stream)
+void midi_file_reader::read_header(streams::memory_device<char> &stream)
 {
-    streams::stream_reader<streams::memory_stream> reader(stream);
+    streams::stream_reader reader(stream);
 
     std::uint32_t mthd = 0;
     reader >> mthd;
@@ -122,7 +123,7 @@ void midi_file_reader::parse_divisions(const std::uint16_t divisions)
     }
 }
 
-void midi_file_reader::read_all_track_chunks(streams::memory_stream &stream)
+void midi_file_reader::read_all_track_chunks(streams::memory_device<char> &stream)
 {
     for (auto i = 0u; i < tracks_; ++i)
     {
@@ -130,23 +131,17 @@ void midi_file_reader::read_all_track_chunks(streams::memory_stream &stream)
     }
 }
 
-void midi_file_reader::read_next_track_chunk(streams::memory_stream &stream)
+void midi_file_reader::read_next_track_chunk(streams::memory_device<char> &stream)
 {
-    auto track_length = read_track_header(stream);
-
-    std::vector<std::uint8_t> track_data;
-    auto result = stream.vector_read(track_data, track_length);
-
-    if (result != track_length)
-        throw std::runtime_error("Could not read track data!");
-
-    streams::memory_stream memory_stream(std::move(track_data), streams::access_mode::read);
+    streams::stream_reader reader{stream};
+    auto track_data = reader.read_to_vector(read_track_header(stream));
+    streams::memory_device memory_stream{std::move(track_data)};
     parse_track_data(memory_stream);
 }
 
-std::uint32_t midi_file_reader::read_track_header(streams::memory_stream &stream) const
+std::uint32_t midi_file_reader::read_track_header(streams::memory_device<char> &stream) const
 {
-    streams::stream_reader<streams::memory_stream> reader(stream);
+    streams::stream_reader reader{stream};
 
     std::uint32_t mtrk = 0;
     reader >> mtrk;
@@ -159,13 +154,13 @@ std::uint32_t midi_file_reader::read_track_header(streams::memory_stream &stream
     return common::endianness::swap32(track_length);
 }
 
-void midi_file_reader::parse_track_data(streams::memory_stream &stream)
+void midi_file_reader::parse_track_data(streams::memory_device<char> &stream)
 {
-    streams::stream_reader<streams::memory_stream> reader(stream);
+    streams::stream_reader reader{stream};
 
     while (!stream.eof())
     {
-        std::uint32_t vtime = read_vtime(stream);
+        auto vtime = read_vtime(stream);
         std::uint8_t event = 0;
         reader >> event;
 
@@ -185,9 +180,9 @@ void midi_file_reader::parse_track_data(streams::memory_stream &stream)
     }
 }
 
-std::uint32_t midi_file_reader::read_vtime(streams::memory_stream &stream)
+std::uint32_t midi_file_reader::read_vtime(streams::memory_device<char> &stream)
 {
-    streams::stream_reader<streams::memory_stream> reader(stream);
+    streams::stream_reader reader{stream};
 
     std::uint8_t value_part;
     reader >> value_part;
@@ -204,41 +199,34 @@ std::uint32_t midi_file_reader::read_vtime(streams::memory_stream &stream)
     return value;
 }
 
-void midi_file_reader::parse_meta_event(streams::memory_stream &stream)
+void midi_file_reader::parse_meta_event(streams::memory_device<char> &stream)
 {
-    streams::stream_reader<streams::memory_stream> reader(stream);
+    streams::stream_reader reader{stream};
     std::uint8_t meta_type = 0;
     reader >> meta_type;
 
-    std::uint32_t metadata_length = read_vtime(stream);
+    const auto metadata_length = read_vtime(stream);
 
     if (metadata_length == 0)
         return;
 
-    std::vector<std::uint8_t> metadata;
-    auto result = stream.vector_read(metadata, metadata_length);
-
-    if (result != metadata_length)
-        throw std::runtime_error("Invalid or corrupt midi file. Could not read metadata.");
+    auto metadata = reader.read_to_vector(metadata_length);
 }
 
-void midi_file_reader::parse_sysex_event(streams::memory_stream &stream)
+void midi_file_reader::parse_sysex_event(streams::memory_device<char> &stream)
 {
     std::uint32_t sysex_length = read_vtime(stream);
 
     if (sysex_length == 0)
         return;
 
-    std::vector<std::uint8_t> sysex_data;
-    auto result = stream.vector_read(sysex_data, sysex_length);
-
-    if (result != sysex_length)
-        throw std::runtime_error("Invalid or corrupt midi file. Could not read sysex data.");
+    streams::stream_reader reader{stream};
+    auto sysex_data = reader.read_to_vector(sysex_length);
 }
 
-void midi_file_reader::parse_midi_event(streams::memory_stream &stream, const std::uint8_t message)
+void midi_file_reader::parse_midi_event(streams::memory_device<char> &stream, const std::uint8_t message)
 {
-    streams::stream_reader<streams::memory_stream> reader(stream);
+    streams::stream_reader reader{stream};
 
     if ((message & 0xF0) == messages::note_off)
     {

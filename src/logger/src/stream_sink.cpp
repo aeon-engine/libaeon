@@ -2,33 +2,31 @@
 
 #include <aeon/logger/stream_sink.h>
 #include <aeon/streams/stream.h>
-#include <aeon/streams/stream_writer.h>
-#include <aeon/streams/stream_string_operators.h>
+#include <aeon/streams/dynamic_stream_writer.h>
 
 namespace aeon::logger
 {
 
-stream_sink::stream_sink(streams::stream &stream)
+stream_sink::stream_sink(streams::idynamic_stream &stream)
     : stream_(stream)
 {
 }
 
 void stream_sink::log(const std::string &message, const std::string &module, log_level level)
 {
-    streams::stream_writer writer(stream_);
+    streams::dynamic_stream_writer writer(stream_);
 
-    stream_.write(reinterpret_cast<const std::uint8_t *>("["), 1);
-
+    writer << '[';
     writer << module;
-
-    stream_.write(reinterpret_cast<const std::uint8_t *>("] ["), 3);
+    writer << "] [";
 
     const std::string log_level_string = log_level_str[static_cast<int>(level)];
     writer << log_level_string;
 
-    stream_.write(reinterpret_cast<const std::uint8_t *>("]: "), 3);
+    writer << "]: ";
 
-    writer.write_line(message);
+    writer << message;
+    writer << '\n';
 }
 
 } // namespace aeon::logger

@@ -1,6 +1,7 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/sockets/tcp_socket.h>
+#include <aeon/streams/dynamic_stream_reader.h>
 #include <asio/write.hpp>
 #include <asio/buffered_stream.hpp>
 #include <asio/connect.hpp>
@@ -39,15 +40,19 @@ void tcp_socket::on_error(const std::error_code &ec)
 {
 }
 
-void tcp_socket::send(streams::stream &stream)
+void tcp_socket::send(streams::idynamic_stream &stream)
 {
-    const auto memorystream = std::make_shared<streams::memory_stream>(stream.read_to_vector());
+    streams::dynamic_stream_reader reader(stream);
+
+    std::vector<std::uint8_t> vec;
+    reader.read_to_vector(vec);
+    const auto memorystream = std::make_shared<streams::memory_device<std::uint8_t>>(std::move(vec));
     send(memorystream);
 }
 
-void tcp_socket::send(const std::shared_ptr<streams::memory_stream> &stream)
+void tcp_socket::send(const std::shared_ptr<streams::memory_device<std::uint8_t>> &stream)
 {
-    if (stream->empty())
+    if (stream->size() == 0)
         return;
 
     auto self(shared_from_this());

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/streams/stream_fwd.h>
+#include <aeon/streams/idynamic_stream.h>
 #include <aeon/common/string_traits.h>
 #include <aeon/common/stdfilesystem.h>
 
@@ -116,13 +116,13 @@ public:
      * Load a config from a stream
      * \param stream The configfile to load
      */
-    void load(streams::stream &stream);
+    void load(streams::idynamic_stream &stream);
 
     /*!
      * Save a config to a stream
      * \param stream The configfile to save.
      */
-    void save(streams::stream &stream) const;
+    void save(streams::idynamic_stream &stream) const;
 
     /*!
      * Load a config from a file
@@ -141,11 +141,9 @@ public:
      * Load a config from memory
      * \param data Vector to load from. It will be treated as a text
      *             file in memory. This means that \n or \n\r will
-     *             be treated as seperators. The vector must be moved
-     *             into the config file due to the way the underlaying
-     *             stream works.
+     *             be treated as seperators.
      */
-    void load(std::vector<std::uint8_t> &&data);
+    void load(const std::vector<char> &data);
 
     /*!
      * Save a config to memory
@@ -154,7 +152,7 @@ public:
      *             be treated as seperators. The vector will be
      *             cleared first.
      */
-    void save(std::vector<std::uint8_t> &data) const;
+    void save(std::vector<char> &data) const;
 
     /*!
      * Begin iterator for foreach loops.

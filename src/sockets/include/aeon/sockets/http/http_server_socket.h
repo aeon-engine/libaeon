@@ -5,8 +5,9 @@
 #include <aeon/sockets/http/request.h>
 #include <aeon/sockets/http/status_code.h>
 #include <aeon/sockets/tcp_socket.h>
-#include <aeon/sockets/config.h>
-#include <aeon/streams/circular_buffer_stream.h>
+#include <aeon/streams/devices/memory_device.h>
+#include <aeon/streams/filters/circular_buffer_filter.h>
+#include <aeon/streams/stream.h>
 #include <asio.hpp>
 #include <string>
 
@@ -46,7 +47,8 @@ public:
     auto operator=(const http_server_socket &) -> http_server_socket & = delete;
 
     void respond(const std::string &content_type, const std::string &data, const status_code code = status_code::ok);
-    void respond(const std::string &content_type, streams::stream &data, const status_code code = status_code::ok);
+    void respond(const std::string &content_type, streams::idynamic_stream &data,
+                 const status_code code = status_code::ok);
 
     void respond_default(const status_code code);
 
@@ -69,8 +71,8 @@ private:
 
     http_state state_;
     request request_;
-    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
-    std::uint64_t expected_content_length_;
+    streams::aggregate_device<streams::circular_buffer_filter, streams::memory_device<char>> circular_buffer_;
+    std::streamoff expected_content_length_;
 };
 
 } // namespace aeon::sockets::http

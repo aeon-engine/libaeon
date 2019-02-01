@@ -5,7 +5,11 @@
 namespace aeon::streams
 {
 
-template <unsigned int circular_buffer_size>
-class circular_buffer_stream;
+enum class seek_direction
+{
+    begin,
+    current,
+    end
+};
 
 } // namespace aeon::streams

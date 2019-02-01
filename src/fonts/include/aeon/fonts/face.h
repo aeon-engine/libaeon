@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/fonts/glyph.h>
-#include <aeon/streams/stream_fwd.h>
+#include <aeon/streams/idynamic_stream.h>
 #include <memory>
 #include <vector>
 
@@ -35,8 +35,8 @@ public:
     auto load_glyph(const char32_t control_code) const -> glyph;
 
 private:
-    face(FT_LibraryRec_ *library, streams::stream &stream, const float points, const int dpi);
-    face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<streams::stream>> &streams,
+    face(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi);
+    face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<streams::idynamic_stream>> &streams,
          const float points, const int dpi);
 
     std::vector<std::unique_ptr<face_wrapper>> faces_;

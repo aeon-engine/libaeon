@@ -5,6 +5,8 @@
 #define ENABLE_TEMPORARY_FILE_FIXTURE
 #include <aeon/testing/temporary_file_fixture.h>
 #include <aeon/utility/configfile.h>
+#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/devices/memory_device.h>
 #include <string>
 
 using namespace std::string_literals;
@@ -85,12 +87,11 @@ TEST_F(temporary_file_fixture, test_configfile_default_value)
 
 TEST(test_configfile, test_configfile_read_from_memory)
 {
-    std::string data = "test=123\nblah=42\nsomething=hello\n";
-    std::vector<std::uint8_t> vec(data.size());
-    memcpy(vec.data(), data.data(), data.size());
-
+    const std::string data = "test=123\nblah=42\nsomething=hello\n";
     aeon::utility::configfile file;
-    ASSERT_NO_THROW(file.load(std::move(vec)));
+
+    auto stream = aeon::streams::make_dynamic_stream(aeon::streams::memory_device{data});
+    ASSERT_NO_THROW(file.load(stream));
 
     ASSERT_TRUE(file.has_entry("test"));
     ASSERT_TRUE(file.has_entry("blah"));
@@ -110,7 +111,7 @@ TEST(test_configfile, test_configfile_read_to_memory)
     file.set("one_or_another", 42.42f);
     file.set("one_theone", false);
 
-    std::vector<std::uint8_t> vec;
+    std::vector<char> vec;
     ASSERT_NO_THROW(file.save(vec));
     ASSERT_FALSE(vec.empty());
 }

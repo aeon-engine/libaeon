@@ -3,22 +3,53 @@
 #pragma once
 
 #include <aeon/utility/uuid.h>
+#include <aeon/streams/dynamic_stream_writer.h>
+#include <aeon/streams/dynamic_stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
 
 namespace aeon::utility
 {
 
-inline auto operator<<(streams::stream_writer &stream, const uuid &val) -> streams::stream_writer &
+template <typename device_t>
+inline auto operator<<(streams::stream_writer<device_t> &stream, const uuid &val)
 {
-    stream.internal_stream().write(val.data.data(), val.size());
+    const auto size = static_cast<std::streamsize>(val.size());
+
+    if (stream.device().write(reinterpret_cast<const char *>(val.data.data()), size) != size)
+        throw streams::stream_exception{};
+
     return stream;
 }
 
-template <typename T>
-inline auto operator>>(streams::stream_reader<T> &stream, uuid &val) -> streams::stream_reader<T> &
+template <typename device_t>
+inline auto operator>>(streams::stream_reader<device_t> &stream, uuid &val)
 {
-    stream.internal_stream().read(val.data.data(), val.size());
+    const auto size = static_cast<std::streamsize>(val.size());
+
+    if (stream.device().read(reinterpret_cast<char *>(val.data.data()), size) != size)
+        throw streams::stream_exception{};
+
+    return stream;
+}
+
+inline auto operator<<(streams::dynamic_stream_writer &stream, const uuid &val)
+{
+    const auto size = static_cast<std::streamsize>(val.size());
+
+    if (stream.device().write(reinterpret_cast<const char *>(val.data.data()), size) != size)
+        throw streams::stream_exception{};
+
+    return stream;
+}
+
+inline auto operator>>(streams::dynamic_stream_reader &stream, uuid &val)
+{
+    const auto size = static_cast<std::streamsize>(val.size());
+
+    if (stream.device().read(reinterpret_cast<char *>(val.data.data()), size) != size)
+        throw streams::stream_exception{};
+
     return stream;
 }
 

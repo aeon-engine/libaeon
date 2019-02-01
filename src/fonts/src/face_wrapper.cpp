@@ -2,7 +2,7 @@
 
 #include <aeon/fonts/face_wrapper.h>
 #include <aeon/fonts/exceptions.h>
-#include <aeon/streams/stream.h>
+#include <aeon/streams/dynamic_stream_reader.h>
 #include <ft2build.h>
 #include <freetype/freetype.h>
 #include <freetype/tttables.h>
@@ -16,12 +16,12 @@ namespace internal
 // 1 point is 1/72th of an inch.
 static constexpr auto points_per_inch = 72.0f;
 
-auto create_freetype_face(FT_LibraryRec_ *library, const std::vector<std::uint8_t> &data, const int index)
-    -> FT_FaceRec_ *
+auto create_freetype_face(FT_LibraryRec_ *library, const std::vector<char> &data, const int index) -> FT_FaceRec_ *
 {
     FT_Face face = nullptr;
 
-    if (FT_New_Memory_Face(library, data.data(), static_cast<FT_Long>(data.size()), 0, &face) != 0)
+    if (FT_New_Memory_Face(library, reinterpret_cast<const FT_Byte *>(std::data(data)),
+                           static_cast<FT_Long>(std::size(data)), 0, &face) != 0)
         throw font_exception{};
 
     return face;
@@ -122,8 +122,8 @@ static auto load_glyph(const FT_Face face, const bool has_color_emoji, const int
 
 } // namespace internal
 
-face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::stream &stream, const float points, const int dpi)
-    : face_data_{stream.read_to_vector()}
+face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi)
+    : face_data_{streams::dynamic_stream_reader{stream}.read_to_vector()}
     , face_{internal::create_freetype_face(library, face_data_, 0), internal::free_freetype_face}
     , has_color_emoji_{internal::has_color_emoji(face_.get())}
     , dimensions_px_{internal::points_to_pixels(points, dpi)}

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/sockets/http/status_code.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/devices/memory_device.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -39,7 +39,7 @@ private:
 
     status_code status_;
     std::vector<std::string> raw_headers_;
-    streams::memory_stream content_;
+    streams::memory_device<char> content_;
 };
 
 } // namespace aeon::sockets::http

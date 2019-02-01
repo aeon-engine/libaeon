@@ -2,9 +2,10 @@
 
 #include <aeon/sockets/http/http_client_socket.h>
 #include <aeon/sockets/http/url_encoding.h>
-#include <aeon/streams/memory_stream.h>
-#include <aeon/streams/stream_reader.h>
 #include <aeon/sockets/http/constants.h>
+#include <aeon/sockets/config.h>
+#include <aeon/streams/stream_reader.h>
+#include <aeon/streams/dynamic_stream.h>
 #include <aeon/common/string.h>
 #include <aeon/common/assert.h>
 
@@ -15,7 +16,8 @@ http_client_socket::http_client_socket(asio::io_context &context)
     : tcp_socket{context}
     , state_{http_state::client_read_status}
     , reply_{}
-    , circular_buffer_{}
+    , circular_buffer_{streams::circular_buffer_filter{},
+                       streams::memory_device<char>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
     , expected_content_length_{0}
 {
 }
@@ -24,23 +26,24 @@ http_client_socket::~http_client_socket() = default;
 
 void http_client_socket::request_async(const std::string &host, const std::string &uri, const http_method method)
 {
-    streams::memory_stream stream;
-    auto request = "GET " + url_encode(uri) + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
-
-    stream.write(reinterpret_cast<const std::uint8_t *>(request.c_str()), request.size());
+    const auto request =
+        "GET " + url_encode(uri) + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
+    auto stream = streams::make_dynamic_stream(streams::memory_device{request});
     send(stream);
 }
 
 void http_client_socket::on_data(const std::uint8_t *data, const std::size_t size)
 {
-    circular_buffer_.write(data, size);
+    circular_buffer_.write(reinterpret_cast<const char *>(data), size);
     streams::stream_reader reader(circular_buffer_);
 
-    while (!circular_buffer_.empty())
+    while (circular_buffer_.size() != 0)
     {
         if (state_ == http_state::client_read_body)
         {
-            reply_.append_raw_content_data(circular_buffer_.read_to_vector());
+            std::vector<std::uint8_t> vec;
+            reader.read_to_vector(vec);
+            reply_.append_raw_content_data(vec);
 
             if (reply_.get_content_length() >= expected_content_length_)
             {

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/sockets/http/method.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/devices/memory_device.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -41,7 +41,7 @@ public:
 
     auto has_content() const
     {
-        return !content_.empty();
+        return content_.size() != 0;
     }
 
     auto get_content() const -> std::vector<std::uint8_t>;
@@ -62,7 +62,7 @@ private:
     std::vector<std::string> raw_headers_;
 
     std::string content_type_;
-    mutable streams::memory_stream content_; // TODO: Fix const correctness in memory stream.
+    mutable streams::memory_device<char> content_;
 };
 
 auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;

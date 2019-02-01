@@ -7,9 +7,12 @@ add_unit_test_suite(
     TARGET test_libaeon_streams
     SOURCES
         main.cpp
-        test_circular_buffer_stream.cpp
-        test_memory_stream.cpp
+        test_circular_buffer_filter.cpp
+        test_dynamic_stream.cpp
+        test_memory_device.cpp
+        test_streams.cpp
         test_stream_reader.cpp
+        test_stream_writer.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_streams

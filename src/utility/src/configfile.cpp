@@ -1,12 +1,12 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/utility/configfile.h>
-#include <aeon/streams/stream_reader.h>
-#include <aeon/streams/stream_writer.h>
-#include <aeon/streams/file_stream.h>
-#include <aeon/streams/memory_stream.h>
-#include <aeon/streams/stream.h>
-#include <aeon/streams/access_mode_mixin.h>
+#include <aeon/streams/dynamic_stream_reader.h>
+#include <aeon/streams/dynamic_stream_writer.h>
+#include <aeon/streams/devices/file_device.h>
+#include <aeon/streams/devices/span_device.h>
+#include <aeon/streams/devices/memory_device.h>
+#include <aeon/streams/dynamic_stream.h>
 
 namespace aeon::utility
 {
@@ -17,52 +17,35 @@ bool configfile::has_entry(const std::string &key) const
     return (itr != entries_.end());
 }
 
-void configfile::load(streams::stream &stream)
+void configfile::load(streams::idynamic_stream &stream)
 {
-    if (!stream.good())
+    if (stream.has_status() && !stream.good())
         throw configfile_exception();
 
     entries_.clear();
 
     // Loop through all lines
-    int linenumber = 0;
-    std::string line;
-
-    // A stream reader on a file stream is optimized for reading lines if the file was opened in text mode.
-    // This will likely break on files opened as binary.
-    if (stream.is<streams::file_stream>())
+    auto line_number = 0;
+    streams::dynamic_stream_reader reader(stream);
+    while (!stream.eof())
     {
-        streams::stream_reader reader(stream.as<streams::file_stream>());
-        while (!stream.eof())
-        {
-            line = reader.read_line();
-            ++linenumber;
-            __read_line(line);
-        }
-    }
-    else
-    {
-        streams::stream_reader reader(stream);
-        while (!stream.eof())
-        {
-            line = reader.read_line();
-            ++linenumber;
-            __read_line(line);
-        }
+        const auto line = reader.read_line();
+        ++line_number;
+        __read_line(line);
     }
 }
 
-void configfile::save(streams::stream &stream) const
+void configfile::save(streams::idynamic_stream &stream) const
 {
-    if (!stream.good())
+    if (stream.has_status() && !stream.good())
         throw configfile_exception();
 
-    streams::stream_writer writer(stream);
+    streams::dynamic_stream_writer writer(stream);
 
     for (const auto &itr : entries_)
     {
         const auto line = itr.first + "=" + itr.second;
-        writer.write_line(line);
+        writer << line << '\n';
     }
 }
 
@@ -70,10 +53,10 @@ void configfile::load(const std::filesystem::path &path)
 {
     try
     {
-        streams::file_stream stream(path, streams::access_mode::read, streams::file_mode::text);
+        auto stream = streams::make_dynamic_stream(streams::file_source_device{path, streams::file_mode::binary});
         load(stream);
     }
-    catch (const streams::file_stream_exception &)
+    catch (const streams::stream_exception &)
     {
         throw configfile_exception();
     }
@@ -81,23 +64,25 @@ void configfile::load(const std::filesystem::path &path)
 
 void configfile::save(const std::filesystem::path &path) const
 {
-    streams::file_stream stream(path, streams::access_mode::write | streams::access_mode::truncate,
-                                streams::file_mode::text);
-
+    auto stream = streams::make_dynamic_stream(
+        streams::file_sink_device{path, streams::file_mode::binary, streams::file_flag::truncate});
     save(stream);
 }
 
-void configfile::load(std::vector<std::uint8_t> &&data)
+void configfile::load(const std::vector<char> &data)
 {
-    streams::memory_stream stream(std::move(data), streams::access_mode::read);
+    // TODO: Fix issue with const vector
+    auto stream = streams::make_dynamic_stream(streams::memory_device{data});
     load(stream);
 }
 
-void configfile::save(std::vector<std::uint8_t> &data) const
+void configfile::save(std::vector<char> &data) const
 {
-    streams::memory_stream stream;
+    auto stream = streams::make_dynamic_stream(streams::memory_device<char>{});
     save(stream);
-    data = stream.read_to_vector();
+
+    streams::dynamic_stream_reader reader(stream);
+    reader.read_to_vector(data);
 }
 
 void configfile::__read_line(const std::string &line)

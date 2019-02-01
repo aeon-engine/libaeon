@@ -1,6 +1,7 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/sockets/http/request.h>
+#include <aeon/streams/stream_reader.h>
 #include <aeon/common/string.h>
 
 namespace aeon::sockets::http
@@ -26,14 +27,17 @@ request::request(const std::string &method, std::string uri)
 
 auto request::get_content() const -> std::vector<std::uint8_t>
 {
-    return content_.read_to_vector();
+    streams::stream_reader reader{content_};
+    std::vector<std::uint8_t> vec;
+    reader.read_to_vector(vec);
+    return vec;
 }
 
 auto request::get_content_string() const -> std::string
 {
-    const auto data = content_.read_to_vector();
-    std::string str{std::begin(data), std::end(data)};
-    return str;
+    streams::stream_reader reader{content_};
+    const auto data = reader.read_to_string();
+    return data;
 }
 
 auto request::get_content_type() const -> std::string
@@ -53,7 +57,7 @@ void request::append_raw_http_header_line(const std::string &header_line)
 
 void request::append_raw_content_data(const std::vector<std::uint8_t> &data) const
 {
-    content_.vector_write(data);
+    content_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
 }
 
 void request::set_content_type(const std::string &content_type)

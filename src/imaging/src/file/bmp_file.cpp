@@ -2,9 +2,11 @@
 
 #include <aeon/imaging/file/bmp_file.h>
 #include <aeon/imaging/filters/invert.h>
-#include <aeon/streams/file_stream.h>
+#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/devices/file_device.h>
 #include <aeon/common/compilers.h>
 #include <aeon/common/literals.h>
+#include <aeon/common/signed_sizeof.h>
 #include <cstdint>
 
 namespace aeon::imaging::file::bmp
@@ -50,16 +52,16 @@ auto calculate_stride(const bitmap_info_header &info_header) noexcept
 
 auto load(const std::filesystem::path &path) -> dynamic_image
 {
-    auto stream = streams::file_stream{path, streams::access_mode::read, streams::file_mode::binary};
+    auto stream = streams::make_dynamic_stream(streams::file_source_device{path});
     return load(stream);
 }
 
-auto load(streams::stream &stream) -> dynamic_image
+auto load(streams::idynamic_stream &stream) -> dynamic_image
 {
     detail::bitmap_file_header header{};
 
-    if (stream.read(reinterpret_cast<std::uint8_t *>(&header), sizeof(detail::bitmap_file_header)) !=
-        sizeof(detail::bitmap_file_header))
+    if (stream.read(reinterpret_cast<char *>(&header), aeon_signed_sizeof(detail::bitmap_file_header)) !=
+        aeon_signed_sizeof(detail::bitmap_file_header))
         throw load_exception();
 
     if (header.type != detail::expected_bitmap_type)
@@ -67,16 +69,16 @@ auto load(streams::stream &stream) -> dynamic_image
 
     detail::bitmap_info_header info_header{};
 
-    if (stream.read(reinterpret_cast<std::uint8_t *>(&info_header), sizeof(detail::bitmap_info_header)) !=
-        sizeof(detail::bitmap_info_header))
+    if (stream.read(reinterpret_cast<char *>(&info_header), aeon_signed_sizeof(detail::bitmap_info_header)) !=
+        aeon_signed_sizeof(detail::bitmap_info_header))
         throw load_exception();
 
-    if (!stream.seek(header.offbits, streams::stream::seek_direction::begin))
+    if (!stream.seekg(header.offbits, streams::seek_direction::begin))
         throw load_exception();
 
     std::vector<std::byte> pixel_data(info_header.size_image);
 
-    if (stream.read(reinterpret_cast<uint8_t *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
+    if (stream.read(reinterpret_cast<char *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
         throw load_exception();
 
     const auto d =

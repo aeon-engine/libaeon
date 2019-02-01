@@ -3,7 +3,8 @@
 #pragma once
 
 #include <aeon/sockets/config.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/devices/memory_device.h>
+#include <aeon/streams/idynamic_stream.h>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
 #include <asio/strand.hpp>
@@ -47,9 +48,9 @@ public:
     virtual void on_data(const std::uint8_t *data, const std::size_t size) = 0;
     virtual void on_error(const std::error_code &ec);
 
-    void send(streams::stream &stream);
+    void send(streams::idynamic_stream &stream);
 
-    void send(const std::shared_ptr<streams::memory_stream> &stream);
+    void send(const std::shared_ptr<streams::memory_device<std::uint8_t>> &stream);
 
     void disconnect();
 
@@ -62,7 +63,7 @@ private:
     asio::ip::tcp::socket socket_;
     asio::io_context::strand strand_;
     std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
-    std::queue<std::shared_ptr<streams::memory_stream>> send_data_queue_;
+    std::queue<std::shared_ptr<streams::memory_device<std::uint8_t>>> send_data_queue_;
 };
 
 } // namespace aeon::sockets

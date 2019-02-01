@@ -6,7 +6,8 @@
 #include <aeon/sockets/http/url_encoding.h>
 #include <aeon/sockets/http/request.h>
 #include <aeon/sockets/http/constants.h>
-#include <aeon/streams/file_stream.h>
+#include <aeon/streams/devices/file_device.h>
+#include <aeon/streams/dynamic_stream.h>
 #include <aeon/common/string.h>
 #include <cassert>
 
@@ -114,7 +115,7 @@ void static_route::reply_file(http_server_socket &source, routable_http_server_s
 
     const auto mime_type = session.find_mime_type_by_extension(extension);
 
-    streams::file_stream file_stream(file);
+    auto file_stream = streams::make_dynamic_stream(streams::file_source_device{file});
     source.respond(mime_type, file_stream);
 }
 

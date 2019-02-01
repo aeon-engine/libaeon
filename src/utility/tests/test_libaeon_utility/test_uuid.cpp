@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 #include <aeon/utility/uuid.h>
 #include <aeon/utility/uuid_stream.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/devices/memory_device.h>
+#include <aeon/streams/stream_writer.h>
 
 TEST(test_uuid, test_uuid_default_nil)
 {
@@ -77,21 +78,20 @@ TEST(test_uuid, test_write_to_stream)
 {
     auto uuid = aeon::utility::uuid::generate();
 
-    aeon::streams::memory_stream memstream;
-    aeon::streams::stream_writer writer(memstream);
+    aeon::streams::memory_device<char> memstream;
+    aeon::streams::stream_writer writer{memstream};
 
     writer << uuid;
 
-    ASSERT_EQ(uuid.size(), memstream.size());
+    ASSERT_EQ(static_cast<std::streamoff>(uuid.size()), memstream.size());
 }
 
 TEST(test_uuid, test_read_from_stream)
 {
     auto uuid = aeon::utility::uuid::generate();
 
-    aeon::streams::memory_stream memstream;
-    memstream.write(uuid.data.data(), uuid.size());
-    memstream.seek(0, aeon::streams::stream::seek_direction::begin);
+    aeon::streams::memory_device<char> memstream;
+    memstream.write(reinterpret_cast<const char *>(uuid.data.data()), uuid.size());
 
     aeon::streams::stream_reader reader(memstream);
 

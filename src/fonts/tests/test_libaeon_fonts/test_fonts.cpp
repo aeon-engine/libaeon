@@ -3,7 +3,9 @@
 #include <gtest/gtest.h>
 
 #include <aeon/fonts/font_manager.h>
-#include <aeon/streams/file_stream.h>
+#include <aeon/streams/devices/file_device.h>
+#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/dynamic_stream_reader.h>
 #include <aeon/imaging/file/png_file.h>
 #include <aeon/imaging/filters/blit.h>
 #include <aeon/imaging/converters/convert_encoding.h>
@@ -22,7 +24,8 @@ TEST(test_fonts, test_font_manager_init)
 TEST(test_fonts, test_load_glyph)
 {
     fonts::font_manager mgr;
-    streams::file_stream font_file{std::string{AEON_FONTS_UNITTEST_DATA_PATH "SourceSansPro-Black.ttf"}};
+    auto font_file = streams::make_dynamic_stream(
+        streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "SourceSansPro-Black.ttf"});
     const auto face = mgr.load_face(font_file, 16.0f);
     const auto glyph = face.load_glyph('A');
 
@@ -37,7 +40,8 @@ TEST(test_fonts, test_load_glyph)
 TEST(test_fonts, test_load_rgb_glyph)
 {
     fonts::font_manager mgr;
-    streams::file_stream font_file{std::string{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"}};
+    auto font_file =
+        streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"});
     const auto face = mgr.load_face(font_file, 16.0f);
     const auto glyph = face.load_glyph(0x1F600); // "Grinning Face"
 
@@ -91,15 +95,18 @@ static auto generate_text_image(const fonts::face &face, const std::string &str)
 TEST(test_fonts, test_load_text_string)
 {
     fonts::font_manager mgr;
-    streams::file_stream font_file1{std::string{AEON_FONTS_UNITTEST_DATA_PATH "mikiyu-newpenji-p.ttf"}};
-    streams::file_stream font_file2{std::string{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"}};
+    auto font_file1 = streams::make_dynamic_stream(
+        streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "mikiyu-newpenji-p.ttf"});
+    auto font_file2 =
+        streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"});
 
     const auto face = mgr.load_multi_face({font_file1, font_file2}, 40.0f);
 
-    streams::file_stream text_file{std::string{AEON_FONTS_UNITTEST_DATA_PATH "lucky_star.txt"}};
-    const auto str = text_file.read_to_vector();
+    auto text_file =
+        streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "lucky_star.txt"});
 
-    const auto image = generate_text_image(face, std::string{std::begin(str), std::end(str)});
+    streams::dynamic_stream_reader reader{text_file};
+    const auto image = generate_text_image(face, reader.read_to_string());
 
     const auto rgb_image = imaging::convert::to_rgb24(image);
     imaging::file::png::save(rgb_image, "test_fonts_text.png");
@@ -108,7 +115,8 @@ TEST(test_fonts, test_load_text_string)
 TEST(test_fonts, test_load_text_string_blit_emoji)
 {
     fonts::font_manager mgr;
-    streams::file_stream font_file{std::string{AEON_FONTS_UNITTEST_DATA_PATH "Precious.ttf"}};
+    auto font_file =
+        streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "Precious.ttf"});
 
     // Generate text image
     const auto face = mgr.load_face(font_file, 40.0f);
@@ -117,7 +125,8 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
     auto text_image = imaging::convert::to_rgba32(generate_text_image(face, str));
 
     // Generate color emoji
-    streams::file_stream font_file2{std::string{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"}};
+    auto font_file2 =
+        streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"});
     const auto face2 = mgr.load_face(font_file2, 16.0f);
     const auto glyph = face2.load_glyph(0x1F600); // "Grinning Face"
     const auto emoji_image = imaging::convert::to_rgba32(glyph.color_view());

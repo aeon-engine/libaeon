@@ -7,12 +7,12 @@
 namespace aeon::fonts
 {
 
-face::face(FT_LibraryRec_ *library, streams::stream &stream, const float points, const int dpi)
+face::face(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi)
 {
     faces_.emplace_back(std::make_unique<face_wrapper>(library, stream, points, dpi));
 }
 
-face::face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<streams::stream>> &streams,
+face::face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<streams::idynamic_stream>> &streams,
            const float points, const int dpi)
 {
     for (const auto &stream : streams)

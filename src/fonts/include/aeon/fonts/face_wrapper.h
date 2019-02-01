@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/fonts/glyph.h>
-#include <aeon/streams/stream_fwd.h>
+#include <aeon/streams/idynamic_stream.h>
 #include <aeon/imaging/image.h>
 #include <memory>
 #include <vector>
@@ -27,7 +27,7 @@ void free_freetype_face(FT_FaceRec_ *face);
 class face_wrapper
 {
 public:
-    face_wrapper(FT_LibraryRec_ *library, streams::stream &stream, const float points, const int dpi);
+    face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi);
     ~face_wrapper();
 
     face_wrapper(const face_wrapper &) = delete;
@@ -45,7 +45,7 @@ public:
     auto load_glyph(const unsigned int glyph_index) const -> glyph;
 
 private:
-    std::vector<std::uint8_t> face_data_;
+    std::vector<char> face_data_;
     std::unique_ptr<FT_FaceRec_, decltype(&internal::free_freetype_face)> face_;
     bool has_color_emoji_;
     int dimensions_px_;

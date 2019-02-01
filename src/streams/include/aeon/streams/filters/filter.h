@@ -5,6 +5,11 @@
 namespace aeon::streams
 {
 
-class file_stream;
+/*!
+ * Base class for all filters.
+ */
+struct filter
+{
+};
 
 } // namespace aeon::streams

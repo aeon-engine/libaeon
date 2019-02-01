@@ -3,8 +3,9 @@
 #pragma once
 
 #include <aeon/sockets/tcp_socket.h>
-#include <aeon/sockets/config.h>
-#include <aeon/streams/circular_buffer_stream.h>
+#include <aeon/streams/devices/memory_device.h>
+#include <aeon/streams/filters/circular_buffer_filter.h>
+#include <aeon/streams/stream.h>
 
 namespace aeon::sockets
 {
@@ -36,7 +37,7 @@ public:
 private:
     void on_data(const std::uint8_t *data, const std::size_t size) override;
 
-    streams::circular_buffer_stream<AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE> circular_buffer_;
+    streams::aggregate_device<streams::circular_buffer_filter, streams::memory_device<char>> circular_buffer_;
 };
 
 } // namespace aeon::sockets

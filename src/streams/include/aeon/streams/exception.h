@@ -2,9 +2,13 @@
 
 #pragma once
 
+#include <exception>
+
 namespace aeon::streams
 {
 
-class memory_stream;
+class stream_exception : public std::exception
+{
+};
 
 } // namespace aeon::streams

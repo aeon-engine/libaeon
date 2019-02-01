@@ -1,46 +1,92 @@
 // Copyright (c) 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/devices/memory_device.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
+#include <gtest/gtest.h>
+#include <fstream>
+#include <utility>
+#include <cstring>
 
-#include <array>
+using namespace aeon;
 
-struct test_fixture_stream_reader_default_data : public ::testing::Test
+TEST(test_streams, test_streams_stream_reader_pod)
 {
-    test_fixture_stream_reader_default_data()
-        : fixture_data({{'A', 'B', 'C', 'D', 'E', '\r', '\n', '1', '2', '3', '4'}})
-        , fixture_data_written(0)
-    {
-        fixture_data_written = stream.write(&fixture_data[0], fixture_data.size());
-    }
+    auto device = streams::memory_device<char>{};
+    streams::stream_writer writer{device};
 
-    void SetUp() override
-    {
-        ASSERT_EQ(fixture_data.size(), fixture_data_written);
-        ASSERT_EQ(stream.tell(), fixture_data_written);
-        ASSERT_LE(fixture_data_written, stream.size());
+    writer << 5;
+    writer << 1.0f;
 
-        stream.seek(0, aeon::streams::stream::seek_direction::begin);
-    }
+    streams::stream_reader reader{device};
 
-    aeon::streams::memory_stream stream;
-    std::array<std::uint8_t, 11> fixture_data;
-    std::size_t fixture_data_written;
-};
+    int int_val = 0;
+    reader >> int_val;
 
-TEST_F(test_fixture_stream_reader_default_data, test_stream_reader_read_line)
-{
-    aeon::streams::stream_reader reader(stream);
-    ASSERT_EQ("ABCDE", reader.read_line());
-    ASSERT_EQ("1234", reader.read_line());
+    float float_val = 0.0f;
+    reader >> float_val;
+
+    EXPECT_EQ(5, int_val);
+    EXPECT_EQ(1.0f, float_val);
 }
 
-TEST_F(test_fixture_stream_reader_default_data, test_stream_reader_read_as_string)
+TEST(test_streams, test_streams_stream_reader_read_line)
 {
-    aeon::streams::stream_reader reader(stream);
-    ASSERT_EQ("ABCDE\r\n1234", reader.read_as_string());
+    auto device = streams::memory_device<char>{};
+    streams::stream_writer writer{device};
+
+    writer << "Hello! 12345\n";
+
+    streams::stream_reader reader{device};
+    std::string line;
+    reader >> line;
+
+    EXPECT_EQ("Hello! 12345", line);
+}
+
+TEST(test_streams, test_streams_stream_reader_read_vector)
+{
+    auto device = streams::memory_device<char>{};
+    streams::stream_writer writer{device};
+
+    writer << "Hello! 12345";
+
+    streams::stream_reader reader{device};
+    const auto vec = reader.read_to_vector();
+
+    EXPECT_EQ(12, std::size(vec));
+}
+
+TEST(test_streams, test_streams_stream_reader_read_string)
+{
+    auto device = streams::memory_device<char>{};
+    streams::stream_writer writer{device};
+
+    writer << "Hello! 12345";
+
+    streams::stream_reader reader{device};
+    const auto str = reader.read_to_string();
+
+    EXPECT_EQ(12, std::size(str));
+    EXPECT_EQ("Hello! 12345", str);
+}
+
+TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
+{
+    auto device = streams::memory_device<char>{};
+    streams::stream_writer writer{device};
+
+    ASSERT_EQ(0, std::size(device));
+
+    std::string val = "Hello! 12345";
+    writer << streams::length_prefix_string{val};
+    ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + aeon_signed_sizeof(std::uint32_t), std::size(device));
+
+    streams::stream_reader reader{device};
+
+    std::string val2;
+    streams::length_prefix_string prefixed_str{val2};
+    reader >> prefixed_str;
+
+    EXPECT_EQ(val, val2);
 }

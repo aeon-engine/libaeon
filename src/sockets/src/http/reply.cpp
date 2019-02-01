@@ -1,6 +1,8 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/sockets/http/reply.h>
+#include <aeon/streams/stream_writer.h>
+#include <aeon/streams/stream_reader.h>
 
 namespace aeon::sockets::http
 {
@@ -19,7 +21,10 @@ reply::reply(const status_code status)
 
 auto reply::get_content() -> std::vector<std::uint8_t>
 {
-    return content_.read_to_vector();
+    streams::stream_reader reader{content_};
+    std::vector<std::uint8_t> vec;
+    reader.read_to_vector(vec);
+    return vec;
 }
 
 auto reply::get_raw_headers() const -> const std::vector<std::string> &
@@ -34,7 +39,8 @@ void reply::append_raw_http_header_line(const std::string &header_line)
 
 void reply::append_raw_content_data(const std::vector<std::uint8_t> &data)
 {
-    content_.vector_write(data);
+    streams::stream_writer writer{content_};
+    writer.vector_write(data);
 }
 
 } // namespace aeon::sockets::http

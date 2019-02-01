@@ -4,5 +4,12 @@
 
 namespace aeon::streams
 {
-class io_stream;
+
+/*!
+ * Base class for all devices.
+ */
+struct device
+{
+};
+
 } // namespace aeon::streams

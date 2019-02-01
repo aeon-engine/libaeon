@@ -3,8 +3,9 @@
 #include <aeon/sockets/http/http_server_socket.h>
 #include <aeon/sockets/http/constants.h>
 #include <aeon/sockets/http/url_encoding.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/sockets/config.h>
 #include <aeon/streams/stream_reader.h>
+#include <aeon/streams/dynamic_stream.h>
 #include <aeon/common/string.h>
 
 namespace aeon::sockets::http
@@ -14,7 +15,8 @@ http_server_socket::http_server_socket(asio::ip::tcp::socket socket)
     : tcp_socket{std::move(socket)}
     , state_{http_state::server_read_method}
     , request_{http_method::invalid}
-    , circular_buffer_{}
+    , circular_buffer_{streams::circular_buffer_filter{},
+                       streams::memory_device<char>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
     , expected_content_length_{0}
 {
 }
@@ -23,26 +25,24 @@ http_server_socket::~http_server_socket() = default;
 
 void http_server_socket::respond(const std::string &content_type, const std::string &data, const status_code code)
 {
-    streams::memory_stream stream;
-
-    stream.write(reinterpret_cast<const std::uint8_t *>(data.c_str()), data.size());
+    auto stream = streams::make_dynamic_stream(streams::memory_device{data});
     respond(content_type, stream, code);
 }
 
-void http_server_socket::respond(const std::string &content_type, streams::stream &data, const status_code code)
+void http_server_socket::respond(const std::string &content_type, streams::idynamic_stream &data,
+                                 const status_code code)
 {
-    streams::memory_stream stream;
-    auto headers = detail::http_version_string + " " + std::to_string(static_cast<int>(code)) + " " +
-                   status_code_to_string(code) +
-                   "\r\n"
-                   "Connection: keep-alive\r\n"
-                   "Content-type: " +
-                   content_type +
-                   "\r\n"
-                   "Content-Length: " +
-                   std::to_string(data.size()) + "\r\n\r\n";
+    const auto headers = detail::http_version_string + " " + std::to_string(static_cast<int>(code)) + " " +
+                         status_code_to_string(code) +
+                         "\r\n"
+                         "Connection: keep-alive\r\n"
+                         "Content-type: " +
+                         content_type +
+                         "\r\n"
+                         "Content-Length: " +
+                         std::to_string(data.size()) + "\r\n\r\n";
 
-    stream.write(reinterpret_cast<const std::uint8_t *>(headers.c_str()), headers.size());
+    auto stream = streams::make_dynamic_stream(streams::memory_device{headers});
     send(stream);
     send(data);
     __reset_state();
@@ -50,14 +50,16 @@ void http_server_socket::respond(const std::string &content_type, streams::strea
 
 void http_server_socket::on_data(const std::uint8_t *data, const std::size_t size)
 {
-    circular_buffer_.write(data, size);
+    circular_buffer_.write(reinterpret_cast<const char *>(data), size);
     streams::stream_reader reader(circular_buffer_);
 
-    while (!circular_buffer_.empty())
+    while (circular_buffer_.size() != 0)
     {
         if (state_ == http_state::server_read_body)
         {
-            request_.append_raw_content_data(circular_buffer_.read_to_vector());
+            std::vector<std::uint8_t> vec;
+            reader.read_to_vector(vec);
+            request_.append_raw_content_data(vec);
 
             if (request_.get_content_length() >= expected_content_length_)
                 __enter_reply_state();

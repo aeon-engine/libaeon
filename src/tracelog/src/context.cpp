@@ -2,7 +2,7 @@
 
 #include "context.h"
 #include <aeon/common/assert.h>
-#include <aeon/streams/file_stream.h>
+#include <aeon/streams/stream_writer.h>
 
 #include <iostream>
 
@@ -56,9 +56,10 @@ void trace_log_context::write(const std::filesystem::path &path)
 {
     aeon_assert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
 
-    streams::file_stream file(path, streams::access_mode::write, streams::file_mode::text);
+    streams::file_sink_device file(path, streams::file_mode::text);
+    streams::stream_writer writer{file};
 
-    file.write_line("{\"traceEvents\": [");
+    writer << "{\"traceEvents\": [";
 
     std::scoped_lock<std::mutex> lock(thread_container_lock_);
     for (auto context : contexts_)
@@ -66,7 +67,7 @@ void trace_log_context::write(const std::filesystem::path &path)
         append_write(file, context);
     }
 
-    file.write_line("]}");
+    writer << "]}";
 
     file.flush();
 }
@@ -89,7 +90,7 @@ void trace_log_context::register_threadlocal_context(trace_log_thread_context *c
     contexts_.emplace_back(context);
 }
 
-void trace_log_context::append_write(streams::file_stream &stream, trace_log_thread_context *context) const
+void trace_log_context::append_write(streams::file_sink_device &stream, trace_log_thread_context *context) const
 {
     // Move the lists out 1 by 1 while parsing so that they'll get deleted non-recursively.
     // Without this, there is a chance of a stack overflow.
@@ -99,19 +100,23 @@ void trace_log_context::append_write(streams::file_stream &stream, trace_log_thr
     if (current_list.get() == context->head)
         current_list_size = context->index;
 
+    streams::stream_writer writer{stream};
+
     while (true)
     {
         for (std::uint64_t i = 0; i < current_list_size; ++i)
         {
             const auto entry = current_list->entries[i];
-            stream.write(R"({ "pid":1, "tid":)" + std::to_string(entry.thread_id) + R"(, "ts":)" +
-                         std::to_string(entry.begin) + R"(, "dur":)" + std::to_string(entry.end - entry.begin) +
-                         R"(, "ph":"X", "name":")" + entry.function + R"(" })");
+            auto str = R"({ "pid":1, "tid":)" + std::to_string(entry.thread_id) + R"(, "ts":)" +
+                       std::to_string(entry.begin) + R"(, "dur":)" + std::to_string(entry.end - entry.begin) +
+                       R"(, "ph":"X", "name":")" + entry.function + R"(" })";
+
+            writer << str;
 
             if (i + 1 < current_list_size)
-                stream.write(",");
+                writer << ',';
 
-            stream.write_line();
+            writer << '\n';
         }
 
         if (current_list.get() == context->head)

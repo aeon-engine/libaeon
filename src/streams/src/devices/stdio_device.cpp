@@ -1,31 +1,34 @@
 // Copyright (c) 2012-2019 Robin Degen
 
-#include <aeon/streams/io_stream_colors_mixin.h>
-#include <aeon/common/term_colors.h>
-#include <aeon/common/platform.h>
-#include <iostream>
+#include <aeon/streams/devices/stdio_device.h>
 
 #if (AEON_PLATFORM_OS_WINDOWS)
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#else
+#include <aeon/common/term_colors.h>
+#include <iostream>
 #endif
 
 namespace aeon::streams
 {
 
-io_stream_colors_mixin::io_stream_colors_mixin()
-    : enabled_{true}
+stdio_device::stdio_device() noexcept
+#if (AEON_PLATFORM_OS_WINDOWS)
+    : std_handle_{GetStdHandle(STD_OUTPUT_HANDLE)}
+    , default_colors_(0)
+#endif
 {
+#if (AEON_PLATFORM_OS_WINDOWS)
+    CONSOLE_SCREEN_BUFFER_INFO info{};
+    GetConsoleScreenBufferInfo(std_handle_, &info);
+    default_colors_ = info.wAttributes;
+#endif
 }
 
-void io_stream_colors_mixin::set_color(const color c, const weight w /*= weight::normal*/) const noexcept
+void stdio_device::set_color(const color c, const weight w) const noexcept
 {
-    if (!enabled_)
-        return;
-
 #if (AEON_PLATFORM_OS_WINDOWS)
-    static auto std_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-
     int intensity = 0;
     if (w == weight::bold)
         intensity = FOREGROUND_INTENSITY;
@@ -33,28 +36,28 @@ void io_stream_colors_mixin::set_color(const color c, const weight w /*= weight:
     switch (c)
     {
         case color::black:
-            SetConsoleTextAttribute(std_handle, 0);
+            SetConsoleTextAttribute(std_handle_, 0);
             break;
         case color::red:
-            SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_RED | intensity));
+            SetConsoleTextAttribute(std_handle_, static_cast<WORD>(FOREGROUND_RED | intensity));
             break;
         case color::green:
-            SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_GREEN | intensity));
+            SetConsoleTextAttribute(std_handle_, static_cast<WORD>(FOREGROUND_GREEN | intensity));
             break;
         case color::yellow:
-            SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | intensity));
+            SetConsoleTextAttribute(std_handle_, static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | intensity));
             break;
         case color::blue:
-            SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_BLUE | intensity));
+            SetConsoleTextAttribute(std_handle_, static_cast<WORD>(FOREGROUND_BLUE | intensity));
             break;
         case color::magenta:
-            SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_RED | FOREGROUND_BLUE | intensity));
+            SetConsoleTextAttribute(std_handle_, static_cast<WORD>(FOREGROUND_RED | FOREGROUND_BLUE | intensity));
             break;
         case color::cyan:
-            SetConsoleTextAttribute(std_handle, static_cast<WORD>(FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
+            SetConsoleTextAttribute(std_handle_, static_cast<WORD>(FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
             break;
         case color::white:
-            SetConsoleTextAttribute(std_handle,
+            SetConsoleTextAttribute(std_handle_,
                                     static_cast<WORD>(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | intensity));
             break;
     }
@@ -96,27 +99,13 @@ void io_stream_colors_mixin::set_color(const color c, const weight w /*= weight:
 #endif
 }
 
-void io_stream_colors_mixin::reset_color() const noexcept
+void stdio_device::reset_color() const noexcept
 {
-    if (!enabled_)
-        return;
-
 #if (AEON_PLATFORM_OS_WINDOWS)
-    static HANDLE std_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(std_handle, 0);
+    SetConsoleTextAttribute(std_handle_, default_colors_);
 #else
     std::cout << AEON_TERM_COLOR_RESET;
 #endif
-}
-
-void io_stream_colors_mixin::enable_colors() noexcept
-{
-    enabled_ = true;
-}
-
-void io_stream_colors_mixin::disable_colors() noexcept
-{
-    enabled_ = false;
 }
 
 } // namespace aeon::streams

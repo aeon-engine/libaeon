@@ -4,8 +4,8 @@
 #include <aeon/imaging/file/png_read_structs.h>
 #include <aeon/imaging/file/png_write_structs.h>
 #include <aeon/imaging/file/png_structs.h>
-#include <aeon/streams/file_stream.h>
-#include <aeon/streams/memory_stream.h>
+#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/devices/file_device.h>
 #include <aeon/common/compilers.h>
 #include <png.h>
 #include <array>
@@ -20,21 +20,22 @@ namespace detail
 
 void png_read_callback(png_structp png_ptr, png_bytep output_ptr, png_size_t output_size)
 {
-    auto stream = static_cast<streams::stream *>(png_get_io_ptr(png_ptr));
+    auto stream = static_cast<streams::idynamic_stream *>(png_get_io_ptr(png_ptr));
 
     // Do we have a stream?
     if (!stream)
         throw load_exception();
 
     // Read the data
-    if (stream->read(output_ptr, static_cast<size_t>(output_size)) != output_size)
+    if (stream->read(reinterpret_cast<char *>(output_ptr), static_cast<size_t>(output_size)) !=
+        static_cast<std::streamoff>(output_size))
         throw load_exception();
 }
 
 void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
 {
-    auto stream = static_cast<streams::stream *>(png_get_io_ptr(png_ptr));
-    stream->write(data, length);
+    auto stream = static_cast<streams::idynamic_stream *>(png_get_io_ptr(png_ptr));
+    stream->write(reinterpret_cast<char *>(data), length);
 }
 
 template <typename T>
@@ -68,11 +69,11 @@ struct png_color_type_traits<rgba32>
 
 auto load(const std::filesystem::path &path) -> dynamic_image
 {
-    auto stream = streams::file_stream{path, streams::access_mode::read, streams::file_mode::binary};
+    auto stream = streams::make_dynamic_stream(streams::file_source_device{path});
     return load(stream);
 }
 
-auto load(streams::stream &stream) -> dynamic_image
+auto load(streams::idynamic_stream &stream) -> dynamic_image
 {
     // Check our stream
     if (!stream.good())
@@ -86,7 +87,8 @@ auto load(streams::stream &stream) -> dynamic_image
     // Read the header
     auto png_header = std::array<png_byte, PNG_HEADER_SIGNATURE_SIZE>();
 
-    if (stream.read(png_header.data(), PNG_HEADER_SIGNATURE_SIZE) != PNG_HEADER_SIGNATURE_SIZE)
+    if (stream.read(reinterpret_cast<char *>(png_header.data()), PNG_HEADER_SIGNATURE_SIZE) !=
+        PNG_HEADER_SIGNATURE_SIZE)
         throw load_exception();
 
     // Check the header
@@ -178,11 +180,11 @@ auto load(streams::stream &stream) -> dynamic_image
 
 void save(const dynamic_image &image, const std::filesystem::path &path)
 {
-    auto stream = streams::file_stream{path, streams::access_mode::write, streams::file_mode::binary};
+    auto stream = streams::make_dynamic_stream(streams::file_sink_device{path});
     save(image, stream);
 }
 
-void save(const dynamic_image &image, streams::stream &stream)
+void save(const dynamic_image &image, streams::idynamic_stream &stream)
 {
     aeon_assert((encoding(image) == pixel_encoding::rgb24) || (encoding(image) == pixel_encoding::rgba32),
                 "Encoding mismatch.");
@@ -192,7 +194,7 @@ void save(const dynamic_image &image, streams::stream &stream)
 template <typename T>
 void save(const image_view<T> &image, const std::filesystem::path &path)
 {
-    auto stream = streams::file_stream{path, streams::access_mode::write, streams::file_mode::binary};
+    auto stream = streams::make_dynamic_stream(streams::file_sink_device{path});
     save(image, stream);
 }
 
@@ -200,7 +202,7 @@ template void save<rgb24>(const image_view<rgb24> &image, const std::filesystem:
 template void save<rgba32>(const image_view<rgba32> &image, const std::filesystem::path &path);
 
 template <typename T>
-void save(const image_view<T> &image, streams::stream &stream)
+void save(const image_view<T> &image, streams::idynamic_stream &stream)
 {
     // Check our stream
     if (!stream.good())
@@ -235,10 +237,11 @@ void save(const image_view<T> &image, streams::stream &stream)
     png_write_png(png_structs.png_ptr(), png_structs.info_ptr(), PNG_TRANSFORM_IDENTITY, nullptr);
 
     // Flush the output after writing.
-    stream.flush();
+    if (stream.is_flushable())
+        stream.flush();
 }
 
-template void save<rgb24>(const image_view<rgb24> &image, streams::stream &stream);
-template void save<rgba32>(const image_view<rgba32> &image, streams::stream &stream);
+template void save<rgb24>(const image_view<rgb24> &image, streams::idynamic_stream &stream);
+template void save<rgba32>(const image_view<rgba32> &image, streams::idynamic_stream &stream);
 
 } // namespace aeon::imaging::file::png

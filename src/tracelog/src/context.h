@@ -5,7 +5,7 @@
 #include "data.h"
 #include <aeon/common/singleton.h>
 #include <aeon/common/stdfilesystem.h>
-#include <aeon/streams/file_stream_fwd.h>
+#include <aeon/streams/devices/file_device.h>
 #include <atomic>
 #include <vector>
 #include <mutex>
@@ -29,7 +29,7 @@ private:
     auto generate_unique_thread_id() noexcept -> int;
     void register_threadlocal_context(trace_log_thread_context *context);
 
-    void append_write(streams::file_stream &stream, trace_log_thread_context *context) const;
+    void append_write(streams::file_sink_device &stream, trace_log_thread_context *context) const;
 
     static thread_local trace_log_thread_context context_;
     std::atomic<int> thread_index_ = 0;

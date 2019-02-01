@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/streams/memory_stream_fwd.h>
+#include <aeon/streams/devices/memory_device.h>
 #include <string>
 #include <cstdint>
 
@@ -62,19 +62,19 @@ protected:
 
     void read_file(const std::string &filename);
 
-    void read_header(streams::memory_stream &stream);
+    void read_header(streams::memory_device<char> &stream);
     void parse_format(const std::uint16_t format);
     void parse_divisions(const std::uint16_t divisions);
 
-    void read_all_track_chunks(streams::memory_stream &stream);
-    void read_next_track_chunk(streams::memory_stream &stream);
-    std::uint32_t read_track_header(streams::memory_stream &stream) const;
-    void parse_track_data(streams::memory_stream &stream);
-    std::uint32_t read_vtime(streams::memory_stream &stream);
+    void read_all_track_chunks(streams::memory_device<char> &stream);
+    void read_next_track_chunk(streams::memory_device<char> &stream);
+    std::uint32_t read_track_header(streams::memory_device<char> &stream) const;
+    void parse_track_data(streams::memory_device<char> &stream);
+    std::uint32_t read_vtime(streams::memory_device<char> &stream);
 
-    void parse_meta_event(streams::memory_stream &stream);
-    void parse_sysex_event(streams::memory_stream &stream);
-    void parse_midi_event(streams::memory_stream &stream, const std::uint8_t message);
+    void parse_meta_event(streams::memory_device<char> &stream);
+    void parse_sysex_event(streams::memory_device<char> &stream);
+    void parse_midi_event(streams::memory_device<char> &stream, const std::uint8_t message);
 
     midi_format format_;
     unsigned int tracks_;
