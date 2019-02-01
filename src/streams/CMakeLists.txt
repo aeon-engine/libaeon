@@ -41,6 +41,7 @@ source_group(streams\\devices\\detail FILES ${LIB_AEON_STREAMS_DEVICES_DETAIL_SO
 set(LIB_AEON_STREAMS_FILTERS_SOURCE
     include/aeon/streams/filters/circular_buffer_filter.h
     include/aeon/streams/filters/filter.h
+    include/aeon/streams/filters/zlib_filter.h
 )
 
 source_group(streams\\filters FILES ${LIB_AEON_STREAMS_FILTERS_SOURCE})
@@ -59,7 +60,10 @@ set_target_properties(aeon_streams PROPERTIES
 
 target_include_directories(aeon_streams PUBLIC include)
 
-target_link_libraries(aeon_streams aeon_common)
+target_link_libraries(aeon_streams
+    aeon_common
+    ZLIB::ZLIB
+)
 
 install(
     DIRECTORY include/aeon
