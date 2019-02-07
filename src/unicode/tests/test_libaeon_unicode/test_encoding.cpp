@@ -31,3 +31,21 @@ TEST(test_encoding, test_encoding_convert_with_bom)
 
     EXPECT_EQ(str, converted2);
 }
+
+TEST(test_encoding, test_encoding_utf32)
+{
+    const auto str1 = unicode::utf32::to_utf8('A');
+    EXPECT_EQ(1, std::size(str1));
+
+    const auto str2 = unicode::utf32::to_utf8(U"ę");
+    EXPECT_EQ(2, std::size(str2));
+
+    const auto str3 = unicode::utf32::to_utf8(U"ら");
+    EXPECT_EQ(3, std::size(str3));
+
+    const auto str4 = unicode::utf32::to_utf8(U"𠜎");
+    EXPECT_EQ(4, std::size(str4));
+
+    const auto banana = unicode::utf32::to_utf8(U"🍌");
+    EXPECT_EQ(4, std::size(banana));
+}
