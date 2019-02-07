@@ -67,6 +67,37 @@ private:
     T str_;
 };
 
+template <>
+class utf_string_view<std::u32string_view> final
+{
+public:
+    explicit utf_string_view(const std::u32string_view str) noexcept
+        : str_{str}
+    {
+    }
+
+    ~utf_string_view() = default;
+
+    utf_string_view(const utf_string_view &) noexcept = default;
+    auto operator=(const utf_string_view &) noexcept -> utf_string_view & = default;
+
+    utf_string_view(utf_string_view &&) noexcept = default;
+    auto operator=(utf_string_view &&) noexcept -> utf_string_view & = default;
+
+    auto begin() const noexcept
+    {
+        return std::begin(str_);
+    }
+
+    auto end() const noexcept
+    {
+        return std::end(str_);
+    }
+
+private:
+    std::u32string_view str_;
+};
+
 utf_string_view(char *const)->utf_string_view<std::string_view>;
 utf_string_view(const char *const)->utf_string_view<std::string_view>;
 utf_string_view(const std::string &)->utf_string_view<std::string_view>;
@@ -74,5 +105,9 @@ utf_string_view(const std::string &)->utf_string_view<std::string_view>;
 utf_string_view(wchar_t *const)->utf_string_view<std::wstring_view>;
 utf_string_view(const wchar_t *const)->utf_string_view<std::wstring_view>;
 utf_string_view(const std::wstring &)->utf_string_view<std::wstring_view>;
+
+utf_string_view(char32_t *const)->utf_string_view<std::u32string_view>;
+utf_string_view(const char32_t *const)->utf_string_view<std::u32string_view>;
+utf_string_view(const std::u32string &)->utf_string_view<std::u32string_view>;
 
 } // namespace aeon::unicode

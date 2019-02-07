@@ -24,3 +24,13 @@ TEST(test_iterator, test_iterator_utf)
     EXPECT_EQ(5, std::size(decoded_utf16));
     EXPECT_THAT(decoded_utf16, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
 }
+
+TEST(test_iterator, test_iterator_utf32)
+{
+    const auto str = U"らき☆すた";
+
+    unicode::utf_string_view utf32_view{str};
+    const std::vector<char32_t> decoded(std::begin(utf32_view), std::end(utf32_view));
+    EXPECT_EQ(5, std::size(decoded));
+    EXPECT_THAT(decoded, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
+}
