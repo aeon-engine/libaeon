@@ -2,20 +2,33 @@
 
 #pragma once
 
+#include <algorithm>
 #include <functional>
 #include <vector>
+#include <initializer_list>
 
 namespace aeon::utility
 {
 
 template <typename key_type, typename value_type>
-class linear_map
+class linear_map final
 {
 public:
     using pair_type = std::pair<key_type, value_type>;
     using map_type = std::vector<pair_type>;
+    using iterator = typename map_type::iterator;
 
     linear_map() = default;
+
+    linear_map(std::initializer_list<pair_type> init)
+        : map_{}
+    {
+        for (auto &&val : init)
+        {
+            insert(std::move(val));
+        }
+    }
+
     ~linear_map() = default;
 
     linear_map(const linear_map &) = default;
@@ -23,86 +36,112 @@ public:
     linear_map(linear_map &&) noexcept = default;
     auto operator=(linear_map &&) noexcept -> linear_map & = default;
 
-    auto insert(const key_type &key, const value_type &value)
+    auto insert(key_type key, value_type value) -> iterator
     {
-        return insert(std::make_pair(key, value));
+        return insert({key, value});
     }
 
-    auto insert(pair_type pair)
+    auto emplace(key_type &&key, value_type &&value) -> iterator
     {
-        auto itr = __find_key(pair.first);
+        return emplace({std::move(key), std::move(value)});
+    }
 
-        if (itr == map_.end())
-            return map_.insert(map_.end(), pair);
+    auto insert(pair_type pair) -> iterator
+    {
+        auto itr = find(pair.first);
 
-        itr->second = pair.second;
+        if (itr == std::end(map_))
+            return map_.insert(std::end(map_), std::move(pair));
+
+        itr->second = std::move(pair.second);
         return itr;
     }
 
-    auto insert_ex(const key_type &key, const value_type &value)
+    auto emplace(pair_type &&pair) -> iterator
     {
-        return insert_ex(std::make_pair(key, value));
+        auto itr = find(pair.first);
+
+        if (itr == std::end(map_))
+            return map_.insert(std::end(map_), std::move(pair));
+
+        itr->second = std::move(pair.second);
+        return itr;
     }
 
-    auto insert_ex(pair_type pair)
+    void push_back(const key_type &key, const value_type &value)
     {
-        auto itr = __find_key(pair.first);
+        push_back({key, value});
+    }
 
-        if (itr == map_.end())
-            return map_.insert(map_.end(), pair);
-
-        return map_.end();
+    void push_back(const pair_type &pair)
+    {
+        map_.push_back(std::move(pair));
     }
 
     auto &at(const key_type &key)
     {
-        auto itr = __find_key(key);
-        if (itr == map_.end())
-            throw std::out_of_range("aeon linear_map key out of range.");
+        auto itr = find(key);
+        if (itr == std::end(map_))
+            throw std::out_of_range{"aeon linear_map key out of range."};
 
         return itr->second;
     }
 
     auto &operator[](const key_type &key)
     {
-        auto itr = __find_key(key);
+        auto itr = find(key);
 
-        if (itr == map_.end())
-            itr = insert(key, value_type());
+        if (itr == std::end(map_))
+            itr = insert(key, value_type{});
 
         return itr->second;
     }
 
-    auto find(const key_type &key)
+    auto &operator[](key_type &&key)
     {
-        return __find_key(key);
+        auto itr = find(key);
+
+        if (itr == std::end(map_))
+            itr = emplace(std::move(key), value_type{});
+
+        return itr->second;
+    }
+
+    auto find(const key_type &key) noexcept
+    {
+        return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
+    }
+
+    auto find(const key_type &key) const noexcept
+    {
+        return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
     }
 
     auto begin() noexcept
     {
-        return map_.begin();
+        return std::begin(map_);
     }
 
     auto end() noexcept
     {
-        return map_.end();
+        return std::end(map_);
     }
 
     auto begin() const noexcept
     {
-        return map_.cbegin();
+        return std::begin(map_);
     }
 
     auto end() const noexcept
     {
-        return map_.cend();
+        return std::end(map_);
     }
 
     auto erase(const key_type &key)
     {
-        auto itr = __find_key(key);
+        auto itr = find(key);
 
-        if (itr != map_.end())
+        if (itr != std::end(map_))
             return erase(itr);
 
         return itr;
@@ -110,7 +149,7 @@ public:
 
     void erase_if(std::function<bool(const pair_type &)> pred)
     {
-        for (auto obj = map_.begin(); obj != map_.end();)
+        for (auto obj = std::begin(map_); obj != std::end(map_);)
         {
             if (pred(*obj))
             {
@@ -130,7 +169,7 @@ public:
 
     auto empty() const
     {
-        return map_.empty();
+        return std::empty(map_);
     }
 
     void clear()
@@ -140,15 +179,10 @@ public:
 
     auto size() const noexcept
     {
-        return map_.size();
+        return std::size(map_);
     }
 
 private:
-    auto __find_key(const key_type &key)
-    {
-        return std::find_if(map_.begin(), map_.end(), [key](const pair_type &s) { return s.first == key; });
-    }
-
     map_type map_;
 };
 

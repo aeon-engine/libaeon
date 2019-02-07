@@ -72,13 +72,14 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_index_operator_over
     ASSERT_EQ(5, linear_map_.size());
 }
 
-TEST_F(test_fixture_linear_map_default_data, test_linear_map_insert_ex_collision)
+TEST_F(test_fixture_linear_map_default_data, test_linear_map_push_back)
 {
-    const auto result = linear_map_.insert_ex("Three", 15);
-    ASSERT_TRUE(result == linear_map_.end());
-
-    const auto at_three = linear_map_["Three"];
+    linear_map_.push_back("Three", 15);
+    auto at_three = linear_map_["Three"];
     ASSERT_EQ(3, at_three);
+    linear_map_.insert("Three", 15);
+    at_three = linear_map_["Three"];
+    ASSERT_EQ(15, at_three);
 }
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_index_operator_default)
@@ -115,7 +116,7 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_not_found)
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_iterate)
 {
     auto loop_times = 0;
-    for (auto [key, value] : linear_map_)
+    for (const auto &[key, value] : linear_map_)
     {
         if (key == "One")
             ASSERT_EQ(1, value);
