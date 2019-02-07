@@ -28,7 +28,7 @@ public:
             ucnv_close(converter_);
     }
 
-    auto to_uchars(const std::string &str) const
+    auto to_uchars(const std::string_view &str) const
     {
         UErrorCode status = U_ZERO_ERROR;
         const auto target_length = to_uchars_length(str);
@@ -45,7 +45,7 @@ public:
         return target;
     }
 
-    auto from_uchars(const std::wstring &str) const
+    auto from_uchars(const std::wstring_view &str) const
     {
         UErrorCode status = U_ZERO_ERROR;
         const auto target_length = from_uchars_length(str);
@@ -69,7 +69,7 @@ public:
     auto operator=(const uconverter &) -> uconverter & = delete;
 
 private:
-    auto to_uchars_length(const std::string &str) const -> int32_t
+    auto to_uchars_length(const std::string_view &str) const -> int32_t
     {
         UErrorCode status = U_ZERO_ERROR;
         const auto size =
@@ -81,7 +81,7 @@ private:
         return size;
     }
 
-    auto from_uchars_length(const std::wstring &str) const -> int32_t
+    auto from_uchars_length(const std::wstring_view &str) const -> int32_t
     {
         UErrorCode status = U_ZERO_ERROR;
 
