@@ -42,6 +42,12 @@ public:
         return char_;
     }
 
+    auto character_str() const noexcept
+    {
+        return string_view_type_t{reinterpret_cast<const typename string_view_type_t::value_type *>(str_ + offset_),
+                                  static_cast<typename string_view_type_t::size_type>(next_offset_ - offset_)};
+    }
+
     auto operator*() const noexcept
     {
         return char_;

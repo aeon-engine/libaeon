@@ -25,6 +25,24 @@ TEST(test_iterator, test_iterator_utf)
     EXPECT_THAT(decoded_utf16, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
 }
 
+TEST(test_iterator, test_iterator_utf_character_str)
+{
+    const auto utf8_str = u8"らき☆すた";
+    const auto utf16_str = unicode::utf8::to_utf16(utf8_str);
+
+    unicode::utf_string_view utf8_view{utf8_str};
+    for (auto itr = std::begin(utf8_view); itr != std::end(utf8_view); ++itr)
+    {
+        EXPECT_EQ(unicode::utf32::to_utf8(*itr), itr.character_str());
+    }
+
+    unicode::utf_string_view utf16_view{utf16_str};
+    for (auto itr = std::begin(utf16_view); itr != std::end(utf16_view); ++itr)
+    {
+        EXPECT_EQ(unicode::utf32::to_utf16(*itr), itr.character_str());
+    }
+}
+
 TEST(test_iterator, test_iterator_utf32)
 {
     const auto str = U"らき☆すた";
