@@ -64,6 +64,11 @@ public:
         return iterator{str_, static_cast<std::int32_t>(std::size(str_))};
     }
 
+    auto str() const noexcept
+    {
+        return str_;
+    }
+
 private:
     T str_;
 };
@@ -95,6 +100,11 @@ public:
     auto end() const noexcept
     {
         return std::end(str_);
+    }
+
+    auto str() const noexcept
+    {
+        return str_;
     }
 
 private:
