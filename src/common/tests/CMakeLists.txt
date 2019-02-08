@@ -10,6 +10,7 @@ add_unit_test_suite(
         test_bitflags.cpp
         test_endianness.cpp
         test_flags.cpp
+        test_lexical_parse.cpp
         test_literals.cpp
         test_scope_guard.cpp
         test_singleton.cpp
