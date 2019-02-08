@@ -37,6 +37,8 @@ template <typename T>
 class utf_string_view final
 {
 public:
+    using iterator = typename internal::utf_iterator_traits<T>::iterator_type;
+
     explicit utf_string_view(const T str) noexcept
         : str_{str}
     {
@@ -54,13 +56,12 @@ public:
 
     auto begin() const noexcept
     {
-        return typename internal::utf_iterator_traits<T>::iterator_type{str_};
+        return iterator{str_};
     }
 
     auto end() const noexcept
     {
-        return
-            typename internal::utf_iterator_traits<T>::iterator_type{str_, static_cast<std::int32_t>(std::size(str_))};
+        return iterator{str_, static_cast<std::int32_t>(std::size(str_))};
     }
 
 private:
@@ -71,6 +72,8 @@ template <>
 class utf_string_view<std::u32string_view> final
 {
 public:
+    using iterator = std::u32string_view::iterator;
+
     explicit utf_string_view(const std::u32string_view str) noexcept
         : str_{str}
     {
