@@ -3,6 +3,7 @@
 set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/aggregate_device.h
     include/aeon/streams/dynamic_stream.h
+    include/aeon/streams/dynamic_stream_view.h
     include/aeon/streams/dynamic_stream_reader.h
     include/aeon/streams/dynamic_stream_writer.h
     include/aeon/streams/exception.h
