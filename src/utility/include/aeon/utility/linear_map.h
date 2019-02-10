@@ -182,6 +182,11 @@ public:
         return std::size(map_);
     }
 
+    void reserve(const std::size_t size)
+    {
+        map_.reserve(size);
+    }
+
 private:
     map_type map_;
 };
