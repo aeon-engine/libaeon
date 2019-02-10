@@ -18,6 +18,7 @@ public:
     };
 
     explicit memory_view_device(std::vector<T> &buffer) noexcept;
+    explicit memory_view_device(const std::vector<T> &buffer) noexcept;
 
     memory_view_device(memory_view_device &&) noexcept = default;
     auto operator=(memory_view_device &&) noexcept -> memory_view_device & = default;
@@ -70,6 +71,14 @@ inline memory_view_device<T>::memory_view_device(std::vector<T> &buffer) noexcep
         update_span();
 }
 
+template <typename T>
+inline memory_view_device<T>::memory_view_device(const std::vector<T> &buffer) noexcept
+    : buffer_view_{const_cast<std::vector<T>*>(&buffer)}
+    , span_device_{common::span<T>{}}
+{
+    if (!std::empty(*buffer_view_))
+        update_span();
+}
 template <typename T>
 inline memory_view_device<T>::memory_view_device() noexcept
     : buffer_view_{}
