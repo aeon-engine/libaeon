@@ -11,6 +11,8 @@ set(LIB_AEON_PTREE_SERIALIZATION_SOURCE
     include/aeon/ptree/serialization/exception.h
     include/aeon/ptree/serialization/serialization_json.h
     src/serialization_json.cpp
+    include/aeon/ptree/serialization/serialization_abf.h
+    src/serialization_abf.cpp
 )
 
 source_group(ptree\\serialization FILES ${LIB_AEON_PTREE_SERIALIZATION_SOURCE})
