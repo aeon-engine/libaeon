@@ -24,6 +24,7 @@ set(LIB_AEON_STREAMS_DEVICES_SOURCE
     include/aeon/streams/devices/file_device.h
     include/aeon/streams/devices/iostream_device.h
     include/aeon/streams/devices/memory_device.h
+    include/aeon/streams/devices/memory_view_device.h
     include/aeon/streams/devices/span_device.h
     include/aeon/streams/devices/stdio_device.h
     src/devices/stdio_device.cpp
