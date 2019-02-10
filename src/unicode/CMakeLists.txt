@@ -11,6 +11,8 @@ set(LIB_AEON_UNICODE_SOURCE
     include/aeon/unicode/utf8_iterator.h
     src/utf16_iterator.cpp
     include/aeon/unicode/utf16_iterator.h
+    src/stringutils.cpp
+    include/aeon/unicode/stringutils.h
     src/ctypes.cpp
     include/aeon/unicode/ctypes.h
 )
