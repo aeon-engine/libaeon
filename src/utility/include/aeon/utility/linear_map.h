@@ -87,6 +87,15 @@ public:
         return itr->second;
     }
 
+    const auto &at(const key_type &key) const
+    {
+        auto itr = find(key);
+        if (itr == std::end(map_))
+            throw std::out_of_range{"aeon linear_map key out of range."};
+
+        return itr->second;
+    }
+
     auto &operator[](const key_type &key)
     {
         auto itr = find(key);
