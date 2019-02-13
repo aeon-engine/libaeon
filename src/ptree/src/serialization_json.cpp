@@ -4,6 +4,10 @@
 #include <aeon/ptree/serialization/exception.h>
 #include <aeon/unicode/utf_string_view.h>
 #include <aeon/unicode/stringutils.h>
+#include <aeon/streams/stream_reader.h>
+#include <aeon/streams/stream_writer.h>
+#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/devices/memory_view_device.h>
 #include <aeon/common/type_traits.h>
 #include <aeon/common/lexical_parse.h>
 #include <variant>
@@ -16,84 +20,102 @@ namespace aeon::ptree::serialization
 namespace internal
 {
 
-void to_json(const std::monostate, std::string &);
-void to_json(const array &arr, std::string &str);
-void to_json(const object &obj, std::string &str);
-void to_json(const std::string &obj_str, std::string &str);
-void to_json(const utility::uuid &uuid, std::string &str);
-void to_json(const std::int64_t val, std::string &str);
-void to_json(const double val, std::string &str);
-void to_json(const bool val, std::string &str);
+void to_json(const std::monostate, streams::idynamic_stream &);
+void to_json(const array &arr, streams::idynamic_stream &stream);
+void to_json(const object &obj, streams::idynamic_stream &stream);
+void to_json(const std::string &obj_str, streams::idynamic_stream &stream);
+void to_json(const utility::uuid &uuid, streams::idynamic_stream &stream);
+void to_json(const std::int64_t val, streams::idynamic_stream &stream);
+void to_json(const double val, streams::idynamic_stream &stream);
+void to_json(const bool val, streams::idynamic_stream &stream);
 
-void to_json(const property_tree &ptree, std::string &str)
+void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
 {
-    std::visit([&str](auto &&arg) { internal::to_json(arg, str); }, ptree.value());
+    std::visit([&stream](auto &&arg) { internal::to_json(arg, stream); }, ptree.value());
 }
 
-void to_json(const std::monostate, std::string &str)
+void to_json(const std::monostate, streams::idynamic_stream &stream)
 {
-    str += "null";
+    streams::stream_writer writer{stream};
+    writer << "null";
 }
 
-void to_json(const array &arr, std::string &str)
+void to_json(const array &arr, streams::idynamic_stream &stream)
 {
-    str.push_back('[');
+    streams::stream_writer writer{stream};
+    writer << '[';
+
+    bool first = true;
 
     for (const auto &pt : arr)
     {
-        to_json(pt, str);
-        str.push_back(',');
+        if (first)
+            first = false;
+        else
+            writer << ',';
+
+        to_json(pt, stream);
     }
 
-    str.resize(std::size(str) - 1);
-    str.push_back(']');
+    writer << ']';
 }
 
-void to_json(const object &obj, std::string &str)
+void to_json(const object &obj, streams::idynamic_stream &stream)
 {
-    str.push_back('{');
+    streams::stream_writer writer{stream};
+    writer << '{';
+
+    bool first = true;
 
     for (const auto &[key, val] : obj)
     {
-        to_json(key, str);
-        str.push_back(':');
-        to_json(val, str);
-        str.push_back(',');
+        if (first)
+            first = false;
+        else
+            writer << ',';
+
+        to_json(key, stream);
+        writer << ':';
+        to_json(val, stream);
     }
 
-    str.resize(std::size(str) - 1);
-    str.push_back('}');
+    writer << '}';
 }
 
-void to_json(const utility::uuid &uuid, std::string &str)
+void to_json(const utility::uuid &uuid, streams::idynamic_stream &stream)
 {
-    to_json(uuid.str(), str);
+    to_json(uuid.str(), stream);
 }
 
-void to_json(const std::string &obj_str, std::string &str)
+void to_json(const std::string &obj_str, streams::idynamic_stream &stream)
 {
-    str.push_back('"');
+    streams::stream_writer writer{stream};
+    writer << '"';
     // TODO: Proper UTF-8 support
-    str += unicode::stringutils::escape(obj_str);
-    str.push_back('"');
+    writer << unicode::stringutils::escape(obj_str);
+    writer << '"';
 }
 
-void to_json(const std::int64_t val, std::string &str)
+void to_json(const std::int64_t val, streams::idynamic_stream &stream)
 {
-    str += std::to_string(val);
+    streams::stream_writer writer{stream};
+    writer << std::to_string(val);
 }
 
-void to_json(const double val, std::string &str)
+void to_json(const double val, streams::idynamic_stream &stream)
 {
-    str += std::to_string(val);
+    streams::stream_writer writer{stream};
+    writer << std::to_string(val);
 }
 
-void to_json(const bool val, std::string &str)
+void to_json(const bool val, streams::idynamic_stream &stream)
 {
+    streams::stream_writer writer{stream};
+
     if (val)
-        str += "true";
+        writer << "true";
     else
-        str += "false";
+        writer << "false";
 }
 
 class json_parser final
@@ -332,28 +354,31 @@ private:
 
 } // namespace internal
 
-void to_json(const property_tree &ptree, std::string &str)
+void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
 {
-    internal::to_json(ptree, str);
+    internal::to_json(ptree, stream);
 }
 
 auto to_json(const property_tree &ptree) -> std::string
 {
     std::string str;
-    to_json(ptree, str);
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
+    to_json(ptree, stream);
     return str;
 }
 
-void from_json(std::string_view str, property_tree &ptree)
+void from_json(streams::idynamic_stream &stream, property_tree &ptree)
 {
+    streams::stream_reader reader{stream};
+    const auto str = reader.read_to_string();
     internal::json_parser parser{str};
     ptree = parser.parse();
 }
 
-auto from_json(std::string_view str) -> property_tree
+auto from_json(streams::idynamic_stream &stream) -> property_tree
 {
     property_tree pt;
-    from_json(str, pt);
+    from_json(stream, pt);
     return pt;
 }
 

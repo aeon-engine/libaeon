@@ -24,7 +24,8 @@ static const ptree::property_tree pt_complex{
 TEST(test_ptree, json_serialize_deserialize_simple)
 {
     const auto str = ptree::serialization::to_json(pt_simple);
-    const auto pt2 = ptree::serialization::from_json(str);
+    auto device = streams::make_dynamic_stream(streams::memory_view_device{str});
+    const auto pt2 = ptree::serialization::from_json(device);
     const auto str2 = ptree::serialization::to_json(pt2);
     EXPECT_EQ(str, str2);
 }
@@ -32,7 +33,8 @@ TEST(test_ptree, json_serialize_deserialize_simple)
 TEST(test_ptree, json_serialize_deserialize_complex)
 {
     const auto str = ptree::serialization::to_json(pt_complex);
-    const auto pt2 = ptree::serialization::from_json(str);
+    auto device = streams::make_dynamic_stream(streams::memory_view_device{str});
+    const auto pt2 = ptree::serialization::from_json(device);
     const auto str2 = ptree::serialization::to_json(pt2);
     EXPECT_EQ(str, str2);
 }
