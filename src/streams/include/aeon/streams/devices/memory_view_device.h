@@ -71,7 +71,7 @@ inline memory_view_device<T>::memory_view_device(std::vector<T> &buffer) noexcep
 
 template <typename T>
 inline memory_view_device<T>::memory_view_device(const std::vector<T> &buffer) noexcept
-    : buffer_view_{const_cast<std::vector<T>*>(&buffer)}
+    : buffer_view_{const_cast<std::vector<T> *>(&buffer)}
     , span_device_{common::span<T>{}}
 {
     if (!std::empty(*buffer_view_))
