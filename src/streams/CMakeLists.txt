@@ -13,6 +13,7 @@ set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/stream_traits.h
     include/aeon/streams/stream_writer.h
     include/aeon/streams/tags.h
+    include/aeon/streams/varint.h
 )
 
 source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})

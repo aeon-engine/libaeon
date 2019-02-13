@@ -4,6 +4,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/length_prefix_string.h>
+#include <aeon/streams/varint.h>
 #include <gtest/gtest.h>
 #include <fstream>
 #include <utility>
@@ -89,4 +90,35 @@ TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
     reader >> streams::length_prefix_string{val2};
 
     EXPECT_EQ(val, val2);
+}
+
+void test_varint(const std::uint64_t value, const int expected_encoding_length)
+{
+    std::array<char, sizeof(std::uint64_t) + 1> data;
+    auto device = streams::span_device<char>{common::span{data}};
+    streams::stream_writer writer{device};
+
+    writer << streams::varint{value};
+
+    EXPECT_EQ(device.tellp(), expected_encoding_length);
+
+    streams::stream_reader reader{device};
+
+    std::uint64_t read_value = 0;
+    reader >> streams::varint{read_value};
+
+    EXPECT_EQ(value, read_value);
+}
+
+TEST(test_streams, test_streams_stream_reader_varint)
+{
+    test_varint(0, 1);
+    test_varint(127, 1);
+    test_varint(128, 2);
+    test_varint(16383, 2);
+    test_varint(16384, 3);
+    test_varint(2097151, 3);
+    test_varint(2097152, 4);
+    test_varint(268435455, 4);
+    test_varint(268435456, 5);
 }
