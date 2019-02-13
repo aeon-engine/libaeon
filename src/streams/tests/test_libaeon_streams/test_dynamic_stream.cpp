@@ -9,7 +9,7 @@ using namespace aeon;
 
 TEST(test_streams, test_streams_dynamic_stream_create)
 {
-    auto dynamic_device = streams::make_dynamic_stream(streams::memory_device<char>{});
+    auto dynamic_device = streams::make_dynamic_stream(streams::memory_device<std::vector<char>>{});
     dynamic_device.write("12345", 5);
 
     EXPECT_TRUE(dynamic_device.is_input());
@@ -27,7 +27,7 @@ TEST(test_streams, test_streams_dynamic_stream_create)
 
 TEST(test_streams, test_streams_dynamic_stream_create_ptr)
 {
-    auto dynamic_device = streams::make_dynamic_stream_ptr(streams::memory_device<char>{});
+    auto dynamic_device = streams::make_dynamic_stream_ptr(streams::memory_device<std::vector<char>>{});
     dynamic_device->write("12345", 5);
 
     EXPECT_TRUE(dynamic_device->is_input());

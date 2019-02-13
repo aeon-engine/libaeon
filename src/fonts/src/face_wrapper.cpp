@@ -123,7 +123,7 @@ static auto load_glyph(const FT_Face face, const bool has_color_emoji, const int
 } // namespace internal
 
 face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi)
-    : face_data_{streams::stream_reader{stream}.read_to_vector()}
+    : face_data_{streams::stream_reader{stream}.read_to_vector<char>()}
     , face_{internal::create_freetype_face(library, face_data_, 0), internal::free_freetype_face}
     , has_color_emoji_{internal::has_color_emoji(face_.get())}
     , dimensions_px_{internal::points_to_pixels(points, dpi)}

@@ -78,7 +78,7 @@ void configfile::load(const std::vector<char> &data)
 
 void configfile::save(std::vector<char> &data) const
 {
-    auto stream = streams::make_dynamic_stream(streams::memory_device<char>{});
+    auto stream = streams::make_dynamic_stream(streams::memory_device{});
     save(stream);
 
     streams::stream_reader reader{stream};

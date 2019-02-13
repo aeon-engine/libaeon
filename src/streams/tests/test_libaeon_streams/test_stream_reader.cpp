@@ -14,7 +14,7 @@ using namespace aeon;
 
 TEST(test_streams, test_streams_stream_reader_pod)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     writer << 5;
@@ -34,7 +34,7 @@ TEST(test_streams, test_streams_stream_reader_pod)
 
 TEST(test_streams, test_streams_stream_reader_read_line)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     writer << "Hello! 12345\n";
@@ -48,20 +48,20 @@ TEST(test_streams, test_streams_stream_reader_read_line)
 
 TEST(test_streams, test_streams_stream_reader_read_vector)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     writer << "Hello! 12345";
 
     streams::stream_reader reader{device};
-    const auto vec = reader.read_to_vector();
+    const auto vec = reader.read_to_vector<char>();
 
     EXPECT_EQ(12, std::size(vec));
 }
 
 TEST(test_streams, test_streams_stream_reader_read_string)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     writer << "Hello! 12345";
@@ -75,7 +75,7 @@ TEST(test_streams, test_streams_stream_reader_read_string)
 
 TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0, std::size(device));
@@ -125,7 +125,7 @@ TEST(test_streams, test_streams_stream_reader_varint)
 
 void test_prefixed_varint_string(const std::string &str, const int expected_varint_length)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0, std::size(device));

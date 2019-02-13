@@ -49,21 +49,20 @@ auto load(streams::idynamic_stream &stream) -> dynamic_image
     detail::tjhandle_decompress_wrapper wrapper;
 
     streams::stream_reader reader{stream};
-    auto data = reader.read_to_vector();
+    auto data = reader.read_to_vector<unsigned char>();
     const auto data_size = static_cast<unsigned long>(std::size(data));
 
     int width = 0;
     int height = 0;
 
-    if (tjDecompressHeader(wrapper.handle(), reinterpret_cast<unsigned char *>(std::data(data)), data_size, &width,
-                           &height) != 0)
+    if (tjDecompressHeader(wrapper.handle(), std::data(data), data_size, &width, &height) != 0)
         throw load_exception();
 
     const image_descriptor<rgb24> d{static_cast<dimension>(width), static_cast<dimension>(height)};
     image<rgb24> loaded_image{d};
 
-    if (tjDecompress2(wrapper.handle(), reinterpret_cast<unsigned char *>(std::data(data)), data_size,
-                      loaded_image.data<std::uint8_t>(), width, 0, height, TJPF_RGB, TJFLAG_FASTDCT) != 0)
+    if (tjDecompress2(wrapper.handle(), std::data(data), data_size, loaded_image.data<std::uint8_t>(), width, 0, height,
+                      TJPF_RGB, TJFLAG_FASTDCT) != 0)
         throw load_exception();
 
     return dynamic_image{std::move(loaded_image)};

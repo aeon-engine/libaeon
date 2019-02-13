@@ -38,7 +38,7 @@ static void test_decompress_data(const std::vector<char> &buffer, const int read
 
 TEST(test_streams, test_zlib_compress_filter_read_write_basic)
 {
-    auto pipeline = streams::zlib_compress_filter{} | streams::memory_device<char>{};
+    auto pipeline = streams::zlib_compress_filter{} | streams::memory_device<std::vector<char>>{};
     EXPECT_EQ(pipeline.size(), 0);
 
     const std::string data =
@@ -58,12 +58,12 @@ TEST(test_streams, test_zlib_compress_filter_read_write_basic)
 
     EXPECT_LT(pipeline.size(), static_cast<std::streamoff>(std::size(data)));
 
-    test_decompress_data(pipeline.device().buffer(), 1, data);
-    test_decompress_data(pipeline.device().buffer(), 2, data);
-    test_decompress_data(pipeline.device().buffer(), 16, data);
-    test_decompress_data(pipeline.device().buffer(), 32, data);
-    test_decompress_data(pipeline.device().buffer(), 128, data);
-    test_decompress_data(pipeline.device().buffer(), 200, data);
-    test_decompress_data(pipeline.device().buffer(), static_cast<int>(std::size(data)), data);
-    test_decompress_data(pipeline.device().buffer(), static_cast<int>(std::size(data) * 2), data);
+    test_decompress_data(pipeline.device().data(), 1, data);
+    test_decompress_data(pipeline.device().data(), 2, data);
+    test_decompress_data(pipeline.device().data(), 16, data);
+    test_decompress_data(pipeline.device().data(), 32, data);
+    test_decompress_data(pipeline.device().data(), 128, data);
+    test_decompress_data(pipeline.device().data(), 200, data);
+    test_decompress_data(pipeline.device().data(), static_cast<int>(std::size(data)), data);
+    test_decompress_data(pipeline.device().data(), static_cast<int>(std::size(data) * 2), data);
 }

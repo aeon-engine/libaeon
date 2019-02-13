@@ -17,7 +17,7 @@ http_client_socket::http_client_socket(asio::io_context &context)
     , state_{http_state::client_read_status}
     , reply_{}
     , circular_buffer_{streams::circular_buffer_filter{},
-                       streams::memory_device<char>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
+                       streams::memory_device<std::vector<char>>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
     , expected_content_length_{0}
 {
 }

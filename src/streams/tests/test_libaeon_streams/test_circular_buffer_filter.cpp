@@ -12,7 +12,7 @@ using namespace aeon;
 
 TEST(test_streams, test_circular_buffer_filter_read_write_basic)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{100};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{100};
 
     const char data1[] = {'A', 'B', 'C', 'D', 'E'};
     auto result = pipeline.write(data1, sizeof(data1));
@@ -41,7 +41,7 @@ TEST(test_streams, test_circular_buffer_filter_read_write_basic)
 
 TEST(test_streams, test_circular_buffer_filter_read_write)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{100};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{100};
 
     char magic_data[100];
     std::memset(magic_data, 'A', sizeof(magic_data));
@@ -61,7 +61,7 @@ TEST(test_streams, test_circular_buffer_filter_read_write)
 
 TEST(test_streams, test_circular_buffer_filter_write_too_big)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{100};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{100};
 
     char magic_data[100];
     std::memset(magic_data, 'A', sizeof(magic_data));
@@ -90,7 +90,7 @@ TEST(test_streams, test_circular_buffer_filter_write_too_big)
 
 TEST(test_streams, test_circular_buffer_filter_read_too_big)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{100};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{100};
 
     char data[101];
     const auto result = pipeline.read(data, sizeof(data));
@@ -102,7 +102,7 @@ TEST(test_streams, test_circular_buffer_filter_read_too_big)
 
 TEST(test_streams, test_circular_buffer_filter_write_wrap_around)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{100};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{100};
 
     char magic_data[50];
     std::memset(magic_data, 'A', sizeof(magic_data));
@@ -132,7 +132,7 @@ TEST(test_streams, test_circular_buffer_filter_write_wrap_around)
 
 TEST(test_streams, test_circular_buffer_filter_read_write_multiple)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{50};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{50};
 
     const auto base_character = 'A';
 
@@ -157,7 +157,7 @@ TEST(test_streams, test_circular_buffer_filter_read_write_multiple)
 
 TEST(test_streams, test_circular_buffer_filter_overread)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{50};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{50};
     ASSERT_EQ(0, pipeline.size());
 
     char data[5];
@@ -169,13 +169,13 @@ TEST(test_streams, test_circular_buffer_filter_overread)
 
 TEST(test_streams, test_circular_buffer_filter_default_size)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{10};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{10};
     ASSERT_EQ(0, pipeline.size());
 }
 
 TEST(test_streams, test_circular_buffer_filter_move_assignment)
 {
-    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<char>{10};
+    auto pipeline = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{10};
 
     const char data[] = {'A', 'B', 'C', 'D', 'E'};
     auto result = pipeline.write(data, sizeof(data));
@@ -183,7 +183,7 @@ TEST(test_streams, test_circular_buffer_filter_move_assignment)
     ASSERT_EQ(aeon_signed_sizeof(data), result);
     ASSERT_EQ(aeon_signed_sizeof(data), pipeline.size());
 
-    auto pipeline2 = streams::circular_buffer_filter{} | streams::memory_device<char>{10};
+    auto pipeline2 = streams::circular_buffer_filter{} | streams::memory_device<std::vector<char>>{10};
     ASSERT_EQ(0u, pipeline2.size());
 
     pipeline2 = std::move(pipeline);

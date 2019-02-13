@@ -4,7 +4,9 @@
 
 #include <aeon/streams/devices/device.h>
 #include <aeon/streams/devices/span_device.h>
+#include <aeon/common/type_traits.h>
 #include <vector>
+#include <string>
 
 namespace aeon::streams
 {
@@ -17,8 +19,8 @@ public:
     {
     };
 
-    explicit memory_view_device(std::vector<T> &buffer) noexcept;
-    explicit memory_view_device(const std::vector<T> &buffer) noexcept;
+    explicit memory_view_device(T &buffer) noexcept;
+    explicit memory_view_device(const T &buffer) noexcept;
 
     memory_view_device(memory_view_device &&) noexcept = default;
     auto operator=(memory_view_device &&) noexcept -> memory_view_device & = default;
@@ -44,43 +46,47 @@ public:
 
     auto size() const noexcept -> std::streamoff;
 
-    auto buffer() const noexcept -> const std::vector<T> &;
-
     void reserve(const std::streamoff size);
 
     void resize(const std::streamoff size);
 
-    auto data() const noexcept -> const std::vector<T> &;
+    const auto &data() const noexcept;
 
 protected:
     memory_view_device() noexcept;
     void update_span();
 
-    std::vector<T> *buffer_view_;
-    span_device<T> span_device_;
+    T *buffer_view_;
+    span_device<typename T::value_type> span_device_;
 };
 
 template <typename T>
-inline memory_view_device<T>::memory_view_device(std::vector<T> &buffer) noexcept
+inline memory_view_device<T>::memory_view_device(T &buffer) noexcept
     : buffer_view_{&buffer}
-    , span_device_{common::span<T>{}}
+    , span_device_{common::span<typename T::value_type>{}}
 {
+    static_assert(std::disjunction_v<common::type_traits::is_std_vector<T>, std::is_same<T, std::string>>,
+                  "Device requires either std::vector or std::string");
+
     if (!std::empty(*buffer_view_))
         update_span();
 }
 
 template <typename T>
-inline memory_view_device<T>::memory_view_device(const std::vector<T> &buffer) noexcept
-    : buffer_view_{const_cast<std::vector<T> *>(&buffer)}
-    , span_device_{common::span<T>{}}
+inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
+    : buffer_view_{const_cast<T *>(&buffer)}
+    , span_device_{common::span<typename T::value_type>{}}
 {
+    static_assert(std::disjunction_v<common::type_traits::is_std_vector<T>, std::is_same<T, std::string>>,
+                  "Device requires either std::vector or std::string");
+
     if (!std::empty(*buffer_view_))
         update_span();
 }
 template <typename T>
 inline memory_view_device<T>::memory_view_device() noexcept
     : buffer_view_{}
-    , span_device_{common::span<T>{}}
+    , span_device_{common::span<typename T::value_type>{}}
 {
 }
 
@@ -134,12 +140,6 @@ inline auto memory_view_device<T>::size() const noexcept -> std::streamoff
 }
 
 template <typename T>
-inline auto memory_view_device<T>::buffer() const noexcept -> const std::vector<T> &
-{
-    return *buffer_view_;
-}
-
-template <typename T>
 inline void memory_view_device<T>::reserve(const std::streamoff size)
 {
     buffer_view_->reserve(size);
@@ -155,7 +155,7 @@ inline void memory_view_device<T>::resize(const std::streamoff size)
 }
 
 template <typename T>
-auto memory_view_device<T>::data() const noexcept -> const std::vector<T> &
+const auto &memory_view_device<T>::data() const noexcept
 {
     return *buffer_view_;
 }

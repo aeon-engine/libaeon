@@ -78,7 +78,7 @@ TEST(test_uuid, test_write_to_stream)
 {
     auto uuid = aeon::utility::uuid::generate();
 
-    aeon::streams::memory_device<char> memstream;
+    aeon::streams::memory_device<std::vector<char>> memstream;
     aeon::streams::stream_writer writer{memstream};
 
     writer << uuid;
@@ -90,7 +90,7 @@ TEST(test_uuid, test_read_from_stream)
 {
     auto uuid = aeon::utility::uuid::generate();
 
-    aeon::streams::memory_device<char> memstream;
+    aeon::streams::memory_device<std::vector<char>> memstream;
     memstream.write(reinterpret_cast<const char *>(uuid.data.data()), uuid.size());
 
     aeon::streams::stream_reader reader(memstream);

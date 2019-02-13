@@ -128,7 +128,7 @@ TEST(test_streams, test_streams_circular_buffer_filter)
     std::array<char, 20> test_array;
     common::span test_array_span{test_array};
 
-    auto device = streams::circular_buffer_filter{} | streams::span_device{std::move(test_array_span)};
+    auto device = streams::circular_buffer_filter{} | streams::span_device{test_array_span};
 
     ASSERT_EQ(5, device.write("12345", 5));
     ASSERT_EQ(5, device.write("67890", 5));
@@ -146,7 +146,7 @@ TEST(test_streams, test_streams_circular_buffer_filter)
 
 TEST(test_streams, test_streams_memory_device)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     ASSERT_EQ(0, device.size());
     ASSERT_EQ(5, device.write("12345", 5));
     ASSERT_EQ(5, device.size());

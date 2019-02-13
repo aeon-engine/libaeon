@@ -37,11 +37,15 @@ public:
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec) const;
-    auto read_to_vector() const -> std::vector<char>;
+
+    template <typename T>
+    auto read_to_vector() const -> std::vector<T>;
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec, const std::streamoff size) const;
-    auto read_to_vector(const std::streamoff size) const -> std::vector<char>;
+
+    template <typename T>
+    auto read_to_vector(const std::streamoff size) const -> std::vector<T>;
 
     void read_to_string(std::string &str) const;
     auto read_to_string() const -> std::string;
@@ -141,9 +145,10 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec) const
 }
 
 template <typename device_t>
-inline auto stream_reader<device_t>::read_to_vector() const -> std::vector<char>
+template <typename T>
+inline auto stream_reader<device_t>::read_to_vector() const -> std::vector<T>
 {
-    std::vector<char> vec;
+    std::vector<T> vec;
     read_to_vector(vec);
     return vec;
 }
@@ -162,9 +167,10 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec, const s
 }
 
 template <typename device_t>
-inline auto stream_reader<device_t>::read_to_vector(const std::streamoff size) const -> std::vector<char>
+template <typename T>
+inline auto stream_reader<device_t>::read_to_vector(const std::streamoff size) const -> std::vector<T>
 {
-    std::vector<char> vec;
+    std::vector<T> vec;
     read_to_vector(vec, size);
     return vec;
 }
@@ -174,7 +180,7 @@ inline void stream_reader<device_t>::read_to_string(std::string &str) const
 {
     aeon_assert(std::empty(str), "Expected given string to be empty.");
 
-    const auto vec = read_to_vector();
+    const auto vec = read_to_vector<char>();
     str.insert(std::begin(str), std::begin(vec), std::end(vec));
 }
 

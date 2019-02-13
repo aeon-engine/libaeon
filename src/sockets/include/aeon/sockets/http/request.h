@@ -62,7 +62,7 @@ private:
     std::vector<std::string> raw_headers_;
 
     std::string content_type_;
-    mutable streams::memory_device<char> content_;
+    mutable streams::memory_device<std::vector<char>> content_;
 };
 
 auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;

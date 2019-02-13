@@ -85,7 +85,7 @@ inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
 }
 
 template <typename device_t>
-inline auto &operator<<(stream_writer<device_t> &writer, const std::string &val)
+inline auto &operator<<(stream_writer<device_t> &writer, const std::string_view &val)
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
 

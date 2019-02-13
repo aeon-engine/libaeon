@@ -51,7 +51,8 @@ private:
 
     http_state state_;
     reply reply_;
-    streams::aggregate_device<streams::circular_buffer_filter, streams::memory_device<char>> circular_buffer_;
+    streams::aggregate_device<streams::circular_buffer_filter, streams::memory_device<std::vector<char>>>
+        circular_buffer_;
     std::streamoff expected_content_length_;
 };
 

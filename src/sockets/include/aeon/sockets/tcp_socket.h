@@ -50,7 +50,7 @@ public:
 
     void send(streams::idynamic_stream &stream);
 
-    void send(const std::shared_ptr<streams::memory_device<std::uint8_t>> &stream);
+    void send(const std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>> &stream);
 
     void disconnect();
 
@@ -63,7 +63,7 @@ private:
     asio::ip::tcp::socket socket_;
     asio::io_context::strand strand_;
     std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
-    std::queue<std::shared_ptr<streams::memory_device<std::uint8_t>>> send_data_queue_;
+    std::queue<std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>>> send_data_queue_;
 };
 
 } // namespace aeon::sockets

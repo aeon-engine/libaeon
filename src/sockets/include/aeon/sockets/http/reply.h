@@ -39,7 +39,7 @@ private:
 
     status_code status_;
     std::vector<std::string> raw_headers_;
-    streams::memory_device<char> content_;
+    streams::memory_device<std::vector<char>> content_;
 };
 
 } // namespace aeon::sockets::http

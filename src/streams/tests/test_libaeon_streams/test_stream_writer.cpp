@@ -13,7 +13,7 @@ using namespace aeon;
 
 TEST(test_streams, test_streams_stream_writer_pod)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0, std::size(device));
@@ -27,7 +27,7 @@ TEST(test_streams, test_streams_stream_writer_pod)
 
 TEST(test_streams, test_streams_stream_writer_stdstring)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0, std::size(device));
@@ -37,7 +37,7 @@ TEST(test_streams, test_streams_stream_writer_stdstring)
 
 TEST(test_streams, test_streams_stream_writer_stdstring_prefixed)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0, std::size(device));
@@ -50,7 +50,7 @@ TEST(test_streams, test_streams_stream_writer_stdstring_prefixed)
 
 TEST(test_streams, test_streams_stream_writer_vector)
 {
-    auto device = streams::memory_device<char>{};
+    auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     const std::vector<std::uint32_t> test{1, 2, 3, 4, 5};

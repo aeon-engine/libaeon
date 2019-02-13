@@ -46,11 +46,11 @@ void tcp_socket::send(streams::idynamic_stream &stream)
 
     std::vector<std::uint8_t> vec;
     reader.read_to_vector(vec);
-    const auto memorystream = std::make_shared<streams::memory_device<std::uint8_t>>(std::move(vec));
+    const auto memorystream = std::make_shared<streams::memory_device<std::vector<std::uint8_t>>>(std::move(vec));
     send(memorystream);
 }
 
-void tcp_socket::send(const std::shared_ptr<streams::memory_device<std::uint8_t>> &stream)
+void tcp_socket::send(const std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>> &stream)
 {
     if (stream->size() == 0)
         return;

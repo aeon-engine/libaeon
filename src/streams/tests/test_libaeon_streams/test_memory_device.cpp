@@ -24,7 +24,7 @@ struct test_fixture_memory_device_default_data : public ::testing::Test
         ASSERT_LE(fixture_data_written, device.size());
     }
 
-    streams::memory_device<char> device;
+    streams::memory_device<std::vector<char>> device;
     std::array<char, 5> fixture_data;
     std::streamoff fixture_data_written;
 };
