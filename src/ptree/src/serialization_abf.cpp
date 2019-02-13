@@ -129,8 +129,7 @@ public:
             case chunk_type_string:
             {
                 std::string str;
-                streams::length_prefix_string prefix_str{str};
-                reader_ >> prefix_str;
+                reader_ >> streams::length_prefix_string{str};
                 return str;
             }
             case chunk_type_integer:
@@ -175,8 +174,7 @@ private:
         while (count != 0)
         {
             std::string key;
-            streams::length_prefix_string key_prefix_str{key};
-            reader_ >> key_prefix_str;
+            reader_ >> streams::length_prefix_string{key};
             data.emplace(std::move(key), parse());
             --count;
         }

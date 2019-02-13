@@ -191,7 +191,7 @@ inline auto &operator>>(stream_reader<device_t> &reader, std::string &val)
 }
 
 template <typename device_t, typename T>
-inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<T> &value)
+inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<T> &&value)
 {
     T length = 0;
     reader >> length;

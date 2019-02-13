@@ -85,8 +85,7 @@ TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
     streams::stream_reader reader{device};
 
     std::string val2;
-    streams::length_prefix_string prefixed_str{val2};
-    reader >> prefixed_str;
+    reader >> streams::length_prefix_string{val2};
 
     EXPECT_EQ(val, val2);
 }

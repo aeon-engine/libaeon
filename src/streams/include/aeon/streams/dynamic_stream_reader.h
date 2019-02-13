@@ -155,7 +155,7 @@ inline auto &operator>>(dynamic_stream_reader &reader, std::string &val)
 }
 
 template <typename T>
-inline auto &operator>>(dynamic_stream_reader &reader, length_prefix_string<T> &value)
+inline auto &operator>>(dynamic_stream_reader &reader, length_prefix_string<T> &&value)
 {
     T length = 0;
     reader >> length;
