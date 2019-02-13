@@ -146,6 +146,12 @@ public:
         return std::get<object>(value());
     }
 
+    const auto &string_value() const
+    {
+        aeon_assert(is_string(), "Value is not a string.");
+        return std::get<std::string>(value());
+    }
+
     auto integer_value() const
     {
         aeon_assert(is_integer(), "Value is not an integer.");
