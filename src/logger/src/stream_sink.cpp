@@ -1,8 +1,7 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/logger/stream_sink.h>
-#include <aeon/streams/stream.h>
-#include <aeon/streams/dynamic_stream_writer.h>
+#include <aeon/streams/stream_writer.h>
 
 namespace aeon::logger
 {
@@ -14,7 +13,7 @@ stream_sink::stream_sink(streams::idynamic_stream &stream)
 
 void stream_sink::log(const std::string &message, const std::string &module, log_level level)
 {
-    streams::dynamic_stream_writer writer(stream_);
+    streams::stream_writer writer(stream_);
 
     writer << '[';
     writer << module;

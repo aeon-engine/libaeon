@@ -1,7 +1,7 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/sockets/tcp_socket.h>
-#include <aeon/streams/dynamic_stream_reader.h>
+#include <aeon/streams/stream_reader.h>
 #include <asio/write.hpp>
 #include <asio/buffered_stream.hpp>
 #include <asio/connect.hpp>
@@ -42,7 +42,7 @@ void tcp_socket::on_error(const std::error_code &ec)
 
 void tcp_socket::send(streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_reader reader(stream);
+    streams::stream_reader reader(stream);
 
     std::vector<std::uint8_t> vec;
     reader.read_to_vector(vec);

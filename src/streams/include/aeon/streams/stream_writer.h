@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <aeon/streams/length_prefix_string.h>
+#include <aeon/streams/idynamic_stream.h>
 #include <aeon/streams/exception.h>
 #include <aeon/streams/stream_traits.h>
-#include <aeon/common/assert.h>
 #include <aeon/common/signed_sizeof.h>
+#include <aeon/common/assert.h>
 #include <string>
 #include <vector>
 
@@ -37,11 +37,24 @@ private:
 };
 
 template <typename device_t>
+class dynamic_stream;
+
+template <typename device_t>
+stream_writer(dynamic_stream<device_t> &)->stream_writer<idynamic_stream>;
+
+template <typename device_t>
 inline stream_writer<device_t>::stream_writer(device_t &device) noexcept
     : device_{&device}
 {
-    static_assert(is_device_v<device_t>, "Stream writer requires a device.");
-    static_assert(is_output_v<device_t>, "Stream writer requires an output device.");
+    if constexpr (std::is_same_v<device_t, idynamic_stream>)
+    {
+        aeon_assert(device_->is_output(), "Stream writer requires an output device.");
+    }
+    else
+    {
+        static_assert(is_device_v<device_t>, "Stream writer requires a device.");
+        static_assert(is_output_v<device_t>, "Stream writer requires an output device.");
+    }
 }
 
 template <typename device_t>
@@ -74,22 +87,9 @@ inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
 template <typename device_t>
 inline auto &operator<<(stream_writer<device_t> &writer, const std::string &val)
 {
-    const auto size = std::size(val);
+    const auto size = static_cast<std::streamsize>(std::size(val));
+
     if (writer.device().write(std::data(val), size) != static_cast<std::streamsize>(size))
-        throw stream_exception{};
-
-    return writer;
-}
-
-template <typename device_t, typename T>
-inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_string<T> &value)
-{
-    const auto string_length = value.string.size();
-    aeon_assert(string_length < std::numeric_limits<T>::max(), "String length exceeds length type max (overflow).");
-
-    writer << static_cast<T>(string_length);
-
-    if (writer.device().write(value.string.c_str(), string_length) != static_cast<std::streamsize>(string_length))
         throw stream_exception{};
 
     return writer;

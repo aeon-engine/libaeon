@@ -2,6 +2,7 @@
 
 #include <aeon/streams/devices/memory_device.h>
 #include <aeon/streams/stream_writer.h>
+#include <aeon/streams/length_prefix_string.h>
 #include <aeon/common/signed_sizeof.h>
 #include <gtest/gtest.h>
 #include <fstream>

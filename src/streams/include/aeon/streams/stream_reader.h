@@ -2,15 +2,14 @@
 
 #pragma once
 
-#include <aeon/streams/length_prefix_string.h>
-#include <aeon/streams/seek_direction.h>
+#include <aeon/streams/idynamic_stream.h>
 #include <aeon/streams/exception.h>
 #include <aeon/streams/stream_traits.h>
+#include <aeon/streams/seek_direction.h>
 #include <aeon/common/signed_sizeof.h>
 #include <aeon/common/assert.h>
 #include <string>
 #include <vector>
-#include <cstring>
 
 namespace aeon::streams
 {
@@ -52,11 +51,24 @@ private:
 };
 
 template <typename device_t>
+class dynamic_stream;
+
+template <typename device_t>
+stream_reader(dynamic_stream<device_t> &)->stream_reader<idynamic_stream>;
+
+template <typename device_t>
 inline stream_reader<device_t>::stream_reader(device_t &device) noexcept
     : device_{&device}
 {
-    static_assert(is_device_v<device_t>, "Stream writer requires a device.");
-    static_assert(is_input_v<device_t>, "Stream reader requires an input device.");
+    if constexpr (std::is_same_v<device_t, idynamic_stream>)
+    {
+        aeon_assert(device_->is_input(), "Stream reader requires an input device.");
+    }
+    else
+    {
+        static_assert(is_device_v<device_t>, "Stream writer requires a device.");
+        static_assert(is_input_v<device_t>, "Stream reader requires an input device.");
+    }
 }
 
 template <typename device_t>
@@ -68,7 +80,10 @@ inline auto stream_reader<device_t>::device() const noexcept -> device_t &
 template <typename device_t>
 inline void stream_reader<device_t>::read_line(std::string &line) const
 {
-    static_assert(is_input_seekable_v<device_t>, "read_line requires an input seekable device.");
+    if constexpr (std::is_same_v<device_t, idynamic_stream>)
+        aeon_assert(device_->is_input_seekable(), "read_line requires an input seekable device.");
+    else
+        static_assert(is_input_seekable_v<device_t>, "read_line requires an input seekable device.");
 
     std::streamsize peek_size = 0;
     char peek_data[read_block_size] = {};
@@ -117,15 +132,12 @@ template <typename device_t>
 template <typename T>
 inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec) const
 {
-    static_assert(sizeof(T) == 1, "Given template argument size must be 1 byte.");
-    static_assert(has_size_v<device_t>, "read_to_vector requires a device with known size.");
-    aeon_assert(std::empty(vec), "Expected given vector to be empty.");
+    if constexpr (std::is_same_v<device_t, idynamic_stream>)
+        aeon_assert(device_->has_size(), "read_to_vector requires a device with known size.");
+    else
+        static_assert(has_size_v<device_t>, "read_to_vector requires a device with known size.");
 
-    const auto size = device_->size();
-    vec.resize(size);
-
-    if (device_->read(reinterpret_cast<char *>(std::data(vec)), static_cast<std::streamsize>(size)) != size)
-        throw stream_exception{};
+    read_to_vector(vec, device_->size());
 }
 
 template <typename device_t>
@@ -187,19 +199,6 @@ template <typename device_t>
 inline auto &operator>>(stream_reader<device_t> &reader, std::string &val)
 {
     reader.read_line(val);
-    return reader;
-}
-
-template <typename device_t, typename T>
-inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<T> &&value)
-{
-    T length = 0;
-    reader >> length;
-    value.string.resize(length);
-
-    if (reader.device().read(std::data(value.string), length) != static_cast<std::streamoff>(length))
-        throw stream_exception{};
-
     return reader;
 }
 

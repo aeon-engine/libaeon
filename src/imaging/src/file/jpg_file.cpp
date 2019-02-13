@@ -4,8 +4,8 @@
 #include <aeon/imaging/file/tjhandle_wrapper.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/dynamic_stream_reader.h>
-#include <aeon/streams/dynamic_stream_writer.h>
+#include <aeon/streams/stream_reader.h>
+#include <aeon/streams/stream_writer.h>
 #include <aeon/common/assert.h>
 #include <turbojpeg.h>
 
@@ -48,7 +48,7 @@ auto load(streams::idynamic_stream &stream) -> dynamic_image
 {
     detail::tjhandle_decompress_wrapper wrapper;
 
-    streams::dynamic_stream_reader reader{stream};
+    streams::stream_reader reader{stream};
     auto data = reader.read_to_vector();
     const auto data_size = static_cast<unsigned long>(std::size(data));
 
@@ -110,7 +110,7 @@ void save(const image_view<T> &image, const subsample_mode subsample, int qualit
 
     dest_buffer.resize(actual_size);
 
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer.vector_write(dest_buffer);
 
     if (stream.is_flushable())

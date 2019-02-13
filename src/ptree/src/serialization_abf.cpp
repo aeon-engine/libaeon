@@ -4,8 +4,9 @@
 #include <aeon/ptree/serialization/exception.h>
 #include <aeon/streams/devices/memory_view_device.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/dynamic_stream_writer.h>
-#include <aeon/streams/dynamic_stream_reader.h>
+#include <aeon/streams/stream_writer.h>
+#include <aeon/streams/stream_reader.h>
+#include <aeon/streams/length_prefix_string.h>
 #include <aeon/utility/uuid_stream.h>
 
 namespace aeon::ptree::serialization
@@ -39,13 +40,13 @@ void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
 
 void to_abf(const std::monostate, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_null;
 }
 
 void to_abf(const array &arr, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_array;
 
     writer << static_cast<std::uint64_t>(std::size(arr));
@@ -58,7 +59,7 @@ void to_abf(const array &arr, streams::idynamic_stream &stream)
 
 void to_abf(const object &obj, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_object;
 
     writer << static_cast<std::uint64_t>(std::size(obj));
@@ -72,35 +73,35 @@ void to_abf(const object &obj, streams::idynamic_stream &stream)
 
 void to_abf(const std::string &obj_str, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_string;
     writer << streams::length_prefix_string{obj_str};
 }
 
 void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_uuid;
     writer << uuid;
 }
 
 void to_abf(const std::int64_t val, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_integer;
     writer << val;
 }
 
 void to_abf(const double val, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_double;
     writer << val;
 }
 
 void to_abf(const bool val, streams::idynamic_stream &stream)
 {
-    streams::dynamic_stream_writer writer{stream};
+    streams::stream_writer writer{stream};
     writer << chunk_type_bool;
     writer << static_cast<std::uint8_t>(val);
 }
@@ -200,7 +201,7 @@ private:
         return data;
     }
 
-    streams::dynamic_stream_reader reader_;
+    streams::stream_reader<streams::idynamic_stream> reader_;
 };
 
 } // namespace internal

@@ -5,7 +5,7 @@
 #include <aeon/fonts/font_manager.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/dynamic_stream_reader.h>
+#include <aeon/streams/stream_reader.h>
 #include <aeon/imaging/file/png_file.h>
 #include <aeon/imaging/filters/blit.h>
 #include <aeon/imaging/converters/convert_encoding.h>
@@ -105,7 +105,7 @@ TEST(test_fonts, test_load_text_string)
     auto text_file =
         streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "lucky_star.txt"});
 
-    streams::dynamic_stream_reader reader{text_file};
+    streams::stream_reader reader{text_file};
     const auto image = generate_text_image(face, reader.read_to_string());
 
     const auto rgb_image = imaging::convert::to_rgb24(image);
