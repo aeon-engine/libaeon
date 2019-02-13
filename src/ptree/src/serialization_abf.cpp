@@ -6,6 +6,7 @@
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/dynamic_stream_writer.h>
 #include <aeon/streams/dynamic_stream_reader.h>
+#include <aeon/utility/uuid_stream.h>
 
 namespace aeon::ptree::serialization
 {
@@ -20,11 +21,13 @@ static constexpr std::uint8_t chunk_type_string = 0x03;
 static constexpr std::uint8_t chunk_type_integer = 0x04;
 static constexpr std::uint8_t chunk_type_double = 0x05;
 static constexpr std::uint8_t chunk_type_bool = 0x06;
+static constexpr std::uint8_t chunk_type_uuid = 0x07;
 
 void to_abf(const std::monostate, streams::idynamic_stream &);
 void to_abf(const array &arr, streams::idynamic_stream &stream);
 void to_abf(const object &obj, streams::idynamic_stream &stream);
 void to_abf(const std::string &obj_str, streams::idynamic_stream &stream);
+void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream);
 void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
 void to_abf(const double val, streams::idynamic_stream &stream);
 void to_abf(const bool val, streams::idynamic_stream &stream);
@@ -72,6 +75,13 @@ void to_abf(const std::string &obj_str, streams::idynamic_stream &stream)
     streams::dynamic_stream_writer writer{stream};
     writer << chunk_type_string;
     writer << streams::length_prefix_string{obj_str};
+}
+
+void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream)
+{
+    streams::dynamic_stream_writer writer{stream};
+    writer << chunk_type_uuid;
+    writer << uuid;
 }
 
 void to_abf(const std::int64_t val, streams::idynamic_stream &stream)
@@ -140,6 +150,12 @@ public:
                 std::uint8_t val = 0;
                 reader_ >> val;
                 return static_cast<bool>(val);
+            }
+            case chunk_type_uuid:
+            {
+                utility::uuid uuid;
+                reader_ >> uuid;
+                return uuid;
             }
             default:
                 throw ptree_serialization_exception{};

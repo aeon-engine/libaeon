@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/utility/linear_map.h>
+#include <aeon/utility/uuid.h>
 #include <aeon/common/assert.h>
 #include <variant>
 #include <vector>
@@ -85,6 +86,16 @@ public:
     {
     }
 
+    property_tree(const utility::uuid &uuid)
+        : value_{uuid}
+    {
+    }
+
+    property_tree(utility::uuid &&uuid)
+        : value_{std::move(uuid)}
+    {
+    }
+
     virtual ~property_tree() noexcept = default;
 
     property_tree(const property_tree &) = default;
@@ -112,6 +123,11 @@ public:
     auto is_string() const noexcept
     {
         return is_type<std::string>();
+    }
+
+    auto is_uuid() const noexcept
+    {
+        return is_type<utility::uuid>();
     }
 
     auto is_integer() const noexcept
@@ -146,6 +162,12 @@ public:
         return std::get<object>(value());
     }
 
+    const auto &uuid_value() const
+    {
+        aeon_assert(is_uuid(), "Value is not a uuid.");
+        return std::get<utility::uuid>(value());
+    }
+
     const auto &string_value() const
     {
         aeon_assert(is_string(), "Value is not a string.");
@@ -171,7 +193,7 @@ public:
     }
 
 private:
-    std::variant<std::monostate, array, object, std::string, std::int64_t, double, bool> value_;
+    std::variant<std::monostate, array, object, utility::uuid, std::string, std::int64_t, double, bool> value_;
 };
 
 } // namespace aeon::ptree

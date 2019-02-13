@@ -20,6 +20,7 @@ void to_json(const std::monostate, std::string &);
 void to_json(const array &arr, std::string &str);
 void to_json(const object &obj, std::string &str);
 void to_json(const std::string &obj_str, std::string &str);
+void to_json(const utility::uuid &uuid, std::string &str);
 void to_json(const std::int64_t val, std::string &str);
 void to_json(const double val, std::string &str);
 void to_json(const bool val, std::string &str);
@@ -62,6 +63,11 @@ void to_json(const object &obj, std::string &str)
 
     str.resize(std::size(str) - 1);
     str.push_back('}');
+}
+
+void to_json(const utility::uuid &uuid, std::string &str)
+{
+    to_json(uuid.str(), str);
 }
 
 void to_json(const std::string &obj_str, std::string &str)
