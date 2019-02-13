@@ -14,13 +14,13 @@ namespace aeon::utility
 bool configfile::has_entry(const std::string &key) const
 {
     const auto itr = entries_.find(key);
-    return (itr != entries_.end());
+    return (itr != std::end(entries_));
 }
 
 void configfile::load(streams::idynamic_stream &stream)
 {
     if (stream.has_status() && !stream.good())
-        throw configfile_exception();
+        throw configfile_exception{};
 
     entries_.clear();
 
@@ -58,7 +58,7 @@ void configfile::load(const std::filesystem::path &path)
     }
     catch (const streams::stream_exception &)
     {
-        throw configfile_exception();
+        throw configfile_exception{};
     }
 }
 
