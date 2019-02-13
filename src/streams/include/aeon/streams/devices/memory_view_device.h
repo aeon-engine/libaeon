@@ -60,8 +60,6 @@ protected:
     span_device<T> span_device_;
 };
 
-memory_view_device(const std::string &)->memory_view_device<char>;
-
 template <typename T>
 inline memory_view_device<T>::memory_view_device(std::vector<T> &buffer) noexcept
     : buffer_view_{&buffer}
