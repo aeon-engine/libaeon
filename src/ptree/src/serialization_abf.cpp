@@ -66,7 +66,7 @@ void to_abf(const object &obj, streams::idynamic_stream &stream)
 
     for (const auto &[key, val] : obj)
     {
-        writer << streams::length_prefix_string{key};
+        writer << streams::length_prefix_string<streams::varint>{key};
         to_abf(val, stream);
     }
 }
@@ -75,7 +75,7 @@ void to_abf(const std::string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_string;
-    writer << streams::length_prefix_string{obj_str};
+    writer << streams::length_prefix_string<streams::varint>{obj_str};
 }
 
 void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream)
@@ -130,7 +130,7 @@ public:
             case chunk_type_string:
             {
                 std::string str;
-                reader_ >> streams::length_prefix_string{str};
+                reader_ >> streams::length_prefix_string<streams::varint>{str};
                 return str;
             }
             case chunk_type_integer:
@@ -175,7 +175,7 @@ private:
         while (count != 0)
         {
             std::string key;
-            reader_ >> streams::length_prefix_string{key};
+            reader_ >> streams::length_prefix_string<streams::varint>{key};
             data.emplace(std::move(key), parse());
             --count;
         }
