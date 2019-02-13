@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/streams/varint.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/exception.h>
@@ -19,13 +20,15 @@ struct length_prefix_string
     explicit length_prefix_string(std::string &str)
         : string(str)
     {
-        static_assert(std::is_integral_v<T>, "Length prefix must be integral type.");
+        static_assert(std::disjunction_v<std::is_integral<T>, std::is_same<T, varint>>,
+                      "Length prefix must be integral type or varint.");
     }
 
     explicit length_prefix_string(const std::string &str)
         : string(const_cast<std::string &>(str))
     {
-        static_assert(std::is_integral_v<T>, "Length prefix must be integral type.");
+        static_assert(std::disjunction_v<std::is_integral<T>, std::is_same<T, varint>>,
+                      "Length prefix must be integral type or varint.");
     }
 
     std::string &string;
@@ -45,11 +48,37 @@ inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_str
     return writer;
 }
 
+template <typename device_t>
+inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_string<varint> &value)
+{
+    const auto string_length = value.string.size();
+
+    writer << varint{string_length};
+
+    if (writer.device().write(value.string.c_str(), string_length) != static_cast<std::streamsize>(string_length))
+        throw stream_exception{};
+
+    return writer;
+}
+
 template <typename device_t, typename T>
 inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<T> &&value)
 {
     T length = 0;
     reader >> length;
+    value.string.resize(length);
+
+    if (reader.device().read(std::data(value.string), length) != static_cast<std::streamoff>(length))
+        throw stream_exception{};
+
+    return reader;
+}
+
+template <typename device_t>
+inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<varint> &&value)
+{
+    std::uint64_t length = 0;
+    reader >> varint{length};
     value.string.resize(length);
 
     if (reader.device().read(std::data(value.string), length) != static_cast<std::streamoff>(length))
