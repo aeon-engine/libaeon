@@ -57,7 +57,7 @@ TEST(test_ptree, abf_serialize_deserialize_complex)
 
 TEST(test_ptree, shorthand_at)
 {
-    ASSERT_NO_THROW(pt_complex.at("test"));
+    ASSERT_NO_THROW(pt_complex.at("test")); // NOLINT(cppcoreguidelines-avoid-goto)
     EXPECT_TRUE(pt_complex.at("test") == 3);
 }
 
