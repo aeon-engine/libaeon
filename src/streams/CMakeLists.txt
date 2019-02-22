@@ -42,6 +42,7 @@ source_group(streams\\devices\\detail FILES ${LIB_AEON_STREAMS_DEVICES_DETAIL_SO
 set(LIB_AEON_STREAMS_FILTERS_SOURCE
     include/aeon/streams/filters/circular_buffer_filter.h
     include/aeon/streams/filters/filter.h
+    include/aeon/streams/filters/seek_offset_filter.h
     include/aeon/streams/filters/zlib_filter.h
 )
 
