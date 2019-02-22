@@ -196,6 +196,30 @@ public:
         map_.reserve(size);
     }
 
+    auto operator==(const linear_map<key_type, value_type> &other) const noexcept -> bool
+    {
+        if (size() != std::size(other))
+            return false;
+
+        for (const auto &[key, val] : map_)
+        {
+            const auto result = other.find(key);
+
+            if (result == std::end(other))
+                return false;
+
+            if (result->second != val)
+                return false;
+        }
+
+        return true;
+    }
+
+    auto operator!=(const linear_map<key_type, value_type> &other) const noexcept -> bool
+    {
+        return !(*this == other);
+    }
+
 private:
     map_type map_;
 };

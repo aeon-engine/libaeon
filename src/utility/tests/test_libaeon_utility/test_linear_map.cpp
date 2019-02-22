@@ -3,7 +3,9 @@
 #include <gtest/gtest.h>
 #include <aeon/utility/linear_map.h>
 
-struct test_fixture_linear_map_default_data : public ::testing::Test
+using namespace aeon;
+
+struct test_fixture_linear_map_default_data : ::testing::Test
 {
     test_fixture_linear_map_default_data()
     {
@@ -19,7 +21,7 @@ struct test_fixture_linear_map_default_data : public ::testing::Test
         ASSERT_EQ(5, linear_map_.size());
     }
 
-    aeon::utility::linear_map<std::string, int> linear_map_;
+    utility::linear_map<std::string, int> linear_map_;
 };
 
 TEST_F(test_fixture_linear_map_default_data, test_linear_map_at)
@@ -172,4 +174,36 @@ TEST_F(test_fixture_linear_map_default_data, test_linear_map_erase_if)
     ASSERT_EQ(5, linear_map_.size());
     linear_map_.erase_if([](const auto &pair) { return (pair.first == "Two" || pair.first == "Four"); });
     ASSERT_EQ(3, linear_map_.size());
+}
+
+TEST(test_fixture_linear_map, test_linear_map_compare_different_size)
+{
+    const utility::linear_map<std::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const utility::linear_map<std::string, int> map2{{"hello", 3}, {"bye", 4}, {"another", 6}};
+    EXPECT_FALSE(map1 == map2);
+    EXPECT_TRUE(map1 != map2);
+}
+
+TEST(test_fixture_linear_map, test_linear_map_compare_different_key)
+{
+    const utility::linear_map<std::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const utility::linear_map<std::string, int> map2{{"hello", 3}, {"bye2", 4}};
+    EXPECT_FALSE(map1 == map2);
+    EXPECT_TRUE(map1 != map2);
+}
+
+TEST(test_fixture_linear_map, test_linear_map_compare_different_value)
+{
+    const utility::linear_map<std::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const utility::linear_map<std::string, int> map2{{"hello", 3}, {"bye", 5}};
+    EXPECT_FALSE(map1 == map2);
+    EXPECT_TRUE(map1 != map2);
+}
+
+TEST(test_fixture_linear_map, test_linear_map_compare_equal)
+{
+    const utility::linear_map<std::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const utility::linear_map<std::string, int> map2{{"hello", 3}, {"bye", 4}};
+    EXPECT_TRUE(map1 == map2);
+    EXPECT_FALSE(map1 != map2);
 }
