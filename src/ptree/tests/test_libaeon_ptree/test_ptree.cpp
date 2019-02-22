@@ -54,3 +54,66 @@ TEST(test_ptree, abf_serialize_deserialize_complex)
     const auto pt2 = ptree::serialization::from_abf(device);
     const auto data2 = ptree::serialization::to_abf(pt2);
 }
+
+TEST(test_ptree, shorthand_at)
+{
+    ASSERT_NO_THROW(pt_complex.at("test"));
+    EXPECT_TRUE(pt_complex.at("test") == 3);
+}
+
+TEST(test_ptree, compare_simple)
+{
+    const auto other = pt_simple;
+    EXPECT_TRUE(pt_simple == other);
+    EXPECT_FALSE(pt_simple != other);
+}
+
+TEST(test_ptree, compare_complex)
+{
+    const auto other = pt_complex;
+    EXPECT_TRUE(pt_complex == other);
+    EXPECT_FALSE(pt_complex != other);
+}
+
+TEST(test_ptree, compare_different)
+{
+    EXPECT_FALSE(pt_simple == pt_complex);
+    EXPECT_TRUE(pt_simple != pt_complex);
+}
+
+TEST(test_ptree, compare_after_change)
+{
+    auto other = pt_complex;
+    EXPECT_TRUE(pt_complex == other);
+    EXPECT_FALSE(pt_complex != other);
+
+    other.object_value().emplace("test4", 5);
+    EXPECT_FALSE(pt_complex == other);
+    EXPECT_TRUE(pt_complex != other);
+
+    other.object_value().erase("test4");
+    EXPECT_TRUE(pt_complex == other);
+    EXPECT_FALSE(pt_complex != other);
+}
+
+TEST(test_ptree, compare_int)
+{
+    EXPECT_TRUE(pt_complex.object_value().at("test") == 3);
+    EXPECT_FALSE(pt_complex.object_value().at("test") != 3);
+    EXPECT_TRUE(3 == pt_complex.object_value().at("test"));
+    EXPECT_FALSE(3 != pt_complex.object_value().at("test"));
+
+    EXPECT_FALSE(pt_complex.object_value().at("test") == "testing");
+    EXPECT_FALSE(pt_complex.object_value().at("test") == 3.0);
+}
+
+TEST(test_ptree, compare_double)
+{
+    EXPECT_TRUE(pt_complex.object_value().at("test2") == 2.0);
+    EXPECT_FALSE(pt_complex.object_value().at("test2") != 2.0);
+    EXPECT_TRUE(2.0 == pt_complex.object_value().at("test2"));
+    EXPECT_FALSE(2.0 != pt_complex.object_value().at("test2"));
+
+    EXPECT_FALSE(pt_complex.object_value().at("test2") == "testing");
+    EXPECT_FALSE(pt_complex.object_value().at("test2") == 3);
+}

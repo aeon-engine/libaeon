@@ -7,6 +7,12 @@ set(LIB_AEON_PTREE_SOURCE
 
 source_group(ptree FILES ${LIB_AEON_PTREE_SOURCE})
 
+set(LIB_AEON_PTREE_IMPL_SOURCE
+    include/aeon/ptree/impl/ptree_impl.h
+)
+
+source_group(ptree\\impl FILES ${LIB_AEON_PTREE_IMPL_SOURCE})
+
 set(LIB_AEON_PTREE_SERIALIZATION_SOURCE
     include/aeon/ptree/serialization/exception.h
     include/aeon/ptree/serialization/serialization_json.h
@@ -20,6 +26,7 @@ source_group(ptree\\serialization FILES ${LIB_AEON_PTREE_SERIALIZATION_SOURCE})
 add_library(aeon_ptree
     STATIC
         ${LIB_AEON_PTREE_SOURCE}
+        ${LIB_AEON_PTREE_IMPL_SOURCE}
         ${LIB_AEON_PTREE_SERIALIZATION_SOURCE}
 )
 

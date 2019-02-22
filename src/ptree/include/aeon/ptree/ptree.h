@@ -4,7 +4,6 @@
 
 #include <aeon/utility/linear_map.h>
 #include <aeon/utility/uuid.h>
-#include <aeon/common/assert.h>
 #include <variant>
 #include <vector>
 #include <string>
@@ -21,80 +20,24 @@ using object = utility::linear_map<std::string, property_tree>;
 class property_tree
 {
 public:
-    property_tree()
-        : value_{}
-    {
-    }
+    using variant_type =
+        std::variant<std::monostate, array, object, utility::uuid, std::string, std::int64_t, double, bool>;
 
-    property_tree(std::nullptr_t)
-        : value_{}
-    {
-    }
-
-    property_tree(const int value)
-        : value_{static_cast<std::int64_t>(value)}
-    {
-    }
-
-    property_tree(const std::int64_t value)
-        : value_{value}
-    {
-    }
-
-    property_tree(const double value)
-        : value_{value}
-    {
-    }
-
-    property_tree(const array &value)
-        : value_{value}
-    {
-    }
-
-    property_tree(const bool value)
-        : value_{value}
-    {
-    }
-
-    property_tree(array &&value)
-        : value_{std::move(value)}
-    {
-    }
-
-    property_tree(const object &value)
-        : value_{value}
-    {
-    }
-
-    property_tree(object &&value)
-        : value_{std::move(value)}
-    {
-    }
-
-    property_tree(const char *const value)
-        : value_{std::string{value}}
-    {
-    }
-
-    property_tree(const std::string &value)
-        : value_{value}
-    {
-    }
-
-    property_tree(std::string &&value)
-        : value_{std::move(value)}
-    {
-    }
-
-    property_tree(const utility::uuid &uuid)
-        : value_{uuid}
-    {
-    }
-
-    property_tree(utility::uuid &&uuid)
-        : value_{std::move(uuid)}
-    {
-    }
+    property_tree();
+    property_tree(std::nullptr_t);
+    property_tree(const int value);
+    property_tree(const std::int64_t value);
+    property_tree(const double value);
+    property_tree(const array &value);
+    property_tree(array &&value);
+    property_tree(const object &value);
+    property_tree(object &&value);
+    property_tree(const bool value);
+    property_tree(const char *const value);
+    property_tree(const std::string &value);
+    property_tree(std::string &&value);
+    property_tree(const utility::uuid &uuid);
+    property_tree(utility::uuid &&uuid);
 
     virtual ~property_tree() noexcept = default;
 
@@ -105,95 +48,101 @@ public:
     auto operator=(property_tree &&) noexcept -> property_tree & = default;
 
     template <typename T>
-    auto is_type() const noexcept
-    {
-        return std::holds_alternative<T>(value_);
-    }
+    auto is_type() const noexcept;
 
-    auto is_array() const noexcept
-    {
-        return is_type<array>();
-    }
+    auto is_null() const noexcept;
+    auto is_array() const noexcept;
+    auto is_object() const noexcept;
+    auto is_string() const noexcept;
+    auto is_uuid() const noexcept;
+    auto is_integer() const noexcept;
+    auto is_double() const noexcept;
+    auto is_bool() const noexcept;
 
-    auto is_object() const noexcept
-    {
-        return is_type<object>();
-    }
+    auto value() noexcept -> variant_type &;
+    auto value() const noexcept -> const variant_type &;
 
-    auto is_string() const noexcept
-    {
-        return is_type<std::string>();
-    }
+    auto array_value() -> array &;
+    auto array_value() const -> const array &;
 
-    auto is_uuid() const noexcept
-    {
-        return is_type<utility::uuid>();
-    }
+    auto object_value() -> object &;
+    auto object_value() const -> const object &;
 
-    auto is_integer() const noexcept
-    {
-        return is_type<std::int64_t>();
-    }
+    auto uuid_value() const -> const utility::uuid &;
+    auto string_value() const -> const std::string &;
+    auto integer_value() const -> std::int64_t;
+    auto double_value() const -> double;
+    auto bool_value() const -> bool;
 
-    auto is_double() const noexcept
-    {
-        return is_type<double>();
-    }
+    auto at(const object::key_type &key) -> object::value_type &;
+    auto at(const object::key_type &key) const -> const object::value_type &;
 
-    auto is_bool() const noexcept
-    {
-        return is_type<bool>();
-    }
+    auto operator=(const std::nullptr_t) -> property_tree &;
+    auto operator=(const int value) -> property_tree &;
+    auto operator=(const std::int64_t value) -> property_tree &;
+    auto operator=(const double value) -> property_tree &;
+    auto operator=(const array &value) -> property_tree &;
+    auto operator=(array &&value) -> property_tree &;
+    auto operator=(const object &value) -> property_tree &;
+    auto operator=(object &&value) -> property_tree &;
+    auto operator=(const char *const value) -> property_tree &;
+    auto operator=(const std::string &value) -> property_tree &;
+    auto operator=(std::string &&value) -> property_tree &;
+    auto operator=(const utility::uuid &value) -> property_tree &;
+    auto operator=(utility::uuid &&value) -> property_tree &;
 
-    const auto &value() const noexcept
-    {
-        return value_;
-    }
-
-    const auto &array_value() const
-    {
-        aeon_assert(is_array(), "Value is not an array.");
-        return std::get<array>(value());
-    }
-
-    const auto &object_value() const
-    {
-        aeon_assert(is_object(), "Value is not an object.");
-        return std::get<object>(value());
-    }
-
-    const auto &uuid_value() const
-    {
-        aeon_assert(is_uuid(), "Value is not a uuid.");
-        return std::get<utility::uuid>(value());
-    }
-
-    const auto &string_value() const
-    {
-        aeon_assert(is_string(), "Value is not a string.");
-        return std::get<std::string>(value());
-    }
-
-    auto integer_value() const
-    {
-        aeon_assert(is_integer(), "Value is not an integer.");
-        return std::get<std::int64_t>(value());
-    }
-
-    auto double_value() const
-    {
-        aeon_assert(is_double(), "Value is not a double.");
-        return std::get<double>(value());
-    }
-
-    auto bool_value() const
-    {
-        aeon_assert(is_bool(), "Value is not a bool.");
-        return std::get<bool>(value());
-    }
+    auto operator==(const property_tree &other) const noexcept -> bool;
+    auto operator!=(const property_tree &other) const noexcept -> bool;
 
 private:
-    std::variant<std::monostate, array, object, utility::uuid, std::string, std::int64_t, double, bool> value_;
+    variant_type value_;
 };
 
+auto operator==(const property_tree &lhs, const std::nullptr_t) noexcept -> bool;
+auto operator!=(const property_tree &lhs, const std::nullptr_t) noexcept -> bool;
+auto operator==(const std::nullptr_t, const property_tree &rhs) noexcept -> bool;
+auto operator!=(const std::nullptr_t, const property_tree &rhs) noexcept -> bool;
+
+auto operator==(const property_tree &lhs, const int rhs) -> bool;
+auto operator!=(const property_tree &lhs, const int rhs) -> bool;
+auto operator==(const int lhs, const property_tree &rhs) -> bool;
+auto operator!=(const int lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const std::int64_t rhs) -> bool;
+auto operator!=(const property_tree &lhs, const std::int64_t rhs) -> bool;
+auto operator==(const std::int64_t lhs, const property_tree &rhs) -> bool;
+auto operator!=(const std::int64_t lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const double rhs) -> bool;
+auto operator!=(const property_tree &lhs, const double rhs) -> bool;
+auto operator==(const double lhs, const property_tree &rhs) -> bool;
+auto operator!=(const double lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const array &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const array &rhs) -> bool;
+auto operator==(const array &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const array &lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const object &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const object &rhs) -> bool;
+auto operator==(const object &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const object &lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const char *const rhs) -> bool;
+auto operator!=(const property_tree &lhs, const char *const rhs) -> bool;
+auto operator==(const char *const lhs, const property_tree &rhs) -> bool;
+auto operator!=(const char *const lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const std::string &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const std::string &rhs) -> bool;
+auto operator==(const std::string &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const std::string &lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const utility::uuid &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const utility::uuid &rhs) -> bool;
+auto operator==(const utility::uuid &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const utility::uuid &lhs, const property_tree &rhs) -> bool;
+
 } // namespace aeon::ptree
+
+#include <aeon/ptree/impl/ptree_impl.h>
