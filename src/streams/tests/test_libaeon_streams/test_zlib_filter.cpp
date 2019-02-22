@@ -4,10 +4,8 @@
 #include <aeon/streams/devices/memory_device.h>
 #include <aeon/streams/filters/zlib_filter.h>
 #include <aeon/streams/stream_writer.h>
-#include <aeon/common/signed_sizeof.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <cstring>
 
 using namespace aeon;
 
