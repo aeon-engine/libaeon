@@ -10,10 +10,12 @@
 namespace aeon::utility
 {
 
-template <typename key_type, typename value_type>
+template <typename key_type_t, typename value_type_t>
 class linear_map final
 {
 public:
+    using key_type = key_type_t;
+    using value_type = value_type_t;
     using pair_type = std::pair<key_type, value_type>;
     using map_type = std::vector<pair_type>;
     using iterator = typename map_type::iterator;
