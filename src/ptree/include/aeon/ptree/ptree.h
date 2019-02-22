@@ -77,6 +77,9 @@ public:
     auto at(const object::key_type &key) -> object::value_type &;
     auto at(const object::key_type &key) const -> const object::value_type &;
 
+    auto operator[](const object::key_type &key) -> object::value_type &;
+    auto operator[](object::key_type &&key) -> object::value_type &;
+
     auto operator=(const std::nullptr_t) -> property_tree &;
     auto operator=(const int value) -> property_tree &;
     auto operator=(const std::int64_t value) -> property_tree &;

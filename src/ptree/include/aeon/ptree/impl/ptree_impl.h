@@ -202,6 +202,22 @@ inline auto property_tree::at(const object::key_type &key) const -> const object
     return object_value().at(key);
 }
 
+inline auto property_tree::operator[](const object::key_type &key) -> object::value_type &
+{
+    if (is_null())
+        value_ = object{};
+
+    return object_value()[key];
+}
+
+inline auto property_tree::operator[](object::key_type &&key) -> object::value_type &
+{
+    if (is_null())
+        value_ = object{};
+
+    return object_value()[std::move(key)];
+}
+
 inline auto property_tree::operator=(const std::nullptr_t) -> property_tree &
 {
     value_ = {};
