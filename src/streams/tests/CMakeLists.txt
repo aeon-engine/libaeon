@@ -7,6 +7,7 @@ add_unit_test_suite(
     TARGET test_libaeon_streams
     SOURCES
         main.cpp
+        test_buffer_filter.cpp
         test_circular_buffer_filter.cpp
         test_dynamic_stream.cpp
         test_memory_device.cpp
