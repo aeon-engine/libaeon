@@ -93,7 +93,10 @@ inline memory_view_device<T>::memory_view_device() noexcept
 template <typename T>
 inline auto memory_view_device<T>::write(const char *data, const std::streamsize size) noexcept -> std::streamsize
 {
-    resize(tellp() + size);
+    const auto current_size = tellp();
+    if (current_size + size > span_device_.size())
+        resize(current_size + size);
+
     return span_device_.write(data, size);
 }
 
@@ -148,9 +151,7 @@ inline void memory_view_device<T>::reserve(const std::streamoff size)
 template <typename T>
 inline void memory_view_device<T>::resize(const std::streamoff size)
 {
-    if (size > static_cast<std::streamoff>(std::size(*buffer_view_)))
-        buffer_view_->resize(size);
-
+    buffer_view_->resize(size);
     update_span();
 }
 
