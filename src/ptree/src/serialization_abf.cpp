@@ -109,8 +109,8 @@ static void to_abf(const bool val, streams::idynamic_stream &stream)
 class abf_parser final
 {
 public:
-    explicit abf_parser(streams::idynamic_stream &view)
-        : reader_{view}
+    explicit abf_parser(streams::idynamic_stream &stream)
+        : reader_{stream}
     {
     }
 
