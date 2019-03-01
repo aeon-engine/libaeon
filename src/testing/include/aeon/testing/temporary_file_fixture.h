@@ -26,7 +26,7 @@ public:
 
     auto assert_temporary_file_present() const -> bool;
 
-    void delete_temporary_file() const;
+    void delete_temporary_file() const noexcept;
 
 protected:
     std::filesystem::path path_;

@@ -20,7 +20,8 @@ temporary_file::temporary_file(const std::string &extension)
 
 temporary_file::~temporary_file()
 {
-    if (std::filesystem::exists(path_))
+    [[maybe_unused]] std::error_code ec;
+    if (std::filesystem::exists(path_, ec))
         delete_temporary_file();
 }
 
@@ -34,9 +35,10 @@ auto temporary_file::assert_temporary_file_present() const -> bool
     return std::filesystem::exists(path_);
 }
 
-void temporary_file::delete_temporary_file() const
+void temporary_file::delete_temporary_file() const noexcept
 {
-    std::filesystem::remove(path_);
+    [[maybe_unused]] std::error_code ec;
+    std::filesystem::remove(path_, ec);
 }
 
 } // namespace aeon::testutils
