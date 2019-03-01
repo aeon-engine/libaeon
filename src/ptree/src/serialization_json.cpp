@@ -335,7 +335,7 @@ private:
         }
     }
 
-    [[nodiscard]] auto next_token() -> char32_t
+    auto next_token() -> char32_t
     {
         consume_whitespace();
 
