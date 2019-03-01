@@ -8,6 +8,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/length_prefix_string.h>
 #include <aeon/utility/uuid_stream.h>
+#include <aeon/common/fourcc.h>
 
 namespace aeon::ptree::serialization
 {
@@ -15,6 +16,7 @@ namespace aeon::ptree::serialization
 namespace internal
 {
 
+static constexpr std::uint32_t header_magic = common::fourcc('A', 'B', 'F', '1');
 static constexpr std::uint8_t chunk_type_null = 0x00;
 static constexpr std::uint8_t chunk_type_array = 0x01;
 static constexpr std::uint8_t chunk_type_object = 0x02;
@@ -32,6 +34,12 @@ static void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream);
 static void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_abf(const double val, streams::idynamic_stream &stream);
 static void to_abf(const bool val, streams::idynamic_stream &stream);
+
+static void write_header(streams::idynamic_stream &stream)
+{
+    streams::stream_writer writer{stream};
+    writer << header_magic;
+}
 
 static void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
 {
@@ -112,6 +120,7 @@ public:
     explicit abf_parser(streams::idynamic_stream &stream)
         : reader_{stream}
     {
+        parse_header();
     }
 
     [[nodiscard]] auto parse() -> property_tree
@@ -163,6 +172,15 @@ public:
     }
 
 private:
+    void parse_header()
+    {
+        std::uint32_t magic = 0;
+        reader_ >> magic;
+
+        if (magic != header_magic)
+            throw ptree_serialization_exception{};
+    }
+
     [[nodiscard]] auto parse_object() -> property_tree
     {
         object data;
@@ -208,6 +226,7 @@ private:
 
 void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
 {
+    internal::write_header(stream);
     internal::to_abf(ptree, stream);
 }
 
