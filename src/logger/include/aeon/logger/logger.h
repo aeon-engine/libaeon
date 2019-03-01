@@ -73,8 +73,8 @@ public:
     logger(const logger &) noexcept = delete;
     auto operator=(const logger &) noexcept -> logger & = delete;
 
-    logger(logger &&) noexcept = default;
-    auto operator=(logger &&) noexcept -> logger & = default;
+    logger(logger &&) noexcept = delete;
+    auto operator=(logger &&) noexcept -> logger & = delete;
 
 private:
     base_backend &backend_;
