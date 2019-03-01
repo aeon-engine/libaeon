@@ -16,21 +16,21 @@ namespace internal
 {
 
 template <typename T>
-inline auto blend_add(const T src_pixel, const T dst_pixel) noexcept -> T
+[[nodiscard]] inline auto blend_add(const T src_pixel, const T dst_pixel) noexcept -> T
 {
     const auto new_value = src_pixel + dst_pixel;
     return pixel_math<T>::clamp(new_value);
 }
 
 template <typename T>
-inline auto blend_multiply(const T src_pixel, const T dst_pixel) noexcept -> T
+[[nodiscard]] inline auto blend_multiply(const T src_pixel, const T dst_pixel) noexcept -> T
 {
     const auto new_value = src_pixel * dst_pixel;
     return pixel_math<T>::clamp(new_value);
 }
 
 template <typename T>
-inline auto blend_alpha(const T src_pixel, const T dst_pixel) noexcept -> T
+[[nodiscard]] inline auto blend_alpha(const T src_pixel, const T dst_pixel) noexcept -> T
 {
     const auto alpha_ratio = pixel_math<T>::alpha_ratio(src_pixel);
     const auto src_intensity = src_pixel * alpha_ratio;

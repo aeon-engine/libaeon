@@ -10,7 +10,7 @@
 namespace aeon::logger
 {
 
-class io_stream_sink : public log_sink
+class io_stream_sink final : public log_sink
 {
 public:
     explicit io_stream_sink(streams::stdio_device &stream);
@@ -24,7 +24,7 @@ public:
 
 private:
     void log(const std::string &message, const std::string &module, log_level level) override;
-    auto log_level_to_color_(log_level level) const -> streams::color;
+    [[nodiscard]] auto log_level_to_color_(log_level level) const -> streams::color;
 
     streams::stdio_device &stream_;
 };

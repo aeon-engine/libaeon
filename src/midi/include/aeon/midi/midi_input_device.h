@@ -6,9 +6,7 @@
 #include <rtmidi/RtMidi.h>
 #include <vector>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 struct midi_message_type
@@ -25,11 +23,11 @@ public:
     virtual ~midi_input_device();
 
     void open(const unsigned int port);
-    auto get_message(std::vector<unsigned char> &message) const -> double;
+    [[nodiscard]] auto get_message(std::vector<unsigned char> &message) const -> double;
 
     void set_message_mask(const int mask);
 
-    auto get_opened_port()
+    [[nodiscard]] auto get_opened_port() const noexcept
     {
         return port_;
     }
@@ -39,5 +37,4 @@ private:
     unsigned int port_;
 };
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

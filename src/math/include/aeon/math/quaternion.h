@@ -62,7 +62,7 @@ public:
      * Create an identity quaternion.
      * \return An identity quaternion.
      */
-    static auto indentity() noexcept -> quaternion;
+    [[nodiscard]] static auto indentity() noexcept -> quaternion;
 
     /*!
      * Set new values for an existing quaternion.
@@ -108,28 +108,28 @@ inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept ->
  * \param[in] quat - Quaternion
  * \return Pitch in radians.
  */
-inline auto pitch(const quaternion &quat) noexcept -> float;
+[[nodiscard]] inline auto pitch(const quaternion &quat) noexcept -> float;
 
 /*!
  * Get the yaw rotation in radians from a given quaternion.
  * \param[in] quat - Quaternion
  * \return Yaw in radians.
  */
-inline auto yaw(const quaternion &quat) noexcept -> float;
+[[nodiscard]] inline auto yaw(const quaternion &quat) noexcept -> float;
 
 /*!
  * Get the roll rotation in radians from a given quaternion.
  * \param[in] quat - Quaternion
  * \return Roll in radians.
  */
-inline auto roll(const quaternion &quat) noexcept -> float;
+[[nodiscard]] inline auto roll(const quaternion &quat) noexcept -> float;
 
 /*!
  * Get the euler angles in radians from a given quaternion.
  * \param[in] quat - Quaternion
  * \return Euler angles in radians where X=pitch, Y=yaw, Z=roll.
  */
-inline auto euler(const quaternion &quat) noexcept -> vector3<float>;
+[[nodiscard]] inline auto euler(const quaternion &quat) noexcept -> vector3<float>;
 
 /*!
  * Calculate a dot product of 2 quaternions.
@@ -137,7 +137,7 @@ inline auto euler(const quaternion &quat) noexcept -> vector3<float>;
  * \param[in] b - Quaternion
  * \return dot product of a and b.
  */
-inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float;
+[[nodiscard]] inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float;
 
 /*!
  * Get a pointer into the underlaying data structure of a given quaternion.
@@ -145,7 +145,7 @@ inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float;
  * \param[in] quat - Quaternion
  * \return Pointer to quaternion floating point data.
  */
-inline auto ptr(quaternion &quat) noexcept -> float *;
+[[nodiscard]] inline auto ptr(quaternion &quat) noexcept -> float *;
 
 /*!
  * Get a pointer into the underlaying data structure of a given quaternion.
@@ -153,7 +153,7 @@ inline auto ptr(quaternion &quat) noexcept -> float *;
  * \param[in] quat - Quaternion
  * \return Const pointer to quaternion floating point data.
  */
-inline auto ptr(const quaternion &quat) noexcept -> const float *;
+[[nodiscard]] inline auto ptr(const quaternion &quat) noexcept -> const float *;
 
 } // namespace aeon::math
 

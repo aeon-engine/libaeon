@@ -15,7 +15,7 @@ namespace aeon::fonts
 
 class face_wrapper;
 
-class face
+class face final
 {
     friend class font_manager;
 
@@ -32,7 +32,7 @@ public:
      * Load a glyph. Loading the next glyph will re-use the same buffer,
      * so be sure to copy the image somewhere first before loading the next glyph.
      */
-    auto load_glyph(const char32_t control_code) const -> glyph;
+    [[nodiscard]] auto load_glyph(const char32_t control_code) const -> glyph;
 
 private:
     face(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi);

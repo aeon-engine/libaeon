@@ -65,7 +65,7 @@ public:
  * \return position
  */
 template <typename T>
-inline auto position(const circle<T> &c) noexcept -> vector2<T>;
+[[nodiscard]] inline auto position(const circle<T> &c) noexcept -> vector2<T>;
 
 /*!
  * Get the center position of a circle as a point.
@@ -73,28 +73,28 @@ inline auto position(const circle<T> &c) noexcept -> vector2<T>;
  * \return position
  */
 template <typename T>
-inline auto center(const circle<T> &c) noexcept -> vector2<T>;
+[[nodiscard]] inline auto center(const circle<T> &c) noexcept -> vector2<T>;
 
 /*!
  * Returns if a circle is empty or not. A circle is considered empty if the radius is 0.
  * \param[in] c - Circle
  */
 template <typename T>
-inline auto empty(const circle<T> &c) noexcept -> bool;
+[[nodiscard]] inline auto empty(const circle<T> &c) noexcept -> bool;
 
 /*!
  * Returns if a circle is empty or not. A circle is considered null if the radius is 0.
  * \param[in] c - Circle
  */
 template <typename T>
-inline auto null(const circle<T> &c) noexcept -> bool;
+[[nodiscard]] inline auto null(const circle<T> &c) noexcept -> bool;
 
 /*!
  * Returns if a circle is valid. A circle is considered valid if the radius is positive (>= 0).
  * \param[in] c - Circle
  */
 template <typename T>
-inline auto valid(const circle<T> &c) noexcept -> bool;
+[[nodiscard]] inline auto valid(const circle<T> &c) noexcept -> bool;
 
 /*!
  * Returns the size of a circle.
@@ -102,7 +102,7 @@ inline auto valid(const circle<T> &c) noexcept -> bool;
  * \return The size of a circle (from the left edge to the right, and top to bottom; or diameter).
  */
 template <typename T>
-inline auto size(const circle<T> &c) noexcept -> size2d<T>;
+[[nodiscard]] inline auto size(const circle<T> &c) noexcept -> size2d<T>;
 
 /*!
  * Returns the radius of a circle.
@@ -110,7 +110,7 @@ inline auto size(const circle<T> &c) noexcept -> size2d<T>;
  * \return Radius
  */
 template <typename T>
-inline auto radius(const circle<T> &c) noexcept -> T;
+[[nodiscard]] inline auto radius(const circle<T> &c) noexcept -> T;
 
 /*!
  * Returns the squared radius of a circle (radius ^ 2).
@@ -118,7 +118,7 @@ inline auto radius(const circle<T> &c) noexcept -> T;
  * \return Radius&sup2;
  */
 template <typename T>
-inline auto radius_squared(const circle<T> &c) noexcept -> T;
+[[nodiscard]] inline auto radius_squared(const circle<T> &c) noexcept -> T;
 
 /*!
  * Returns the diameter of a circle.
@@ -126,7 +126,7 @@ inline auto radius_squared(const circle<T> &c) noexcept -> T;
  * \return Diameter
  */
 template <typename T>
-inline auto diameter(const circle<T> &c) noexcept -> T;
+[[nodiscard]] inline auto diameter(const circle<T> &c) noexcept -> T;
 
 /*!
  * Returns the circumference of a circle. If T=int, the type of the returned value is float,
@@ -135,7 +135,7 @@ inline auto diameter(const circle<T> &c) noexcept -> T;
  * \return Circumference
  */
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type * = nullptr>
-inline auto circumference(const circle<T> &c) noexcept -> float;
+[[nodiscard]] inline auto circumference(const circle<T> &c) noexcept -> float;
 
 /*!
  * Returns the circumference of a circle. If T=int, the type of the returned value is float,
@@ -144,7 +144,7 @@ inline auto circumference(const circle<T> &c) noexcept -> float;
  * \return Circumference
  */
 template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type * = nullptr>
-inline auto circumference(const circle<T> &c) noexcept -> T;
+[[nodiscard]] inline auto circumference(const circle<T> &c) noexcept -> T;
 
 /*!
  * Returns the area of a circle. If T=int, the type of the returned value is float,
@@ -153,7 +153,7 @@ inline auto circumference(const circle<T> &c) noexcept -> T;
  * \return Area
  */
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type * = nullptr>
-inline auto area(const circle<T> &c) noexcept -> float;
+[[nodiscard]] inline auto area(const circle<T> &c) noexcept -> float;
 
 /*!
  * Returns the area of a circle. If T=int, the type of the returned value is float,
@@ -162,7 +162,7 @@ inline auto area(const circle<T> &c) noexcept -> float;
  * \return Area
  */
 template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type * = nullptr>
-inline auto area(const circle<T> &c) noexcept -> T;
+[[nodiscard]] inline auto area(const circle<T> &c) noexcept -> T;
 
 /*!
  * Change the position of the center of the given circle.
@@ -188,7 +188,7 @@ inline void set_position(circle<T> &c, const vector2<T> &vec) noexcept;
  * \param[in] y - Y position
  */
 template <typename T>
-inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>;
+[[nodiscard]] inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>;
 
 /*!
  * Change the position of the center of a circle. The returned value is a copy of the given circle.
@@ -196,7 +196,7 @@ inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> cir
  * \param[in] vec - Position
  */
 template <typename T>
-inline auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>;
+[[nodiscard]] inline auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>;
 
 /*!
  * Inflate a circle (add a value to the radius)
@@ -212,7 +212,7 @@ inline void inflate(circle<T> &c, const T val) noexcept;
  * \param[in] val - How much to inflate the radius by
  */
 template <typename T>
-inline auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>;
+[[nodiscard]] inline auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>;
 
 /*!
  * Scale a circle (multiply the radius with a value)
@@ -228,7 +228,7 @@ inline void scale(circle<T> &c, const T val) noexcept;
  * \param[in] val - How much to scale the radius by
  */
 template <typename T>
-inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>;
+[[nodiscard]] inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>;
 
 /*!
  * Get the bounding box rectangle for a circle.
@@ -236,7 +236,7 @@ inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>;
  * \return An axis-aligned rectangle that fits exactly around the circle.
  */
 template <typename T>
-inline auto rect(const circle<T> &c) noexcept -> rectangle<T>;
+[[nodiscard]] inline auto rect(const circle<T> &c) noexcept -> rectangle<T>;
 
 /*!
  * Get the distance between the centers of 2 circles.
@@ -245,7 +245,7 @@ inline auto rect(const circle<T> &c) noexcept -> rectangle<T>;
  * \return The distance between the center of 2 circles.
  */
 template <typename T>
-inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T;
+[[nodiscard]] inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T;
 
 /*!
  * Get the distance between the center of a circle and a point.
@@ -254,7 +254,7 @@ inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T;
  * \return The distance between the center of a circle and a point.
  */
 template <typename T>
-inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T;
+[[nodiscard]] inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 /*!
  * Check if a point is within a given circle.
@@ -263,7 +263,7 @@ inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T;
  * \return Boolean. True if the given point is within the circle.
  */
 template <typename T>
-inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool;
+[[nodiscard]] inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool;
 
 /*!
  * Check if a rectangle overlaps with a circle (ie. collides)
@@ -272,7 +272,7 @@ inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool
  * \return Boolean. True if the given rectangle overlaps with the circle.
  */
 template <typename T>
-inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool;
+[[nodiscard]] inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool;
 
 template <typename T>
 inline auto operator==(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool;

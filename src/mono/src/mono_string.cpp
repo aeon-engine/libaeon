@@ -32,7 +32,7 @@ auto mono_string::operator=(const std::string &str) noexcept -> mono_string &
     return *this;
 }
 
-auto mono_string::str() const -> std::string
+[[nodiscard]] auto mono_string::str() const -> std::string
 {
     // TODO: This could be probably optimized by doing no additional
     // allocation though mono_string_chars and mono_string_length.
@@ -42,7 +42,7 @@ auto mono_string::str() const -> std::string
     return str;
 }
 
-auto mono_string::get_mono_string() const -> MonoString *
+[[nodiscard]] auto mono_string::get_mono_string() const -> MonoString *
 {
     return reinterpret_cast<MonoString *>(object_);
 }

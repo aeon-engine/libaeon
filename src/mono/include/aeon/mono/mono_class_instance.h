@@ -30,17 +30,17 @@ public:
     mono_class_instance(mono_class_instance &&o) noexcept;
     auto operator=(mono_class_instance &&o) noexcept -> mono_class_instance &;
 
-    auto get_method(const std::string &name, int argc = 0) -> mono_method;
+    [[nodiscard]] auto get_method(const std::string &name, int argc = 0) -> mono_method;
 
     template <typename function_signature_t>
-    auto get_method_thunk(const std::string &name);
+    [[nodiscard]] auto get_method_thunk(const std::string &name);
 
-    auto get_class() -> mono_class;
+    [[nodiscard]] auto get_class() -> mono_class;
 
-    auto get_mono_class_ptr() -> MonoClass *;
+    [[nodiscard]] auto get_mono_class_ptr() -> MonoClass *;
 
     template <typename T>
-    auto get_field_value(mono_class_field &field) const;
+    [[nodiscard]] auto get_field_value(mono_class_field &field) const;
 
     template <typename T>
     void get_field_value(mono_class_field &field, T &val) const;
@@ -54,7 +54,7 @@ private:
 };
 
 template <typename function_signature_t>
-auto mono_class_instance::get_method_thunk(const std::string &name)
+[[nodiscard]] auto mono_class_instance::get_method_thunk(const std::string &name)
 {
     constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
     auto func = get_method(name, arg_count);
@@ -62,7 +62,7 @@ auto mono_class_instance::get_method_thunk(const std::string &name)
 }
 
 template <typename T>
-auto mono_class_instance::get_field_value(mono_class_field &field) const
+[[nodiscard]] auto mono_class_instance::get_field_value(mono_class_field &field) const
 {
     T val;
     get_field_value(field, val);

@@ -48,37 +48,37 @@ public:
     auto operator=(property_tree &&) noexcept -> property_tree & = default;
 
     template <typename T>
-    auto is_type() const noexcept;
+    [[nodiscard]] auto is_type() const noexcept;
 
-    auto is_null() const noexcept;
-    auto is_array() const noexcept;
-    auto is_object() const noexcept;
-    auto is_string() const noexcept;
-    auto is_uuid() const noexcept;
-    auto is_integer() const noexcept;
-    auto is_double() const noexcept;
-    auto is_bool() const noexcept;
+    [[nodiscard]] auto is_null() const noexcept;
+    [[nodiscard]] auto is_array() const noexcept;
+    [[nodiscard]] auto is_object() const noexcept;
+    [[nodiscard]] auto is_string() const noexcept;
+    [[nodiscard]] auto is_uuid() const noexcept;
+    [[nodiscard]] auto is_integer() const noexcept;
+    [[nodiscard]] auto is_double() const noexcept;
+    [[nodiscard]] auto is_bool() const noexcept;
 
-    auto value() noexcept -> variant_type &;
-    auto value() const noexcept -> const variant_type &;
+    [[nodiscard]] auto value() noexcept -> variant_type &;
+    [[nodiscard]] auto value() const noexcept -> const variant_type &;
 
-    auto array_value() -> array &;
-    auto array_value() const -> const array &;
+    [[nodiscard]] auto array_value() -> array &;
+    [[nodiscard]] auto array_value() const -> const array &;
 
-    auto object_value() -> object &;
-    auto object_value() const -> const object &;
+    [[nodiscard]] auto object_value() -> object &;
+    [[nodiscard]] auto object_value() const -> const object &;
 
-    auto uuid_value() const -> const utility::uuid &;
-    auto string_value() const -> const std::string &;
-    auto integer_value() const -> std::int64_t;
-    auto double_value() const -> double;
-    auto bool_value() const -> bool;
+    [[nodiscard]] auto uuid_value() const -> const utility::uuid &;
+    [[nodiscard]] auto string_value() const -> const std::string &;
+    [[nodiscard]] auto integer_value() const -> std::int64_t;
+    [[nodiscard]] auto double_value() const -> double;
+    [[nodiscard]] auto bool_value() const -> bool;
 
-    auto at(const object::key_type &key) -> object::value_type &;
-    auto at(const object::key_type &key) const -> const object::value_type &;
+    [[nodiscard]] auto at(const object::key_type &key) -> object::value_type &;
+    [[nodiscard]] auto at(const object::key_type &key) const -> const object::value_type &;
 
-    auto operator[](const object::key_type &key) -> object::value_type &;
-    auto operator[](object::key_type &&key) -> object::value_type &;
+    [[nodiscard]] auto operator[](const object::key_type &key) -> object::value_type &;
+    [[nodiscard]] auto operator[](object::key_type &&key) -> object::value_type &;
 
     auto operator=(const std::nullptr_t) -> property_tree &;
     auto operator=(const int value) -> property_tree &;

@@ -51,105 +51,106 @@ inline dynamic_image_descriptor::dynamic_image_descriptor(const image_descriptor
 
 inline dynamic_image_descriptor::~dynamic_image_descriptor() = default;
 
-inline auto dynamic_image_descriptor::encoding() const noexcept -> pixel_encoding
+[[nodiscard]] inline auto dynamic_image_descriptor::encoding() const noexcept -> pixel_encoding
 {
     return encoding_;
 }
 
-inline auto dynamic_image_descriptor::width() const noexcept -> dimension
+[[nodiscard]] inline auto dynamic_image_descriptor::width() const noexcept -> dimension
 {
     return math::width(dimensions_);
 }
 
-inline auto dynamic_image_descriptor::height() const noexcept -> dimension
+[[nodiscard]] inline auto dynamic_image_descriptor::height() const noexcept -> dimension
 {
     return math::height(dimensions_);
 }
 
-inline auto dynamic_image_descriptor::dimensions() const noexcept -> math::size2d<dimension>
+[[nodiscard]] inline auto dynamic_image_descriptor::dimensions() const noexcept -> math::size2d<dimension>
 {
     return dimensions_;
 }
 
-inline auto dynamic_image_descriptor::stride_x() const noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto dynamic_image_descriptor::stride_x() const noexcept -> std::ptrdiff_t
 {
     return stride_x_;
 }
 
-inline auto dynamic_image_descriptor::stride_y() const noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto dynamic_image_descriptor::stride_y() const noexcept -> std::ptrdiff_t
 {
     return stride_y_;
 }
 
-inline auto null(const dynamic_image_descriptor &descriptor) noexcept -> bool
+[[nodiscard]] inline auto null(const dynamic_image_descriptor &descriptor) noexcept -> bool
 {
     return stride_x(descriptor) == 0 && stride_y(descriptor) == 0 && math::null(dimensions(descriptor));
 }
 
-inline auto valid(const dynamic_image_descriptor &descriptor) noexcept -> bool
+[[nodiscard]] inline auto valid(const dynamic_image_descriptor &descriptor) noexcept -> bool
 {
     return !null(descriptor);
 }
 
-inline auto encoding(const dynamic_image_descriptor &descriptor) noexcept -> pixel_encoding
+[[nodiscard]] inline auto encoding(const dynamic_image_descriptor &descriptor) noexcept -> pixel_encoding
 {
     return descriptor.encoding();
 }
 
-inline auto width(const dynamic_image_descriptor &descriptor) noexcept -> dimension
+[[nodiscard]] inline auto width(const dynamic_image_descriptor &descriptor) noexcept -> dimension
 {
     return descriptor.width();
 }
 
-inline auto height(const dynamic_image_descriptor &descriptor) noexcept -> dimension
+[[nodiscard]] inline auto height(const dynamic_image_descriptor &descriptor) noexcept -> dimension
 {
     return descriptor.height();
 }
 
-inline auto dimensions(const dynamic_image_descriptor &descriptor) noexcept -> math::size2d<dimension>
+[[nodiscard]] inline auto dimensions(const dynamic_image_descriptor &descriptor) noexcept -> math::size2d<dimension>
 {
     return descriptor.dimensions();
 }
 
-inline auto rectangle(const dynamic_image_descriptor &descriptor) noexcept -> math::rectangle<dimension>
+[[nodiscard]] inline auto rectangle(const dynamic_image_descriptor &descriptor) noexcept -> math::rectangle<dimension>
 {
     return math::rect(dimensions(descriptor));
 }
 
-inline auto stride_x(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto stride_x(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
 {
     return descriptor.stride_x();
 }
 
-inline auto stride_y(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto stride_y(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
 {
     return descriptor.stride_y();
 }
 
-inline auto continuous(const dynamic_image_descriptor &descriptor) noexcept -> bool
+[[nodiscard]] inline auto continuous(const dynamic_image_descriptor &descriptor) noexcept -> bool
 {
     const auto bpp = bytes_per_pixel(encoding(descriptor));
     return stride_x(descriptor) == bpp && stride_y(descriptor) == bpp * width(descriptor);
 }
 
-inline auto contains(const dynamic_image_descriptor &descriptor, const math::vector2<dimension> coord) noexcept -> bool
+[[nodiscard]] inline auto contains(const dynamic_image_descriptor &descriptor,
+                                   const math::vector2<dimension> coord) noexcept -> bool
 {
     return math::contains(coord, dimensions(descriptor));
 }
 
-inline auto at_offset(const math::vector2<dimension> coord, const dynamic_image_descriptor &descriptor) noexcept
-    -> std::ptrdiff_t
+[[nodiscard]] inline auto at_offset(const math::vector2<dimension> coord,
+                                    const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
 {
     return stride_y(descriptor) * coord.y + stride_x(descriptor) * coord.x;
 }
 
-inline auto size(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto size(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t
 {
     return stride_y(descriptor) * height(descriptor);
 }
 
 template <typename T>
-inline auto descriptor(const dynamic_image_descriptor &descriptor) noexcept -> image_descriptor<T>
+[[nodiscard]] inline auto descriptor(const dynamic_image_descriptor &descriptor) noexcept -> image_descriptor<T>
 {
     aeon_assert(encoding(descriptor) == pixel_encoding_trait<T>::encoding(), "Encoding mismatch.");
     return image_descriptor<T>{dimensions(descriptor), stride_x(descriptor), stride_y(descriptor)};

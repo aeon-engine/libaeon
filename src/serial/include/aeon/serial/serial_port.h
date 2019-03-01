@@ -56,7 +56,7 @@ public:
     void disconnect();
 
     auto read(char *data, const std::size_t len) const -> std::size_t;
-    auto read(const std::size_t len) const -> std::string;
+    [[nodiscard]] auto read(const std::size_t len) const -> std::string;
 
     auto write(const char *data, const std::size_t len) const -> std::size_t;
     void write(const std::string &data) const;

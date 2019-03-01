@@ -39,14 +39,14 @@ public:
     mono_jit(mono_jit &&o) = delete;
     auto operator=(mono_jit &&o) -> mono_jit & = delete;
 
-    auto load_assembly(const std::string &path) const -> mono_assembly;
+    [[nodiscard]] auto load_assembly(const std::string &path) const -> mono_assembly;
 
     template <typename T>
     static void add_internal_call(const std::string &name, T func);
 
     static void set_auto_wrap_assembly(const mono_assembly &assembly);
 
-    static auto get_auto_wrap_assembly() -> mono_assembly &;
+    [[nodiscard]] static auto get_auto_wrap_assembly() -> mono_assembly &;
 
 private:
     static void __add_internal_call(const std::string &name, const void *func);

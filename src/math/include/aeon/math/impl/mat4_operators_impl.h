@@ -15,7 +15,7 @@ namespace aeon::math
 namespace detail
 {
 
-inline auto mat4_mul(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
+[[nodiscard]] inline auto mat4_mul(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
 {
     // clang-format off
     return {
@@ -70,7 +70,7 @@ inline void mat4_mul_column_sse(mat4 const &lhs, mat4 const &rhs, mat4 &out, con
     _mm_store_ps(&ptr(out)[4 * column], a2);
 }
 
-inline auto mat4_mul_sse(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
+[[nodiscard]] inline auto mat4_mul_sse(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
 {
     mat4 out;
     mat4_mul_column_sse(lhs, rhs, out, 0);

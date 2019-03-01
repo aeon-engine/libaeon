@@ -15,12 +15,12 @@ struct convert
 template <>
 struct convert<std::string>
 {
-    static auto to(const std::string &v)
+    [[nodiscard]] static auto to(const std::string &v)
     {
         return v;
     }
 
-    static auto from(const std::string &v)
+    [[nodiscard]] static auto from(const std::string &v)
     {
         return v;
     }
@@ -29,12 +29,12 @@ struct convert<std::string>
 template <>
 struct convert<int>
 {
-    static auto to(const int v)
+    [[nodiscard]] static auto to(const int v)
     {
         return std::to_string(v);
     }
 
-    static auto from(const std::string &v)
+    [[nodiscard]] static auto from(const std::string &v)
     {
         return std::stoi(v);
     }
@@ -43,12 +43,12 @@ struct convert<int>
 template <>
 struct convert<float>
 {
-    static auto to(const float v)
+    [[nodiscard]] static auto to(const float v)
     {
         return std::to_string(v);
     }
 
-    static auto from(const std::string &v)
+    [[nodiscard]] static auto from(const std::string &v)
     {
         return std::stof(v);
     }
@@ -57,12 +57,12 @@ struct convert<float>
 template <>
 struct convert<bool>
 {
-    static auto to(const bool v)
+    [[nodiscard]] static auto to(const bool v)
     {
         return v ? "1" : "0";
     }
 
-    static auto from(const std::string &v)
+    [[nodiscard]] static auto from(const std::string &v)
     {
         return v == "1" || v == "true";
     }

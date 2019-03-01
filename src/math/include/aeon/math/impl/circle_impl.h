@@ -31,74 +31,74 @@ circle<T>::circle(const vector2<T> position, const T radius) noexcept
 }
 
 template <typename T>
-inline auto position(const circle<T> &c) noexcept -> vector2<T>
+[[nodiscard]] inline auto position(const circle<T> &c) noexcept -> vector2<T>
 {
     return c.position;
 }
 
 template <typename T>
-inline auto center(const circle<T> &c) noexcept -> vector2<T>
+[[nodiscard]] inline auto center(const circle<T> &c) noexcept -> vector2<T>
 {
     return position(c);
 }
 
 template <typename T>
-inline auto empty(const circle<T> &c) noexcept -> bool
+[[nodiscard]] inline auto empty(const circle<T> &c) noexcept -> bool
 {
     return radius(c) == T(0);
 }
 
 template <typename T>
-inline auto null(const circle<T> &c) noexcept -> bool
+[[nodiscard]] inline auto null(const circle<T> &c) noexcept -> bool
 {
     return empty(c);
 }
 
 template <typename T>
-inline auto valid(const circle<T> &c) noexcept -> bool
+[[nodiscard]] inline auto valid(const circle<T> &c) noexcept -> bool
 {
     return radius(c) >= T(0);
 }
 
 template <typename T>
-inline auto size(const circle<T> &c) noexcept -> size2d<T>
+[[nodiscard]] inline auto size(const circle<T> &c) noexcept -> size2d<T>
 {
     const auto d = diameter(c);
     return {d, d};
 }
 
 template <typename T>
-inline auto radius(const circle<T> &c) noexcept -> T
+[[nodiscard]] inline auto radius(const circle<T> &c) noexcept -> T
 {
     return c.radius;
 }
 
 template <typename T>
-inline auto radius_squared(const circle<T> &c) noexcept -> T
+[[nodiscard]] inline auto radius_squared(const circle<T> &c) noexcept -> T
 {
     return radius(c) * radius(c);
 }
 
 template <typename T>
-inline auto diameter(const circle<T> &c) noexcept -> T
+[[nodiscard]] inline auto diameter(const circle<T> &c) noexcept -> T
 {
     return radius(c) * T(2);
 }
 
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type *>
-inline auto circumference(const circle<T> &c) noexcept -> float
+[[nodiscard]] inline auto circumference(const circle<T> &c) noexcept -> float
 {
     return static_cast<float>(diameter(c)) * constants<float>::pi;
 }
 
 template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type *>
-inline auto circumference(const circle<T> &c) noexcept -> T
+[[nodiscard]] inline auto circumference(const circle<T> &c) noexcept -> T
 {
     return diameter(c) * constants<T>::pi;
 }
 
 template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type *>
-inline auto area(const circle<T> &c) noexcept -> float
+[[nodiscard]] inline auto area(const circle<T> &c) noexcept -> float
 {
     const auto r = radius(c);
     const auto r2 = r * r;
@@ -106,7 +106,7 @@ inline auto area(const circle<T> &c) noexcept -> float
 }
 
 template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type *>
-inline auto area(const circle<T> &c) noexcept -> T
+[[nodiscard]] inline auto area(const circle<T> &c) noexcept -> T
 {
     const auto r = radius(c);
     const auto r2 = r * r;
@@ -126,13 +126,13 @@ inline void set_position(circle<T> &c, const vector2<T> &vec) noexcept
 }
 
 template <typename T>
-inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>
+[[nodiscard]] inline auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>
 {
     return positioned(c, vector2{x, y});
 }
 
 template <typename T>
-inline auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>
+[[nodiscard]] inline auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>
 {
     return {vec, radius(c)};
 }
@@ -144,7 +144,7 @@ inline void inflate(circle<T> &c, const T val) noexcept
 }
 
 template <typename T>
-inline auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>
+[[nodiscard]] inline auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>
 {
     return {position(c), radius(c) + val};
 }
@@ -156,13 +156,13 @@ inline void scale(circle<T> &c, const T val) noexcept
 }
 
 template <typename T>
-inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>
+[[nodiscard]] inline auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>
 {
     return {position(c), radius(c) * val};
 }
 
 template <typename T>
-inline auto rect(const circle<T> &c) noexcept -> rectangle<T>
+[[nodiscard]] inline auto rect(const circle<T> &c) noexcept -> rectangle<T>
 {
     // Specific code for a circle, this is faster than generating a
     // rectangle with set_position and anchor_point::center.
@@ -175,25 +175,25 @@ inline auto rect(const circle<T> &c) noexcept -> rectangle<T>
 }
 
 template <typename T>
-inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T
+[[nodiscard]] inline auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T
 {
     return distance(position(lhs), position(rhs));
 }
 
 template <typename T>
-inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T
+[[nodiscard]] inline auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T
 {
     return distance(position(lhs), rhs);
 }
 
 template <typename T>
-inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool
+[[nodiscard]] inline auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool
 {
     return distance(position(c), vec) <= radius(c);
 }
 
 template <typename T>
-inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool
+[[nodiscard]] inline auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool
 {
     const auto closest = closest_point(rect, position(c));
     const auto distance = position(c) - closest;

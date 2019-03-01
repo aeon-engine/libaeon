@@ -20,19 +20,19 @@ inline range<T>::range(const T begin, const T end) noexcept
 }
 
 template <typename T>
-inline auto begin(const range<T> &range) noexcept -> T
+[[nodiscard]] inline auto begin(const range<T> &range) noexcept -> T
 {
     return range.begin;
 }
 
 template <typename T>
-inline auto end(const range<T> &range) noexcept -> T
+[[nodiscard]] inline auto end(const range<T> &range) noexcept -> T
 {
     return range.end;
 }
 
 template <typename T>
-inline auto size(const range<T> &range) noexcept -> T
+[[nodiscard]] inline auto size(const range<T> &range) noexcept -> T
 {
     return range.end - range.begin;
 }

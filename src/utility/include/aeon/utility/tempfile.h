@@ -31,7 +31,7 @@
 namespace aeon::utility
 {
 
-inline auto generate_temporary_file_path()
+[[nodiscard]] inline auto generate_temporary_file_path()
 {
     auto uuid = uuid::generate();
     return std::filesystem::temp_directory_path() / uuid.str();

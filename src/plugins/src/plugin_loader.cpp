@@ -19,7 +19,7 @@ plugin_loader::~plugin_loader()
     unload_all();
 }
 
-auto plugin_loader::is_loaded(const plugin *p) const -> bool
+[[nodiscard]] auto plugin_loader::is_loaded(const plugin *p) const -> bool
 {
     for (const auto &cache_obj : cache_)
     {
@@ -30,7 +30,7 @@ auto plugin_loader::is_loaded(const plugin *p) const -> bool
     return false;
 }
 
-auto plugin_loader::is_loaded(const std::string_view &name) const -> bool
+[[nodiscard]] auto plugin_loader::is_loaded(const std::string_view &name) const -> bool
 {
     const auto result = cache_.find(std::string{name});
     return result != cache_.end();
@@ -63,7 +63,7 @@ void plugin_loader::unload_all()
     cache_.clear();
 }
 
-auto plugin_loader::load(const std::string &name) -> plugin *
+[[nodiscard]] auto plugin_loader::load(const std::string &name) -> plugin *
 {
     const auto result = find_in_cache(name);
 
@@ -73,7 +73,7 @@ auto plugin_loader::load(const std::string &name) -> plugin *
     return load_plugin(name);
 }
 
-auto plugin_loader::load_plugin(const std::string &name) -> plugin *
+[[nodiscard]] auto plugin_loader::load_plugin(const std::string &name) -> plugin *
 {
     common::dll_loader::scoped_dll_handle handle(name);
 
@@ -101,7 +101,7 @@ auto plugin_loader::load_plugin(const std::string &name) -> plugin *
     return plugin_instance_ptr;
 }
 
-auto plugin_loader::find_in_cache(const std::string &name) -> plugin *
+[[nodiscard]] auto plugin_loader::find_in_cache(const std::string &name) -> plugin *
 {
     const auto result = cache_.find(name);
 

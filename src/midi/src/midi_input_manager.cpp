@@ -5,9 +5,7 @@
 #include <aeon/midi/midi_messages.h>
 #include <algorithm>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 static const int receive_buffer_reserve_size = 16;
@@ -60,5 +58,4 @@ void midi_input_manager::__parse_note_data(const std::vector<unsigned char> &dat
     }
 }
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

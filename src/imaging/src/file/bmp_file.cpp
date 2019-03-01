@@ -43,20 +43,20 @@ struct bitmap_info_header
     std::uint32_t clr_important;
 } AEON_PACK_STRUCT_POP(1);
 
-auto calculate_stride(const bitmap_info_header &info_header) noexcept
+[[nodiscard]] static auto calculate_stride(const bitmap_info_header &info_header) noexcept
 {
     return 4 * ((info_header.width * info_header.bitcount + 31) / 32);
 }
 
 } // namespace detail
 
-auto load(const std::filesystem::path &path) -> dynamic_image
+[[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image
 {
     auto stream = streams::make_dynamic_stream(streams::file_source_device{path});
     return load(stream);
 }
 
-auto load(streams::idynamic_stream &stream) -> dynamic_image
+[[nodiscard]] auto load(streams::idynamic_stream &stream) -> dynamic_image
 {
     detail::bitmap_file_header header{};
 

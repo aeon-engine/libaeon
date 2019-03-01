@@ -40,7 +40,7 @@ void io_stream_sink::log(const std::string &message, const std::string &module, 
     writer << '\n';
 }
 
-auto io_stream_sink::log_level_to_color_(log_level level) const -> streams::color
+[[nodiscard]] auto io_stream_sink::log_level_to_color_(log_level level) const -> streams::color
 {
     switch (level)
     {

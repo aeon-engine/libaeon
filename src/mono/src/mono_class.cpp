@@ -42,20 +42,21 @@ mono_class::mono_class(mono_class &&o) noexcept = default;
 
 auto mono_class::operator=(mono_class &&o) noexcept -> mono_class & = default;
 
-auto mono_class::get_static_function(const std::string &name, int argc /*= 0*/) const -> mono_static_function
+[[nodiscard]] auto mono_class::get_static_function(const std::string &name, int argc /*= 0*/) const
+    -> mono_static_function
 {
     assert(class_);
     assert(assembly_);
     return mono_static_function{assembly_, class_, name, argc};
 }
 
-auto mono_class::get_mono_class_ptr() const noexcept -> MonoClass *
+[[nodiscard]] auto mono_class::get_mono_class_ptr() const noexcept -> MonoClass *
 {
     assert(class_);
     return class_;
 }
 
-auto mono_class::get_field(const std::string &name) const -> mono_class_field
+[[nodiscard]] auto mono_class::get_field(const std::string &name) const -> mono_class_field
 {
     return mono_class_field{get_mono_class_ptr(), name};
 }

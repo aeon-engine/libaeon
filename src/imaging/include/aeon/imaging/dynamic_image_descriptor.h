@@ -84,37 +84,37 @@ public:
      * Get the encoding of the image.
      * \return The encoding of the image.
      */
-    auto encoding() const noexcept -> pixel_encoding;
+    [[nodiscard]] auto encoding() const noexcept -> pixel_encoding;
 
     /*!
      * Get the width of the image.
      * \return The width of the image.
      */
-    auto width() const noexcept -> dimension;
+    [[nodiscard]] auto width() const noexcept -> dimension;
 
     /*!
      * Get the height of the image.
      * \return The height of the image.
      */
-    auto height() const noexcept -> dimension;
+    [[nodiscard]] auto height() const noexcept -> dimension;
 
     /*!
      * Get the size of the image (width, height).
      * \return The size of the image.
      */
-    auto dimensions() const noexcept -> math::size2d<dimension>;
+    [[nodiscard]] auto dimensions() const noexcept -> math::size2d<dimension>;
 
     /*!
      * Get the X stride of the image. The X stride is the amount of bytes between 2 pixels.
      * \return The X stride of the image.
      */
-    auto stride_x() const noexcept -> std::ptrdiff_t;
+    [[nodiscard]] auto stride_x() const noexcept -> std::ptrdiff_t;
 
     /*!
      * Get the Y stride of the image. The Y stride is the amount of bytes between 2 lines/rows.
      * \return The Y stride of the image.
      */
-    auto stride_y() const noexcept -> std::ptrdiff_t;
+    [[nodiscard]] auto stride_y() const noexcept -> std::ptrdiff_t;
 
 private:
     pixel_encoding encoding_;
@@ -129,7 +129,7 @@ private:
  * \param[in] descriptor - An image descriptor.
  * \return Returns true if the descriptor is null.
  */
-inline auto null(const dynamic_image_descriptor &descriptor) noexcept -> bool;
+[[nodiscard]] inline auto null(const dynamic_image_descriptor &descriptor) noexcept -> bool;
 
 /*!
  * Returns true if the descriptor is valid. A descriptor is valid when it is not null.
@@ -137,35 +137,35 @@ inline auto null(const dynamic_image_descriptor &descriptor) noexcept -> bool;
  * \param[in] descriptor - An image descriptor.
  * \return Returns true if the descriptor is valid.
  */
-inline auto valid(const dynamic_image_descriptor &descriptor) noexcept -> bool;
+[[nodiscard]] inline auto valid(const dynamic_image_descriptor &descriptor) noexcept -> bool;
 
 /*!
  * Get the encoding of the image as described in an image descriptor.
  * \param[in] descriptor - An image descriptor.
  * \return The encoding of the image.
  */
-inline auto encoding(const dynamic_image_descriptor &descriptor) noexcept -> pixel_encoding;
+[[nodiscard]] inline auto encoding(const dynamic_image_descriptor &descriptor) noexcept -> pixel_encoding;
 
 /*!
  * Get the width of the image as described in an image descriptor.
  * \param[in] descriptor - An image descriptor.
  * \return The width of the image.
  */
-inline auto width(const dynamic_image_descriptor &descriptor) noexcept -> dimension;
+[[nodiscard]] inline auto width(const dynamic_image_descriptor &descriptor) noexcept -> dimension;
 
 /*!
  * Get the height of the image as described in an image descriptor.
  * \param[in] descriptor - An image descriptor.
  * \return The height of the image.
  */
-inline auto height(const dynamic_image_descriptor &descriptor) noexcept -> dimension;
+[[nodiscard]] inline auto height(const dynamic_image_descriptor &descriptor) noexcept -> dimension;
 
 /*!
  * Get the dimensions of the image (width, height) as described in an image descriptor.
  * \param[in] descriptor - An image descriptor.
  * \return The dimensions of the image.
  */
-inline auto dimensions(const dynamic_image_descriptor &descriptor) noexcept -> math::size2d<dimension>;
+[[nodiscard]] inline auto dimensions(const dynamic_image_descriptor &descriptor) noexcept -> math::size2d<dimension>;
 
 /*!
  * Get the rectangle of the image (based on the dimensions) as described in an image descriptor.
@@ -174,7 +174,7 @@ inline auto dimensions(const dynamic_image_descriptor &descriptor) noexcept -> m
  * \param[in] descriptor - An image descriptor.
  * \return The rectangle surrounding the image.
  */
-inline auto rectangle(const dynamic_image_descriptor &descriptor) noexcept -> math::rectangle<dimension>;
+[[nodiscard]] inline auto rectangle(const dynamic_image_descriptor &descriptor) noexcept -> math::rectangle<dimension>;
 
 /*!
  * Get the X stride of the image as described in an image descriptor.
@@ -182,7 +182,7 @@ inline auto rectangle(const dynamic_image_descriptor &descriptor) noexcept -> ma
  * \param[in] descriptor - An image descriptor.
  * \return The X stride of the image.
  */
-inline auto stride_x(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto stride_x(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
 
 /*!
  * Get the Y stride of the image as described in an image descriptor.
@@ -190,7 +190,7 @@ inline auto stride_x(const dynamic_image_descriptor &descriptor) noexcept -> std
  * \param[in] descriptor - An image descriptor.
  * \return The Y stride of the image.
  */
-inline auto stride_y(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto stride_y(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
 
 /*!
  * Returns true if the given image descriptor describes an image where all the data is layed out
@@ -199,7 +199,7 @@ inline auto stride_y(const dynamic_image_descriptor &descriptor) noexcept -> std
  * \param[in] descriptor - An image descriptor.
  * \return True if the image is continuous.
  */
-inline auto continuous(const dynamic_image_descriptor &descriptor) noexcept -> bool;
+[[nodiscard]] inline auto continuous(const dynamic_image_descriptor &descriptor) noexcept -> bool;
 
 /*!
  * Returns true if the given coordinate falls within the dimensions of the given image descriptor.
@@ -207,7 +207,8 @@ inline auto continuous(const dynamic_image_descriptor &descriptor) noexcept -> b
  * \param[in] coord - A coordinate (X, Y)
  * \return True if the coordinate is within the dimenions of the image.
  */
-inline auto contains(const dynamic_image_descriptor &descriptor, const math::vector2<dimension> coord) noexcept -> bool;
+[[nodiscard]] inline auto contains(const dynamic_image_descriptor &descriptor,
+                                   const math::vector2<dimension> coord) noexcept -> bool;
 
 /*!
  * Get the offset in bytes from the start of the buffer for a given coordinate. This value must be
@@ -216,8 +217,8 @@ inline auto contains(const dynamic_image_descriptor &descriptor, const math::vec
  * \param[in] descriptor - An image descriptor.
  * \return An offset for the given pixel coordinate.
  */
-inline auto at_offset(const math::vector2<dimension> coord, const dynamic_image_descriptor &descriptor) noexcept
-    -> std::ptrdiff_t;
+[[nodiscard]] inline auto at_offset(const math::vector2<dimension> coord,
+                                    const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
 
 /*!
  * Get the full size in bytes of the image in memory an image would take up as described with the
@@ -225,7 +226,7 @@ inline auto at_offset(const math::vector2<dimension> coord, const dynamic_image_
  * \param[in] descriptor - An image descriptor.
  * \return The size in bytes.
  */
-inline auto size(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto size(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
 
 /*!
  * Convert the given dynamic_image_descriptor to a regular image_descriptor<T>.
@@ -234,11 +235,13 @@ inline auto size(const dynamic_image_descriptor &descriptor) noexcept -> std::pt
  * \return A regular typed image descriptor.
  */
 template <typename T>
-inline auto descriptor(const dynamic_image_descriptor &descriptor) noexcept -> image_descriptor<T>;
+[[nodiscard]] inline auto descriptor(const dynamic_image_descriptor &descriptor) noexcept -> image_descriptor<T>;
 
-inline auto operator==(const dynamic_image_descriptor &lhs, const dynamic_image_descriptor &rhs) noexcept -> bool;
+[[nodiscard]] inline auto operator==(const dynamic_image_descriptor &lhs, const dynamic_image_descriptor &rhs) noexcept
+    -> bool;
 
-inline auto operator!=(const dynamic_image_descriptor &lhs, const dynamic_image_descriptor &rhs) noexcept -> bool;
+[[nodiscard]] inline auto operator!=(const dynamic_image_descriptor &lhs, const dynamic_image_descriptor &rhs) noexcept
+    -> bool;
 
 } // namespace aeon::imaging
 

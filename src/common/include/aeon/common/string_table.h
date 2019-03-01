@@ -30,16 +30,16 @@ public:
 
     auto operator=(std::string str) noexcept -> string_table &;
 
-    auto str() const noexcept -> const std::string &;
+    [[nodiscard]] auto str() const noexcept -> const std::string &;
 
-    static auto size() noexcept;
-    static auto str(const std::size_t i) -> const std::string &;
+    [[nodiscard]] static auto size() noexcept;
+    [[nodiscard]] static auto str(const std::size_t i) -> const std::string &;
 
     friend auto operator==(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool;
     friend auto operator!=(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool;
 
 private:
-    static auto table() noexcept -> std::vector<std::string> &;
+    [[nodiscard]] static auto table() noexcept -> std::vector<std::string> &;
 
     void init(std::string str);
 
@@ -70,7 +70,7 @@ inline auto string_table<T>::operator=(std::string str) noexcept -> string_table
 }
 
 template <typename T>
-inline auto string_table<T>::str() const noexcept -> const std::string &
+[[nodiscard]] inline auto string_table<T>::str() const noexcept -> const std::string &
 {
     if (index_ == npos)
     {
@@ -83,20 +83,20 @@ inline auto string_table<T>::str() const noexcept -> const std::string &
 }
 
 template <typename T>
-inline auto string_table<T>::size() noexcept
+[[nodiscard]] inline auto string_table<T>::size() noexcept
 {
     return std::size(table());
 }
 
 template <typename T>
-inline auto string_table<T>::str(const std::size_t i) -> const std::string &
+[[nodiscard]] inline auto string_table<T>::str(const std::size_t i) -> const std::string &
 {
     aeon_assert_index_bounds(i, std::size(table()));
     return table().at(i);
 }
 
 template <typename T>
-inline auto string_table<T>::table() noexcept -> std::vector<std::string> &
+[[nodiscard]] inline auto string_table<T>::table() noexcept -> std::vector<std::string> &
 {
     static std::vector<std::string> table;
     return table;

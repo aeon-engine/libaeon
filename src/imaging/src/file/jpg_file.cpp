@@ -15,7 +15,7 @@ namespace aeon::imaging::file::jpg
 namespace detail
 {
 
-auto subsample_mode_to_tjsamp(const subsample_mode mode) -> TJSAMP
+[[nodiscard]] static auto subsample_mode_to_tjsamp(const subsample_mode mode) -> TJSAMP
 {
     switch (mode)
     {
@@ -33,18 +33,18 @@ auto subsample_mode_to_tjsamp(const subsample_mode mode) -> TJSAMP
             return TJSAMP_GRAY;
     }
 
-    throw save_exception();
+    throw save_exception{};
 }
 
 } // namespace detail
 
-auto load(const std::filesystem::path &path) -> dynamic_image
+[[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image
 {
     auto stream = streams::make_dynamic_stream(streams::file_source_device{path});
     return load(stream);
 }
 
-auto load(streams::idynamic_stream &stream) -> dynamic_image
+[[nodiscard]] auto load(streams::idynamic_stream &stream) -> dynamic_image
 {
     detail::tjhandle_decompress_wrapper wrapper;
 

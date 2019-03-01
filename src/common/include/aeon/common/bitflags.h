@@ -9,13 +9,14 @@ namespace aeon::common
 {
 
 template <typename T>
-inline static constexpr auto get_bit(const T val, const unsigned int bit) noexcept
+[[nodiscard]] inline static constexpr auto get_bit(const T val, const unsigned int bit) noexcept
 {
     return ((val & (1 << bit)) >> bit);
 }
 
 template <typename T>
-inline static constexpr auto get_bit_range(const T val, const unsigned int offset, const unsigned int length) noexcept
+[[nodiscard]] inline static constexpr auto get_bit_range(const T val, const unsigned int offset,
+                                                         const unsigned int length) noexcept
 {
     return ((val & (((1 << length) - 1) << offset)) >> offset);
 }
@@ -45,47 +46,47 @@ inline static constexpr void clear_bit_flag(T &val, const T flag) noexcept
 }
 
 template <typename T>
-inline static constexpr auto check_bit_flag(const T value, const T flag) noexcept
+[[nodiscard]] inline static constexpr auto check_bit_flag(const T value, const T flag) noexcept
 {
     return (value & flag) == flag;
 }
 
-inline static constexpr auto get_low_nibble(const unsigned char value) noexcept
+[[nodiscard]] inline static constexpr auto get_low_nibble(const unsigned char value) noexcept
 {
     return static_cast<unsigned char>(value & 0x0F);
 }
 
-inline static constexpr auto get_high_nibble(const unsigned char value) noexcept
+[[nodiscard]] inline static constexpr auto get_high_nibble(const unsigned char value) noexcept
 {
     return static_cast<unsigned char>((value & 0xF0) >> 4);
 }
 
 template <typename T, typename U>
-inline static constexpr auto mask(const U value) noexcept
+[[nodiscard]] inline static constexpr auto mask(const U value) noexcept
 {
     return static_cast<T>(value & std::numeric_limits<T>::max());
 }
 
 template <typename T>
-inline static constexpr auto mask_u8(const T value) noexcept
+[[nodiscard]] inline static constexpr auto mask_u8(const T value) noexcept
 {
     return mask<std::uint8_t>(value);
 }
 
 template <typename T>
-inline static constexpr auto mask_u16(const T value) noexcept
+[[nodiscard]] inline static constexpr auto mask_u16(const T value) noexcept
 {
     return mask<std::uint16_t>(value);
 }
 
 template <typename T>
-inline static constexpr auto mask_u32(const T value) noexcept
+[[nodiscard]] inline static constexpr auto mask_u32(const T value) noexcept
 {
     return mask<std::uint32_t>(value);
 }
 
 template <typename T>
-inline static constexpr auto mask_u64(const T value) noexcept
+[[nodiscard]] inline static constexpr auto mask_u64(const T value) noexcept
 {
     return mask<std::uint64_t>(value);
 }

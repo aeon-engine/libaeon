@@ -7,24 +7,25 @@
 namespace aeon::imaging::file::png::detail
 {
 
-class png_structs
+class [[nodiscard]] png_structs
 {
 public:
     png_structs();
-    ~png_structs();
 
     png_structs(const png_structs &) = delete;
-    auto operator=(const png_structs &) -> png_structs & = delete;
+    auto operator=(const png_structs &)->png_structs & = delete;
 
-    png_structs(png_structs &&o) = default;
-    auto operator=(png_structs &&other) -> png_structs & = default;
+    png_structs(png_structs && o) = default;
+    auto operator=(png_structs &&other)->png_structs & = default;
 
-    auto png_ptr() const;
-    auto info_ptr() const;
-    auto end_info() const;
+    [[nodiscard]] auto png_ptr() const;
+    [[nodiscard]] auto info_ptr() const;
+    [[nodiscard]] auto end_info() const;
 
 protected:
-    auto create_info_struct() const -> png_infop;
+    ~png_structs();
+
+    auto create_info_struct() const->png_infop;
 
     png_structp png_ptr_;
     png_infop info_ptr_;
@@ -46,22 +47,22 @@ inline png_structs::~png_structs()
     end_info_ = nullptr;
 }
 
-inline auto png_structs::png_ptr() const
+[[nodiscard]] inline auto png_structs::png_ptr() const
 {
     return png_ptr_;
 }
 
-inline auto png_structs::info_ptr() const
+[[nodiscard]] inline auto png_structs::info_ptr() const
 {
     return info_ptr_;
 }
 
-inline auto png_structs::end_info() const
+[[nodiscard]] inline auto png_structs::end_info() const
 {
     return end_info_;
 }
 
-inline auto png_structs::create_info_struct() const -> png_infop
+[[nodiscard]] inline auto png_structs::create_info_struct() const -> png_infop
 {
     return png_create_info_struct(png_ptr_);
 }

@@ -17,7 +17,7 @@ auto add_entry(const char *func) -> trace_log_entry *;
 void add_exit(trace_log_entry *entry);
 void add_event(const char *func);
 
-class scoped_trace_log
+class [[nodiscard]] scoped_trace_log
 {
 public:
     scoped_trace_log(const char *func)
@@ -31,10 +31,10 @@ public:
     }
 
     scoped_trace_log(scoped_trace_log &&) = delete;
-    auto operator=(scoped_trace_log &&) -> scoped_trace_log & = delete;
+    auto operator=(scoped_trace_log &&)->scoped_trace_log & = delete;
 
     scoped_trace_log(const scoped_trace_log &) = delete;
-    auto operator=(const scoped_trace_log &) -> scoped_trace_log & = delete;
+    auto operator=(const scoped_trace_log &)->scoped_trace_log & = delete;
 
 private:
     trace_log_entry *entry_;

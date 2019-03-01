@@ -42,7 +42,7 @@ public:
      * Returns true of the parsed value is of the given type T.
      */
     template <typename T>
-    auto is_type() const noexcept
+    [[nodiscard]] auto is_type() const noexcept
     {
         return std::holds_alternative<T>(value_);
     }
@@ -52,7 +52,7 @@ public:
      * If the parsed value is of a different type, an exception will be thrown.
      */
     template <typename T>
-    auto value() const
+    [[nodiscard]] auto value() const
     {
         return std::get<T>(value_);
     }
@@ -60,7 +60,7 @@ public:
     /*!
      * Returns true of the parsed value is an integer.
      */
-    auto is_integer() const noexcept
+    [[nodiscard]] auto is_integer() const noexcept
     {
         return is_type<std::int64_t>();
     }
@@ -68,7 +68,7 @@ public:
     /*!
      * Returns true of the parsed value is a double.
      */
-    auto is_double() const noexcept
+    [[nodiscard]] auto is_double() const noexcept
     {
         return is_type<double>();
     }
@@ -77,7 +77,7 @@ public:
      * The offset of the first character within the parsed string that was not evaluated
      * as part of the number.
      */
-    auto offset() const noexcept
+    [[nodiscard]] auto offset() const noexcept
     {
         return offset_;
     }
@@ -85,7 +85,7 @@ public:
     /*!
      * Get the parsed value. If the parsed value is of a different type, an exception will be thrown.
      */
-    auto integer_value() const
+    [[nodiscard]] auto integer_value() const
     {
         return value<std::int64_t>();
     }
@@ -93,7 +93,7 @@ public:
     /*!
      * Get the parsed value. If the parsed value is of a different type, an exception will be thrown.
      */
-    auto double_value() const
+    [[nodiscard]] auto double_value() const
     {
         return value<double>();
     }

@@ -78,7 +78,7 @@ public:
     mono_thunk(mono_thunk &&o) = delete;
     auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
 
-    auto operator()(args_t... args) const
+    [[nodiscard]] auto operator()(args_t... args) const
     {
         MonoException *ex = nullptr;
         auto result =

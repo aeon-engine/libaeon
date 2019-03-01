@@ -32,16 +32,16 @@ public:
     mono_assembly(mono_assembly &&o) noexcept;
     auto operator=(mono_assembly &&o) noexcept -> mono_assembly &;
 
-    auto get_mono_assembly_ptr() const noexcept -> MonoAssembly *;
-    auto get_mono_domain_ptr() const noexcept -> MonoDomain *;
+    [[nodiscard]] auto get_mono_assembly_ptr() const noexcept -> MonoAssembly *;
+    [[nodiscard]] auto get_mono_domain_ptr() const noexcept -> MonoDomain *;
 
-    auto get_class(const std::string &name) const -> mono_class;
-    auto get_class(const std::string &name_space, const std::string &name) const -> mono_class;
+    [[nodiscard]] auto get_class(const std::string &name) const -> mono_class;
+    [[nodiscard]] auto get_class(const std::string &name_space, const std::string &name) const -> mono_class;
 
-    auto new_class_instance(const mono_class &cls) const noexcept -> mono_class_instance;
-    auto new_string(const std::string &str) const noexcept -> mono_string;
+    [[nodiscard]] auto new_class_instance(const mono_class &cls) const noexcept -> mono_class_instance;
+    [[nodiscard]] auto new_string(const std::string &str) const noexcept -> mono_string;
 
-    auto valid() const noexcept -> bool;
+    [[nodiscard]] auto valid() const noexcept -> bool;
 
 private:
     MonoDomain *domain_;

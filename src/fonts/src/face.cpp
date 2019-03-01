@@ -23,7 +23,7 @@ face::face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<str
 
 face::~face() = default;
 
-auto face::load_glyph(const char32_t control_code) const -> glyph
+[[nodiscard]] auto face::load_glyph(const char32_t control_code) const -> glyph
 {
     for (const auto &face : faces_)
     {

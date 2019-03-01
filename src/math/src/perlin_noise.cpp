@@ -34,12 +34,12 @@ void perlin_noise::set(const double persistence, const double frequency, const d
     randomseed_ = 2 + randomseed * randomseed;
 }
 
-auto perlin_noise::get_height(const double x, const double y) const noexcept -> double
+[[nodiscard]] auto perlin_noise::get_height(const double x, const double y) const noexcept -> double
 {
     return amplitude_ * total(x, y);
 }
 
-auto perlin_noise::total(const double i, const double j) const noexcept -> double
+[[nodiscard]] auto perlin_noise::total(const double i, const double j) const noexcept -> double
 {
     // properties of one octave (changing each loop)
     auto t = 0.0;
@@ -56,7 +56,7 @@ auto perlin_noise::total(const double i, const double j) const noexcept -> doubl
     return t;
 }
 
-auto perlin_noise::get_value(const double x, const double y) const noexcept -> double
+[[nodiscard]] auto perlin_noise::get_value(const double x, const double y) const noexcept -> double
 {
     const auto xint = static_cast<int>(x);
     const auto yint = static_cast<int>(y);
@@ -98,7 +98,7 @@ auto perlin_noise::get_value(const double x, const double y) const noexcept -> d
     return fin;
 }
 
-auto perlin_noise::interpolate(const double x, const double y, const double a) const noexcept -> double
+[[nodiscard]] auto perlin_noise::interpolate(const double x, const double y, const double a) const noexcept -> double
 {
     const auto neg_a = 1.0 - a;
     const auto neg_a_sqr = neg_a * neg_a;
@@ -109,7 +109,7 @@ auto perlin_noise::interpolate(const double x, const double y, const double a) c
     return x * fac1 + y * fac2; // add the weighted factors
 }
 
-auto perlin_noise::noise(const int x, const int y) const noexcept -> double
+[[nodiscard]] auto perlin_noise::noise(const int x, const int y) const noexcept -> double
 {
     auto n = x + y * 57;
     n = (n << 13) ^ n;

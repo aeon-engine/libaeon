@@ -80,7 +80,7 @@ inline quaternion::quaternion(const mat3 &mat) noexcept
     }
 }
 
-inline auto quaternion::indentity() noexcept -> quaternion
+[[nodiscard]] inline auto quaternion::indentity() noexcept -> quaternion
 {
     return {1.0f, 0.0f, 0.0f, 0.0f};
 }
@@ -93,39 +93,39 @@ inline void quaternion::set(const float new_w, const float new_x, const float ne
     z = new_z;
 }
 
-inline auto pitch(const quaternion &quat) noexcept -> float
+[[nodiscard]] inline auto pitch(const quaternion &quat) noexcept -> float
 {
     return std::atan2(2.0f * (quat.y * quat.z + quat.w * quat.x),
                       quat.w * quat.w - quat.x * quat.x - quat.y * quat.y + quat.z * quat.z);
 }
 
-inline auto yaw(const quaternion &quat) noexcept -> float
+[[nodiscard]] inline auto yaw(const quaternion &quat) noexcept -> float
 {
     return std::asin(std::clamp(-2.0f * (quat.x * quat.z - quat.w * quat.y), -1.0f, 1.0f));
 }
 
-inline auto roll(const quaternion &quat) noexcept -> float
+[[nodiscard]] inline auto roll(const quaternion &quat) noexcept -> float
 {
     return std::atan2(2.0f * (quat.x * quat.y + quat.w * quat.z),
                       quat.w * quat.w + quat.x * quat.x - quat.y * quat.y - quat.z * quat.z);
 }
 
-inline auto euler(const quaternion &quat) noexcept -> vector3<float>
+[[nodiscard]] inline auto euler(const quaternion &quat) noexcept -> vector3<float>
 {
     return {pitch(quat), yaw(quat), roll(quat)};
 }
 
-inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float
+[[nodiscard]] inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float
 {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
-inline auto ptr(quaternion &quat) noexcept -> float *
+[[nodiscard]] inline auto ptr(quaternion &quat) noexcept -> float *
 {
     return &quat.w;
 }
 
-inline auto ptr(const quaternion &quat) noexcept -> const float *
+[[nodiscard]] inline auto ptr(const quaternion &quat) noexcept -> const float *
 {
     return &quat.w;
 }

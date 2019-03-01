@@ -17,7 +17,7 @@ mono_object::mono_object(MonoObject *object) noexcept
 
 mono_object::~mono_object() = default;
 
-auto mono_object::get_mono_object() const noexcept -> MonoObject *
+[[nodiscard]] auto mono_object::get_mono_object() const noexcept -> MonoObject *
 {
     return object_;
 }

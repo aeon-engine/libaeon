@@ -67,13 +67,13 @@ struct png_color_type_traits<rgba32>
 
 } // namespace detail
 
-auto load(const std::filesystem::path &path) -> dynamic_image
+[[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image
 {
     auto stream = streams::make_dynamic_stream(streams::file_source_device{path});
     return load(stream);
 }
 
-auto load(streams::idynamic_stream &stream) -> dynamic_image
+[[nodiscard]] auto load(streams::idynamic_stream &stream) -> dynamic_image
 {
     // Check our stream
     if (!stream.good())

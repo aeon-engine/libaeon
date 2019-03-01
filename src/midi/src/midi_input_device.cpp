@@ -3,9 +3,7 @@
 #include <aeon/midi/midi_input_device.h>
 #include <aeon/common/bitflags.h>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 midi_input_device::midi_input_device()
@@ -27,7 +25,7 @@ void midi_input_device::open(const unsigned int port)
     midi_input_device_.openPort(port);
 }
 
-auto midi_input_device::get_message(std::vector<unsigned char> &message) const -> double
+[[nodiscard]] auto midi_input_device::get_message(std::vector<unsigned char> &message) const -> double
 {
     return midi_input_device_.getMessage(&message);
 }
@@ -39,5 +37,4 @@ void midi_input_device::set_message_mask(const int mask)
                                    common::check_bit_flag(mask, midi_message_type::sense));
 }
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

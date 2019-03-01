@@ -15,7 +15,7 @@ struct pixel_encoding_trait
 template <>
 struct pixel_encoding_trait<std::uint8_t>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::unsigned8;
     }
@@ -24,7 +24,7 @@ struct pixel_encoding_trait<std::uint8_t>
 template <>
 struct pixel_encoding_trait<std::uint16_t>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::unsigned16;
     }
@@ -33,7 +33,7 @@ struct pixel_encoding_trait<std::uint16_t>
 template <>
 struct pixel_encoding_trait<std::uint32_t>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::unsigned32;
     }
@@ -42,7 +42,7 @@ struct pixel_encoding_trait<std::uint32_t>
 template <>
 struct pixel_encoding_trait<float>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::float32;
     }
@@ -51,7 +51,7 @@ struct pixel_encoding_trait<float>
 template <>
 struct pixel_encoding_trait<rgb24>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::rgb24;
     }
@@ -60,7 +60,7 @@ struct pixel_encoding_trait<rgb24>
 template <>
 struct pixel_encoding_trait<rgba32>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::rgba32;
     }
@@ -69,7 +69,7 @@ struct pixel_encoding_trait<rgba32>
 template <>
 struct pixel_encoding_trait<bgr24>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::bgr24;
     }
@@ -78,13 +78,13 @@ struct pixel_encoding_trait<bgr24>
 template <>
 struct pixel_encoding_trait<bgra32>
 {
-    static constexpr auto encoding() noexcept
+    [[nodiscard]] static constexpr auto encoding() noexcept
     {
         return pixel_encoding::bgra32;
     }
 };
 
-inline constexpr auto bytes_per_pixel(const pixel_encoding encoding) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline constexpr auto bytes_per_pixel(const pixel_encoding encoding) noexcept -> std::ptrdiff_t
 {
     switch (encoding)
     {

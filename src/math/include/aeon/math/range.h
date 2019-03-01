@@ -45,7 +45,7 @@ public:
  * \return Begin of a range
  */
 template <typename T>
-inline auto begin(const range<T> &range) noexcept -> T;
+[[nodiscard]] inline auto begin(const range<T> &range) noexcept -> T;
 
 /*!
  * Get the end of a range
@@ -53,7 +53,7 @@ inline auto begin(const range<T> &range) noexcept -> T;
  * \return End of a range
  */
 template <typename T>
-inline auto end(const range<T> &range) noexcept -> T;
+[[nodiscard]] inline auto end(const range<T> &range) noexcept -> T;
 
 /*!
  * Get the size of a range
@@ -61,7 +61,7 @@ inline auto end(const range<T> &range) noexcept -> T;
  * \return Size of a range (end-begin)
  */
 template <typename T>
-inline auto size(const range<T> &range) noexcept -> T;
+[[nodiscard]] inline auto size(const range<T> &range) noexcept -> T;
 
 template <typename T>
 inline auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;

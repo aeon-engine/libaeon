@@ -39,7 +39,7 @@ public:
      * Get the descriptor of the image view.
      * \return The descriptor of the image view.
      */
-    auto descriptor() const noexcept -> image_descriptor<T>;
+    [[nodiscard]] auto descriptor() const noexcept -> image_descriptor<T>;
 
 protected:
     /*!
@@ -61,7 +61,7 @@ protected:
  * \return The descriptor of the image view.
  */
 template <typename T>
-inline auto descriptor(const image_view_base<T> &view) noexcept -> image_descriptor<T>;
+[[nodiscard]] inline auto descriptor(const image_view_base<T> &view) noexcept -> image_descriptor<T>;
 
 /*!
  * Get the width of the given image view.
@@ -69,7 +69,7 @@ inline auto descriptor(const image_view_base<T> &view) noexcept -> image_descrip
  * \return The width of the image view.
  */
 template <typename T>
-inline auto width(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto width(const image_view_base<T> &view) noexcept;
 
 /*!
  * Get the height of the given image view.
@@ -77,7 +77,7 @@ inline auto width(const image_view_base<T> &view) noexcept;
  * \return The height of the image view.
  */
 template <typename T>
-inline auto height(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto height(const image_view_base<T> &view) noexcept;
 
 /*!
  * Get the dimensions of the given image view (width, height).
@@ -85,7 +85,7 @@ inline auto height(const image_view_base<T> &view) noexcept;
  * \return The dimensions of the image view.
  */
 template <typename T>
-inline auto dimensions(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto dimensions(const image_view_base<T> &view) noexcept;
 
 /*!
  * Get the rectangle of the image view (based on the dimensions).
@@ -95,7 +95,7 @@ inline auto dimensions(const image_view_base<T> &view) noexcept;
  * \return The rectangle surrounding the image view.
  */
 template <typename T>
-inline auto rectangle(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto rectangle(const image_view_base<T> &view) noexcept;
 
 /*!
  * Get the X stride of the given image view.
@@ -104,7 +104,7 @@ inline auto rectangle(const image_view_base<T> &view) noexcept;
  * \return The X stride of the image view.
  */
 template <typename T>
-inline auto stride_x(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto stride_x(const image_view_base<T> &view) noexcept;
 
 /*!
  * Get the Y stride of the given image view.
@@ -113,7 +113,7 @@ inline auto stride_x(const image_view_base<T> &view) noexcept;
  * \return The Y stride of the image view.
  */
 template <typename T>
-inline auto stride_y(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto stride_y(const image_view_base<T> &view) noexcept;
 
 /*!
  * Returns true if the data described by the given image view is layed out in memory in a
@@ -123,7 +123,7 @@ inline auto stride_y(const image_view_base<T> &view) noexcept;
  * \return True if the image view's data is continuous.
  */
 template <typename T>
-inline auto continuous(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto continuous(const image_view_base<T> &view) noexcept;
 
 /*!
  * Returns true if the given coordinate falls within the dimensions of the given image view.
@@ -132,7 +132,7 @@ inline auto continuous(const image_view_base<T> &view) noexcept;
  * \return True if the coordinate is within the dimenions of the image view.
  */
 template <typename T>
-inline auto contains(const image_view_base<T> &view, const math::vector2<dimension> coord) noexcept;
+[[nodiscard]] inline auto contains(const image_view_base<T> &view, const math::vector2<dimension> coord) noexcept;
 
 /*!
  * Get the full size in bytes of the data described by the image view in
@@ -141,7 +141,7 @@ inline auto contains(const image_view_base<T> &view, const math::vector2<dimensi
  * \return The size in bytes.
  */
 template <typename T>
-inline auto size(const image_view_base<T> &view) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto size(const image_view_base<T> &view) noexcept -> std::ptrdiff_t;
 
 } // namespace aeon::imaging
 

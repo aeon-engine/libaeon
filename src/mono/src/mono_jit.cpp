@@ -34,7 +34,7 @@ mono_jit::~mono_jit()
     //    mono_jit_cleanup(domain_);
 }
 
-auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
+[[nodiscard]] auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
 {
     auto assembly = mono_assembly{domain_, path};
 
@@ -49,7 +49,7 @@ void mono_jit::set_auto_wrap_assembly(const mono_assembly &assembly)
     internal_call_assembly_ = mono_assembly{assembly.get_mono_domain_ptr(), assembly.get_mono_assembly_ptr()};
 }
 
-auto mono_jit::get_auto_wrap_assembly() -> mono_assembly &
+[[nodiscard]] auto mono_jit::get_auto_wrap_assembly() -> mono_assembly &
 {
     return internal_call_assembly_;
 }

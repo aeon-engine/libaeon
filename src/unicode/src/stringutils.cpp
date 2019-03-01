@@ -5,14 +5,14 @@
 namespace aeon::unicode::stringutils
 {
 
-auto escape(const std::string_view &str) -> std::string
+[[nodiscard]] auto escape(const std::string_view &str) -> std::string
 {
     utf_string_view view{str};
     return escape(std::begin(view), std::end(view));
 }
 
-auto escape(const utf_string_view<std::string_view>::iterator begin,
-            const utf_string_view<std::string_view>::iterator end) -> std::string
+[[nodiscard]] auto escape(const utf_string_view<std::string_view>::iterator begin,
+                          const utf_string_view<std::string_view>::iterator end) -> std::string
 {
     std::string result;
     result.reserve(std::distance(begin, end));
@@ -53,14 +53,15 @@ auto escape(const utf_string_view<std::string_view>::iterator begin,
     return result;
 }
 
-auto unescape(const std::string_view &str, const unescape_mode mode) -> std::string
+[[nodiscard]] auto unescape(const std::string_view &str, const unescape_mode mode) -> std::string
 {
     utf_string_view view{str};
     return unescape(std::begin(view), std::end(view), mode);
 }
 
-auto unescape(const utf_string_view<std::string_view>::iterator begin,
-              const utf_string_view<std::string_view>::iterator end, const unescape_mode mode) -> std::string
+[[nodiscard]] auto unescape(const utf_string_view<std::string_view>::iterator begin,
+                            const utf_string_view<std::string_view>::iterator end, const unescape_mode mode)
+    -> std::string
 {
     std::string result;
     result.reserve(std::distance(begin, end));

@@ -61,7 +61,7 @@ public:
      * Get the descriptor of the image.
      * \return The descriptor of the image.
      */
-    auto descriptor() const noexcept -> dynamic_image_descriptor;
+    [[nodiscard]] auto descriptor() const noexcept -> dynamic_image_descriptor;
 
     /*!
      * Get the internal typed image<T> from this dynamic image.
@@ -69,7 +69,7 @@ public:
      * \return An image<T>.
      */
     template <typename T>
-    auto get_image() noexcept -> image<T> &;
+    [[nodiscard]] auto get_image() noexcept -> image<T> &;
 
     /*!
      * Get the internal typed image<T> from this dynamic image.
@@ -77,21 +77,21 @@ public:
      * \return An image<T>.
      */
     template <typename T>
-    auto get_image() const noexcept -> const image<T> &;
+    [[nodiscard]] auto get_image() const noexcept -> const image<T> &;
 
     /*!
      * Access the raw internal data of this image without any bounds checks.
      * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
      * \return A pointer to the raw data.
      */
-    auto raw_data() noexcept -> std::byte *;
+    [[nodiscard]] auto raw_data() noexcept -> std::byte *;
 
     /*!
      * Access the raw internal data of this image without any bounds checks.
      * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
      * \return A const pointer to the raw data.
      */
-    auto raw_data() const noexcept -> const std::byte *;
+    [[nodiscard]] auto raw_data() const noexcept -> const std::byte *;
 
 private:
     dynamic_image_descriptor dynamic_descriptor_;
@@ -103,7 +103,7 @@ private:
  * \param[in] image - A dynamic image
  * \return The descriptor of the image.
  */
-inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_descriptor;
+[[nodiscard]] inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_descriptor;
 
 /*!
  * Returns true if the dynamic image is null. An image is null when
@@ -111,7 +111,7 @@ inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_des
  * \param[in] image - A dynamic image
  * \return Returns true if the image is null.
  */
-inline auto null(const dynamic_image &image) noexcept -> bool;
+[[nodiscard]] inline auto null(const dynamic_image &image) noexcept -> bool;
 
 /*!
  * Returns true if the dynamic image is valid. An image is valid when it is not null.
@@ -119,35 +119,35 @@ inline auto null(const dynamic_image &image) noexcept -> bool;
  * \param[in] image - A dynamic image
  * \return Returns true if the image is valid.
  */
-inline auto valid(const dynamic_image &image) noexcept -> bool;
+[[nodiscard]] inline auto valid(const dynamic_image &image) noexcept -> bool;
 
 /*!
  * Get the encoding of the given image.
  * \param[in] image - A dynamic image
  * \return The encoding of the image.
  */
-inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding;
+[[nodiscard]] inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding;
 
 /*!
  * Get the width of the given image.
  * \param[in] image - A dynamic image
  * \return The width of the image.
  */
-inline auto width(const dynamic_image &image) noexcept -> dimension;
+[[nodiscard]] inline auto width(const dynamic_image &image) noexcept -> dimension;
 
 /*!
  * Get the height of the given image.
  * \param[in] image - A dynamic image
  * \return The height of the image.
  */
-inline auto height(const dynamic_image &image) noexcept -> dimension;
+[[nodiscard]] inline auto height(const dynamic_image &image) noexcept -> dimension;
 
 /*!
  * Get the dimensions of the given image (width, height).
  * \param[in] image - A dynamic image
  * \return The dimensions of the image.
  */
-inline auto dimensions(const dynamic_image &image) noexcept -> math::size2d<dimension>;
+[[nodiscard]] inline auto dimensions(const dynamic_image &image) noexcept -> math::size2d<dimension>;
 
 /*!
  * Get the rectangle of the image (based on the dimensions).
@@ -156,7 +156,7 @@ inline auto dimensions(const dynamic_image &image) noexcept -> math::size2d<dime
  * \param[in] image - A dynamic image
  * \return The rectangle surrounding the image.
  */
-inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<dimension>;
+[[nodiscard]] inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<dimension>;
 
 /*!
  * Get the X stride of the given image.
@@ -164,7 +164,7 @@ inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<di
  * \param[in] image - A dynamic image
  * \return The X stride of the image.
  */
-inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t;
 
 /*!
  * Get the Y stride of the given image.
@@ -172,7 +172,7 @@ inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t;
  * \param[in] image - A dynamic image
  * \return The Y stride of the image.
  */
-inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t;
 
 /*!
  * Returns true if the data of the given image is layed out in memory in a continuous fashion
@@ -180,7 +180,7 @@ inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t;
  * \param[in] image - A dynamic image
  * \return True if the image is continuous.
  */
-inline auto continuous(const dynamic_image &image) noexcept -> bool;
+[[nodiscard]] inline auto continuous(const dynamic_image &image) noexcept -> bool;
 
 /*!
  * Returns true if the given coordinate falls within the dimensions of the given image.
@@ -188,14 +188,14 @@ inline auto continuous(const dynamic_image &image) noexcept -> bool;
  * \param[in] coord - A coordinate (X, Y)
  * \return True if the coordinate is within the dimenions of the image.
  */
-inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool;
+[[nodiscard]] inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool;
 
 /*!
  * Get the full size in bytes of the image in memory (stride_y * height).
  * \param[in] image - A dynamic image
  * \return The size in bytes.
  */
-inline auto size(const dynamic_image &image) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto size(const dynamic_image &image) noexcept -> std::ptrdiff_t;
 
 /*!
  * Get the typed image view for a given image to access the internal data.
@@ -204,7 +204,7 @@ inline auto size(const dynamic_image &image) noexcept -> std::ptrdiff_t;
  * \return The size in bytes.
  */
 template <typename T>
-inline auto view(dynamic_image &image) noexcept -> image_view<T> &;
+[[nodiscard]] inline auto view(dynamic_image &image) noexcept -> image_view<T> &;
 
 /*!
  * Get the typed image view for a given image to access the internal data.
@@ -213,21 +213,21 @@ inline auto view(dynamic_image &image) noexcept -> image_view<T> &;
  * \return The size in bytes.
  */
 template <typename T>
-inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
+[[nodiscard]] inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &;
 
 /*!
  * Access the raw internal data of an image without any bounds checks.
  * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
  * \return A pointer to the raw data.
  */
-inline auto raw_data(dynamic_image &image) noexcept -> std::byte *;
+[[nodiscard]] inline auto raw_data(dynamic_image &image) noexcept -> std::byte *;
 
 /*!
  * Access the raw internal data of an image without any bounds checks.
  * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
  * \return A const pointer to the raw data.
  */
-inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *;
+[[nodiscard]] inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *;
 
 #define process_image(img, func, ...)                                                                                  \
     [&]() {                                                                                                            \

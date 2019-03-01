@@ -21,17 +21,17 @@ class mono_thunk_exception : public mono_exception
 public:
     explicit mono_thunk_exception(MonoException *ex);
 
-    const auto &exception_typename() const noexcept
+    [[nodiscard]] const auto &exception_typename() const noexcept
     {
         return exception_typename_;
     }
 
-    const auto &message() const noexcept
+    [[nodiscard]] const auto &message() const noexcept
     {
         return message_;
     }
 
-    const auto &stacktrace() const noexcept
+    [[nodiscard]] const auto &stacktrace() const noexcept
     {
         return stacktrace_;
     }
@@ -46,8 +46,9 @@ private:
 
     explicit mono_thunk_exception(const exception_info &info);
 
-    static auto __get_exception_info(MonoException *ex) noexcept -> exception_info;
-    static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) noexcept -> char *;
+    [[nodiscard]] static auto __get_exception_info(MonoException *ex) noexcept -> exception_info;
+    [[nodiscard]] static auto __get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) noexcept
+        -> char *;
 
     std::string exception_typename_;
     std::string message_;

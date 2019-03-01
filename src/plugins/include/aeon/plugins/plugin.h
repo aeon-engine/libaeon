@@ -35,12 +35,12 @@ public:
     /*!
      * This should return a short descriptive name of the plugin.
      */
-    virtual auto plugin_name() const noexcept -> const char * = 0;
+    [[nodiscard]] virtual auto plugin_name() const noexcept -> const char * = 0;
 
     /*!
      * This should return a version string for this plugin.
      */
-    virtual auto plugin_version_string() const noexcept -> const char * = 0;
+    [[nodiscard]] virtual auto plugin_version_string() const noexcept -> const char * = 0;
 
     /*!
      * Called when the plugin is being loaded, right before the interface is
@@ -60,7 +60,7 @@ public:
     /*!
      * Get the interface to the loader that loaded this plugin.
      */
-    auto get_plugin_loader() const -> plugin_loader &;
+    [[nodiscard]] auto get_plugin_loader() const -> plugin_loader &;
 
     /*!
      * Set the interface to the loader that loaded this plugin.

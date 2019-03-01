@@ -9,10 +9,9 @@
 #include <array>
 #include <cassert>
 
-namespace aeon
+namespace aeon::midi
 {
-namespace midi
-{
+
 class midi_input_device;
 
 static const int max_midi_channels = 16;
@@ -71,12 +70,12 @@ public:
 
     void run_one();
 
-    auto &get_input_device()
+    [[nodiscard]] auto &get_input_device()
     {
         return input_device_;
     }
 
-    const auto &get_pressed_notes(const unsigned int channel) const
+    [[nodiscard]] const auto &get_pressed_notes(const unsigned int channel) const
     {
         assert(channel < max_midi_channels);
         return notes_[channel];
@@ -91,5 +90,4 @@ private:
     std::array<std::vector<midi_note>, max_midi_channels> notes_;
 };
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

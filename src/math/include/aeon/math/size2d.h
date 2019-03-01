@@ -51,7 +51,7 @@ public:
     auto operator=(size2d &&) noexcept -> size2d & = default;
 
     template <typename U>
-    auto convert_to() const noexcept -> U;
+    [[nodiscard]] auto convert_to() const noexcept -> U;
 
     T width;
     T height;
@@ -63,7 +63,7 @@ public:
  * \return The width value
  */
 template <typename T>
-inline auto width(const size2d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto width(const size2d<T> &size) noexcept -> T;
 
 /*!
  * Get the height value of a given size.
@@ -71,7 +71,7 @@ inline auto width(const size2d<T> &size) noexcept -> T;
  * \return The height value
  */
 template <typename T>
-inline auto height(const size2d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto height(const size2d<T> &size) noexcept -> T;
 
 /*!
  * Get the area of a given size.
@@ -79,7 +79,7 @@ inline auto height(const size2d<T> &size) noexcept -> T;
  * \return The area (width * height)
  */
 template <typename T>
-inline auto area(const size2d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto area(const size2d<T> &size) noexcept -> T;
 
 /*!
  * Check if a size is empty (width == 0 or height == 0)
@@ -87,7 +87,7 @@ inline auto area(const size2d<T> &size) noexcept -> T;
  * \return True if the size is empty
  */
 template <typename T>
-inline auto empty(const size2d<T> &size) noexcept -> bool;
+[[nodiscard]] inline auto empty(const size2d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is null (width == 0 and height == 0)
@@ -95,7 +95,7 @@ inline auto empty(const size2d<T> &size) noexcept -> bool;
  * \return True if the size is null
  */
 template <typename T>
-inline auto null(const size2d<T> &size) noexcept -> bool;
+[[nodiscard]] inline auto null(const size2d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is valid (width >= 0 and height >= 0)
@@ -103,7 +103,7 @@ inline auto null(const size2d<T> &size) noexcept -> bool;
  * \return True if the size is valid
  */
 template <typename T>
-inline auto valid(const size2d<T> &size) noexcept -> bool;
+[[nodiscard]] inline auto valid(const size2d<T> &size) noexcept -> bool;
 
 /*!
  * Get the rectangle for a given size with left-top at [0, 0].
@@ -111,7 +111,7 @@ inline auto valid(const size2d<T> &size) noexcept -> bool;
  * \return Rectangle
  */
 template <typename T>
-inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
+[[nodiscard]] inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
 
 /*!
  * Check if the given inner point is completely contained within the given size.
@@ -120,7 +120,7 @@ inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
  * \return True if the point is contained with in the size.
  */
 template <typename T>
-inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
+[[nodiscard]] inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
 
 /*!
  * Inflate (grow, add) a size in all directions by a given value.

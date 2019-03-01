@@ -30,19 +30,19 @@ public:
     virtual ~mono_class();
 
     mono_class(const mono_class &) = delete;
-    auto operator=(const mono_class &) -> mono_class & = delete;
+    [[nodiscard]] auto operator=(const mono_class &) -> mono_class & = delete;
 
     mono_class(mono_class &&o) noexcept;
-    auto operator=(mono_class &&o) noexcept -> mono_class &;
+    [[nodiscard]] auto operator=(mono_class &&o) noexcept -> mono_class &;
 
-    auto get_static_function(const std::string &name, int argc = 0) const -> mono_static_function;
+    [[nodiscard]] auto get_static_function(const std::string &name, int argc = 0) const -> mono_static_function;
 
     template <typename function_signature_t>
-    auto get_static_function_thunk(const std::string &name);
+    [[nodiscard]] auto get_static_function_thunk(const std::string &name);
 
-    auto get_mono_class_ptr() const noexcept -> MonoClass *;
+    [[nodiscard]] auto get_mono_class_ptr() const noexcept -> MonoClass *;
 
-    auto get_field(const std::string &name) const -> mono_class_field;
+    [[nodiscard]] auto get_field(const std::string &name) const -> mono_class_field;
 
 private:
     MonoClass *class_;
@@ -50,7 +50,7 @@ private:
 };
 
 template <typename function_signature_t>
-auto mono_class::get_static_function_thunk(const std::string &name)
+[[nodiscard]] auto mono_class::get_static_function_thunk(const std::string &name)
 {
     constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
     auto func = get_static_function(name, arg_count);

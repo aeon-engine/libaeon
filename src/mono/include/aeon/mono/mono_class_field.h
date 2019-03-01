@@ -30,7 +30,7 @@ public:
     mono_class_field(mono_class_field &&o) noexcept;
     auto operator=(mono_class_field &&o) noexcept -> mono_class_field &;
 
-    auto get_mono_class_field_ptr() const noexcept -> MonoClassField *;
+    [[nodiscard]] auto get_mono_class_field_ptr() const noexcept -> MonoClassField *;
 
 private:
     MonoClassField *field_;

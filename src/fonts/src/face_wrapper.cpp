@@ -16,7 +16,8 @@ namespace internal
 // 1 point is 1/72th of an inch.
 static constexpr auto points_per_inch = 72.0f;
 
-auto create_freetype_face(FT_LibraryRec_ *library, const std::vector<char> &data, const int index) -> FT_FaceRec_ *
+[[nodiscard]] static auto create_freetype_face(FT_LibraryRec_ *library, const std::vector<char> &data, const int index)
+    -> FT_FaceRec_ *
 {
     FT_Face face = nullptr;
 
@@ -32,7 +33,7 @@ void free_freetype_face(FT_FaceRec_ *face)
     FT_Done_Face(face);
 }
 
-static auto has_color_emoji(FT_FaceRec_ *face) noexcept -> bool
+[[nodiscard]] static auto has_color_emoji(FT_FaceRec_ *face) noexcept -> bool
 {
     static const auto tag = FT_MAKE_TAG('C', 'B', 'D', 'T');
     unsigned long length = 0;
@@ -40,7 +41,7 @@ static auto has_color_emoji(FT_FaceRec_ *face) noexcept -> bool
     return length != 0;
 }
 
-static auto points_to_pixels(const float points, const int dpi) noexcept -> int
+[[nodiscard]] static auto points_to_pixels(const float points, const int dpi) noexcept -> int
 {
     return static_cast<int>((points / (points_per_inch / static_cast<float>(dpi))));
 }
@@ -67,7 +68,7 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
         throw font_exception{};
 }
 
-static auto create_image_view_uint8(const FT_Bitmap &bitmap) noexcept -> imaging::image_view<std::uint8_t>
+[[nodiscard]] static auto create_image_view_uint8(const FT_Bitmap &bitmap) noexcept -> imaging::image_view<std::uint8_t>
 {
     if (!bitmap.buffer)
         return {};
@@ -79,7 +80,8 @@ static auto create_image_view_uint8(const FT_Bitmap &bitmap) noexcept -> imaging
     return imaging::image_view{descriptor, reinterpret_cast<const std::byte *>(bitmap.buffer)};
 }
 
-static auto create_image_view_bgra32(const FT_Bitmap &bitmap) noexcept -> imaging::image_view<imaging::bgra32>
+[[nodiscard]] static auto create_image_view_bgra32(const FT_Bitmap &bitmap) noexcept
+    -> imaging::image_view<imaging::bgra32>
 {
     if (!bitmap.buffer)
         return {};
@@ -91,8 +93,8 @@ static auto create_image_view_bgra32(const FT_Bitmap &bitmap) noexcept -> imagin
     return imaging::image_view{descriptor, reinterpret_cast<const std::byte *>(bitmap.buffer)};
 }
 
-static auto load_glyph(const FT_Face face, const bool has_color_emoji, const int dimensions_px,
-                       const FT_UInt glyph_index) -> glyph
+[[nodiscard]] static auto load_glyph(const FT_Face face, const bool has_color_emoji, const int dimensions_px,
+                                     const FT_UInt glyph_index) -> glyph
 {
     FT_Int32 flags = FT_LOAD_DEFAULT;
 
@@ -140,12 +142,12 @@ face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &st
 
 face_wrapper::~face_wrapper() = default;
 
-auto face_wrapper::get_char_index(const char32_t control_code) const -> unsigned
+[[nodiscard]] auto face_wrapper::get_char_index(const char32_t control_code) const -> unsigned
 {
     return FT_Get_Char_Index(face_.get(), control_code);
 }
 
-auto face_wrapper::load_glyph(const unsigned int glyph_index) const -> glyph
+[[nodiscard]] auto face_wrapper::load_glyph(const unsigned int glyph_index) const -> glyph
 {
     return internal::load_glyph(face_.get(), has_color_emoji_, dimensions_px_, glyph_index);
 }

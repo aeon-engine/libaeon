@@ -128,7 +128,7 @@ public:
     {
     }
 
-    auto parse() -> property_tree
+    [[nodiscard]] auto parse() -> property_tree
     {
         const auto token = next_token();
 
@@ -163,7 +163,7 @@ private:
             ++itr_;
     }
 
-    auto parse_boolean(const char32_t token) -> property_tree
+    [[nodiscard]] auto parse_boolean(const char32_t token) -> property_tree
     {
         if (token == 't')
         {
@@ -180,13 +180,13 @@ private:
         throw ptree_serialization_exception{};
     }
 
-    auto parse_null() -> property_tree
+    [[nodiscard]] auto parse_null() -> property_tree
     {
         check("null");
         return nullptr;
     }
 
-    auto parse_object() -> property_tree
+    [[nodiscard]] auto parse_object() -> property_tree
     {
         object data;
         auto token = next_token();
@@ -220,7 +220,7 @@ private:
         return data;
     }
 
-    auto parse_array() -> property_tree
+    [[nodiscard]] auto parse_array() -> property_tree
     {
         array data;
         auto token = next_token();
@@ -247,7 +247,7 @@ private:
         return data;
     }
 
-    auto parse_number() -> property_tree
+    [[nodiscard]] auto parse_number() -> property_tree
     {
         const auto str = common::lexical_parse::extract_number_string(view_.str().substr(itr_.offset()));
         const auto result = common::lexical_parse::number(str);
@@ -273,7 +273,7 @@ private:
         }
     }
 
-    auto parse_string() -> std::string
+    [[nodiscard]] auto parse_string() -> std::string
     {
         std::string out;
 
@@ -335,7 +335,7 @@ private:
         }
     }
 
-    auto next_token() -> char32_t
+    [[nodiscard]] auto next_token() -> char32_t
     {
         consume_whitespace();
 
@@ -359,7 +359,7 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
     internal::to_json(ptree, stream);
 }
 
-auto to_json(const property_tree &ptree) -> std::string
+[[nodiscard]] auto to_json(const property_tree &ptree) -> std::string
 {
     std::string str;
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
@@ -375,7 +375,7 @@ void from_json(streams::idynamic_stream &stream, property_tree &ptree)
     ptree = parser.parse();
 }
 
-auto from_json(streams::idynamic_stream &stream) -> property_tree
+[[nodiscard]] auto from_json(streams::idynamic_stream &stream) -> property_tree
 {
     property_tree pt;
     from_json(stream, pt);

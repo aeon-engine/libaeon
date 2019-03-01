@@ -165,7 +165,7 @@ public:
         return !value_;
     }
 
-    constexpr auto is_set(const enum_type_t f) const noexcept
+    [[nodiscard]] constexpr auto is_set(const enum_type_t f) const noexcept
     {
         const auto value = static_cast<uint64_t>(f);
         return check_bit_flag(value_, value) && value != 0;

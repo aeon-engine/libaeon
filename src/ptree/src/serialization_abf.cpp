@@ -114,7 +114,7 @@ public:
     {
     }
 
-    auto parse() -> property_tree
+    [[nodiscard]] auto parse() -> property_tree
     {
         std::uint8_t chunk_type = 0;
         reader_ >> chunk_type;
@@ -163,7 +163,7 @@ public:
     }
 
 private:
-    auto parse_object() -> property_tree
+    [[nodiscard]] auto parse_object() -> property_tree
     {
         object data;
 
@@ -183,7 +183,7 @@ private:
         return data;
     }
 
-    auto parse_array() -> property_tree
+    [[nodiscard]] auto parse_array() -> property_tree
     {
         array data;
 
@@ -211,7 +211,7 @@ void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
     internal::to_abf(ptree, stream);
 }
 
-auto to_abf(const property_tree &ptree) -> std::vector<std::uint8_t>
+[[nodiscard]] auto to_abf(const property_tree &ptree) -> std::vector<std::uint8_t>
 {
     std::vector<std::uint8_t> data;
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{data});
@@ -225,7 +225,7 @@ void from_abf(streams::idynamic_stream &stream, property_tree &ptree)
     ptree = parser.parse();
 }
 
-auto from_abf(streams::idynamic_stream &stream) -> property_tree
+[[nodiscard]] auto from_abf(streams::idynamic_stream &stream) -> property_tree
 {
     property_tree pt;
     from_abf(stream, pt);

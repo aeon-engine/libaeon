@@ -91,27 +91,27 @@ public:
         }
     }
 
-    auto int_value() const noexcept
+    [[nodiscard]] auto int_value() const noexcept
     {
         return int_value_;
     }
 
-    auto float_value() const noexcept
+    [[nodiscard]] auto float_value() const noexcept
     {
         return float_value_;
     }
 
-    auto bool_value() const noexcept
+    [[nodiscard]] auto bool_value() const noexcept
     {
         return bool_value_;
     }
 
-    const auto &string_value() const noexcept
+    [[nodiscard]] const auto &string_value() const noexcept
     {
         return string_value_;
     }
 
-    auto type() const noexcept
+    [[nodiscard]] auto type() const noexcept
     {
         return type_;
     }

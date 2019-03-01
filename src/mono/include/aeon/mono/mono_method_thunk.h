@@ -82,7 +82,7 @@ public:
     mono_method_thunk(mono_method_thunk &&) noexcept = default;
     auto operator=(mono_method_thunk &&) noexcept -> mono_method_thunk & = default;
 
-    auto operator()(args_t... args)
+    [[nodiscard]] auto operator()(args_t... args)
     {
         MonoException *ex = nullptr;
         auto result = this->method_(

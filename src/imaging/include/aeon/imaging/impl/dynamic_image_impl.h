@@ -13,12 +13,14 @@ namespace internal
 {
 
 template <typename T>
-inline auto create_typed_image(const dynamic_image_descriptor &dynamic_descriptor) -> std::unique_ptr<image_base>
+[[nodiscard]] inline auto create_typed_image(const dynamic_image_descriptor &dynamic_descriptor)
+    -> std::unique_ptr<image_base>
 {
     return std::make_unique<image<T>>(descriptor<T>(dynamic_descriptor));
 }
 
-inline auto create_image(const dynamic_image_descriptor &dynamic_descriptor) -> std::unique_ptr<image_base>
+[[nodiscard]] inline auto create_image(const dynamic_image_descriptor &dynamic_descriptor)
+    -> std::unique_ptr<image_base>
 {
     switch (encoding(dynamic_descriptor))
     {
@@ -68,118 +70,118 @@ inline dynamic_image::dynamic_image(std::unique_ptr<image<T>> image)
 
 inline dynamic_image::~dynamic_image() = default;
 
-inline auto dynamic_image::descriptor() const noexcept -> dynamic_image_descriptor
+[[nodiscard]] inline auto dynamic_image::descriptor() const noexcept -> dynamic_image_descriptor
 {
     return dynamic_descriptor_;
 }
 
 template <typename T>
-inline auto dynamic_image::get_image() noexcept -> imaging::image<T> &
+[[nodiscard]] inline auto dynamic_image::get_image() noexcept -> imaging::image<T> &
 {
     aeon_assert(pixel_encoding_trait<T>::encoding() == encoding(dynamic_descriptor_), "Encoding mismatch.");
     return *static_cast<image<T> *>(image_.get());
 }
 
 template <typename T>
-inline auto dynamic_image::get_image() const noexcept -> const imaging::image<T> &
+[[nodiscard]] inline auto dynamic_image::get_image() const noexcept -> const imaging::image<T> &
 {
     aeon_assert(pixel_encoding_trait<T>::encoding() == encoding(dynamic_descriptor_), "Encoding mismatch.");
     return *static_cast<const image<T> *>(image_.get());
 }
 
-inline auto dynamic_image::raw_data() noexcept -> std::byte *
+[[nodiscard]] inline auto dynamic_image::raw_data() noexcept -> std::byte *
 {
     return image_->raw_data();
 }
 
-inline auto dynamic_image::raw_data() const noexcept -> const std::byte *
+[[nodiscard]] inline auto dynamic_image::raw_data() const noexcept -> const std::byte *
 {
     return image_->raw_data();
 }
 
-inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_descriptor
+[[nodiscard]] inline auto descriptor(const dynamic_image &image) noexcept -> dynamic_image_descriptor
 {
     return image.descriptor();
 }
 
-inline auto null(const dynamic_image &image) noexcept -> bool
+[[nodiscard]] inline auto null(const dynamic_image &image) noexcept -> bool
 {
     return null(descriptor(image));
 }
 
-inline auto valid(const dynamic_image &image) noexcept -> bool
+[[nodiscard]] inline auto valid(const dynamic_image &image) noexcept -> bool
 {
     return valid(descriptor(image));
 }
 
-inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding
+[[nodiscard]] inline auto encoding(const dynamic_image &image) noexcept -> pixel_encoding
 {
     return encoding(descriptor(image));
 }
 
-inline auto width(const dynamic_image &image) noexcept -> dimension
+[[nodiscard]] inline auto width(const dynamic_image &image) noexcept -> dimension
 {
     return width(descriptor(image));
 }
 
-inline auto height(const dynamic_image &image) noexcept -> dimension
+[[nodiscard]] inline auto height(const dynamic_image &image) noexcept -> dimension
 {
     return height(descriptor(image));
 }
 
-inline auto dimensions(const dynamic_image &image) noexcept -> math::size2d<dimension>
+[[nodiscard]] inline auto dimensions(const dynamic_image &image) noexcept -> math::size2d<dimension>
 {
     return dimensions(descriptor(image));
 }
 
-inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<dimension>
+[[nodiscard]] inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<dimension>
 {
     return rectangle(descriptor(image));
 }
 
-inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t
 {
     return stride_x(descriptor(image));
 }
 
-inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t
 {
     return stride_y(descriptor(image));
 }
 
-inline auto continuous(const dynamic_image &image) noexcept -> bool
+[[nodiscard]] inline auto continuous(const dynamic_image &image) noexcept -> bool
 {
     return continuous(descriptor(image));
 }
 
-inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool
+[[nodiscard]] inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool
 {
     return contains(descriptor(image), coord);
 }
 
-inline auto size(const dynamic_image &image) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto size(const dynamic_image &image) noexcept -> std::ptrdiff_t
 {
     return size(descriptor(image));
 }
 
 template <typename T>
-inline auto view(dynamic_image &image) noexcept -> image_view<T> &
+[[nodiscard]] inline auto view(dynamic_image &image) noexcept -> image_view<T> &
 {
     return image.get_image<T>();
 }
 
 template <typename T>
-inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &
+[[nodiscard]] inline auto view(const dynamic_image &image) noexcept -> const image_view<T> &
 {
     return image.get_image<T>();
 }
 
-inline auto raw_data(dynamic_image &image) noexcept -> std::byte *
+[[nodiscard]] inline auto raw_data(dynamic_image &image) noexcept -> std::byte *
 {
     return image.raw_data();
 }
 
-inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *
+[[nodiscard]] inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *
 {
     return image.raw_data();
 }

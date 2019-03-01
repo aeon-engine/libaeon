@@ -54,17 +54,17 @@ public:
     utf_string_view(utf_string_view &&) noexcept = default;
     auto operator=(utf_string_view &&) noexcept -> utf_string_view & = default;
 
-    auto begin() const noexcept
+    [[nodiscard]] auto begin() const noexcept
     {
         return iterator{str_};
     }
 
-    auto end() const noexcept
+    [[nodiscard]] auto end() const noexcept
     {
         return iterator{str_, static_cast<std::int32_t>(std::size(str_))};
     }
 
-    auto str() const noexcept
+    [[nodiscard]] auto str() const noexcept
     {
         return str_;
     }
@@ -92,17 +92,17 @@ public:
     utf_string_view(utf_string_view &&) noexcept = default;
     auto operator=(utf_string_view &&) noexcept -> utf_string_view & = default;
 
-    auto begin() const noexcept
+    [[nodiscard]] auto begin() const noexcept
     {
         return std::begin(str_);
     }
 
-    auto end() const noexcept
+    [[nodiscard]] auto end() const noexcept
     {
         return std::end(str_);
     }
 
-    auto str() const noexcept
+    [[nodiscard]] auto str() const noexcept
     {
         return str_;
     }

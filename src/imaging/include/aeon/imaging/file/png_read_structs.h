@@ -7,17 +7,17 @@
 namespace aeon::imaging::file::png::detail
 {
 
-class png_read_structs : public png_structs
+class [[nodiscard]] png_read_structs final : public png_structs
 {
 public:
     png_read_structs();
     ~png_read_structs();
 
     png_read_structs(const png_read_structs &) = delete;
-    auto operator=(const png_read_structs &) -> png_read_structs & = delete;
+    auto operator=(const png_read_structs &)->png_read_structs & = delete;
 
-    png_read_structs(png_read_structs &&o) = default;
-    auto operator=(png_read_structs &&other) -> png_read_structs & = default;
+    png_read_structs(png_read_structs && o) = default;
+    auto operator=(png_read_structs &&other)->png_read_structs & = default;
 };
 
 inline png_read_structs::png_read_structs()

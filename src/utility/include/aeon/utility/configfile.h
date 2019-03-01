@@ -61,7 +61,7 @@ public:
      * \param key The entry key to be checked
      * \returns True if the entry was found
      */
-    bool has_entry(const std::string &key) const;
+    [[nodiscard]] bool has_entry(const std::string &key) const;
 
     /*!
      * Get a value.
@@ -69,7 +69,7 @@ public:
      * \return Either the value of the entry of key, or throws an exception.
      */
     template <typename T>
-    auto get(const std::string &key) const
+    [[nodiscard]] auto get(const std::string &key) const
     {
         const auto itr = entries_.find(key);
 
@@ -87,7 +87,7 @@ public:
      * \return Either the value of the entry of key, or the default value.
      */
     template <typename T>
-    auto get(const std::string &key, const T &default_val)
+    [[nodiscard]] auto get(const std::string &key, const T &default_val)
     {
         const auto itr = entries_.find(key);
 
@@ -157,7 +157,7 @@ public:
     /*!
      * Begin iterator for foreach loops.
      */
-    auto begin() const noexcept
+    [[nodiscard]] auto begin() const noexcept
     {
         return entries_.cbegin();
     }
@@ -165,7 +165,7 @@ public:
     /*!
      * End iterator for foreach loops.
      */
-    auto end() const noexcept
+    [[nodiscard]] auto end() const noexcept
     {
         return entries_.cend();
     }

@@ -80,7 +80,7 @@ public:
         map_.push_back(std::move(pair));
     }
 
-    auto &at(const key_type &key)
+    [[nodiscard]] auto &at(const key_type &key)
     {
         auto itr = find(key);
         if (itr == std::end(map_))
@@ -89,7 +89,7 @@ public:
         return itr->second;
     }
 
-    const auto &at(const key_type &key) const
+    [[nodiscard]] const auto &at(const key_type &key) const
     {
         auto itr = find(key);
         if (itr == std::end(map_))
@@ -118,32 +118,32 @@ public:
         return itr->second;
     }
 
-    auto find(const key_type &key) noexcept
+    [[nodiscard]] auto find(const key_type &key) noexcept
     {
         return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
     }
 
-    auto find(const key_type &key) const noexcept
+    [[nodiscard]] auto find(const key_type &key) const noexcept
     {
         return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
     }
 
-    auto begin() noexcept
+    [[nodiscard]] auto begin() noexcept
     {
         return std::begin(map_);
     }
 
-    auto end() noexcept
+    [[nodiscard]] auto end() noexcept
     {
         return std::end(map_);
     }
 
-    auto begin() const noexcept
+    [[nodiscard]] auto begin() const noexcept
     {
         return std::begin(map_);
     }
 
-    auto end() const noexcept
+    [[nodiscard]] auto end() const noexcept
     {
         return std::end(map_);
     }
@@ -178,7 +178,7 @@ public:
         return map_.erase(itr);
     }
 
-    auto empty() const
+    [[nodiscard]] auto empty() const
     {
         return std::empty(map_);
     }
@@ -188,7 +188,7 @@ public:
         map_.clear();
     }
 
-    auto size() const noexcept
+    [[nodiscard]] auto size() const noexcept
     {
         return std::size(map_);
     }

@@ -13,7 +13,7 @@ namespace aeon::utility
 namespace detail
 {
 
-static auto to_char(const size_t i) noexcept
+[[nodiscard]] static auto to_char(const size_t i) noexcept
 {
     if (i <= 9)
         return static_cast<char>('0' + i);
@@ -21,7 +21,7 @@ static auto to_char(const size_t i) noexcept
     return static_cast<char>('a' + (i - 10));
 }
 
-static auto get_next_char(std::string::const_iterator &begin, std::string::const_iterator &end)
+[[nodiscard]] static auto get_next_char(std::string::const_iterator &begin, std::string::const_iterator &end)
 {
     if (begin == end)
         throw std::out_of_range("get_next_char");
@@ -29,17 +29,17 @@ static auto get_next_char(std::string::const_iterator &begin, std::string::const
     return *begin++;
 }
 
-static auto is_open_brace(const char c) noexcept
+[[nodiscard]] static auto is_open_brace(const char c) noexcept
 {
     return (c == '{');
 }
 
-static auto is_dash(const char c) noexcept
+[[nodiscard]] static auto is_dash(const char c) noexcept
 {
     return c == '-';
 }
 
-static auto get_value(const char c) noexcept
+[[nodiscard]] static auto get_value(const char c) noexcept
 {
     static char const *const digits_begin = "0123456789abcdefABCDEF";
     static char const *const digits_end = digits_begin + 22;
@@ -129,27 +129,27 @@ uuid::uuid(const std::string &str)
 
 uuid::~uuid() noexcept = default;
 
-auto uuid::begin() noexcept -> data_type::iterator
+[[nodiscard]] auto uuid::begin() noexcept -> data_type::iterator
 {
     return data.begin();
 }
 
-auto uuid::begin() const noexcept -> data_type::const_iterator
+[[nodiscard]] auto uuid::begin() const noexcept -> data_type::const_iterator
 {
     return data.cbegin();
 }
 
-auto uuid::end() noexcept -> data_type::iterator
+[[nodiscard]] auto uuid::end() noexcept -> data_type::iterator
 {
     return data.end();
 }
 
-auto uuid::end() const noexcept -> data_type::const_iterator
+[[nodiscard]] auto uuid::end() const noexcept -> data_type::const_iterator
 {
     return data.cend();
 }
 
-bool uuid::is_nil() const noexcept
+[[nodiscard]] auto uuid::is_nil() const noexcept -> bool
 {
     for (auto i : data)
     {
@@ -159,7 +159,7 @@ bool uuid::is_nil() const noexcept
     return true;
 }
 
-auto uuid::variant() const noexcept -> variant_type
+[[nodiscard]] auto uuid::variant() const noexcept -> variant_type
 {
     // variant is stored in octet 7
     // which is index 8, since indexes count backwards
@@ -182,7 +182,7 @@ auto uuid::variant() const noexcept -> variant_type
     }
 }
 
-auto uuid::version() const noexcept -> version_type
+[[nodiscard]] auto uuid::version() const noexcept -> version_type
 {
     // version is stored in octet 9
     // which is index 6, since indexes count backwards
@@ -213,7 +213,7 @@ auto uuid::version() const noexcept -> version_type
     }
 }
 
-auto uuid::str() const -> std::string
+[[nodiscard]] auto uuid::str() const -> std::string
 {
     std::string result;
     result.reserve(36);
@@ -237,12 +237,12 @@ auto uuid::str() const -> std::string
     return result;
 }
 
-auto uuid::size() const noexcept -> std::size_t
+[[nodiscard]] auto uuid::size() const noexcept -> std::size_t
 {
     return data.size();
 }
 
-auto uuid::generate() -> uuid
+[[nodiscard]] auto uuid::generate() -> uuid
 {
     std::random_device r;
     std::default_random_engine e1(r());
@@ -277,7 +277,7 @@ auto uuid::generate() -> uuid
     return u;
 }
 
-auto uuid::nil() noexcept -> uuid
+[[nodiscard]] auto uuid::nil() noexcept -> uuid
 {
     return {};
 }

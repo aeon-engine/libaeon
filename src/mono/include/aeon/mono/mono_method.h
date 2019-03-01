@@ -28,13 +28,13 @@ public:
     ~mono_method();
 
     mono_method(const mono_method &) = delete;
-    auto operator=(const mono_method &) -> mono_method & = delete;
+    [[nodiscard]] auto operator=(const mono_method &) -> mono_method & = delete;
 
     mono_method(mono_method &&o) noexcept;
-    auto operator=(mono_method &&o) noexcept -> mono_method &;
+    [[nodiscard]] auto operator=(mono_method &&o) noexcept -> mono_method &;
 
     template <typename function_signature_t>
-    auto get_thunk();
+    [[nodiscard]] auto get_thunk();
 
 private:
     MonoMethod *method_;
@@ -43,7 +43,7 @@ private:
 };
 
 template <typename function_signature_t>
-auto mono_method::get_thunk()
+[[nodiscard]] auto mono_method::get_thunk()
 {
     return mono_method_thunk<function_signature_t>(*assembly_, object_, method_);
 }

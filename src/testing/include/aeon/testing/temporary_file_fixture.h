@@ -22,9 +22,9 @@ public:
     temporary_file(const temporary_file &) = delete;
     auto operator=(const temporary_file &) -> temporary_file & = delete;
 
-    auto get_temporary_file_path() const -> std::filesystem::path;
+    [[nodiscard]] auto get_temporary_file_path() const -> std::filesystem::path;
 
-    auto assert_temporary_file_present() const -> bool;
+    [[nodiscard]] auto assert_temporary_file_present() const -> bool;
 
     void delete_temporary_file() const noexcept;
 

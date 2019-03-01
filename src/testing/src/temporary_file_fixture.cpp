@@ -25,12 +25,12 @@ temporary_file::~temporary_file()
         delete_temporary_file();
 }
 
-auto temporary_file::get_temporary_file_path() const -> std::filesystem::path
+[[nodiscard]] auto temporary_file::get_temporary_file_path() const -> std::filesystem::path
 {
     return path_;
 }
 
-auto temporary_file::assert_temporary_file_present() const -> bool
+[[nodiscard]] auto temporary_file::assert_temporary_file_present() const -> bool
 {
     return std::filesystem::exists(path_);
 }

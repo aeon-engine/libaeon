@@ -52,7 +52,7 @@ public:
     version(version &&) noexcept = default;
     auto operator=(version &&) noexcept -> version & = default;
 
-    auto str() const -> std::string
+    [[nodiscard]] auto str() const -> std::string
     {
         std::string version;
         version.reserve(7); // Typically 1.2.3.4

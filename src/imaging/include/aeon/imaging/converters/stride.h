@@ -10,7 +10,7 @@ namespace aeon::imaging::convert
 {
 
 template <typename T>
-inline auto remove_stride(const image_view<T> &img) -> image<T>
+[[nodiscard]] inline auto remove_stride(const image_view<T> &img) -> image<T>
 {
     const image_descriptor<T> d{width(img), height(img)};
     image<T> new_image{d};
@@ -33,7 +33,7 @@ inline auto remove_stride(const image_view<T> &img) -> image<T>
     return new_image;
 }
 
-inline auto remove_stride(const dynamic_image &img) -> dynamic_image
+[[nodiscard]] inline auto remove_stride(const dynamic_image &img) -> dynamic_image
 {
     return process_image_to_copy(img, remove_stride);
 }

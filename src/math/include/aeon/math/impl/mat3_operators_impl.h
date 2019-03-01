@@ -14,7 +14,7 @@ namespace aeon::math
 namespace detail
 {
 
-inline auto mat3_mul(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
+[[nodiscard]] inline auto mat3_mul(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 {
     // clang-format off
     return {
@@ -33,7 +33,7 @@ inline auto mat3_mul(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 }
 
 #if (!defined(AEON_DISABLE_SSE))
-inline auto mat3_mul_sse(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
+[[nodiscard]] inline auto mat3_mul_sse(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 {
     const auto rhs_col0 = aeon_mm_load_ps96(ptr(rhs[0]));
     const auto rhs_col1 = aeon_mm_load_ps96(ptr(rhs[1]));

@@ -67,7 +67,7 @@ public:
  * \return The width value
  */
 template <typename T>
-inline auto width(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto width(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Get the height value of a given size.
@@ -75,7 +75,7 @@ inline auto width(const size3d<T> &size) noexcept -> T;
  * \return The height value
  */
 template <typename T>
-inline auto height(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto height(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Get the depth value of a given size.
@@ -83,7 +83,7 @@ inline auto height(const size3d<T> &size) noexcept -> T;
  * \return The depth value
  */
 template <typename T>
-inline auto depth(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto depth(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Get the volume of a given size.
@@ -91,7 +91,7 @@ inline auto depth(const size3d<T> &size) noexcept -> T;
  * \return The area (width * height)
  */
 template <typename T>
-inline auto volume(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline auto volume(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Check if a size is empty (width == 0 or height == 0 or depth == 0)
@@ -99,7 +99,7 @@ inline auto volume(const size3d<T> &size) noexcept -> T;
  * \return True if the size is empty
  */
 template <typename T>
-inline auto empty(const size3d<T> &size) noexcept -> bool;
+[[nodiscard]] inline auto empty(const size3d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is null (width == 0, height == 0 and depth == 0)
@@ -107,7 +107,7 @@ inline auto empty(const size3d<T> &size) noexcept -> bool;
  * \return True if the size is null
  */
 template <typename T>
-inline auto null(const size3d<T> &size) noexcept -> bool;
+[[nodiscard]] inline auto null(const size3d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is valid (width >= 0, height >= 0, depth >= 0)
@@ -115,7 +115,7 @@ inline auto null(const size3d<T> &size) noexcept -> bool;
  * \return True if the size is valid
  */
 template <typename T>
-inline auto valid(const size3d<T> &size) noexcept -> bool;
+[[nodiscard]] inline auto valid(const size3d<T> &size) noexcept -> bool;
 
 /*!
  * Check if the given inner point is completely contained within the given size.
@@ -124,7 +124,7 @@ inline auto valid(const size3d<T> &size) noexcept -> bool;
  * \return True if the point is contained with in the size.
  */
 template <typename T>
-inline auto contains(const vector3<T> &vec, const size3d<T> size) noexcept -> bool;
+[[nodiscard]] inline auto contains(const vector3<T> &vec, const size3d<T> size) noexcept -> bool;
 
 /*!
  * Inflate (grow, add) a size in all directions by a given value.

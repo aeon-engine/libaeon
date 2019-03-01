@@ -27,22 +27,22 @@ public:
     base_utf_iterator(base_utf_iterator &&) noexcept = default;
     auto operator=(base_utf_iterator &&) noexcept -> base_utf_iterator & = default;
 
-    auto offset() const noexcept
+    [[nodiscard]] auto offset() const noexcept
     {
         return offset_;
     }
 
-    auto pos() const noexcept
+    [[nodiscard]] auto pos() const noexcept
     {
         return cp_pos_;
     }
 
-    auto character() const noexcept
+    [[nodiscard]] auto character() const noexcept
     {
         return char_;
     }
 
-    auto character_str() const noexcept
+    [[nodiscard]] auto character_str() const noexcept
     {
         return string_view_type_t{reinterpret_cast<const typename string_view_type_t::value_type *>(str_ + offset_),
                                   static_cast<typename string_view_type_t::size_type>(next_offset_ - offset_)};

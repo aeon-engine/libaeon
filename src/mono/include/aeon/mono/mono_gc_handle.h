@@ -16,18 +16,18 @@ namespace aeon::mono
 
 class mono_object;
 
-class mono_gc_handle
+class [[nodiscard]] mono_gc_handle final
 {
 public:
-    explicit mono_gc_handle(mono_object &obj) noexcept;
-    explicit mono_gc_handle(MonoObject *obj) noexcept;
+    explicit mono_gc_handle(mono_object & obj) noexcept;
+    explicit mono_gc_handle(MonoObject * obj) noexcept;
     ~mono_gc_handle();
 
     mono_gc_handle(const mono_gc_handle &) = default;
-    auto operator=(const mono_gc_handle &) -> mono_gc_handle & = default;
+    auto operator=(const mono_gc_handle &)->mono_gc_handle & = default;
 
-    mono_gc_handle(mono_gc_handle &&o) = default;
-    auto operator=(mono_gc_handle &&o) -> mono_gc_handle & = default;
+    mono_gc_handle(mono_gc_handle && o) = default;
+    auto operator=(mono_gc_handle &&o)->mono_gc_handle & = default;
 
     void lock() noexcept;
     void unlock() noexcept;
@@ -37,7 +37,7 @@ private:
     MonoObject *object_;
 };
 
-class mono_scoped_gc_handle
+class mono_scoped_gc_handle final
 {
 public:
     explicit mono_scoped_gc_handle(mono_gc_handle &handle) noexcept
@@ -51,7 +51,7 @@ public:
         handle_.unlock();
     }
 
-    auto &get_handle() const noexcept
+    [[nodiscard]] auto &get_handle() const noexcept
     {
         return handle_;
     }

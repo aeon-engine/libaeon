@@ -3,22 +3,20 @@
 #include <aeon/midi/midi_device.h>
 #include <rtmidi/RtMidi.h>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
-auto midi_device::get_port_count() const -> unsigned
+[[nodiscard]] auto midi_device::get_port_count() const -> unsigned
 {
     return midi_device_.getPortCount();
 }
 
-auto midi_device::get_port_name(const unsigned int index) const -> std::string
+[[nodiscard]] auto midi_device::get_port_name(const unsigned int index) const -> std::string
 {
     return midi_device_.getPortName(index);
 }
 
-auto midi_device::get_ports() const -> std::vector<std::string>
+[[nodiscard]] auto midi_device::get_ports() const -> std::vector<std::string>
 {
     auto port_count = get_port_count();
     auto ports = std::vector<std::string>(port_count);
@@ -38,5 +36,4 @@ midi_device::midi_device(RtMidi &midi_device)
 
 midi_device::~midi_device() = default;
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

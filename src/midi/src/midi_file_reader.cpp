@@ -8,9 +8,7 @@
 #include <aeon/common/bitflags.h>
 #include <stdexcept>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 namespace meta_event
@@ -137,7 +135,8 @@ void midi_file_reader::read_next_track_chunk(streams::memory_device<std::vector<
     parse_track_data(memory_stream);
 }
 
-std::uint32_t midi_file_reader::read_track_header(streams::memory_device<std::vector<std::uint8_t>> &stream) const
+[[nodiscard]] std::uint32_t
+    midi_file_reader::read_track_header(streams::memory_device<std::vector<std::uint8_t>> &stream) const
 {
     streams::stream_reader reader{stream};
 
@@ -178,7 +177,7 @@ void midi_file_reader::parse_track_data(streams::memory_device<std::vector<std::
     }
 }
 
-std::uint32_t midi_file_reader::read_vtime(streams::memory_device<std::vector<std::uint8_t>> &stream)
+[[nodiscard]] std::uint32_t midi_file_reader::read_vtime(streams::memory_device<std::vector<std::uint8_t>> &stream)
 {
     streams::stream_reader reader{stream};
 
@@ -286,5 +285,4 @@ void midi_file_reader::parse_midi_event(streams::memory_device<std::vector<std::
     }
 }
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

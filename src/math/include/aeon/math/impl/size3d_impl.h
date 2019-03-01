@@ -52,49 +52,49 @@ inline size3d<T>::size3d(const size2d<U> &size, const U depth) noexcept
 }
 
 template <typename T>
-inline auto width(const size3d<T> &size) noexcept -> T
+[[nodiscard]] inline auto width(const size3d<T> &size) noexcept -> T
 {
     return size.width;
 }
 
 template <typename T>
-inline auto height(const size3d<T> &size) noexcept -> T
+[[nodiscard]] inline auto height(const size3d<T> &size) noexcept -> T
 {
     return size.height;
 }
 
 template <typename T>
-inline auto depth(const size3d<T> &size) noexcept -> T
+[[nodiscard]] inline auto depth(const size3d<T> &size) noexcept -> T
 {
     return size.depth;
 }
 
 template <typename T>
-inline auto volume(const size3d<T> &size) noexcept -> T
+[[nodiscard]] inline auto volume(const size3d<T> &size) noexcept -> T
 {
     return width(size) * height(size) * depth(size);
 }
 
 template <typename T>
-inline auto empty(const size3d<T> &size) noexcept -> bool
+[[nodiscard]] inline auto empty(const size3d<T> &size) noexcept -> bool
 {
     return width(size) == T(0) || height(size) == T(0) || depth(size) == T(0);
 }
 
 template <typename T>
-inline auto null(const size3d<T> &size) noexcept -> bool
+[[nodiscard]] inline auto null(const size3d<T> &size) noexcept -> bool
 {
     return width(size) == T(0) && height(size) == T(0) && depth(size) == T(0);
 }
 
 template <typename T>
-inline auto valid(const size3d<T> &size) noexcept -> bool
+[[nodiscard]] inline auto valid(const size3d<T> &size) noexcept -> bool
 {
     return width(size) >= T(0) && height(size) >= T(0) && depth(size) >= T(0);
 }
 
 template <typename T>
-inline auto contains(const vector3<T> &vec, const size3d<T> size) noexcept -> bool
+[[nodiscard]] inline auto contains(const vector3<T> &vec, const size3d<T> size) noexcept -> bool
 {
     return (vec.x < width(size) && vec.y < height(size) && vec.z < depth(size));
 }

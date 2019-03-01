@@ -30,9 +30,9 @@ public:
 
     auto operator=(const std::string &str) noexcept -> mono_string &;
 
-    auto str() const -> std::string;
+    [[nodiscard]] auto str() const -> std::string;
 
-    auto get_mono_string() const -> MonoString *;
+    [[nodiscard]] auto get_mono_string() const -> MonoString *;
 
 private:
     MonoDomain *domain_;

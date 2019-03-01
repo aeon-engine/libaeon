@@ -18,7 +18,7 @@ namespace aeon::fonts
 namespace internal
 {
 
-auto create_freetype_library() -> FT_LibraryRec_ *;
+[[nodiscard]] auto create_freetype_library() -> FT_LibraryRec_ *;
 void free_freetype_library(FT_LibraryRec_ *library);
 
 } // namespace internal
@@ -35,12 +35,12 @@ public:
     font_manager(font_manager &&) noexcept = delete;
     auto operator=(font_manager &&) noexcept -> font_manager & = delete;
 
-    auto load_face(streams::idynamic_stream &stream, const float points = AEON_FONT_DEFAULT_POINTS,
-                   const int dpi = AEON_FONT_DEFAULT_DPI) const -> face;
+    [[nodiscard]] auto load_face(streams::idynamic_stream &stream, const float points = AEON_FONT_DEFAULT_POINTS,
+                                 const int dpi = AEON_FONT_DEFAULT_DPI) const -> face;
 
-    auto load_multi_face(const std::vector<std::reference_wrapper<streams::idynamic_stream>> &streams,
-                         const float points = AEON_FONT_DEFAULT_POINTS, const int dpi = AEON_FONT_DEFAULT_DPI) const
-        -> face;
+    [[nodiscard]] auto load_multi_face(const std::vector<std::reference_wrapper<streams::idynamic_stream>> &streams,
+                                       const float points = AEON_FONT_DEFAULT_POINTS,
+                                       const int dpi = AEON_FONT_DEFAULT_DPI) const -> face;
 
 private:
     std::unique_ptr<FT_LibraryRec_, decltype(&internal::free_freetype_library)> freetype_;

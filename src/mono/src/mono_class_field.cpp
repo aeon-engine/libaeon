@@ -28,7 +28,7 @@ mono_class_field::mono_class_field(mono_class_field &&o) noexcept = default;
 
 auto mono_class_field::operator=(mono_class_field &&o) noexcept -> mono_class_field & = default;
 
-auto mono_class_field::get_mono_class_field_ptr() const noexcept -> MonoClassField *
+[[nodiscard]] auto mono_class_field::get_mono_class_field_ptr() const noexcept -> MonoClassField *
 {
     return field_;
 }

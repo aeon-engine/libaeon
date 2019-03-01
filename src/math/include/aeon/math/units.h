@@ -43,7 +43,7 @@ public:
 
     ~unit_base() = default;
 
-    constexpr auto count() const noexcept -> unit_value_type_t;
+    [[nodiscard]] constexpr auto count() const noexcept -> unit_value_type_t;
 
     template <typename conversion_value_type_t>
     constexpr auto count(std::enable_if_t<std::is_arithmetic_v<conversion_value_type_t>> * = nullptr) const noexcept
@@ -51,7 +51,7 @@ public:
 
     constexpr operator unit_value_type_t() const noexcept;
 
-    constexpr auto base_unit_count() const noexcept -> unit_value_type_t;
+    [[nodiscard]] constexpr auto base_unit_count() const noexcept -> unit_value_type_t;
 
     constexpr unit_base(const unit_base &) = default;
     constexpr auto operator=(const unit_base &) -> unit_base & = default;

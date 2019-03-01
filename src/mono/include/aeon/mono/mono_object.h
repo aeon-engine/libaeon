@@ -20,7 +20,7 @@ public:
     explicit mono_object(MonoObject *object) noexcept;
     virtual ~mono_object();
 
-    auto get_mono_object() const noexcept -> MonoObject *;
+    [[nodiscard]] auto get_mono_object() const noexcept -> MonoObject *;
 
     mono_object(const mono_object &) = default;
     auto operator=(const mono_object &) -> mono_object & = default;

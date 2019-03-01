@@ -2,11 +2,7 @@
 
 #pragma once
 
-namespace aeon
-{
-namespace midi
-{
-namespace messages
+namespace aeon::midi::messages
 {
 
 // Channel based messages. The second nibble is used for the midi channel.
@@ -35,6 +31,4 @@ static const unsigned char stop_sequence = 0xFC;
 static const unsigned char active_sensing = 0xFE;
 static const unsigned char reset = 0xFF;
 
-} // namespace messages
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi::messages

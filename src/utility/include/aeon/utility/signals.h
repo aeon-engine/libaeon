@@ -54,7 +54,7 @@ public:
     signal_connection(const signal_connection<Args...> &) = default;
     auto operator=(const signal_connection<Args...> &) -> signal_connection & = default;
 
-    int get_handle() const
+    [[nodiscard]] auto get_handle() const
     {
         return handle_;
     }
@@ -117,7 +117,7 @@ public:
     scoped_signal_connection(const scoped_signal_connection<Args...> &other) = delete;
     scoped_signal_connection &operator=(const scoped_signal_connection &other) = delete;
 
-    int get_handle() const
+    [[nodiscard]] auto get_handle() const
     {
         return signal_.get_handle();
     }

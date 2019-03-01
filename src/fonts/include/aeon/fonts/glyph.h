@@ -15,7 +15,7 @@ enum class glyph_pixel_type
     color
 };
 
-class glyph
+class [[nodiscard]] glyph final
 {
 public:
     explicit glyph(imaging::image_view<std::uint8_t> view, const math::vector2<int> &offset,
@@ -43,32 +43,32 @@ public:
     ~glyph() = default;
 
     glyph(const glyph &) = delete;
-    auto operator=(const glyph &) -> glyph & = delete;
+    auto operator=(const glyph &)->glyph & = delete;
 
-    glyph(glyph &&other) noexcept = default;
-    auto operator=(glyph &&other) noexcept -> glyph & = default;
+    glyph(glyph && other) noexcept = default;
+    auto operator=(glyph &&other) noexcept->glyph & = default;
 
-    auto &view() const noexcept
+    [[nodiscard]] auto &view() const noexcept
     {
         return view_;
     }
 
-    auto &color_view() const noexcept
+    [[nodiscard]] auto &color_view() const noexcept
     {
         return color_view_;
     }
 
-    auto offset() const noexcept
+    [[nodiscard]] auto offset() const noexcept
     {
         return offset_;
     }
 
-    auto advance() const noexcept
+    [[nodiscard]] auto advance() const noexcept
     {
         return advance_;
     }
 
-    auto pixel_type() const noexcept
+    [[nodiscard]] auto pixel_type() const noexcept
     {
         return pixel_type_;
     }
@@ -80,7 +80,7 @@ public:
      *
      * This value is 0 for normal vector based glyphs as they are already the correct size.
      */
-    auto dimensions() const noexcept
+    [[nodiscard]] auto dimensions() const noexcept
     {
         return dimensions_;
     }

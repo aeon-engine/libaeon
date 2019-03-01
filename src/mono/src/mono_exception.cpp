@@ -28,7 +28,7 @@ mono_thunk_exception::mono_thunk_exception(const exception_info &info)
 {
 }
 
-auto mono_thunk_exception::__get_exception_info(MonoException *ex) noexcept -> exception_info
+[[nodiscard]] auto mono_thunk_exception::__get_exception_info(MonoException *ex) noexcept -> exception_info
 {
     const auto exception_obj = reinterpret_cast<MonoObject *>(ex);
     const auto exception_class = mono_object_get_class(exception_obj);
@@ -39,8 +39,8 @@ auto mono_thunk_exception::__get_exception_info(MonoException *ex) noexcept -> e
     return {std::move(exception_typename), std::move(message), std::move(stacktrace)};
 }
 
-auto mono_thunk_exception::__get_string_property(const char *property_name, MonoClass *cls, MonoObject *obj) noexcept
-    -> char *
+[[nodiscard]] auto mono_thunk_exception::__get_string_property(const char *property_name, MonoClass *cls,
+                                                               MonoObject *obj) noexcept -> char *
 {
     const auto property = mono_class_get_property_from_name(cls, property_name);
     const auto getter = mono_property_get_get_method(property);

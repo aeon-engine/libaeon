@@ -46,24 +46,24 @@ public:
     uuid(uuid &&) noexcept = default;
     auto operator=(uuid &&) noexcept -> uuid & = default;
 
-    auto begin() noexcept -> data_type::iterator;
-    auto begin() const noexcept -> data_type::const_iterator;
-    auto end() noexcept -> data_type::iterator;
-    auto end() const noexcept -> data_type::const_iterator;
+    [[nodiscard]] auto begin() noexcept -> data_type::iterator;
+    [[nodiscard]] auto begin() const noexcept -> data_type::const_iterator;
+    [[nodiscard]] auto end() noexcept -> data_type::iterator;
+    [[nodiscard]] auto end() const noexcept -> data_type::const_iterator;
 
-    bool is_nil() const noexcept;
+    [[nodiscard]] auto is_nil() const noexcept -> bool;
 
-    auto variant() const noexcept -> variant_type;
+    [[nodiscard]] auto variant() const noexcept -> variant_type;
 
-    auto version() const noexcept -> version_type;
+    [[nodiscard]] auto version() const noexcept -> version_type;
 
-    auto str() const -> std::string;
+    [[nodiscard]] auto str() const -> std::string;
 
-    auto size() const noexcept -> std::size_t;
+    [[nodiscard]] auto size() const noexcept -> std::size_t;
 
-    static auto generate() -> uuid;
+    [[nodiscard]] static auto generate() -> uuid;
 
-    static auto nil() noexcept -> uuid;
+    [[nodiscard]] static auto nil() noexcept -> uuid;
 
     data_type data;
 };

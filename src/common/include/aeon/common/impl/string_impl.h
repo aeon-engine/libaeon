@@ -8,7 +8,7 @@
 namespace aeon::common::string
 {
 
-inline auto uint8_to_hex_string(const std::uint8_t value) noexcept -> const char *
+[[nodiscard]] inline auto uint8_to_hex_string(const std::uint8_t value) noexcept -> const char *
 {
     static const std::array<const char *, 256> hex_lookup{
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "0a", "0b", "0c", "0d", "0e", "0f", "10", "11",

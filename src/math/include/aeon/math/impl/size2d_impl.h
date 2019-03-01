@@ -47,49 +47,49 @@ auto size2d<T>::convert_to() const noexcept -> U
 }
 
 template <typename T>
-inline auto width(const size2d<T> &size) noexcept -> T
+[[nodiscard]] inline auto width(const size2d<T> &size) noexcept -> T
 {
     return size.width;
 }
 
 template <typename T>
-inline auto height(const size2d<T> &size) noexcept -> T
+[[nodiscard]] inline auto height(const size2d<T> &size) noexcept -> T
 {
     return size.height;
 }
 
 template <typename T>
-inline auto area(const size2d<T> &size) noexcept -> T
+[[nodiscard]] inline auto area(const size2d<T> &size) noexcept -> T
 {
     return width(size) * height(size);
 }
 
 template <typename T>
-inline auto empty(const size2d<T> &size) noexcept -> bool
+[[nodiscard]] inline auto empty(const size2d<T> &size) noexcept -> bool
 {
     return width(size) == T(0) || height(size) == T(0);
 }
 
 template <typename T>
-inline auto null(const size2d<T> &size) noexcept -> bool
+[[nodiscard]] inline auto null(const size2d<T> &size) noexcept -> bool
 {
     return width(size) == T(0) && height(size) == T(0);
 }
 
 template <typename T>
-inline auto valid(const size2d<T> &size) noexcept -> bool
+[[nodiscard]] inline auto valid(const size2d<T> &size) noexcept -> bool
 {
     return width(size) >= T(0) && height(size) >= T(0);
 }
 
 template <typename T>
-inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>
+[[nodiscard]] inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>
 {
     return {0, 0, width(size), height(size)};
 }
 
 template <typename T>
-inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool
+[[nodiscard]] inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool
 {
     return (vec.x < width(size) && vec.y < height(size));
 }

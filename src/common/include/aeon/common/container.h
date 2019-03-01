@@ -12,7 +12,7 @@ namespace aeon::common::container
 {
 
 template <typename T>
-auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+[[nodiscard]] inline auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
     std::vector<T *> c_ptr;
     c_ptr.reserve(std::size(c));
@@ -26,7 +26,7 @@ auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 }
 
 template <typename U, typename T>
-auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+[[nodiscard]] inline auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
     std::vector<U *> c_ptr;
     c_ptr.reserve(std::size(c));
@@ -52,7 +52,7 @@ void erase_if(container_t &items, const unary_predicate_t &predicate)
 }
 
 template <typename T, std::size_t N>
-constexpr auto make_array(T &&value)
+[[nodiscard]] inline constexpr auto make_array(T &&value)
 {
     std::array<T, N> arr;
     arr.fill(std::forward<T>(value));
@@ -60,7 +60,7 @@ constexpr auto make_array(T &&value)
 }
 
 template <typename... T>
-constexpr auto make_array2(T &&... values)
+[[nodiscard]] inline constexpr auto make_array2(T &&... values)
     -> std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>
 {
     return std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>{
@@ -68,7 +68,7 @@ constexpr auto make_array2(T &&... values)
 }
 
 template <typename input_itr_t, typename unary_predicate_t>
-auto count_until(input_itr_t first, input_itr_t last, unary_predicate_t p) noexcept
+[[nodiscard]] inline auto count_until(input_itr_t first, input_itr_t last, unary_predicate_t p) noexcept
 {
     auto count = 0_size_t;
 
@@ -82,7 +82,7 @@ auto count_until(input_itr_t first, input_itr_t last, unary_predicate_t p) noexc
 }
 
 template <typename map_type_t, typename value_type_t>
-auto find_in_map_by_value(const map_type_t &map, const value_type_t &value) noexcept
+[[nodiscard]] inline auto find_in_map_by_value(const map_type_t &map, const value_type_t &value) noexcept
 {
     return std::find_if(map.begin(), map.end(), [&value](const auto &pair) { return pair.second == value; });
 }

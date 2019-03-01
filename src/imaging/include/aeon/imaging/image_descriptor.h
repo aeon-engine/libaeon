@@ -77,31 +77,31 @@ public:
      * Get the width of the image.
      * \return The width of the image.
      */
-    auto width() const noexcept -> dimension;
+    [[nodiscard]] auto width() const noexcept -> dimension;
 
     /*!
      * Get the height of the image.
      * \return The height of the image.
      */
-    auto height() const noexcept -> dimension;
+    [[nodiscard]] auto height() const noexcept -> dimension;
 
     /*!
      * Get the size of the image (width, height).
      * \return The size of the image.
      */
-    auto dimensions() const noexcept -> math::size2d<dimension>;
+    [[nodiscard]] auto dimensions() const noexcept -> math::size2d<dimension>;
 
     /*!
      * Get the X stride of the image. The X stride is the amount of bytes between 2 pixels.
      * \return The X stride of the image.
      */
-    auto stride_x() const noexcept -> std::ptrdiff_t;
+    [[nodiscard]] auto stride_x() const noexcept -> std::ptrdiff_t;
 
     /*!
      * Get the Y stride of the image. The Y stride is the amount of bytes between 2 lines/rows.
      * \return The Y stride of the image.
      */
-    auto stride_y() const noexcept -> std::ptrdiff_t;
+    [[nodiscard]] auto stride_y() const noexcept -> std::ptrdiff_t;
 
 private:
     /*!
@@ -121,7 +121,7 @@ private:
  * \return Returns true if the descriptor is null.
  */
 template <typename T>
-inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool;
+[[nodiscard]] inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool;
 
 /*!
  * Returns true if the descriptor is valid. A descriptor is valid when it is not null.
@@ -130,7 +130,7 @@ inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool;
  * \return Returns true if the descriptor is valid.
  */
 template <typename T>
-inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool;
+[[nodiscard]] inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool;
 
 /*!
  * Get the width of the image as described in an image descriptor.
@@ -138,7 +138,7 @@ inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool;
  * \return The width of the image.
  */
 template <typename T>
-inline auto width(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto width(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Get the height of the image as described in an image descriptor.
@@ -146,7 +146,7 @@ inline auto width(const image_descriptor<T> &descriptor) noexcept;
  * \return The height of the image.
  */
 template <typename T>
-inline auto height(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto height(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Get the dimensions of the image (width, height) as described in an image descriptor.
@@ -154,7 +154,7 @@ inline auto height(const image_descriptor<T> &descriptor) noexcept;
  * \return The dimensions of the image.
  */
 template <typename T>
-inline auto dimensions(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto dimensions(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Get the rectangle of the image (based on the dimensions) as described in an image descriptor.
@@ -164,7 +164,7 @@ inline auto dimensions(const image_descriptor<T> &descriptor) noexcept;
  * \return The rectangle surrounding the image.
  */
 template <typename T>
-inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>;
+[[nodiscard]] inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>;
 
 /*!
  * Get the X stride of the image as described in an image descriptor.
@@ -173,7 +173,7 @@ inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::r
  * \return The X stride of the image.
  */
 template <typename T>
-inline auto stride_x(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto stride_x(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Get the Y stride of the image as described in an image descriptor.
@@ -182,7 +182,7 @@ inline auto stride_x(const image_descriptor<T> &descriptor) noexcept;
  * \return The Y stride of the image.
  */
 template <typename T>
-inline auto stride_y(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto stride_y(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Returns true if the given image descriptor describes an image where all the data is layed out
@@ -191,7 +191,7 @@ inline auto stride_y(const image_descriptor<T> &descriptor) noexcept;
  * \return True if the image is continuous.
  */
 template <typename T>
-inline auto continuous(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto continuous(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Returns true if the given coordinate falls within the dimensions of the given image descriptor.
@@ -200,7 +200,8 @@ inline auto continuous(const image_descriptor<T> &descriptor) noexcept;
  * \return True if the coordinate is within the dimenions of the image.
  */
 template <typename T>
-inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept;
+[[nodiscard]] inline auto contains(const image_descriptor<T> &descriptor,
+                                   const math::vector2<dimension> coord) noexcept;
 
 /*!
  * Get the offset in bytes from the start of the buffer for a given coordinate. This value must be
@@ -210,8 +211,8 @@ inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<
  * \return An offset for the given pixel coordinate.
  */
 template <typename T>
-inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> &descriptor) noexcept
-    -> std::ptrdiff_t;
+[[nodiscard]] inline auto at_offset(const math::vector2<dimension> coord,
+                                    const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t;
 
 /*!
  * Get the full size in bytes of the image in memory an image would take up as described with the
@@ -220,7 +221,7 @@ inline auto at_offset(const math::vector2<dimension> coord, const image_descript
  * \return The size in bytes.
  */
 template <typename T>
-inline auto size(const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto size(const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t;
 
 template <typename T>
 inline auto operator==(const image_descriptor<T> &lhs, const image_descriptor<T> &rhs) noexcept;

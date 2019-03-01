@@ -37,29 +37,29 @@ inline mat4::mat4(const quaternion &q) noexcept
 {
 }
 
-inline auto mat4::operator[](const std::size_t i) noexcept -> vector4<float> &
+[[nodiscard]] inline auto mat4::operator[](const std::size_t i) noexcept -> vector4<float> &
 {
     aeon_assert_array_bounds(column, i);
     return column[i];
 }
 
-inline auto mat4::operator[](const std::size_t i) const noexcept -> const vector4<float> &
+[[nodiscard]] inline auto mat4::operator[](const std::size_t i) const noexcept -> const vector4<float> &
 {
     aeon_assert_array_bounds(column, i);
     return column[i];
 }
 
-inline auto mat4::at(const int column, const int row) const noexcept -> float
+[[nodiscard]] inline auto mat4::at(const int column, const int row) const noexcept -> float
 {
     return operator[](column)[row];
 }
 
-inline auto mat4::zero() noexcept -> mat4
+[[nodiscard]] inline auto mat4::zero() noexcept -> mat4
 {
     return {};
 }
 
-inline auto mat4::indentity() noexcept -> mat4
+[[nodiscard]] inline auto mat4::indentity() noexcept -> mat4
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f, 0.0f,
@@ -69,17 +69,17 @@ inline auto mat4::indentity() noexcept -> mat4
     // clang-format on
 }
 
-inline auto mat4::scale(const float xyz) noexcept -> mat4
+[[nodiscard]] inline auto mat4::scale(const float xyz) noexcept -> mat4
 {
     return scale(vector3<float>{xyz});
 }
 
-inline auto mat4::scale(const float x, const float y, const float z) noexcept -> mat4
+[[nodiscard]] inline auto mat4::scale(const float x, const float y, const float z) noexcept -> mat4
 {
     return scale({x, y, z});
 }
 
-inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
+[[nodiscard]] inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
 {
     // clang-format off
     return {vec.x, 0.0f,  0.0f,  0.0f,
@@ -90,34 +90,34 @@ inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
 }
 
 template <typename T>
-inline auto mat4::scale(const T xyz) noexcept -> mat4
+[[nodiscard]] inline auto mat4::scale(const T xyz) noexcept -> mat4
 {
     return scale(static_cast<float>(xyz));
 }
 
 template <typename T>
-inline auto mat4::scale(const T x, const T y, const T z) noexcept -> mat4
+[[nodiscard]] inline auto mat4::scale(const T x, const T y, const T z) noexcept -> mat4
 {
     return scale(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
 
 template <typename T>
-inline auto mat4::scale(const vector3<T> &vec) noexcept -> mat4
+[[nodiscard]] inline auto mat4::scale(const vector3<T> &vec) noexcept -> mat4
 {
     return scale(vector3<float>{vec});
 }
 
-inline auto mat4::translate(const float x, const float y) noexcept -> mat4
+[[nodiscard]] inline auto mat4::translate(const float x, const float y) noexcept -> mat4
 {
     return translate({x, y, 0.0f});
 }
 
-inline auto mat4::translate(const float x, const float y, const float z) noexcept -> mat4
+[[nodiscard]] inline auto mat4::translate(const float x, const float y, const float z) noexcept -> mat4
 {
     return translate({x, y, z});
 }
 
-inline auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
+[[nodiscard]] inline auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f, vec.x,
@@ -128,24 +128,24 @@ inline auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
 }
 
 template <typename T>
-inline auto mat4::translate(const T x, const T y) noexcept -> mat4
+[[nodiscard]] inline auto mat4::translate(const T x, const T y) noexcept -> mat4
 {
     return translate(static_cast<float>(x), static_cast<float>(y));
 }
 
 template <typename T>
-inline auto mat4::translate(const T x, const T y, const T z) noexcept -> mat4
+[[nodiscard]] inline auto mat4::translate(const T x, const T y, const T z) noexcept -> mat4
 {
     return translate(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
 
 template <typename T>
-inline auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
+[[nodiscard]] inline auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
 {
     return translate(vector3<float>{vec});
 }
 
-inline auto mat4::rotate(const unitf<radian> angle, const vector3<float> &vec) noexcept -> mat4
+[[nodiscard]] inline auto mat4::rotate(const unitf<radian> angle, const vector3<float> &vec) noexcept -> mat4
 {
     const auto c = std::cos(angle);
     const auto s = std::sin(angle);
@@ -177,12 +177,13 @@ inline auto mat4::rotate(const unitf<radian> angle, const vector3<float> &vec) n
 }
 
 template <typename T>
-inline auto mat4::rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4
+[[nodiscard]] inline auto mat4::rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4
 {
     return rotate(angle, vector3<float>{vec});
 }
 
-inline auto mat4::ortho(const float left, const float right, const float bottom, const float top) noexcept -> mat4
+[[nodiscard]] inline auto mat4::ortho(const float left, const float right, const float bottom, const float top) noexcept
+    -> mat4
 {
     // clang-format off
     return {
@@ -209,8 +210,8 @@ inline auto mat4::ortho(const float left, const float right, const float bottom,
     // clang-format on
 }
 
-inline auto mat4::ortho(const float left, const float right, const float bottom, const float top, const float near,
-                        const float far) noexcept -> mat4
+[[nodiscard]] inline auto mat4::ortho(const float left, const float right, const float bottom, const float top,
+                                      const float near, const float far) noexcept -> mat4
 {
     // clang-format off
     return {
@@ -238,34 +239,34 @@ inline auto mat4::ortho(const float left, const float right, const float bottom,
 }
 
 template <typename T>
-inline auto mat4::ortho(const T left, const T right, const T bottom, const T top) noexcept -> mat4
+[[nodiscard]] inline auto mat4::ortho(const T left, const T right, const T bottom, const T top) noexcept -> mat4
 {
     return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
                        static_cast<float>(top));
 }
 
 template <typename T, typename U>
-inline auto mat4::ortho(const T left, const T right, const T bottom, const T top, const U near, const U far) noexcept
-    -> mat4
+[[nodiscard]] inline auto mat4::ortho(const T left, const T right, const T bottom, const T top, const U near,
+                                      const U far) noexcept -> mat4
 {
     return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
                        static_cast<float>(top), static_cast<float>(near), static_cast<float>(far));
 }
 
 template <typename T>
-inline auto mat4::ortho(const rectangle<T> &rect) noexcept -> mat4
+[[nodiscard]] inline auto mat4::ortho(const rectangle<T> &rect) noexcept -> mat4
 {
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect));
 }
 
 template <typename T, typename U>
-inline auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4
+[[nodiscard]] inline auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4
 {
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect), near, far);
 }
 
-inline auto mat4::projection(const unitf<radian> fov_y, const float aspect_ratio, const float near,
-                             const float far) noexcept -> mat4
+[[nodiscard]] inline auto mat4::projection(const unitf<radian> fov_y, const float aspect_ratio, const float near,
+                                           const float far) noexcept -> mat4
 {
     const auto tan_half_fov_y = std::tan(0.5f * fov_y);
 
@@ -295,15 +296,15 @@ inline auto mat4::projection(const unitf<radian> fov_y, const float aspect_ratio
 }
 
 template <typename T, typename U>
-inline auto mat4::projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio, const U near,
-                             const U far) noexcept -> mat4
+[[nodiscard]] inline auto mat4::projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio, const U near,
+                                           const U far) noexcept -> mat4
 {
     return projection(static_cast<float>(fov_y), static_cast<float>(aspect_ratio), static_cast<float>(near),
                       static_cast<float>(far));
 }
 
-inline auto mat4::projection_fov(const unitf<radian> fov, const float width, const float height, const float near,
-                                 const float far) noexcept -> mat4
+[[nodiscard]] inline auto mat4::projection_fov(const unitf<radian> fov, const float width, const float height,
+                                               const float near, const float far) noexcept -> mat4
 {
     const auto h = std::cos(0.5f * fov) / std::sin(0.5f * fov);
     const auto w = h * height / width;
@@ -334,14 +335,14 @@ inline auto mat4::projection_fov(const unitf<radian> fov, const float width, con
 }
 
 template <typename T, typename U>
-inline auto mat4::projection_fov(const unit_base<radian, void, U> fov, const T width, const T height, const U near,
-                                 const U far) noexcept -> mat4
+[[nodiscard]] inline auto mat4::projection_fov(const unit_base<radian, void, U> fov, const T width, const T height,
+                                               const U near, const U far) noexcept -> mat4
 {
     return projection_fov(static_cast<float>(fov), static_cast<float>(width), static_cast<float>(height),
                           static_cast<float>(near), static_cast<float>(far));
 }
 
-inline auto determinant(const mat4 &mat) noexcept -> float
+[[nodiscard]] inline auto determinant(const mat4 &mat) noexcept -> float
 {
     // clang-format off
     const auto a = mat3{
@@ -373,7 +374,7 @@ inline auto determinant(const mat4 &mat) noexcept -> float
            mat[3][0] * determinant(d);
 }
 
-inline auto inverse(const mat4 &mat) noexcept -> mat4
+[[nodiscard]] inline auto inverse(const mat4 &mat) noexcept -> mat4
 {
     auto v0 = mat[0][2] * mat[1][3] - mat[1][2] * mat[0][3];
     auto v1 = mat[0][2] * mat[2][3] - mat[2][2] * mat[0][3];
@@ -433,7 +434,7 @@ inline auto inverse(const mat4 &mat) noexcept -> mat4
     // clang-format on
 }
 
-inline auto is_affine(const mat4 &mat) noexcept -> bool
+[[nodiscard]] inline auto is_affine(const mat4 &mat) noexcept -> bool
 {
     return (mat[0][3] == 0.0f) && (mat[1][3] == 0.0f) && (mat[2][3] == 0.0f) && (mat[3][3] == 1.0f);
 }
@@ -450,12 +451,12 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
     translation.set(mat[3][0], mat[3][1], mat[3][2]);
 }
 
-inline auto ptr(mat4 &mat) noexcept -> float *
+[[nodiscard]] inline auto ptr(mat4 &mat) noexcept -> float *
 {
     return &mat[0][0];
 }
 
-inline auto ptr(const mat4 &mat) noexcept -> const float *
+[[nodiscard]] inline auto ptr(const mat4 &mat) noexcept -> const float *
 {
     return &mat[0][0];
 }

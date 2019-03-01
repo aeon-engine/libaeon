@@ -7,7 +7,7 @@
 namespace aeon::logger
 {
 
-class simple_backend : public base_backend
+class simple_backend final : public base_backend
 {
 public:
     simple_backend() = default;

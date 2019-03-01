@@ -46,45 +46,48 @@ namespace aeon::math::simplex_noise
 // Multi-octave Simplex noise
 // For each octave, a higher frequency/lower amplitude function will be added to the original.
 // The higher the persistence [0-1], the more of each succeeding octave will be added.
-auto octave_noise_2d(const float octaves, const float persistence, const float scale, const float x, const float y)
-    -> float;
+[[nodiscard]] auto octave_noise_2d(const float octaves, const float persistence, const float scale, const float x,
+                                   const float y) -> float;
 
-auto octave_noise_3d(const float octaves, const float persistence, const float scale, const float x, const float y,
-                     const float z) -> float;
+[[nodiscard]] auto octave_noise_3d(const float octaves, const float persistence, const float scale, const float x,
+                                   const float y, const float z) -> float;
 
-auto octave_noise_4d(const float octaves, const float persistence, const float scale, const float x, const float y,
-                     const float z, const float w) -> float;
+[[nodiscard]] auto octave_noise_4d(const float octaves, const float persistence, const float scale, const float x,
+                                   const float y, const float z, const float w) -> float;
 
 // Scaled Multi-octave Simplex noise
 // The result will be between the two parameters passed.
-auto scaled_octave_noise_2d(const float octaves, const float persistence, const float scale, const float loBound,
-                            const float hiBound, const float x, const float y) -> float;
+[[nodiscard]] auto scaled_octave_noise_2d(const float octaves, const float persistence, const float scale,
+                                          const float loBound, const float hiBound, const float x, const float y)
+    -> float;
 
-auto scaled_octave_noise_3d(const float octaves, const float persistence, const float scale, const float loBound,
-                            const float hiBound, const float x, const float y, const float z) -> float;
+[[nodiscard]] auto scaled_octave_noise_3d(const float octaves, const float persistence, const float scale,
+                                          const float loBound, const float hiBound, const float x, const float y,
+                                          const float z) -> float;
 
-auto scaled_octave_noise_4d(const float octaves, const float persistence, const float scale, const float loBound,
-                            const float hiBound, const float x, const float y, const float z, const float w) -> float;
+[[nodiscard]] auto scaled_octave_noise_4d(const float octaves, const float persistence, const float scale,
+                                          const float loBound, const float hiBound, const float x, const float y,
+                                          const float z, const float w) -> float;
 
 // Scaled Raw Simplex noise
 // The result will be between the two parameters passed.
-auto scaled_raw_noise_2d(const float loBound, const float hiBound, const float x, const float y) -> float;
+[[nodiscard]] auto scaled_raw_noise_2d(const float loBound, const float hiBound, const float x, const float y) -> float;
 
-auto scaled_raw_noise_3d(const float loBound, const float hiBound, const float x, const float y, const float z)
-    -> float;
+[[nodiscard]] auto scaled_raw_noise_3d(const float loBound, const float hiBound, const float x, const float y,
+                                       const float z) -> float;
 
-auto scaled_raw_noise_4d(const float loBound, const float hiBound, const float x, const float y, const float z,
-                         const float w) -> float;
+[[nodiscard]] auto scaled_raw_noise_4d(const float loBound, const float hiBound, const float x, const float y,
+                                       const float z, const float w) -> float;
 
 // Raw Simplex noise - a single noise value.
-auto raw_noise_2d(const float x, const float y) -> float;
-auto raw_noise_3d(const float x, const float y, const float z) -> float;
-auto raw_noise_4d(const float x, const float y, const float, const float w) -> float;
+[[nodiscard]] auto raw_noise_2d(const float x, const float y) -> float;
+[[nodiscard]] auto raw_noise_3d(const float x, const float y, const float z) -> float;
+[[nodiscard]] auto raw_noise_4d(const float x, const float y, const float, const float w) -> float;
 
-auto fastfloor(const float x) -> int;
+[[nodiscard]] auto fastfloor(const float x) -> int;
 
-auto dot(const int *g, const float x, const float y) -> float;
-auto dot(const int *g, const float x, const float y, const float z) -> float;
-auto dot(const int *g, const float x, const float y, const float z, const float w) -> float;
+[[nodiscard]] auto dot(const int *g, const float x, const float y) -> float;
+[[nodiscard]] auto dot(const int *g, const float x, const float y, const float z) -> float;
+[[nodiscard]] auto dot(const int *g, const float x, const float y, const float z, const float w) -> float;
 
 } // namespace aeon::math::simplex_noise

@@ -17,7 +17,7 @@ class trace_log_context : public common::singleton<trace_log_context>
 {
 public:
     void initialize();
-    auto add_scoped_log_entry(const char *func) const -> trace_log_entry *;
+    [[nodiscard]] auto add_scoped_log_entry(const char *func) const -> trace_log_entry *;
     void add_scoped_log_exit(trace_log_entry *entry) const;
 
     void add_event(const char *func) const;

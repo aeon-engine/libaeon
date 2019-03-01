@@ -43,7 +43,7 @@ public:
 #endif
     }
 
-    auto get_time_difference() const noexcept -> double
+    [[nodiscard]] auto get_time_difference() const noexcept -> double
     {
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
         LARGE_INTEGER now;

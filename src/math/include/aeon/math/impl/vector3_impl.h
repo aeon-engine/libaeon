@@ -94,7 +94,7 @@ inline vector3<T>::vector3(const T xyz[3]) noexcept
 }
 
 template <typename T>
-inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> &
+[[nodiscard]] inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> &
 {
     x = vec.x;
     y = vec.y;
@@ -103,21 +103,21 @@ inline auto vector3<T>::operator=(const vector2<T> &vec) noexcept -> vector3<T> 
 }
 
 template <typename T>
-inline auto vector3<T>::operator[](const std::size_t i) noexcept -> T &
+[[nodiscard]] inline auto vector3<T>::operator[](const std::size_t i) noexcept -> T &
 {
     aeon_assert_array_bounds(value, i);
     return value[i];
 }
 
 template <typename T>
-inline auto vector3<T>::operator[](const std::size_t i) const noexcept -> const T &
+[[nodiscard]] inline auto vector3<T>::operator[](const std::size_t i) const noexcept -> const T &
 {
     aeon_assert_array_bounds(value, i);
     return value[i];
 }
 
 template <typename T>
-inline auto vector3<T>::zero() noexcept -> vector3<T>
+[[nodiscard]] inline auto vector3<T>::zero() noexcept -> vector3<T>
 {
     return vector3<T>{};
 }
@@ -143,37 +143,37 @@ inline void translate(vector3<T> &lhs, const vector3<T> &rhs) noexcept
 }
 
 template <typename T>
-inline auto translated(const vector3<T> &lhs, const T x, const T y, const T z) noexcept -> vector3<T>
+[[nodiscard]] inline auto translated(const vector3<T> &lhs, const T x, const T y, const T z) noexcept -> vector3<T>
 {
     return lhs + vector3{x, y, z};
 }
 
 template <typename T>
-inline auto translated(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
+[[nodiscard]] inline auto translated(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     return lhs + rhs;
 }
 
 template <typename T>
-inline auto dot(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
+[[nodiscard]] inline auto dot(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
 {
     return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z);
 }
 
 template <typename T>
-inline auto cross(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
+[[nodiscard]] inline auto cross(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     return {(lhs.y * rhs.z) - (lhs.z * rhs.y), (lhs.z * rhs.x) - (lhs.x * rhs.z), (lhs.x * rhs.y) - (lhs.y * rhs.x)};
 }
 
 template <typename T>
-inline auto length(const vector3<T> &vec) noexcept -> T
+[[nodiscard]] inline auto length(const vector3<T> &vec) noexcept -> T
 {
     return std::sqrt(dot(vec, vec));
 }
 
 template <typename T>
-inline auto squared_length(const vector3<T> &vec) noexcept -> T
+[[nodiscard]] inline auto squared_length(const vector3<T> &vec) noexcept -> T
 {
     return dot(vec, vec);
 }
@@ -185,7 +185,7 @@ inline void normalize(vector3<T> &vec) noexcept
 }
 
 template <typename T>
-inline auto normalized(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto normalized(const vector3<T> &vec) noexcept -> vector3<T>
 {
     auto l = length(vec);
 
@@ -196,67 +196,67 @@ inline auto normalized(const vector3<T> &vec) noexcept -> vector3<T>
 }
 
 template <typename T>
-inline auto sin(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto sin(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::sin(vec.x), std::sin(vec.y), std::sin(vec.z)};
 }
 
 template <typename T>
-inline auto cos(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto cos(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::cos(vec.x), std::cos(vec.y), std::cos(vec.z)};
 }
 
 template <typename T>
-inline auto tan(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto tan(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::tan(vec.x), std::tan(vec.y), std::tan(vec.z)};
 }
 
 template <typename T>
-inline auto asin(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto asin(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::asin(vec.x), std::asin(vec.y), std::asin(vec.z)};
 }
 
 template <typename T>
-inline auto acos(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto acos(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::acos(vec.x), std::acos(vec.y), std::acos(vec.z)};
 }
 
 template <typename T>
-inline auto atan(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto atan(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::atan(vec.x), std::atan(vec.y), std::atan(vec.z)};
 }
 
 template <typename T>
-inline auto abs(const vector3<T> &vec) noexcept -> vector3<T>
+[[nodiscard]] inline auto abs(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::abs(vec.x), std::abs(vec.y), std::abs(vec.z)};
 }
 
 template <typename T>
-inline auto distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
+[[nodiscard]] inline auto distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
 {
     return length(lhs - rhs);
 }
 
 template <typename T>
-inline auto squared_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
+[[nodiscard]] inline auto squared_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
 {
     return squared_length(lhs - rhs);
 }
 
 template <typename T>
-inline auto midpoint(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
+[[nodiscard]] inline auto midpoint(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     return (lhs + rhs) * 0.5f;
 }
 
 template <typename T>
-inline auto floor(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
+[[nodiscard]] inline auto floor(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     auto x = lhs.x;
     auto y = lhs.y;
@@ -273,7 +273,7 @@ inline auto floor(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vect
 }
 
 template <typename T>
-inline auto ceil(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
+[[nodiscard]] inline auto ceil(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     auto x = lhs.x;
     auto y = lhs.y;
@@ -290,13 +290,13 @@ inline auto ceil(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vecto
 }
 
 template <typename T>
-inline auto ptr(vector3<T> &vec) noexcept -> T *
+[[nodiscard]] inline auto ptr(vector3<T> &vec) noexcept -> T *
 {
     return &vec.x;
 }
 
 template <typename T>
-inline auto ptr(const vector3<T> &vec) noexcept -> const T *
+[[nodiscard]] inline auto ptr(const vector3<T> &vec) noexcept -> const T *
 {
     return &vec.x;
 }

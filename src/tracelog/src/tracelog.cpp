@@ -10,7 +10,7 @@ namespace aeon::tracelog
 namespace detail
 {
 
-auto add_entry(const char *func) -> trace_log_entry *
+[[nodiscard]] auto add_entry(const char *func) -> trace_log_entry *
 {
     return detail::trace_log_context::get_singleton().add_scoped_log_entry(func);
 }

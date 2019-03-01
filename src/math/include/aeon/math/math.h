@@ -51,7 +51,7 @@ struct constants<double>
  * \return Sigmoid curve value between 0 and 1.
  */
 template <typename T>
-inline auto sigmoid(const T value) noexcept -> T
+[[nodiscard]] inline auto sigmoid(const T value) noexcept -> T
 {
     return 1 / (1 + std::exp(-value));
 }
@@ -63,7 +63,7 @@ inline auto sigmoid(const T value) noexcept -> T
  * \return Lowest value out of all given values
  */
 template <typename T, typename... U>
-inline auto min(const T first, const U... values) noexcept -> T
+[[nodiscard]] inline auto min(const T first, const U... values) noexcept -> T
 {
     auto retval = &first;
     ((retval = &std::min(*retval, values)), ...);
@@ -77,7 +77,7 @@ inline auto min(const T first, const U... values) noexcept -> T
  * \return Highest value out of all given values
  */
 template <typename T, typename... U>
-inline auto max(const T first, const U... values) noexcept -> T
+[[nodiscard]] inline auto max(const T first, const U... values) noexcept -> T
 {
     auto retval = &first;
     ((retval = &std::max(*retval, values)), ...);
@@ -91,7 +91,7 @@ inline auto max(const T first, const U... values) noexcept -> T
  * \return The result of base<SUP>exponent</SUP>
  */
 template <typename T>
-inline constexpr auto constexpr_pow(const T base, const int exponent) noexcept -> T
+[[nodiscard]] inline constexpr auto constexpr_pow(const T base, const int exponent) noexcept -> T
 {
     static_assert(std::is_arithmetic_v<T>, "Base must be arithmetic type.");
 

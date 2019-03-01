@@ -44,40 +44,40 @@ template <typename T>
 inline image_view<T>::~image_view() noexcept = default;
 
 template <typename T>
-inline auto image_view<T>::data() noexcept -> T *
+[[nodiscard]] inline auto image_view<T>::data() noexcept -> T *
 {
     return reinterpret_cast<T *>(data_ptr_);
 }
 
 template <typename T>
-inline auto image_view<T>::data() const noexcept -> const T *
+[[nodiscard]] inline auto image_view<T>::data() const noexcept -> const T *
 {
     return reinterpret_cast<const T *>(data_ptr_);
 }
 
 template <typename T>
 template <typename U>
-inline auto image_view<T>::data() noexcept -> U *
+[[nodiscard]] inline auto image_view<T>::data() noexcept -> U *
 {
     return reinterpret_cast<U *>(data_ptr_);
 }
 
 template <typename T>
 template <typename U>
-inline auto image_view<T>::data() const noexcept -> const U *
+[[nodiscard]] inline auto image_view<T>::data() const noexcept -> const U *
 {
     return reinterpret_cast<const U *>(data_ptr_);
 }
 
 template <typename T>
-inline auto image_view<T>::data(const math::vector2<dimension> coord) noexcept -> T *
+[[nodiscard]] inline auto image_view<T>::data(const math::vector2<dimension> coord) noexcept -> T *
 {
     aeon_assert(contains(image_view_base<T>::descriptor_, coord), "Given coordinate was out of bounds.");
     return reinterpret_cast<T *>(data_ptr_ + at_offset(coord, image_view_base<T>::descriptor_));
 }
 
 template <typename T>
-inline auto image_view<T>::data(const math::vector2<dimension> coord) const noexcept -> const T *
+[[nodiscard]] inline auto image_view<T>::data(const math::vector2<dimension> coord) const noexcept -> const T *
 {
     aeon_assert(contains(image_view_base<T>::descriptor_, coord), "Given coordinate was out of bounds.");
     return reinterpret_cast<const T *>(data_ptr_ + at_offset(coord, image_view_base<T>::descriptor_));
@@ -85,44 +85,45 @@ inline auto image_view<T>::data(const math::vector2<dimension> coord) const noex
 
 template <typename T>
 template <typename U>
-inline auto image_view<T>::data(const math::vector2<dimension> coord) noexcept -> U *
+[[nodiscard]] inline auto image_view<T>::data(const math::vector2<dimension> coord) noexcept -> U *
 {
     return reinterpret_cast<U *>(data(coord));
 }
 
 template <typename T>
 template <typename U>
-inline auto image_view<T>::data(const math::vector2<dimension> coord) const noexcept -> const U *
+[[nodiscard]] inline auto image_view<T>::data(const math::vector2<dimension> coord) const noexcept -> const U *
 {
     return reinterpret_cast<const U *>(data(coord));
 }
 
 template <typename T>
-inline auto image_view<T>::at(const math::vector2<dimension> coord) noexcept -> T &
+[[nodiscard]] inline auto image_view<T>::at(const math::vector2<dimension> coord) noexcept -> T &
 {
     return *data(coord);
 }
 
 template <typename T>
-inline auto image_view<T>::at(const math::vector2<dimension> coord) const noexcept -> const T &
+[[nodiscard]] inline auto image_view<T>::at(const math::vector2<dimension> coord) const noexcept -> const T &
 {
     return *data(coord);
 }
 
 template <typename T>
-inline auto null(const image_view<T> &view) noexcept -> bool
+[[nodiscard]] inline auto null(const image_view<T> &view) noexcept -> bool
 {
     return null(descriptor(view)) || view.data() == nullptr;
 }
 
 template <typename T>
-inline auto valid(const image_view<T> &view) noexcept -> bool
+[[nodiscard]] inline auto valid(const image_view<T> &view) noexcept -> bool
 {
     return !null(view);
 }
 
 template <typename T>
-inline auto make_view(const image_view<T> &view, const math::rectangle<int> &rect) noexcept -> image_view<T>
+[[nodiscard]] inline auto make_view(const image_view<T> &view, const math::rectangle<int> &rect) noexcept
+    -> image_view<T>
 {
     aeon_assert(math::contains(rect, rectangle(view)), "View rectangle does not fit within image.");
 

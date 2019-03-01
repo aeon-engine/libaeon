@@ -97,19 +97,19 @@ private:
     /*!
      * Load a plugin by name.
      */
-    auto load(const std::string &name) -> plugin *;
+    [[nodiscard]] auto load(const std::string &name) -> plugin *;
 
     /*!
      * Actually load the plugin by loading in the dll, getting the proc addresses
      * and calling them. Returns nullptr in case of an error.
      */
-    auto load_plugin(const std::string &name) -> plugin *;
+    [[nodiscard]] auto load_plugin(const std::string &name) -> plugin *;
 
     /*!
      * Get a previously loaded plugin by name from the cache. Returns nullptr if
      * not found.
      */
-    auto find_in_cache(const std::string &name) -> plugin *;
+    [[nodiscard]] auto find_in_cache(const std::string &name) -> plugin *;
 
     /*!
      * Unload a plugin based on iterator. This is a helper method called by the
@@ -158,7 +158,7 @@ public:
     scoped_plugin(const scoped_plugin &other) = delete;
     scoped_plugin &operator=(const scoped_plugin &other) = delete;
 
-    auto valid() const noexcept
+    [[nodiscard]] auto valid() const noexcept
     {
         return plugin_interface_ && loader_;
     }
@@ -168,7 +168,7 @@ public:
         return valid();
     }
 
-    auto get() const noexcept
+    [[nodiscard]] auto get() const noexcept
     {
         return plugin_interface_;
     }
@@ -178,7 +178,7 @@ public:
         return plugin_interface_;
     }
 
-    auto release() noexcept
+    [[nodiscard]] auto release() noexcept
     {
         const auto plugin = plugin_interface_;
         plugin_interface_ = nullptr;

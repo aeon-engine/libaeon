@@ -18,7 +18,7 @@ namespace aeon::fonts
 namespace internal
 {
 
-auto create_freetype_face(FT_LibraryRec_ *library, const std::vector<std::uint8_t> &data, const int index)
+[[nodiscard]] auto create_freetype_face(FT_LibraryRec_ *library, const std::vector<std::uint8_t> &data, const int index)
     -> FT_FaceRec_ *;
 void free_freetype_face(FT_FaceRec_ *face);
 
@@ -36,13 +36,13 @@ public:
     face_wrapper(face_wrapper &&) noexcept = default;
     auto operator=(face_wrapper &&) noexcept -> face_wrapper & = default;
 
-    auto get_char_index(const char32_t control_code) const -> unsigned int;
+    [[nodiscard]] auto get_char_index(const char32_t control_code) const -> unsigned int;
 
     /*!
      * Load a glyph. Loading the next glyph will re-use the same buffer,
      * so be sure to copy the image somewhere first before loading the next glyph.
      */
-    auto load_glyph(const unsigned int glyph_index) const -> glyph;
+    [[nodiscard]] auto load_glyph(const unsigned int glyph_index) const -> glyph;
 
 private:
     std::vector<char> face_data_;

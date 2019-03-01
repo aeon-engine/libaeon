@@ -7,19 +7,17 @@
 
 class RtMidi;
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 class midi_device
 {
 public:
-    auto get_port_count() const -> unsigned int;
+    [[nodiscard]] auto get_port_count() const -> unsigned int;
 
-    auto get_port_name(const unsigned int index) const -> std::string;
+    [[nodiscard]] auto get_port_name(const unsigned int index) const -> std::string;
 
-    auto get_ports() const -> std::vector<std::string>;
+    [[nodiscard]] auto get_ports() const -> std::vector<std::string>;
 
 protected:
     explicit midi_device(RtMidi &midi_device);
@@ -29,5 +27,4 @@ private:
     RtMidi &midi_device_;
 };
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

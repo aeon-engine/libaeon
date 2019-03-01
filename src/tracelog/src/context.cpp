@@ -23,7 +23,7 @@ void trace_log_context::initialize()
     register_threadlocal_context(&context_);
 }
 
-auto trace_log_context::add_scoped_log_entry(const char *func) const -> trace_log_entry *
+[[nodiscard]] auto trace_log_context::add_scoped_log_entry(const char *func) const -> trace_log_entry *
 {
     aeon_assert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
 

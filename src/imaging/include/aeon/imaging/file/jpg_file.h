@@ -14,8 +14,8 @@ class load_exception : public imaging_exception
 {
 };
 
-auto load(const std::filesystem::path &path) -> dynamic_image;
-auto load(streams::idynamic_stream &stream) -> dynamic_image;
+[[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image;
+[[nodiscard]] auto load(streams::idynamic_stream &stream) -> dynamic_image;
 
 class save_exception : public imaging_exception
 {

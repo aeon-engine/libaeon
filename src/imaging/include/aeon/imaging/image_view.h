@@ -60,22 +60,14 @@ public:
      * The descriptor should be used to get information about the layout in memory.
      * \return Pointer to raw image data.
      */
-    auto data() noexcept -> T *;
+    [[nodiscard]] auto data() noexcept -> T *;
 
     /*!
      * Get a pointer to the raw image data.
      * The descriptor should be used to get information about the layout in memory.
      * \return Pointer to raw image data.
      */
-    auto data() const noexcept -> const T *;
-
-    /*!
-     * Get a pointer to the raw image data.
-     * The descriptor should be used to get information about the layout in memory.
-     * \return Pointer to raw image data.
-     */
-    template <typename U>
-    auto data() noexcept -> U *;
+    [[nodiscard]] auto data() const noexcept -> const T *;
 
     /*!
      * Get a pointer to the raw image data.
@@ -83,7 +75,15 @@ public:
      * \return Pointer to raw image data.
      */
     template <typename U>
-    auto data() const noexcept -> const U *;
+    [[nodiscard]] auto data() noexcept -> U *;
+
+    /*!
+     * Get a pointer to the raw image data.
+     * The descriptor should be used to get information about the layout in memory.
+     * \return Pointer to raw image data.
+     */
+    template <typename U>
+    [[nodiscard]] auto data() const noexcept -> const U *;
 
     /*!
      * Get a pointer to the raw image data at the pixel offset of the given coordinate.
@@ -92,7 +92,7 @@ public:
      * \param[in] coord - A pixel coordinate
      * \return Pointer to raw image data.
      */
-    auto data(const math::vector2<dimension> coord) noexcept -> T *;
+    [[nodiscard]] auto data(const math::vector2<dimension> coord) noexcept -> T *;
 
     /*!
      * Get a pointer to the raw image data at the pixel offset of the given coordinate.
@@ -101,7 +101,7 @@ public:
      * \param[in] coord - A pixel coordinate
      * \return Pointer to raw image data.
      */
-    auto data(const math::vector2<dimension> coord) const noexcept -> const T *;
+    [[nodiscard]] auto data(const math::vector2<dimension> coord) const noexcept -> const T *;
 
     /*!
      * Get a pointer to the raw image data at the pixel offset of the given coordinate.
@@ -111,7 +111,7 @@ public:
      * \return Pointer to raw image data.
      */
     template <typename U>
-    auto data(const math::vector2<dimension> coord) noexcept -> U *;
+    [[nodiscard]] auto data(const math::vector2<dimension> coord) noexcept -> U *;
 
     /*!
      * Get a pointer to the raw image data at the pixel offset of the given coordinate.
@@ -121,7 +121,7 @@ public:
      * \return Pointer to raw image data.
      */
     template <typename U>
-    auto data(const math::vector2<dimension> coord) const noexcept -> const U *;
+    [[nodiscard]] auto data(const math::vector2<dimension> coord) const noexcept -> const U *;
 
     /*!
      * Get a reference to a pixel at the given coordinate.
@@ -129,7 +129,7 @@ public:
      * \param[in] coord - A pixel coordinate
      * \return A reference to a pixel at the given coordinate.
      */
-    auto at(const math::vector2<dimension> coord) noexcept -> T &;
+    [[nodiscard]] auto at(const math::vector2<dimension> coord) noexcept -> T &;
 
     /*!
      * Get a reference to a pixel at the given coordinate.
@@ -137,7 +137,7 @@ public:
      * \param[in] coord - A pixel coordinate
      * \return A reference to a pixel at the given coordinate.
      */
-    auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
+    [[nodiscard]] auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
 
 protected:
     /*!
@@ -158,7 +158,7 @@ protected:
  * \return Returns true if the image view is null.
  */
 template <typename T>
-inline auto null(const image_view<T> &view) noexcept -> bool;
+[[nodiscard]] inline auto null(const image_view<T> &view) noexcept -> bool;
 
 /*!
  * Returns true if the image view is valid. An image view is valid when it is not null.
@@ -167,7 +167,7 @@ inline auto null(const image_view<T> &view) noexcept -> bool;
  * \return Returns true if the image view is valid.
  */
 template <typename T>
-inline auto valid(const image_view<T> &view) noexcept -> bool;
+[[nodiscard]] inline auto valid(const image_view<T> &view) noexcept -> bool;
 
 /*!
  * Create a new view on an existing view based on a given rectangle. This will essentially
@@ -178,7 +178,8 @@ inline auto valid(const image_view<T> &view) noexcept -> bool;
  * \return Returns A new view
  */
 template <typename T>
-inline auto make_view(const image_view<T> &view, const math::rectangle<int> &rect) noexcept -> image_view<T>;
+[[nodiscard]] inline auto make_view(const image_view<T> &view, const math::rectangle<int> &rect) noexcept
+    -> image_view<T>;
 
 } // namespace aeon::imaging
 

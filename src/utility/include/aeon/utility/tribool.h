@@ -70,7 +70,7 @@ public:
         return value == value_t::true_value ? 1 : 0;
     }
 
-    constexpr auto is_indeterminate() const noexcept
+    [[nodiscard]] constexpr auto is_indeterminate() const noexcept
     {
         return indeterminate(*this);
     }

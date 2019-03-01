@@ -6,9 +6,7 @@
 #include <string>
 #include <cstdint>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 enum class midi_read_mode
@@ -36,22 +34,22 @@ public:
     explicit midi_file_reader(const std::string &filename);
     virtual ~midi_file_reader();
 
-    auto get_format() const
+    [[nodiscard]] auto get_format() const
     {
         return format_;
     }
 
-    auto get_track_count() const
+    [[nodiscard]] auto get_track_count() const
     {
         return tracks_;
     }
 
-    auto get_tempo_mode() const
+    [[nodiscard]] auto get_tempo_mode() const
     {
         return tempo_mode_;
     }
 
-    auto get_divisions() const
+    [[nodiscard]] auto get_divisions() const
     {
         return divisions_;
     }
@@ -68,9 +66,9 @@ protected:
 
     void read_all_track_chunks(streams::memory_device<std::vector<std::uint8_t>> &stream);
     void read_next_track_chunk(streams::memory_device<std::vector<std::uint8_t>> &stream);
-    std::uint32_t read_track_header(streams::memory_device<std::vector<std::uint8_t>> &stream) const;
+    [[nodiscard]] std::uint32_t read_track_header(streams::memory_device<std::vector<std::uint8_t>> &stream) const;
     void parse_track_data(streams::memory_device<std::vector<std::uint8_t>> &stream);
-    std::uint32_t read_vtime(streams::memory_device<std::vector<std::uint8_t>> &stream);
+    [[nodiscard]] std::uint32_t read_vtime(streams::memory_device<std::vector<std::uint8_t>> &stream);
 
     void parse_meta_event(streams::memory_device<std::vector<std::uint8_t>> &stream);
     void parse_sysex_event(streams::memory_device<std::vector<std::uint8_t>> &stream);
@@ -83,5 +81,4 @@ protected:
     unsigned int divisions_;
 };
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

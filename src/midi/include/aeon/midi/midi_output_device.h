@@ -9,9 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 class midi_output_device : public midi_device
@@ -36,5 +34,4 @@ private:
     std::vector<unsigned char> note_output_buffer_;
 };
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

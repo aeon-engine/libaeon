@@ -14,27 +14,27 @@ public:
 
     auto get_height(const double x, const double y) const noexcept -> double;
 
-    auto get_persistance() const noexcept
+    [[nodiscard]] auto get_persistance() const noexcept
     {
         return persistence_;
     }
 
-    auto get_frequency() const noexcept
+    [[nodiscard]] auto get_frequency() const noexcept
     {
         return frequency_;
     }
 
-    auto get_amplitude() const noexcept
+    [[nodiscard]] auto get_amplitude() const noexcept
     {
         return amplitude_;
     }
 
-    auto get_octaves() const noexcept
+    [[nodiscard]] auto get_octaves() const noexcept
     {
         return octaves_;
     }
 
-    auto get_randomseed() const noexcept
+    [[nodiscard]] auto get_randomseed() const noexcept
     {
         return randomseed_;
     }
@@ -68,10 +68,10 @@ public:
     }
 
 private:
-    auto total(double i, double j) const noexcept -> double;
-    auto get_value(double x, double y) const noexcept -> double;
-    auto interpolate(double x, double y, double a) const noexcept -> double;
-    auto noise(int x, int y) const noexcept -> double;
+    [[nodiscard]] auto total(double i, double j) const noexcept -> double;
+    [[nodiscard]] auto get_value(double x, double y) const noexcept -> double;
+    [[nodiscard]] auto interpolate(double x, double y, double a) const noexcept -> double;
+    [[nodiscard]] auto noise(int x, int y) const noexcept -> double;
 
     double persistence_;
     double frequency_;

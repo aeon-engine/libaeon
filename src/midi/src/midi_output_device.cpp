@@ -4,9 +4,7 @@
 #include <aeon/midi/midi_messages.h>
 #include <cassert>
 
-namespace aeon
-{
-namespace midi
+namespace aeon::midi
 {
 
 static const int note_output_buffer_size = 3;
@@ -63,5 +61,4 @@ void midi_output_device::__send_note_message(unsigned char message, unsigned cha
     midi_output_device_.sendMessage(&note_output_buffer_);
 }
 
-} // namespace midi
-} // namespace aeon
+} // namespace aeon::midi

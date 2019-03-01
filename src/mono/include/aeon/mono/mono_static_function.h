@@ -33,7 +33,7 @@ public:
     auto operator=(mono_static_function &&o) noexcept -> mono_static_function &;
 
     template <typename function_signature_t>
-    auto get_thunk() const noexcept;
+    [[nodiscard]] auto get_thunk() const noexcept;
 
 private:
     MonoMethod *method_;
@@ -41,7 +41,7 @@ private:
 };
 
 template <typename function_signature_t>
-auto mono_static_function::get_thunk() const noexcept
+[[nodiscard]] auto mono_static_function::get_thunk() const noexcept
 {
     return mono_thunk<function_signature_t>{*assembly_, method_};
 }

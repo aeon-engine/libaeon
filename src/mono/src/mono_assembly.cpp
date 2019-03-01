@@ -43,37 +43,37 @@ mono_assembly::mono_assembly(mono_assembly &&o) noexcept = default;
 
 auto mono_assembly::operator=(mono_assembly &&o) noexcept -> mono_assembly & = default;
 
-auto mono_assembly::get_mono_assembly_ptr() const noexcept -> MonoAssembly *
+[[nodiscard]] auto mono_assembly::get_mono_assembly_ptr() const noexcept -> MonoAssembly *
 {
     return assembly_;
 }
 
-auto mono_assembly::get_mono_domain_ptr() const noexcept -> MonoDomain *
+[[nodiscard]] auto mono_assembly::get_mono_domain_ptr() const noexcept -> MonoDomain *
 {
     return domain_;
 }
 
-auto mono_assembly::get_class(const std::string &name) const -> mono_class
+[[nodiscard]] auto mono_assembly::get_class(const std::string &name) const -> mono_class
 {
     return mono_class{this, image_, name};
 }
 
-auto mono_assembly::get_class(const std::string &name_space, const std::string &name) const -> mono_class
+[[nodiscard]] auto mono_assembly::get_class(const std::string &name_space, const std::string &name) const -> mono_class
 {
     return mono_class{this, image_, name_space, name};
 }
 
-auto mono_assembly::new_class_instance(const mono_class &cls) const noexcept -> mono_class_instance
+[[nodiscard]] auto mono_assembly::new_class_instance(const mono_class &cls) const noexcept -> mono_class_instance
 {
     return mono_class_instance{this, domain_, cls.get_mono_class_ptr()};
 }
 
-auto mono_assembly::new_string(const std::string &str) const noexcept -> mono_string
+[[nodiscard]] auto mono_assembly::new_string(const std::string &str) const noexcept -> mono_string
 {
     return mono_string{domain_, str};
 }
 
-auto mono_assembly::valid() const noexcept -> bool
+[[nodiscard]] auto mono_assembly::valid() const noexcept -> bool
 {
     return domain_ != nullptr && assembly_ != nullptr && image_ != nullptr;
 }

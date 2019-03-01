@@ -16,7 +16,7 @@ enum class trace_log_entry_type
     event
 };
 
-struct trace_log_entry
+struct [[nodiscard]] trace_log_entry
 {
     double begin;
     double end;

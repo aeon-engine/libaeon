@@ -14,7 +14,7 @@ namespace aeon::logger
 
 class log_sink;
 
-class multithreaded_sink_backend : public base_backend
+class multithreaded_sink_backend final : public base_backend
 {
 private:
     struct log_message_queue_entry

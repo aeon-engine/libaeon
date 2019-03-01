@@ -12,13 +12,13 @@ namespace aeon::unicode
 namespace utf8
 {
 
-auto to_utf16(const std::string_view &str) -> std::wstring
+[[nodiscard]] auto to_utf16(const std::string_view &str) -> std::wstring
 {
     internal::uconverter converter{"utf-8"};
     return converter.to_uchars(str);
 }
 
-auto to_utf32(const std::string_view &str) -> std::u32string
+[[nodiscard]] auto to_utf32(const std::string_view &str) -> std::u32string
 {
     utf_string_view view{str};
     return {std::begin(view), std::end(view)};
@@ -51,13 +51,13 @@ void append(const std::u32string_view &from, std::string &to)
 namespace utf16
 {
 
-auto to_utf8(const std::wstring_view &str) -> std::string
+[[nodiscard]] auto to_utf8(const std::wstring_view &str) -> std::string
 {
     internal::uconverter converter{"utf-8"};
     return converter.from_uchars(str);
 }
 
-auto to_utf32(const std::wstring_view &str) -> std::u32string
+[[nodiscard]] auto to_utf32(const std::wstring_view &str) -> std::u32string
 {
     utf_string_view view{str};
     return {std::begin(view), std::end(view)};
@@ -90,28 +90,28 @@ void append(const std::u32string_view &from, std::wstring &to)
 namespace utf32
 {
 
-auto to_utf8(const char32_t c) -> std::string
+[[nodiscard]] auto to_utf8(const char32_t c) -> std::string
 {
     std::string to;
     utf8::append(c, to);
     return to;
 }
 
-auto to_utf8(const std::u32string_view &str) -> std::string
+[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> std::string
 {
     std::string to;
     utf8::append(str, to);
     return to;
 }
 
-auto to_utf16(const char32_t c) -> std::wstring
+[[nodiscard]] auto to_utf16(const char32_t c) -> std::wstring
 {
     std::wstring to;
     utf16::append(c, to);
     return to;
 }
 
-auto to_utf16(const std::u32string_view &str) -> std::wstring
+[[nodiscard]] auto to_utf16(const std::u32string_view &str) -> std::wstring
 {
     std::wstring to;
     utf16::append(str, to);

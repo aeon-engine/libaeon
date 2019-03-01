@@ -45,105 +45,105 @@ template <typename T>
 inline image_descriptor<T>::~image_descriptor() = default;
 
 template <typename T>
-inline auto image_descriptor<T>::width() const noexcept -> dimension
+[[nodiscard]] inline auto image_descriptor<T>::width() const noexcept -> dimension
 {
     return math::width(dimensions_);
 }
 
 template <typename T>
-inline auto image_descriptor<T>::height() const noexcept -> dimension
+[[nodiscard]] inline auto image_descriptor<T>::height() const noexcept -> dimension
 {
     return math::height(dimensions_);
 }
 
 template <typename T>
-inline auto image_descriptor<T>::dimensions() const noexcept -> math::size2d<dimension>
+[[nodiscard]] inline auto image_descriptor<T>::dimensions() const noexcept -> math::size2d<dimension>
 {
     return dimensions_;
 }
 
 template <typename T>
-inline auto image_descriptor<T>::stride_x() const noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto image_descriptor<T>::stride_x() const noexcept -> std::ptrdiff_t
 {
     return stride_x_;
 }
 
 template <typename T>
-inline auto image_descriptor<T>::stride_y() const noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto image_descriptor<T>::stride_y() const noexcept -> std::ptrdiff_t
 {
     return stride_y_;
 }
 
 template <typename T>
-inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool
+[[nodiscard]] inline auto null(const image_descriptor<T> &descriptor) noexcept -> bool
 {
     return stride_x(descriptor) == 0 && stride_y(descriptor) == 0 && math::null(dimensions(descriptor));
 }
 
 template <typename T>
-inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool
+[[nodiscard]] inline auto valid(const image_descriptor<T> &descriptor) noexcept -> bool
 {
     return !null(descriptor);
 }
 
 template <typename T>
-inline auto width(const image_descriptor<T> &descriptor) noexcept
+[[nodiscard]] inline auto width(const image_descriptor<T> &descriptor) noexcept
 {
     return descriptor.width();
 }
 
 template <typename T>
-inline auto height(const image_descriptor<T> &descriptor) noexcept
+[[nodiscard]] inline auto height(const image_descriptor<T> &descriptor) noexcept
 {
     return descriptor.height();
 }
 
 template <typename T>
-inline auto dimensions(const image_descriptor<T> &descriptor) noexcept
+[[nodiscard]] inline auto dimensions(const image_descriptor<T> &descriptor) noexcept
 {
     return descriptor.dimensions();
 }
 
 template <typename T>
-inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>
+[[nodiscard]] inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>
 {
     return math::rect(dimensions(descriptor));
 }
 
 template <typename T>
-inline auto stride_x(const image_descriptor<T> &descriptor) noexcept
+[[nodiscard]] inline auto stride_x(const image_descriptor<T> &descriptor) noexcept
 {
     return descriptor.stride_x();
 }
 
 template <typename T>
-inline auto stride_y(const image_descriptor<T> &descriptor) noexcept
+[[nodiscard]] inline auto stride_y(const image_descriptor<T> &descriptor) noexcept
 {
     return descriptor.stride_y();
 }
 
 template <typename T>
-inline auto continuous(const image_descriptor<T> &descriptor) noexcept
+[[nodiscard]] inline auto continuous(const image_descriptor<T> &descriptor) noexcept
 {
     return stride_x(descriptor) == aeon_signed_sizeof(T) &&
            stride_y(descriptor) == aeon_signed_sizeof(T) * width(descriptor);
 }
 
 template <typename T>
-inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept
+[[nodiscard]] inline auto contains(const image_descriptor<T> &descriptor, const math::vector2<dimension> coord) noexcept
 {
     return math::contains(coord, dimensions(descriptor));
 }
 
 template <typename T>
-inline auto at_offset(const math::vector2<dimension> coord, const image_descriptor<T> &descriptor) noexcept
-    -> std::ptrdiff_t
+[[nodiscard]] inline auto at_offset(const math::vector2<dimension> coord,
+                                    const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t
 {
     return stride_y(descriptor) * coord.y + stride_x(descriptor) * coord.x;
 }
 
 template <typename T>
-inline auto size(const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto size(const image_descriptor<T> &descriptor) noexcept -> std::ptrdiff_t
 {
     return stride_y(descriptor) * height(descriptor);
 }

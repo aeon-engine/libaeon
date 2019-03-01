@@ -11,7 +11,7 @@ namespace aeon::common::endianness
 {
 
 template <typename T>
-T swap16(T val) noexcept
+[[nodiscard]] inline T swap16(T val) noexcept
 {
     static_assert(sizeof(T) == sizeof(std::uint16_t), "swap16 used on type of different size.");
 
@@ -24,7 +24,7 @@ T swap16(T val) noexcept
 }
 
 template <typename T>
-T swap32(T val) noexcept
+[[nodiscard]] inline T swap32(T val) noexcept
 {
     static_assert(sizeof(T) == sizeof(std::uint32_t), "swap32 used on type of different size.");
 
@@ -39,7 +39,7 @@ T swap32(T val) noexcept
 }
 
 template <typename T>
-T swap64(T val) noexcept
+[[nodiscard]] inline T swap64(T val) noexcept
 {
     static_assert(sizeof(T) == sizeof(std::uint64_t), "swap64 used on type of different size.");
 
@@ -58,7 +58,7 @@ T swap64(T val) noexcept
 }
 
 template <typename T>
-T swap(T val)
+[[nodiscard]] inline T swap(T val)
 {
     switch (sizeof(T))
     {

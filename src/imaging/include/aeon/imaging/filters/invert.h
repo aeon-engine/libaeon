@@ -8,7 +8,7 @@ namespace aeon::imaging::filters
 {
 
 template <typename T>
-inline auto invert_horizontally(const image_view<T> &img) -> image<T>
+[[nodiscard]] inline auto invert_horizontally(const image_view<T> &img) -> image<T>
 {
     const auto w = width(img);
     const auto h = height(img);
@@ -30,13 +30,13 @@ inline auto invert_horizontally(const image_view<T> &img) -> image<T>
     return new_image;
 }
 
-inline auto invert_horizontally(const dynamic_image &img) -> dynamic_image
+[[nodiscard]] inline auto invert_horizontally(const dynamic_image &img) -> dynamic_image
 {
     return process_image_to_copy(img, invert_horizontally);
 }
 
 template <typename T>
-inline auto invert_vertically(const image_view<T> &img) -> image<T>
+[[nodiscard]] inline auto invert_vertically(const image_view<T> &img) -> image<T>
 {
     aeon_assert(continuous(img), "invert_vertically only works on continuous images.");
 
@@ -60,7 +60,7 @@ inline auto invert_vertically(const image_view<T> &img) -> image<T>
     return new_image;
 }
 
-inline auto invert_vertically(const dynamic_image &img) -> dynamic_image
+[[nodiscard]] inline auto invert_vertically(const dynamic_image &img) -> dynamic_image
 {
     return process_image_to_copy(img, invert_vertically);
 }

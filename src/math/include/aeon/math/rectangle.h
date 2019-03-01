@@ -89,7 +89,7 @@ public:
  * \return The left value
  */
 template <typename T>
-inline constexpr auto left(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto left(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the top value of a given rectangle.
@@ -97,7 +97,7 @@ inline constexpr auto left(const rectangle<T> &rect) noexcept -> T;
  * \return The top value
  */
 template <typename T>
-inline constexpr auto top(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto top(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the right value of a given rectangle.
@@ -105,7 +105,7 @@ inline constexpr auto top(const rectangle<T> &rect) noexcept -> T;
  * \return The right value
  */
 template <typename T>
-inline constexpr auto right(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto right(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the bottom value of a given rectangle.
@@ -113,7 +113,7 @@ inline constexpr auto right(const rectangle<T> &rect) noexcept -> T;
  * \return The bottom value
  */
 template <typename T>
-inline constexpr auto bottom(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto bottom(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the width of a given rectangle.
@@ -121,7 +121,7 @@ inline constexpr auto bottom(const rectangle<T> &rect) noexcept -> T;
  * \return The width (right-left)
  */
 template <typename T>
-inline constexpr auto width(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto width(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the height of a given rectangle.
@@ -129,7 +129,7 @@ inline constexpr auto width(const rectangle<T> &rect) noexcept -> T;
  * \return The height (bottom-top)
  */
 template <typename T>
-inline constexpr auto height(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto height(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the left-top coordinate of a given rectangle
@@ -137,7 +137,7 @@ inline constexpr auto height(const rectangle<T> &rect) noexcept -> T;
  * \return Left-top coordinates
  */
 template <typename T>
-inline constexpr auto left_top(const rectangle<T> &rect) noexcept -> vector2<T>;
+[[nodiscard]] inline constexpr auto left_top(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
  * Get the right-top coordinate of a given rectangle
@@ -145,7 +145,7 @@ inline constexpr auto left_top(const rectangle<T> &rect) noexcept -> vector2<T>;
  * \return Right-top coordinates
  */
 template <typename T>
-inline constexpr auto right_top(const rectangle<T> &rect) noexcept -> vector2<T>;
+[[nodiscard]] inline constexpr auto right_top(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
  * Get the left-bottom coordinate of a given rectangle
@@ -153,7 +153,7 @@ inline constexpr auto right_top(const rectangle<T> &rect) noexcept -> vector2<T>
  * \return Left-bottom coordinates
  */
 template <typename T>
-inline constexpr auto left_bottom(const rectangle<T> &rect) noexcept -> vector2<T>;
+[[nodiscard]] inline constexpr auto left_bottom(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
  * Get the right-bottom coordinate of a given rectangle
@@ -161,7 +161,7 @@ inline constexpr auto left_bottom(const rectangle<T> &rect) noexcept -> vector2<
  * \return Right-bottom coordinates
  */
 template <typename T>
-inline constexpr auto right_bottom(const rectangle<T> &rect) noexcept -> vector2<T>;
+[[nodiscard]] inline constexpr auto right_bottom(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
  * Get the center coordinate of a given rectangle.
@@ -170,7 +170,7 @@ inline constexpr auto right_bottom(const rectangle<T> &rect) noexcept -> vector2
  * \return Center coordinates
  */
 template <typename T>
-inline constexpr auto center(const rectangle<T> &rect) noexcept -> vector2<T>;
+[[nodiscard]] inline constexpr auto center(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
  * Check if a rectangle is empty (left == right or top == bottom)
@@ -178,7 +178,7 @@ inline constexpr auto center(const rectangle<T> &rect) noexcept -> vector2<T>;
  * \return True if the rectangle is empty
  */
 template <typename T>
-inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool;
+[[nodiscard]] inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool;
 
 /*!
  * Check if a rectangle is null (left == right and top == bottom)
@@ -186,7 +186,7 @@ inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool;
  * \return True if the rectangle is null
  */
 template <typename T>
-inline constexpr auto null(const rectangle<T> &rect) noexcept -> bool;
+[[nodiscard]] inline constexpr auto null(const rectangle<T> &rect) noexcept -> bool;
 
 /*!
  * Check if a rectangle is valid (left < right and top < bottom)
@@ -194,7 +194,7 @@ inline constexpr auto null(const rectangle<T> &rect) noexcept -> bool;
  * \return True if the rectangle is valid
  */
 template <typename T>
-inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool;
+[[nodiscard]] inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool;
 
 /*!
  * Get the size of a rectangle
@@ -202,7 +202,7 @@ inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool;
  * \return The size of the rectangle (width, height)
  */
 template <typename T>
-inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
+[[nodiscard]] inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
 
 /*!
  * Translate (move) an existing rectangle.
@@ -246,7 +246,7 @@ inline constexpr void translate(rectangle<T> &rect, const vector2<U> &vec) noexc
  * \return A new rectangle moved with the given offset
  */
 template <typename T>
-inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 /*!
  * Translate (move) a rectangle to a new copy
@@ -256,7 +256,7 @@ inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y)
  * \return A new rectangle moved with the given offset
  */
 template <typename T, typename U>
-inline constexpr auto translated(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
 
 /*!
  * Translate (move) a rectangle to a new copy
@@ -265,7 +265,8 @@ inline constexpr auto translated(const rectangle<T> &rect, const U x, const U y)
  * \return A new rectangle moved with the given offset
  */
 template <typename T>
-inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec) noexcept
+    -> rectangle<T>;
 
 /*!
  * Translate (move) a rectangle to a new copy
@@ -274,7 +275,8 @@ inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec
  * \return A new rectangle moved with the given offset
  */
 template <typename T, typename U>
-inline constexpr auto translated(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const vector2<U> &vec) noexcept
+    -> rectangle<T>;
 
 /*!
  * Set the position of an existing rectangle.
@@ -320,7 +322,7 @@ inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec, co
  * \return A moved copy of the given rectangle.
  */
 template <typename T>
-inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 /*!
  * Set the position of a rectangle to a new copy.
@@ -329,7 +331,8 @@ inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y)
  * \return A moved copy of the given rectangle.
  */
 template <typename T>
-inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec) noexcept
+    -> rectangle<T>;
 
 /*!
  * Set the position of a rectangle to a new copy.
@@ -340,8 +343,8 @@ inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec
  * \return A moved copy of the given rectangle.
  */
 template <typename T>
-inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept
-    -> rectangle<T>;
+[[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y,
+                                               const anchor_point anchor) noexcept -> rectangle<T>;
 
 /*!
  * Set the position of a rectangle to a new copy.
@@ -351,8 +354,8 @@ inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y,
  * \return A moved copy of the given rectangle.
  */
 template <typename T>
-inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec, const anchor_point anchor) noexcept
-    -> rectangle<T>;
+[[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec,
+                                               const anchor_point anchor) noexcept -> rectangle<T>;
 
 /*!
  * Check if the given inner rectangle is completely contained within the given outer rectangle.
@@ -361,7 +364,7 @@ inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec
  * \return True if the inner rectangle is completely contained with in the outer rectangle.
  */
 template <typename T>
-inline constexpr auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
+[[nodiscard]] inline constexpr auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
 
 /*!
  * Check if the given inner point is completely contained within the given rectangle.
@@ -370,7 +373,7 @@ inline constexpr auto contains(const rectangle<T> &inner, const rectangle<T> &ou
  * \return True if the point is contained with in the rectangle.
  */
 template <typename T>
-inline constexpr auto contains(const vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;
+[[nodiscard]] inline constexpr auto contains(const vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;
 
 /*!
  * Check if the given rectangles overlap each other.
@@ -379,7 +382,7 @@ inline constexpr auto contains(const vector2<T> &vec, const rectangle<T> &rect) 
  * \return True if the given rectangles overlap each other.
  */
 template <typename T>
-inline constexpr auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
+[[nodiscard]] inline constexpr auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
 
 /*!
  * Get the intersection of two given rectangles (the area where the 2 rectangles overlap).
@@ -388,7 +391,8 @@ inline constexpr auto overlaps(const rectangle<T> &rect1, const rectangle<T> &re
  * \return Intersection rectangle
  */
 template <typename T>
-inline constexpr auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept
+    -> rectangle<T>;
 
 /*!
  * Get the bounding box (or union) out of a list of given rectangles.
@@ -397,7 +401,7 @@ inline constexpr auto intersection(const rectangle<T> &rect1, const rectangle<T>
  * \return Bounding box/union of all given rectangles.
  */
 template <typename T, typename... U>
-inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept
+[[nodiscard]] inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept
     -> rectangle<T>;
 
 /*!
@@ -415,7 +419,7 @@ inline constexpr void inflate(rectangle<T> &rect, const T val) noexcept;
  * \return Inflated rectangle copy based on the given one.
  */
 template <typename T>
-inline constexpr auto inflated(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto inflated(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value.
@@ -490,7 +494,7 @@ inline constexpr void scale(rectangle<T> &rect, const size2d<U> &size) noexcept;
  * \return Scaled rectangle based on given one.
  */
 template <typename T>
-inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value to a new copy.
@@ -499,7 +503,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> 
  * \return Scaled rectangle based on given one.
  */
 template <typename T, typename U>
-inline constexpr auto scaled(const rectangle<T> &rect, const U val) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const U val) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -509,7 +513,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const U val) noexcept -> 
  * \return Scaled rectangle based on given one.
  */
 template <typename T>
-inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -519,7 +523,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noe
  * \return Scaled rectangle based on given one.
  */
 template <typename T, typename U>
-inline constexpr auto scaled(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -528,7 +532,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const U x, const U y) noe
  * \return Scaled rectangle based on given one.
  */
 template <typename T>
-inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -537,7 +541,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) no
  * \return Scaled rectangle based on given one.
  */
 template <typename T, typename U>
-inline constexpr auto scaled(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -546,7 +550,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const vector2<U> &vec) no
  * \return Scaled rectangle based on given one.
  */
 template <typename T>
-inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
@@ -555,7 +559,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) no
  * \return Scaled rectangle based on given one.
  */
 template <typename T, typename U>
-inline constexpr auto scaled(const rectangle<T> &rect, const size2d<U> &size) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const size2d<U> &size) noexcept -> rectangle<T>;
 
 /*!
  * Get the distance between the centers of 2 rectangles.
@@ -564,7 +568,7 @@ inline constexpr auto scaled(const rectangle<T> &rect, const size2d<U> &size) no
  * \return The distance between the centers of 2 rectangles.
  */
 template <typename T>
-inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
+[[nodiscard]] inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
 
 /*!
  * Get the distance between the center of a rectangle and a point.
@@ -573,7 +577,7 @@ inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &re
  * \return The distance between the center of a rectangle and a point.
  */
 template <typename T>
-inline constexpr auto distance(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> T;
+[[nodiscard]] inline constexpr auto distance(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> T;
 
 /*!
  * Get the area of a given rectangle (width * height)
@@ -581,7 +585,7 @@ inline constexpr auto distance(const rectangle<T> &rect, const vector2<T> &vec) 
  * \return The area
  */
 template <typename T>
-inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
+[[nodiscard]] inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
 
 /*!
  * Get the closest point on a given rectangle for a given point.
@@ -591,7 +595,8 @@ inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
  * \return Coordinates of a point on the rectangle closest to the given point.
  */
 template <typename T>
-inline constexpr auto closest_point(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline constexpr auto closest_point(const rectangle<T> &rect, const vector2<T> &vec) noexcept
+    -> vector2<T>;
 
 /*!
  * Normalize a rectangle (make sure that left < right and top < bottom)
@@ -606,7 +611,7 @@ inline constexpr void normalize(rectangle<T> &rect) noexcept;
  * \return Normalized rectangle
  */
 template <typename T>
-inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle<T>;
 
 /*!
  * Slice a rectangle horizontally (X-axis) on a given ratio (between 0.0 - 1.0)
@@ -615,7 +620,7 @@ inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle
  * \return Tuple of the 2 sliced rectangles.
  */
 template <typename T, typename U>
-inline constexpr auto
+[[nodiscard]] inline constexpr auto
     slice_horizontal(const rectangle<T> &rect, const U ratio,
                      typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
@@ -627,7 +632,7 @@ inline constexpr auto
  * \return Tuple of the 2 sliced rectangles.
  */
 template <typename T>
-inline constexpr auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
+[[nodiscard]] inline constexpr auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 /*!
@@ -637,7 +642,7 @@ inline constexpr auto slice_horizontal_absolute(const rectangle<T> &rect, const 
  * \return Tuple of the 2 sliced rectangles.
  */
 template <typename T, typename U>
-inline constexpr auto
+[[nodiscard]] inline constexpr auto
     slice_vertical(const rectangle<T> &rect, const U ratio,
                    typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
@@ -649,7 +654,7 @@ inline constexpr auto
  * \return Tuple of the 2 sliced rectangles.
  */
 template <typename T>
-inline constexpr auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
+[[nodiscard]] inline constexpr auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 template <typename T>

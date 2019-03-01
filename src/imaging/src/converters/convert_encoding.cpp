@@ -5,7 +5,7 @@
 namespace aeon::imaging::convert
 {
 
-auto to_rgb24(const dynamic_image &img) -> image<rgb24>
+[[nodiscard]] auto to_rgb24(const dynamic_image &img) -> image<rgb24>
 {
     switch (encoding(img))
     {
@@ -30,7 +30,7 @@ auto to_rgb24(const dynamic_image &img) -> image<rgb24>
     }
 }
 
-auto to_bgr24(const dynamic_image &img) -> image<bgr24>
+[[nodiscard]] auto to_bgr24(const dynamic_image &img) -> image<bgr24>
 {
     switch (encoding(img))
     {
@@ -55,7 +55,7 @@ auto to_bgr24(const dynamic_image &img) -> image<bgr24>
     }
 }
 
-auto to_rgba32(const dynamic_image &img) -> image<rgba32>
+[[nodiscard]] auto to_rgba32(const dynamic_image &img) -> image<rgba32>
 {
     switch (encoding(img))
     {
@@ -80,7 +80,7 @@ auto to_rgba32(const dynamic_image &img) -> image<rgba32>
     }
 }
 
-auto to_bgra32(const dynamic_image &img) -> image<bgra32>
+[[nodiscard]] auto to_bgra32(const dynamic_image &img) -> image<bgra32>
 {
     switch (encoding(img))
     {

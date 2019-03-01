@@ -83,126 +83,126 @@ inline property_tree::property_tree(utility::uuid &&uuid)
 }
 
 template <typename T>
-inline auto property_tree::is_type() const noexcept
+[[nodiscard]] inline auto property_tree::is_type() const noexcept
 {
     return std::holds_alternative<T>(value_);
 }
 
-inline auto property_tree::is_null() const noexcept
+[[nodiscard]] inline auto property_tree::is_null() const noexcept
 {
     return is_type<std::monostate>();
 }
 
-inline auto property_tree::is_array() const noexcept
+[[nodiscard]] inline auto property_tree::is_array() const noexcept
 {
     return is_type<array>();
 }
 
-inline auto property_tree::is_object() const noexcept
+[[nodiscard]] inline auto property_tree::is_object() const noexcept
 {
     return is_type<object>();
 }
 
-inline auto property_tree::is_string() const noexcept
+[[nodiscard]] inline auto property_tree::is_string() const noexcept
 {
     return is_type<std::string>();
 }
 
-inline auto property_tree::is_uuid() const noexcept
+[[nodiscard]] inline auto property_tree::is_uuid() const noexcept
 {
     return is_type<utility::uuid>();
 }
 
-inline auto property_tree::is_integer() const noexcept
+[[nodiscard]] inline auto property_tree::is_integer() const noexcept
 {
     return is_type<std::int64_t>();
 }
 
-inline auto property_tree::is_double() const noexcept
+[[nodiscard]] inline auto property_tree::is_double() const noexcept
 {
     return is_type<double>();
 }
 
-inline auto property_tree::is_bool() const noexcept
+[[nodiscard]] inline auto property_tree::is_bool() const noexcept
 {
     return is_type<bool>();
 }
 
-inline auto property_tree::value() noexcept -> property_tree::variant_type &
+[[nodiscard]] inline auto property_tree::value() noexcept -> property_tree::variant_type &
 {
     return value_;
 }
 
-inline auto property_tree::value() const noexcept -> const property_tree::variant_type &
+[[nodiscard]] inline auto property_tree::value() const noexcept -> const property_tree::variant_type &
 {
     return value_;
 }
 
-inline auto property_tree::array_value() -> array &
+[[nodiscard]] inline auto property_tree::array_value() -> array &
 {
     aeon_assert(is_array(), "Value is not an array.");
     return std::get<array>(value());
 }
 
-inline auto property_tree::array_value() const -> const array &
+[[nodiscard]] inline auto property_tree::array_value() const -> const array &
 {
     aeon_assert(is_array(), "Value is not an array.");
     return std::get<array>(value());
 }
 
-inline auto property_tree::object_value() -> object &
+[[nodiscard]] inline auto property_tree::object_value() -> object &
 {
     aeon_assert(is_object(), "Value is not an object.");
     return std::get<object>(value());
 }
 
-inline auto property_tree::object_value() const -> const object &
+[[nodiscard]] inline auto property_tree::object_value() const -> const object &
 {
     aeon_assert(is_object(), "Value is not an object.");
     return std::get<object>(value());
 }
 
-inline auto property_tree::uuid_value() const -> const utility::uuid &
+[[nodiscard]] inline auto property_tree::uuid_value() const -> const utility::uuid &
 {
     aeon_assert(is_uuid(), "Value is not a uuid.");
     return std::get<utility::uuid>(value());
 }
 
-inline auto property_tree::string_value() const -> const std::string &
+[[nodiscard]] inline auto property_tree::string_value() const -> const std::string &
 {
     aeon_assert(is_string(), "Value is not a string.");
     return std::get<std::string>(value());
 }
 
-inline auto property_tree::integer_value() const -> std::int64_t
+[[nodiscard]] inline auto property_tree::integer_value() const -> std::int64_t
 {
     aeon_assert(is_integer(), "Value is not an integer.");
     return std::get<std::int64_t>(value());
 }
 
-inline auto property_tree::double_value() const -> double
+[[nodiscard]] inline auto property_tree::double_value() const -> double
 {
     aeon_assert(is_double(), "Value is not a double.");
     return std::get<double>(value());
 }
 
-inline auto property_tree::bool_value() const -> bool
+[[nodiscard]] inline auto property_tree::bool_value() const -> bool
 {
     aeon_assert(is_bool(), "Value is not a bool.");
     return std::get<bool>(value());
 }
 
-inline auto property_tree::at(const object::key_type &key) -> object::value_type &
+[[nodiscard]] inline auto property_tree::at(const object::key_type &key) -> object::value_type &
 {
     return object_value().at(key);
 }
 
-inline auto property_tree::at(const object::key_type &key) const -> const object::value_type &
+[[nodiscard]] inline auto property_tree::at(const object::key_type &key) const -> const object::value_type &
 {
     return object_value().at(key);
 }
 
-inline auto property_tree::operator[](const object::key_type &key) -> object::value_type &
+[[nodiscard]] inline auto property_tree::operator[](const object::key_type &key) -> object::value_type &
 {
     if (is_null())
         value_ = object{};
@@ -210,7 +210,7 @@ inline auto property_tree::operator[](const object::key_type &key) -> object::va
     return object_value()[key];
 }
 
-inline auto property_tree::operator[](object::key_type &&key) -> object::value_type &
+[[nodiscard]] inline auto property_tree::operator[](object::key_type &&key) -> object::value_type &
 {
     if (is_null())
         value_ = object{};

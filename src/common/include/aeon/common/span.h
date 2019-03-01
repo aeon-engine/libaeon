@@ -52,25 +52,25 @@ public:
     span(span &&) noexcept = default;
     auto operator=(span &&) noexcept -> span & = default;
 
-    constexpr auto data() const noexcept -> pointer;
+    [[nodiscard]] constexpr auto data() const noexcept -> pointer;
 
-    constexpr auto size() const noexcept -> index_type;
+    [[nodiscard]] constexpr auto size() const noexcept -> index_type;
 
-    constexpr auto empty() const noexcept -> bool;
+    [[nodiscard]] constexpr auto empty() const noexcept -> bool;
 
-    constexpr auto operator[](const index_type i) const noexcept -> reference;
+    [[nodiscard]] constexpr auto operator[](const index_type i) const noexcept -> reference;
 
-    constexpr auto operator()(const index_type i) const noexcept -> reference;
+    [[nodiscard]] constexpr auto operator()(const index_type i) const noexcept -> reference;
 
-    constexpr auto at(const index_type i) const -> reference;
+    [[nodiscard]] constexpr auto at(const index_type i) const -> reference;
 
-    constexpr auto begin() const noexcept -> iterator;
+    [[nodiscard]] constexpr auto begin() const noexcept -> iterator;
 
-    constexpr auto end() const noexcept -> iterator;
+    [[nodiscard]] constexpr auto end() const noexcept -> iterator;
 
-    constexpr auto front() const noexcept -> reference;
+    [[nodiscard]] constexpr auto front() const noexcept -> reference;
 
-    constexpr auto back() const noexcept -> reference;
+    [[nodiscard]] constexpr auto back() const noexcept -> reference;
 
 private:
     pointer data_;
@@ -131,25 +131,25 @@ inline constexpr span<T>::span(const container_t &cont)
 }
 
 template <typename T>
-inline constexpr auto span<T>::data() const noexcept -> pointer
+[[nodiscard]] inline constexpr auto span<T>::data() const noexcept -> pointer
 {
     return data_;
 }
 
 template <typename T>
-inline constexpr auto span<T>::size() const noexcept -> index_type
+[[nodiscard]] inline constexpr auto span<T>::size() const noexcept -> index_type
 {
     return size_;
 }
 
 template <typename T>
-inline constexpr auto span<T>::empty() const noexcept -> bool
+[[nodiscard]] inline constexpr auto span<T>::empty() const noexcept -> bool
 {
     return size() == 0;
 }
 
 template <typename T>
-inline constexpr auto span<T>::operator[](const index_type i) const noexcept -> reference
+[[nodiscard]] inline constexpr auto span<T>::operator[](const index_type i) const noexcept -> reference
 {
     aeon_assert(i >= 0, "Out of range.");
     aeon_assert(i < size(), "Out of range.");
@@ -157,7 +157,7 @@ inline constexpr auto span<T>::operator[](const index_type i) const noexcept -> 
 }
 
 template <typename T>
-inline constexpr auto span<T>::operator()(const index_type i) const noexcept -> reference
+[[nodiscard]] inline constexpr auto span<T>::operator()(const index_type i) const noexcept -> reference
 {
     aeon_assert(i >= 0, "Out of range.");
     aeon_assert(i < size(), "Out of range.");
@@ -165,7 +165,7 @@ inline constexpr auto span<T>::operator()(const index_type i) const noexcept -> 
 }
 
 template <typename T>
-inline constexpr auto span<T>::at(const index_type i) const -> reference
+[[nodiscard]] inline constexpr auto span<T>::at(const index_type i) const -> reference
 {
     if (i < 0 || i > size())
         throw std::out_of_range{"Out of range."};
@@ -174,26 +174,26 @@ inline constexpr auto span<T>::at(const index_type i) const -> reference
 }
 
 template <typename T>
-inline constexpr auto span<T>::begin() const noexcept -> iterator
+[[nodiscard]] inline constexpr auto span<T>::begin() const noexcept -> iterator
 {
     return data();
 }
 
 template <typename T>
-inline constexpr auto span<T>::end() const noexcept -> iterator
+[[nodiscard]] inline constexpr auto span<T>::end() const noexcept -> iterator
 {
     return data() + size();
 }
 
 template <typename T>
-inline constexpr auto span<T>::front() const noexcept -> reference
+[[nodiscard]] inline constexpr auto span<T>::front() const noexcept -> reference
 {
     aeon_assert(!empty(), "Span empty.");
     return *data();
 }
 
 template <typename T>
-inline constexpr auto span<T>::back() const noexcept -> reference
+[[nodiscard]] inline constexpr auto span<T>::back() const noexcept -> reference
 {
     aeon_assert(!empty(), "Span empty.");
     return *(data() + size() - 1);

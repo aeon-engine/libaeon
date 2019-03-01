@@ -62,17 +62,17 @@ public:
     /*!
      * Access vector values based on index. (index 0 is X, 1 is Y)
      */
-    auto operator[](const std::size_t i) noexcept -> T &;
+    [[nodiscard]] auto operator[](const std::size_t i) noexcept -> T &;
 
     /*!
      * Access vector values based on index. (index 0 is X, 1 is Y)
      */
-    auto operator[](const std::size_t i) const noexcept -> const T &;
+    [[nodiscard]] auto operator[](const std::size_t i) const noexcept -> const T &;
 
     /*!
      * Create an empty vector (all values are 0).
      */
-    static auto zero() noexcept -> vector2<T>;
+    [[nodiscard]] static auto zero() noexcept -> vector2<T>;
 
     /*!
      * Change the values of an existing vector.
@@ -213,7 +213,7 @@ inline void translate(vector2<T> &lhs, const vector2<T> &rhs) noexcept;
  * \return A new vector moved with the given offset
  */
 template <typename T>
-inline auto translated(const vector2<T> &lhs, const T x, const T y) noexcept -> vector2<T>;
+[[nodiscard]] inline auto translated(const vector2<T> &lhs, const T x, const T y) noexcept -> vector2<T>;
 
 /*!
  * Translate (move) a vector to a new copy
@@ -222,7 +222,7 @@ inline auto translated(const vector2<T> &lhs, const T x, const T y) noexcept -> 
  * \return A new vector moved with the given offset
  */
 template <typename T>
-inline auto translated(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+[[nodiscard]] inline auto translated(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
  * Calculate the dot product of 2 given vectors.
@@ -231,7 +231,7 @@ inline auto translated(const vector2<T> &lhs, const vector2<T> &rhs) noexcept ->
  * \return Dot product
  */
 template <typename T>
-inline auto dot(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
+[[nodiscard]] inline auto dot(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate the cross product of 2 given vectors.
@@ -240,7 +240,7 @@ inline auto dot(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
  * \return Cross product
  */
 template <typename T>
-inline auto cross(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
+[[nodiscard]] inline auto cross(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate the length of a given vector.
@@ -248,7 +248,7 @@ inline auto cross(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
  * \return Vector length
  */
 template <typename T>
-inline auto length(const vector2<T> &vec) noexcept -> T;
+[[nodiscard]] inline auto length(const vector2<T> &vec) noexcept -> T;
 
 /*!
  * Calculate the length of a given vector as a squared value to avoid having to do a square root.
@@ -256,7 +256,7 @@ inline auto length(const vector2<T> &vec) noexcept -> T;
  * \return Vector length&sup2;
  */
 template <typename T>
-inline auto squared_length(const vector2<T> &vec) noexcept -> T;
+[[nodiscard]] inline auto squared_length(const vector2<T> &vec) noexcept -> T;
 
 /*!
  * Normalize a given directional vector (so that length = 1)
@@ -271,7 +271,7 @@ inline void normalize(vector2<T> &vec) noexcept;
  * \return Normalized vector
  */
 template <typename T>
-inline auto normalized(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto normalized(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the sine values of a given vector.
@@ -279,7 +279,7 @@ inline auto normalized(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Sine values of the given vector.
  */
 template <typename T>
-inline auto sin(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto sin(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the cosine values of a given vector.
@@ -287,7 +287,7 @@ inline auto sin(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Cosine values of the given vector.
  */
 template <typename T>
-inline auto cos(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto cos(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the tangent values of a given vector.
@@ -295,7 +295,7 @@ inline auto cos(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Tangent values of the given vector.
  */
 template <typename T>
-inline auto tan(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto tan(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the arc sine values of a given vector.
@@ -303,7 +303,7 @@ inline auto tan(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Arc since values of the given vector.
  */
 template <typename T>
-inline auto asin(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto asin(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the arc cosine values of a given vector.
@@ -311,7 +311,7 @@ inline auto asin(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Arc cosine values of the given vector.
  */
 template <typename T>
-inline auto acos(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto acos(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the arc tangent values of a given vector.
@@ -319,7 +319,7 @@ inline auto acos(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Arc tangent values of the given vector.
  */
 template <typename T>
-inline auto atan(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto atan(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the arc tangent values of a given vector y/x values.
@@ -327,7 +327,7 @@ inline auto atan(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Arc tangent value of the given vector.
  */
 template <typename T>
-inline auto atan2(const vector2<T> &vec) noexcept -> T;
+[[nodiscard]] inline auto atan2(const vector2<T> &vec) noexcept -> T;
 
 /*!
  * Calculate the absolute values of a given vector.
@@ -335,7 +335,7 @@ inline auto atan2(const vector2<T> &vec) noexcept -> T;
  * \return Absolute values of the given vector.
  */
 template <typename T>
-inline auto abs(const vector2<T> &vec) noexcept -> vector2<T>;
+[[nodiscard]] inline auto abs(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the distance between 2 given vector points.
@@ -344,7 +344,7 @@ inline auto abs(const vector2<T> &vec) noexcept -> vector2<T>;
  * \return Distance
  */
 template <typename T>
-inline auto distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
+[[nodiscard]] inline auto distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate the squared distance between 2 given vector points. This avoids having to do a square root.
@@ -353,7 +353,7 @@ inline auto distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T
  * \return Distance&sup2;
  */
 template <typename T>
-inline auto squared_distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
+[[nodiscard]] inline auto squared_distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate middle point between two given points.
@@ -362,7 +362,7 @@ inline auto squared_distance(const vector2<T> &lhs, const vector2<T> &rhs) noexc
  * \return Middle point
  */
 template <typename T>
-inline auto midpoint(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+[[nodiscard]] inline auto midpoint(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
  * Calculate floor for 2 given vectors
@@ -371,7 +371,7 @@ inline auto midpoint(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> v
  * \return Floor from 2 given vectors
  */
 template <typename T>
-inline auto floor(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+[[nodiscard]] inline auto floor(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
  * Calculate ceil for 2 given vectors
@@ -380,7 +380,7 @@ inline auto floor(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vect
  * \return Ceil from 2 given vectors
  */
 template <typename T>
-inline auto ceil(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+[[nodiscard]] inline auto ceil(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
  * Get a pointer into the underlaying data structure of a given vector.
@@ -389,7 +389,7 @@ inline auto ceil(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vecto
  * \return Pointer to vector data.
  */
 template <typename T>
-inline auto ptr(vector2<T> &vec) noexcept -> T *;
+[[nodiscard]] inline auto ptr(vector2<T> &vec) noexcept -> T *;
 
 /*!
  * Get a pointer into the underlaying data structure of a given vector.
@@ -398,7 +398,7 @@ inline auto ptr(vector2<T> &vec) noexcept -> T *;
  * \return Const pointer to vector data.
  */
 template <typename T>
-inline auto ptr(const vector2<T> &vec) noexcept -> const T *;
+[[nodiscard]] inline auto ptr(const vector2<T> &vec) noexcept -> const T *;
 
 } // namespace aeon::math
 
