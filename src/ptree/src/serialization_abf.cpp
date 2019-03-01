@@ -24,27 +24,27 @@ static constexpr std::uint8_t chunk_type_double = 0x05;
 static constexpr std::uint8_t chunk_type_bool = 0x06;
 static constexpr std::uint8_t chunk_type_uuid = 0x07;
 
-void to_abf(const std::monostate, streams::idynamic_stream &);
-void to_abf(const array &arr, streams::idynamic_stream &stream);
-void to_abf(const object &obj, streams::idynamic_stream &stream);
-void to_abf(const std::string &obj_str, streams::idynamic_stream &stream);
-void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream);
-void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
-void to_abf(const double val, streams::idynamic_stream &stream);
-void to_abf(const bool val, streams::idynamic_stream &stream);
+static void to_abf(const std::monostate, streams::idynamic_stream &);
+static void to_abf(const array &arr, streams::idynamic_stream &stream);
+static void to_abf(const object &obj, streams::idynamic_stream &stream);
+static void to_abf(const std::string &obj_str, streams::idynamic_stream &stream);
+static void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream);
+static void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
+static void to_abf(const double val, streams::idynamic_stream &stream);
+static void to_abf(const bool val, streams::idynamic_stream &stream);
 
-void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
+static void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
 {
     std::visit([&stream](auto &&arg) { internal::to_abf(arg, stream); }, ptree.value());
 }
 
-void to_abf(const std::monostate, streams::idynamic_stream &stream)
+static void to_abf(const std::monostate, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_null;
 }
 
-void to_abf(const array &arr, streams::idynamic_stream &stream)
+static void to_abf(const array &arr, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_array;
@@ -57,7 +57,7 @@ void to_abf(const array &arr, streams::idynamic_stream &stream)
     }
 }
 
-void to_abf(const object &obj, streams::idynamic_stream &stream)
+static void to_abf(const object &obj, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_object;
@@ -71,35 +71,35 @@ void to_abf(const object &obj, streams::idynamic_stream &stream)
     }
 }
 
-void to_abf(const std::string &obj_str, streams::idynamic_stream &stream)
+static void to_abf(const std::string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_string;
     writer << streams::length_prefix_string<streams::varint>{obj_str};
 }
 
-void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream)
+static void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_uuid;
     writer << uuid;
 }
 
-void to_abf(const std::int64_t val, streams::idynamic_stream &stream)
+static void to_abf(const std::int64_t val, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_integer;
     writer << val;
 }
 
-void to_abf(const double val, streams::idynamic_stream &stream)
+static void to_abf(const double val, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_double;
     writer << val;
 }
 
-void to_abf(const bool val, streams::idynamic_stream &stream)
+static void to_abf(const bool val, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_bool;
