@@ -11,6 +11,7 @@ set(LIB_AEON_COMMON_SOURCE
     src/dll_loader.cpp
     include/aeon/common/endianness.h
     include/aeon/common/flags.h
+    include/aeon/common/fourcc.h
     include/aeon/common/intrinsics.h
     include/aeon/common/literals.h
     include/aeon/common/lexical_parse.h
