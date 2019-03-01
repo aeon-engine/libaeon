@@ -42,7 +42,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # If mono is found on the system; attempt to build with it enabled.
 find_package(Mono)
 if (MONO_FOUND)
-    set(AEON_ENABLE_MONO ON CACHE BOOL "")
+    set(AEON_ENABLE_MONO OFF CACHE BOOL "")
 endif ()
 
 set(AEON_ENABLE_SOCKETS ON CACHE BOOL "")
