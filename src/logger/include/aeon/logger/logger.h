@@ -28,6 +28,14 @@ public:
     {
     }
 
+    ~logger_stream() = default;
+
+    logger_stream(const logger_stream &) noexcept = delete;
+    auto operator=(const logger_stream &) noexcept -> logger_stream & = delete;
+
+    logger_stream(logger_stream &&) noexcept = delete;
+    auto operator=(logger_stream &&) noexcept -> logger_stream & = delete;
+
     void operator<<(std::ostream &(std::ostream &)) const
     {
         const auto message = stream_.str();
