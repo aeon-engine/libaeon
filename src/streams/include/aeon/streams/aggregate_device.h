@@ -95,6 +95,18 @@ public:
         }
     }
 
+    constexpr auto &device() const noexcept
+    {
+        if constexpr (is_aggregate_device<device_t>::value)
+        {
+            return device_.device();
+        }
+        else
+        {
+            return device_;
+        }
+    }
+
     static constexpr auto filter_count() noexcept -> int
     {
         if constexpr (is_aggregate_device<device_t>::value)
@@ -105,6 +117,13 @@ public:
 
     template <int i>
     constexpr auto &filter() noexcept
+    {
+        constexpr auto count = filter_count() - i - 1;
+        return aggregate_device_filter<count>::get(*this);
+    }
+
+    template <int i>
+    constexpr auto &filter() const noexcept
     {
         constexpr auto count = filter_count() - i - 1;
         return aggregate_device_filter<count>::get(*this);
@@ -123,6 +142,12 @@ struct aggregate_device_filter<0>
     {
         return device.filter_;
     }
+
+    template <typename filter_t, typename device_t>
+    static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
+    {
+        return device.filter_;
+    }
 };
 
 template <int i>
@@ -130,6 +155,12 @@ struct aggregate_device_filter
 {
     template <typename filter_t, typename device_t>
     static constexpr auto &get(aggregate_device<filter_t, device_t> &device) noexcept
+    {
+        return aggregate_device_filter<i - 1>::get(device.device_);
+    }
+
+    template <typename filter_t, typename device_t>
+    static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
     {
         return aggregate_device_filter<i - 1>::get(device.device_);
     }
