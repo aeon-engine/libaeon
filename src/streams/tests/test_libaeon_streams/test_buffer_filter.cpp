@@ -6,6 +6,7 @@
 #include <aeon/common/signed_sizeof.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <array>
 
 using namespace aeon;
 
@@ -29,7 +30,7 @@ void expect_zero_buffer(pipeline_t &pipeline)
 
 TEST(test_streams, test_sink_buffer_filter_write)
 {
-    auto pipeline = streams::sink_buffer_filter<10>{} | streams::memory_device<std::vector<char>>{100};
+    auto pipeline = streams::memory_device<std::vector<char>>{100} | streams::sink_buffer_filter<10>{};
 
     const char data1[] = {'A', 'B', 'C', 'D', 'E'};
     auto result = pipeline.write(data1, sizeof(data1));

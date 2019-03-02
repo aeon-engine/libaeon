@@ -95,10 +95,19 @@ public:
         }
     }
 
+    static constexpr auto filter_count() noexcept -> int
+    {
+        if constexpr (is_aggregate_device<device_t>::value)
+            return device_t::filter_count() + 1;
+        else
+            return 1;
+    }
+
     template <int i>
     constexpr auto &filter() noexcept
     {
-        return aggregate_device_filter<i>::get(*this);
+        constexpr auto count = filter_count() - i - 1;
+        return aggregate_device_filter<count>::get(*this);
     }
 
 private:
@@ -261,10 +270,10 @@ inline auto aggregate_device<filter_t, device_t>::size() -> std::streamoff
 } // namespace aeon::streams
 
 template <
-    typename operator_filter_t, typename operator_device_t,
+    typename operator_device_t, typename operator_filter_t,
     typename std::enable_if<
-        aeon::streams::is_filter_v<operator_filter_t> && aeon::streams::is_device_v<operator_device_t>, int>::type = 0>
-inline auto operator|(operator_filter_t &&filter, operator_device_t &&device)
+        aeon::streams::is_device_v<operator_device_t> && aeon::streams::is_filter_v<operator_filter_t>, int>::type = 0>
+inline auto operator|(operator_device_t &&device, operator_filter_t &&filter)
 {
     return aeon::streams::aggregate_device{std::forward<operator_filter_t>(filter),
                                            std::forward<operator_device_t>(device)};

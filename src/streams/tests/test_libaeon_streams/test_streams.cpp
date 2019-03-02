@@ -71,10 +71,11 @@ struct test_output_filter2 : streams::filter
 TEST(test_streams, test_streams_stringstream_device)
 {
     std::stringstream ss;
-    auto pipeline = test_output_filter{} | (test_output_filter2{} | streams::iostream_device{ss});
+    auto pipeline = streams::iostream_device{ss} | test_output_filter2{} | test_output_filter{};
 
-    ASSERT_TRUE(pipeline.filter<0>().test1());
-    ASSERT_TRUE(pipeline.filter<1>().test2());
+    EXPECT_EQ(2, pipeline.filter_count());
+    ASSERT_TRUE(pipeline.filter<1>().test1());
+    ASSERT_TRUE(pipeline.filter<0>().test2());
 
     auto &d = pipeline.device();
     ASSERT_TRUE(d.good());
@@ -124,7 +125,7 @@ TEST(test_streams, test_streams_span_device)
 TEST(test_streams, test_streams_circular_buffer_filter)
 {
     std::array<char, 20> test_array;
-    auto device = streams::circular_buffer_filter{} | streams::span_device{common::span{test_array}};
+    auto device = streams::span_device{common::span{test_array}} | streams::circular_buffer_filter{};
 
     ASSERT_EQ(5, device.write("12345", 5));
     ASSERT_EQ(5, device.write("67890", 5));

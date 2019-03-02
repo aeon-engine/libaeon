@@ -12,7 +12,7 @@ using namespace aeon;
 static void test_decompress_data(const std::vector<char> &buffer, const int read_chunk_size,
                                  const std::string &expected)
 {
-    auto decompress_pipeline = streams::zlib_decompress_filter{} | streams::memory_device{buffer};
+    auto decompress_pipeline = streams::memory_device{buffer} | streams::zlib_decompress_filter{};
 
     std::string read_data;
     read_data.resize(read_chunk_size);
@@ -36,7 +36,7 @@ static void test_decompress_data(const std::vector<char> &buffer, const int read
 
 TEST(test_streams, test_zlib_compress_filter_read_write_basic)
 {
-    auto pipeline = streams::zlib_compress_filter{} | streams::memory_device<std::vector<char>>{};
+    auto pipeline = streams::memory_device<std::vector<char>>{} | streams::zlib_compress_filter{};
     EXPECT_EQ(pipeline.size(), 0);
 
     const std::string data =

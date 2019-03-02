@@ -11,7 +11,7 @@ using namespace aeon;
 
 TEST(test_streams, test_size_filter_on_memory_device)
 {
-    auto pipeline = streams::size_filter<10>{} | streams::memory_device{};
+    auto pipeline = streams::memory_device{} | streams::size_filter<10>{};
     EXPECT_EQ(pipeline.size(), 0);
     pipeline.device().resize(100);
     EXPECT_EQ(pipeline.size(), 10);
