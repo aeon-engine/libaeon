@@ -27,43 +27,43 @@ public:
     auto operator=(const dynamic_stream_view &) noexcept(std::is_nothrow_copy_assignable_v<device_t>)
         -> dynamic_stream_view & = delete;
 
-    auto read(char *data, const std::streamsize size) -> std::streamsize override;
+    auto read(char *data, const std::streamsize size) -> std::streamsize final;
 
-    auto seekg(const std::streamoff offset, const seek_direction direction) -> bool override;
+    auto seekg(const std::streamoff offset, const seek_direction direction) -> bool final;
 
-    auto tellg() -> std::streamoff override;
+    auto tellg() -> std::streamoff final;
 
-    auto write(const char *data, const std::streamsize size) -> std::streamsize override;
+    auto write(const char *data, const std::streamsize size) -> std::streamsize final;
 
-    auto seekp(const std::streamoff offset, const seek_direction direction) -> bool override;
+    auto seekp(const std::streamoff offset, const seek_direction direction) -> bool final;
 
-    auto tellp() -> std::streamoff override;
+    auto tellp() -> std::streamoff final;
 
-    auto eof() -> bool override;
+    auto eof() -> bool final;
 
-    auto good() -> bool override;
+    auto good() -> bool final;
 
-    auto fail() -> bool override;
+    auto fail() -> bool final;
 
-    void flush() override;
+    void flush() final;
 
-    auto size() -> std::streamoff override;
+    auto size() -> std::streamoff final;
 
-    auto is_input() const noexcept -> bool override;
+    auto is_input() const noexcept -> bool final;
 
-    auto is_input_seekable() const noexcept -> bool override;
+    auto is_input_seekable() const noexcept -> bool final;
 
-    auto is_output() const noexcept -> bool override;
+    auto is_output() const noexcept -> bool final;
 
-    auto is_output_seekable() const noexcept -> bool override;
+    auto is_output_seekable() const noexcept -> bool final;
 
-    auto has_eof() const noexcept -> bool override;
+    auto has_eof() const noexcept -> bool final;
 
-    auto has_status() const noexcept -> bool override;
+    auto has_status() const noexcept -> bool final;
 
-    auto has_size() const noexcept -> bool override;
+    auto has_size() const noexcept -> bool final;
 
-    auto is_flushable() const noexcept -> bool override;
+    auto is_flushable() const noexcept -> bool final;
 
 protected:
     dynamic_stream_view()
