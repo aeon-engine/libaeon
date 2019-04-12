@@ -1,4 +1,4 @@
-libAeon [![Travis-CI](https://travis-ci.org/aeon-engine/libaeon.svg?branch=master)](https://travis-ci.org/aeon-engine/libaeon) [![AppVeyor](https://ci.appveyor.com/api/projects/status/2nfptti0nsc00ilu?svg=true)](https://ci.appveyor.com/project/robindegen/libaeon)
+libAeon [![Build status](https://dev.azure.com/robindegen/aeon/_apis/build/status/libAeon%20(VS2019))](https://dev.azure.com/robindegen/aeon/_build/latest?definitionId=1)
 ==============
 A general purpose C++17 support library.
 
