@@ -20,6 +20,7 @@ source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
 
 set(LIB_AEON_STREAMS_DEVICES_SOURCE
     include/aeon/streams/devices/device.h
+    include/aeon/streams/devices/device_view.h
     include/aeon/streams/devices/file_device.h
     include/aeon/streams/devices/iostream_device.h
     include/aeon/streams/devices/memory_device.h
