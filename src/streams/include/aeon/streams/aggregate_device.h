@@ -115,6 +115,16 @@ public:
             return 1;
     }
 
+    constexpr auto &filter() noexcept
+    {
+        return filter_;
+    }
+
+    constexpr auto &filter() const noexcept
+    {
+        return filter_;
+    }
+
     template <int i>
     constexpr auto &filter() noexcept
     {
