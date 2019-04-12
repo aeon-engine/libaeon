@@ -83,6 +83,7 @@ inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
     if (!std::empty(*buffer_view_))
         update_span();
 }
+
 template <typename T>
 inline memory_view_device<T>::memory_view_device() noexcept
     : buffer_view_{}
