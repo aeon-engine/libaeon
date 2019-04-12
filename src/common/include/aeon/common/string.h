@@ -6,6 +6,7 @@
 #include <string_view>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #include <iomanip>
 
 namespace aeon::common::string
@@ -290,6 +291,21 @@ template <typename T>
  * Convert a byte into HEX format (ie. 255 becomes "ff")
  */
 [[nodiscard]] inline auto uint8_to_hex_string(const std::uint8_t value) noexcept -> const char *;
+
+/*!
+ * Construct a string_view from given iterators
+ */
+template <typename iterator_t>
+[[nodiscard]] inline constexpr auto make_string_view(iterator_t begin, iterator_t end) noexcept
+{
+    using result_type = std::basic_string_view<typename std::iterator_traits<iterator_t>::value_type>;
+
+    if (begin == end)
+        return result_type{};
+
+    return result_type{&*begin, static_cast<typename result_type::size_type>(std::max(
+                                    std::distance(begin, end), static_cast<typename result_type::difference_type>(0)))};
+}
 
 } // namespace aeon::common::string
 

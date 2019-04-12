@@ -491,3 +491,18 @@ TEST(test_string, test_string_ends_withsv)
     EXPECT_FALSE(aeon::common::string::ends_withsv("1234 blah", "1234"));
     EXPECT_FALSE(aeon::common::string::ends_withsv("", "Blah"));
 }
+
+TEST(test_string, test_make_string_view)
+{
+    std::string expected = "Hello";
+    const auto expected_view = aeon::common::string::make_string_view(std::begin(expected), std::end(expected));
+    EXPECT_EQ(expected, expected_view);
+}
+
+TEST(test_string, test_make_string_view_empty)
+{
+    std::string expected;
+    const auto expected_view = aeon::common::string::make_string_view(std::begin(expected), std::end(expected));
+    EXPECT_TRUE(expected_view.empty());
+    EXPECT_EQ(expected, expected_view);
+}
