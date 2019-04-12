@@ -7,10 +7,10 @@
 #include <aeon/common/compilers.h>
 #include <regex>
 
-namespace aeon::common
+namespace aeon::common::rdp
 {
 
-inline rdp::rdp(const std::string_view v)
+inline parser::parser(const std::string_view v)
     : view_{v}
     , current_{std::begin(view_)}
 {
@@ -18,24 +18,24 @@ inline rdp::rdp(const std::string_view v)
 }
 
 template <typename iterator_t>
-inline rdp::rdp(iterator_t begin, iterator_t end)
+inline parser::parser(iterator_t begin, iterator_t end)
     : view_{string::make_string_view(begin, end)}
     , current_{std::begin(view_)}
 {
     aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
 }
 
-[[nodiscard]] inline auto rdp::eof() const noexcept
+[[nodiscard]] inline auto parser::eof() const noexcept
 {
     return current_ == std::end(view_);
 }
 
-[[nodiscard]] inline auto rdp::bof() const noexcept
+[[nodiscard]] inline auto parser::bof() const noexcept
 {
     return current_ == std::begin(view_);
 }
 
-inline auto rdp::advance() noexcept -> bool
+inline auto parser::advance() noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
         return false;
@@ -44,7 +44,7 @@ inline auto rdp::advance() noexcept -> bool
     return true;
 }
 
-inline auto rdp::reverse() noexcept -> bool
+inline auto parser::reverse() noexcept -> bool
 {
     if (AEON_UNLIKELY(bof()))
         return false;
@@ -53,22 +53,22 @@ inline auto rdp::reverse() noexcept -> bool
     return true;
 }
 
-inline auto rdp::current() const noexcept -> char
+inline auto parser::current() const noexcept -> char
 {
     return *current_;
 }
 
-inline auto rdp::operator*() const noexcept -> char
+inline auto parser::operator*() const noexcept -> char
 {
     return current();
 }
 
-inline auto rdp::offset() const noexcept -> std::size_t
+inline auto parser::offset() const noexcept -> std::size_t
 {
     return std::distance(std::begin(view_), current_);
 }
 
-inline auto rdp::check(const char c) noexcept -> bool
+inline auto parser::check(const char c) noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
         return false;
@@ -81,7 +81,7 @@ inline auto rdp::check(const char c) noexcept -> bool
     return true;
 }
 
-inline auto rdp::check(const std::string_view str) noexcept -> bool
+inline auto parser::check(const std::string_view str) noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
         return false;
@@ -99,20 +99,20 @@ inline auto rdp::check(const std::string_view str) noexcept -> bool
     return true;
 }
 
-inline void rdp::skip(const char c) noexcept
+inline void parser::skip(const char c) noexcept
 {
     while (!eof() && (current() == c))
         advance();
 }
 
-inline void rdp::skip_until(const char c) noexcept
+inline void parser::skip_until(const char c) noexcept
 {
     while (!eof() && current() != c)
         advance();
 }
 
 template <typename matcher_t>
-inline auto rdp::match(matcher_t pred) noexcept -> std::optional<std::string_view>
+inline auto parser::match(matcher_t pred) noexcept -> std::optional<std::string_view>
 {
     if (AEON_UNLIKELY(eof()))
         return std::nullopt;
@@ -131,7 +131,7 @@ inline auto rdp::match(matcher_t pred) noexcept -> std::optional<std::string_vie
 }
 
 template <typename matcher_t>
-inline auto rdp::match_indexed(matcher_t pred) noexcept -> std::optional<std::string_view>
+inline auto parser::match_indexed(matcher_t pred) noexcept -> std::optional<std::string_view>
 {
     if (AEON_UNLIKELY(eof()))
         return std::nullopt;
@@ -149,7 +149,7 @@ inline auto rdp::match_indexed(matcher_t pred) noexcept -> std::optional<std::st
     return result;
 }
 
-inline auto rdp::match_regex(const std::string_view regex) -> std::optional<std::string_view>
+inline auto parser::match_regex(const std::string_view regex) -> std::optional<std::string_view>
 {
     if (AEON_UNLIKELY(eof()))
         return std::nullopt;
@@ -169,7 +169,7 @@ inline auto rdp::match_regex(const std::string_view regex) -> std::optional<std:
     return result;
 }
 
-inline auto rdp::match_until(const char c) noexcept -> std::optional<std::string_view>
+inline auto parser::match_until(const char c) noexcept -> std::optional<std::string_view>
 {
     auto itr = current_;
 
@@ -186,24 +186,24 @@ inline auto rdp::match_until(const char c) noexcept -> std::optional<std::string
     return result;
 }
 
-inline auto eof(const rdp &rdp) noexcept -> bool
+inline auto eof(const parser &parser) noexcept -> bool
 {
-    return rdp.eof();
+    return parser.eof();
 }
 
-inline auto bof(const rdp &rdp) noexcept -> bool
+inline auto bof(const parser &parser) noexcept -> bool
 {
-    return rdp.bof();
+    return parser.bof();
 }
 
-inline auto current(const rdp &rdp) noexcept -> char
+inline auto current(const parser &parser) noexcept -> char
 {
-    return rdp.current();
+    return parser.current();
 }
 
-inline auto offset(const rdp &rdp) noexcept -> std::size_t
+inline auto offset(const parser &parser) noexcept -> std::size_t
 {
-    return rdp.offset();
+    return parser.offset();
 }
 
-} // namespace aeon::common
+} // namespace aeon::common::rdp

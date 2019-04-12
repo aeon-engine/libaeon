@@ -5,7 +5,7 @@
 #include <optional>
 #include <string_view>
 
-namespace aeon::common
+namespace aeon::common::rdp
 {
 
 /*!
@@ -20,21 +20,23 @@ namespace aeon::common
  * parse_* - The same as match, however the result is parsed into a pod type (for example parse_hex
  *           would parse to an integer)
  */
-class rdp
+class parser
 {
+    friend class scoped_state;
+
 public:
-    explicit rdp(const std::string_view v);
+    explicit parser(const std::string_view v);
 
     template <typename iterator_t>
-    explicit rdp(iterator_t begin, iterator_t end);
+    explicit parser(iterator_t begin, iterator_t end);
 
-    ~rdp() = default;
+    ~parser() = default;
 
-    rdp(const rdp &) noexcept = default;
-    auto operator=(const rdp &) noexcept -> rdp & = default;
+    parser(const parser &) noexcept = default;
+    auto operator=(const parser &) noexcept -> parser & = default;
 
-    rdp(rdp &&) noexcept = default;
-    auto operator=(rdp &&) noexcept -> rdp & = default;
+    parser(parser &&) noexcept = default;
+    auto operator=(parser &&) noexcept -> parser & = default;
 
     /*!
      * Check if the index is at the end of the given string ("end of file").
@@ -142,11 +144,44 @@ private:
     std::string_view::const_iterator current_;
 };
 
-inline auto eof(const rdp &rdp) noexcept -> bool;
-inline auto bof(const rdp &rdp) noexcept -> bool;
-inline auto current(const rdp &rdp) noexcept -> char;
-inline auto offset(const rdp &rdp) noexcept -> std::size_t;
+class scoped_state final
+{
+public:
+    explicit scoped_state(parser &parser) noexcept
+        : parser_{parser}
+        , prev_{parser.current_}
+        , restore_{true}
+    {
+    }
 
-} // namespace aeon::common
+    ~scoped_state() noexcept
+    {
+        if (restore_)
+            parser_.current_ = prev_;
+    }
+
+    scoped_state(const scoped_state &) noexcept = delete;
+    auto operator=(const scoped_state &) noexcept -> scoped_state & = delete;
+
+    scoped_state(scoped_state &&) noexcept = delete;
+    auto operator=(scoped_state &&) noexcept -> scoped_state & = delete;
+
+    void accept() noexcept
+    {
+        restore_ = false;
+    }
+
+private:
+    parser &parser_;
+    std::string_view::const_iterator prev_;
+    bool restore_;
+};
+
+inline auto eof(const parser &parser) noexcept -> bool;
+inline auto bof(const parser &parser) noexcept -> bool;
+inline auto current(const parser &parser) noexcept -> char;
+inline auto offset(const parser &parser) noexcept -> std::size_t;
+
+} // namespace aeon::common::rdp
 
 #include <aeon/common/impl/rdp_impl.h>
