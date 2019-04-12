@@ -24,31 +24,31 @@ enum class file_flag
     truncate = 0x04
 };
 
-aeon_declare_flag_operators(file_flag)
+aeon_declare_flag_operators(file_flag);
 
-    namespace internal
+namespace internal
 {
 
-    class file_device_base : public iostream_device_base<std::fstream>
-    {
-    public:
-        file_device_base(const file_device_base &) noexcept = delete;
-        auto operator=(const file_device_base &) noexcept -> file_device_base & = delete;
+class file_device_base : public iostream_device_base<std::fstream>
+{
+public:
+    file_device_base(const file_device_base &) noexcept = delete;
+    auto operator=(const file_device_base &) noexcept -> file_device_base & = delete;
 
-    protected:
-        explicit file_device_base(const std::filesystem::path &path, const std::ios::openmode mode, const file_mode fm,
-                                  const common::flags<file_flag> flags);
+protected:
+    explicit file_device_base(const std::filesystem::path &path, const std::ios::openmode mode, const file_mode fm,
+                              const common::flags<file_flag> flags);
 
-        ~file_device_base() = default;
+    ~file_device_base() = default;
 
-        file_device_base(file_device_base &&other);
-        auto operator=(file_device_base &&other) -> file_device_base &;
+    file_device_base(file_device_base &&other) noexcept;
+    auto operator=(file_device_base &&other) noexcept -> file_device_base &;
 
-        auto size() const -> std::streamoff;
+    [[nodiscard]] auto size() const -> std::streamoff;
 
-    private:
-        std::fstream fstream_;
-    };
+private:
+    std::fstream fstream_;
+};
 
 } // namespace internal
 } // namespace aeon::streams

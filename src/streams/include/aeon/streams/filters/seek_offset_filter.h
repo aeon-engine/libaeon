@@ -34,7 +34,7 @@ public:
     }
 
     template <typename source_t>
-    auto tellg(source_t &source) -> std::streamoff
+    [[nodiscard]] auto tellg(source_t &source) -> std::streamoff
     {
         return source.tellg() + seek_offset;
     }
@@ -64,7 +64,7 @@ public:
     }
 
     template <typename sink_t>
-    auto tellp(sink_t &sink) const -> std::streamoff
+    [[nodiscard]] auto tellp(sink_t &sink) const -> std::streamoff
     {
         return sink.tellp() + seek_offset;
     }

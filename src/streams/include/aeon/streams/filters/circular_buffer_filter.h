@@ -157,7 +157,7 @@ public:
     }
 
     template <typename source_t>
-    auto tellg(source_t &source) const -> std::streamoff
+    [[nodiscard]] auto tellg(source_t &source) const -> std::streamoff
     {
         static_assert(has_size_v<source_t>, "Circular buffer requires stream with size.");
         return tail_;
@@ -171,34 +171,34 @@ public:
     }
 
     template <typename sink_t>
-    auto tellp(sink_t &sink) const -> std::streamoff
+    [[nodiscard]] auto tellp(sink_t &sink) const -> std::streamoff
     {
         static_assert(has_size_v<sink_t>, "Circular buffer requires stream with size.");
         return head_;
     }
 
     template <typename source_t>
-    auto eof(source_t &source) const -> bool
+    [[nodiscard]] auto eof(source_t &source) const -> bool
     {
         static_assert(has_size_v<source_t>, "Circular buffer requires stream with size.");
         return size_ == source.size();
     }
 
     template <typename source_t>
-    auto size(source_t &) const noexcept -> std::streamoff
+    [[nodiscard]] auto size(source_t &) const noexcept -> std::streamoff
     {
         return size_;
     }
 
 private:
     template <typename stream_t>
-    auto is_out_of_bounds(stream_t &stream, std::streamoff offset) const -> bool
+    [[nodiscard]] auto is_out_of_bounds(stream_t &stream, std::streamoff offset) const -> bool
     {
         return (offset > stream.size());
     }
 
     template <typename stream_t>
-    auto fits_in_buffer(stream_t &stream, std::streamoff size) const -> bool
+    [[nodiscard]] auto fits_in_buffer(stream_t &stream, std::streamoff size) const -> bool
     {
         return ((size_ + size) <= stream.size());
     }

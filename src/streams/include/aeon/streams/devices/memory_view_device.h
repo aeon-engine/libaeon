@@ -35,21 +35,21 @@ public:
 
     auto seekg(const std::streamoff offset, const seek_direction direction) noexcept -> bool;
 
-    auto tellg() const noexcept -> std::streamoff;
+    [[nodiscard]] auto tellg() const noexcept -> std::streamoff;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) noexcept -> bool;
 
-    auto tellp() const noexcept -> std::streamoff;
+    [[nodiscard]] auto tellp() const noexcept -> std::streamoff;
 
-    auto eof() const noexcept -> bool;
+    [[nodiscard]] auto eof() const noexcept -> bool;
 
-    auto size() const noexcept -> std::streamoff;
+    [[nodiscard]] auto size() const noexcept -> std::streamoff;
 
     void reserve(const std::streamoff size);
 
     void resize(const std::streamoff size);
 
-    const auto &data() const noexcept;
+    [[nodiscard]] const auto &data() const noexcept;
 
 protected:
     memory_view_device() noexcept;
@@ -113,7 +113,7 @@ inline auto memory_view_device<T>::seekg(const std::streamoff offset, const seek
 }
 
 template <typename T>
-inline auto memory_view_device<T>::tellg() const noexcept -> std::streamoff
+[[nodiscard]] inline auto memory_view_device<T>::tellg() const noexcept -> std::streamoff
 {
     return span_device_.tellg();
 }
@@ -125,19 +125,19 @@ inline auto memory_view_device<T>::seekp(const std::streamoff offset, const seek
 }
 
 template <typename T>
-inline auto memory_view_device<T>::tellp() const noexcept -> std::streamoff
+[[nodiscard]] inline auto memory_view_device<T>::tellp() const noexcept -> std::streamoff
 {
     return span_device_.tellp();
 }
 
 template <typename T>
-inline auto memory_view_device<T>::eof() const noexcept -> bool
+[[nodiscard]] inline auto memory_view_device<T>::eof() const noexcept -> bool
 {
     return span_device_.eof();
 }
 
 template <typename T>
-inline auto memory_view_device<T>::size() const noexcept -> std::streamoff
+[[nodiscard]] inline auto memory_view_device<T>::size() const noexcept -> std::streamoff
 {
     return span_device_.size();
 }
@@ -156,7 +156,7 @@ inline void memory_view_device<T>::resize(const std::streamoff size)
 }
 
 template <typename T>
-const auto &memory_view_device<T>::data() const noexcept
+[[nodiscard]] const auto &memory_view_device<T>::data() const noexcept
 {
     return *buffer_view_;
 }

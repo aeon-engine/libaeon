@@ -27,7 +27,7 @@ public:
 
     ~stream_writer() = default;
 
-    auto device() const noexcept -> device_t &;
+    [[nodiscard]] auto device() const noexcept -> device_t &;
 
     template <typename T>
     void vector_write(const std::vector<T> &vec) const;
@@ -58,7 +58,7 @@ inline stream_writer<device_t>::stream_writer(device_t &device) noexcept
 }
 
 template <typename device_t>
-inline auto stream_writer<device_t>::device() const noexcept -> device_t &
+[[nodiscard]] inline auto stream_writer<device_t>::device() const noexcept -> device_t &
 {
     return *device_;
 }

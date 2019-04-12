@@ -31,39 +31,39 @@ public:
 
     auto seekg(const std::streamoff offset, const seek_direction direction) -> bool final;
 
-    auto tellg() -> std::streamoff final;
+    [[nodiscard]] auto tellg() -> std::streamoff final;
 
     auto write(const char *data, const std::streamsize size) -> std::streamsize final;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) -> bool final;
 
-    auto tellp() -> std::streamoff final;
+    [[nodiscard]] auto tellp() -> std::streamoff final;
 
-    auto eof() -> bool final;
+    [[nodiscard]] auto eof() -> bool final;
 
-    auto good() -> bool final;
+    [[nodiscard]] auto good() -> bool final;
 
-    auto fail() -> bool final;
+    [[nodiscard]] auto fail() -> bool final;
 
     void flush() final;
 
-    auto size() -> std::streamoff final;
+    [[nodiscard]] auto size() -> std::streamoff final;
 
-    auto is_input() const noexcept -> bool final;
+    [[nodiscard]] auto is_input() const noexcept -> bool final;
 
-    auto is_input_seekable() const noexcept -> bool final;
+    [[nodiscard]] auto is_input_seekable() const noexcept -> bool final;
 
-    auto is_output() const noexcept -> bool final;
+    [[nodiscard]] auto is_output() const noexcept -> bool final;
 
-    auto is_output_seekable() const noexcept -> bool final;
+    [[nodiscard]] auto is_output_seekable() const noexcept -> bool final;
 
-    auto has_eof() const noexcept -> bool final;
+    [[nodiscard]] auto has_eof() const noexcept -> bool final;
 
-    auto has_status() const noexcept -> bool final;
+    [[nodiscard]] auto has_status() const noexcept -> bool final;
 
-    auto has_size() const noexcept -> bool final;
+    [[nodiscard]] auto has_size() const noexcept -> bool final;
 
-    auto is_flushable() const noexcept -> bool final;
+    [[nodiscard]] auto is_flushable() const noexcept -> bool final;
 
 protected:
     dynamic_stream_view()
@@ -106,7 +106,7 @@ inline auto dynamic_stream_view<device_t>::seekg(const std::streamoff offset, co
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::tellg() -> std::streamoff
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::tellg() -> std::streamoff
 {
     if constexpr (is_input_seekable_v<device_t>)
         return device_ref_->tellg();
@@ -142,7 +142,7 @@ inline auto dynamic_stream_view<device_t>::seekp(const std::streamoff offset, co
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::tellp() -> std::streamoff
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::tellp() -> std::streamoff
 {
     if constexpr (is_output_seekable_v<device_t>)
         return device_ref_->tellp();
@@ -154,7 +154,7 @@ inline auto dynamic_stream_view<device_t>::tellp() -> std::streamoff
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::eof() -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::eof() -> bool
 {
     if constexpr (has_eof_v<device_t>)
         return device_ref_->eof();
@@ -166,7 +166,7 @@ inline auto dynamic_stream_view<device_t>::eof() -> bool
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::good() -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::good() -> bool
 {
     if constexpr (has_status_v<device_t>)
         return device_ref_->good();
@@ -178,7 +178,7 @@ inline auto dynamic_stream_view<device_t>::good() -> bool
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::fail() -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::fail() -> bool
 {
     if constexpr (has_status_v<device_t>)
         return device_ref_->fail();
@@ -199,7 +199,7 @@ inline void dynamic_stream_view<device_t>::flush()
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::size() -> std::streamoff
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::size() -> std::streamoff
 {
     if constexpr (has_size_v<device_t>)
         return device_ref_->size();
@@ -211,61 +211,61 @@ inline auto dynamic_stream_view<device_t>::size() -> std::streamoff
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::is_input() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::is_input() const noexcept -> bool
 {
     return is_input_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::is_input_seekable() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::is_input_seekable() const noexcept -> bool
 {
     return is_input_seekable_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::is_output() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::is_output() const noexcept -> bool
 {
     return is_output_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::is_output_seekable() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::is_output_seekable() const noexcept -> bool
 {
     return is_output_seekable_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::has_eof() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::has_eof() const noexcept -> bool
 {
     return has_eof_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::has_status() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::has_status() const noexcept -> bool
 {
     return has_status_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::has_size() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::has_size() const noexcept -> bool
 {
     return has_size_v<device_t>;
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::is_flushable() const noexcept -> bool
+[[nodiscard]] inline auto dynamic_stream_view<device_t>::is_flushable() const noexcept -> bool
 {
     return is_flushable_v<device_t>;
 }
 
 template <typename device_t>
-inline auto make_dynamic_stream_view(device_t &device) -> dynamic_stream_view<device_t>
+[[nodiscard]] inline auto make_dynamic_stream_view(device_t &device) -> dynamic_stream_view<device_t>
 {
     return dynamic_stream_view<device_t>(device);
 }
 
 template <typename device_t>
-inline auto make_dynamic_stream_view_ptr(device_t &device) -> std::unique_ptr<idynamic_stream>
+[[nodiscard]] inline auto make_dynamic_stream_view_ptr(device_t &device) -> std::unique_ptr<idynamic_stream>
 {
     return std::make_unique<dynamic_stream_view<device_t>>(device);
 }

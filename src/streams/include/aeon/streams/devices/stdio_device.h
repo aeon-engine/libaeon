@@ -50,7 +50,7 @@ public:
 
     auto read(char *data, const std::streamsize size) const noexcept -> std::streamsize;
 
-    auto eof() const noexcept -> bool;
+    [[nodiscard]] auto eof() const noexcept -> bool;
 
     void flush() const noexcept;
 
@@ -75,7 +75,7 @@ inline auto stdio_device::read(char *data, const std::streamsize size) const noe
     return static_cast<std::size_t>(fread(data, 1, size, stdin));
 }
 
-inline auto stdio_device::eof() const noexcept -> bool
+[[nodiscard]] inline auto stdio_device::eof() const noexcept -> bool
 {
     return feof(stdin) != 0;
 }

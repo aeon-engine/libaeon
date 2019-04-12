@@ -51,7 +51,7 @@ public:
         deflateEnd(&zstream_);
     }
 
-    auto stream() noexcept -> z_stream &
+    [[nodiscard]] auto stream() noexcept -> z_stream &
     {
         return zstream_;
     }
@@ -81,7 +81,7 @@ public:
         inflateEnd(&zstream_);
     }
 
-    auto stream() noexcept -> z_stream &
+    [[nodiscard]] auto stream() noexcept -> z_stream &
     {
         return zstream_;
     }

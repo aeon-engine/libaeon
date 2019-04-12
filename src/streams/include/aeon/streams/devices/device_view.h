@@ -33,23 +33,23 @@ public:
 
     auto seekg(const std::streamoff offset, const seek_direction direction) -> bool;
 
-    auto tellg() -> std::streamoff;
+    [[nodiscard]] auto tellg() -> std::streamoff;
 
     auto write(const char *data, const std::streamsize size) -> std::streamsize;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) -> bool;
 
-    auto tellp() -> std::streamoff;
+    [[nodiscard]] auto tellp() -> std::streamoff;
 
-    auto eof() -> bool;
+    [[nodiscard]] auto eof() -> bool;
 
-    auto good() -> bool;
+    [[nodiscard]] auto good() -> bool;
 
-    auto fail() -> bool;
+    [[nodiscard]] auto fail() -> bool;
 
     void flush();
 
-    auto size() -> std::streamoff;
+    [[nodiscard]] auto size() -> std::streamoff;
 
 protected:
     T *device_;
@@ -89,7 +89,7 @@ inline auto device_view<T>::seekg(const std::streamoff offset, const seek_direct
 }
 
 template <typename T>
-inline auto device_view<T>::tellg() -> std::streamoff
+[[nodiscard]] inline auto device_view<T>::tellg() -> std::streamoff
 {
     static_assert(is_input_seekable_v<T>, "Device does not support 'tellg'");
     return device_->tellg();
@@ -103,28 +103,28 @@ inline auto device_view<T>::seekp(const std::streamoff offset, const seek_direct
 }
 
 template <typename T>
-inline auto device_view<T>::tellp() -> std::streamoff
+[[nodiscard]] inline auto device_view<T>::tellp() -> std::streamoff
 {
     static_assert(is_output_seekable_v<T>, "Device does not support 'tellp'");
     return device_->tellp();
 }
 
 template <typename T>
-inline auto device_view<T>::eof() -> bool
+[[nodiscard]] inline auto device_view<T>::eof() -> bool
 {
     static_assert(has_eof_v<T>, "Device does not support 'eof'");
     return device_->eof();
 }
 
 template <typename T>
-inline auto device_view<T>::good() -> bool
+[[nodiscard]] inline auto device_view<T>::good() -> bool
 {
     static_assert(has_status_v<T>, "Device does not support 'good'");
     return device_->good();
 }
 
 template <typename T>
-inline auto device_view<T>::fail() -> bool
+[[nodiscard]] inline auto device_view<T>::fail() -> bool
 {
     static_assert(has_status_v<T>, "Device does not support 'fail'");
     return device_->fail();
@@ -138,7 +138,7 @@ inline void device_view<T>::flush()
 }
 
 template <typename T>
-inline auto device_view<T>::size() -> std::streamoff
+[[nodiscard]] inline auto device_view<T>::size() -> std::streamoff
 {
     static_assert(has_size_v<T>, "Device does not support 'size'");
     return device_->size();

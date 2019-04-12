@@ -10,7 +10,7 @@
 namespace aeon::streams::internal
 {
 
-inline auto to_ios_seekdir(const seek_direction direction) noexcept -> std::ios::seekdir
+[[nodiscard]] inline auto to_ios_seekdir(const seek_direction direction) noexcept -> std::ios::seekdir
 {
     switch (direction)
     {
@@ -45,17 +45,17 @@ public:
 
     auto seekg(const std::streamoff offset, const seek_direction direction) const -> bool;
 
-    auto tellg() const -> std::streamoff;
+    [[nodiscard]] auto tellg() const -> std::streamoff;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) const -> bool;
 
-    auto tellp() const -> std::streamoff;
+    [[nodiscard]] auto tellp() const -> std::streamoff;
 
-    auto eof() const -> bool;
+    [[nodiscard]] auto eof() const -> bool;
 
-    auto good() const -> bool;
+    [[nodiscard]] auto good() const -> bool;
 
-    auto fail() const -> bool;
+    [[nodiscard]] auto fail() const -> bool;
 
     void flush() const;
 
@@ -108,7 +108,7 @@ inline auto iostream_device_base<T>::seekg(const std::streamoff offset, const se
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::tellg() const -> std::streamoff
+[[nodiscard]] inline auto iostream_device_base<T>::tellg() const -> std::streamoff
 {
     return stream_->tellg();
 }
@@ -121,25 +121,25 @@ inline auto iostream_device_base<T>::seekp(const std::streamoff offset, const se
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::tellp() const -> std::streamoff
+[[nodiscard]] inline auto iostream_device_base<T>::tellp() const -> std::streamoff
 {
     return stream_->tellp();
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::eof() const -> bool
+[[nodiscard]] inline auto iostream_device_base<T>::eof() const -> bool
 {
     return stream_->eof();
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::good() const -> bool
+[[nodiscard]] inline auto iostream_device_base<T>::good() const -> bool
 {
     return stream_->good();
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::fail() const -> bool
+[[nodiscard]] inline auto iostream_device_base<T>::fail() const -> bool
 {
     return stream_->fail();
 }

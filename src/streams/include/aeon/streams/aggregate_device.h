@@ -66,25 +66,25 @@ public:
 
     auto seekg(const std::streamoff offset, const seek_direction direction) -> bool;
 
-    auto tellg() -> std::streamoff;
+    [[nodiscard]] auto tellg() -> std::streamoff;
 
     auto write(const char *data, const std::streamsize size) -> std::streamsize;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) -> bool;
 
-    auto tellp() -> std::streamoff;
+    [[nodiscard]] auto tellp() -> std::streamoff;
 
-    auto eof() -> bool;
+    [[nodiscard]] auto eof() -> bool;
 
-    auto good() -> bool;
+    [[nodiscard]] auto good() -> bool;
 
-    auto fail() -> bool;
+    [[nodiscard]] auto fail() -> bool;
 
     void flush();
 
-    auto size() -> std::streamoff;
+    [[nodiscard]] auto size() -> std::streamoff;
 
-    constexpr auto &device() noexcept
+    [[nodiscard]] constexpr auto &device() noexcept
     {
         if constexpr (is_aggregate_device<device_t>::value)
         {
@@ -96,7 +96,7 @@ public:
         }
     }
 
-    constexpr auto &device() const noexcept
+    [[nodiscard]] constexpr auto &device() const noexcept
     {
         if constexpr (is_aggregate_device<device_t>::value)
         {
@@ -108,7 +108,7 @@ public:
         }
     }
 
-    static constexpr auto filter_count() noexcept -> int
+    [[nodiscard]] static constexpr auto filter_count() noexcept -> int
     {
         if constexpr (is_aggregate_device<device_t>::value)
             return device_t::filter_count() + 1;
@@ -116,25 +116,25 @@ public:
             return 1;
     }
 
-    constexpr auto &filter() noexcept
+    [[nodiscard]] constexpr auto &filter() noexcept
     {
         return filter_;
     }
 
-    constexpr auto &filter() const noexcept
+    [[nodiscard]] constexpr auto &filter() const noexcept
     {
         return filter_;
     }
 
     template <int i>
-    constexpr auto &filter() noexcept
+    [[nodiscard]] constexpr auto &filter() noexcept
     {
         constexpr auto count = filter_count() - i - 1;
         return aggregate_device_filter<count>::get(*this).filter();
     }
 
     template <int i>
-    constexpr auto &filter() const noexcept
+    [[nodiscard]] constexpr auto &filter() const noexcept
     {
         constexpr auto count = filter_count() - i - 1;
         return aggregate_device_filter<count>::get(*this).filter();
@@ -210,7 +210,7 @@ inline auto aggregate_device<filter_t, device_t>::seekg(const std::streamoff off
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::tellg() -> std::streamoff
+[[nodiscard]] inline auto aggregate_device<filter_t, device_t>::tellg() -> std::streamoff
 {
     static_assert(is_any_input_seekable_v<filter_t, device_t>, "Device does not support 'tellg'");
 
@@ -244,7 +244,7 @@ inline auto aggregate_device<filter_t, device_t>::seekp(const std::streamoff off
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::tellp() -> std::streamoff
+[[nodiscard]] inline auto aggregate_device<filter_t, device_t>::tellp() -> std::streamoff
 {
     static_assert(is_any_output_seekable_v<filter_t, device_t>, "Device does not support 'tellp'");
 
@@ -266,7 +266,7 @@ inline auto aggregate_device<filter_t, device_t>::eof() -> bool
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::good() -> bool
+[[nodiscard]] inline auto aggregate_device<filter_t, device_t>::good() -> bool
 {
     static_assert(has_any_status_v<filter_t, device_t>, "Device does not support 'good'");
 
@@ -277,7 +277,7 @@ inline auto aggregate_device<filter_t, device_t>::good() -> bool
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::fail() -> bool
+[[nodiscard]] inline auto aggregate_device<filter_t, device_t>::fail() -> bool
 {
     static_assert(has_any_status_v<filter_t, device_t>, "Device does not support 'fail'");
 
@@ -299,7 +299,7 @@ inline void aggregate_device<filter_t, device_t>::flush()
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::size() -> std::streamoff
+[[nodiscard]] inline auto aggregate_device<filter_t, device_t>::size() -> std::streamoff
 {
     static_assert(has_any_size_v<filter_t, device_t>, "Device does not support 'size'");
 
@@ -311,14 +311,14 @@ inline auto aggregate_device<filter_t, device_t>::size() -> std::streamoff
 
 template <typename operator_device_t, typename operator_filter_t,
           typename std::enable_if<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int>::type = 0>
-inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
+[[nodiscard]] inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
 {
     return device_view{device.device()};
 }
 
 template <int i, typename operator_device_t, typename operator_filter_t,
           typename std::enable_if<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int>::type = 0>
-inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
+[[nodiscard]] inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
 {
     constexpr auto idx = aggregate_device<operator_filter_t, operator_device_t>::filter_count() - i - 1;
     return device_view{aggregate_device_filter<idx>::get(device)};

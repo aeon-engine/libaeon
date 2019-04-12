@@ -33,20 +33,20 @@ file_device_base::file_device_base(const std::filesystem::path &path, const std:
     stream_ = &fstream_;
 }
 
-file_device_base::file_device_base(file_device_base &&other)
+file_device_base::file_device_base(file_device_base &&other) noexcept
     : fstream_{std::move(other.fstream_)}
 {
     stream_ = &fstream_;
 }
 
-auto file_device_base::operator=(file_device_base &&other) -> file_device_base &
+auto file_device_base::operator=(file_device_base &&other) noexcept -> file_device_base &
 {
     fstream_ = std::move(other.fstream_);
     stream_ = &fstream_;
     return *this;
 }
 
-auto file_device_base::size() const -> std::streamoff
+[[nodiscard]] auto file_device_base::size() const -> std::streamoff
 {
     const auto prev_g = stream_->tellg();
     stream_->seekg(0, std::ios::end);

@@ -30,25 +30,25 @@ public:
 
     ~stream_reader() = default;
 
-    auto device() const noexcept -> device_t &;
+    [[nodiscard]] auto device() const noexcept -> device_t &;
 
     void read_line(std::string &line) const;
-    auto read_line() const -> std::string;
+    [[nodiscard]] auto read_line() const -> std::string;
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec) const;
 
     template <typename T>
-    auto read_to_vector() const -> std::vector<T>;
+    [[nodiscard]] auto read_to_vector() const -> std::vector<T>;
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec, const std::streamoff size) const;
 
     template <typename T>
-    auto read_to_vector(const std::streamoff size) const -> std::vector<T>;
+    [[nodiscard]] auto read_to_vector(const std::streamoff size) const -> std::vector<T>;
 
     void read_to_string(std::string &str) const;
-    auto read_to_string() const -> std::string;
+    [[nodiscard]] auto read_to_string() const -> std::string;
 
 private:
     device_t *device_;
@@ -76,7 +76,7 @@ inline stream_reader<device_t>::stream_reader(device_t &device) noexcept
 }
 
 template <typename device_t>
-inline auto stream_reader<device_t>::device() const noexcept -> device_t &
+[[nodiscard]] inline auto stream_reader<device_t>::device() const noexcept -> device_t &
 {
     return *device_;
 }
@@ -125,7 +125,7 @@ inline void stream_reader<device_t>::read_line(std::string &line) const
 }
 
 template <typename device_t>
-inline auto stream_reader<device_t>::read_line() const -> std::string
+[[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> std::string
 {
     std::string line;
     read_line(line);
@@ -146,7 +146,7 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec) const
 
 template <typename device_t>
 template <typename T>
-inline auto stream_reader<device_t>::read_to_vector() const -> std::vector<T>
+[[nodiscard]] inline auto stream_reader<device_t>::read_to_vector() const -> std::vector<T>
 {
     std::vector<T> vec;
     read_to_vector(vec);
@@ -168,7 +168,7 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec, const s
 
 template <typename device_t>
 template <typename T>
-inline auto stream_reader<device_t>::read_to_vector(const std::streamoff size) const -> std::vector<T>
+[[nodiscard]] inline auto stream_reader<device_t>::read_to_vector(const std::streamoff size) const -> std::vector<T>
 {
     std::vector<T> vec;
     read_to_vector(vec, size);
@@ -185,7 +185,7 @@ inline void stream_reader<device_t>::read_to_string(std::string &str) const
 }
 
 template <typename device_t>
-inline auto stream_reader<device_t>::read_to_string() const -> std::string
+[[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> std::string
 {
     std::string str;
     read_to_string(str);

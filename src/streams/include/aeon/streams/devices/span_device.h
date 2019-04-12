@@ -35,17 +35,17 @@ public:
 
     auto seekg(const std::streamoff offset, const seek_direction direction) noexcept -> bool;
 
-    auto tellg() const noexcept -> std::streamoff;
+    [[nodiscard]] auto tellg() const noexcept -> std::streamoff;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) noexcept -> bool;
 
-    auto tellp() const noexcept -> std::streamoff;
+    [[nodiscard]] auto tellp() const noexcept -> std::streamoff;
 
-    auto eof() const noexcept -> bool;
+    [[nodiscard]] auto eof() const noexcept -> bool;
 
-    auto size() const noexcept -> std::streamoff;
+    [[nodiscard]] auto size() const noexcept -> std::streamoff;
 
-    auto get_span() const noexcept -> const common::span<T> &;
+    [[nodiscard]] auto get_span() const noexcept -> const common::span<T> &;
 
     void set_span(common::span<T> span) noexcept;
 
@@ -120,7 +120,7 @@ inline auto span_device<T>::seekg(const std::streamoff offset, const seek_direct
 }
 
 template <typename T>
-inline auto span_device<T>::tellg() const noexcept -> std::streamoff
+[[nodiscard]] inline auto span_device<T>::tellg() const noexcept -> std::streamoff
 {
     return read_idx_;
 }
@@ -156,25 +156,25 @@ inline auto span_device<T>::seekp(const std::streamoff offset, const seek_direct
 }
 
 template <typename T>
-inline auto span_device<T>::tellp() const noexcept -> std::streamoff
+[[nodiscard]] inline auto span_device<T>::tellp() const noexcept -> std::streamoff
 {
     return write_idx_;
 }
 
 template <typename T>
-inline auto span_device<T>::eof() const noexcept -> bool
+[[nodiscard]] inline auto span_device<T>::eof() const noexcept -> bool
 {
     return read_idx_ >= std::size(span_);
 }
 
 template <typename T>
-inline auto span_device<T>::size() const noexcept -> std::streamoff
+[[nodiscard]] inline auto span_device<T>::size() const noexcept -> std::streamoff
 {
     return static_cast<std::streamoff>(std::size(span_));
 }
 
 template <typename T>
-inline auto span_device<T>::get_span() const noexcept -> const common::span<T> &
+[[nodiscard]] inline auto span_device<T>::get_span() const noexcept -> const common::span<T> &
 {
     return span_;
 }

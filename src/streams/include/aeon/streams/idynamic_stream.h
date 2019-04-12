@@ -23,39 +23,39 @@ public:
 
     virtual auto seekg(const std::streamoff offset, const seek_direction direction) -> bool = 0;
 
-    virtual auto tellg() -> std::streamoff = 0;
+    [[nodiscard]] virtual auto tellg() -> std::streamoff = 0;
 
     virtual auto write(const char *data, const std::streamsize size) -> std::streamsize = 0;
 
     virtual auto seekp(const std::streamoff offset, const seek_direction direction) -> bool = 0;
 
-    virtual auto tellp() -> std::streamoff = 0;
+    [[nodiscard]] virtual auto tellp() -> std::streamoff = 0;
 
-    virtual auto eof() -> bool = 0;
+    [[nodiscard]] virtual auto eof() -> bool = 0;
 
-    virtual auto good() -> bool = 0;
+    [[nodiscard]] virtual auto good() -> bool = 0;
 
-    virtual auto fail() -> bool = 0;
+    [[nodiscard]] virtual auto fail() -> bool = 0;
 
     virtual void flush() = 0;
 
-    virtual auto size() -> std::streamoff = 0;
+    [[nodiscard]] virtual auto size() -> std::streamoff = 0;
 
-    virtual auto is_input() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto is_input() const noexcept -> bool = 0;
 
-    virtual auto is_input_seekable() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto is_input_seekable() const noexcept -> bool = 0;
 
-    virtual auto is_output() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto is_output() const noexcept -> bool = 0;
 
-    virtual auto is_output_seekable() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto is_output_seekable() const noexcept -> bool = 0;
 
-    virtual auto has_eof() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto has_eof() const noexcept -> bool = 0;
 
-    virtual auto has_status() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto has_status() const noexcept -> bool = 0;
 
-    virtual auto has_size() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto has_size() const noexcept -> bool = 0;
 
-    virtual auto is_flushable() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto is_flushable() const noexcept -> bool = 0;
 
 protected:
     idynamic_stream() = default;

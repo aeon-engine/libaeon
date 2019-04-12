@@ -29,7 +29,7 @@ public:
     auto operator=(const size_filter &) noexcept -> size_filter & = default;
 
     template <typename source_t>
-    auto size(source_t &source) const noexcept -> std::streamoff
+    [[nodiscard]] auto size(source_t &source) const noexcept -> std::streamoff
     {
         if constexpr (has_size_v<source_t>)
             return std::min(source.size(), max_size);

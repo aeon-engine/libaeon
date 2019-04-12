@@ -66,7 +66,7 @@ public:
     }
 
     template <typename sink_t>
-    auto tellp(sink_t &sink) const -> std::streamoff
+    [[nodiscard]] auto tellp(sink_t &sink) const -> std::streamoff
     {
         static_assert(is_output_seekable_v<sink_t>, "Sink does not support tellp.");
         flush(sink);
