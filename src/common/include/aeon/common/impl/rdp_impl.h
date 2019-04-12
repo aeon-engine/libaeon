@@ -6,13 +6,20 @@
 #include <aeon/common/assert.h>
 #include <aeon/common/compilers.h>
 #include <regex>
+#include <iostream>
 
 namespace aeon::common::rdp
 {
 
 inline parser::parser(const std::string_view v)
+    : parser{v, {}}
+{
+}
+
+inline parser::parser(const std::string_view v, const std::string_view filename)
     : view_{v}
     , current_{std::begin(view_)}
+    , filename_{filename}
 {
     aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
 }
@@ -25,12 +32,12 @@ inline parser::parser(iterator_t begin, iterator_t end)
     aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
 }
 
-[[nodiscard]] inline auto parser::eof() const noexcept
+[[nodiscard]] inline auto parser::eof() const noexcept -> bool
 {
     return current_ == std::end(view_);
 }
 
-[[nodiscard]] inline auto parser::bof() const noexcept
+[[nodiscard]] inline auto parser::bof() const noexcept -> bool
 {
     return current_ == std::begin(view_);
 }
@@ -66,6 +73,45 @@ inline auto parser::operator*() const noexcept -> char
 inline auto parser::offset() const noexcept -> std::size_t
 {
     return std::distance(std::begin(view_), current_);
+}
+
+inline auto parser::cursor() const noexcept -> rdp::cursor
+{
+    // Find beginning of the line
+    auto line_begin = current_;
+    while (line_begin != std::begin(view_))
+    {
+        if (*line_begin == '\n')
+        {
+            break;
+        }
+
+        --line_begin;
+    }
+
+    if (*line_begin == '\n')
+        ++line_begin;
+
+    // Find the end of the line
+    auto line_end = line_begin;
+    while (line_end != std::end(view_) && *line_end != '\n')
+    {
+        ++line_end;
+    }
+
+    if (*line_end == '\r')
+        --line_end;
+
+    const auto line = common::string::make_string_view(line_begin, line_end);
+    const auto line_number = std::count(std::begin(view_), current_, '\n');
+    const auto column = std::distance(line_begin, current_);
+
+    return rdp::cursor{line, line_number, column};
+}
+
+inline auto parser::filename() const noexcept -> std::string_view
+{
+    return filename_;
 }
 
 inline auto parser::check(const char c) noexcept -> bool
@@ -204,6 +250,54 @@ inline auto current(const parser &parser) noexcept -> char
 inline auto offset(const parser &parser) noexcept -> std::size_t
 {
     return parser.offset();
+}
+
+inline auto filename(const parser &parser) noexcept -> std::string_view
+{
+    return parser.filename();
+}
+
+inline void print_cursor_info(const cursor &cursor)
+{
+    print_cursor_info(cursor, std::cout);
+}
+
+inline void print_cursor_info(const cursor &cursor, std::ostream &stream)
+{
+    const auto minimum_column_for_left_arrow = 8;
+
+    stream << cursor.line();
+    stream << '\n';
+
+    if (cursor.column() < minimum_column_for_left_arrow)
+    {
+        if (cursor.column() > 1)
+            stream << std::string(cursor.column() - 1, ' ');
+
+        stream << "^~~~\n\n";
+    }
+    else
+    {
+        stream << std::string(cursor.column() - 1, '~') << '^' << '\n' << '\n';
+    }
+}
+
+inline void print_parse_error(const parser &parser, const std::string_view message)
+{
+    print_parse_error(parser, message, std::cerr);
+}
+
+inline void print_parse_error(const parser &parser, const std::string_view message, std::ostream &stream)
+{
+    const auto file = filename(parser);
+
+    if (!file.empty())
+        stream << file << ':';
+
+    const auto c = parser.cursor();
+
+    stream << c.line_number() << ':' << c.column() << ": error: " << message << '\n';
+    print_cursor_info(c, stream);
 }
 
 } // namespace aeon::common::rdp
