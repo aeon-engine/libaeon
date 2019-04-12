@@ -5,6 +5,7 @@
 #include <aeon/streams/devices/device.h>
 #include <aeon/streams/stream_traits.h>
 #include <aeon/streams/seek_direction.h>
+#include <aeon/streams/devices/device_view.h>
 #include <aeon/common/type_traits.h>
 #include <iostream>
 #include <type_traits>
@@ -306,6 +307,21 @@ inline auto aggregate_device<filter_t, device_t>::size() -> std::streamoff
         return filter_.size(device_);
     else
         return device_.size();
+}
+
+template <typename operator_device_t, typename operator_filter_t,
+          typename std::enable_if<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int>::type = 0>
+inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
+{
+    return device_view{device.device()};
+}
+
+template <int i, typename operator_device_t, typename operator_filter_t,
+          typename std::enable_if<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int>::type = 0>
+inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
+{
+    constexpr auto idx = aggregate_device<operator_filter_t, operator_device_t>::filter_count() - i - 1;
+    return device_view{aggregate_device_filter<idx>::get(device)};
 }
 
 } // namespace aeon::streams

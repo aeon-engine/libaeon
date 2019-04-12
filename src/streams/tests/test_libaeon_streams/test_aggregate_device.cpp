@@ -29,3 +29,16 @@ TEST(test_streams, test_aggregate_device_filter_select_const)
     EXPECT_TRUE((std::is_same_v<std::decay_t<decltype(pipeline.filter<1>())>, streams::zlib_decompress_filter<256>>));
     EXPECT_EQ(2, pipeline.filter_count());
 }
+
+TEST(test_streams, test_aggregate_device_filter_split)
+{
+    auto pipeline = streams::memory_device{} | streams::seek_offset_filter<10>{} | streams::zlib_decompress_filter{};
+    auto pipeline2 = streams::make_split<1>(pipeline) | streams::zlib_compress_filter{};
+
+    EXPECT_TRUE((std::is_same_v<std::decay_t<decltype(pipeline2.filter<0>())>, streams::zlib_compress_filter<256>>));
+    EXPECT_EQ(2, pipeline.filter_count());
+    EXPECT_EQ(1, pipeline2.filter_count());
+
+    auto pipeline3 = streams::make_split(pipeline) | streams::zlib_compress_filter{};
+    EXPECT_EQ(1, pipeline3.filter_count());
+}
