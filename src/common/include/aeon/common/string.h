@@ -238,6 +238,11 @@ void to_upper(std::string &str);
 [[nodiscard]] auto contains(const std::string_view &str, const std::string_view &val) -> bool;
 
 /*!
+ * Check if the character c is found within "str".
+ */
+[[nodiscard]] auto contains(const std::string_view &str, const char c) -> bool;
+
+/*!
  * Convert a character into a hex string.
  * For example: 'a' becomes "61".
  */

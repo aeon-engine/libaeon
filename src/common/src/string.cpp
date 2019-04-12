@@ -320,6 +320,11 @@ void to_upper(std::string &str)
     return str.find(val) != std::string::npos;
 }
 
+[[nodiscard]] auto contains(const std::string_view &str, const char c) -> bool
+{
+    return str.find(c) != std::string::npos;
+}
+
 [[nodiscard]] auto char_to_hex(const char c) -> std::string
 {
     std::ostringstream ss;
