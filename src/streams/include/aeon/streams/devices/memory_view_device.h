@@ -5,7 +5,6 @@
 #include <aeon/streams/devices/device.h>
 #include <aeon/streams/devices/span_device.h>
 #include <aeon/common/type_traits.h>
-#include <vector>
 #include <string>
 
 namespace aeon::streams
