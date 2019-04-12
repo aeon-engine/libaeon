@@ -1,4 +1,4 @@
-libAeon [![Build status](https://dev.azure.com/robindegen/aeon/_apis/build/status/libAeon%20(VS2019))](https://dev.azure.com/robindegen/aeon/_build/latest?definitionId=1)
+libAeon [![Build status](https://dev.azure.com/robindegen/aeon/_apis/build/status/libAeon%20(VS2019))](https://dev.azure.com/robindegen/aeon/_build/latest?definitionId=1) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4bf88c4e390b4413b604684990be9112)](https://www.codacy.com/app/robindegen/libaeon?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
 ==============
 A general purpose C++17 support library.
 
