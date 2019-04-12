@@ -129,14 +129,14 @@ public:
     constexpr auto &filter() noexcept
     {
         constexpr auto count = filter_count() - i - 1;
-        return aggregate_device_filter<count>::get(*this);
+        return aggregate_device_filter<count>::get(*this).filter();
     }
 
     template <int i>
     constexpr auto &filter() const noexcept
     {
         constexpr auto count = filter_count() - i - 1;
-        return aggregate_device_filter<count>::get(*this);
+        return aggregate_device_filter<count>::get(*this).filter();
     }
 
 private:
@@ -150,13 +150,13 @@ struct aggregate_device_filter<0>
     template <typename filter_t, typename device_t>
     static constexpr auto &get(aggregate_device<filter_t, device_t> &device) noexcept
     {
-        return device.filter_;
+        return device;
     }
 
     template <typename filter_t, typename device_t>
     static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
     {
-        return device.filter_;
+        return device;
     }
 };
 
