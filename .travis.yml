@@ -1,8 +1,0 @@
-sudo: required
-language: cpp
-
-services:
-  - docker
-
-script:
-  - docker build -t="ubuntu_clang" .
