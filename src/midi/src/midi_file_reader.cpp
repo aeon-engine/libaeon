@@ -96,7 +96,6 @@ void midi_file_reader::parse_format(const std::uint16_t format)
         case 2:
             format_ = midi_format::format2;
             throw std::runtime_error("Midi format 2 is untested.");
-            return;
         default:
             break;
     }
