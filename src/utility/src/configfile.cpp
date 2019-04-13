@@ -25,14 +25,10 @@ void configfile::load(streams::idynamic_stream &stream)
     entries_.clear();
 
     // Loop through all lines
-    auto line_number = 0;
     streams::stream_reader reader{stream};
+
     while (!stream.eof())
-    {
-        const auto line = reader.read_line();
-        ++line_number;
-        __read_line(line);
-    }
+        __read_line(reader.read_line());
 }
 
 void configfile::save(streams::idynamic_stream &stream) const
