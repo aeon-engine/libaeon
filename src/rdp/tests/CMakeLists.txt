@@ -1,0 +1,15 @@
+# Copyright (c) 2012-2019 Robin Degen
+
+include(Unittests)
+
+add_unit_test_suite(
+    NO_GTEST_MAIN
+    TARGET test_libaeon_rdp
+    SOURCES
+        main.cpp
+        test_rdp.cpp
+    INCLUDES
+        ${CMAKE_CURRENT_BINARY_DIR}
+    LIBRARIES aeon_rdp
+    FOLDER dep/libaeon/tests
+)

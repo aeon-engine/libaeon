@@ -1,10 +1,10 @@
 // Copyright (c) 2012-2019 Robin Degen
 
-#include <aeon/common/rdp.h>
-#include <aeon/common/rdp_matchers.h>
+#include <aeon/rdp/parser.h>
+#include <aeon/rdp/matchers.h>
 #include <gtest/gtest.h>
 
-using namespace aeon::common;
+using namespace aeon;
 
 TEST(test_rdp, test_advance_reverse_eof_bof_current)
 {

@@ -2,10 +2,13 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
+#include <aeon/common/assert.h>
+#include <aeon/common/compilers.h>
 #include <optional>
 #include <string_view>
 
-namespace aeon::common::rdp
+namespace aeon::rdp
 {
 
 class cursor;
@@ -162,6 +165,52 @@ private:
     std::string_view filename_;
 };
 
+template <typename iterator_t>
+inline parser::parser(iterator_t begin, iterator_t end)
+    : view_{common::string::make_string_view(begin, end)}
+    , current_{std::begin(view_)}
+{
+    aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
+}
+
+template <typename matcher_t>
+inline auto parser::match(matcher_t pred) noexcept -> std::optional<std::string_view>
+{
+    if (AEON_UNLIKELY(eof()))
+        return std::nullopt;
+
+    auto itr = current_;
+
+    while (itr != std::end(view_) && pred(*itr))
+        ++itr;
+
+    if (itr == current_)
+        return std::nullopt;
+
+    const auto result = common::string::make_string_view(current_, itr);
+    current_ = itr;
+    return result;
+}
+
+template <typename matcher_t>
+inline auto parser::match_indexed(matcher_t pred) noexcept -> std::optional<std::string_view>
+{
+    if (AEON_UNLIKELY(eof()))
+        return std::nullopt;
+
+    auto itr = current_;
+
+    while (itr != std::end(view_) && pred(*itr, std::distance(current_, itr)))
+        ++itr;
+
+    if (itr == current_)
+        return std::nullopt;
+
+    const auto result = common::string::make_string_view(current_, itr);
+    current_ = itr;
+    return result;
+}
+
 class scoped_state final
 {
 public:
@@ -195,12 +244,10 @@ private:
     bool restore_;
 };
 
-inline auto eof(const parser &parser) noexcept -> bool;
-inline auto bof(const parser &parser) noexcept -> bool;
-inline auto current(const parser &parser) noexcept -> char;
-inline auto offset(const parser &parser) noexcept -> std::size_t;
-inline auto filename(const parser &parser) noexcept -> std::string_view;
+auto eof(const parser &parser) noexcept -> bool;
+auto bof(const parser &parser) noexcept -> bool;
+auto current(const parser &parser) noexcept -> char;
+auto offset(const parser &parser) noexcept -> std::size_t;
+auto filename(const parser &parser) noexcept -> std::string_view;
 
-} // namespace aeon::common::rdp
-
-#include <aeon/common/impl/rdp_impl.h>
+} // namespace aeon::rdp

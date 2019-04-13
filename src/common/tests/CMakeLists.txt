@@ -12,7 +12,6 @@ add_unit_test_suite(
         test_flags.cpp
         test_lexical_parse.cpp
         test_literals.cpp
-        test_rdp.cpp
         test_scope_guard.cpp
         test_singleton.cpp
         test_span.cpp

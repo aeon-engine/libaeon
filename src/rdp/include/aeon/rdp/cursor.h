@@ -4,7 +4,7 @@
 
 #include <string_view>
 
-namespace aeon::common::rdp
+namespace aeon::rdp
 {
 
 /*!
@@ -37,18 +37,16 @@ private:
     std::size_t column_;
 };
 
-inline auto line(const cursor &cursor) noexcept -> std::string_view;
-inline auto line_number(const cursor &cursor) noexcept -> std::size_t;
-inline auto column(const cursor &cursor) noexcept -> std::size_t;
+auto line(const cursor &cursor) noexcept -> std::string_view;
+auto line_number(const cursor &cursor) noexcept -> std::size_t;
+auto column(const cursor &cursor) noexcept -> std::size_t;
 
-inline void print_cursor_info(const cursor &cursor);
-inline void print_cursor_info(const cursor &cursor, std::ostream &stream);
+void print_cursor_info(const cursor &cursor);
+void print_cursor_info(const cursor &cursor, std::ostream &stream);
 
 class parser;
 
-inline void print_parse_error(const parser &parser, const std::string_view message);
-inline void print_parse_error(const parser &parser, const std::string_view message, std::ostream &stream);
+void print_parse_error(const parser &parser, const std::string_view message);
+void print_parse_error(const parser &parser, const std::string_view message, std::ostream &stream);
 
-} // namespace aeon::common::rdp
-
-#include <aeon/common/impl/rdp_cursor_impl.h>
+} // namespace aeon::rdp
