@@ -19,6 +19,7 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/platform.h
     include/aeon/common/preprocessor.h
     include/aeon/common/rdp.h
+    include/aeon/common/rdp_cursor.h
     include/aeon/common/rdp_matchers.h
     include/aeon/common/scope_guard.h
     include/aeon/common/signed_sizeof.h
@@ -41,6 +42,7 @@ source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
 
 set(LIB_AEON_COMMON_IMPL_SOURCE
     include/aeon/common/impl/rdp_impl.h
+    include/aeon/common/impl/rdp_cursor_impl.h
     include/aeon/common/impl/rdp_matchers_impl.h
     include/aeon/common/impl/string_impl.h
 )

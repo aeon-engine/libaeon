@@ -8,46 +8,7 @@
 namespace aeon::common::rdp
 {
 
-class cursor final
-{
-    friend class parser;
-
-public:
-    ~cursor() = default;
-
-    cursor(const cursor &) noexcept = default;
-    auto operator=(const cursor &) noexcept -> cursor & = default;
-
-    cursor(cursor &&) noexcept = default;
-    auto operator=(cursor &&) noexcept -> cursor & = default;
-
-    [[nodiscard]] auto line() const noexcept -> std::string_view
-    {
-        return line_;
-    }
-
-    [[nodiscard]] auto line_number() const noexcept -> std::size_t
-    {
-        return line_number_;
-    }
-
-    [[nodiscard]] auto column() const noexcept -> std::size_t
-    {
-        return column_;
-    }
-
-private:
-    explicit cursor(const std::string_view line, const std::ptrdiff_t line_number, const std::ptrdiff_t column)
-        : line_{line}
-        , line_number_{static_cast<std::size_t>(line_number)}
-        , column_{static_cast<std::size_t>(column)}
-    {
-    }
-
-    std::string_view line_;
-    std::size_t line_number_;
-    std::size_t column_;
-};
+class cursor;
 
 /*!
  * Recursive-Descent-Parsing (RDP).
@@ -239,12 +200,6 @@ inline auto bof(const parser &parser) noexcept -> bool;
 inline auto current(const parser &parser) noexcept -> char;
 inline auto offset(const parser &parser) noexcept -> std::size_t;
 inline auto filename(const parser &parser) noexcept -> std::string_view;
-
-inline void print_cursor_info(const cursor &cursor);
-inline void print_cursor_info(const cursor &cursor, std::ostream &stream);
-
-inline void print_parse_error(const parser &parser, const std::string_view message);
-inline void print_parse_error(const parser &parser, const std::string_view message, std::ostream &stream);
 
 } // namespace aeon::common::rdp
 

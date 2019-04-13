@@ -2,11 +2,11 @@
 
 #pragma once
 
+#include <aeon/common/rdp_cursor.h>
 #include <aeon/common/string.h>
 #include <aeon/common/assert.h>
 #include <aeon/common/compilers.h>
 #include <regex>
-#include <iostream>
 
 namespace aeon::common::rdp
 {
@@ -255,49 +255,6 @@ inline auto offset(const parser &parser) noexcept -> std::size_t
 inline auto filename(const parser &parser) noexcept -> std::string_view
 {
     return parser.filename();
-}
-
-inline void print_cursor_info(const cursor &cursor)
-{
-    print_cursor_info(cursor, std::cout);
-}
-
-inline void print_cursor_info(const cursor &cursor, std::ostream &stream)
-{
-    const auto minimum_column_for_left_arrow = 8;
-
-    stream << cursor.line();
-    stream << '\n';
-
-    if (cursor.column() < minimum_column_for_left_arrow)
-    {
-        if (cursor.column() > 1)
-            stream << std::string(cursor.column() - 1, ' ');
-
-        stream << "^~~~\n\n";
-    }
-    else
-    {
-        stream << std::string(cursor.column() - 1, '~') << '^' << '\n' << '\n';
-    }
-}
-
-inline void print_parse_error(const parser &parser, const std::string_view message)
-{
-    print_parse_error(parser, message, std::cerr);
-}
-
-inline void print_parse_error(const parser &parser, const std::string_view message, std::ostream &stream)
-{
-    const auto file = filename(parser);
-
-    if (!file.empty())
-        stream << file << ':';
-
-    const auto c = parser.cursor();
-
-    stream << c.line_number() << ':' << c.column() << ": error: " << message << '\n';
-    print_cursor_info(c, stream);
 }
 
 } // namespace aeon::common::rdp
