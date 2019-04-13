@@ -1,3 +1,5 @@
+#!/bin/bash
+
 CLANG_FORMAT="clang-format"
 
 function format {
