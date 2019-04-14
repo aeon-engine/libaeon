@@ -1,6 +1,7 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/rdp/matchers.h>
+#include <aeon/rdp/scoped_state.h>
 #include <aeon/common/compilers.h>
 #include <charconv>
 #include <cctype>
