@@ -1,7 +1,7 @@
 // Copyright (c) 2012-2019 Robin Degen
 
 #include <aeon/midi/midi_device.h>
-#include <rtmidi/RtMidi.h>
+#include <RtMidi.h>
 
 namespace aeon::midi
 {

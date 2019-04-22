@@ -4,7 +4,7 @@
 
 #include <aeon/midi/midi_device.h>
 
-#include <rtmidi/RtMidi.h>
+#include <RtMidi.h>
 
 #include <string>
 #include <vector>

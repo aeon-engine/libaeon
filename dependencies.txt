@@ -15,11 +15,11 @@
 bintray_url https://dl.bintray.com/aeon-engine/aeon_dependencies
 
 bintray libpng 1.6.36
-bintray libjpeg-turbo 2.0.1
+bintray libjpeg-turbo 2.0.2
 bintray googletest 1.8.1
 bintray google-benchmark 1.4.1
 bintray json11 1.0.0
-bintray freetype2 2.9.1
-bintray rtmidi 3.0.0
-bintray asio 1.12.2
-bintray icu 64.0.81
+bintray freetype2 2.10
+bintray rtmidi 4.0.0
+bintray asio 1.13.0
+bintray icu 64.2
