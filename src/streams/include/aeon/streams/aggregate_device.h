@@ -28,6 +28,38 @@ struct is_aggregate_device<aggregate_device<filter_t, device_t>>
     static constexpr auto value = true;
 };
 
+template <int i>
+struct aggregate_device_filter
+{
+    template <typename filter_t, typename device_t>
+    static constexpr auto &get(aggregate_device<filter_t, device_t> &device) noexcept
+    {
+        return aggregate_device_filter<i - 1>::get(device.device_);
+    }
+
+    template <typename filter_t, typename device_t>
+    static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
+    {
+        return aggregate_device_filter<i - 1>::get(device.device_);
+    }
+};
+
+template <>
+struct aggregate_device_filter<0>
+{
+    template <typename filter_t, typename device_t>
+    static constexpr auto &get(aggregate_device<filter_t, device_t> &device) noexcept
+    {
+        return device;
+    }
+
+    template <typename filter_t, typename device_t>
+    static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
+    {
+        return device;
+    }
+};
+
 template <typename filter_t, typename device_t>
 class aggregate_device : public device
 {
@@ -143,38 +175,6 @@ public:
 private:
     filter_t filter_;
     device_t device_;
-};
-
-template <>
-struct aggregate_device_filter<0>
-{
-    template <typename filter_t, typename device_t>
-    static constexpr auto &get(aggregate_device<filter_t, device_t> &device) noexcept
-    {
-        return device;
-    }
-
-    template <typename filter_t, typename device_t>
-    static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
-    {
-        return device;
-    }
-};
-
-template <int i>
-struct aggregate_device_filter
-{
-    template <typename filter_t, typename device_t>
-    static constexpr auto &get(aggregate_device<filter_t, device_t> &device) noexcept
-    {
-        return aggregate_device_filter<i - 1>::get(device.device_);
-    }
-
-    template <typename filter_t, typename device_t>
-    static constexpr auto &get(const aggregate_device<filter_t, device_t> &device) noexcept
-    {
-        return aggregate_device_filter<i - 1>::get(device.device_);
-    }
 };
 
 template <typename filter_t, typename device_t>
