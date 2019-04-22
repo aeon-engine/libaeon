@@ -10,7 +10,7 @@
 
 using namespace aeon;
 
-template <typename pipeline_t, int size>
+template <typename pipeline_t, long unsigned int size>
 void expect_buffer(pipeline_t &pipeline, const std::array<char, size> &expected)
 {
     std::array<char, size> data_readback{};
