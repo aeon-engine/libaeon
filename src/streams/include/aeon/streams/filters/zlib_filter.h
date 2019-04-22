@@ -13,6 +13,7 @@
 #include <zlib.h>
 #undef ZLIB_CONST
 
+#include <memory>
 #include <iostream>
 #include <array>
 
