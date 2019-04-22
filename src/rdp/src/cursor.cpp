@@ -7,6 +7,11 @@
 namespace aeon::rdp
 {
 
+auto cursor::filename() const noexcept -> std::string_view
+{
+    return filename_;
+}
+
 auto cursor::line() const noexcept -> std::string_view
 {
     return line_;
@@ -22,8 +27,10 @@ auto cursor::column() const noexcept -> std::size_t
     return column_;
 }
 
-cursor::cursor(const std::string_view line, const std::ptrdiff_t line_number, const std::ptrdiff_t column) noexcept
-    : line_{line}
+cursor::cursor(const std::string_view filename, const std::string_view line, const std::ptrdiff_t line_number,
+               const std::ptrdiff_t column) noexcept
+    : filename_{filename}
+    , line_{line}
     , line_number_{static_cast<std::size_t>(line_number)}
     , column_{static_cast<std::size_t>(column)}
 {
@@ -69,22 +76,18 @@ void print_cursor_info(const cursor &cursor, std::ostream &stream)
     }
 }
 
-void print_parse_error(const parser &parser, const std::string_view message)
+void print_parse_error(const cursor &cursor, const std::string_view message)
 {
-    print_parse_error(parser, message, std::cerr);
+    print_parse_error(cursor, message, std::cerr);
 }
 
-void print_parse_error(const parser &parser, const std::string_view message, std::ostream &stream)
+void print_parse_error(const cursor &cursor, const std::string_view message, std::ostream &stream)
 {
-    const auto file = filename(parser);
+    if (!cursor.filename().empty())
+        stream << cursor.filename() << ':';
 
-    if (!file.empty())
-        stream << file << ':';
-
-    const auto c = parser.cursor();
-
-    stream << c.line_number() << ':' << c.column() << ": error: " << message << '\n';
-    print_cursor_info(c, stream);
+    stream << cursor.line_number() << ':' << cursor.column() << ": error: " << message << '\n';
+    print_cursor_info(cursor, stream);
 }
 
 } // namespace aeon::rdp

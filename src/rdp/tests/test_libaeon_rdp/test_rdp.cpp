@@ -110,59 +110,65 @@ TEST(test_rdp, test_offset_match_until)
 {
     rdp::parser parser{"111122223333"};
     EXPECT_EQ(0, rdp::offset(parser));
-    EXPECT_EQ("1111", parser.match_until('2'));
-    EXPECT_EQ("2222", parser.match_until('3'));
-    EXPECT_EQ(std::nullopt, parser.match_until('4'));
+    EXPECT_EQ("1111", parser.match_until('2').value());
+    EXPECT_EQ("2222", parser.match_until('3').value());
+    EXPECT_TRUE(parser.match_until('4').is_unmatched());
 }
 
 TEST(test_rdp, test_offset_match_pred)
 {
     rdp::parser parser{"1234abcd5678"};
     EXPECT_EQ(0, rdp::offset(parser));
-    EXPECT_EQ(std::nullopt, parser.match([](const auto c) { return std::isalpha(c) != 0; }));
-    EXPECT_EQ("1234", parser.match([](const auto c) { return std::isdigit(c) != 0; }));
-    EXPECT_EQ("abcd", parser.match([](const auto c) { return std::isalpha(c) != 0; }));
-    EXPECT_EQ(std::nullopt, parser.match([](const auto c) { return std::isalpha(c) != 0; }));
-    EXPECT_EQ("5678", parser.match([](const auto c) { return std::isdigit(c) != 0; }));
+    EXPECT_TRUE(parser.match([](const auto c) { return std::isalpha(c) != 0; }).is_unmatched());
+
+    // TODO: A lambda cannot appear in an unevaluated context. Fix with C++20.
+    EXPECT_EQ("1234", parser.match([](const auto c) { return std::isdigit(c) != 0; }).value());
+    EXPECT_EQ("abcd", parser.match([](const auto c) { return std::isalpha(c) != 0; }).value());
+    EXPECT_TRUE(parser.match([](const auto c) { return std::isalpha(c) != 0; }).is_unmatched());
+    EXPECT_EQ("5678", parser.match([](const auto c) { return std::isdigit(c) != 0; }).value());
 }
 
 TEST(test_rdp, test_offset_match_pred_indexed)
 {
     rdp::parser parser{"1a2b3c4d"};
     EXPECT_EQ(0, rdp::offset(parser));
-    EXPECT_EQ(std::nullopt, parser.match_indexed([](const auto c, const auto i) {
-        if (i % 2 == 0)
-            return std::isalpha(c) != 0;
+    EXPECT_TRUE(parser
+                    .match_indexed([](const auto c, const auto i) {
+                        if (i % 2 == 0)
+                            return std::isalpha(c) != 0;
 
-        return std::isdigit(c) != 0;
-    }));
+                        return std::isdigit(c) != 0;
+                    })
+                    .is_unmatched());
 
-    EXPECT_EQ("1a2b3c4d", parser.match_indexed([](const auto c, const auto i) {
-        if (i % 2 == 0)
-            return std::isdigit(c) != 0;
+    EXPECT_EQ("1a2b3c4d", parser
+                              .match_indexed([](const auto c, const auto i) {
+                                  if (i % 2 == 0)
+                                      return std::isdigit(c) != 0;
 
-        return std::isalpha(c) != 0;
-    }));
+                                  return std::isalpha(c) != 0;
+                              })
+                              .value());
 }
 
 TEST(test_rdp, test_offset_match_regex)
 {
     rdp::parser parser{"111122223333aaaabbbbcccc1234"};
     EXPECT_EQ(0, rdp::offset(parser));
-    EXPECT_EQ(std::nullopt, parser.match_regex("[a-zA-Z]+"));
-    EXPECT_EQ("111122223333", parser.match_regex("[1-3]+"));
-    EXPECT_EQ(std::nullopt, parser.match_regex("[1-3]+"));
-    EXPECT_EQ("aaaabbbbcccc", parser.match_regex("[a-zA-Z]+"));
-    EXPECT_EQ(std::nullopt, parser.match_regex("[a-zA-Z]+"));
-    EXPECT_EQ("123", parser.match_regex("[1-3]+"));
-    EXPECT_EQ("4", parser.match_regex("[1-4]+"));
-    EXPECT_EQ(std::nullopt, parser.match_regex(".*"));
+    EXPECT_TRUE(parser.match_regex("[a-zA-Z]+").is_unmatched());
+    EXPECT_EQ("111122223333", parser.match_regex("[1-3]+").value());
+    EXPECT_TRUE(parser.match_regex("[1-3]+").is_unmatched());
+    EXPECT_EQ("aaaabbbbcccc", parser.match_regex("[a-zA-Z]+").value());
+    EXPECT_TRUE(parser.match_regex("[a-zA-Z]+").is_unmatched());
+    EXPECT_EQ("123", parser.match_regex("[1-3]+").value());
+    EXPECT_EQ("4", parser.match_regex("[1-4]+").value());
+    EXPECT_TRUE(parser.match_regex(".*").is_unmatched());
 }
 
 TEST(test_rdp, test_offset_match_regex_empty_sequence)
 {
     rdp::parser parser{"111122223333aaaabbbbcccc1234"};
-    EXPECT_EQ(std::nullopt, parser.match_regex("[a-zA-Z]*"));
+    EXPECT_TRUE(parser.match_regex("[a-zA-Z]*").is_unmatched());
 }
 
 TEST(test_rdp, test_offset_match_advanced)
@@ -170,9 +176,9 @@ TEST(test_rdp, test_offset_match_advanced)
     rdp::parser parser{"Validvariable123 somethingElse {}"};
     rdp::parser parser2{"123Inalidvariable123 Hello {}"};
     rdp::parser parser3{"__123Validvariable123 123 {}"};
-    EXPECT_EQ("Validvariable123", parser.match_regex("[a-zA-Z_][a-zA-Z0-9\\-_]*"));
-    EXPECT_EQ(std::nullopt, parser2.match_regex("[a-zA-Z][a-zA-Z0-9\\-_]*"));
-    EXPECT_EQ("__123Validvariable123", parser3.match_regex("[a-zA-Z_][a-zA-Z0-9\\-_]*"));
+    EXPECT_EQ("Validvariable123", parser.match_regex("[a-zA-Z_][a-zA-Z0-9\\-_]*").value());
+    EXPECT_TRUE(parser2.match_regex("[a-zA-Z][a-zA-Z0-9\\-_]*").is_unmatched());
+    EXPECT_EQ("__123Validvariable123", parser3.match_regex("[a-zA-Z_][a-zA-Z0-9\\-_]*").value());
 }
 
 template <typename T>

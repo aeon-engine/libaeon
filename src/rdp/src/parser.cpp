@@ -2,6 +2,7 @@
 
 #include <aeon/rdp/parser.h>
 #include <aeon/rdp/cursor.h>
+#include <aeon/rdp/parse_result.h>
 #include <regex>
 
 namespace aeon::rdp
@@ -94,7 +95,7 @@ auto parser::cursor() const noexcept -> rdp::cursor
     const auto line_number = std::count(std::begin(view_), current_, '\n');
     const auto column = std::distance(line_begin, current_);
 
-    return rdp::cursor{line, line_number, column};
+    return rdp::cursor{filename(), line, line_number, column};
 }
 
 auto parser::filename() const noexcept -> std::string_view
@@ -145,27 +146,27 @@ void parser::skip_until(const char c) noexcept
         advance();
 }
 
-auto parser::match_regex(const std::string_view regex) -> std::optional<std::string_view>
+auto parser::match_regex(const std::string_view regex) -> parse_result<std::string_view>
 {
     if (AEON_UNLIKELY(eof()))
-        return std::nullopt;
+        return unmatched{};
 
     const std::regex r{std::data(regex)};
     std::match_results<std::string_view::const_iterator> match;
 
     if (!std::regex_search(current_, std::end(view_), match, r,
                            std::regex_constants::match_not_null | std::regex_constants::match_continuous))
-        return std::nullopt;
+        return unmatched{};
 
     aeon_assert(match.size() == 1, "Bug: expected only 1 match result.");
 
     const auto result = common::string::make_string_view(match.begin()->first, match.begin()->second);
     current_ = match.begin()->second;
 
-    return result;
+    return matched{result};
 }
 
-auto parser::match_until(const char c) noexcept -> std::optional<std::string_view>
+auto parser::match_until(const char c) noexcept -> parse_result<std::string_view>
 {
     auto itr = current_;
 
@@ -174,12 +175,12 @@ auto parser::match_until(const char c) noexcept -> std::optional<std::string_vie
         ++itr;
 
         if (AEON_UNLIKELY(itr == std::end(view_)))
-            return std::nullopt;
+            return unmatched{};
     } while (*itr != c);
 
     const auto result = common::string::make_string_view(current_, itr);
     current_ = itr;
-    return result;
+    return matched{result};
 }
 
 auto eof(const parser &parser) noexcept -> bool

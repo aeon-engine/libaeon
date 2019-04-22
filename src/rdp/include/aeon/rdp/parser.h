@@ -5,13 +5,15 @@
 #include <aeon/common/string.h>
 #include <aeon/common/assert.h>
 #include <aeon/common/compilers.h>
-#include <optional>
 #include <string_view>
 
 namespace aeon::rdp
 {
 
 class cursor;
+
+template <typename T>
+class parse_result;
 
 /*!
  * Recursive-Descent-Parsing (RDP).
@@ -20,7 +22,7 @@ class cursor;
  *
  * Function and method naming scheme:
  * check_* - Check if a certain character is matched. Returns true or false.
- * match_* - Match 1 or more characters. Returns an std::optional with the result, nullopt_t if unmatched.
+ * match_* - Match 1 or more characters. Returns a parse_result with the result
  * skip_*  - Skip a certain character or characters.
  * parse_* - The same as match, however the result is parsed into a pod type (for example parse_hex
  *           would parse to an integer)
@@ -131,7 +133,7 @@ public:
      * The matcher's signature is: auto pred(const char c) noexcept -> bool
      */
     template <typename matcher_t>
-    auto match(matcher_t pred) noexcept -> std::optional<std::string_view>;
+    auto match(matcher_t pred) noexcept -> parse_result<std::string_view>;
 
     /*!
      * Match with a matcher. The second argument given to the predicate is the index of the matched character.
@@ -141,75 +143,29 @@ public:
      * The matcher's signature is: auto pred(const char c, const std::size_t index) noexcept -> bool
      */
     template <typename matcher_t>
-    auto match_indexed(matcher_t pred) noexcept -> std::optional<std::string_view>;
+    auto match_indexed(matcher_t pred) noexcept -> parse_result<std::string_view>;
 
     /*!
      * Match with regular expressions. The expression is only matched when it starts at the current index.
-     * Note that while using a Kleene star, empty sequences are not matched and will return nullopt.
+     * Note that while using a Kleene star, empty sequences are not matched and will return unmatched.
      *
      * Examples:
      * "[a-zA-Z]+"
      * "[0-9]+"
      */
-    auto match_regex(const std::string_view regex) -> std::optional<std::string_view>;
+    auto match_regex(const std::string_view regex) -> parse_result<std::string_view>;
 
     /*!
      * Match any character until the given character. The result will not contain the given end character.
-     * If eof is reached before the given character is found, nullopt will be returned.
+     * If eof is reached before the given character is found, unmatched will be returned.
      */
-    auto match_until(const char c) noexcept -> std::optional<std::string_view>;
+    auto match_until(const char c) noexcept -> parse_result<std::string_view>;
 
 private:
     std::string_view view_;
     std::string_view::const_iterator current_;
     std::string_view filename_;
 };
-
-template <typename iterator_t>
-inline parser::parser(iterator_t begin, iterator_t end)
-    : view_{common::string::make_string_view(begin, end)}
-    , current_{std::begin(view_)}
-{
-    aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
-}
-
-template <typename matcher_t>
-inline auto parser::match(matcher_t pred) noexcept -> std::optional<std::string_view>
-{
-    if (AEON_UNLIKELY(eof()))
-        return std::nullopt;
-
-    auto itr = current_;
-
-    while (itr != std::end(view_) && pred(*itr))
-        ++itr;
-
-    if (itr == current_)
-        return std::nullopt;
-
-    const auto result = common::string::make_string_view(current_, itr);
-    current_ = itr;
-    return result;
-}
-
-template <typename matcher_t>
-inline auto parser::match_indexed(matcher_t pred) noexcept -> std::optional<std::string_view>
-{
-    if (AEON_UNLIKELY(eof()))
-        return std::nullopt;
-
-    auto itr = current_;
-
-    while (itr != std::end(view_) && pred(*itr, std::distance(current_, itr)))
-        ++itr;
-
-    if (itr == current_)
-        return std::nullopt;
-
-    const auto result = common::string::make_string_view(current_, itr);
-    current_ = itr;
-    return result;
-}
 
 auto eof(const parser &parser) noexcept -> bool;
 auto bof(const parser &parser) noexcept -> bool;
@@ -218,3 +174,5 @@ auto offset(const parser &parser) noexcept -> std::size_t;
 auto filename(const parser &parser) noexcept -> std::string_view;
 
 } // namespace aeon::rdp
+
+#include <aeon/rdp/impl/parser_impl.h>

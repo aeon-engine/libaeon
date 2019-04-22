@@ -43,64 +43,64 @@ void skip_until_newline(parser &parser) noexcept;
 /*!
  * Match alpha characters (a-zA-Z) and return the result if any were matched.
  */
-auto match_alpha(parser &parser) noexcept -> std::optional<std::string_view>;
+auto match_alpha(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
  * Match digit characters (0-9) and return the result if any were matched.
  */
-auto match_digit(parser &parser) noexcept -> std::optional<std::string_view>;
+auto match_digit(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
  * Match digit characters (optionally a '-' character followed by 0-9) and return the result if any were matched.
  */
-auto match_signed_digit(parser &parser) noexcept -> std::optional<std::string_view>;
+auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
  * Match alpha and digit characters (a-zA-Z0-9) and return the result if any were matched.
  */
-auto match_alnum(parser &parser) noexcept -> std::optional<std::string_view>;
+auto match_alnum(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
  * Match binary characters (0 or 1) and return the result if any were matched.
  */
-auto match_binary(parser &parser) noexcept -> std::optional<std::string_view>;
+auto match_binary(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
  * Match hexadecimal characters (0-9a-fA-F) and return the result if any were matched.
  */
-auto match_hexadecimal(parser &parser) noexcept -> std::optional<std::string_view>;
+auto match_hexadecimal(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
  * Parse decimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
  */
 template <typename T, typename std::enable_if<std::is_integral_v<T>>::type * = nullptr>
-inline auto parse_decimal(parser &parser) noexcept -> std::optional<T>;
+inline auto parse_decimal(parser &parser) noexcept -> parse_result<T>;
 
 /*!
  * Parse binary characters (0 or 1) to an integer and return the result if any were matched and parsed.
  */
 template <typename T, typename std::enable_if<std::is_unsigned_v<T>>::type * = nullptr>
-inline auto parse_binary(parser &parser) noexcept -> std::optional<T>;
+inline auto parse_binary(parser &parser) noexcept -> parse_result<T>;
 
 /*!
  * Parse binary characters (0 or 1) to an integer and return the result if any were matched and parsed.
  * The result is only matched if the binary value is prefixed with the given prefix.
  */
 template <typename T>
-inline auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> std::optional<T>;
+inline auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> parse_result<T>;
 
 /*!
  * Parse hexadecimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
  */
 template <typename T, typename std::enable_if<std::is_unsigned_v<T>>::type * = nullptr>
-inline auto parse_hexadecimal(parser &parser) noexcept -> std::optional<T>;
+inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<T>;
 
 /*!
  * Parse hexadecimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
  * The result is only matched if the binary value is prefixed with the given prefix.
  */
 template <typename T>
-inline auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> std::optional<T>;
+inline auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> parse_result<T>;
 
 } // namespace aeon::rdp
 

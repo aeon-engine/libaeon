@@ -59,17 +59,17 @@ void skip_until_newline(parser &parser) noexcept
     parser.skip_until('\n');
 }
 
-auto match_alpha(parser &parser) noexcept -> std::optional<std::string_view>
+auto match_alpha(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isalpha(c) != 0; });
 }
 
-auto match_digit(parser &parser) noexcept -> std::optional<std::string_view>
+auto match_digit(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isdigit(c) != 0; });
 }
 
-auto match_signed_digit(parser &parser) noexcept -> std::optional<std::string_view>
+auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match_indexed([](const auto c, const auto i) {
         if (AEON_UNLIKELY(i == 0) && c == '-')
@@ -79,17 +79,17 @@ auto match_signed_digit(parser &parser) noexcept -> std::optional<std::string_vi
     });
 }
 
-auto match_alnum(parser &parser) noexcept -> std::optional<std::string_view>
+auto match_alnum(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isalnum(c) != 0; });
 }
 
-auto match_binary(parser &parser) noexcept -> std::optional<std::string_view>
+auto match_binary(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return c == '0' || c == '1'; });
 }
 
-auto match_hexadecimal(parser &parser) noexcept -> std::optional<std::string_view>
+auto match_hexadecimal(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isxdigit(c) != 0; });
 }

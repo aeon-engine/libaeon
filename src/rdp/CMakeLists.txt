@@ -7,6 +7,7 @@ set(LIB_AEON_RDP_SOURCE
     include/aeon/rdp/cursor.h
     src/matchers.cpp
     include/aeon/rdp/matchers.h
+    include/aeon/rdp/parse_result.h
     include/aeon/rdp/scoped_state.h
 )
 
@@ -14,6 +15,8 @@ source_group(rdp FILES ${LIB_AEON_RDP_SOURCE})
 
 set(LIB_AEON_RDP_IMPL_SOURCE
     include/aeon/rdp/impl/matchers_impl.h
+    include/aeon/rdp/impl/parser_impl.h
+    include/aeon/rdp/impl/parse_result_impl.h
 )
 
 source_group(rdp\\impl FILES ${LIB_AEON_RDP_IMPL_SOURCE})
