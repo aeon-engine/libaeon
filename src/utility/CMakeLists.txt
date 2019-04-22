@@ -31,7 +31,19 @@ set_target_properties(aeon_utility PROPERTIES
 
 target_include_directories(aeon_utility PUBLIC include)
 
-target_link_libraries(aeon_utility aeon_common aeon_streams)
+target_link_libraries(aeon_utility
+    aeon_common
+    aeon_streams
+)
+
+if (UNIX)
+    set(CMAKE_THREAD_PREFER_PTHREAD ON)
+    find_package(Threads)
+
+    target_link_libraries(aeon_utility
+        ${CMAKE_THREAD_LIBS_INIT}
+    )
+endif ()
 
 install(
     DIRECTORY include/aeon
