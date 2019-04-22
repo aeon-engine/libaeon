@@ -53,7 +53,12 @@ set_target_properties(aeon_common PROPERTIES
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_common PUBLIC include)
+target_include_directories(aeon_common
+    PUBLIC
+        include
+    PRIVATE
+        ${CMAKE_BINARY_DIR}
+)
 
 # On linux, we must link with libdl to use dlopen, dlclose etc.
 if (UNIX AND NOT APPLE)

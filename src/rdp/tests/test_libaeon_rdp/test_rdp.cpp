@@ -181,90 +181,91 @@ TEST(test_rdp, test_offset_match_advanced)
     EXPECT_EQ("__123Validvariable123", parser3.match_regex("[a-zA-Z_][a-zA-Z0-9\\-_]*").value());
 }
 
-template <typename T>
-void check_parse_decimal(const std::string_view str, const T expected)
+void check_parse_decimal_signed(const std::string_view str, const std::int64_t expected)
 {
     rdp::parser parser{str};
-    EXPECT_EQ(expected, rdp::parse_decimal<T>(parser));
+    EXPECT_EQ(expected, rdp::parse_decimal_signed(parser));
 }
 
 TEST(test_rdp, test_parse_decimal_signed)
 {
-    check_parse_decimal<char>("-12", -12);
-    check_parse_decimal<char>("12", 12);
-    check_parse_decimal<short>("-1234", -1234);
-    check_parse_decimal<short>("1234", 1234);
-    check_parse_decimal<int>("-123456", -123456);
-    check_parse_decimal<int>("123456", 123456);
-    check_parse_decimal<long long>("-123456789", -123456789);
-    check_parse_decimal<long long>("123456789", 123456789);
+    check_parse_decimal_signed("-12", -12);
+    check_parse_decimal_signed("12", 12);
+    check_parse_decimal_signed("-1234", -1234);
+    check_parse_decimal_signed("1234", 1234);
+    check_parse_decimal_signed("-123456", -123456);
+    check_parse_decimal_signed("123456", 123456);
+    check_parse_decimal_signed("-123456789", -123456789);
+    check_parse_decimal_signed("123456789", 123456789);
+}
+
+void check_parse_decimal_unsigned(const std::string_view str, const std::uint64_t expected)
+{
+    rdp::parser parser{str};
+    EXPECT_EQ(expected, rdp::parse_decimal_unsigned(parser));
 }
 
 TEST(test_rdp, test_parse_decimal_unsigned)
 {
-    check_parse_decimal<unsigned char>("12", 12);
-    check_parse_decimal<unsigned short>("1234", 1234);
-    check_parse_decimal<unsigned int>("123456", 123456);
-    check_parse_decimal<unsigned long long>("123456789", 123456789);
+    check_parse_decimal_unsigned("12", 12);
+    check_parse_decimal_unsigned("1234", 1234);
+    check_parse_decimal_unsigned("123456", 123456);
+    check_parse_decimal_unsigned("123456789", 123456789);
 }
 
-template <typename T>
-void check_parse_binary(const std::string_view str, const T expected)
+void check_parse_binary(const std::string_view str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
-    EXPECT_EQ(expected, rdp::parse_binary<T>(parser));
+    EXPECT_EQ(expected, rdp::parse_binary(parser));
 }
 
 TEST(test_rdp, test_parse_binary)
 {
-    check_parse_binary<unsigned char>("1010", 10);
-    check_parse_binary<unsigned short>("1001001011010101", 37589);
-    check_parse_binary<unsigned int>("10101001010001101001001011010101", 2839974613);
-    check_parse_binary<unsigned long long>("100010001001100010100100101010010101001010001101001001011010101",
-                                           4921399016379814613);
+    check_parse_binary("1010", 10);
+    check_parse_binary("1001001011010101", 37589);
+    check_parse_binary("10101001010001101001001011010101", 2839974613);
+    check_parse_binary("100010001001100010100100101010010101001010001101001001011010101", 4921399016379814613);
 }
 
-template <typename T>
-void check_parse_binary_prefixed(const std::string_view str, const T expected)
+void check_parse_binary_prefixed(const std::string_view str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
-    EXPECT_EQ(expected, rdp::parse_binary<T>(parser, "0b"));
+    EXPECT_EQ(expected, rdp::parse_binary(parser, "0b"));
 }
 
 TEST(test_rdp, test_parse_binary_prefixed)
 {
-    check_parse_binary_prefixed<unsigned char>("0b1010", 10);
-    check_parse_binary_prefixed<unsigned short>("0b1001001011010101", 37589);
-    check_parse_binary_prefixed<unsigned int>("0b10101001010001101001001011010101", 2839974613);
-    check_parse_binary_prefixed<unsigned long long>("0b100010001001100010100100101010010101001010001101001001011010101",
-                                                    4921399016379814613u);
+    check_parse_binary_prefixed("0b1010", 10);
+    check_parse_binary_prefixed("0b1001001011010101", 37589);
+    check_parse_binary_prefixed("0b10101001010001101001001011010101", 2839974613);
+    check_parse_binary_prefixed("0b100010001001100010100100101010010101001010001101001001011010101",
+                                4921399016379814613u);
 }
-template <typename T>
-void check_parse_hex(const std::string_view str, const T expected)
+
+void check_parse_hex(const std::string_view str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
-    EXPECT_EQ(expected, rdp::parse_hexadecimal<T>(parser));
+    EXPECT_EQ(expected, rdp::parse_hexadecimal(parser));
 }
 
 TEST(test_rdp, test_parse_hexadecimal)
 {
-    check_parse_hex<unsigned char>("BD", 189);
-    check_parse_hex<unsigned short>("BD74", 48500);
-    check_parse_hex<unsigned int>("F1DA85FC", 4057630204);
-    check_parse_hex<unsigned long long>("57DB41EA587DB4FC", 6330726175962150140u);
+    check_parse_hex("BD", 189);
+    check_parse_hex("BD74", 48500);
+    check_parse_hex("F1DA85FC", 4057630204);
+    check_parse_hex("57DB41EA587DB4FC", 6330726175962150140u);
 }
 
-template <typename T>
-void check_parse_hex_prefixed(const std::string_view str, const T expected)
+void check_parse_hex_prefixed(const std::string_view str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
-    EXPECT_EQ(expected, rdp::parse_hexadecimal<T>(parser, "0x"));
+    EXPECT_EQ(expected, rdp::parse_hexadecimal(parser, "0x"));
 }
 
 TEST(test_rdp, test_parse_hexadecimal_prefixed)
 {
-    check_parse_hex_prefixed<unsigned char>("0xBD", 189);
-    check_parse_hex_prefixed<unsigned short>("0xBD74", 48500);
-    check_parse_hex_prefixed<unsigned int>("0xF1DA85FC", 4057630204);
-    check_parse_hex_prefixed<unsigned long long>("0x57DB41EA587DB4FC", 6330726175962150140u);
+    check_parse_hex_prefixed("0xBD", 189);
+    check_parse_hex_prefixed("0xBD74", 48500);
+    check_parse_hex_prefixed("0xF1DA85FC", 4057630204);
+    check_parse_hex_prefixed("0x57DB41EA587DB4FC", 6330726175962150140u);
 }

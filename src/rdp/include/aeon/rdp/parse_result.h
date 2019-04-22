@@ -48,8 +48,8 @@ public:
 
     ~parse_error() = default;
 
-    parse_error(const parse_error &) noexcept = default;
-    auto operator=(const parse_error &) noexcept -> parse_error & = default;
+    parse_error(const parse_error &) = default;
+    auto operator=(const parse_error &) -> parse_error & = default;
 
     parse_error(parse_error &&) noexcept = default;
     auto operator=(parse_error &&) noexcept -> parse_error & = default;
@@ -74,8 +74,8 @@ public:
 
     ~parse_result() noexcept = default;
 
-    parse_result(const parse_result<T> &) noexcept = default;
-    auto operator=(const parse_result<T> &) noexcept -> parse_result<T> & = default;
+    parse_result(const parse_result<T> &) = default;
+    auto operator=(const parse_result<T> &) -> parse_result<T> & = default;
 
     parse_result(parse_result<T> &&) noexcept = default;
     auto operator=(parse_result<T> &&) noexcept -> parse_result<T> & = default;

@@ -71,37 +71,35 @@ auto match_binary(parser &parser) noexcept -> parse_result<std::string_view>;
 auto match_hexadecimal(parser &parser) noexcept -> parse_result<std::string_view>;
 
 /*!
- * Parse decimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
+ * Parse decimal characters (0-9) to an integer and return the result if any were matched and parsed.
  */
-template <typename T, typename std::enable_if<std::is_integral_v<T>>::type * = nullptr>
-inline auto parse_decimal(parser &parser) noexcept -> parse_result<T>;
+auto parse_decimal_signed(parser &parser) noexcept -> parse_result<std::int64_t>;
+
+/*!
+ * Parse decimal characters (0-9) to an integer and return the result if any were matched and parsed.
+ */
+auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64_t>;
 
 /*!
  * Parse binary characters (0 or 1) to an integer and return the result if any were matched and parsed.
  */
-template <typename T, typename std::enable_if<std::is_unsigned_v<T>>::type * = nullptr>
-inline auto parse_binary(parser &parser) noexcept -> parse_result<T>;
+auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>;
 
 /*!
  * Parse binary characters (0 or 1) to an integer and return the result if any were matched and parsed.
  * The result is only matched if the binary value is prefixed with the given prefix.
  */
-template <typename T>
-inline auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> parse_result<T>;
+auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>;
 
 /*!
  * Parse hexadecimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
  */
-template <typename T, typename std::enable_if<std::is_unsigned_v<T>>::type * = nullptr>
-inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<T>;
+auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>;
 
 /*!
  * Parse hexadecimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
  * The result is only matched if the binary value is prefixed with the given prefix.
  */
-template <typename T>
-inline auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> parse_result<T>;
+auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>;
 
 } // namespace aeon::rdp
-
-#include <aeon/rdp/impl/matchers_impl.h>

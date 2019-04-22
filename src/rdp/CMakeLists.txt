@@ -14,7 +14,6 @@ set(LIB_AEON_RDP_SOURCE
 source_group(rdp FILES ${LIB_AEON_RDP_SOURCE})
 
 set(LIB_AEON_RDP_IMPL_SOURCE
-    include/aeon/rdp/impl/matchers_impl.h
     include/aeon/rdp/impl/parser_impl.h
     include/aeon/rdp/impl/parse_result_impl.h
 )
@@ -34,6 +33,8 @@ set_target_properties(aeon_rdp PROPERTIES
 target_include_directories(aeon_rdp
     PUBLIC
         include
+    PRIVATE
+        ${CMAKE_BINARY_DIR}
 )
 
 target_link_libraries(aeon_rdp
