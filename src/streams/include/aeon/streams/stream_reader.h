@@ -10,6 +10,7 @@
 #include <aeon/common/assert.h>
 #include <string>
 #include <vector>
+#include <cstring>
 
 namespace aeon::streams
 {
