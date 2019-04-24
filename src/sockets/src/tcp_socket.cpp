@@ -20,7 +20,7 @@ tcp_socket::tcp_socket(asio::io_context &context)
 
 tcp_socket::tcp_socket(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
-    , strand_(static_cast<asio::io_context&>(socket.get_executor().context()))
+    , strand_(static_cast<asio::io_context &>(socket.get_executor().context()))
     , data_()
     , send_data_queue_()
 {
