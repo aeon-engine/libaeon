@@ -8,7 +8,7 @@
 namespace aeon::unicode
 {
 
-class utf16_iterator final : public base_utf_iterator<std::wstring_view, char16_t>
+class utf16_iterator final : public base_utf_iterator<std::u16string_view, char16_t>
 {
 public:
     using value_type = const char32_t;
@@ -17,15 +17,15 @@ public:
     using difference_type = std::int32_t;
     using iterator_category = std::forward_iterator_tag;
 
-    explicit utf16_iterator(const std::wstring_view &str) noexcept
-        : base_utf_iterator<std::wstring_view, char16_t>{str}
+    explicit utf16_iterator(const std::u16string_view &str) noexcept
+        : base_utf_iterator<std::u16string_view, char16_t>{str}
     {
         consume_bom();
         advance();
     }
 
-    explicit utf16_iterator(const std::wstring_view &str, const std::int32_t offset) noexcept
-        : base_utf_iterator<std::wstring_view, char16_t>{str, offset}
+    explicit utf16_iterator(const std::u16string_view &str, const std::int32_t offset) noexcept
+        : base_utf_iterator<std::u16string_view, char16_t>{str, offset}
     {
     }
 

@@ -26,7 +26,7 @@ struct utf_iterator_traits<std::string_view>
 };
 
 template <>
-struct utf_iterator_traits<std::wstring_view>
+struct utf_iterator_traits<std::u16string_view>
 {
     using iterator_type = utf16_iterator;
 };
@@ -42,8 +42,8 @@ public:
     explicit utf_string_view(const T str) noexcept
         : str_{str}
     {
-        static_assert(std::disjunction_v<std::is_same<T, std::string_view>, std::is_same<T, std::wstring_view>>,
-                      "T must be std::string_view or std::wstring_view.");
+        static_assert(std::disjunction_v<std::is_same<T, std::string_view>, std::is_same<T, std::u16string_view>>,
+                      "T must be std::string_view or std::u16string_view.");
     }
 
     ~utf_string_view() = default;
@@ -115,9 +115,9 @@ utf_string_view(char *const)->utf_string_view<std::string_view>;
 utf_string_view(const char *const)->utf_string_view<std::string_view>;
 utf_string_view(const std::string &)->utf_string_view<std::string_view>;
 
-utf_string_view(wchar_t *const)->utf_string_view<std::wstring_view>;
-utf_string_view(const wchar_t *const)->utf_string_view<std::wstring_view>;
-utf_string_view(const std::wstring &)->utf_string_view<std::wstring_view>;
+utf_string_view(char16_t *const)->utf_string_view<std::u16string_view>;
+utf_string_view(const char16_t *const)->utf_string_view<std::u16string_view>;
+utf_string_view(const std::u16string &)->utf_string_view<std::u16string_view>;
 
 utf_string_view(char32_t *const)->utf_string_view<std::u32string_view>;
 utf_string_view(const char32_t *const)->utf_string_view<std::u32string_view>;

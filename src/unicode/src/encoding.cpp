@@ -12,7 +12,7 @@ namespace aeon::unicode
 namespace utf8
 {
 
-[[nodiscard]] auto to_utf16(const std::string_view &str) -> std::wstring
+[[nodiscard]] auto to_utf16(const std::string_view &str) -> std::u16string
 {
     internal::uconverter converter{"utf-8"};
     return converter.to_uchars(str);
@@ -51,19 +51,19 @@ void append(const std::u32string_view &from, std::string &to)
 namespace utf16
 {
 
-[[nodiscard]] auto to_utf8(const std::wstring_view &str) -> std::string
+[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> std::string
 {
     internal::uconverter converter{"utf-8"};
     return converter.from_uchars(str);
 }
 
-[[nodiscard]] auto to_utf32(const std::wstring_view &str) -> std::u32string
+[[nodiscard]] auto to_utf32(const std::u16string_view &str) -> std::u32string
 {
     utf_string_view view{str};
     return {std::begin(view), std::end(view)};
 }
 
-void append(const char32_t from, std::wstring &to)
+void append(const char32_t from, std::u16string &to)
 {
     std::array<char16_t, 2> data;
     auto data_offset = 0;
@@ -77,7 +77,7 @@ void append(const char32_t from, std::wstring &to)
     to.append(std::begin(data), std::begin(data) + data_offset);
 }
 
-void append(const std::u32string_view &from, std::wstring &to)
+void append(const std::u32string_view &from, std::u16string &to)
 {
     for (const auto c : from)
     {
@@ -104,16 +104,16 @@ namespace utf32
     return to;
 }
 
-[[nodiscard]] auto to_utf16(const char32_t c) -> std::wstring
+[[nodiscard]] auto to_utf16(const char32_t c) -> std::u16string
 {
-    std::wstring to;
+    std::u16string to;
     utf16::append(c, to);
     return to;
 }
 
-[[nodiscard]] auto to_utf16(const std::u32string_view &str) -> std::wstring
+[[nodiscard]] auto to_utf16(const std::u32string_view &str) -> std::u16string
 {
-    std::wstring to;
+    std::u16string to;
     utf16::append(str, to);
     return to;
 }

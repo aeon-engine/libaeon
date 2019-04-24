@@ -33,7 +33,7 @@ public:
         UErrorCode status = U_ZERO_ERROR;
         const auto target_length = to_uchars_length(str);
 
-        std::wstring target;
+        std::u16string target;
         target.resize(target_length);
 
         ucnv_toUChars(converter_, reinterpret_cast<UChar *>(std::data(target)), target_length, std::data(str),
@@ -45,7 +45,7 @@ public:
         return target;
     }
 
-    [[nodiscard]] auto from_uchars(const std::wstring_view &str) const
+    [[nodiscard]] auto from_uchars(const std::u16string_view &str) const
     {
         UErrorCode status = U_ZERO_ERROR;
         const auto target_length = from_uchars_length(str);
@@ -81,7 +81,7 @@ private:
         return size;
     }
 
-    [[nodiscard]] auto from_uchars_length(const std::wstring_view &str) const -> int32_t
+    [[nodiscard]] auto from_uchars_length(const std::u16string_view &str) const -> int32_t
     {
         UErrorCode status = U_ZERO_ERROR;
 
