@@ -3,6 +3,7 @@
 set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/assert.h
     include/aeon/common/bitflags.h
+    include/aeon/common/collection.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
     include/aeon/common/deprecated.h
