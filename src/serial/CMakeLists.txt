@@ -1,14 +1,20 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-set(LIB_AEON_SERIAL_SOURCE
+set(LIB_AEON_SERIAL_PUBLIC_SOURCE
     include/aeon/serial/serial_port.h
+)
+
+source_group(public FILES ${LIB_AEON_SERIAL_PUBLIC_SOURCE})
+
+set(LIB_AEON_SERIAL_PRIVATE_SOURCE
     src/serial_port.cpp
 )
 
-source_group(serial FILES ${LIB_AEON_SERIAL_SOURCE})
+source_group(private FILES ${LIB_AEON_SERIAL_PRIVATE_SOURCE})
 
 add_library(aeon_serial STATIC
-    ${LIB_AEON_SERIAL_SOURCE}
+    ${LIB_AEON_SERIAL_PUBLIC_SOURCE}
+    ${LIB_AEON_SERIAL_PRIVATE_SOURCE}
 )
 
 set_target_properties(aeon_serial PROPERTIES
@@ -16,7 +22,11 @@ set_target_properties(aeon_serial PROPERTIES
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_serial PUBLIC include)
+target_include_directories(aeon_serial
+    PUBLIC
+        include
+)
+
 target_link_libraries(aeon_serial
     aeon_common
 )

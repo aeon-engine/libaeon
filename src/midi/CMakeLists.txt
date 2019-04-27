@@ -2,23 +2,31 @@
 
 message(STATUS "Building libAeon with RtMidi support.")
 
-set(LIB_AEON_RTMIDI_SOURCE
+set(LIB_AEON_RTMIDI_PUBLIC_SOURCE
     include/aeon/midi/midi_device.h
-    src/midi_device.cpp
     include/aeon/midi/midi_file_reader.h
-    src/midi_file_reader.cpp
     include/aeon/midi/midi_input_device.h
-    src/midi_input_device.cpp
     include/aeon/midi/midi_input_manager.h
-    src/midi_input_manager.cpp
     include/aeon/midi/midi_messages.h
     include/aeon/midi/midi_output_device.h
+)
+
+source_group(public FILES ${LIB_AEON_RTMIDI_PUBLIC_SOURCE})
+
+set(LIB_AEON_RTMIDI_PRIVATE_SOURCE
+    src/midi_device.cpp
+    src/midi_file_reader.cpp
+    src/midi_input_device.cpp
+    src/midi_input_manager.cpp
     src/midi_output_device.cpp
 )
 
-source_group(midi FILES ${LIB_AEON_RTMIDI_SOURCE})
+source_group(private FILES ${LIB_AEON_RTMIDI_PRIVATE_SOURCE})
 
-add_library(aeon_midi STATIC ${LIB_AEON_RTMIDI_SOURCE})
+add_library(aeon_midi STATIC
+    ${LIB_AEON_RTMIDI_PUBLIC_SOURCE}
+    ${LIB_AEON_RTMIDI_PRIVATE_SOURCE}
+)
 
 set_target_properties(aeon_midi PROPERTIES
     FOLDER dep/libaeon

@@ -1,26 +1,32 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-set(LIB_AEON_UNICODE_SOURCE
-    src/encoding.cpp
-    src/ucnv_wrapper.h
+set(LIB_AEON_UNICODE_PUBLIC_SOURCE
     include/aeon/unicode/encoding.h
     include/aeon/unicode/exception.h
     include/aeon/unicode/utf_string_view.h
     include/aeon/unicode/base_utf_iterator.h
-    src/utf8_iterator.cpp
     include/aeon/unicode/utf8_iterator.h
-    src/utf16_iterator.cpp
     include/aeon/unicode/utf16_iterator.h
-    src/stringutils.cpp
     include/aeon/unicode/stringutils.h
-    src/ctypes.cpp
     include/aeon/unicode/ctypes.h
 )
 
-source_group(unicode FILES ${LIB_AEON_UNICODE_SOURCE})
+source_group(public FILES ${LIB_AEON_UNICODE_PUBLIC_SOURCE})
+
+set(LIB_AEON_UNICODE_PRIVATE_SOURCE
+    src/encoding.cpp
+    src/ucnv_wrapper.h
+    src/utf8_iterator.cpp
+    src/utf16_iterator.cpp
+    src/stringutils.cpp
+    src/ctypes.cpp
+)
+
+source_group(private FILES ${LIB_AEON_UNICODE_PRIVATE_SOURCE})
 
 add_library(aeon_unicode STATIC
-    ${LIB_AEON_UNICODE_SOURCE}
+    ${LIB_AEON_UNICODE_PUBLIC_SOURCE}
+    ${LIB_AEON_UNICODE_PRIVATE_SOURCE}
 )
 
 set_target_properties(aeon_unicode PROPERTIES

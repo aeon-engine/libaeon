@@ -26,29 +26,18 @@ set(AEON_MONO_CONFIG_DIR "${_MONO_CONFIG_DIR}"
 
 configure_file(mono_build_config.h.in mono_build_config.h @ONLY)
 
-set(LIB_AEON_MONO_SOURCE
+set(LIB_AEON_MONO_PUBLIC_SOURCE
     include/aeon/mono/mono_assembly.h
-    src/mono_assembly.cpp
     include/aeon/mono/mono_class.h
-    src/mono_class.cpp
     include/aeon/mono/mono_class_instance.h
-    src/mono_class_instance.cpp
     include/aeon/mono/mono_exception.h
-    src/mono_exception.cpp
     include/aeon/mono/mono_gc_handle.h
-    src/mono_gc_handle.cpp
     include/aeon/mono/mono_jit.h
-    src/mono_jit.cpp
     include/aeon/mono/mono_method.h
-    src/mono_method.cpp
     include/aeon/mono/mono_object.h
-    src/mono_object.cpp
     include/aeon/mono/mono_string.h
-    src/mono_string.cpp
     include/aeon/mono/mono_class_field.h
-    src/mono_class_field.cpp
     include/aeon/mono/mono_static_function.h
-    src/mono_static_function.cpp
     include/aeon/mono/mono_thunk_base.h
     include/aeon/mono/mono_thunk.h
     include/aeon/mono/mono_method_thunk.h
@@ -56,9 +45,28 @@ set(LIB_AEON_MONO_SOURCE
     include/aeon/mono/mono_thunk_signature.h
 )
 
-source_group(mono FILES ${LIB_AEON_MONO_SOURCE})
+source_group(public FILES ${LIB_AEON_MONO_PUBLIC_SOURCE})
 
-add_library(aeon_mono STATIC ${LIB_AEON_MONO_SOURCE})
+set(LIB_AEON_MONO_PRIVATE_SOURCE
+    src/mono_assembly.cpp
+    src/mono_class.cpp
+    src/mono_class_instance.cpp
+    src/mono_exception.cpp
+    src/mono_gc_handle.cpp
+    src/mono_jit.cpp
+    src/mono_method.cpp
+    src/mono_object.cpp
+    src/mono_string.cpp
+    src/mono_class_field.cpp
+    src/mono_static_function.cpp
+)
+
+source_group(private FILES ${LIB_AEON_MONO_PRIVATE_SOURCE})
+
+add_library(aeon_mono STATIC
+    ${LIB_AEON_MONO_PUBLIC_SOURCE}
+    ${LIB_AEON_MONO_PRIVATE_SOURCE}
+)
 
 set_target_properties(aeon_mono PROPERTIES
     FOLDER dep/libaeon
@@ -72,7 +80,10 @@ target_include_directories(aeon_mono
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(aeon_mono aeon_common ${MONO_LIBRARIES})
+target_link_libraries(aeon_mono
+    aeon_common
+    ${MONO_LIBRARIES}
+)
 
 install(
     DIRECTORY include/aeon

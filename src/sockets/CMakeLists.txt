@@ -2,19 +2,24 @@
 
 message(STATUS "Building libAeon with Socket, HTTP and Json-RPC support.")
 
-set(LIB_AEON_SOCKETS_SOURCE
+set(LIB_AEON_SOCKETS_PUBLIC_SOURCE
     include/aeon/sockets/config.h
     include/aeon/sockets/tcp_socket.h
     include/aeon/sockets/line_protocol_socket.h
     include/aeon/sockets/tcp_server.h
     include/aeon/sockets/tcp_client.h
+)
+
+source_group(public FILES ${LIB_AEON_SOCKETS_PUBLIC_SOURCE})
+
+set(LIB_AEON_SOCKETS_PRIVATE_SOURCE
     src/tcp_socket.cpp
     src/line_protocol_socket.cpp
 )
 
-source_group(sockets FILES ${LIB_AEON_SOCKETS_SOURCE})
+source_group(private FILES ${LIB_AEON_SOCKETS_PRIVATE_SOURCE})
 
-set(LIB_AEON_SOCKETS_HTTP_SOURCE
+set(LIB_AEON_SOCKETS_PUBLIC_HTTP_SOURCE
     include/aeon/sockets/http/http_server_socket.h
     include/aeon/sockets/http/http_client_socket.h
     include/aeon/sockets/http/http_server_session.h
@@ -32,6 +37,11 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
     include/aeon/sockets/http/route.h
     include/aeon/sockets/http/static_route.h
     include/aeon/sockets/http/url_encoding.h
+)
+
+source_group(public\\http FILES ${LIB_AEON_SOCKETS_PUBLIC_HTTP_SOURCE})
+
+set(LIB_AEON_SOCKETS_PRIVATE_HTTP_SOURCE
     src/http/request.cpp
     src/http/http_server_socket.cpp
     src/http/http_client_socket.cpp
@@ -47,23 +57,31 @@ set(LIB_AEON_SOCKETS_HTTP_SOURCE
     src/http/url_encoding.cpp
 )
 
-source_group(sockets\\http FILES ${LIB_AEON_SOCKETS_HTTP_SOURCE})
+source_group(private\\http FILES ${LIB_AEON_SOCKETS_PRIVATE_HTTP_SOURCE})
 
-set(LIB_AEON_SOCKETS_JSONRPC_SOURCE
+set(LIB_AEON_SOCKETS_PUBLIC_JSONRPC_SOURCE
     include/aeon/sockets/jsonrpc/server.h
     include/aeon/sockets/jsonrpc/method.h
     include/aeon/sockets/jsonrpc/result.h
+)
+
+source_group(public\\jsonrpc FILES ${LIB_AEON_SOCKETS_PUBLIC_JSONRPC_SOURCE})
+
+set(LIB_AEON_SOCKETS_PRIVATE_JSONRPC_SOURCE
     src/jsonrpc/server.cpp
     src/jsonrpc/method.cpp
     src/jsonrpc/result.cpp
 )
 
-source_group(sockets\\jsonrpc FILES ${LIB_AEON_SOCKETS_JSONRPC_SOURCE})
+source_group(private\\jsonrpc FILES ${LIB_AEON_SOCKETS_PRIVATE_JSONRPC_SOURCE})
 
 add_library(aeon_sockets STATIC
-    ${LIB_AEON_SOCKETS_SOURCE}
-    ${LIB_AEON_SOCKETS_HTTP_SOURCE}
-    ${LIB_AEON_SOCKETS_JSONRPC_SOURCE}
+    ${LIB_AEON_SOCKETS_PUBLIC_SOURCE}
+    ${LIB_AEON_SOCKETS_PRIVATE_SOURCE}
+    ${LIB_AEON_SOCKETS_PUBLIC_HTTP_SOURCE}
+    ${LIB_AEON_SOCKETS_PRIVATE_HTTP_SOURCE}
+    ${LIB_AEON_SOCKETS_PUBLIC_JSONRPC_SOURCE}
+    ${LIB_AEON_SOCKETS_PRIVATE_JSONRPC_SOURCE}
 )
 
 set_target_properties(aeon_sockets PROPERTIES
@@ -71,7 +89,10 @@ set_target_properties(aeon_sockets PROPERTIES
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_sockets PUBLIC include)
+target_include_directories(aeon_sockets
+    PUBLIC
+        include
+)
 
 target_link_libraries(aeon_sockets
     aeon_common

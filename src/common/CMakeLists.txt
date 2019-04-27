@@ -1,6 +1,6 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-set(LIB_AEON_COMMON_SOURCE
+set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/assert.h
     include/aeon/common/bitflags.h
     include/aeon/common/compilers.h
@@ -8,14 +8,12 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/deprecated.h
     include/aeon/common/dll_export.h
     include/aeon/common/dll_loader.h
-    src/dll_loader.cpp
     include/aeon/common/endianness.h
     include/aeon/common/flags.h
     include/aeon/common/fourcc.h
     include/aeon/common/intrinsics.h
     include/aeon/common/literals.h
     include/aeon/common/lexical_parse.h
-    src/lexical_parse.cpp
     include/aeon/common/platform.h
     include/aeon/common/preprocessor.h
     include/aeon/common/scope_guard.h
@@ -24,7 +22,6 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/span.h
     include/aeon/common/stdfilesystem.h
     include/aeon/common/string.h
-    src/string.cpp
     include/aeon/common/string_table.h
     include/aeon/common/string_traits.h
     include/aeon/common/term_colors.h
@@ -35,17 +32,26 @@ set(LIB_AEON_COMMON_SOURCE
     include/aeon/common/version.h
 )
 
-source_group(common FILES ${LIB_AEON_COMMON_SOURCE})
+source_group(public FILES ${LIB_AEON_COMMON_PUBLIC_SOURCE})
 
-set(LIB_AEON_COMMON_IMPL_SOURCE
+set(LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE
     include/aeon/common/impl/string_impl.h
 )
 
-source_group(common\\impl FILES ${LIB_AEON_COMMON_IMPL_SOURCE})
+source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
+
+set(LIB_AEON_COMMON_PRIVATE_SOURCE
+    src/dll_loader.cpp
+    src/lexical_parse.cpp
+    src/string.cpp
+)
+
+source_group(private FILES ${LIB_AEON_COMMON_PRIVATE_SOURCE})
 
 add_library(aeon_common STATIC
-    ${LIB_AEON_COMMON_SOURCE}
-    ${LIB_AEON_COMMON_IMPL_SOURCE}
+    ${LIB_AEON_COMMON_PUBLIC_SOURCE}
+    ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE}
+    ${LIB_AEON_COMMON_PRIVATE_SOURCE}
 )
 
 set_target_properties(aeon_common PROPERTIES

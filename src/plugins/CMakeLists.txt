@@ -1,23 +1,38 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-set(LIB_AEON_PLUGINS_SOURCE
+set(LIB_AEON_PLUGINS_PUBLIC_SOURCE
     include/aeon/plugins/plugin.h
-    src/plugin.cpp
     include/aeon/plugins/plugin_loader.h
+)
+
+source_group(public FILES ${LIB_AEON_PLUGINS_PUBLIC_SOURCE})
+
+set(LIB_AEON_PLUGINS_PRIVATE_SOURCE
+    src/plugin.cpp
     src/plugin_loader.cpp
 )
 
-source_group(plugins FILES ${LIB_AEON_PLUGINS_SOURCE})
+source_group(private FILES ${LIB_AEON_PLUGINS_PRIVATE_SOURCE})
 
-add_library(aeon_plugins STATIC ${LIB_AEON_PLUGINS_SOURCE})
+add_library(aeon_plugins STATIC
+    ${LIB_AEON_PLUGINS_PUBLIC_SOURCE}
+    ${LIB_AEON_PLUGINS_PRIVATE_SOURCE}
+)
 
 set_target_properties(aeon_plugins PROPERTIES
     FOLDER dep/libaeon
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_plugins PUBLIC include)
-target_link_libraries(aeon_plugins aeon_common aeon_utility)
+target_include_directories(aeon_plugins
+    PUBLIC
+        include
+)
+
+target_link_libraries(aeon_plugins
+    aeon_common
+    aeon_utility
+)
 
 # On linux, the plugin library and all plugins must be build with
 # position independent code (-fPIC)

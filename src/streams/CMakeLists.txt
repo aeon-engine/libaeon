@@ -1,6 +1,6 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-set(LIB_AEON_STREAMS_SOURCE
+set(LIB_AEON_STREAMS_PUBLIC_SOURCE
     include/aeon/streams/aggregate_device.h
     include/aeon/streams/dynamic_stream.h
     include/aeon/streams/dynamic_stream_view.h
@@ -16,9 +16,9 @@ set(LIB_AEON_STREAMS_SOURCE
     include/aeon/streams/varint.h
 )
 
-source_group(streams FILES ${LIB_AEON_STREAMS_SOURCE})
+source_group(public FILES ${LIB_AEON_STREAMS_PUBLIC_SOURCE})
 
-set(LIB_AEON_STREAMS_DEVICES_SOURCE
+set(LIB_AEON_STREAMS_PUBLIC_DEVICES_SOURCE
     include/aeon/streams/devices/device.h
     include/aeon/streams/devices/device_view.h
     include/aeon/streams/devices/file_device.h
@@ -27,20 +27,30 @@ set(LIB_AEON_STREAMS_DEVICES_SOURCE
     include/aeon/streams/devices/memory_view_device.h
     include/aeon/streams/devices/span_device.h
     include/aeon/streams/devices/stdio_device.h
+)
+
+source_group(public\\devices FILES ${LIB_AEON_STREAMS_PUBLIC_DEVICES_SOURCE})
+
+set(LIB_AEON_STREAMS_PRIVATE_DEVICES_SOURCE
     src/devices/stdio_device.cpp
 )
 
-source_group(streams\\devices FILES ${LIB_AEON_STREAMS_DEVICES_SOURCE})
+source_group(private\\devices FILES ${LIB_AEON_STREAMS_PRIVATE_DEVICES_SOURCE})
 
-set(LIB_AEON_STREAMS_DEVICES_DETAIL_SOURCE
+set(LIB_AEON_STREAMS_PUBLIC_DEVICES_DETAIL_SOURCE
     include/aeon/streams/devices/detail/file_device_base.h
     include/aeon/streams/devices/detail/iostream_device_base.h
+)
+
+source_group(public\\devices\\detail FILES ${LIB_AEON_STREAMS_PUBLIC_DEVICES_DETAIL_SOURCE})
+
+set(LIB_AEON_STREAMS_PRIVATE_DEVICES_DETAIL_SOURCE
     src/devices/detail/file_device_base.cpp
 )
 
-source_group(streams\\devices\\detail FILES ${LIB_AEON_STREAMS_DEVICES_DETAIL_SOURCE})
+source_group(private\\devices\\detail FILES ${LIB_AEON_STREAMS_PRIVATE_DEVICES_DETAIL_SOURCE})
 
-set(LIB_AEON_STREAMS_FILTERS_SOURCE
+set(LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE
     include/aeon/streams/filters/buffer_filter.h
     include/aeon/streams/filters/circular_buffer_filter.h
     include/aeon/streams/filters/filter.h
@@ -49,13 +59,15 @@ set(LIB_AEON_STREAMS_FILTERS_SOURCE
     include/aeon/streams/filters/zlib_filter.h
 )
 
-source_group(streams\\filters FILES ${LIB_AEON_STREAMS_FILTERS_SOURCE})
+source_group(public\\filters FILES ${LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE})
 
 add_library(aeon_streams STATIC 
-    ${LIB_AEON_STREAMS_SOURCE}
-    ${LIB_AEON_STREAMS_DEVICES_SOURCE}
-    ${LIB_AEON_STREAMS_DEVICES_DETAIL_SOURCE}
-    ${LIB_AEON_STREAMS_FILTERS_SOURCE}
+    ${LIB_AEON_STREAMS_PUBLIC_SOURCE}
+    ${LIB_AEON_STREAMS_PUBLIC_DEVICES_SOURCE}
+    ${LIB_AEON_STREAMS_PRIVATE_DEVICES_SOURCE}
+    ${LIB_AEON_STREAMS_PUBLIC_DEVICES_DETAIL_SOURCE}
+    ${LIB_AEON_STREAMS_PRIVATE_DEVICES_DETAIL_SOURCE}
+    ${LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE}
 )
 
 set_target_properties(aeon_streams PROPERTIES
@@ -63,7 +75,10 @@ set_target_properties(aeon_streams PROPERTIES
     LINKER_LANGUAGE CXX
 )
 
-target_include_directories(aeon_streams PUBLIC include)
+target_include_directories(aeon_streams
+    PUBLIC
+        include
+)
 
 target_link_libraries(aeon_streams
     aeon_common
