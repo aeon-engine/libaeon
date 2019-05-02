@@ -181,6 +181,18 @@ public:
         value_ &= ~static_cast<uint64_t>(f);
     }
 
+    constexpr void conditional_set(const bool condition, const enum_type_t f) noexcept
+    {
+        if (condition)
+            set(f);
+    }
+
+    constexpr void conditional_unset(const bool condition, const enum_type_t f) noexcept
+    {
+        if (condition)
+            unset(f);
+    }
+
     using enum_type = enum_type_t;
 
 private:
