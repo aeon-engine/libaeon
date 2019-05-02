@@ -12,9 +12,9 @@ enum class test_flags
     flag_5 = 0x10
 };
 
-aeon_declare_flag_operators(test_flags)
+aeon_declare_flag_operators(test_flags);
 
-    TEST(test_flags, test_flags_create)
+TEST(test_flags, test_flags_create)
 {
     aeon::common::flags<test_flags> test;
     ASSERT_FALSE(test.is_set(test_flags::flag_1));
