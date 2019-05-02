@@ -209,25 +209,25 @@ inline void collection<T>::clear() noexcept
 template <typename T>
 inline auto collection<T>::operator[](const size_type i) -> reference
 {
-    return data[i];
+    return data_[i];
 }
 
 template <typename T>
 inline auto collection<T>::operator[](const size_type i) const -> const_reference
 {
-    return data[i];
+    return data_[i];
 }
 
 template <typename T>
 inline auto collection<T>::at(const size_type i) -> reference
 {
-    return data.at(i);
+    return data_.at(i);
 }
 
 template <typename T>
 inline auto collection<T>::at(const size_type i) const -> const_reference
 {
-    return data.at(i);
+    return data_.at(i);
 }
 
 template <typename T>
