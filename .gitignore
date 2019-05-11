@@ -26,6 +26,7 @@ cmake-build-*/
 
 # Visual Studio
 .vs/
+.vscode/
 
 # BeyondCompare merge
 *.orig
