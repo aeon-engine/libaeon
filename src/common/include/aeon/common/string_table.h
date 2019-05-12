@@ -35,8 +35,11 @@ public:
     [[nodiscard]] static auto size() noexcept;
     [[nodiscard]] static auto str(const std::size_t i) -> const std::string &;
 
-    friend auto operator==(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool;
-    friend auto operator!=(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool;
+    template <typename U>
+    friend auto operator==(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool;
+
+    template <typename U>
+    friend auto operator!=(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool;
 
 private:
     [[nodiscard]] static auto table() noexcept -> std::vector<std::string> &;
@@ -124,14 +127,14 @@ inline void string_table<T>::init(std::string str)
     index_ = std::size(table()) - 1;
 }
 
-template <typename T>
-inline auto operator==(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool
+template <typename U>
+inline auto operator==(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool
 {
     return lhs.index_ == rhs.index_;
 }
 
-template <typename T>
-inline auto operator!=(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool
+template <typename U>
+inline auto operator!=(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }

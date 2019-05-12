@@ -6,6 +6,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/common/endianness.h>
 #include <aeon/common/bitflags.h>
+#include <aeon/common/fourcc.h>
 #include <stdexcept>
 
 namespace aeon::midi
@@ -60,7 +61,7 @@ void midi_file_reader::read_header(streams::memory_device<std::vector<std::uint8
     std::uint32_t mthd = 0;
     reader >> mthd;
 
-    if (common::endianness::swap32(mthd) != 'MThd')
+    if (common::endianness::swap32(mthd) != common::fourcc('M', 'T', 'h', 'd'))
         throw std::runtime_error("Invalid or corrupt midi file. MThd not found.");
 
     std::uint32_t header_length = 0;
@@ -142,7 +143,7 @@ void midi_file_reader::read_next_track_chunk(streams::memory_device<std::vector<
     std::uint32_t mtrk = 0;
     reader >> mtrk;
 
-    if (common::endianness::swap32(mtrk) != 'MTrk')
+    if (common::endianness::swap32(mtrk) != common::fourcc('M', 'T', 'r', 'k'))
         throw std::runtime_error("Invalid or corrupt midi file. MTrk not found.");
 
     std::uint32_t track_length = 0;

@@ -50,7 +50,7 @@ TEST(test_uuid, test_uuid_nil_string)
     ASSERT_TRUE(aeon::utility::uuid("{00000000-0000-0000-0000-000000000000}").is_nil());
     ASSERT_TRUE(aeon::utility::uuid("00000000000000000000000000000000").is_nil());
     ASSERT_TRUE(aeon::utility::uuid("{00000000000000000000000000000000}").is_nil());
-    ASSERT_ANY_THROW(aeon::utility::uuid("0").is_nil());
+    ASSERT_ANY_THROW(const auto result = aeon::utility::uuid("0").is_nil(); (void) result;);
 }
 
 TEST(test_uuid, test_uuid_from_and_to_string)

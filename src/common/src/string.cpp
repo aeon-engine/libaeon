@@ -30,8 +30,7 @@ namespace aeon::common::string
 [[nodiscard]] auto split(const std::string &str, const char delim) -> std::vector<std::string>
 {
     std::vector<std::string> elements;
-    split(str, delim, elements);
-    return elements;
+    return split(str, delim, elements);
 }
 
 [[nodiscard]] auto splitsv(const std::string_view &str, const char delim, std::vector<std::string_view> &elements)
@@ -56,8 +55,7 @@ namespace aeon::common::string
 [[nodiscard]] auto splitsv(const std::string_view &str, const char delim) -> std::vector<std::string_view>
 {
     std::vector<std::string_view> elements;
-    splitsv(str, delim, elements);
-    return elements;
+    return splitsv(str, delim, elements);
 }
 
 void ltrim(std::string &str)
