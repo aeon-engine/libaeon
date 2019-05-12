@@ -12,10 +12,14 @@ endif ()
 # analysis tools.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include(CTest)
-enable_testing()
+option(AEON_ENABLE_TESTING "Enable testing." ON)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/dep/cmake")
+if (AEON_ENABLE_TESTING)
+    include(CTest)
+    enable_testing()
+endif ()
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
 
 include(Dependencies)
 handle_dependencies_file("${CMAKE_SOURCE_DIR}/dependencies.txt")
