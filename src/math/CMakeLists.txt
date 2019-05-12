@@ -101,5 +101,8 @@ install(
     ARCHIVE DESTINATION lib
 )
 
-add_subdirectory(tests)
+if (AEON_ENABLE_TESTING)
+    add_subdirectory(tests)
+endif ()
+
 add_subdirectory(benchmarks)
