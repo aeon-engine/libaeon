@@ -1,5 +1,7 @@
 # Copyright (c) 2012-2019 Robin Degen
 
+handle_local_dependencies_file()
+
 set(LIB_AEON_UNICODE_PUBLIC_SOURCE
     include/aeon/unicode/encoding.h
     include/aeon/unicode/exception.h

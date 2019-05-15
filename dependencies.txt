@@ -1,19 +1,4 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-# The url directive sets the URL for a http-based archive.
-# In order to use packages, this must be set first.
-#
-# Each dependency is automatically checked for a dependencies.txt file
-# after downloading. These dependencies are also downloaded.
-
-url https://dl.bintray.com/aeon-engine/aeon_dependencies
-
-libpng 1.6.36
-libjpeg-turbo 2.0.2
 googletest 1.8.1
 google-benchmark 1.4.1
-json11 1.0.0
-freetype2 2.10
-rtmidi 4.0.0
-asio 1.13.0
-icu 64.2

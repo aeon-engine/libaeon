@@ -1,5 +1,7 @@
 # Copyright (c) 2012-2019 Robin Degen
 
+handle_local_dependencies_file()
+
 set(LIB_AEON_STREAMS_PUBLIC_SOURCE
     include/aeon/streams/aggregate_device.h
     include/aeon/streams/dynamic_stream.h

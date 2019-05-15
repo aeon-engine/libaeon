@@ -2,6 +2,8 @@
 
 message(STATUS "Building libAeon with RtMidi support.")
 
+handle_local_dependencies_file()
+
 set(LIB_AEON_RTMIDI_PUBLIC_SOURCE
     include/aeon/midi/midi_device.h
     include/aeon/midi/midi_file_reader.h

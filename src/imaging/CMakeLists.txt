@@ -1,5 +1,7 @@
 # Copyright (c) 2012-2019 Robin Degen
 
+handle_local_dependencies_file()
+
 set(LIB_AEON_IMAGING_PUBLIC_SOURCE
     include/aeon/imaging/dimension.h
     include/aeon/imaging/dynamic_image.h

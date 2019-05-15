@@ -22,7 +22,7 @@ endif ()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
 
 include(Dependencies)
-handle_dependencies_file("${CMAKE_SOURCE_DIR}/dependencies.txt")
+handle_local_dependencies_file()
 
 include(CompilerFlags)
 

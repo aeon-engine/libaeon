@@ -2,6 +2,8 @@
 
 message(STATUS "Building libAeon with Socket, HTTP and Json-RPC support.")
 
+handle_local_dependencies_file()
+
 set(LIB_AEON_SOCKETS_PUBLIC_SOURCE
     include/aeon/sockets/config.h
     include/aeon/sockets/tcp_socket.h

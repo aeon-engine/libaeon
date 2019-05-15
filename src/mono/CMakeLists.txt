@@ -2,6 +2,8 @@
 
 message(STATUS "Building libAeon with MONO support.")
 
+handle_local_dependencies_file()
+
 if (NOT MONO_FOUND)
     find_package(Mono)
 endif ()
