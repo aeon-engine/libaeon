@@ -1,61 +1,25 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-# Mono
-option(AEON_ENABLE_MONO "Enable the Aeon Mono library." OFF)
+include(ComponentUtils)
 
-# Sockets
-option(AEON_ENABLE_SOCKETS "Enable the Aeon Socket library." OFF)
+initialize_components()
 
-# Serial
-option(AEON_ENABLE_SERIAL "Enable the Aeon Serial library." OFF)
+register_component_auto(common)
+register_component_auto(fonts)
+register_component_auto(imaging)
+register_component_auto(logger)
+register_component_auto(math)
+register_component_auto(midi)
+register_component_auto(mono)
+register_component_auto(plugins)
+register_component_auto(ptree)
+register_component_auto(rdp)
+register_component_auto(serial)
+register_component_auto(sockets)
+register_component_auto(streams)
+register_component_auto(testing)
+register_component_auto(tracelog)
+register_component_auto(unicode)
+register_component_auto(utility)
 
-# Midi
-option(AEON_ENABLE_MIDI "Enable the Aeon Midi IO library." OFF)
-
-# Imaging
-option(AEON_ENABLE_IMAGING "Enable the Aeon imaging library." OFF)
-
-# Fonts
-option(AEON_ENABLE_FONTS "Enable the Aeon fonts library (requires AEON_ENABLE_IMAGING)." OFF)
-
-################################################################################
-
-add_subdirectory(common)
-add_subdirectory(logger)
-add_subdirectory(math)
-add_subdirectory(plugins)
-add_subdirectory(ptree)
-add_subdirectory(rdp)
-add_subdirectory(streams)
-add_subdirectory(testing)
-add_subdirectory(tracelog)
-add_subdirectory(utility)
-add_subdirectory(unicode)
-
-if (AEON_ENABLE_MONO)
-    add_subdirectory(mono)
-endif ()
-
-if (AEON_ENABLE_MIDI)
-    add_subdirectory(midi)
-endif ()
-
-if (AEON_ENABLE_SOCKETS)
-    add_subdirectory(sockets)
-endif ()
-
-if (AEON_ENABLE_SERIAL)
-    add_subdirectory(serial)
-endif ()
-
-if (AEON_ENABLE_IMAGING)
-    add_subdirectory(imaging)
-endif ()
-
-if (AEON_ENABLE_FONTS)
-    if (NOT AEON_ENABLE_IMAGING)
-        message(FATAL_ERROR "The Aeon Fonts library requires Imaging.")
-    endif ()
-
-    add_subdirectory(fonts)
-endif ()
+finalize_components()

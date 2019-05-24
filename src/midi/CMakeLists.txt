@@ -1,7 +1,5 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-message(STATUS "Building libAeon with RtMidi support.")
-
 handle_local_dependencies_file()
 
 set(LIB_AEON_RTMIDI_PUBLIC_SOURCE

@@ -43,17 +43,29 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 ################################################################################
 
+include(ComponentUtils)
+enable_component(common)
+enable_component(fonts)
+enable_component(imaging)
+enable_component(logger)
+enable_component(math)
+enable_component(midi)
+enable_component(plugins)
+enable_component(ptree)
+enable_component(rdp)
+enable_component(serial)
+enable_component(sockets)
+enable_component(streams)
+enable_component(testing)
+enable_component(tracelog)
+enable_component(unicode)
+enable_component(utility)
+
 # If mono is found on the system; attempt to build with it enabled.
 find_package(Mono)
 if (MONO_FOUND)
-    set(AEON_ENABLE_MONO OFF CACHE BOOL "")
+    enable_component(mono)
 endif ()
-
-set(AEON_ENABLE_SOCKETS ON CACHE BOOL "")
-set(AEON_ENABLE_SERIAL ON CACHE BOOL "")
-set(AEON_ENABLE_MIDI ON CACHE BOOL "")
-set(AEON_ENABLE_IMAGING ON CACHE BOOL "")
-set(AEON_ENABLE_FONTS ON CACHE BOOL "")
 
 ################################################################################
 

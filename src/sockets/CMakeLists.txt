@@ -1,7 +1,5 @@
 # Copyright (c) 2012-2019 Robin Degen
 
-message(STATUS "Building libAeon with Socket, HTTP and Json-RPC support.")
-
 handle_local_dependencies_file()
 
 set(LIB_AEON_SOCKETS_PUBLIC_SOURCE
