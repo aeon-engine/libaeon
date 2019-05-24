@@ -71,12 +71,12 @@ public:
     [[nodiscard]] auto operator[](const std::size_t i) const noexcept -> const vector3<float> &;
 
     /*!
-     * Access a value within this matrix based on a given column and row.
-     * \param[in] column - Column
-     * \param[in] row - Row
-     * \return Value based on the given column and row.
+     * Access a value within this matrix based on a given column and row index.
+     * \param[in] column_index - Column
+     * \param[in] row_index - Row
+     * \return Value based on the given column and row index.
      */
-    [[nodiscard]] auto at(const int column, const int row) const noexcept -> float;
+    [[nodiscard]] auto at(const int column_index, const int row_index) const noexcept -> float;
 
     /*!
      * Create an empty matrix (all values are zero)

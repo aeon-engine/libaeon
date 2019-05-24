@@ -57,9 +57,9 @@ inline mat3::mat3(const quaternion &q) noexcept
     return column[i];
 }
 
-[[nodiscard]] inline auto mat3::at(const int column, const int row) const noexcept -> float
+[[nodiscard]] inline auto mat3::at(const int column_index, const int row_index) const noexcept -> float
 {
-    return operator[](column)[row];
+    return operator[](column_index)[row_index];
 }
 
 [[nodiscard]] inline auto mat3::zero() noexcept -> mat3
