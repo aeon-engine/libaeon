@@ -8,6 +8,6 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_ptree.cpp
-    LIBRARIES aeon_ptree aeon_testing
+    LIBRARIES aeon_ptree
     FOLDER dep/libaeon/tests
 )
