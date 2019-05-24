@@ -17,7 +17,7 @@ namespace aeon::reflection
 
 struct ast_basic_print_visitor
 {
-    ast_basic_print_visitor(std::ostream &stream)
+    explicit ast_basic_print_visitor(std::ostream &stream)
         : stream_{stream}
         , depth_{0}
     {
