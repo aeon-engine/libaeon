@@ -1,0 +1,14 @@
+// Copyright (c) 2012-2019 Robin Degen
+
+#pragma once
+
+#include <aeon/reflection/ast/namespace.h>
+#include <clang-c/Index.h>
+#include <memory>
+
+namespace aeon::reflection::internal
+{
+
+void entity_visitor(CXCursor cursor, ast::ast_entity &ns);
+
+} // namespace aeon::reflection::internal

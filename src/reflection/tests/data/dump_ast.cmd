@@ -1,0 +1,1 @@
+@clang -Xclang -ast-dump -x c++ -std=c++17 -fsyntax-only %1

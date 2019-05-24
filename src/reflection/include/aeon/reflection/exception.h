@@ -1,0 +1,14 @@
+// Copyright (c) 2012-2019 Robin Degen
+
+#pragma once
+
+#include <stdexcept>
+
+namespace aeon::reflection
+{
+
+class reflection_exception : public std::exception
+{
+};
+
+} // namespace aeon::reflection
