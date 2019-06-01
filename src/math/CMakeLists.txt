@@ -105,4 +105,6 @@ if (AEON_ENABLE_TESTING)
     add_subdirectory(tests)
 endif ()
 
-add_subdirectory(benchmarks)
+if (AEON_ENABLE_BENCHMARK)
+    add_subdirectory(benchmarks)
+endif ()
