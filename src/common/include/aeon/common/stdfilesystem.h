@@ -17,9 +17,5 @@ namespace filesystem = ::std::experimental::filesystem;
 }
 #endif
 #elif (defined(AEON_PLATFORM_OS_OSX))
-#include <experimental/filesystem>
-namespace std
-{
-namespace filesystem = ::std::experimental::filesystem;
-}
+#include <filesystem>
 #endif
