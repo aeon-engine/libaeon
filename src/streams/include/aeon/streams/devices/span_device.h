@@ -67,7 +67,7 @@ inline span_device<T>::span_device(common::span<T> span) noexcept
 template <typename T>
 inline auto span_device<T>::write(const char *data, const std::streamsize size) noexcept -> std::streamsize
 {
-    auto actual_size = std::min(size, std::size(span_) - write_idx_);
+    auto actual_size = std::min(size, static_cast<std::streamsize>(std::size(span_) - write_idx_));
 
     if (actual_size == 0)
         return 0;
@@ -80,7 +80,7 @@ inline auto span_device<T>::write(const char *data, const std::streamsize size) 
 template <typename T>
 inline auto span_device<T>::read(char *data, const std::streamsize size) noexcept -> std::streamsize
 {
-    auto actual_size = std::min(size, std::size(span_) - read_idx_);
+    auto actual_size = std::min(size, static_cast<std::streamsize>(std::size(span_) - read_idx_));
 
     if (actual_size == 0)
         return 0;
