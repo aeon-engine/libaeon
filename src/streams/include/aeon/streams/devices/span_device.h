@@ -7,6 +7,7 @@
 #include <aeon/streams/tags.h>
 #include <aeon/common/span.h>
 #include <iostream>
+#include <algorithm>
 
 namespace aeon::streams
 {
