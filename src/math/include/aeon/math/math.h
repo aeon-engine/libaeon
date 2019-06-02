@@ -9,6 +9,7 @@
 
 #include <type_traits>
 #include <cmath>
+#include <algorithm>
 
 /*!
  * Various classes and functions for math with SSE support where applicable.
