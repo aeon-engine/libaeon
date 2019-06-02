@@ -43,7 +43,7 @@ public:
 
         do
         {
-            const auto size_to_write = std::min(size_remaining, buffer_size - offset_);
+            const auto size_to_write = std::min(size_remaining, static_cast<std::streamsize>(buffer_size - offset_));
             std::copy_n(data_offset, size_to_write, std::data(buffer_) + offset_);
 
             data_offset += size_to_write;
