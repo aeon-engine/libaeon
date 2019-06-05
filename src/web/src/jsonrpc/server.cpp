@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/web/jsonrpc/server.h>
+#include <aeon/ptree/serialization/serialization_json.h>
 
 static const auto json_rpc_version_string = "2.0";
 
@@ -10,32 +11,32 @@ namespace aeon::web::jsonrpc
 namespace detail
 {
 
-auto respond_object(const result &result) -> json11::Json
+auto respond_object(const result &result) -> ptree::property_tree
 {
-    json11::Json id_obj;
+    ptree::property_tree id_obj;
 
     if (result.has_id())
-        id_obj = json11::Json(result.id().value());
+        id_obj = ptree::property_tree(result.id().value());
 
-    return json11::Json::object{{"jsonrpc", json_rpc_version_string}, {"result", result.result_type()}, {"id", id_obj}};
+    return ptree::object{{"jsonrpc", json_rpc_version_string}, {"result", result.result_type()}, {"id", id_obj}};
 }
 
-auto respond_error(const result &result) -> json11::Json
+auto respond_error(const result &result) -> ptree::property_tree
 {
-    json11::Json id_obj;
+    ptree::property_tree id_obj;
 
     if (result.has_id())
-        id_obj = json11::Json(result.id().value());
+        id_obj = ptree::property_tree(result.id().value());
 
-    return json11::Json::object{
+    return ptree::object{
         {"jsonrpc", json_rpc_version_string},
-        {"error", json11::Json::object{{"code", result.error_code()}, {"message", result.error_description()}}},
+        {"error", ptree::object{{"code", result.error_code()}, {"message", result.error_description()}}},
         {"id", id_obj}};
 }
 
 } // namespace detail
 
-auto respond(const result &result) -> json11::Json
+auto respond(const result &result) -> ptree::property_tree
 {
     switch (result.type())
     {
@@ -56,25 +57,25 @@ void server::register_method(const method &method)
 auto server::request(const std::string &str) const -> std::string
 {
     if (str.empty())
-        return detail::respond_error(result{json_rpc_error::parse_error, "No content"}).dump();
+        return ptree::serialization::to_json(detail::respond_error(result{json_rpc_error::parse_error, "No content"}));
 
-    std::string error;
-    const auto json = json11::Json::parse(str, error);
+    const auto json = ptree::serialization::from_json(str);
 
     if (json.is_null())
-        return detail::respond_error(result{json_rpc_error::parse_error, "Json parse error: " + error}).dump();
+        return ptree::serialization::to_json(
+            detail::respond_error(result{json_rpc_error::parse_error, "Json parse error."}));
 
-    return request(json).dump();
+    return ptree::serialization::to_json(request(json));
 }
 
-auto server::request(const json11::Json &request) const -> json11::Json
+auto server::request(const ptree::property_tree &request) const -> ptree::property_tree
 {
     auto request_result = handle_requests(request);
 
     // Batch request?
     if (request_result.size() > 1)
     {
-        json11::Json::array response_array;
+        ptree::array response_array;
         for (const auto &r : request_result)
         {
             response_array.emplace_back(respond(r));
@@ -89,7 +90,7 @@ auto server::request(const json11::Json &request) const -> json11::Json
     return detail::respond_error(result{json_rpc_error::invalid_request, "No content"});
 }
 
-auto server::handle_requests(const json11::Json &request) const -> std::vector<result>
+auto server::handle_requests(const ptree::property_tree &request) const -> std::vector<result>
 {
     if (request.is_null())
         return {result{json_rpc_error::parse_error, "Json parse error."}};
@@ -98,7 +99,7 @@ auto server::handle_requests(const json11::Json &request) const -> std::vector<r
     if (request.is_array())
     {
         std::vector<result> results;
-        for (const auto &r : request.array_items())
+        for (const auto &r : request.array_value())
         {
             results.emplace_back(handle_single_rpc_request(r));
         }
@@ -109,19 +110,25 @@ auto server::handle_requests(const json11::Json &request) const -> std::vector<r
     return {handle_single_rpc_request(request)};
 }
 
-auto server::handle_single_rpc_request(const json11::Json &request) const -> result
+auto server::handle_single_rpc_request(const ptree::property_tree &request) const -> result
 {
-    auto jsonrpc_value = request["jsonrpc"];
+    if (!request.is_object())
+        return result{json_rpc_error::invalid_request, "Invalid request format."};
 
-    auto id_value = request["id"];
+    if (!request.contains("jsonrpc"))
+        return result{json_rpc_error::invalid_request, "Missing 'jsonrpc' field."};
 
-    if (id_value.is_null())
+    if (!request.contains("id"))
         return result{json_rpc_error::invalid_request, "Missing 'id' field."};
 
-    if (!id_value.is_number())
+    auto id_value = request.at("id");
+    auto jsonrpc_value = request.at("jsonrpc");
+
+    if (!id_value.is_integer())
         return result{json_rpc_error::invalid_request, "'Id' field must contain a number."};
 
-    const auto id = id_value.int_value();
+    // TODO: Check if ID is out of bounds
+    const auto id = static_cast<int>(id_value.integer_value());
 
     if (jsonrpc_value.is_null())
         return result{json_rpc_error::invalid_request, "Missing 'jsonrpc' version field.", id};
@@ -132,10 +139,10 @@ auto server::handle_single_rpc_request(const json11::Json &request) const -> res
     if (jsonrpc_value.string_value() != json_rpc_version_string)
         return result{json_rpc_error::invalid_request, "Invalid rpc version. Required: '2.0'.", id};
 
-    auto method_value = request["method"];
-
-    if (method_value.is_null())
+    if (request.contains("method"))
         return result{json_rpc_error::invalid_request, "Missing 'method' field.", id};
+
+    auto method_value = request.at("method");
 
     if (!method_value.is_string())
         return result{json_rpc_error::invalid_request, "'method' field must contain a string.", id};
@@ -147,8 +154,14 @@ auto server::handle_single_rpc_request(const json11::Json &request) const -> res
     if (itr == methods_.end())
         return result{json_rpc_error::method_not_found, "Method not found.", id};
 
-    auto method_result = itr->second(request["params"]);
+    auto params = ptree::property_tree{};
+
+    if (request.contains("params"))
+        params = request.at("params");
+
+    auto method_result = itr->second(params);
     method_result.set_id(id);
+
     return method_result;
 }
 

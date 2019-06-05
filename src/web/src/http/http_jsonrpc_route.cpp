@@ -4,7 +4,8 @@
 #include <aeon/web/jsonrpc/result.h>
 #include <aeon/web/http/request.h>
 #include <aeon/web/http/http_server_socket.h>
-#include <json11.hpp>
+#include <aeon/ptree/ptree.h>
+#include <aeon/ptree/serialization/serialization_json.h>
 
 namespace aeon::web::http
 {
@@ -51,17 +52,16 @@ auto http_jsonrpc_route::validate_request(http_server_socket &source, const requ
 {
     if (!request.has_content())
     {
-        const auto response =
-            jsonrpc::respond(jsonrpc::result{jsonrpc::json_rpc_error::parse_error, "No content"}).dump();
+        const auto response = ptree::serialization::to_json(
+            jsonrpc::respond(jsonrpc::result{jsonrpc::json_rpc_error::parse_error, "No content"}));
         source.respond(json_rpc_content_type, response);
         return false;
     }
 
     if (request.get_content_type() != json_rpc_content_type)
     {
-        const auto response = jsonrpc::respond(jsonrpc::result{jsonrpc::json_rpc_error::parse_error,
-                                                               "Invalid content type. Expected application/json."})
-                                  .dump();
+        const auto response = ptree::serialization::to_json(jsonrpc::respond(
+            jsonrpc::result{jsonrpc::json_rpc_error::parse_error, "Invalid content type. Expected application/json."}));
         source.respond(json_rpc_content_type, response);
         return false;
     }

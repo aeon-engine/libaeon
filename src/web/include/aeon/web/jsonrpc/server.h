@@ -4,13 +4,14 @@
 
 #include <aeon/web/jsonrpc/method.h>
 #include <aeon/web/jsonrpc/result.h>
-#include <json11.hpp>
+#include <aeon/ptree/ptree.h>
 #include <string>
+#include <map>
 
 namespace aeon::web::jsonrpc
 {
 
-auto respond(const result &result) -> json11::Json;
+auto respond(const result &result) -> ptree::property_tree;
 
 class server
 {
@@ -27,11 +28,11 @@ public:
     void register_method(const method &method);
 
     auto request(const std::string &str) const -> std::string;
-    auto request(const json11::Json &request) const -> json11::Json;
+    auto request(const ptree::property_tree &request) const -> ptree::property_tree;
 
 private:
-    auto handle_requests(const json11::Json &request) const -> std::vector<result>;
-    auto handle_single_rpc_request(const json11::Json &request) const -> result;
+    auto handle_requests(const ptree::property_tree &request) const -> std::vector<result>;
+    auto handle_single_rpc_request(const ptree::property_tree &request) const -> result;
 
     std::map<std::string, method> methods_;
 };

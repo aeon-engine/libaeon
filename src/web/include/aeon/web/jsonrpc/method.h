@@ -3,9 +3,9 @@
 #pragma once
 
 #include <aeon/web/jsonrpc/result.h>
+#include <aeon/ptree/ptree.h>
 #include <string>
 #include <functional>
-#include <json11.hpp>
 
 namespace aeon::web::jsonrpc
 {
@@ -13,19 +13,19 @@ namespace aeon::web::jsonrpc
 class method
 {
 public:
-    using signature = std::function<result(const json11::Json &)>;
+    using signature = std::function<result(const ptree::property_tree &)>;
 
     method(std::string name, signature func);
     ~method() = default;
 
-    method(method &&) = default;
-    auto operator=(method &&) -> method & = default;
+    method(method &&) noexcept = default;
+    auto operator=(method &&) noexcept -> method & = default;
 
     method(const method &) = default;
     auto operator=(const method &) -> method & = default;
 
     auto name() const noexcept -> const std::string &;
-    auto operator()(const json11::Json &params) const -> result;
+    auto operator()(const ptree::property_tree &params) const -> result;
 
 private:
     std::string name_;

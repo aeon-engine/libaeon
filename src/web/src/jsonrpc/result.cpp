@@ -5,7 +5,7 @@
 namespace aeon::web::jsonrpc
 {
 
-result::result(json11::Json &&result)
+result::result(ptree::property_tree &&result)
     : id_{std::nullopt}
     , result_type_{rpc_result_type::result}
     , result_{std::move(result)}
@@ -23,7 +23,7 @@ result::result(const int error_code, std::string description)
 {
 }
 
-result::result(json11::Json &&result, const std::optional<int> id)
+result::result(ptree::property_tree &&result, const std::optional<int> id)
     : id_{id}
     , result_type_{rpc_result_type::result}
     , result_{std::move(result)}

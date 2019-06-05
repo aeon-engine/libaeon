@@ -79,7 +79,7 @@ target_link_libraries(aeon_web
     aeon_common
     aeon_streams
     aeon_sockets
-    Json11::Json11
+    aeon_ptree
 )
 
 install(

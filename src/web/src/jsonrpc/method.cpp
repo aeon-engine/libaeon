@@ -16,7 +16,7 @@ auto method::name() const noexcept -> const std::string &
     return name_;
 }
 
-auto method::operator()(const json11::Json &params) const -> result
+auto method::operator()(const ptree::property_tree &params) const -> result
 {
     return func_(params);
 }

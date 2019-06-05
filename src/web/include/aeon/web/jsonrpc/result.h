@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <json11.hpp>
+#include <aeon/ptree/ptree.h>
 #include <string>
 #include <optional>
 
@@ -30,7 +30,7 @@ class result
     friend class server;
 
 public:
-    explicit result(json11::Json &&result);
+    explicit result(ptree::property_tree &&result);
     explicit result(const int error_code, std::string description);
 
     ~result() = default;
@@ -72,7 +72,7 @@ public:
     }
 
 private:
-    explicit result(json11::Json &&result, const std::optional<int> id);
+    explicit result(ptree::property_tree &&result, const std::optional<int> id);
     explicit result(const int error_code, std::string description, const std::optional<int> id);
 
     void set_id(const int id) noexcept
@@ -82,7 +82,7 @@ private:
 
     std::optional<int> id_;
     rpc_result_type result_type_;
-    json11::Json result_;
+    ptree::property_tree result_;
     int error_code_;
     std::string error_description_;
 };
