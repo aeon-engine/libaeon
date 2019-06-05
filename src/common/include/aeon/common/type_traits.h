@@ -101,16 +101,16 @@ struct integer_type_from_bits<64>
     using unsigned_t = std::uint64_t;
 };
 
-/*!
- * Check if a given type is an std::vector
- */
 template <typename T>
-using is_std_vector = std::is_same<T, std::vector<typename T::value_type, typename T::allocator_type>>;
+struct is_std_vector
+{
+    static constexpr auto value = std::is_same_v<T, std::vector<typename T::value_type, typename T::allocator_type>>;
+};
 
 /*!
  * Check if a given type is an std::vector
  */
 template <typename T>
-inline constexpr bool is_std_vector_v = is_std_vector<T>::value;
+using is_std_vector_v = typename is_std_vector<T>::value;
 
 } // namespace aeon::common::type_traits
