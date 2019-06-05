@@ -4,10 +4,11 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
-    TARGET test_libaeon_sockets
+    TARGET test_libaeon_web
     SOURCES
         main.cpp
         test_sockets.cpp
-    LIBRARIES aeon_sockets
+        test_url_encoding.cpp
+    LIBRARIES aeon_web aeon_utility
     FOLDER dep/libaeon/tests
 )
