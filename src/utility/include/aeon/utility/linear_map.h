@@ -119,6 +119,11 @@ public:
         return itr->second;
     }
 
+    [[nodiscard]] auto contains(const key_type &key) const noexcept -> bool
+    {
+        return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; }) != std::end(map_);
+    }
+
     [[nodiscard]] auto find(const key_type &key) noexcept
     {
         return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
