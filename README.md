@@ -4,6 +4,7 @@ libAeon
 [![VS2019 Build Status](https://dev.azure.com/robindegen/aeon/_apis/build/status/libAeon%20(VS2019)?branchName=master&jobName=VS2019)](https://dev.azure.com/robindegen/aeon/_build/latest?definitionId=1&branchName=master)
 [![Linux GCC8 Build Status](https://dev.azure.com/robindegen/aeon/_apis/build/status/libAeon%20(Linux%20GCC8)?branchName=master&jobName=Job)](https://dev.azure.com/robindegen/aeon/_build/latest?definitionId=4&branchName=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4bf88c4e390b4413b604684990be9112)](https://www.codacy.com/app/robindegen/libaeon?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/aeon-engine/libaeon/badge)](https://www.codefactor.io/repository/github/aeon-engine/libaeon)
 
 A general purpose C++17 support library.
 
