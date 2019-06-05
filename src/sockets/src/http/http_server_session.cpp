@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2019 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/sockets/http/http_server_session.h>
 #include <aeon/sockets/http/constants.h>

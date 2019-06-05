@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2019 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include "mono_jit_fixture.h"
 #include <aeon/mono/mono_string.h>

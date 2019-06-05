@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2019 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/sockets/line_protocol_socket.h>
 #include <aeon/streams/stream_reader.h>

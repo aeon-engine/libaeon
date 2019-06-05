@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2019 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/midi/midi_input_device.h>
 #include <aeon/common/bitflags.h>
