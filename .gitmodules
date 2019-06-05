@@ -2,19 +2,3 @@
 	path = dep/cmake
 	url = ../../aeon-engine/libaeon-cmake.git
 	branch = master
-[submodule "dep/rtmidi"]
-	path = dep/rtmidi
-	url = ../../aeon-external-dependencies/rtmidi.git
-	branch = submodule
-[submodule "dep/asio"]
-	path = dep/asio
-	url = ../../aeon-external-dependencies/asio.git
-	branch = submodule
-[submodule "dep/json11"]
-	path = dep/json11
-	url = ../../aeon-external-dependencies/json11.git
-	branch = submodule
-[submodule "dep/freetype2"]
-	path = dep/freetype2
-	url = ../../aeon-external-dependencies/freetype2.git
-	branch = submodule
