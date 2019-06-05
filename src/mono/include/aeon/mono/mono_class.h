@@ -38,7 +38,7 @@ public:
     [[nodiscard]] auto get_static_function(const std::string &name, int argc = 0) const -> mono_static_function;
 
     template <typename function_signature_t>
-    [[nodiscard]] auto get_static_function_thunk(const std::string &name);
+    [[nodiscard]] auto get_static_function_thunk(const std::string &name) const;
 
     [[nodiscard]] auto get_mono_class_ptr() const noexcept -> MonoClass *;
 
@@ -50,7 +50,7 @@ private:
 };
 
 template <typename function_signature_t>
-[[nodiscard]] auto mono_class::get_static_function_thunk(const std::string &name)
+[[nodiscard]] auto mono_class::get_static_function_thunk(const std::string &name) const
 {
     constexpr auto arg_count = common::type_traits::function_signature_argument_count<function_signature_t>::value;
     auto func = get_static_function(name, arg_count);

@@ -41,19 +41,19 @@ mono_class_instance::mono_class_instance(mono_class_instance &&o) noexcept = def
 
 auto mono_class_instance::operator=(mono_class_instance &&o) noexcept -> mono_class_instance & = default;
 
-[[nodiscard]] auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) -> mono_method
+[[nodiscard]] auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) const -> mono_method
 {
     assert(assembly_);
     assert(object_);
     return mono_method{assembly_, get_mono_class_ptr(), object_, name, argc};
 }
 
-[[nodiscard]] auto mono_class_instance::get_class() -> mono_class
+[[nodiscard]] auto mono_class_instance::get_class() const -> mono_class
 {
     return mono_class{assembly_, get_mono_class_ptr()};
 }
 
-[[nodiscard]] auto mono_class_instance::get_mono_class_ptr() -> MonoClass *
+[[nodiscard]] auto mono_class_instance::get_mono_class_ptr() const -> MonoClass *
 {
     assert(object_);
 

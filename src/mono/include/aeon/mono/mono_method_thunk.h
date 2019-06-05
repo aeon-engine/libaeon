@@ -46,7 +46,7 @@ public:
     mono_method_thunk(mono_method_thunk &&) noexcept = default;
     auto operator=(mono_method_thunk &&) noexcept -> mono_method_thunk & = default;
 
-    void operator()(args_t... args)
+    void operator()(args_t... args) const
     {
         MonoException *ex = nullptr;
         this->method_(this->object_,
@@ -82,7 +82,7 @@ public:
     mono_method_thunk(mono_method_thunk &&) noexcept = default;
     auto operator=(mono_method_thunk &&) noexcept -> mono_method_thunk & = default;
 
-    [[nodiscard]] auto operator()(args_t... args)
+    [[nodiscard]] auto operator()(args_t... args) const
     {
         MonoException *ex = nullptr;
         auto result = this->method_(
