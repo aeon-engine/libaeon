@@ -25,10 +25,10 @@
 
 #pragma once
 
-#include <aeon/utility/uuid.h>
+#include <aeon/common/uuid.h>
 #include <aeon/common/stdfilesystem.h>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 [[nodiscard]] inline auto generate_temporary_file_path()
@@ -37,4 +37,4 @@ namespace aeon::utility
     return std::filesystem::temp_directory_path() / uuid.str();
 }
 
-} // namespace aeon::utility
+} // namespace aeon::common

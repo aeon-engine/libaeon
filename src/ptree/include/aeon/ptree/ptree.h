@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <aeon/utility/linear_map.h>
-#include <aeon/utility/uuid.h>
+#include <aeon/common/linear_map.h>
+#include <aeon/common/uuid.h>
 #include <variant>
 #include <vector>
 #include <string>
@@ -15,13 +15,13 @@ namespace aeon::ptree
 
 class property_tree;
 using array = std::vector<property_tree>;
-using object = utility::linear_map<std::string, property_tree>;
+using object = common::linear_map<std::string, property_tree>;
 
 class property_tree
 {
 public:
     using variant_type =
-        std::variant<std::monostate, array, object, utility::uuid, std::string, std::int64_t, double, bool>;
+        std::variant<std::monostate, array, object, common::uuid, std::string, std::int64_t, double, bool>;
 
     property_tree();
     property_tree(std::nullptr_t);
@@ -36,8 +36,8 @@ public:
     property_tree(const char *const value);
     property_tree(const std::string &value);
     property_tree(std::string &&value);
-    property_tree(const utility::uuid &uuid);
-    property_tree(utility::uuid &&uuid);
+    property_tree(const common::uuid &uuid);
+    property_tree(common::uuid &&uuid);
 
     virtual ~property_tree() noexcept = default;
 
@@ -68,7 +68,7 @@ public:
     [[nodiscard]] auto object_value() -> object &;
     [[nodiscard]] auto object_value() const -> const object &;
 
-    [[nodiscard]] auto uuid_value() const -> const utility::uuid &;
+    [[nodiscard]] auto uuid_value() const -> const common::uuid &;
     [[nodiscard]] auto string_value() const -> const std::string &;
     [[nodiscard]] auto integer_value() const -> std::int64_t;
     [[nodiscard]] auto double_value() const -> double;
@@ -93,8 +93,8 @@ public:
     auto operator=(const char *const value) -> property_tree &;
     auto operator=(const std::string &value) -> property_tree &;
     auto operator=(std::string &&value) -> property_tree &;
-    auto operator=(const utility::uuid &value) -> property_tree &;
-    auto operator=(utility::uuid &&value) -> property_tree &;
+    auto operator=(const common::uuid &value) -> property_tree &;
+    auto operator=(common::uuid &&value) -> property_tree &;
 
     auto operator==(const property_tree &other) const noexcept -> bool;
     auto operator!=(const property_tree &other) const noexcept -> bool;
@@ -143,10 +143,10 @@ auto operator!=(const property_tree &lhs, const std::string &rhs) -> bool;
 auto operator==(const std::string &lhs, const property_tree &rhs) -> bool;
 auto operator!=(const std::string &lhs, const property_tree &rhs) -> bool;
 
-auto operator==(const property_tree &lhs, const utility::uuid &rhs) -> bool;
-auto operator!=(const property_tree &lhs, const utility::uuid &rhs) -> bool;
-auto operator==(const utility::uuid &lhs, const property_tree &rhs) -> bool;
-auto operator!=(const utility::uuid &lhs, const property_tree &rhs) -> bool;
+auto operator==(const property_tree &lhs, const common::uuid &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const common::uuid &rhs) -> bool;
+auto operator==(const common::uuid &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const common::uuid &lhs, const property_tree &rhs) -> bool;
 
 } // namespace aeon::ptree
 

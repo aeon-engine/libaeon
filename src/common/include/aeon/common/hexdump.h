@@ -4,9 +4,9 @@
 
 #include <cstdio>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 void hexdump(FILE *dest, const void *src, size_t len) noexcept;
 
-} // namespace aeon::utility
+} // namespace aeon::common

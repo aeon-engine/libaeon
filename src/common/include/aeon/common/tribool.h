@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 namespace detail
@@ -201,4 +201,4 @@ constexpr auto operator!=(const tribool lhs, indeterminate_keyword_t) noexcept
     return lhs != tribool{indeterminate};
 }
 
-} // namespace aeon::utility
+} // namespace aeon::common

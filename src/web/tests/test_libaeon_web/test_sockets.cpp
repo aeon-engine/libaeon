@@ -7,7 +7,7 @@
 #include <aeon/web/http/http_jsonrpc_route.h>
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/tcp_client.h>
-#include <aeon/utility/hexdump.h>
+#include <aeon/common/hexdump.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -68,7 +68,7 @@ class test_server : public web::http::http_server_socket
             std::cout << "Received post data: " << request.get_content_length() << "\n";
             auto content = request.get_content();
 
-            utility::hexdump(stdout, content.data(), content.size());
+            common::hexdump(stdout, content.data(), content.size());
         }
 
         respond("text/plain", "Hello!");

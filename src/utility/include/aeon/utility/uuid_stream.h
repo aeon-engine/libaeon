@@ -2,33 +2,28 @@
 
 #pragma once
 
-#include <aeon/utility/uuid.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
-
-namespace aeon::utility
-{
+#include <aeon/common/uuid.h>
 
 template <typename device_t>
-inline auto operator<<(streams::stream_writer<device_t> &stream, const uuid &val)
+inline auto operator<<(aeon::streams::stream_writer<device_t> &stream, const aeon::common::uuid &val)
 {
     const auto size = static_cast<std::streamsize>(val.size());
 
     if (stream.device().write(reinterpret_cast<const char *>(val.data.data()), size) != size)
-        throw streams::stream_exception{};
+        throw aeon::streams::stream_exception{};
 
     return stream;
 }
 
 template <typename device_t>
-inline auto operator>>(streams::stream_reader<device_t> &stream, uuid &val)
+inline auto operator>>(aeon::streams::stream_reader<device_t> &stream, aeon::common::uuid &val)
 {
     const auto size = static_cast<std::streamsize>(val.size());
 
     if (stream.device().read(reinterpret_cast<char *>(val.data.data()), size) != size)
-        throw streams::stream_exception{};
+        throw aeon::streams::stream_exception{};
 
     return stream;
 }
-
-} // namespace aeon::utility

@@ -1,28 +1,14 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 set(LIB_AEON_UTILITY_PUBLIC_SOURCE
-    include/aeon/utility/cached_container.h
     include/aeon/utility/configfile.h
-    include/aeon/utility/dispatcher.h
-    include/aeon/utility/dispatcher_fwd.h
-    include/aeon/utility/hexdump.h
-    include/aeon/utility/linear_map.h
-    include/aeon/utility/listener_subject.h
-    include/aeon/utility/parallelizer.h
-    include/aeon/utility/parameters.h
-    include/aeon/utility/signals.h
-    include/aeon/utility/tribool.h
-    include/aeon/utility/uuid.h
     include/aeon/utility/uuid_stream.h
-    include/aeon/utility/tempfile.h
 )
 
 source_group(public FILES ${LIB_AEON_UTILITY_PUBLIC_SOURCE})
 
 set(LIB_AEON_UTILITY_PRIVATE_SOURCE
     src/configfile.cpp
-    src/hexdump.cpp
-    src/uuid.cpp
 )
 
 source_group(private FILES ${LIB_AEON_UTILITY_PRIVATE_SOURCE})

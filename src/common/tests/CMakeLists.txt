@@ -8,17 +8,22 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_bitflags.cpp
+        test_dispatcher.cpp
         test_endianness.cpp
         test_flags.cpp
         test_from_chars.cpp
         test_lexical_parse.cpp
+        test_linear_map.cpp
         test_literals.cpp
         test_scope_guard.cpp
+        test_signals.cpp
         test_singleton.cpp
         test_span.cpp
         test_string.cpp
         test_string_table.cpp
         test_stringtraits.cpp
+        test_tribool.cpp
+        test_uuid.cpp
         test_variant.cpp
         test_version.cpp
     INCLUDES

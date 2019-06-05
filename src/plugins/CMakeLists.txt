@@ -31,7 +31,6 @@ target_include_directories(aeon_plugins
 
 target_link_libraries(aeon_plugins
     aeon_common
-    aeon_utility
 )
 
 # On linux, the plugin library and all plugins must be build with

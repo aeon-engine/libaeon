@@ -40,7 +40,6 @@ target_include_directories(aeon_midi
 
 target_link_libraries(aeon_midi
     aeon_common
-    aeon_utility
     aeon_streams
     RTMidi::RTMidi
 )

@@ -101,9 +101,9 @@ target_include_directories(aeon_imaging
 )
 
 target_link_libraries(aeon_imaging
-    aeon_utility
     aeon_common
     aeon_math
+    aeon_streams
     PNG::PNG
     JPEG::JPEGTURBO
 )

@@ -1,39 +1,39 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/utility/tribool.h>
+#include <aeon/common/tribool.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
 
 TEST(test_tribool, test_tribool_default_false)
 {
-    EXPECT_FALSE(utility::tribool{});
+    EXPECT_FALSE(common::tribool{});
 }
 
 TEST(test_tribool, test_tribool_boolean_constructor)
 {
-    EXPECT_TRUE(utility::tribool{true});
-    EXPECT_FALSE(utility::tribool{false});
+    EXPECT_TRUE(common::tribool{true});
+    EXPECT_FALSE(common::tribool{false});
 }
 
 TEST(test_tribool, test_tribool_indeterminate_constructor)
 {
-    EXPECT_FALSE(utility::tribool{utility::indeterminate});
+    EXPECT_FALSE(common::tribool{common::indeterminate});
 
-    utility::tribool val{utility::indeterminate};
+    common::tribool val{common::indeterminate};
 
     EXPECT_FALSE(val);
-    EXPECT_TRUE(utility::indeterminate(val));
+    EXPECT_TRUE(common::indeterminate(val));
     EXPECT_TRUE(val.is_indeterminate());
 }
 
 TEST(test_tribool, test_tribool_and)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{true};
-    utility::tribool val3{false};
-    utility::tribool val4{utility::indeterminate};
-    utility::tribool val5{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{true};
+    common::tribool val3{false};
+    common::tribool val4{common::indeterminate};
+    common::tribool val5{common::indeterminate};
 
     EXPECT_TRUE(val1 && val2);
     EXPECT_FALSE(val1 && val3);
@@ -42,20 +42,20 @@ TEST(test_tribool, test_tribool_and)
     EXPECT_FALSE(val1 && val2 && val4);
     EXPECT_FALSE(val4 && val5);
 
-    EXPECT_FALSE(val1 && val2 && utility::indeterminate);
-    EXPECT_FALSE(utility::indeterminate && val1 && val2);
-    EXPECT_FALSE(val1 && utility::indeterminate);
-    EXPECT_FALSE(utility::indeterminate && val1);
+    EXPECT_FALSE(val1 && val2 && common::indeterminate);
+    EXPECT_FALSE(common::indeterminate && val1 && val2);
+    EXPECT_FALSE(val1 && common::indeterminate);
+    EXPECT_FALSE(common::indeterminate && val1);
 }
 
 TEST(test_tribool, test_tribool_or)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{true};
-    utility::tribool val3{false};
-    utility::tribool val4{false};
-    utility::tribool val5{utility::indeterminate};
-    utility::tribool val6{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{true};
+    common::tribool val3{false};
+    common::tribool val4{false};
+    common::tribool val5{common::indeterminate};
+    common::tribool val6{common::indeterminate};
 
     EXPECT_TRUE(val1 || val2);
     EXPECT_TRUE(val1 || val3);
@@ -70,20 +70,20 @@ TEST(test_tribool, test_tribool_or)
     EXPECT_TRUE(val2 || val5 || val6);
     EXPECT_FALSE(val3 || val5 || val6);
 
-    EXPECT_TRUE(val1 || val2 || utility::indeterminate);
-    EXPECT_TRUE(val1 || val3 || utility::indeterminate);
-    EXPECT_TRUE(val2 || val3 || utility::indeterminate);
-    EXPECT_TRUE(val1 || val6 || utility::indeterminate);
+    EXPECT_TRUE(val1 || val2 || common::indeterminate);
+    EXPECT_TRUE(val1 || val3 || common::indeterminate);
+    EXPECT_TRUE(val2 || val3 || common::indeterminate);
+    EXPECT_TRUE(val1 || val6 || common::indeterminate);
 }
 
 TEST(test_tribool, test_tribool_equals_tribool)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{true};
-    utility::tribool val3{false};
-    utility::tribool val4{false};
-    utility::tribool val5{utility::indeterminate};
-    utility::tribool val6{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{true};
+    common::tribool val3{false};
+    common::tribool val4{false};
+    common::tribool val5{common::indeterminate};
+    common::tribool val6{common::indeterminate};
 
     EXPECT_TRUE(val1 == val2);
     EXPECT_FALSE(val1 == val3);
@@ -101,9 +101,9 @@ TEST(test_tribool, test_tribool_equals_tribool)
 
 TEST(test_tribool, test_tribool_equals_bool)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{false};
-    utility::tribool val3{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{false};
+    common::tribool val3{common::indeterminate};
 
     EXPECT_TRUE(val1 == true);
     EXPECT_FALSE(val1 == false);
@@ -124,29 +124,29 @@ TEST(test_tribool, test_tribool_equals_bool)
 
 TEST(test_tribool, test_tribool_equals_indeterminate)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{false};
-    utility::tribool val3{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{false};
+    common::tribool val3{common::indeterminate};
 
-    EXPECT_FALSE(val1 == utility::indeterminate);
-    EXPECT_FALSE(utility::indeterminate == val1);
+    EXPECT_FALSE(val1 == common::indeterminate);
+    EXPECT_FALSE(common::indeterminate == val1);
 
-    EXPECT_FALSE(val2 == utility::indeterminate);
-    EXPECT_FALSE(utility::indeterminate == val2);
+    EXPECT_FALSE(val2 == common::indeterminate);
+    EXPECT_FALSE(common::indeterminate == val2);
 
     // Indeterminate does never equal another indeterminate
-    EXPECT_FALSE(val3 == utility::indeterminate);
-    EXPECT_FALSE(utility::indeterminate == val3);
+    EXPECT_FALSE(val3 == common::indeterminate);
+    EXPECT_FALSE(common::indeterminate == val3);
 }
 
 TEST(test_tribool, test_tribool_not_equals_tribool)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{true};
-    utility::tribool val3{false};
-    utility::tribool val4{false};
-    utility::tribool val5{utility::indeterminate};
-    utility::tribool val6{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{true};
+    common::tribool val3{false};
+    common::tribool val4{false};
+    common::tribool val5{common::indeterminate};
+    common::tribool val6{common::indeterminate};
 
     EXPECT_FALSE(val1 != val2);
     EXPECT_TRUE(val1 != val3);
@@ -164,9 +164,9 @@ TEST(test_tribool, test_tribool_not_equals_tribool)
 
 TEST(test_tribool, test_tribool_not_equals_bool)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{false};
-    utility::tribool val3{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{false};
+    common::tribool val3{common::indeterminate};
 
     EXPECT_FALSE(val1 != true);
     EXPECT_FALSE(true != val1);
@@ -186,17 +186,17 @@ TEST(test_tribool, test_tribool_not_equals_bool)
 
 TEST(test_tribool, test_tribool_not_equals_indeterminate)
 {
-    utility::tribool val1{true};
-    utility::tribool val2{false};
-    utility::tribool val3{utility::indeterminate};
+    common::tribool val1{true};
+    common::tribool val2{false};
+    common::tribool val3{common::indeterminate};
 
-    EXPECT_TRUE(val1 != utility::indeterminate);
-    EXPECT_TRUE(utility::indeterminate != val1);
+    EXPECT_TRUE(val1 != common::indeterminate);
+    EXPECT_TRUE(common::indeterminate != val1);
 
-    EXPECT_TRUE(val2 != utility::indeterminate);
-    EXPECT_TRUE(utility::indeterminate != val2);
+    EXPECT_TRUE(val2 != common::indeterminate);
+    EXPECT_TRUE(common::indeterminate != val2);
 
     // Indeterminate does never equal another indeterminate
-    EXPECT_TRUE(val3 != utility::indeterminate);
-    EXPECT_TRUE(utility::indeterminate != val3);
+    EXPECT_TRUE(val3 != common::indeterminate);
+    EXPECT_TRUE(common::indeterminate != val3);
 }

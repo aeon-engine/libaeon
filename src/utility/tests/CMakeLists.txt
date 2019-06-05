@@ -8,11 +8,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_configfile.cpp
-        test_dispatcher.cpp
-        test_linear_map.cpp
-        test_signals.cpp
-        test_tribool.cpp
-        test_uuid.cpp
+        test_uuid_stream.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_utility aeon_testing

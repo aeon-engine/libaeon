@@ -4,10 +4,9 @@
 
 #include <vector>
 #include <string>
-
 #include <cstring>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 // Simple wrapper to convert a vector of strings to a char*[].
@@ -74,4 +73,4 @@ private:
     char **argv_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common

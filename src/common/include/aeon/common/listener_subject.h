@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 /*!
@@ -65,4 +65,4 @@ protected:
     std::vector<T *> listeners_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common

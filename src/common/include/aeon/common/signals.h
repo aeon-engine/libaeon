@@ -7,7 +7,7 @@
 #include <mutex>
 #include <atomic>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 template <class... Args>
@@ -240,4 +240,4 @@ private:
     mutex_type lock_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common

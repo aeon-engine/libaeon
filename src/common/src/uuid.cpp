@@ -1,13 +1,13 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/utility/uuid.h>
+#include <aeon/common/uuid.h>
 #include <aeon/common/literals.h>
 #include <algorithm>
 #include <random>
 #include <stdexcept>
 #include <cstring>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 namespace detail
@@ -291,4 +291,4 @@ bool operator<(uuid const &lhs, uuid const &rhs) noexcept
 {
     return std::memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
 }
-} // namespace aeon::utility
+} // namespace aeon::common

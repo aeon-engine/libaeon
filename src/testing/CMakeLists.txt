@@ -29,7 +29,6 @@ target_include_directories(aeon_testing
 
 target_link_libraries(aeon_testing
     aeon_common
-    aeon_utility
 )
 
 install(

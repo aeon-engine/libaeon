@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/common/bitflags.h>
-#include <aeon/utility/listener_subject.h>
+#include <aeon/common/listener_subject.h>
 
 #include <vector>
 #include <array>
@@ -62,7 +62,7 @@ public:
                                const double time_code) = 0;
 };
 
-class midi_input_manager : public utility::listener_subject<midi_input_listener>
+class midi_input_manager : public common::listener_subject<midi_input_listener>
 {
 public:
     explicit midi_input_manager(midi_input_device &device);

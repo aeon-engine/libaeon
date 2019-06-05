@@ -72,12 +72,12 @@ inline property_tree::property_tree(std::string &&value)
 {
 }
 
-inline property_tree::property_tree(const utility::uuid &uuid)
+inline property_tree::property_tree(const common::uuid &uuid)
     : value_{uuid}
 {
 }
 
-inline property_tree::property_tree(utility::uuid &&uuid)
+inline property_tree::property_tree(common::uuid &&uuid)
     : value_{std::move(uuid)}
 {
 }
@@ -110,7 +110,7 @@ template <typename T>
 
 [[nodiscard]] inline auto property_tree::is_uuid() const noexcept
 {
-    return is_type<utility::uuid>();
+    return is_type<common::uuid>();
 }
 
 [[nodiscard]] inline auto property_tree::is_integer() const noexcept
@@ -162,10 +162,10 @@ template <typename T>
     return std::get<object>(value());
 }
 
-[[nodiscard]] inline auto property_tree::uuid_value() const -> const utility::uuid &
+[[nodiscard]] inline auto property_tree::uuid_value() const -> const common::uuid &
 {
     aeon_assert(is_uuid(), "Value is not a uuid.");
-    return std::get<utility::uuid>(value());
+    return std::get<common::uuid>(value());
 }
 
 [[nodiscard]] inline auto property_tree::string_value() const -> const std::string &
@@ -289,13 +289,13 @@ inline auto property_tree::operator=(std::string &&value) -> property_tree &
     return *this;
 }
 
-inline auto property_tree::operator=(const utility::uuid &value) -> property_tree &
+inline auto property_tree::operator=(const common::uuid &value) -> property_tree &
 {
     value_ = value;
     return *this;
 }
 
-inline auto property_tree::operator=(utility::uuid &&value) -> property_tree &
+inline auto property_tree::operator=(common::uuid &&value) -> property_tree &
 {
     value_ = std::move(value);
     return *this;
@@ -492,7 +492,7 @@ inline auto operator!=(const std::string &lhs, const property_tree &rhs) -> bool
     return rhs != lhs;
 }
 
-inline auto operator==(const property_tree &lhs, const utility::uuid &rhs) -> bool
+inline auto operator==(const property_tree &lhs, const common::uuid &rhs) -> bool
 {
     if (!lhs.is_uuid())
         return false;
@@ -500,17 +500,17 @@ inline auto operator==(const property_tree &lhs, const utility::uuid &rhs) -> bo
     return lhs.uuid_value() == rhs;
 }
 
-inline auto operator!=(const property_tree &lhs, const utility::uuid &rhs) -> bool
+inline auto operator!=(const property_tree &lhs, const common::uuid &rhs) -> bool
 {
     return !(lhs == rhs);
 }
 
-inline auto operator==(const utility::uuid &lhs, const property_tree &rhs) -> bool
+inline auto operator==(const common::uuid &lhs, const property_tree &rhs) -> bool
 {
     return rhs == lhs;
 }
 
-inline auto operator!=(const utility::uuid &lhs, const property_tree &rhs) -> bool
+inline auto operator!=(const common::uuid &lhs, const property_tree &rhs) -> bool
 {
     return rhs != lhs;
 }

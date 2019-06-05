@@ -9,6 +9,6 @@ add_unit_test_suite(
         main.cpp
         test_sockets.cpp
         test_url_encoding.cpp
-    LIBRARIES aeon_web aeon_utility
+    LIBRARIES aeon_web aeon_common
     FOLDER dep/libaeon/tests
 )

@@ -8,7 +8,7 @@
 #include <queue>
 #include <atomic>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 /*!
@@ -142,4 +142,4 @@ private:
     dispatcher_stop_mode stop_mode_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common

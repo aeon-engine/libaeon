@@ -3,22 +3,31 @@
 set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/assert.h
     include/aeon/common/bitflags.h
+    include/aeon/common/cached_container.h
     include/aeon/common/collection.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
     include/aeon/common/deprecated.h
+    include/aeon/common/dispatcher.h
+    include/aeon/common/dispatcher_fwd.h
     include/aeon/common/dll_export.h
     include/aeon/common/dll_loader.h
     include/aeon/common/endianness.h
     include/aeon/common/flags.h
     include/aeon/common/fourcc.h
     include/aeon/common/from_chars.h
+    include/aeon/common/hexdump.h
     include/aeon/common/intrinsics.h
-    include/aeon/common/literals.h
     include/aeon/common/lexical_parse.h
+    include/aeon/common/linear_map.h
+    include/aeon/common/listener_subject.h
+    include/aeon/common/literals.h
+    include/aeon/common/parallelizer.h
+    include/aeon/common/parameters.h
     include/aeon/common/platform.h
     include/aeon/common/preprocessor.h
     include/aeon/common/scope_guard.h
+    include/aeon/common/signals.h
     include/aeon/common/signed_sizeof.h
     include/aeon/common/singleton.h
     include/aeon/common/span.h
@@ -26,10 +35,13 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/string.h
     include/aeon/common/string_table.h
     include/aeon/common/string_traits.h
+    include/aeon/common/tempfile.h
     include/aeon/common/term_colors.h
     include/aeon/common/timer.h
+    include/aeon/common/tribool.h
     include/aeon/common/type_traits.h
     include/aeon/common/unused.h
+    include/aeon/common/uuid.h
     include/aeon/common/variant.h
     include/aeon/common/version.h
 )
@@ -45,8 +57,10 @@ source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
 set(LIB_AEON_COMMON_PRIVATE_SOURCE
     src/dll_loader.cpp
     src/from_chars.cpp
+    src/hexdump.cpp
     src/lexical_parse.cpp
     src/string.cpp
+    src/uuid.cpp
 )
 
 source_group(private FILES ${LIB_AEON_COMMON_PRIVATE_SOURCE})

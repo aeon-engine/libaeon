@@ -6,7 +6,7 @@
 #include <map>
 #include <memory>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 /*!
@@ -91,11 +91,11 @@ public:
      */
     void garbage_collect()
     {
-        common::container::erase_if(objects_, [](const auto &obj) { return obj.second.expired(); });
+        container::erase_if(objects_, [](const auto &obj) { return obj.second.expired(); });
     }
 
 private:
     cached_objects objects_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common

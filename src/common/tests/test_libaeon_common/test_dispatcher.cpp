@@ -1,11 +1,13 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/utility/dispatcher.h>
+#include <aeon/common/dispatcher.h>
 #include <gtest/gtest.h>
+
+using namespace aeon;
 
 TEST(test_dispatcher, test_dispatcher_basic_run)
 {
-    aeon::utility::dispatcher dispatcher;
+    common::dispatcher dispatcher;
 
     std::thread t([&]() { dispatcher.run(); });
 
@@ -32,7 +34,7 @@ TEST(test_dispatcher, test_dispatcher_basic_run)
 
 TEST(test_dispatcher, test_dispatcher_call_void)
 {
-    aeon::utility::dispatcher dispatcher;
+    common::dispatcher dispatcher;
 
     std::thread t([&]() { dispatcher.run(); });
 
@@ -50,7 +52,7 @@ TEST(test_dispatcher, test_dispatcher_call_void)
 
 TEST(test_dispatcher, test_dispatcher_call_int)
 {
-    aeon::utility::dispatcher dispatcher;
+    common::dispatcher dispatcher;
 
     std::thread t([&]() { dispatcher.run(); });
 

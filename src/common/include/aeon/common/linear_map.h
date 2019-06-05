@@ -8,7 +8,7 @@
 #include <initializer_list>
 #include <stdexcept>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 template <typename key_type_t, typename value_type_t>

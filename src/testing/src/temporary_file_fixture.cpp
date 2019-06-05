@@ -1,19 +1,19 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/testing/temporary_file_fixture.h>
-#include <aeon/utility/tempfile.h>
+#include <aeon/common/tempfile.h>
 #include <aeon/common/stdfilesystem.h>
 
 namespace aeon::testutils
 {
 
 temporary_file::temporary_file()
-    : path_(utility::generate_temporary_file_path())
+    : path_(common::generate_temporary_file_path())
 {
 }
 
 temporary_file::temporary_file(const std::string &extension)
-    : path_(utility::generate_temporary_file_path())
+    : path_(common::generate_temporary_file_path())
 {
     path_.replace_extension(extension);
 }

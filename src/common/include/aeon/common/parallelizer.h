@@ -2,12 +2,11 @@
 
 #pragma once
 
-#include <aeon/utility/dispatcher.h>
-
+#include <aeon/common/dispatcher.h>
 #include <functional>
 #include <vector>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 class parallelizer
@@ -68,4 +67,4 @@ private:
     dispatcher dispatcher_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common

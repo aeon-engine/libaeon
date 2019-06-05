@@ -30,7 +30,7 @@ static void to_abf(const std::monostate, streams::idynamic_stream &);
 static void to_abf(const array &arr, streams::idynamic_stream &stream);
 static void to_abf(const object &obj, streams::idynamic_stream &stream);
 static void to_abf(const std::string &obj_str, streams::idynamic_stream &stream);
-static void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream);
+static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_abf(const double val, streams::idynamic_stream &stream);
 static void to_abf(const bool val, streams::idynamic_stream &stream);
@@ -86,7 +86,7 @@ static void to_abf(const std::string &obj_str, streams::idynamic_stream &stream)
     writer << streams::length_prefix_string<streams::varint>{obj_str};
 }
 
-static void to_abf(const utility::uuid &uuid, streams::idynamic_stream &stream)
+static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_uuid;
@@ -162,7 +162,7 @@ public:
             }
             case chunk_type_uuid:
             {
-                utility::uuid uuid;
+                common::uuid uuid;
                 reader_ >> uuid;
                 return uuid;
             }

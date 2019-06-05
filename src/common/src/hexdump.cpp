@@ -1,11 +1,11 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/utility/hexdump.h>
+#include <aeon/common/hexdump.h>
 #include <aeon/common/literals.h>
 #include <cstdint>
 #include <cctype>
 
-namespace aeon::utility
+namespace aeon::common
 {
 
 void hexdump(FILE *dest, const void *src, std::size_t len) noexcept
@@ -53,4 +53,4 @@ void hexdump(FILE *dest, const void *src, std::size_t len) noexcept
     fputs("---------------------------------------------------------------------------\n", dest);
 }
 
-} // namespace aeon::utility
+} // namespace aeon::common

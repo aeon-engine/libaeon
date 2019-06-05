@@ -24,7 +24,7 @@ static void to_json(const std::monostate, streams::idynamic_stream &);
 static void to_json(const array &arr, streams::idynamic_stream &stream);
 static void to_json(const object &obj, streams::idynamic_stream &stream);
 static void to_json(const std::string &obj_str, streams::idynamic_stream &stream);
-static void to_json(const utility::uuid &uuid, streams::idynamic_stream &stream);
+static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_json(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_json(const double val, streams::idynamic_stream &stream);
 static void to_json(const bool val, streams::idynamic_stream &stream);
@@ -82,7 +82,7 @@ static void to_json(const object &obj, streams::idynamic_stream &stream)
     writer << '}';
 }
 
-static void to_json(const utility::uuid &uuid, streams::idynamic_stream &stream)
+static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream)
 {
     to_json(uuid.str(), stream);
 }

@@ -1,33 +1,35 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/utility/signals.h>
+#include <aeon/common/signals.h>
 #include <gtest/gtest.h>
 #include <array>
 #include <thread>
 
+using namespace aeon;
+
 TEST(test_signals, test_signals_connect)
 {
-    aeon::utility::signal<> signal;
+    common::signal<> signal;
     auto connection = signal.connect([]() {});
     EXPECT_GT(connection.get_handle(), 0);
 }
 
 TEST(test_signals, test_signals_connection_default_zero)
 {
-    aeon::utility::signal_connection<> connection;
+    common::signal_connection<> connection;
     EXPECT_EQ(0, connection.get_handle());
 }
 
 TEST(test_signals, test_signals_connect_parameters)
 {
-    aeon::utility::signal<int, int> signal;
+    common::signal<int, int> signal;
     auto connection = signal.connect([](int, int) {});
     EXPECT_GT(connection.get_handle(), 0);
 }
 
 TEST(test_signals, test_signals_connect_one_and_call)
 {
-    aeon::utility::signal<> signal;
+    common::signal<> signal;
 
     bool signal_called = false;
     auto connection = signal.connect([&signal_called]() { signal_called = true; });
@@ -39,7 +41,7 @@ TEST(test_signals, test_signals_connect_one_and_call)
 
 TEST(test_signals, test_signals_connect_multiple_and_call)
 {
-    aeon::utility::signal<> signal;
+    common::signal<> signal;
 
     bool signal_called = false;
     bool signal_called2 = false;
@@ -58,7 +60,7 @@ TEST(test_signals, test_signals_connect_multiple_and_call)
 
 TEST(test_signals, test_signals_connect_one_and_call_parameters)
 {
-    aeon::utility::signal<int, int> signal;
+    common::signal<int, int> signal;
 
     bool signal_called = false;
     int value1 = 0;
@@ -78,7 +80,7 @@ TEST(test_signals, test_signals_connect_one_and_call_parameters)
 
 TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
 {
-    aeon::utility::signal<> signal;
+    common::signal<> signal;
 
     bool signal_called = false;
     bool signal_called2 = false;
@@ -109,14 +111,14 @@ TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
 
 TEST(test_signals, test_signals_connect_multiple_and_call_scoped_disconnect)
 {
-    aeon::utility::signal<> signal;
+    common::signal<> signal;
 
     bool signal_called = false;
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    aeon::utility::scoped_signal_connection<> connection1;
-    aeon::utility::scoped_signal_connection<> connection3;
+    common::scoped_signal_connection<> connection1;
+    common::scoped_signal_connection<> connection3;
 
     {
         connection1 = signal.connect([&signal_called]() { signal_called = true; });
@@ -143,7 +145,7 @@ TEST(test_signals, test_signals_connect_multiple_and_call_scoped_disconnect)
 
 TEST(test_signals, test_signals_mt_sync_execution)
 {
-    aeon::utility::signal_mt<> signal;
+    common::signal_mt<> signal;
     std::array<int, 200> destination{};
 
     int index = 0;
