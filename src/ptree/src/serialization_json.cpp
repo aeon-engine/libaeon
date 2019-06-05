@@ -382,4 +382,10 @@ void from_json(streams::idynamic_stream &stream, property_tree &ptree)
     return pt;
 }
 
+[[nodiscard]] auto from_json(const std::string &str) -> property_tree
+{
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
+    return from_json(stream);
+}
+
 } // namespace aeon::ptree::serialization
