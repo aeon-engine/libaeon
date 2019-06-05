@@ -1,10 +1,10 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-
 #include <aeon/plugins/plugin_loader.h>
 #include <itestplugin1.h>
+
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 using namespace aeon;
 

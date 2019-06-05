@@ -1,11 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #include <aeon/imaging/file/png_file.h>
 #include <aeon/imaging/filters/blit.h>
-
 #include "imaging_unittest_data.h"
+#include <gtest/gtest.h>
 
 using namespace aeon;
 

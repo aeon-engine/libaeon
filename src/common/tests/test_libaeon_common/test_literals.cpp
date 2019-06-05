@@ -1,8 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/common/literals.h>
-
+#include <gtest/gtest.h>
 #include <type_traits>
 
 TEST(test_literals, test_literals_zero)

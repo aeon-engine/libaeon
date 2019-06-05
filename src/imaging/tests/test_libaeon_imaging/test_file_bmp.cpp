@@ -1,13 +1,11 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #include <aeon/imaging/file/bmp_file.h>
 #include <aeon/imaging/file/png_file.h>
 #include <aeon/imaging/converters/stride.h>
 #include <aeon/imaging/converters/convert_encoding.h>
-
 #include "imaging_unittest_data.h"
+#include <gtest/gtest.h>
 
 using namespace aeon;
 

@@ -1,10 +1,10 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/utility/uuid.h>
 #include <aeon/utility/uuid_stream.h>
 #include <aeon/streams/devices/memory_device.h>
 #include <aeon/streams/stream_writer.h>
+#include <gtest/gtest.h>
 
 TEST(test_uuid, test_uuid_default_nil)
 {

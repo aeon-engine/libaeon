@@ -1,9 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <aeon/midi/midi_file_reader.h>
 #include <aeon/streams/devices/memory_device.h>
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <utility>
 
 using namespace aeon;

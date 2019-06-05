@@ -1,8 +1,8 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/math/quaternion.h>
 #include <aeon/math/quaternion_stream.h>
+#include <gtest/gtest.h>
 
 using namespace aeon;
 

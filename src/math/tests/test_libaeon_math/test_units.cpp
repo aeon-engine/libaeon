@@ -1,9 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/math/units.h>
 #include <aeon/math/units_literals.h>
 #include <aeon/math/vector2.h>
+#include <gtest/gtest.h>
 
 using namespace aeon;
 

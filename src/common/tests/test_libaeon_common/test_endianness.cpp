@@ -1,7 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/common/endianness.h>
+#include <gtest/gtest.h>
 
 static void check_swap8(std::uint8_t value, std::uint8_t expected)
 {

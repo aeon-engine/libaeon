@@ -1,7 +1,5 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #include <aeon/fonts/font_manager.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/dynamic_stream.h>
@@ -12,6 +10,8 @@
 #include <aeon/common/preprocessor.h>
 #include <aeon/unicode/utf_string_view.h>
 #include "fonts_unittest_data.h"
+
+#include <gtest/gtest.h>
 
 using namespace aeon;
 using namespace std::literals;

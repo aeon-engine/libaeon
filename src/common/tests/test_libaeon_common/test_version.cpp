@@ -1,7 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/common/version.h>
+#include <gtest/gtest.h>
 
 TEST(test_version, test_version_create)
 {

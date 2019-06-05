@@ -1,6 +1,5 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/sockets/http/http_server_socket.h>
 #include <aeon/sockets/http/http_client_socket.h>
 #include <aeon/sockets/http/routable_http_server.h>
@@ -9,6 +8,7 @@
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/tcp_client.h>
 #include <aeon/utility/hexdump.h>
+#include <gtest/gtest.h>
 
 using namespace aeon;
 

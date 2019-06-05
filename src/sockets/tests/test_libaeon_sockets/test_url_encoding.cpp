@@ -1,8 +1,8 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/sockets/http/url_encoding.h>
 #include <aeon/sockets/http/validators.h>
+#include <gtest/gtest.h>
 #include <random>
 
 using namespace aeon;

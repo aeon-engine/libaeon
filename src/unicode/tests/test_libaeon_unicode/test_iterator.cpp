@@ -2,10 +2,9 @@
 
 #include <aeon/unicode/encoding.h>
 #include <aeon/unicode/utf_string_view.h>
-#include <array>
-
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <array>
 
 using namespace aeon;
 

@@ -1,9 +1,8 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #include <aeon/common/string.h>
 #include <aeon/common/compilers.h>
+#include <gtest/gtest.h>
 
 AEON_IGNORE_VS_WARNING(4189)
 

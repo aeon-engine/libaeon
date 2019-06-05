@@ -1,8 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #include <aeon/utility/dispatcher.h>
+#include <gtest/gtest.h>
 
 TEST(test_dispatcher, test_dispatcher_basic_run)
 {

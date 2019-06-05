@@ -1,9 +1,8 @@
 ﻿// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/unicode/encoding.h>
-#include <array>
-
 #include <gtest/gtest.h>
+#include <array>
 
 using namespace aeon;
 

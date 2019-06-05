@@ -1,16 +1,14 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #define ENABLE_TEMPORARY_FILE_FIXTURE
 #include <aeon/testing/temporary_file_fixture.h>
 #include <aeon/utility/configfile.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/devices/memory_device.h>
+#include <gtest/gtest.h>
 #include <string>
 
 using namespace std::string_literals;
-
 using namespace aeon::testutils;
 
 TEST_F(temporary_file_fixture, test_configfile_create)

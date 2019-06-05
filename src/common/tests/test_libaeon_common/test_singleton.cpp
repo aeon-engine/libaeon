@@ -1,7 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/common/singleton.h>
+#include <gtest/gtest.h>
 
 class test_singleton : public aeon::common::singleton<test_singleton>
 {

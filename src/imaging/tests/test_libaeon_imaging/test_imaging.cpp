@@ -1,10 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
-
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/pixel_encoding.h>
+#include <gtest/gtest.h>
 
 using namespace aeon;
 

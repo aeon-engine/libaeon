@@ -1,9 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <gtest/gtest.h>
 #include <aeon/math/mat3.h>
 #include <aeon/math/mat3_stream.h>
 #include <aeon/math/math.h>
+#include <gtest/gtest.h>
 
 using namespace aeon;
 
