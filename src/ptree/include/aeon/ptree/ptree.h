@@ -80,6 +80,8 @@ public:
     [[nodiscard]] auto operator[](const object::key_type &key) -> object::value_type &;
     [[nodiscard]] auto operator[](object::key_type &&key) -> object::value_type &;
 
+    [[nodiscard]] auto contains(const object::key_type &key) const noexcept -> bool;
+
     auto operator=(const std::nullptr_t) -> property_tree &;
     auto operator=(const int value) -> property_tree &;
     auto operator=(const std::int64_t value) -> property_tree &;

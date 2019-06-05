@@ -218,6 +218,11 @@ template <typename T>
     return object_value()[std::move(key)];
 }
 
+[[nodiscard]] inline auto property_tree::contains(const object::key_type &key) const noexcept -> bool
+{
+    return object_value().contains(key);
+}
+
 inline auto property_tree::operator=(const std::nullptr_t) -> property_tree &
 {
     value_ = {};
