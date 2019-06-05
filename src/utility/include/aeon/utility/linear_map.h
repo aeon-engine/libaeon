@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 #include <initializer_list>
+#include <stdexcept>
 
 namespace aeon::utility
 {
