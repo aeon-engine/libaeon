@@ -1,6 +1,6 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.14)
 
 if (DEFINED ENV{LIBAEON_PROJECT_NAME})
     project($ENV{LIBAEON_PROJECT_NAME})
