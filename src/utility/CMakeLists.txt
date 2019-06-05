@@ -33,15 +33,6 @@ target_link_libraries(aeon_utility
     aeon_streams
 )
 
-if (UNIX)
-    set(CMAKE_THREAD_PREFER_PTHREAD ON)
-    find_package(Threads)
-
-    target_link_libraries(aeon_utility
-        ${CMAKE_THREAD_LIBS_INIT}
-    )
-endif ()
-
 install(
     DIRECTORY include/aeon
     DESTINATION include

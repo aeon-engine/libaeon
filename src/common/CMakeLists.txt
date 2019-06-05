@@ -88,6 +88,16 @@ if (UNIX AND NOT APPLE)
     target_link_libraries(aeon_common dl)
 endif ()
 
+# On unix we must link to a threading library like pthread
+if (UNIX)
+    set(CMAKE_THREAD_PREFER_PTHREAD ON)
+    find_package(Threads)
+
+    target_link_libraries(aeon_common
+        ${CMAKE_THREAD_LIBS_INIT}
+    )
+endif ()
+
 install(
     DIRECTORY include/aeon
     DESTINATION include
