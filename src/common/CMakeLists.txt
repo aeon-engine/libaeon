@@ -12,6 +12,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/endianness.h
     include/aeon/common/flags.h
     include/aeon/common/fourcc.h
+    include/aeon/common/from_chars.h
     include/aeon/common/intrinsics.h
     include/aeon/common/literals.h
     include/aeon/common/lexical_parse.h
@@ -43,6 +44,7 @@ source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
 
 set(LIB_AEON_COMMON_PRIVATE_SOURCE
     src/dll_loader.cpp
+    src/from_chars.cpp
     src/lexical_parse.cpp
     src/string.cpp
 )
