@@ -24,7 +24,7 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream);
 void from_json(streams::idynamic_stream &stream, property_tree &ptree);
 
 /*!
- * Deserialize a string to a ptree. Note that a UUID will always deserialize into a string due to limitations in JSON
+ * Deserialize a stream to a ptree. Note that a UUID will always deserialize into a string due to limitations in JSON
  */
 [[nodiscard]] auto from_json(streams::idynamic_stream &stream) -> property_tree;
 
