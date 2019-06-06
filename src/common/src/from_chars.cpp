@@ -12,6 +12,8 @@
 #include <cmath>
 #endif
 
+#include <climits>
+
 namespace aeon::common
 {
 
