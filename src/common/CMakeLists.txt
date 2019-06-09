@@ -7,6 +7,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/collection.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
+    include/aeon/common/delay.h
     include/aeon/common/deprecated.h
     include/aeon/common/dispatcher.h
     include/aeon/common/dispatcher_fwd.h
