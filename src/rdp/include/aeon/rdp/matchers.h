@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/rdp/parser.h>
-#include <type_traits>
+#include <aeon/common/uuid.h>
 
 namespace aeon::rdp
 {
@@ -111,5 +111,10 @@ auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -
  * Parse a boolean value (true or false) case insensitive.
  */
 auto parse_boolean(parser &parser) noexcept -> parse_result<bool>;
+
+/*!
+ * Parse a uuid value
+ */
+auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>;
 
 } // namespace aeon::rdp

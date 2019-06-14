@@ -216,4 +216,23 @@ auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
     return unmatched{};
 }
 
+auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>
+{
+    scoped_state state{parser};
+
+    const auto result =
+        parser.match_regex(R"([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})");
+
+    if (!result)
+        return unmatched{};
+
+    const auto uuid_value = common::uuid::try_parse(result.value());
+
+    if (!uuid_value)
+        return unmatched{};
+
+    state.accept();
+    return matched{*uuid_value};
+}
+
 } // namespace aeon::rdp
