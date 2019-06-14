@@ -7,6 +7,7 @@
 #include <aeon/reflection/ast/method.h>
 #include <aeon/reflection/ast/constructor.h>
 #include <aeon/reflection/ast/access_specifier.h>
+#include <aeon/reflection/ast/field.h>
 #include <aeon/common/assert.h>
 
 namespace aeon::reflection::ast
@@ -76,6 +77,24 @@ public:
         }
 
         return ast_function_collection{std::move(entities)};
+    }
+
+    [[nodiscard]] auto fields() const noexcept -> ast_entity_collection<const ast_field *>
+    {
+        return children<ast_field>();
+    }
+
+    [[nodiscard]] auto fields(const common::flags<access_specifier> access) const noexcept
+        -> ast_entity_collection<const ast_field *>
+    {
+        std::vector<const ast_field *> fields;
+        for (const auto &field : children<ast_field>())
+        {
+            if (access.is_set(field->access()))
+                fields.push_back(field);
+        }
+
+        return ast_entity_collection<const ast_field *>{std::move(fields)};
     }
 
 protected:
