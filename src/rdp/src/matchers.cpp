@@ -100,6 +100,8 @@ auto match_hexadecimal(parser &parser) noexcept -> parse_result<std::string_view
 template <typename T>
 auto parse_decimal(parser &parser) noexcept -> parse_result<T>
 {
+    scoped_state state{parser};
+
     parse_result<std::string_view> result;
 
     if constexpr (std::is_signed_v<T>)
@@ -116,6 +118,7 @@ auto parse_decimal(parser &parser) noexcept -> parse_result<T>
     if (ec != std::errc{})
         return unmatched{};
 
+    state.accept();
     return matched{value};
 }
 
@@ -131,6 +134,8 @@ auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64
 
 auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
 {
+    scoped_state state{parser};
+
     const auto result = parser.match_regex(R"([-+]?\d+(\.\d+|([eE][-+]?\d+)))");
 
     if (!result)
@@ -142,11 +147,14 @@ auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
     if (ec != std::errc{})
         return unmatched{};
 
+    state.accept();
     return matched{value};
 }
 
 auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
+    scoped_state state{parser};
+
     const auto result = match_binary(parser);
 
     if (!result)
@@ -158,6 +166,7 @@ auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
     if (ec != std::errc{})
         return unmatched{};
 
+    state.accept();
     return matched{value};
 }
 
@@ -171,6 +180,8 @@ auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> par
 
 auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
+    scoped_state state{parser};
+
     const auto result = match_hexadecimal(parser);
 
     if (!result)
@@ -182,6 +193,7 @@ auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
     if (ec != std::errc{})
         return unmatched{};
 
+    state.accept();
     return matched{value};
 }
 
