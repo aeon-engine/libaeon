@@ -3,6 +3,8 @@
 #include <aeon/rdp/parser.h>
 #include <aeon/rdp/cursor.h>
 #include <aeon/rdp/parse_result.h>
+#include <aeon/common/compilers.h>
+#include <aeon/common/string.h>
 
 namespace aeon::rdp
 {
