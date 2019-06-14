@@ -177,4 +177,15 @@ auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -
     return parse_hexadecimal(parser);
 }
 
+auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
+{
+    if (const auto result = parser.match_regex("[t][r][u][e]", std::regex_constants::icase); result.result())
+        return matched{true};
+
+    if (const auto result = parser.match_regex("[f][a][l][s][e]", std::regex_constants::icase); result.result())
+        return matched{false};
+
+    return unmatched{};
+}
+
 } // namespace aeon::rdp

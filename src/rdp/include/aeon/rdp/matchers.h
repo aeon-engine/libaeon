@@ -102,4 +102,9 @@ auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>;
  */
 auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>;
 
+/*!
+ * Parse a boolean value (true or false) case insensitive.
+ */
+auto parse_boolean(parser &parser) noexcept -> parse_result<bool>;
+
 } // namespace aeon::rdp
