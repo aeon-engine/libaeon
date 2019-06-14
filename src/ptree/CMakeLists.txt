@@ -17,6 +17,7 @@ set(LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE
     include/aeon/ptree/serialization/exception.h
     include/aeon/ptree/serialization/serialization_json.h
     include/aeon/ptree/serialization/serialization_abf.h
+    include/aeon/ptree/serialization/serialization_ini.h
 )
 
 source_group(public\\serialization FILES ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE})
@@ -24,6 +25,7 @@ source_group(public\\serialization FILES ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_S
 set(LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE
     src/serialization_json.cpp
     src/serialization_abf.cpp
+    src/serialization_ini.cpp
 )
 
 source_group(private\\serialization FILES ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE})
@@ -48,6 +50,7 @@ target_include_directories(aeon_ptree
 
 target_link_libraries(aeon_ptree
     aeon_common
+    aeon_rdp
     aeon_utility
     aeon_unicode
     aeon_streams
