@@ -2,6 +2,5 @@
 
 depend_on(common)
 depend_on(ptree)
-depend_on(utility)
 depend_on(streams)
 depend_on(sockets)

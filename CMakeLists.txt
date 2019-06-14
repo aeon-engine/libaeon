@@ -61,7 +61,6 @@ enable_component(streams)
 enable_component(testing)
 enable_component(tracelog)
 enable_component(unicode)
-enable_component(utility)
 enable_component(web)
 
 # If mono is found on the system; attempt to build with it enabled.

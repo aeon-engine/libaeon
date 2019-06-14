@@ -51,7 +51,6 @@ target_include_directories(aeon_ptree
 target_link_libraries(aeon_ptree
     aeon_common
     aeon_rdp
-    aeon_utility
     aeon_unicode
     aeon_streams
 )

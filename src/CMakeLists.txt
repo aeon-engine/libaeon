@@ -22,7 +22,6 @@ register_component_auto(streams)
 register_component_auto(testing)
 register_component_auto(tracelog)
 register_component_auto(unicode)
-register_component_auto(utility)
 register_component_auto(web)
 
 finalize_components()
