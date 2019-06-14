@@ -81,6 +81,11 @@ auto parse_decimal_signed(parser &parser) noexcept -> parse_result<std::int64_t>
 auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64_t>;
 
 /*!
+ * Parse a floating point number to a double and return the result if any were matched and parsed.
+ */
+auto parse_floating_point(parser &parser) noexcept -> parse_result<double>;
+
+/*!
  * Parse binary characters (0 or 1) to an integer and return the result if any were matched and parsed.
  */
 auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>;

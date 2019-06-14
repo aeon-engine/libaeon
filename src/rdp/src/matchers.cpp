@@ -129,6 +129,22 @@ auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64
     return parse_decimal<std::uint64_t>(parser);
 }
 
+auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
+{
+    const auto result = parser.match_regex(R"([-+]?\d+(\.\d+|([eE][-+]?\d+)))");
+
+    if (!result)
+        return unmatched{};
+
+    double value;
+    const auto [ptr, ec] = common::from_chars(*result, value);
+
+    if (ec != std::errc{})
+        return unmatched{};
+
+    return matched{value};
+}
+
 auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
     const auto result = match_binary(parser);
