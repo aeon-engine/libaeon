@@ -3,7 +3,6 @@
 #include <aeon/rdp/parser.h>
 #include <aeon/rdp/cursor.h>
 #include <aeon/rdp/parse_result.h>
-#include <regex>
 
 namespace aeon::rdp
 {
@@ -153,12 +152,13 @@ void parser::skip_until(const char c) noexcept
         advance();
 }
 
-auto parser::match_regex(const std::string_view regex) -> parse_result<std::string_view>
+auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
+    -> parse_result<std::string_view>
 {
     if (AEON_UNLIKELY(eof()))
         return unmatched{};
 
-    const std::regex r{std::data(regex)};
+    const std::regex r{std::data(regex), flags};
     std::match_results<std::string_view::const_iterator> match;
 
     if (!std::regex_search(current_, std::end(view_), match, r,

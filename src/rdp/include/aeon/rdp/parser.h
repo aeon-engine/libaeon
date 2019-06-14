@@ -6,6 +6,7 @@
 #include <aeon/common/assert.h>
 #include <aeon/common/compilers.h>
 #include <string_view>
+#include <regex>
 
 namespace aeon::rdp
 {
@@ -153,7 +154,9 @@ public:
      * "[a-zA-Z]+"
      * "[0-9]+"
      */
-    auto match_regex(const std::string_view regex) -> parse_result<std::string_view>;
+    auto match_regex(const std::string_view regex,
+                     std::basic_regex<char>::flag_type flags = std::regex_constants::ECMAScript)
+        -> parse_result<std::string_view>;
 
     /*!
      * Match any character until the given character. The result will not contain the given end character.
