@@ -232,4 +232,4 @@ private:
     map_type map_;
 };
 
-} // namespace aeon::utility
+} // namespace aeon::common
