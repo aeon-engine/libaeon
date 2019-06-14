@@ -9,7 +9,6 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <cstdint>
 
 namespace aeon::utility
 {
