@@ -5,9 +5,15 @@
 #include <array>
 #include <cstdint>
 #include <string>
+#include <optional>
+#include <stdexcept>
 
 namespace aeon::common
 {
+
+class uuid_parse_exception : public std::exception
+{
+};
 
 /*!
  * UUID class based on boost::uuid.
@@ -37,7 +43,7 @@ public:
     };
 
     uuid() noexcept;
-    explicit uuid(const std::string &str);
+    explicit uuid(data_type data) noexcept;
     ~uuid() noexcept;
 
     uuid(const uuid &) noexcept = default;
@@ -64,6 +70,9 @@ public:
     [[nodiscard]] static auto generate() -> uuid;
 
     [[nodiscard]] static auto nil() noexcept -> uuid;
+
+    [[nodiscard]] static auto parse(const std::string_view &str) -> uuid;
+    [[nodiscard]] static auto try_parse(const std::string_view &str) noexcept -> std::optional<uuid>;
 
     data_type data;
 };

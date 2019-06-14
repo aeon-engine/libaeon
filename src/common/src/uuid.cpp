@@ -21,12 +21,14 @@ namespace detail
     return static_cast<char>('a' + (i - 10));
 }
 
-[[nodiscard]] static auto get_next_char(std::string::const_iterator &begin, std::string::const_iterator &end)
+[[nodiscard]] static auto get_next_char(std::string_view::const_iterator &begin, std::string_view::const_iterator &end,
+                                        char &c) noexcept
 {
     if (begin == end)
-        throw std::out_of_range("get_next_char");
+        return false;
 
-    return *begin++;
+    c = *begin++;
+    return true;
 }
 
 [[nodiscard]] static auto is_open_brace(const char c) noexcept
@@ -51,80 +53,21 @@ namespace detail
     return values[d - digits_begin];
 }
 
-static void check_close_brace(const char c, const char open_brace)
+static auto check_close_brace(const char c, const char open_brace) noexcept -> bool
 {
-    if (!(open_brace == '{' && c == '}'))
-        throw std::logic_error("Unexpected close brace.");
+    return open_brace == '{' && c == '}';
 }
 } // namespace detail
 
 uuid::uuid() noexcept
-    : data()
+    : data{}
 {
     std::fill(data.begin(), data.end(), 0_uint8_t);
 }
 
-uuid::uuid(const std::string &str)
-    : data()
+uuid::uuid(data_type data) noexcept
+    : data{data}
 {
-    auto begin = str.begin();
-    auto end = str.end();
-
-    // check open brace
-    auto c = detail::get_next_char(begin, end);
-    const bool has_open_brace = detail::is_open_brace(c);
-    const auto open_brace_char = c;
-    if (has_open_brace)
-        c = detail::get_next_char(begin, end);
-
-    bool has_dashes = false;
-
-    int i = 0;
-    for (auto &val : data)
-    {
-        if (i != 0)
-        {
-            c = detail::get_next_char(begin, end);
-        }
-
-        if (i == 4)
-        {
-            has_dashes = detail::is_dash(c);
-            if (has_dashes)
-            {
-                c = detail::get_next_char(begin, end);
-            }
-        }
-
-        if (has_dashes)
-        {
-            if (i == 6 || i == 8 || i == 10)
-            {
-                if (detail::is_dash(c))
-                {
-                    c = detail::get_next_char(begin, end);
-                }
-                else
-                {
-                    throw std::logic_error("Unexpected dash.");
-                }
-            }
-        }
-
-        val = detail::get_value(c);
-
-        c = detail::get_next_char(begin, end);
-        val <<= 4;
-        val |= detail::get_value(c);
-        ++i;
-    }
-
-    // check close brace
-    if (has_open_brace)
-    {
-        c = detail::get_next_char(begin, end);
-        detail::check_close_brace(c, open_brace_char);
-    }
 }
 
 uuid::~uuid() noexcept = default;
@@ -280,6 +223,98 @@ uuid::~uuid() noexcept = default;
 [[nodiscard]] auto uuid::nil() noexcept -> uuid
 {
     return {};
+}
+
+auto uuid::parse(const std::string_view &str) -> uuid
+{
+    const auto result = try_parse(str);
+
+    if (!result)
+        throw uuid_parse_exception{};
+
+    return *result;
+}
+
+auto uuid::try_parse(const std::string_view &str) noexcept -> std::optional<uuid>
+{
+    auto begin = str.begin();
+    auto end = str.end();
+
+    char c;
+
+    // check open brace
+    if (!detail::get_next_char(begin, end, c))
+        return std::nullopt;
+
+    const bool has_open_brace = detail::is_open_brace(c);
+    const auto open_brace_char = c;
+
+    if (has_open_brace)
+    {
+        if (!detail::get_next_char(begin, end, c))
+            return std::nullopt;
+    }
+
+    bool has_dashes = false;
+
+    int i = 0;
+    data_type data;
+
+    for (auto &val : data)
+    {
+        if (i != 0)
+        {
+            if (!detail::get_next_char(begin, end, c))
+                return std::nullopt;
+        }
+
+        if (i == 4)
+        {
+            has_dashes = detail::is_dash(c);
+            if (has_dashes)
+            {
+                if (!detail::get_next_char(begin, end, c))
+                    return std::nullopt;
+            }
+        }
+
+        if (has_dashes)
+        {
+            if (i == 6 || i == 8 || i == 10)
+            {
+                if (detail::is_dash(c))
+                {
+                    if (!detail::get_next_char(begin, end, c))
+                        return std::nullopt;
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+        }
+
+        val = detail::get_value(c);
+
+        if (!detail::get_next_char(begin, end, c))
+            return std::nullopt;
+
+        val <<= 4;
+        val |= detail::get_value(c);
+        ++i;
+    }
+
+    // check close brace
+    if (has_open_brace)
+    {
+        if (!detail::get_next_char(begin, end, c))
+            return std::nullopt;
+
+        if (!detail::check_close_brace(c, open_brace_char))
+            return std::nullopt;
+    }
+
+    return uuid{data};
 }
 
 bool operator==(uuid const &lhs, uuid const &rhs) noexcept

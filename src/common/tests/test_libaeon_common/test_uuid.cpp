@@ -45,17 +45,17 @@ TEST(test_uuid, test_uuid_random)
 
 TEST(test_uuid, test_uuid_nil_string)
 {
-    ASSERT_TRUE(common::uuid("00000000-0000-0000-0000-000000000000").is_nil());
-    ASSERT_TRUE(common::uuid("{00000000-0000-0000-0000-000000000000}").is_nil());
-    ASSERT_TRUE(common::uuid("00000000000000000000000000000000").is_nil());
-    ASSERT_TRUE(common::uuid("{00000000000000000000000000000000}").is_nil());
-    ASSERT_ANY_THROW(const auto result = common::uuid("0").is_nil(); (void)result;);
+    ASSERT_TRUE(common::uuid::parse("00000000-0000-0000-0000-000000000000").is_nil());
+    ASSERT_TRUE(common::uuid::parse("{00000000-0000-0000-0000-000000000000}").is_nil());
+    ASSERT_TRUE(common::uuid::parse("00000000000000000000000000000000").is_nil());
+    ASSERT_TRUE(common::uuid::parse("{00000000000000000000000000000000}").is_nil());
+    ASSERT_ANY_THROW(const auto result = common::uuid::parse("0"); (void)result;);
 }
 
 TEST(test_uuid, test_uuid_from_and_to_string)
 {
     auto str = "00000000-0000-0000-0000-000000000000";
-    auto uuid = common::uuid("00000000-0000-0000-0000-000000000000");
+    auto uuid = common::uuid::parse("00000000-0000-0000-0000-000000000000");
     ASSERT_EQ(str, uuid.str());
 }
 
@@ -66,7 +66,7 @@ TEST(test_uuid, test_uuid_from_and_to_string_random)
         auto uuid = common::uuid::generate();
         auto str = uuid.str();
 
-        auto uuid2 = common::uuid(str);
+        auto uuid2 = common::uuid::parse(str);
 
         ASSERT_EQ(uuid, uuid2);
         ASSERT_EQ(str, uuid2.str());
