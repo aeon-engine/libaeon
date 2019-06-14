@@ -167,7 +167,7 @@ auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::f
                            std::regex_constants::match_not_null | std::regex_constants::match_continuous))
         return unmatched{};
 
-    aeon_assert(match.size() == 1, "Bug: expected only 1 match result.");
+    aeon_assert(match.size() >= 1, "Bug: expected at least 1 match result.");
 
     const auto result = common::string::make_string_view(match.begin()->first, match.begin()->second);
     current_ = match.begin()->second;
