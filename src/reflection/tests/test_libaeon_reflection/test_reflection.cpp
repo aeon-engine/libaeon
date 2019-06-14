@@ -136,3 +136,37 @@ TEST(test_reflection, test_reflection_basic_printer)
     const auto result = parser.parse(AEON_REFLECTION_UNITTEST_DATA_PATH "functions_and_methods.h");
     print_basic(result);
 }
+
+TEST(test_reflection, test_reflection_annotate)
+{
+    parser parser;
+    const auto result = parser.parse(AEON_REFLECTION_UNITTEST_DATA_PATH "annotations.h");
+
+    const auto &test_class1 = result["aeon"]["testing"]["test_class1"].as<ast::ast_class>();
+    EXPECT_FALSE(test_class1.has_annotations());
+
+    const auto &test_class2 = result["aeon"]["testing"]["test_class2"].as<ast::ast_class>();
+    EXPECT_TRUE(test_class2.has_annotations());
+    ASSERT_EQ(1u, std::size(test_class2.annotations()));
+    EXPECT_EQ("serialize", test_class2.annotations().at(0));
+    EXPECT_TRUE(test_class2.has_annotation("serialize"));
+    EXPECT_FALSE(test_class2.has_annotation("something_else"));
+
+    const auto &test_class3 = result["aeon"]["testing"]["test_class3"].as<ast::ast_class>();
+    EXPECT_TRUE(test_class3.has_annotations());
+    ASSERT_EQ(2u, std::size(test_class3.annotations()));
+    EXPECT_EQ("serialize", test_class3.annotations().at(0));
+    EXPECT_EQ("something_else", test_class3.annotations().at(1));
+    EXPECT_TRUE(test_class3.has_annotation("serialize"));
+    EXPECT_TRUE(test_class3.has_annotation("something_else"));
+
+    const auto fields = test_class3.fields();
+    const auto field_a = fields.find("a");
+    EXPECT_NE(std::end(fields), field_a);
+    EXPECT_FALSE((*field_a)->has_annotations());
+
+    const auto field_b = fields.find("b");
+    EXPECT_NE(std::end(fields), field_b);
+    EXPECT_TRUE((*field_b)->has_annotations());
+    EXPECT_TRUE((*field_b)->has_annotation("ignore"));
+}

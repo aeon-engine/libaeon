@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/reflection/parser_settings.h>
+#include <reflection_support_path.h>
 
 namespace aeon::reflection
 {
@@ -22,6 +23,7 @@ parser_settings::parser_settings(const cpp_standard standard)
     }
 
     add_define("__AEON_REFLECTION__");
+    add_include_path(AEON_REFLECTION_SUPPORT_INCLUDE_DIR);
 }
 
 void parser_settings::add_argument(std::string arg)

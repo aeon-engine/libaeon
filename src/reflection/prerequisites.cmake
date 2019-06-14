@@ -2,3 +2,4 @@
 
 depend_on(common)
 depend_on(streams)
+depend_on(reflection_support)

@@ -111,6 +111,11 @@ void entity_visitor(CXCursor cursor, ast::ast_entity &ns)
     clang_visit(cursor, [&ns](CXCursor c, CXCursor parent) {
         switch (clang_getCursorKind(c))
         {
+            case CXCursor_AnnotateAttr:
+            {
+                ns.add_annotation(to_string(clang_getCursorSpelling(c)));
+            }
+            break;
             case CXCursor_Namespace:
             {
                 if (is_forward_declaration(c))

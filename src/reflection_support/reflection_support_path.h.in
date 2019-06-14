@@ -1,0 +1,5 @@
+// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
+
+// This is a generated file. Do not modify.
+
+#define AEON_REFLECTION_SUPPORT_INCLUDE_DIR "@AEON_REFLECTION_SUPPORT_INCLUDE_DIR@"

@@ -81,6 +81,7 @@ target_include_directories(aeon_reflection
 target_link_libraries(aeon_reflection
     aeon_common
     aeon_streams
+    aeon_reflection_support
     Clang::Clang
 )
 

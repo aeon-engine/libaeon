@@ -7,6 +7,7 @@
 #include <aeon/reflection/ast/exception.h>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace aeon::reflection::ast
 {
@@ -43,6 +44,14 @@ public:
 
     [[nodiscard]] auto linkage_kind() const noexcept -> ast::linkage_kind;
 
+    void add_annotation(std::string annotation);
+
+    [[nodiscard]] auto has_annotations() const noexcept -> bool;
+
+    [[nodiscard]] auto has_annotation(const std::string &annotation) const noexcept -> bool;
+
+    [[nodiscard]] auto annotations() const noexcept -> const std::vector<std::string> &;
+
 protected:
     explicit ast_entity(const ast_entity_type type, const ast::linkage_kind linkage_kind) noexcept;
     explicit ast_entity(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind) noexcept;
@@ -50,6 +59,7 @@ protected:
     ast_entity_type entity_type_;
     std::string name_;
     ast::linkage_kind linkage_kind_;
+    std::vector<std::string> annotations_;
 };
 
 } // namespace aeon::reflection::ast
