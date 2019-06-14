@@ -68,6 +68,10 @@ auto parser::cursor() const noexcept -> rdp::cursor
 {
     // Find beginning of the line
     auto line_begin = current_;
+
+    if (current_ == std::end(view_))
+        --line_begin;
+
     while (line_begin != std::begin(view_))
     {
         if (*line_begin == '\n')
@@ -88,8 +92,11 @@ auto parser::cursor() const noexcept -> rdp::cursor
         ++line_end;
     }
 
-    if (*line_end == '\r')
-        --line_end;
+    if (line_end != std::end(view_))
+    {
+        if (*line_end == '\r')
+            --line_end;
+    }
 
     const auto line = common::string::make_string_view(line_begin, line_end);
     const auto line_number = std::count(std::begin(view_), current_, '\n');
