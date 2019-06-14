@@ -7,7 +7,7 @@
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/length_prefix_string.h>
-#include <aeon/utility/uuid_stream.h>
+#include <aeon/streams/uuid_stream.h>
 #include <aeon/common/fourcc.h>
 
 namespace aeon::ptree::serialization

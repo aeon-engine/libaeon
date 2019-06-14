@@ -2,7 +2,6 @@
 
 set(LIB_AEON_UTILITY_PUBLIC_SOURCE
     include/aeon/utility/configfile.h
-    include/aeon/utility/uuid_stream.h
 )
 
 source_group(public FILES ${LIB_AEON_UTILITY_PUBLIC_SOURCE})

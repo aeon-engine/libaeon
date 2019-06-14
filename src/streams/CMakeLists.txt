@@ -15,6 +15,7 @@ set(LIB_AEON_STREAMS_PUBLIC_SOURCE
     include/aeon/streams/stream_traits.h
     include/aeon/streams/stream_writer.h
     include/aeon/streams/tags.h
+    include/aeon/streams/uuid_stream.h
     include/aeon/streams/varint.h
 )
 

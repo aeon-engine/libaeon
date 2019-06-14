@@ -8,7 +8,6 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_configfile.cpp
-        test_uuid_stream.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_utility aeon_testing
