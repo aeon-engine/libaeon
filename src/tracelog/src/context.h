@@ -3,9 +3,9 @@
 #pragma once
 
 #include "data.h"
-#include <aeon/common/singleton.h>
-#include <aeon/common/stdfilesystem.h>
 #include <aeon/streams/devices/file_device.h>
+#include <aeon/common/singleton.h>
+#include <filesystem>
 #include <atomic>
 #include <vector>
 #include <mutex>

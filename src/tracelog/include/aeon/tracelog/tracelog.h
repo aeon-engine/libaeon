@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/common/preprocessor.h>
-#include <aeon/common/stdfilesystem.h>
+#include <filesystem>
 
 namespace aeon::tracelog
 {

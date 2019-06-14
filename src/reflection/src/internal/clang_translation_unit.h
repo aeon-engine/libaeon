@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <aeon/common/stdfilesystem.h>
 #include "clang_index.h"
+#include <filesystem>
 #include <array>
 #include <vector>
 #include <stdexcept>

@@ -4,13 +4,11 @@
 
 #include <aeon/streams/idynamic_stream.h>
 #include <aeon/common/string_traits.h>
-#include <aeon/common/stdfilesystem.h>
-
+#include <filesystem>
 #include <exception>
 #include <vector>
 #include <string>
 #include <map>
-
 #include <cstdint>
 
 namespace aeon::utility

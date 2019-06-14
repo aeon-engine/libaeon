@@ -3,8 +3,8 @@
 #pragma once
 
 #include <aeon/streams/devices/detail/iostream_device_base.h>
-#include <aeon/common/stdfilesystem.h>
 #include <aeon/common/flags.h>
+#include <filesystem>
 #include <fstream>
 
 namespace aeon::streams

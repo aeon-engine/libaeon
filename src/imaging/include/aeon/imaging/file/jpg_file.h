@@ -5,7 +5,7 @@
 #include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/exceptions.h>
 #include <aeon/streams/idynamic_stream.h>
-#include <aeon/common/stdfilesystem.h>
+#include <filesystem>
 
 namespace aeon::imaging::file::jpg
 {

@@ -2,12 +2,11 @@
 
 #pragma once
 
-#include <aeon/common/stdfilesystem.h>
-
 #ifdef ENABLE_TEMPORARY_FILE_FIXTURE
 #include <gtest/gtest.h>
 #endif // ENABLE_TEMPORARY_FILE_FIXTURE
 
+#include <filesystem>
 #include <string>
 
 namespace aeon::testutils

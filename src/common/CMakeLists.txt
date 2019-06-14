@@ -32,7 +32,6 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/signed_sizeof.h
     include/aeon/common/singleton.h
     include/aeon/common/span.h
-    include/aeon/common/stdfilesystem.h
     include/aeon/common/string.h
     include/aeon/common/string_table.h
     include/aeon/common/string_traits.h
