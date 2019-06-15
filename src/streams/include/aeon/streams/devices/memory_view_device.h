@@ -121,6 +121,29 @@ template <typename T>
 template <typename T>
 inline auto memory_view_device<T>::seekp(const std::streamoff offset, const seek_direction direction) noexcept -> bool
 {
+    std::streamoff idx = 0;
+    switch (direction)
+    {
+        case seek_direction::begin:
+        {
+            idx = offset;
+        }
+        break;
+        case seek_direction::current:
+        {
+            idx = tellp() + offset;
+        }
+        break;
+        case seek_direction::end:
+        {
+            idx = (std::size(span_device_) - 1) - offset;
+        }
+        break;
+    }
+
+    if (idx >= span_device_.size())
+        resize(idx + 1);
+
     return span_device_.seekp(offset, direction);
 }
 
