@@ -5,7 +5,7 @@
 #include <aeon/web/http/url_encoding.h>
 #include <aeon/sockets/config.h>
 #include <aeon/streams/stream_reader.h>
-#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/make_string_stream.h>
 #include <aeon/common/string.h>
 
 namespace aeon::web::http
@@ -25,7 +25,7 @@ http_server_socket::~http_server_socket() = default;
 
 void http_server_socket::respond(const std::string &content_type, const std::string &data, const status_code code)
 {
-    auto stream = streams::make_dynamic_stream(streams::memory_device{data});
+    auto stream = streams::make_string_stream(data);
     respond(content_type, stream, code);
 }
 
@@ -42,7 +42,7 @@ void http_server_socket::respond(const std::string &content_type, streams::idyna
                          "Content-Length: " +
                          std::to_string(data.size()) + "\r\n\r\n";
 
-    auto stream = streams::make_dynamic_stream(streams::memory_device{headers});
+    auto stream = streams::make_string_stream(headers);
     send(stream);
     send(data);
     __reset_state();

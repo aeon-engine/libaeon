@@ -2,7 +2,7 @@
 
 #include <aeon/ptree/serialization/serialization_abf.h>
 #include <aeon/ptree/serialization/exception.h>
-#include <aeon/streams/devices/memory_view_device.h>
+#include <aeon/streams/make_vector_view_stream.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
@@ -233,7 +233,7 @@ void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
 [[nodiscard]] auto to_abf(const property_tree &ptree) -> std::vector<std::uint8_t>
 {
     std::vector<std::uint8_t> data;
-    auto stream = streams::make_dynamic_stream(streams::memory_view_device{data});
+    auto stream = streams::make_vector_view_stream(data);
     to_abf(ptree, stream);
     return data;
 }

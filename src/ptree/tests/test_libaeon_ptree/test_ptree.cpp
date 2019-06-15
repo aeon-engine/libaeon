@@ -5,6 +5,8 @@
 #include <aeon/ptree/serialization/serialization_abf.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/devices/memory_view_device.h>
+#include <aeon/streams/make_string_view_stream.h>
+#include <aeon/streams/make_vector_view_stream.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -24,7 +26,7 @@ static const ptree::property_tree pt_complex{
 TEST(test_ptree, json_serialize_deserialize_simple)
 {
     const auto str = ptree::serialization::to_json(pt_simple);
-    auto device = streams::make_dynamic_stream(streams::memory_view_device{str});
+    auto device = streams::make_string_view_stream(str);
     const auto pt2 = ptree::serialization::from_json(device);
     const auto str2 = ptree::serialization::to_json(pt2);
     EXPECT_EQ(str, str2);
@@ -33,7 +35,7 @@ TEST(test_ptree, json_serialize_deserialize_simple)
 TEST(test_ptree, json_serialize_deserialize_complex)
 {
     const auto str = ptree::serialization::to_json(pt_complex);
-    auto device = streams::make_dynamic_stream(streams::memory_view_device{str});
+    auto device = streams::make_string_view_stream(str);
     const auto pt2 = ptree::serialization::from_json(device);
     const auto str2 = ptree::serialization::to_json(pt2);
     EXPECT_EQ(str, str2);
@@ -42,7 +44,7 @@ TEST(test_ptree, json_serialize_deserialize_complex)
 TEST(test_ptree, abf_serialize_deserialize_simple)
 {
     const auto data = ptree::serialization::to_abf(pt_simple);
-    auto device = streams::make_dynamic_stream(streams::memory_view_device{data});
+    auto device = streams::make_vector_view_stream(data);
     const auto pt2 = ptree::serialization::from_abf(device);
     const auto data2 = ptree::serialization::to_abf(pt2);
 }
@@ -50,7 +52,7 @@ TEST(test_ptree, abf_serialize_deserialize_simple)
 TEST(test_ptree, abf_serialize_deserialize_complex)
 {
     const auto data = ptree::serialization::to_abf(pt_complex);
-    auto device = streams::make_dynamic_stream(streams::memory_view_device{data});
+    auto device = streams::make_vector_view_stream(data);
     const auto pt2 = ptree::serialization::from_abf(device);
     const auto data2 = ptree::serialization::to_abf(pt2);
 }

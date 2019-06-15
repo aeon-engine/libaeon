@@ -1,7 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/streams/devices/memory_device.h>
-#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/make_vector_stream.h>
 #include <gtest/gtest.h>
 #include <cstring>
 
@@ -9,7 +8,7 @@ using namespace aeon;
 
 TEST(test_streams, test_streams_dynamic_stream_create)
 {
-    auto dynamic_device = streams::make_dynamic_stream(streams::memory_device<std::vector<char>>{});
+    auto dynamic_device = streams::make_vector_stream<char>();
     dynamic_device.write("12345", 5);
 
     EXPECT_TRUE(dynamic_device.is_input());
@@ -27,7 +26,7 @@ TEST(test_streams, test_streams_dynamic_stream_create)
 
 TEST(test_streams, test_streams_dynamic_stream_create_ptr)
 {
-    auto dynamic_device = streams::make_dynamic_stream_ptr(streams::memory_device<std::vector<char>>{});
+    auto dynamic_device = streams::make_vector_stream_ptr<char>();
     dynamic_device->write("12345", 5);
 
     EXPECT_TRUE(dynamic_device->is_input());

@@ -7,7 +7,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/devices/memory_view_device.h>
+#include <aeon/streams/make_string_view_stream.h>
 #include <aeon/common/type_traits.h>
 #include <aeon/common/lexical_parse.h>
 #include <variant>
@@ -362,7 +362,7 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
 [[nodiscard]] auto to_json(const property_tree &ptree) -> std::string
 {
     std::string str;
-    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
+    auto stream = streams::make_string_view_stream(str);
     to_json(ptree, stream);
     return str;
 }
@@ -384,7 +384,7 @@ void from_json(streams::idynamic_stream &stream, property_tree &ptree)
 
 [[nodiscard]] auto from_json(const std::string &str) -> property_tree
 {
-    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
+    auto stream = streams::make_string_view_stream(str);
     return from_json(stream);
 }
 
