@@ -281,7 +281,7 @@ void midi_file_reader::parse_midi_event(streams::memory_device<std::vector<std::
         std::uint8_t message2 = 0;
         reader >> message2;
 
-        std::runtime_error("Invalid or corrupt midi file. Unexpected midi message.");
+        throw std::runtime_error{"Invalid or corrupt midi file. Unexpected midi message."};
     }
 }
 
