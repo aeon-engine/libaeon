@@ -1,7 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/midi/midi_input_device.h>
-#include <aeon/common/bitflags.h>
+#include <aeon/common/bits.h>
 
 namespace aeon::midi
 {
@@ -32,9 +32,9 @@ void midi_input_device::open(const unsigned int port)
 
 void midi_input_device::set_message_mask(const int mask)
 {
-    midi_input_device_.ignoreTypes(common::check_bit_flag(mask, midi_message_type::system_exclusive),
-                                   common::check_bit_flag(mask, midi_message_type::time_code),
-                                   common::check_bit_flag(mask, midi_message_type::sense));
+    midi_input_device_.ignoreTypes(common::bits::check_flag(mask, midi_message_type::system_exclusive),
+                                   common::bits::check_flag(mask, midi_message_type::time_code),
+                                   common::bits::check_flag(mask, midi_message_type::sense));
 }
 
 } // namespace aeon::midi

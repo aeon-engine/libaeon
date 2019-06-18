@@ -7,7 +7,7 @@ add_unit_test_suite(
     TARGET test_libaeon_common
     SOURCES
         main.cpp
-        test_bitflags.cpp
+        test_bits.cpp
         test_dispatcher.cpp
         test_endianness.cpp
         test_flags.cpp

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/bitflags.h>
+#include <aeon/common/bits.h>
 #include <type_traits>
 #include <cstdint>
 
@@ -168,7 +168,7 @@ public:
     [[nodiscard]] constexpr auto is_set(const enum_type_t f) const noexcept
     {
         const auto value = static_cast<uint64_t>(f);
-        return check_bit_flag(value_, value) && value != 0;
+        return bits::check_flag(value_, value) && value != 0;
     }
 
     constexpr void set(const enum_type_t f) noexcept

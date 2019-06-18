@@ -2,7 +2,7 @@
 
 set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/assert.h
-    include/aeon/common/bitflags.h
+    include/aeon/common/bits.h
     include/aeon/common/cached_container.h
     include/aeon/common/collection.h
     include/aeon/common/compilers.h

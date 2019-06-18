@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/bitflags.h>
+#include <aeon/common/bits.h>
 #include <aeon/common/listener_subject.h>
 
 #include <vector>
@@ -20,7 +20,7 @@ struct midi_note_parser
 {
     explicit midi_note_parser(const std::vector<unsigned char> &buffer)
         : message(buffer[0])
-        , channel(common::get_low_nibble(message))
+        , channel(common::bits::low_nibble(message))
         , note(buffer[1])
         , velocity(buffer[2])
     {

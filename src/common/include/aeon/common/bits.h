@@ -5,58 +5,58 @@
 #include <cstdint>
 #include <limits>
 
-namespace aeon::common
+namespace aeon::common::bits
 {
 
 template <typename T>
-[[nodiscard]] inline static constexpr auto get_bit(const T val, const unsigned int bit) noexcept
+[[nodiscard]] inline static constexpr auto get(const T val, const unsigned int bit) noexcept
 {
     return ((val & (1 << bit)) >> bit);
 }
 
 template <typename T>
-[[nodiscard]] inline static constexpr auto get_bit_range(const T val, const unsigned int offset,
-                                                         const unsigned int length) noexcept
+[[nodiscard]] inline static constexpr auto get_range(const T val, const unsigned int offset,
+                                                     const unsigned int length) noexcept
 {
     return ((val & (((1 << length) - 1) << offset)) >> offset);
 }
 
 template <typename T>
-inline static constexpr void set_bit(T &val, const unsigned int bit) noexcept
+inline static constexpr void set(T &val, const unsigned int bit) noexcept
 {
     val |= (1 << bit);
 }
 
 template <typename T>
-inline static constexpr void clear_bit(T &val, const unsigned int bit) noexcept
+inline static constexpr void clear(T &val, const unsigned int bit) noexcept
 {
     val &= (val & ~(1 << bit));
 }
 
 template <typename T>
-inline static constexpr void set_bit_flag(T &val, const T flag) noexcept
+inline static constexpr void set_flag(T &val, const T flag) noexcept
 {
     val |= flag;
 }
 
 template <typename T>
-inline static constexpr void clear_bit_flag(T &val, const T flag) noexcept
+inline static constexpr void clear_flag(T &val, const T flag) noexcept
 {
     val &= (val & (~flag));
 }
 
 template <typename T>
-[[nodiscard]] inline static constexpr auto check_bit_flag(const T value, const T flag) noexcept
+[[nodiscard]] inline static constexpr auto check_flag(const T value, const T flag) noexcept
 {
     return (value & flag) == flag;
 }
 
-[[nodiscard]] inline static constexpr auto get_low_nibble(const unsigned char value) noexcept
+[[nodiscard]] inline static constexpr auto low_nibble(const unsigned char value) noexcept
 {
     return static_cast<unsigned char>(value & 0x0F);
 }
 
-[[nodiscard]] inline static constexpr auto get_high_nibble(const unsigned char value) noexcept
+[[nodiscard]] inline static constexpr auto high_nibble(const unsigned char value) noexcept
 {
     return static_cast<unsigned char>((value & 0xF0) >> 4);
 }
@@ -91,4 +91,4 @@ template <typename T>
     return mask<std::uint64_t>(value);
 }
 
-} // namespace aeon::common
+} // namespace aeon::common::bits

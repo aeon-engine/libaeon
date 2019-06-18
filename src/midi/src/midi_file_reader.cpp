@@ -5,7 +5,7 @@
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/common/endianness.h>
-#include <aeon/common/bitflags.h>
+#include <aeon/common/bits.h>
 #include <aeon/common/fourcc.h>
 #include <stdexcept>
 
@@ -107,7 +107,7 @@ void midi_file_reader::parse_format(const std::uint16_t format)
 void midi_file_reader::parse_divisions(const std::uint16_t divisions)
 {
     // If bit 0x80 is not set, the midi file uses ppqn mode; otherwise smpte.
-    if (!common::check_bit_flag<std::uint16_t>(divisions, 0x8000))
+    if (!common::bits::check_flag<std::uint16_t>(divisions, 0x8000))
     {
         tempo_mode_ = midi_tempo_mode::ppqn;
         divisions_ = divisions;
@@ -186,7 +186,7 @@ void midi_file_reader::parse_track_data(streams::memory_device<std::vector<std::
 
     std::uint32_t value = value_part & ~0x80;
 
-    while (common::check_bit_flag<std::uint8_t>(value_part, 0x80))
+    while (common::bits::check_flag<std::uint8_t>(value_part, 0x80))
     {
         reader >> value_part;
         value = (value << 7);
