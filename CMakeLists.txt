@@ -45,6 +45,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(ComponentUtils)
 enable_component(common)
+enable_component(file_container)
 enable_component(fonts)
 enable_component(imaging)
 enable_component(logger)
