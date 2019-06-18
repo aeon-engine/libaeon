@@ -6,8 +6,11 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/common/uuid.h>
 
+namespace aeon::streams
+{
+
 template <typename device_t>
-inline auto operator<<(aeon::streams::stream_writer<device_t> &stream, const aeon::common::uuid &val)
+inline auto operator<<(stream_writer<device_t> &stream, const aeon::common::uuid &val)
 {
     const auto size = static_cast<std::streamsize>(val.size());
 
@@ -18,7 +21,7 @@ inline auto operator<<(aeon::streams::stream_writer<device_t> &stream, const aeo
 }
 
 template <typename device_t>
-inline auto operator>>(aeon::streams::stream_reader<device_t> &stream, aeon::common::uuid &val)
+inline auto operator>>(stream_reader<device_t> &stream, aeon::common::uuid &val)
 {
     const auto size = static_cast<std::streamsize>(val.size());
 
@@ -27,3 +30,5 @@ inline auto operator>>(aeon::streams::stream_reader<device_t> &stream, aeon::com
 
     return stream;
 }
+
+} // namespace aeon::streams
