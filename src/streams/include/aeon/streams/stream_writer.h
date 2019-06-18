@@ -9,6 +9,7 @@
 #include <aeon/common/assert.h>
 #include <string>
 #include <vector>
+#include <array>
 
 namespace aeon::streams
 {
@@ -31,6 +32,9 @@ public:
 
     template <typename T>
     void vector_write(const std::vector<T> &vec) const;
+
+    template <typename T, std::size_t size>
+    void array_write(const std::array<T, size> &arr) const;
 
 private:
     device_t *device_;
@@ -72,6 +76,16 @@ inline void stream_writer<device_t>::vector_write(const std::vector<T> &vec) con
     const auto size = static_cast<std::streamsize>(std::size(vec));
 
     if (device_->write(reinterpret_cast<const char *>(std::data(vec)), size) != size)
+        throw stream_exception{};
+}
+
+template <typename device_t>
+template <typename T, std::size_t size>
+inline void stream_writer<device_t>::array_write(const std::array<T, size> &arr) const
+{
+    static_assert(sizeof(T) == 1, "Given template argument size must be 1 byte.");
+
+    if (device_->write(reinterpret_cast<const char *>(std::data(arr)), size) != size)
         throw stream_exception{};
 }
 
