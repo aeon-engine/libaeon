@@ -91,6 +91,20 @@ template <typename T>
     return mask<std::uint64_t>(value);
 }
 
+inline static constexpr void unpack32(const std::uint32_t value, std::uint8_t *dest) noexcept
+{
+    dest[3] = static_cast<std::uint8_t>((value));
+    dest[2] = static_cast<std::uint8_t>((value) >> 8);
+    dest[1] = static_cast<std::uint8_t>((value) >> 16);
+    dest[0] = static_cast<std::uint8_t>((value) >> 24);
+}
+
+[[nodiscard]] inline static constexpr auto pack32(const std::uint8_t *value) noexcept -> std::uint32_t
+{
+    return static_cast<std::uint32_t>(value[3]) | static_cast<std::uint32_t>(value[2]) << 8 |
+           static_cast<std::uint32_t>(value[1]) << 16 | static_cast<std::uint32_t>(value[0]) << 24;
+}
+
 template <typename T, typename U>
 [[nodiscard]] inline static constexpr auto rol(const T value, const U count) noexcept
 {
