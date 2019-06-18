@@ -91,4 +91,16 @@ template <typename T>
     return mask<std::uint64_t>(value);
 }
 
+template <typename T, typename U>
+[[nodiscard]] inline static constexpr auto rol(const T value, const U count) noexcept
+{
+    return ((value << count) | (value >> (sizeof(T) * 8 - count)));
+}
+
+template <typename T, typename U>
+[[nodiscard]] inline static constexpr auto ror(const T value, const U count) noexcept
+{
+    return ((value >> count) | (value << (sizeof(T) * 8 - count)));
+}
+
 } // namespace aeon::common::bits
