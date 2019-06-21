@@ -35,7 +35,7 @@ target_link_libraries(aeon_file_container
 )
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 

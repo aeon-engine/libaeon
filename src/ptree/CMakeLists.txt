@@ -56,7 +56,7 @@ target_link_libraries(aeon_ptree
 )
 
 install(
-    DIRECTORY include
+    DIRECTORY include/aeon
     DESTINATION include
 )
 
