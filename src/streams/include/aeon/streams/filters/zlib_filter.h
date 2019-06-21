@@ -144,7 +144,6 @@ public:
                 if (sink.write(std::data(output_buffer_), write_size) != write_size)
                     throw zlib_compress_filter_exception{};
             }
-
         } while (zlib_compress_->stream().avail_out == 0);
 
         aeon_assert(zlib_compress_->stream().avail_in == 0, "Did not write all expected compressed bytes.");

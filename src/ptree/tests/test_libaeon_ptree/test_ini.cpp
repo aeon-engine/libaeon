@@ -18,12 +18,10 @@ static const ptree::property_tree ini_test_pt{
                                {"value_b", 15.0},
                                {"value_c", common::uuid::parse("f976d1e3-0f0d-4c9c-b7c5-2e31eb4bae89")},
                                {"value_d", "This is a string test."}}},
-     {"header3",
-
-      ptree::object{{"value1", "This is a string value"},
-                    {"value2", "This is a string value"},
-                    {"value3", "This is a string value"},
-                    {"value4", "This is a string value"}}}}};
+     {"header3", ptree::object{{"value1", "This is a string value"},
+                               {"value2", "This is a string value"},
+                               {"value3", "This is a string value"},
+                               {"value4", "This is a string value"}}}}};
 
 TEST(test_ptree, serialize_ini)
 {

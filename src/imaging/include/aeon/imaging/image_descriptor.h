@@ -27,7 +27,6 @@ namespace aeon::imaging
 template <typename T>
 class image_descriptor
 {
-
     template <typename U>
     friend class image_view_base;
 
