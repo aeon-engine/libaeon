@@ -47,6 +47,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(ComponentUtils)
 enable_component(common)
+enable_component(compression)
 enable_component(crypto)
 enable_component(file_container)
 enable_component(fonts)

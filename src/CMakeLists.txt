@@ -5,6 +5,7 @@ include(ComponentUtils)
 initialize_components()
 
 register_component_auto(common)
+register_component_auto(compression)
 register_component_auto(crypto)
 register_component_auto(file_container)
 register_component_auto(fonts)

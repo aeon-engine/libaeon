@@ -17,7 +17,6 @@ add_unit_test_suite(
         test_stream_writer.cpp
         test_streams.cpp
         test_uuid_stream.cpp
-        test_zlib_filter.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_streams

@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-handle_local_dependencies_file()
-
 set(LIB_AEON_STREAMS_PUBLIC_SOURCE
     include/aeon/streams/aggregate_device.h
     include/aeon/streams/dynamic_stream.h
@@ -63,7 +61,6 @@ set(LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE
     include/aeon/streams/filters/filter.h
     include/aeon/streams/filters/seek_offset_filter.h
     include/aeon/streams/filters/size_filter.h
-    include/aeon/streams/filters/zlib_filter.h
 )
 
 source_group(public\\filters FILES ${LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE})
@@ -89,7 +86,6 @@ target_include_directories(aeon_streams
 
 target_link_libraries(aeon_streams
     aeon_common
-    ZLIB::ZLIB
 )
 
 install(

@@ -1,8 +1,8 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
+#include <aeon/compression/stream_filters/zlib_filter.h>
 #include <aeon/streams/stream.h>
 #include <aeon/streams/devices/memory_device.h>
-#include <aeon/streams/filters/zlib_filter.h>
 #include <aeon/streams/stream_writer.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -12,7 +12,7 @@ using namespace aeon;
 static void test_decompress_data(const std::vector<char> &buffer, const int read_chunk_size,
                                  const std::string &expected)
 {
-    auto decompress_pipeline = streams::memory_device{buffer} | streams::zlib_decompress_filter{};
+    auto decompress_pipeline = streams::memory_device{buffer} | compression::stream_filters::zlib_decompress_filter{};
 
     std::string read_data;
     read_data.resize(read_chunk_size);
@@ -36,7 +36,7 @@ static void test_decompress_data(const std::vector<char> &buffer, const int read
 
 TEST(test_streams, test_zlib_compress_filter_read_write_basic)
 {
-    auto pipeline = streams::memory_device<std::vector<char>>{} | streams::zlib_compress_filter{};
+    auto pipeline = streams::memory_device<std::vector<char>>{} | compression::stream_filters::zlib_compress_filter{};
     EXPECT_EQ(pipeline.size(), 0);
 
     const std::string data =
