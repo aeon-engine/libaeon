@@ -8,6 +8,8 @@ else ()
     project(libAeon)
 endif ()
 
+set(CMAKE_DEBUG_POSTFIX _d)
+
 # Create compile_commands.json when possible, which can be used for
 # analysis tools.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

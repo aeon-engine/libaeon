@@ -8,6 +8,12 @@
 
 using namespace aeon;
 
+#ifdef _DEBUG
+static constexpr auto plugin_name = "testplugin1_d";
+#else
+static constexpr auto plugin_name = "testplugin1";
+#endif
+
 TEST(test_libaeon_plugins, test_load_non_existent_plugin)
 {
     plugins::plugin_loader loader;
@@ -23,7 +29,7 @@ TEST(test_libaeon_plugins, test_load_simple_plugin)
     bool unloaded_called = false;
 
     {
-        plugins::scoped_plugin<itestplugin1> plugin = loader.load<itestplugin1>("testplugin1");
+        plugins::scoped_plugin<itestplugin1> plugin = loader.load<itestplugin1>(plugin_name);
 
         ASSERT_TRUE(plugin.valid());
         ASSERT_TRUE(plugin);
@@ -47,9 +53,9 @@ TEST(test_libaeon_plugins, test_load_plugin_cache)
     int unload_called_times = 0;
 
     {
-        plugins::scoped_plugin<itestplugin1> plugin = loader.load<itestplugin1>("testplugin1");
-        plugins::scoped_plugin<itestplugin1> plugin2 = loader.load<itestplugin1>("testplugin1");
-        plugins::scoped_plugin<itestplugin1> plugin3 = loader.load<itestplugin1>("testplugin1");
+        plugins::scoped_plugin<itestplugin1> plugin = loader.load<itestplugin1>(plugin_name);
+        plugins::scoped_plugin<itestplugin1> plugin2 = loader.load<itestplugin1>(plugin_name);
+        plugins::scoped_plugin<itestplugin1> plugin3 = loader.load<itestplugin1>(plugin_name);
 
         ASSERT_TRUE(plugin);
         ASSERT_TRUE(plugin2);
@@ -73,7 +79,7 @@ TEST(test_libaeon_plugins, test_load_plugin_cache)
 TEST(test_libaeon_plugins, test_dll_heap)
 {
     plugins::plugin_loader loader;
-    plugins::scoped_plugin<itestplugin1> plugin = loader.load<itestplugin1>("testplugin1");
+    plugins::scoped_plugin<itestplugin1> plugin = loader.load<itestplugin1>(plugin_name);
 
     ASSERT_TRUE(plugin);
 
