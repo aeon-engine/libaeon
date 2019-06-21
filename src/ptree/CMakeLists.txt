@@ -1,6 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 set(LIB_AEON_PTREE_PUBLIC_SOURCE
+    include/aeon/ptree/config_file.h
     include/aeon/ptree/ptree.h
     include/aeon/ptree/exception.h
 )
@@ -8,6 +9,7 @@ set(LIB_AEON_PTREE_PUBLIC_SOURCE
 source_group(public FILES ${LIB_AEON_PTREE_PUBLIC_SOURCE})
 
 set(LIB_AEON_PTREE_PUBLIC_IMPL_SOURCE
+    include/aeon/ptree/impl/config_file_impl.h
     include/aeon/ptree/impl/ptree_impl.h
 )
 

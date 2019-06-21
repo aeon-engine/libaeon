@@ -24,6 +24,10 @@ class ptree_unsupported_ini_format : public ptree_serialization_exception
  * - Values can not be an array or object.
  *
  * Any other format will throw an ptree_unsupported_ini_format exception.
+ *
+ * It is recommended to use the config_file wrapper when using ini format
+ * serialization. The config_file wrapper will always read and write in
+ * the expected format as described above.
  */
 void to_ini(const property_tree &ptree, streams::idynamic_stream &stream);
 auto to_ini(const property_tree &ptree) -> std::string;
