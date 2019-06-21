@@ -220,6 +220,9 @@ template <typename T>
 
 [[nodiscard]] inline auto property_tree::contains(const object::key_type &key) const noexcept -> bool
 {
+    if (!is_object())
+        return false;
+
     return object_value().contains(key);
 }
 
