@@ -8,6 +8,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_bits.cpp
+        test_container.cpp
         test_dispatcher.cpp
         test_endianness.cpp
         test_flags.cpp

@@ -87,4 +87,25 @@ template <typename map_type_t, typename value_type_t>
     return std::find_if(map.begin(), map.end(), [&value](const auto &pair) { return pair.second == value; });
 }
 
+/*!
+ * Execute a predicate for every two adjacent items in a collection. Similar to adjacent_find, but does not
+ * actually search for something. If the predicate returns false, the loop is aborted.
+ * The signature of the predicate should be equivalent to bool(const type1 &left, const type2 &right);
+ */
+template <class forward_itr_t, class pred_t>
+void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p)
+{
+    if (first == last)
+        return;
+
+    auto next = first;
+    ++next;
+
+    for (; next != last; ++next, ++first)
+    {
+        if (!p(*first, *next))
+            return;
+    }
+}
+
 } // namespace aeon::common::container
