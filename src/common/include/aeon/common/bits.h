@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <limits>
+#include <array>
 
 namespace aeon::common::bits
 {
@@ -97,6 +98,13 @@ inline static constexpr void unpack32(const std::uint32_t value, std::uint8_t *d
     dest[2] = static_cast<std::uint8_t>((value) >> 8);
     dest[1] = static_cast<std::uint8_t>((value) >> 16);
     dest[0] = static_cast<std::uint8_t>((value) >> 24);
+}
+
+inline static constexpr auto unpack32(const std::uint32_t value) noexcept
+{
+    std::array<std::uint8_t, 4> result{};
+    unpack32(value, std::data(result));
+    return result;
 }
 
 [[nodiscard]] inline static constexpr auto pack32(const std::uint8_t *value) noexcept -> std::uint32_t
