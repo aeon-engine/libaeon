@@ -54,32 +54,24 @@ template <typename T>
     return back_emplace_iterator{container};
 }
 
-template <typename T>
-[[nodiscard]] inline auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+template <typename U, typename T, typename pred_t>
+[[nodiscard]] inline auto transform(const std::vector<T> &vec, pred_t pred) -> std::vector<U>
 {
-    std::vector<T *> c_ptr;
-    c_ptr.reserve(std::size(c));
+    std::vector<U> trans_vec;
+    trans_vec.reserve(std::size(vec));
 
-    for (auto &i : c)
-    {
-        c_ptr.push_back(i.get());
-    }
-
-    return c_ptr;
+    std::transform(std::begin(vec), std::end(vec), std::back_inserter(trans_vec), pred);
+    return trans_vec;
 }
 
 template <typename U, typename T>
-[[nodiscard]] inline auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
+[[nodiscard]] inline auto auto_transform(const std::vector<T> &vec) -> std::vector<U>
 {
-    std::vector<U *> c_ptr;
-    c_ptr.reserve(std::size(c));
+    std::vector<U> trans_vec;
+    trans_vec.reserve(std::size(vec));
 
-    for (auto &i : c)
-    {
-        c_ptr.push_back(i.get());
-    }
-
-    return c_ptr;
+    std::transform(std::begin(vec), std::end(vec), back_emplacer(trans_vec), [](const auto &v) { return v; });
+    return trans_vec;
 }
 
 template <typename container_t, typename unary_predicate_t>
