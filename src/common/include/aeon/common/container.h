@@ -108,4 +108,19 @@ inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p)
     }
 }
 
+template <typename iterator_t, typename value_t>
+inline auto contains(iterator_t first, iterator_t last, const value_t &value) -> bool
+{
+    if (first == last)
+        return false;
+
+    for (; first != last; ++first)
+    {
+        if (*first == value)
+            return true;
+    }
+
+    return false;
+}
+
 } // namespace aeon::common::container
