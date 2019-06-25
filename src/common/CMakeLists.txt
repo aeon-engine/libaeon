@@ -50,6 +50,7 @@ source_group(public FILES ${LIB_AEON_COMMON_PUBLIC_SOURCE})
 
 set(LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE
     include/aeon/common/impl/string_impl.h
+    include/aeon/common/impl/version_impl.h
 )
 
 source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
