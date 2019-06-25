@@ -92,8 +92,8 @@ template <typename map_type_t, typename value_type_t>
  * actually search for something. If the predicate returns false, the loop is aborted.
  * The signature of the predicate should be equivalent to bool(const type1 &left, const type2 &right);
  */
-template <class forward_itr_t, class pred_t>
-void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p)
+template <typename forward_itr_t, typename pred_t>
+inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p)
 {
     if (first == last)
         return;
