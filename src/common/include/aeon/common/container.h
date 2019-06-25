@@ -11,6 +11,49 @@
 namespace aeon::common::container
 {
 
+template <class container_t>
+class back_emplace_iterator
+{
+public:
+    using container_type = container_t;
+
+    explicit back_emplace_iterator(container_type &x)
+        : container_{&x}
+    {
+    }
+
+    template <typename T>
+    back_emplace_iterator<container_type> &operator=(T &&args)
+    {
+        container_->emplace_back(std::forward<T>(args));
+        return *this;
+    }
+
+    back_emplace_iterator &operator*()
+    {
+        return *this;
+    }
+
+    back_emplace_iterator &operator++()
+    {
+        return *this;
+    }
+
+    back_emplace_iterator &operator++(int)
+    {
+        return *this;
+    }
+
+private:
+    container_type *container_;
+};
+
+template <typename T>
+[[nodiscard]] inline auto back_emplacer(T &container)
+{
+    return back_emplace_iterator{container};
+}
+
 template <typename T>
 [[nodiscard]] inline auto unique_ptr_to_raw_ptr(const std::vector<std::unique_ptr<T>> &c)
 {
