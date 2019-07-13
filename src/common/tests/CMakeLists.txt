@@ -7,6 +7,7 @@ add_unit_test_suite(
     TARGET test_libaeon_common
     SOURCES
         main.cpp
+        test_base64.cpp
         test_bits.cpp
         test_container.cpp
         test_dispatcher.cpp

@@ -2,6 +2,7 @@
 
 set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/assert.h
+    include/aeon/common/base64.h
     include/aeon/common/bits.h
     include/aeon/common/cached_container.h
     include/aeon/common/collection.h
@@ -59,6 +60,7 @@ set(LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE
 source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
 
 set(LIB_AEON_COMMON_PRIVATE_SOURCE
+    src/base64.cpp
     src/dll_loader.cpp
     src/from_chars.cpp
     src/hexdump.cpp
