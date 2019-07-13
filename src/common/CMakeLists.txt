@@ -5,6 +5,8 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/bits.h
     include/aeon/common/cached_container.h
     include/aeon/common/collection.h
+    include/aeon/common/color.h
+    include/aeon/common/color_limits.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
     include/aeon/common/delay.h
@@ -49,6 +51,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
 source_group(public FILES ${LIB_AEON_COMMON_PUBLIC_SOURCE})
 
 set(LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE
+    include/aeon/common/impl/color_impl.h
     include/aeon/common/impl/string_impl.h
     include/aeon/common/impl/version_impl.h
 )
