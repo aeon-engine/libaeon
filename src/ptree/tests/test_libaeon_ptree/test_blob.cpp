@@ -24,3 +24,16 @@ TEST(test_ptree, json_serialize_deserialize_blob)
     ASSERT_TRUE(data_blob.is_blob());
     EXPECT_EQ(blob, data_blob.blob_value());
 }
+
+TEST(test_ptree, json_serialize_deserialize_skip_blob)
+{
+    const auto abf = ptree::serialization::to_abf(pt);
+    auto device = streams::make_vector_view_stream(abf);
+    const auto pt2 = ptree::serialization::from_abf(device, ptree::serialization::abf_deserialize_mode::skip_blobs);
+    EXPECT_NE(pt, pt2);
+
+    ASSERT_TRUE(pt2.is_object());
+    const auto &data_blob = pt2.object_value().at("data");
+    ASSERT_TRUE(data_blob.is_blob());
+    EXPECT_TRUE(std::empty(data_blob.blob_value()));
+}

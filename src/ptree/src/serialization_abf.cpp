@@ -129,8 +129,9 @@ static void to_abf(const blob &val, streams::idynamic_stream &stream)
 class abf_parser final
 {
 public:
-    explicit abf_parser(streams::idynamic_stream &stream)
+    explicit abf_parser(streams::idynamic_stream &stream, const abf_deserialize_mode mode)
         : reader_{stream}
+        , mode_{mode}
     {
         parse_header();
     }
@@ -182,10 +183,16 @@ public:
             {
                 std::uint64_t size = 0;
                 reader_ >> streams::varint{size};
+
                 blob data;
 
                 if (size > 0)
-                    reader_.read_to_vector(data, size);
+                {
+                    if (skip_binary_blobs())
+                        reader_.device().seekg(size, streams::seek_direction::current);
+                    else
+                        reader_.read_to_vector(data, size);
+                }
 
                 return data;
             }
@@ -195,6 +202,11 @@ public:
     }
 
 private:
+    [[nodiscard]] auto skip_binary_blobs() const noexcept -> bool
+    {
+        return mode_ == abf_deserialize_mode::skip_blobs;
+    }
+
     void parse_header()
     {
         std::uint32_t magic = 0;
@@ -243,6 +255,7 @@ private:
     }
 
     streams::stream_reader<streams::idynamic_stream> reader_;
+    abf_deserialize_mode mode_;
 };
 
 } // namespace internal
@@ -261,16 +274,16 @@ void to_abf(const property_tree &ptree, streams::idynamic_stream &stream)
     return data;
 }
 
-void from_abf(streams::idynamic_stream &stream, property_tree &ptree)
+void from_abf(streams::idynamic_stream &stream, property_tree &ptree, const abf_deserialize_mode mode)
 {
-    internal::abf_parser parser{stream};
+    internal::abf_parser parser{stream, mode};
     ptree = parser.parse();
 }
 
-[[nodiscard]] auto from_abf(streams::idynamic_stream &stream) -> property_tree
+[[nodiscard]] auto from_abf(streams::idynamic_stream &stream, const abf_deserialize_mode mode) -> property_tree
 {
     property_tree pt;
-    from_abf(stream, pt);
+    from_abf(stream, pt, mode);
     return pt;
 }
 
