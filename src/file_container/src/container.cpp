@@ -8,7 +8,6 @@
 #include <aeon/streams/uuid_stream.h>
 #include <aeon/streams/length_prefix_string.h>
 #include <aeon/common/uuid.h>
-#include <aeon/common/compilers.h>
 #include <aeon/common/fourcc.h>
 #include <cstdint>
 
