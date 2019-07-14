@@ -17,43 +17,42 @@ namespace aeon::ptree::serialization
 namespace internal
 {
 
-void to_string(const std::monostate, streams::idynamic_stream &);
-void to_string(const array &arr, streams::idynamic_stream &);
-void to_string(const object &obj, streams::idynamic_stream &);
-void to_string(const std::string &obj_str, streams::idynamic_stream &stream);
-void to_string(const common::uuid &uuid, streams::idynamic_stream &stream);
-void to_string(const std::int64_t val, streams::idynamic_stream &stream);
-void to_string(const double val, streams::idynamic_stream &stream);
-void to_string(const bool val, streams::idynamic_stream &stream);
-
-void to_string(const property_tree &ptree, streams::idynamic_stream &stream)
+static void to_string(const std::monostate, streams::idynamic_stream &);
+static void to_string(const array &arr, streams::idynamic_stream &);
+static void to_string(const object &obj, streams::idynamic_stream &);
+static void to_string(const std::string &obj_str, streams::idynamic_stream &stream);
+static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream);
+static void to_string(const std::int64_t val, streams::idynamic_stream &stream);
+static void to_string(const double val, streams::idynamic_stream &stream);
+static void to_string(const bool val, streams::idynamic_stream &stream);
+static void to_string(const property_tree &ptree, streams::idynamic_stream &stream)
 {
     std::visit([&stream](auto &&arg) { internal::to_string(arg, stream); }, ptree.value());
 }
 
-void to_string(const std::monostate, streams::idynamic_stream &stream)
+static void to_string(const std::monostate, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << "null";
 }
 
-void to_string(const array &arr, streams::idynamic_stream &stream)
+static void to_string(const array &arr, streams::idynamic_stream &stream)
 {
     throw ptree_unsupported_ini_format{};
 }
 
-void to_string(const object &obj, streams::idynamic_stream &stream)
+static void to_string(const object &obj, streams::idynamic_stream &stream)
 {
     throw ptree_unsupported_ini_format{};
 }
 
-void to_string(const common::uuid &uuid, streams::idynamic_stream &stream)
+static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << uuid.str();
 }
 
-void to_string(const std::string &obj_str, streams::idynamic_stream &stream)
+static void to_string(const std::string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << '"';
@@ -61,19 +60,19 @@ void to_string(const std::string &obj_str, streams::idynamic_stream &stream)
     writer << '"';
 }
 
-void to_string(const std::int64_t val, streams::idynamic_stream &stream)
+static void to_string(const std::int64_t val, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << std::to_string(val);
 }
 
-void to_string(const double val, streams::idynamic_stream &stream)
+static void to_string(const double val, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << std::to_string(val);
 }
 
-void to_string(const bool val, streams::idynamic_stream &stream)
+static void to_string(const bool val, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
 
