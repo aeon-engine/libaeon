@@ -25,6 +25,7 @@ static constexpr std::uint8_t chunk_type_integer = 0x04;
 static constexpr std::uint8_t chunk_type_double = 0x05;
 static constexpr std::uint8_t chunk_type_bool = 0x06;
 static constexpr std::uint8_t chunk_type_uuid = 0x07;
+static constexpr std::uint8_t chunk_type_blob = 0x08;
 
 static void to_abf(const std::monostate, streams::idynamic_stream &);
 static void to_abf(const array &arr, streams::idynamic_stream &stream);
@@ -34,6 +35,7 @@ static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_abf(const double val, streams::idynamic_stream &stream);
 static void to_abf(const bool val, streams::idynamic_stream &stream);
+static void to_abf(const blob &val, streams::idynamic_stream &stream);
 
 static void write_header(streams::idynamic_stream &stream)
 {
@@ -114,6 +116,16 @@ static void to_abf(const bool val, streams::idynamic_stream &stream)
     writer << static_cast<std::uint8_t>(val);
 }
 
+static void to_abf(const blob &val, streams::idynamic_stream &stream)
+{
+    const auto size = std::size(val);
+
+    streams::stream_writer writer{stream};
+    writer << chunk_type_blob;
+    writer << streams::varint{size};
+    writer.vector_write(val);
+}
+
 class abf_parser final
 {
 public:
@@ -165,6 +177,17 @@ public:
                 common::uuid uuid;
                 reader_ >> uuid;
                 return uuid;
+            }
+            case chunk_type_blob:
+            {
+                std::uint64_t size = 0;
+                reader_ >> streams::varint{size};
+                blob data;
+
+                if (size > 0)
+                    reader_.read_to_vector(data, size);
+
+                return data;
             }
             default:
                 throw ptree_serialization_exception{};

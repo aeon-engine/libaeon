@@ -25,6 +25,8 @@ static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream
 static void to_string(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_string(const double val, streams::idynamic_stream &stream);
 static void to_string(const bool val, streams::idynamic_stream &stream);
+static void to_string(const blob &val, streams::idynamic_stream &stream);
+
 static void to_string(const property_tree &ptree, streams::idynamic_stream &stream)
 {
     std::visit([&stream](auto &&arg) { internal::to_string(arg, stream); }, ptree.value());
@@ -80,6 +82,12 @@ static void to_string(const bool val, streams::idynamic_stream &stream)
         writer << "true";
     else
         writer << "false";
+}
+
+static void to_string(const blob &val, streams::idynamic_stream &stream)
+{
+    aeon_assert_fail("Ini serializer does not support binary blobs.");
+    throw ptree_serialization_exception{};
 }
 
 class ini_parser final

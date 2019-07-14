@@ -82,6 +82,16 @@ inline property_tree::property_tree(common::uuid &&uuid)
 {
 }
 
+inline property_tree::property_tree(const blob &data)
+    : value_{data}
+{
+}
+
+inline property_tree::property_tree(blob &&data)
+    : value_{std::move(data)}
+{
+}
+
 template <typename T>
 [[nodiscard]] inline auto property_tree::is_type() const noexcept
 {
@@ -126,6 +136,11 @@ template <typename T>
 [[nodiscard]] inline auto property_tree::is_bool() const noexcept
 {
     return is_type<bool>();
+}
+
+[[nodiscard]] inline auto property_tree::is_blob() const noexcept
+{
+    return is_type<blob>();
 }
 
 [[nodiscard]] inline auto property_tree::value() noexcept -> property_tree::variant_type &
@@ -190,6 +205,12 @@ template <typename T>
 {
     aeon_assert(is_bool(), "Value is not a bool.");
     return std::get<bool>(value());
+}
+
+[[nodiscard]] inline auto property_tree::blob_value() const -> const blob &
+{
+    aeon_assert(is_blob(), "Value is not a blob.");
+    return std::get<blob>(value());
 }
 
 [[nodiscard]] inline auto property_tree::at(const object::key_type &key) -> object::value_type &
@@ -299,6 +320,18 @@ inline auto property_tree::operator=(const common::uuid &value) -> property_tree
 }
 
 inline auto property_tree::operator=(common::uuid &&value) -> property_tree &
+{
+    value_ = std::move(value);
+    return *this;
+}
+
+inline auto property_tree::operator=(const blob &value) -> property_tree &
+{
+    value_ = value;
+    return *this;
+}
+
+inline auto property_tree::operator=(blob &&value) -> property_tree &
 {
     value_ = std::move(value);
     return *this;
@@ -514,6 +547,29 @@ inline auto operator==(const common::uuid &lhs, const property_tree &rhs) -> boo
 }
 
 inline auto operator!=(const common::uuid &lhs, const property_tree &rhs) -> bool
+{
+    return rhs != lhs;
+}
+
+inline auto operator==(const property_tree &lhs, const blob &rhs) -> bool
+{
+    if (!lhs.is_blob())
+        return false;
+
+    return lhs.blob_value() == rhs;
+}
+
+inline auto operator!=(const property_tree &lhs, const blob &rhs) -> bool
+{
+    return !(lhs == rhs);
+}
+
+inline auto operator==(const blob &lhs, const property_tree &rhs) -> bool
+{
+    return rhs == lhs;
+}
+
+inline auto operator!=(const blob &lhs, const property_tree &rhs) -> bool
 {
     return rhs != lhs;
 }

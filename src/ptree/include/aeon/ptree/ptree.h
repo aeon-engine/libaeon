@@ -16,12 +16,13 @@ namespace aeon::ptree
 class property_tree;
 using array = std::vector<property_tree>;
 using object = common::linear_map<std::string, property_tree>;
+using blob = std::vector<std::uint8_t>;
 
 class property_tree
 {
 public:
     using variant_type =
-        std::variant<std::monostate, array, object, common::uuid, std::string, std::int64_t, double, bool>;
+        std::variant<std::monostate, array, object, common::uuid, std::string, std::int64_t, double, blob, bool>;
 
     property_tree();
     property_tree(std::nullptr_t);
@@ -38,6 +39,8 @@ public:
     property_tree(std::string &&value);
     property_tree(const common::uuid &uuid);
     property_tree(common::uuid &&uuid);
+    property_tree(const blob &data);
+    property_tree(blob &&data);
 
     virtual ~property_tree() noexcept = default;
 
@@ -58,6 +61,7 @@ public:
     [[nodiscard]] auto is_integer() const noexcept;
     [[nodiscard]] auto is_double() const noexcept;
     [[nodiscard]] auto is_bool() const noexcept;
+    [[nodiscard]] auto is_blob() const noexcept;
 
     [[nodiscard]] auto value() noexcept -> variant_type &;
     [[nodiscard]] auto value() const noexcept -> const variant_type &;
@@ -73,6 +77,7 @@ public:
     [[nodiscard]] auto integer_value() const -> std::int64_t;
     [[nodiscard]] auto double_value() const -> double;
     [[nodiscard]] auto bool_value() const -> bool;
+    [[nodiscard]] auto blob_value() const -> const blob &;
 
     [[nodiscard]] auto at(const object::key_type &key) -> object::value_type &;
     [[nodiscard]] auto at(const object::key_type &key) const -> const object::value_type &;
@@ -95,6 +100,8 @@ public:
     auto operator=(std::string &&value) -> property_tree &;
     auto operator=(const common::uuid &value) -> property_tree &;
     auto operator=(common::uuid &&value) -> property_tree &;
+    auto operator=(const blob &value) -> property_tree &;
+    auto operator=(blob &&value) -> property_tree &;
 
     auto operator==(const property_tree &other) const noexcept -> bool;
     auto operator!=(const property_tree &other) const noexcept -> bool;
@@ -147,6 +154,11 @@ auto operator==(const property_tree &lhs, const common::uuid &rhs) -> bool;
 auto operator!=(const property_tree &lhs, const common::uuid &rhs) -> bool;
 auto operator==(const common::uuid &lhs, const property_tree &rhs) -> bool;
 auto operator!=(const common::uuid &lhs, const property_tree &rhs) -> bool;
+
+auto operator==(const property_tree &lhs, const blob &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const blob &rhs) -> bool;
+auto operator==(const blob &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const blob &lhs, const property_tree &rhs) -> bool;
 
 } // namespace aeon::ptree
 

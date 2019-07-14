@@ -7,6 +7,7 @@ add_unit_test_suite(
     TARGET test_libaeon_ptree
     SOURCES
         main.cpp
+        test_blob.cpp
         test_config_file.cpp
         test_ptree.cpp
         test_ini.cpp
