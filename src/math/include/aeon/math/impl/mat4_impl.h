@@ -12,24 +12,20 @@
 namespace aeon::math
 {
 
-inline mat4::mat4() noexcept = default;
+inline constexpr mat4::mat4() noexcept = default;
 
-inline mat4::mat4(const float m00, const float m01, const float m02, const float m03, const float m10, const float m11,
-                  const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
-                  const float m30, const float m31, const float m32, const float m33) noexcept
+inline constexpr mat4::mat4(const float m00, const float m01, const float m02, const float m03, const float m10,
+                            const float m11, const float m12, const float m13, const float m20, const float m21,
+                            const float m22, const float m23, const float m30, const float m31, const float m32,
+                            const float m33) noexcept
+    : column{vector4{m00, m10, m20, m30}, vector4{m01, m11, m21, m31}, vector4{m02, m12, m22, m32},
+             vector4{m03, m13, m23, m33}}
 {
-    column[0] = vector4{m00, m10, m20, m30};
-    column[1] = vector4{m01, m11, m21, m31};
-    column[2] = vector4{m02, m12, m22, m32};
-    column[3] = vector4{m03, m13, m23, m33};
 }
 
-inline mat4::mat4(const mat3 &m) noexcept
+inline constexpr mat4::mat4(const mat3 &m) noexcept
+    : column{vector4{m[0]}, vector4{m[1]}, vector4{m[2]}, vector4{0.0f, 0.0f, 0.0f, 1.0f}}
 {
-    column[0] = vector4{m[0]};
-    column[1] = vector4{m[1]};
-    column[2] = vector4{m[2]};
-    column[3] = vector4{0.0f, 0.0f, 0.0f, 1.0f};
 }
 
 inline mat4::mat4(const quaternion &q) noexcept
@@ -37,29 +33,29 @@ inline mat4::mat4(const quaternion &q) noexcept
 {
 }
 
-[[nodiscard]] inline auto mat4::operator[](const std::size_t i) noexcept -> vector4<float> &
+[[nodiscard]] inline constexpr auto mat4::operator[](const std::size_t i) noexcept -> vector4<float> &
 {
     aeon_assert_array_bounds(column, i);
     return column[i];
 }
 
-[[nodiscard]] inline auto mat4::operator[](const std::size_t i) const noexcept -> const vector4<float> &
+[[nodiscard]] inline constexpr auto mat4::operator[](const std::size_t i) const noexcept -> const vector4<float> &
 {
     aeon_assert_array_bounds(column, i);
     return column[i];
 }
 
-[[nodiscard]] inline auto mat4::at(const int column_index, const int row_index) const noexcept -> float
+[[nodiscard]] inline constexpr auto mat4::at(const int column_index, const int row_index) const noexcept -> float
 {
     return operator[](column_index)[row_index];
 }
 
-[[nodiscard]] inline auto mat4::zero() noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::zero() noexcept -> mat4
 {
     return {};
 }
 
-[[nodiscard]] inline auto mat4::indentity() noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::indentity() noexcept -> mat4
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f, 0.0f,
@@ -69,17 +65,17 @@ inline mat4::mat4(const quaternion &q) noexcept
     // clang-format on
 }
 
-[[nodiscard]] inline auto mat4::scale(const float xyz) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::scale(const float xyz) noexcept -> mat4
 {
     return scale(vector3<float>{xyz});
 }
 
-[[nodiscard]] inline auto mat4::scale(const float x, const float y, const float z) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::scale(const float x, const float y, const float z) noexcept -> mat4
 {
     return scale({x, y, z});
 }
 
-[[nodiscard]] inline auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::scale(const vector3<float> &vec) noexcept -> mat4
 {
     // clang-format off
     return {vec.x, 0.0f,  0.0f,  0.0f,
@@ -90,34 +86,34 @@ inline mat4::mat4(const quaternion &q) noexcept
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::scale(const T xyz) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::scale(const T xyz) noexcept -> mat4
 {
     return scale(static_cast<float>(xyz));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::scale(const T x, const T y, const T z) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::scale(const T x, const T y, const T z) noexcept -> mat4
 {
     return scale(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::scale(const vector3<T> &vec) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::scale(const vector3<T> &vec) noexcept -> mat4
 {
     return scale(vector3<float>{vec});
 }
 
-[[nodiscard]] inline auto mat4::translate(const float x, const float y) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::translate(const float x, const float y) noexcept -> mat4
 {
     return translate({x, y, 0.0f});
 }
 
-[[nodiscard]] inline auto mat4::translate(const float x, const float y, const float z) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::translate(const float x, const float y, const float z) noexcept -> mat4
 {
     return translate({x, y, z});
 }
 
-[[nodiscard]] inline auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f, vec.x,
@@ -128,19 +124,19 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::translate(const T x, const T y) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::translate(const T x, const T y) noexcept -> mat4
 {
     return translate(static_cast<float>(x), static_cast<float>(y));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::translate(const T x, const T y, const T z) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::translate(const T x, const T y, const T z) noexcept -> mat4
 {
     return translate(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
 {
     return translate(vector3<float>{vec});
 }
@@ -182,8 +178,8 @@ template <typename T>
     return rotate(angle, vector3<float>{vec});
 }
 
-[[nodiscard]] inline auto mat4::ortho(const float left, const float right, const float bottom, const float top) noexcept
-    -> mat4
+[[nodiscard]] inline constexpr auto mat4::ortho(const float left, const float right, const float bottom,
+                                                const float top) noexcept -> mat4
 {
     // clang-format off
     return {
@@ -210,8 +206,8 @@ template <typename T>
     // clang-format on
 }
 
-[[nodiscard]] inline auto mat4::ortho(const float left, const float right, const float bottom, const float top,
-                                      const float near, const float far) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::ortho(const float left, const float right, const float bottom,
+                                                const float top, const float near, const float far) noexcept -> mat4
 {
     // clang-format off
     return {
@@ -239,28 +235,29 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::ortho(const T left, const T right, const T bottom, const T top) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::ortho(const T left, const T right, const T bottom, const T top) noexcept
+    -> mat4
 {
     return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
                        static_cast<float>(top));
 }
 
 template <typename T, typename U>
-[[nodiscard]] inline auto mat4::ortho(const T left, const T right, const T bottom, const T top, const U near,
-                                      const U far) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::ortho(const T left, const T right, const T bottom, const T top, const U near,
+                                                const U far) noexcept -> mat4
 {
     return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
                        static_cast<float>(top), static_cast<float>(near), static_cast<float>(far));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat4::ortho(const rectangle<T> &rect) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::ortho(const rectangle<T> &rect) noexcept -> mat4
 {
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect));
 }
 
 template <typename T, typename U>
-[[nodiscard]] inline auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4
 {
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect), near, far);
 }
@@ -342,7 +339,7 @@ template <typename T, typename U>
                           static_cast<float>(near), static_cast<float>(far));
 }
 
-[[nodiscard]] inline auto determinant(const mat4 &mat) noexcept -> float
+[[nodiscard]] inline constexpr auto determinant(const mat4 &mat) noexcept -> float
 {
     // clang-format off
     const auto a = mat3{
@@ -374,7 +371,7 @@ template <typename T, typename U>
            mat[3][0] * determinant(d);
 }
 
-[[nodiscard]] inline auto inverse(const mat4 &mat) noexcept -> mat4
+[[nodiscard]] inline constexpr auto inverse(const mat4 &mat) noexcept -> mat4
 {
     auto v0 = mat[0][2] * mat[1][3] - mat[1][2] * mat[0][3];
     auto v1 = mat[0][2] * mat[2][3] - mat[2][2] * mat[0][3];
@@ -434,7 +431,7 @@ template <typename T, typename U>
     // clang-format on
 }
 
-[[nodiscard]] inline auto is_affine(const mat4 &mat) noexcept -> bool
+[[nodiscard]] inline constexpr auto is_affine(const mat4 &mat) noexcept -> bool
 {
     return (mat[0][3] == 0.0f) && (mat[1][3] == 0.0f) && (mat[2][3] == 0.0f) && (mat[3][3] == 1.0f);
 }
@@ -451,12 +448,12 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
     translation.set(mat[3][0], mat[3][1], mat[3][2]);
 }
 
-[[nodiscard]] inline auto ptr(mat4 &mat) noexcept -> float *
+[[nodiscard]] inline constexpr auto ptr(mat4 &mat) noexcept -> float *
 {
     return &mat[0][0];
 }
 
-[[nodiscard]] inline auto ptr(const mat4 &mat) noexcept -> const float *
+[[nodiscard]] inline constexpr auto ptr(const mat4 &mat) noexcept -> const float *
 {
     return &mat[0][0];
 }

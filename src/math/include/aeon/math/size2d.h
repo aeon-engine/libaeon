@@ -25,33 +25,33 @@ public:
     /*!
      * Create an empty rectangle. This initializes all values to 0.
      */
-    size2d() noexcept;
+    constexpr size2d() noexcept;
 
     /*!
      * Create a size based on the given width and height.
      */
-    size2d(const T width, const T height) noexcept;
+    constexpr size2d(const T width, const T height) noexcept;
 
     /*!
      * Create a size based on the given width and height.
      * Converting constructor
      */
     template <typename U>
-    explicit size2d(const U width, const U height) noexcept;
+    explicit constexpr size2d(const U width, const U height) noexcept;
 
     template <typename U>
-    explicit size2d(const convert_type, const U &t) noexcept;
+    explicit constexpr size2d(const convert_type, const U &t) noexcept;
 
     ~size2d() noexcept = default;
 
-    size2d(const size2d &) noexcept = default;
-    auto operator=(const size2d &) noexcept -> size2d & = default;
+    constexpr size2d(const size2d &) noexcept = default;
+    constexpr auto operator=(const size2d &) noexcept -> size2d & = default;
 
-    size2d(size2d &&) noexcept = default;
-    auto operator=(size2d &&) noexcept -> size2d & = default;
+    constexpr size2d(size2d &&) noexcept = default;
+    constexpr auto operator=(size2d &&) noexcept -> size2d & = default;
 
     template <typename U>
-    [[nodiscard]] auto convert_to() const noexcept -> U;
+    [[nodiscard]] constexpr auto convert_to() const noexcept -> U;
 
     T width;
     T height;
@@ -63,7 +63,7 @@ public:
  * \return The width value
  */
 template <typename T>
-[[nodiscard]] inline auto width(const size2d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto width(const size2d<T> &size) noexcept -> T;
 
 /*!
  * Get the height value of a given size.
@@ -71,7 +71,7 @@ template <typename T>
  * \return The height value
  */
 template <typename T>
-[[nodiscard]] inline auto height(const size2d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto height(const size2d<T> &size) noexcept -> T;
 
 /*!
  * Get the area of a given size.
@@ -79,7 +79,7 @@ template <typename T>
  * \return The area (width * height)
  */
 template <typename T>
-[[nodiscard]] inline auto area(const size2d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto area(const size2d<T> &size) noexcept -> T;
 
 /*!
  * Check if a size is empty (width == 0 or height == 0)
@@ -87,7 +87,7 @@ template <typename T>
  * \return True if the size is empty
  */
 template <typename T>
-[[nodiscard]] inline auto empty(const size2d<T> &size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto empty(const size2d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is null (width == 0 and height == 0)
@@ -95,7 +95,7 @@ template <typename T>
  * \return True if the size is null
  */
 template <typename T>
-[[nodiscard]] inline auto null(const size2d<T> &size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto null(const size2d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is valid (width >= 0 and height >= 0)
@@ -103,7 +103,7 @@ template <typename T>
  * \return True if the size is valid
  */
 template <typename T>
-[[nodiscard]] inline auto valid(const size2d<T> &size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto valid(const size2d<T> &size) noexcept -> bool;
 
 /*!
  * Get the rectangle for a given size with left-top at [0, 0].
@@ -111,7 +111,7 @@ template <typename T>
  * \return Rectangle
  */
 template <typename T>
-[[nodiscard]] inline auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
+[[nodiscard]] inline constexpr auto rect(const size2d<T> &size) noexcept -> rectangle<T>;
 
 /*!
  * Check if the given inner point is completely contained within the given size.
@@ -120,7 +120,7 @@ template <typename T>
  * \return True if the point is contained with in the size.
  */
 template <typename T>
-[[nodiscard]] inline auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool;
 
 /*!
  * Inflate (grow, add) a size in all directions by a given value.
@@ -309,70 +309,70 @@ inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, con
     -> size2d<T>;
 
 template <typename T>
-inline auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator+(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator+(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator+=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator+=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator+(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator+(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator+=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator+=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator-(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator-(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator-=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator-=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator-(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator-(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator-=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator-=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator*(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator*=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*=(size2d<T> &lhs, const size2d<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator*(const size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*(const size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator*=(size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*=(size2d<T> &lhs, const vector2<T> &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T>
-inline auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>;
 
 template <typename T, typename U>
-inline auto operator*(const size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*(const size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>;
 
 template <typename T, typename U>
-inline auto operator*=(size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*=(size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>;
 
 template <typename T, typename U>
-inline auto operator*(const size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*(const size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>;
 
 template <typename T, typename U>
-inline auto operator*=(size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*=(size2d<T> &lhs, const vector2<U> &rhs) noexcept -> size2d<T>;
 
 template <typename T, typename U>
-inline auto operator*(const size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*(const size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>;
 
 template <typename T, typename U>
-inline auto operator*=(size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>;
+inline constexpr auto operator*=(size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>;
 
 } // namespace aeon::math
 

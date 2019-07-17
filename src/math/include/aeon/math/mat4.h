@@ -9,6 +9,7 @@
 
 #include <aeon/math/vector4.h>
 #include <aeon/math/units.h>
+#include <array>
 
 namespace aeon::math
 {
@@ -36,14 +37,14 @@ public:
     /*!
      * Create an empty (all zeros) matrix. This will NOT initialize to identity.
      */
-    mat4() noexcept;
+    constexpr mat4() noexcept;
 
     /*!
      * Create a matrix based on the given values. Values are in row order.
      */
-    mat4(const float m00, const float m01, const float m02, const float m03, const float m10, const float m11,
-         const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
-         const float m30, const float m31, const float m32, const float m33) noexcept;
+    constexpr mat4(const float m00, const float m01, const float m02, const float m03, const float m10, const float m11,
+                   const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
+                   const float m30, const float m31, const float m32, const float m33) noexcept;
 
     ~mat4() noexcept = default;
 
@@ -59,30 +60,30 @@ public:
      * 0 0 0 1
      *\endverbatim
      */
-    explicit mat4(const mat3 &m) noexcept;
+    explicit constexpr mat4(const mat3 &m) noexcept;
 
     /*!
      * Create a rotation matrix based on a given quaternion.
      */
     explicit mat4(const quaternion &q) noexcept;
 
-    mat4(const mat4 &) noexcept = default;
-    auto operator=(const mat4 &) noexcept -> mat4 & = default;
+    constexpr mat4(const mat4 &) noexcept = default;
+    constexpr auto operator=(const mat4 &) noexcept -> mat4 & = default;
 
-    mat4(mat4 &&) noexcept = default;
-    auto operator=(mat4 &&) noexcept -> mat4 & = default;
+    constexpr mat4(mat4 &&) noexcept = default;
+    constexpr auto operator=(mat4 &&) noexcept -> mat4 & = default;
 
     /*!
      * Access a column within this matrix.
      * \return A reference to the entire column.
      */
-    [[nodiscard]] auto operator[](const std::size_t i) noexcept -> vector4<float> &;
+    [[nodiscard]] constexpr auto operator[](const std::size_t i) noexcept -> vector4<float> &;
 
     /*!
      * Access a column within this matrix.
      * \return A const reference to the entire column.
      */
-    [[nodiscard]] auto operator[](const std::size_t i) const noexcept -> const vector4<float> &;
+    [[nodiscard]] constexpr auto operator[](const std::size_t i) const noexcept -> const vector4<float> &;
 
     /*!
      * Access a value within this matrix based on a given column and row index.
@@ -90,26 +91,26 @@ public:
      * \param[in] row_index - Row
      * \return Value based on the given column and row index.
      */
-    [[nodiscard]] auto at(const int column_index, const int row_index) const noexcept -> float;
+    [[nodiscard]] constexpr auto at(const int column_index, const int row_index) const noexcept -> float;
 
     /*!
      * Create an empty matrix (all values are zero)
      * \return An empty matrix.
      */
-    [[nodiscard]] static auto zero() noexcept -> mat4;
+    [[nodiscard]] static constexpr auto zero() noexcept -> mat4;
 
     /*!
      * Create an identity matrix.
      * \return An identity matrix.
      */
-    [[nodiscard]] static auto indentity() noexcept -> mat4;
+    [[nodiscard]] static constexpr auto indentity() noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on a given value.
      * \param[in] xyz - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    [[nodiscard]] static auto scale(const float xyz) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto scale(const float xyz) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on given values.
@@ -118,14 +119,14 @@ public:
      * \param[in] z - Amount of scaling done over the Z axis.
      * \return A scaling matrix.
      */
-    [[nodiscard]] static auto scale(const float x, const float y, const float z) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto scale(const float x, const float y, const float z) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on a given value.
      * \param[in] vec - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    [[nodiscard]] static auto scale(const vector3<float> &vec) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto scale(const vector3<float> &vec) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on a given value.
@@ -133,7 +134,7 @@ public:
      * \return A scaling matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto scale(const T xyz) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto scale(const T xyz) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on given values.
@@ -143,7 +144,7 @@ public:
      * \return A scaling matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto scale(const T x, const T y, const T z) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto scale(const T x, const T y, const T z) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on a given value.
@@ -151,7 +152,7 @@ public:
      * \return A scaling matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto scale(const vector3<T> &vec) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto scale(const vector3<T> &vec) noexcept -> mat4;
 
     /*!
      * Create a translation matrix based on given values.
@@ -159,7 +160,7 @@ public:
      * \param[in] y - Amount of translation done over the Y axis.
      * \return A translation matrix.
      */
-    [[nodiscard]] static auto translate(const float x, const float y) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto translate(const float x, const float y) noexcept -> mat4;
 
     /*!
      * Create a translation matrix based on given values.
@@ -168,14 +169,14 @@ public:
      * \param[in] z - Amount of translation done over the Z axis.
      * \return A translation matrix.
      */
-    [[nodiscard]] static auto translate(const float x, const float y, const float z) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto translate(const float x, const float y, const float z) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on a given value.
      * \param[in] vec - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    [[nodiscard]] static auto translate(const vector3<float> &vec) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto translate(const vector3<float> &vec) noexcept -> mat4;
 
     /*!
      * Create a translation matrix based on given values.
@@ -184,7 +185,7 @@ public:
      * \return A translation matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto translate(const T x, const T y) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto translate(const T x, const T y) noexcept -> mat4;
 
     /*!
      * Create a translation matrix based on given values.
@@ -194,7 +195,7 @@ public:
      * \return A translation matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto translate(const T x, const T y, const T z) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto translate(const T x, const T y, const T z) noexcept -> mat4;
 
     /*!
      * Create a scaling matrix based on a given value.
@@ -202,7 +203,7 @@ public:
      * \return A scaling matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto translate(const vector3<T> &vec) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto translate(const vector3<T> &vec) noexcept -> mat4;
 
     /*!
      * Create a rotation matrix based on given values.
@@ -229,7 +230,32 @@ public:
      * \param[in] top - Top value
      * \return An orthographic matrix.
      */
-    [[nodiscard]] static auto ortho(const float left, const float right, const float bottom, const float top) noexcept
+    [[nodiscard]] static constexpr auto ortho(const float left, const float right, const float bottom,
+                                              const float top) noexcept -> mat4;
+
+    /*!
+     * Create an orthographic matrix based on given values.
+     * \param[in] left - Left value
+     * \param[in] right - Right value
+     * \param[in] bottom - Bottom value
+     * \param[in] top - Top value
+     * \param[in] near - Near clip plane
+     * \param[in] far - Far clip plane
+     * \return An orthographic matrix.
+     */
+    [[nodiscard]] static constexpr auto ortho(const float left, const float right, const float bottom, const float top,
+                                              const float near, const float far) noexcept -> mat4;
+
+    /*!
+     * Create an orthographic matrix based on given values.
+     * \param[in] left - Left value
+     * \param[in] right - Right value
+     * \param[in] bottom - Bottom value
+     * \param[in] top - Top value
+     * \return An orthographic matrix.
+     */
+    template <typename T>
+    [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top) noexcept
         -> mat4;
 
     /*!
@@ -242,33 +268,9 @@ public:
      * \param[in] far - Far clip plane
      * \return An orthographic matrix.
      */
-    [[nodiscard]] static auto ortho(const float left, const float right, const float bottom, const float top,
-                                    const float near, const float far) noexcept -> mat4;
-
-    /*!
-     * Create an orthographic matrix based on given values.
-     * \param[in] left - Left value
-     * \param[in] right - Right value
-     * \param[in] bottom - Bottom value
-     * \param[in] top - Top value
-     * \return An orthographic matrix.
-     */
-    template <typename T>
-    [[nodiscard]] static auto ortho(const T left, const T right, const T bottom, const T top) noexcept -> mat4;
-
-    /*!
-     * Create an orthographic matrix based on given values.
-     * \param[in] left - Left value
-     * \param[in] right - Right value
-     * \param[in] bottom - Bottom value
-     * \param[in] top - Top value
-     * \param[in] near - Near clip plane
-     * \param[in] far - Far clip plane
-     * \return An orthographic matrix.
-     */
     template <typename T, typename U>
-    [[nodiscard]] static auto ortho(const T left, const T right, const T bottom, const T top, const U near,
-                                    const U far) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top, const U near,
+                                              const U far) noexcept -> mat4;
 
     /*!
      * Create an orthographic matrix based on given values.
@@ -276,7 +278,7 @@ public:
      * \return An orthographic matrix.
      */
     template <typename T>
-    [[nodiscard]] static auto ortho(const rectangle<T> &rect) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect) noexcept -> mat4;
 
     /*!
      * Create an orthographic matrix based on given values.
@@ -286,7 +288,7 @@ public:
      * \return An orthographic matrix.
      */
     template <typename T, typename U>
-    [[nodiscard]] static auto ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4;
+    [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4;
 
     /*!
      * Create a projection (perspective) matrix based on given values.
@@ -336,36 +338,36 @@ public:
     [[nodiscard]] static auto projection_fov(const unit_base<radian, void, U> fov, const T width, const T height,
                                              const U near, const U far) noexcept -> mat4;
 
-    vector4<float> column[4];
+    std::array<vector4<float>, 4> column;
 };
 
 inline auto operator*(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4;
 
-inline auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>;
+inline constexpr auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>;
 
-inline auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4;
+inline constexpr auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4;
 
 inline auto operator*=(mat4 &lhs, const mat4 &rhs) noexcept -> mat4 &;
 
-inline auto operator*=(mat4 &lhs, const float rhs) noexcept -> mat4 &;
+inline constexpr auto operator*=(mat4 &lhs, const float rhs) noexcept -> mat4 &;
 
-inline auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
+inline constexpr auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 
-inline auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
 
 /*!
  * Calculate the determinant of a given matrix.
  * \param[in] mat - Matrix
  * \return Determinant (ie. |mat|)
  */
-[[nodiscard]] inline auto determinant(const mat4 &mat) noexcept -> float;
+[[nodiscard]] inline constexpr auto determinant(const mat4 &mat) noexcept -> float;
 
 /*!
  * Calculate the inverse of a given matrix
  * \param[in] mat - Matrix
  * \return Inverse of mat (mat<SUP>-1</SUP>)
  */
-[[nodiscard]] inline auto inverse(const mat4 &mat) noexcept -> mat4;
+[[nodiscard]] inline constexpr auto inverse(const mat4 &mat) noexcept -> mat4;
 
 /*!
  * Check if a given matrix is affine.
@@ -373,7 +375,7 @@ inline auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool;
  * \param[in] mat - Matrix
  * \return True if the matrix is affine.
  */
-[[nodiscard]] inline auto is_affine(const mat4 &mat) noexcept -> bool;
+[[nodiscard]] inline constexpr auto is_affine(const mat4 &mat) noexcept -> bool;
 
 /*!
  * Decompose a matrix into a translation, scale and orientation.
@@ -392,7 +394,7 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
  * \param[in] mat - Matrix
  * \return Pointer to column major floating point data.
  */
-[[nodiscard]] inline auto ptr(mat4 &mat) noexcept -> float *;
+[[nodiscard]] inline constexpr auto ptr(mat4 &mat) noexcept -> float *;
 
 /*!
  * Get a pointer into the underlying data structure of a given matrix.
@@ -400,7 +402,7 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
  * \param[in] mat - Matrix
  * \return Const pointer to column major floating point data.
  */
-[[nodiscard]] inline auto ptr(const mat4 &mat) noexcept -> const float *;
+[[nodiscard]] inline constexpr auto ptr(const mat4 &mat) noexcept -> const float *;
 
 } // namespace aeon::math
 

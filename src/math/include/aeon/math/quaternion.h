@@ -24,18 +24,18 @@ public:
     /*!
      * Create an empty (all zeros) quaternion. This will NOT initialize to identity.
      */
-    quaternion() noexcept;
+    constexpr quaternion() noexcept;
 
     /*!
      * Create a quaternion based on the given values.
      */
-    quaternion(const float w, const float x, const float y, const float z) noexcept;
+    constexpr quaternion(const float w, const float x, const float y, const float z) noexcept;
 
     /*!
      * Create a quaternion based on the given values.
      */
     template <typename T>
-    explicit quaternion(const T w, const T x, const T y, const T z) noexcept;
+    explicit constexpr quaternion(const T w, const T x, const T y, const T z) noexcept;
 
     /*!
      * Create a quaternion based on the given euler angles in radians.
@@ -52,22 +52,22 @@ public:
 
     ~quaternion() noexcept = default;
 
-    quaternion(const quaternion &) noexcept = default;
-    auto operator=(const quaternion &) noexcept -> quaternion & = default;
+    constexpr quaternion(const quaternion &) noexcept = default;
+    constexpr auto operator=(const quaternion &) noexcept -> quaternion & = default;
 
-    quaternion(quaternion &&) noexcept = default;
-    auto operator=(quaternion &&) noexcept -> quaternion & = default;
+    constexpr quaternion(quaternion &&) noexcept = default;
+    constexpr auto operator=(quaternion &&) noexcept -> quaternion & = default;
 
     /*!
      * Create an identity quaternion.
      * \return An identity quaternion.
      */
-    [[nodiscard]] static auto indentity() noexcept -> quaternion;
+    [[nodiscard]] static constexpr auto indentity() noexcept -> quaternion;
 
     /*!
      * Set new values for an existing quaternion.
      */
-    void set(const float new_w, const float new_x, const float new_y, const float new_z) noexcept;
+    constexpr void set(const float new_w, const float new_x, const float new_y, const float new_z) noexcept;
 
     float w;
     float x;
@@ -75,33 +75,33 @@ public:
     float z;
 };
 
-inline auto operator+(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+inline constexpr auto operator+(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
 
-inline auto operator-(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+inline constexpr auto operator-(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
 
-inline auto operator*(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+inline constexpr auto operator*(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
 
-inline auto operator*(const quaternion &lhs, const float rhs) noexcept -> quaternion;
+inline constexpr auto operator*(const quaternion &lhs, const float rhs) noexcept -> quaternion;
 
-inline auto operator/(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
+inline constexpr auto operator/(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion;
 
-inline auto operator/(const quaternion &lhs, const float rhs) noexcept -> quaternion;
+inline constexpr auto operator/(const quaternion &lhs, const float rhs) noexcept -> quaternion;
 
-inline auto operator+=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
+inline constexpr auto operator+=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
 
-inline auto operator-=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
+inline constexpr auto operator-=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
 
-inline auto operator*=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
+inline constexpr auto operator*=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
 
-inline auto operator*=(quaternion &lhs, const float rhs) noexcept -> quaternion &;
+inline constexpr auto operator*=(quaternion &lhs, const float rhs) noexcept -> quaternion &;
 
-inline auto operator/=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
+inline constexpr auto operator/=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &;
 
-inline auto operator/=(quaternion &lhs, const float rhs) noexcept -> quaternion &;
+inline constexpr auto operator/=(quaternion &lhs, const float rhs) noexcept -> quaternion &;
 
-inline auto operator==(const quaternion &lhs, const quaternion &rhs) noexcept -> bool;
+inline constexpr auto operator==(const quaternion &lhs, const quaternion &rhs) noexcept -> bool;
 
-inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept -> bool;
 
 /*!
  * Get the pitch rotation in radians from a given quaternion.
@@ -137,7 +137,7 @@ inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept ->
  * \param[in] b - Quaternion
  * \return dot product of a and b.
  */
-[[nodiscard]] inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float;
+[[nodiscard]] inline constexpr auto dot(const quaternion &a, const quaternion &b) noexcept -> float;
 
 /*!
  * Get a pointer into the underlying data structure of a given quaternion.
@@ -145,7 +145,7 @@ inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept ->
  * \param[in] quat - Quaternion
  * \return Pointer to quaternion floating point data.
  */
-[[nodiscard]] inline auto ptr(quaternion &quat) noexcept -> float *;
+[[nodiscard]] inline constexpr auto ptr(quaternion &quat) noexcept -> float *;
 
 /*!
  * Get a pointer into the underlying data structure of a given quaternion.
@@ -153,7 +153,7 @@ inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept ->
  * \param[in] quat - Quaternion
  * \return Const pointer to quaternion floating point data.
  */
-[[nodiscard]] inline auto ptr(const quaternion &quat) noexcept -> const float *;
+[[nodiscard]] inline constexpr auto ptr(const quaternion &quat) noexcept -> const float *;
 
 } // namespace aeon::math
 

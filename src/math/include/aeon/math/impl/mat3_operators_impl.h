@@ -127,7 +127,7 @@ inline auto operator*(const mat3 &lhs, const float rhs) noexcept -> mat3
     // clang-format on
 }
 
-inline auto operator-(const mat3 &mat) noexcept -> mat3
+inline constexpr auto operator-(const mat3 &mat) noexcept -> mat3
 {
     // clang-format off
     return {
@@ -149,12 +149,12 @@ inline auto operator*=(mat3 &lhs, const float rhs) noexcept -> mat3 &
     return lhs;
 }
 
-inline auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
+inline constexpr auto operator==(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
 {
     return lhs[0] == rhs[0] && lhs[1] == rhs[1] && lhs[2] == rhs[2];
 }
 
-inline auto operator!=(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
+inline constexpr auto operator!=(const mat3 &lhs, const mat3 &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }

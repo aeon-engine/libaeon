@@ -25,85 +25,85 @@ public:
     /*!
      * Create an empty vector. This initializes all values to 0.
      */
-    vector3() noexcept;
+    constexpr vector3() noexcept;
 
     /*!
      * Create a vector. Both X, Y and Z will be initialized to the given value.
      */
-    explicit vector3(const T xyz) noexcept;
+    explicit constexpr vector3(const T xyz) noexcept;
 
     /*!
      * Create a vector based on the given values. Z will be initialized to 0.
      */
-    vector3(const T x, const T y) noexcept;
+    constexpr vector3(const T x, const T y) noexcept;
 
     /*!
      * Create a vector based on the given values.
      */
-    vector3(const T x, const T y, const T z) noexcept;
+    constexpr vector3(const T x, const T y, const T z) noexcept;
 
     /*!
      * Create a vector based on the given values. Converting constructor.
      */
     template <typename U>
-    explicit vector3(const U x, const U y) noexcept;
+    explicit constexpr vector3(const U x, const U y) noexcept;
 
     /*!
      * Create a vector based on the given vector. Converting constructor.
      */
     template <typename U>
-    explicit vector3(const vector3<U> &vec) noexcept;
+    explicit constexpr vector3(const vector3<U> &vec) noexcept;
 
     /*!
      * Create a vector based on the given values.
      */
     template <typename U>
-    explicit vector3(const U x, const U y, const U z) noexcept;
+    explicit constexpr vector3(const U x, const U y, const U z) noexcept;
 
     /*!
      * Create a vector based on the given 2D vector. Z will be initialized to 0.
      */
-    explicit vector3(const vector2<T> vec) noexcept;
+    explicit constexpr vector3(const vector2<T> vec) noexcept;
 
     /*!
      * Create a vector based on the given 2D vector and Z value.
      */
-    explicit vector3(const vector2<T> vec, const T z) noexcept;
+    explicit constexpr vector3(const vector2<T> vec, const T z) noexcept;
 
     /*!
      * Create a vector based on the given array values (index 0 is X, 1 is Y, and 2 is Z)
      */
-    explicit vector3(const T xyz[3]) noexcept;
+    explicit constexpr vector3(const T xyz[3]) noexcept;
 
     ~vector3() noexcept = default;
 
-    vector3(const vector3<T> &) noexcept = default;
-    auto operator=(const vector3<T> &) noexcept -> vector3<T> & = default;
+    constexpr vector3(const vector3<T> &) noexcept = default;
+    constexpr auto operator=(const vector3<T> &) noexcept -> vector3<T> & = default;
 
-    vector3(vector3<T> &&) noexcept = default;
-    auto operator=(vector3<T> &&) noexcept -> vector3<T> & = default;
+    constexpr vector3(vector3<T> &&) noexcept = default;
+    constexpr auto operator=(vector3<T> &&) noexcept -> vector3<T> & = default;
 
-    auto operator=(const vector2<T> &vec) noexcept -> vector3<T> &;
-
-    /*!
-     * Access vector values based on index. (index 0 is X, 1 is Y, and 2 is Z)
-     */
-    [[nodiscard]] auto operator[](const std::size_t i) noexcept -> T &;
+    constexpr auto operator=(const vector2<T> &vec) noexcept -> vector3<T> &;
 
     /*!
      * Access vector values based on index. (index 0 is X, 1 is Y, and 2 is Z)
      */
-    [[nodiscard]] auto operator[](const std::size_t i) const noexcept -> const T &;
+    [[nodiscard]] constexpr auto operator[](const std::size_t i) noexcept -> T &;
+
+    /*!
+     * Access vector values based on index. (index 0 is X, 1 is Y, and 2 is Z)
+     */
+    [[nodiscard]] constexpr auto operator[](const std::size_t i) const noexcept -> const T &;
 
     /*!
      * Create an empty vector (all values are 0).
      */
-    [[nodiscard]] static auto zero() noexcept -> vector3<T>;
+    [[nodiscard]] static constexpr auto zero() noexcept -> vector3<T>;
 
     /*!
      * Change the values of an existing vector.
      */
-    void set(const T new_x, const T new_y, const T new_z) noexcept;
+    constexpr void set(const T new_x, const T new_y, const T new_z) noexcept;
 
     union {
         struct
@@ -117,100 +117,100 @@ public:
 };
 
 template <typename T>
-inline auto operator+(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator+(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator+(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
+inline constexpr auto operator+(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator+(const T lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator+(const T lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator-(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator-(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator-(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
+inline constexpr auto operator-(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator-(const T lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator-(const T lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator-(const vector3<T> &vec) noexcept -> vector3<T>;
+inline constexpr auto operator-(const vector3<T> &vec) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator*(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator*(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator*(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
+inline constexpr auto operator*(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator*(const T lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator*(const T lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator/(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator/(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator/(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
+inline constexpr auto operator/(const vector3<T> &lhs, const T rhs) noexcept -> vector3<T>;
 
 template <typename T, typename U>
-inline auto operator*(const vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator*(const vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T>;
 
 template <typename T, typename U>
-inline auto operator*(const vector3<T> &lhs, const U rhs) noexcept -> vector3<T>;
+inline constexpr auto operator*(const vector3<T> &lhs, const U rhs) noexcept -> vector3<T>;
 
 template <typename T, typename U>
-inline auto operator/(const vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T>;
+inline constexpr auto operator/(const vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T>;
 
 template <typename T, typename U>
-inline auto operator/(const vector3<T> &lhs, const U rhs) noexcept -> vector3<T>;
+inline constexpr auto operator/(const vector3<T> &lhs, const U rhs) noexcept -> vector3<T>;
 
 template <typename T>
-inline auto operator+=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator+=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator+=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator+=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator-=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator-=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator-=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator-=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator*=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator*=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator*=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator*=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator/=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator/=(vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator/=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator/=(vector3<T> &lhs, const T rhs) noexcept -> vector3<T> &;
 
 template <typename T, typename U>
-inline auto operator*=(vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator*=(vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T> &;
 
 template <typename T, typename U>
-inline auto operator*=(vector3<T> &lhs, const U rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator*=(vector3<T> &lhs, const U rhs) noexcept -> vector3<T> &;
 
 template <typename T, typename U>
-inline auto operator/=(vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator/=(vector3<T> &lhs, const vector3<U> &rhs) noexcept -> vector3<T> &;
 
 template <typename T, typename U>
-inline auto operator/=(vector3<T> &lhs, const U rhs) noexcept -> vector3<T> &;
+inline constexpr auto operator/=(vector3<T> &lhs, const U rhs) noexcept -> vector3<T> &;
 
 template <typename T>
-inline auto operator==(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
 
 /*!
  * Translate (move) an existing vector.
@@ -220,7 +220,7 @@ inline auto operator>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> 
  * \param[in] z - Relative Z coordinate
  */
 template <typename T>
-inline void translate(vector3<T> &lhs, const T x, const T y, const T z) noexcept;
+inline constexpr void translate(vector3<T> &lhs, const T x, const T y, const T z) noexcept;
 
 /*!
  * Translate (move) an existing vector.
@@ -228,7 +228,7 @@ inline void translate(vector3<T> &lhs, const T x, const T y, const T z) noexcept
  * \param[in] rhs - Relative X, Y and Z coordinates
  */
 template <typename T>
-inline void translate(vector3<T> &lhs, const vector3<T> &rhs) noexcept;
+inline constexpr void translate(vector3<T> &lhs, const vector3<T> &rhs) noexcept;
 
 /*!
  * Translate (move) a vector to a new copy
@@ -239,7 +239,8 @@ inline void translate(vector3<T> &lhs, const vector3<T> &rhs) noexcept;
  * \return A new vector moved with the given offset
  */
 template <typename T>
-[[nodiscard]] inline auto translated(const vector3<T> &lhs, const T x, const T y, const T z) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto translated(const vector3<T> &lhs, const T x, const T y, const T z) noexcept
+    -> vector3<T>;
 
 /*!
  * Translate (move) a vector to a new copy
@@ -248,7 +249,7 @@ template <typename T>
  * \return A new vector moved with the given offset
  */
 template <typename T>
-[[nodiscard]] inline auto translated(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto translated(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 /*!
  * Calculate the dot product of 2 given vectors.
@@ -257,7 +258,7 @@ template <typename T>
  * \return Dot product
  */
 template <typename T>
-[[nodiscard]] inline auto dot(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
+[[nodiscard]] inline constexpr auto dot(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate the cross product of 2 given vectors.
@@ -266,7 +267,7 @@ template <typename T>
  * \return Cross product
  */
 template <typename T>
-[[nodiscard]] inline auto cross(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto cross(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 /*!
  * Calculate the length of a given vector.
@@ -274,7 +275,7 @@ template <typename T>
  * \return Vector length
  */
 template <typename T>
-[[nodiscard]] inline auto length(const vector3<T> &vec) noexcept -> T;
+[[nodiscard]] inline constexpr auto length(const vector3<T> &vec) noexcept -> T;
 
 /*!
  * Calculate the length of a given vector as a squared value to avoid having to do a square root.
@@ -282,14 +283,14 @@ template <typename T>
  * \return Vector length&sup2;
  */
 template <typename T>
-[[nodiscard]] inline auto squared_length(const vector3<T> &vec) noexcept -> T;
+[[nodiscard]] inline constexpr auto squared_length(const vector3<T> &vec) noexcept -> T;
 
 /*!
  * Normalize a given directional vector (so that length = 1)
  * \param[in, out] vec - Vector
  */
 template <typename T>
-inline void normalize(vector3<T> &vec) noexcept;
+inline constexpr void normalize(vector3<T> &vec) noexcept;
 
 /*!
  * Normalize a given directional vector (so that length = 1) to a new copy
@@ -297,7 +298,7 @@ inline void normalize(vector3<T> &vec) noexcept;
  * \return Normalized vector
  */
 template <typename T>
-[[nodiscard]] inline auto normalized(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto normalized(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the sine values of a given vector.
@@ -305,7 +306,7 @@ template <typename T>
  * \return Sine values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto sin(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto sin(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the cosine values of a given vector.
@@ -313,7 +314,7 @@ template <typename T>
  * \return Cosine values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto cos(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto cos(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the tangent values of a given vector.
@@ -321,7 +322,7 @@ template <typename T>
  * \return Tangent values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto tan(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto tan(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the arc sine values of a given vector.
@@ -329,7 +330,7 @@ template <typename T>
  * \return Arc since values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto asin(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto asin(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the arc cosine values of a given vector.
@@ -337,7 +338,7 @@ template <typename T>
  * \return Arc cosine values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto acos(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto acos(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the arc tangent values of a given vector.
@@ -345,7 +346,7 @@ template <typename T>
  * \return Arc tangent values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto atan(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto atan(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the absolute values of a given vector.
@@ -353,7 +354,7 @@ template <typename T>
  * \return Absolute values of the given vector.
  */
 template <typename T>
-[[nodiscard]] inline auto abs(const vector3<T> &vec) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto abs(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Calculate the distance between 2 given vector points.
@@ -362,7 +363,7 @@ template <typename T>
  * \return Distance
  */
 template <typename T>
-[[nodiscard]] inline auto distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
+[[nodiscard]] inline constexpr auto distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate the squared distance between 2 given vector points. This avoids having to do a square root.
@@ -371,7 +372,7 @@ template <typename T>
  * \return Distance&sup2;
  */
 template <typename T>
-[[nodiscard]] inline auto squared_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
+[[nodiscard]] inline constexpr auto squared_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
 
 /*!
  * Calculate middle point between two given points.
@@ -380,7 +381,7 @@ template <typename T>
  * \return Middle point
  */
 template <typename T>
-[[nodiscard]] inline auto midpoint(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto midpoint(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 /*!
  * Calculate floor for 2 given vectors
@@ -389,7 +390,7 @@ template <typename T>
  * \return Floor from 2 given vectors
  */
 template <typename T>
-[[nodiscard]] inline auto floor(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto floor(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 /*!
  * Calculate ceil for 2 given vectors
@@ -398,7 +399,7 @@ template <typename T>
  * \return Ceil from 2 given vectors
  */
 template <typename T>
-[[nodiscard]] inline auto ceil(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+[[nodiscard]] inline constexpr auto ceil(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 /*!
  * Get a pointer into the underlying data structure of a given vector.
@@ -407,7 +408,7 @@ template <typename T>
  * \return Pointer to vector data.
  */
 template <typename T>
-[[nodiscard]] inline auto ptr(vector3<T> &vec) noexcept -> T *;
+[[nodiscard]] inline constexpr auto ptr(vector3<T> &vec) noexcept -> T *;
 
 /*!
  * Get a pointer into the underlying data structure of a given vector.
@@ -416,7 +417,7 @@ template <typename T>
  * \return Const pointer to vector data.
  */
 template <typename T>
-[[nodiscard]] inline auto ptr(const vector3<T> &vec) noexcept -> const T *;
+[[nodiscard]] inline constexpr auto ptr(const vector3<T> &vec) noexcept -> const T *;
 
 } // namespace aeon::math
 

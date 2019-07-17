@@ -22,39 +22,39 @@ public:
     /*!
      * Create an empty rectangle. This initializes all values to 0.
      */
-    size3d() noexcept;
+    constexpr size3d() noexcept;
 
     /*!
      * Create a size based on the given width, height and depth.
      */
-    size3d(const T width, const T height, const T depth) noexcept;
+    constexpr size3d(const T width, const T height, const T depth) noexcept;
 
     /*!
      * Create a size based on the given width and height.
      * Converting constructor
      */
     template <typename U>
-    explicit size3d(const U width, const U height, const U depth) noexcept;
+    explicit constexpr size3d(const U width, const U height, const U depth) noexcept;
 
     /*!
      * Create a size based on the given width, height and depth.
      */
-    size3d(const size2d<T> &size, const T depth) noexcept;
+    constexpr size3d(const size2d<T> &size, const T depth) noexcept;
 
     /*!
      * Create a size based on the given width and height.
      * Converting constructor
      */
     template <typename U>
-    explicit size3d(const size2d<U> &size, const U depth) noexcept;
+    explicit constexpr size3d(const size2d<U> &size, const U depth) noexcept;
 
     ~size3d() noexcept = default;
 
-    size3d(const size3d &) noexcept = default;
-    auto operator=(const size3d &) noexcept -> size3d & = default;
+    constexpr size3d(const size3d &) noexcept = default;
+    constexpr auto operator=(const size3d &) noexcept -> size3d & = default;
 
-    size3d(size3d &&) noexcept = default;
-    auto operator=(size3d &&) noexcept -> size3d & = default;
+    constexpr size3d(size3d &&) noexcept = default;
+    constexpr auto operator=(size3d &&) noexcept -> size3d & = default;
 
     T width;
     T height;
@@ -67,7 +67,7 @@ public:
  * \return The width value
  */
 template <typename T>
-[[nodiscard]] inline auto width(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto width(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Get the height value of a given size.
@@ -75,7 +75,7 @@ template <typename T>
  * \return The height value
  */
 template <typename T>
-[[nodiscard]] inline auto height(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto height(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Get the depth value of a given size.
@@ -83,7 +83,7 @@ template <typename T>
  * \return The depth value
  */
 template <typename T>
-[[nodiscard]] inline auto depth(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto depth(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Get the volume of a given size.
@@ -91,7 +91,7 @@ template <typename T>
  * \return The area (width * height)
  */
 template <typename T>
-[[nodiscard]] inline auto volume(const size3d<T> &size) noexcept -> T;
+[[nodiscard]] inline constexpr auto volume(const size3d<T> &size) noexcept -> T;
 
 /*!
  * Check if a size is empty (width == 0 or height == 0 or depth == 0)
@@ -99,7 +99,7 @@ template <typename T>
  * \return True if the size is empty
  */
 template <typename T>
-[[nodiscard]] inline auto empty(const size3d<T> &size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto empty(const size3d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is null (width == 0, height == 0 and depth == 0)
@@ -107,7 +107,7 @@ template <typename T>
  * \return True if the size is null
  */
 template <typename T>
-[[nodiscard]] inline auto null(const size3d<T> &size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto null(const size3d<T> &size) noexcept -> bool;
 
 /*!
  * Check if a size is valid (width >= 0, height >= 0, depth >= 0)
@@ -115,7 +115,7 @@ template <typename T>
  * \return True if the size is valid
  */
 template <typename T>
-[[nodiscard]] inline auto valid(const size3d<T> &size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto valid(const size3d<T> &size) noexcept -> bool;
 
 /*!
  * Check if the given inner point is completely contained within the given size.
@@ -124,7 +124,7 @@ template <typename T>
  * \return True if the point is contained with in the size.
  */
 template <typename T>
-[[nodiscard]] inline auto contains(const vector3<T> &vec, const size3d<T> size) noexcept -> bool;
+[[nodiscard]] inline constexpr auto contains(const vector3<T> &vec, const size3d<T> size) noexcept -> bool;
 
 /*!
  * Inflate (grow, add) a size in all directions by a given value.
@@ -317,70 +317,70 @@ inline constexpr auto clamp(const size3d<T> &val, const size3d<T> &min_size, con
     -> size3d<T>;
 
 template <typename T>
-inline auto operator==(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator+(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator+(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator+=(size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator+=(size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator+(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator+(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator+=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator+=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator-(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator-(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator-=(size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator-=(size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator-(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator-(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator-=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator-=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator*(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator*=(size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*=(size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator*(const size3d<T> &lhs, const vector3<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*(const size3d<T> &lhs, const vector3<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator*=(size3d<T> &lhs, const vector3<T> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*=(size3d<T> &lhs, const vector3<T> &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator*(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
 template <typename T>
-inline auto operator*=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
 template <typename T, typename U>
-inline auto operator*(const size3d<T> &lhs, const size3d<U> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*(const size3d<T> &lhs, const size3d<U> &rhs) noexcept -> size3d<T>;
 
 template <typename T, typename U>
-inline auto operator*=(size3d<T> &lhs, const size3d<U> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*=(size3d<T> &lhs, const size3d<U> &rhs) noexcept -> size3d<T>;
 
 template <typename T, typename U>
-inline auto operator*(const size3d<T> &lhs, const vector3<U> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*(const size3d<T> &lhs, const vector3<U> &rhs) noexcept -> size3d<T>;
 
 template <typename T, typename U>
-inline auto operator*=(size3d<T> &lhs, const vector3<U> &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*=(size3d<T> &lhs, const vector3<U> &rhs) noexcept -> size3d<T>;
 
 template <typename T, typename U>
-inline auto operator*(const size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*(const size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
 
 template <typename T, typename U>
-inline auto operator*=(size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
+inline constexpr auto operator*=(size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
 
 } // namespace aeon::math
 

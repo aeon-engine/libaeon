@@ -11,21 +11,17 @@
 namespace aeon::math
 {
 
-inline mat3::mat3() noexcept = default;
+inline constexpr mat3::mat3() noexcept = default;
 
-inline mat3::mat3(const float m00, const float m01, const float m02, const float m10, const float m11, const float m12,
-                  const float m20, const float m21, const float m22) noexcept
+inline constexpr mat3::mat3(const float m00, const float m01, const float m02, const float m10, const float m11,
+                            const float m12, const float m20, const float m21, const float m22) noexcept
+    : column{vector3{m00, m10, m20}, vector3{m01, m11, m21}, vector3{m02, m12, m22}}
 {
-    column[0] = vector3{m00, m10, m20};
-    column[1] = vector3{m01, m11, m21};
-    column[2] = vector3{m02, m12, m22};
 }
 
-inline mat3::mat3(const mat4 &m) noexcept
+inline constexpr mat3::mat3(const mat4 &m) noexcept
+    : column{vector3{m[0][0], m[0][1], m[0][2]}, vector3{m[1][0], m[1][1], m[1][2]}, vector3{m[2][0], m[2][1], m[2][2]}}
 {
-    column[0] = vector3{m[0][0], m[0][1], m[0][2]};
-    column[1] = vector3{m[1][0], m[1][1], m[1][2]};
-    column[2] = vector3{m[2][0], m[2][1], m[2][2]};
 }
 
 inline mat3::mat3(const quaternion &q) noexcept
@@ -45,29 +41,29 @@ inline mat3::mat3(const quaternion &q) noexcept
     column[2].set(2.0f * (qxz + qwy), 2.0f * (qyz - qwx), 1.0f - 2.0f * (qxx + qyy));
 }
 
-[[nodiscard]] inline auto mat3::operator[](const std::size_t i) noexcept -> vector3<float> &
+[[nodiscard]] inline constexpr auto mat3::operator[](const std::size_t i) noexcept -> vector3<float> &
 {
     aeon_assert_array_bounds(column, i);
     return column[i];
 }
 
-[[nodiscard]] inline auto mat3::operator[](const std::size_t i) const noexcept -> const vector3<float> &
+[[nodiscard]] inline constexpr auto mat3::operator[](const std::size_t i) const noexcept -> const vector3<float> &
 {
     aeon_assert_array_bounds(column, i);
     return column[i];
 }
 
-[[nodiscard]] inline auto mat3::at(const int column_index, const int row_index) const noexcept -> float
+[[nodiscard]] inline constexpr auto mat3::at(const int column_index, const int row_index) const noexcept -> float
 {
     return operator[](column_index)[row_index];
 }
 
-[[nodiscard]] inline auto mat3::zero() noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::zero() noexcept -> mat3
 {
     return {};
 }
 
-[[nodiscard]] inline auto mat3::indentity() noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::indentity() noexcept -> mat3
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f,
@@ -76,17 +72,17 @@ inline mat3::mat3(const quaternion &q) noexcept
     // clang-format on
 }
 
-[[nodiscard]] inline auto mat3::scale(const float xy) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::scale(const float xy) noexcept -> mat3
 {
     return scale(vector2{xy});
 }
 
-[[nodiscard]] inline auto mat3::scale(const float x, const float y) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::scale(const float x, const float y) noexcept -> mat3
 {
     return scale({x, y});
 }
 
-[[nodiscard]] inline auto mat3::scale(const vector2<float> &vec) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::scale(const vector2<float> &vec) noexcept -> mat3
 {
     // clang-format off
     return {vec.x, 0.0f,  0.0f,
@@ -96,29 +92,29 @@ inline mat3::mat3(const quaternion &q) noexcept
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat3::scale(const T xy) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::scale(const T xy) noexcept -> mat3
 {
     return scale(static_cast<float>(xy));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat3::scale(const T x, const T y) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::scale(const T x, const T y) noexcept -> mat3
 {
     return scale(static_cast<float>(x), static_cast<float>(y));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat3::scale(const vector2<T> &vec) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::scale(const vector2<T> &vec) noexcept -> mat3
 {
     return scale(vector2<float>{vec});
 }
 
-[[nodiscard]] inline auto mat3::translate(const float x, const float y) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::translate(const float x, const float y) noexcept -> mat3
 {
     return translate({x, y});
 }
 
-[[nodiscard]] inline auto mat3::translate(const vector2<float> &vec) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::translate(const vector2<float> &vec) noexcept -> mat3
 {
     // clang-format off
     return {1.0f, 0.0f, vec.x,
@@ -128,13 +124,13 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat3::translate(const T x, const T y) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::translate(const T x, const T y) noexcept -> mat3
 {
     return translate(static_cast<float>(x), static_cast<float>(y));
 }
 
 template <typename T>
-[[nodiscard]] inline auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
 {
     return translate(vector2<float>{vec});
 }
@@ -153,14 +149,15 @@ template <typename T>
     // clang-format on
 }
 
-[[nodiscard]] inline auto determinant(const mat3 &mat) noexcept -> float
+[[nodiscard]] inline constexpr auto determinant(const mat3 &mat) noexcept -> float
 {
     return (mat[0][0] * mat[1][1] * mat[2][2]) + (mat[1][0] * mat[2][1] * mat[0][2]) +
            (mat[2][0] * mat[0][1] * mat[1][2]) - (mat[2][0] * mat[1][1] * mat[0][2]) -
            (mat[1][0] * mat[0][1] * mat[2][2]) - (mat[0][0] * mat[2][1] * mat[1][2]);
 }
 
-[[nodiscard]] inline auto qr_decompose(const mat3 &mat, vector3<float> &scale, vector3<float> &shear) noexcept -> mat3
+[[nodiscard]] inline constexpr auto qr_decompose(const mat3 &mat, vector3<float> &scale, vector3<float> &shear) noexcept
+    -> mat3
 {
     mat3 q;
 
@@ -193,12 +190,12 @@ template <typename T>
     return q;
 }
 
-[[nodiscard]] inline auto ptr(mat3 &mat) noexcept -> float *
+[[nodiscard]] inline constexpr auto ptr(mat3 &mat) noexcept -> float *
 {
     return &mat[0][0];
 }
 
-[[nodiscard]] inline auto ptr(const mat3 &mat) noexcept -> const float *
+[[nodiscard]] inline constexpr auto ptr(const mat3 &mat) noexcept -> const float *
 {
     return &mat[0][0];
 }

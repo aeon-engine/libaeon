@@ -20,20 +20,20 @@ public:
     /*!
      * Create an empty range. This initializes begin and end to 0.
      */
-    range() noexcept;
+    constexpr range() noexcept;
 
     /*!
      * Create a range based on the given begin and end.
      */
-    range(const T begin, const T end) noexcept;
+    constexpr range(const T begin, const T end) noexcept;
 
     ~range() noexcept = default;
 
-    range(const range &) noexcept = default;
-    auto operator=(const range &) noexcept -> range & = default;
+    constexpr range(const range &) noexcept = default;
+    constexpr auto operator=(const range &) noexcept -> range & = default;
 
-    range(range &&) noexcept = default;
-    auto operator=(range &&) noexcept -> range & = default;
+    constexpr range(range &&) noexcept = default;
+    constexpr auto operator=(range &&) noexcept -> range & = default;
 
     T begin;
     T end;
@@ -45,7 +45,7 @@ public:
  * \return Begin of a range
  */
 template <typename T>
-[[nodiscard]] inline auto begin(const range<T> &range) noexcept -> T;
+[[nodiscard]] inline constexpr auto begin(const range<T> &range) noexcept -> T;
 
 /*!
  * Get the end of a range
@@ -53,7 +53,7 @@ template <typename T>
  * \return End of a range
  */
 template <typename T>
-[[nodiscard]] inline auto end(const range<T> &range) noexcept -> T;
+[[nodiscard]] inline constexpr auto end(const range<T> &range) noexcept -> T;
 
 /*!
  * Get the size of a range
@@ -61,13 +61,13 @@ template <typename T>
  * \return Size of a range (end-begin)
  */
 template <typename T>
-[[nodiscard]] inline auto size(const range<T> &range) noexcept -> T;
+[[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T;
 
 template <typename T>
-inline auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::math
 

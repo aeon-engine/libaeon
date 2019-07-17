@@ -11,7 +11,7 @@
 namespace aeon::math
 {
 
-inline quaternion::quaternion() noexcept
+inline constexpr quaternion::quaternion() noexcept
     : w{}
     , x{}
     , y{}
@@ -19,7 +19,7 @@ inline quaternion::quaternion() noexcept
 {
 }
 
-inline quaternion::quaternion(const float w, const float x, const float y, const float z) noexcept
+inline constexpr quaternion::quaternion(const float w, const float x, const float y, const float z) noexcept
     : w{w}
     , x{x}
     , y{y}
@@ -28,7 +28,7 @@ inline quaternion::quaternion(const float w, const float x, const float y, const
 }
 
 template <typename T>
-inline quaternion::quaternion(const T w, const T x, const T y, const T z) noexcept
+inline constexpr quaternion::quaternion(const T w, const T x, const T y, const T z) noexcept
     : w{static_cast<float>(w)}
     , x{static_cast<float>(x)}
     , y{static_cast<float>(y)}
@@ -84,12 +84,13 @@ inline quaternion::quaternion(const mat3 &mat) noexcept
     }
 }
 
-[[nodiscard]] inline auto quaternion::indentity() noexcept -> quaternion
+[[nodiscard]] inline constexpr auto quaternion::indentity() noexcept -> quaternion
 {
     return {1.0f, 0.0f, 0.0f, 0.0f};
 }
 
-inline void quaternion::set(const float new_w, const float new_x, const float new_y, const float new_z) noexcept
+inline constexpr void quaternion::set(const float new_w, const float new_x, const float new_y,
+                                      const float new_z) noexcept
 {
     w = new_w;
     x = new_x;
@@ -119,17 +120,17 @@ inline void quaternion::set(const float new_w, const float new_x, const float ne
     return {pitch(quat), yaw(quat), roll(quat)};
 }
 
-[[nodiscard]] inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float
+[[nodiscard]] inline constexpr auto dot(const quaternion &a, const quaternion &b) noexcept -> float
 {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
-[[nodiscard]] inline auto ptr(quaternion &quat) noexcept -> float *
+[[nodiscard]] inline constexpr auto ptr(quaternion &quat) noexcept -> float *
 {
     return &quat.w;
 }
 
-[[nodiscard]] inline auto ptr(const quaternion &quat) noexcept -> const float *
+[[nodiscard]] inline constexpr auto ptr(const quaternion &quat) noexcept -> const float *
 {
     return &quat.w;
 }

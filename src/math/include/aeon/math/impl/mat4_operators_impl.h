@@ -92,7 +92,7 @@ inline auto operator*(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
 #endif
 }
 
-inline auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>
+inline constexpr auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> vector4<float>
 {
     // clang-format off
     return {
@@ -103,7 +103,7 @@ inline auto operator*(const mat4 &lhs, const vector4<float> &rhs) noexcept -> ve
     // clang-format on
 }
 
-inline auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4
+inline constexpr auto operator*(const mat4 &lhs, const float rhs) noexcept -> mat4
 {
     // clang-format off
     return {
@@ -120,18 +120,18 @@ inline auto operator*=(mat4 &lhs, const mat4 &rhs) noexcept -> mat4 &
     return lhs;
 }
 
-inline auto operator*=(mat4 &lhs, const float rhs) noexcept -> mat4 &
+inline constexpr auto operator*=(mat4 &lhs, const float rhs) noexcept -> mat4 &
 {
     lhs = lhs * rhs;
     return lhs;
 }
 
-inline auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool
+inline constexpr auto operator==(const mat4 &lhs, const mat4 &rhs) noexcept -> bool
 {
     return lhs[0] == rhs[0] && lhs[1] == rhs[1] && lhs[2] == rhs[2] && lhs[3] == rhs[3];
 }
 
-inline auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool
+inline constexpr auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }

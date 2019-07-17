@@ -5,17 +5,17 @@
 namespace aeon::math
 {
 
-inline auto operator+(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
+inline constexpr auto operator+(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
 {
     return {lhs.w + rhs.w, lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z};
 }
 
-inline auto operator-(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
+inline constexpr auto operator-(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
 {
     return {lhs.w - rhs.w, lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z};
 }
 
-inline auto operator*(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
+inline constexpr auto operator*(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
 {
     return {lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z,
             lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
@@ -23,63 +23,63 @@ inline auto operator*(const quaternion &lhs, const quaternion &rhs) noexcept -> 
             lhs.w * rhs.z + lhs.z * rhs.w + lhs.x * rhs.y - lhs.y * rhs.x};
 }
 
-inline auto operator*(const quaternion &lhs, const float rhs) noexcept -> quaternion
+inline constexpr auto operator*(const quaternion &lhs, const float rhs) noexcept -> quaternion
 {
     return {lhs.w * rhs, lhs.x * rhs, lhs.y * rhs, lhs.z * rhs};
 }
 
-inline auto operator/(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
+inline constexpr auto operator/(const quaternion &lhs, const quaternion &rhs) noexcept -> quaternion
 {
     return {lhs.w / rhs.w, lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z};
 }
 
-inline auto operator/(const quaternion &lhs, const float rhs) noexcept -> quaternion
+inline constexpr auto operator/(const quaternion &lhs, const float rhs) noexcept -> quaternion
 {
     return {lhs.w / rhs, lhs.x / rhs, lhs.y / rhs, lhs.z / rhs};
 }
 
-inline auto operator+=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
+inline constexpr auto operator+=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
 {
     lhs = lhs + rhs;
     return lhs;
 }
 
-inline auto operator-=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
+inline constexpr auto operator-=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
 {
     lhs = lhs - rhs;
     return lhs;
 }
 
-inline auto operator*=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
+inline constexpr auto operator*=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
 {
     lhs = lhs * rhs;
     return lhs;
 }
 
-inline auto operator*=(quaternion &lhs, const float rhs) noexcept -> quaternion &
+inline constexpr auto operator*=(quaternion &lhs, const float rhs) noexcept -> quaternion &
 {
     lhs = lhs * rhs;
     return lhs;
 }
 
-inline auto operator/=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
+inline constexpr auto operator/=(quaternion &lhs, const quaternion &rhs) noexcept -> quaternion &
 {
     lhs = lhs / rhs;
     return lhs;
 }
 
-inline auto operator/=(quaternion &lhs, const float rhs) noexcept -> quaternion &
+inline constexpr auto operator/=(quaternion &lhs, const float rhs) noexcept -> quaternion &
 {
     lhs = lhs / rhs;
     return lhs;
 }
 
-inline auto operator==(const quaternion &lhs, const quaternion &rhs) noexcept -> bool
+inline constexpr auto operator==(const quaternion &lhs, const quaternion &rhs) noexcept -> bool
 {
     return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
 }
 
-inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept -> bool
+inline constexpr auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
