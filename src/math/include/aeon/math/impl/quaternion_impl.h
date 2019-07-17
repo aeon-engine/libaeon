@@ -6,6 +6,7 @@
 #include <aeon/math/vector3.h>
 #include <cmath>
 #include <algorithm>
+#include <array>
 
 namespace aeon::math
 {
@@ -61,17 +62,20 @@ inline quaternion::quaternion(const mat3 &mat) noexcept
     }
     else
     {
-        static int next_index[3] = {1, 2, 0};
-        int i = 0;
+        constexpr std::array<int, 3> next_index{1, 2, 0};
+
+        auto i = 0;
         if (mat[1][1] > mat[0][0])
             i = 1;
+
         if (mat[2][2] > mat.at(i, i))
             i = 2;
-        const int j = next_index[i];
-        const int k = next_index[j];
+
+        const auto j = next_index[i];
+        const auto k = next_index[j];
 
         auto root = std::sqrt(mat.at(i, i) - mat.at(j, j) - mat.at(k, k) + 1.0f);
-        float *apk_quat[3] = {&x, &y, &z};
+        std::array<float *, 3> apk_quat{&x, &y, &z};
         *apk_quat[i] = 0.5f * root;
         root = 0.5f / root;
         w = (mat.at(j, k) - mat.at(k, j)) * root;
