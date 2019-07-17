@@ -60,7 +60,6 @@ template <typename T>
 inline auto ast_entity_collection<T>::find(const std::string_view name) const noexcept ->
     typename common::collection<T>::const_iterator
 {
-    std::vector<const ast_entity *> entities;
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
     {
         if ((*itr)->name() == name)
@@ -74,7 +73,6 @@ template <typename T>
 auto ast_entity_collection<T>::find(const std::string_view name, const ast_entity_type type) const noexcept ->
     typename common::collection<T>::const_iterator
 {
-    std::vector<const ast_entity *> entities;
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
     {
         if ((*itr)->name() == name && (*itr)->entity_type() == type)
@@ -87,7 +85,6 @@ auto ast_entity_collection<T>::find(const std::string_view name, const ast_entit
 template <typename T>
 auto ast_entity_collection<T>::find_recursive(const std::string_view name) const noexcept -> ast_entity *
 {
-    std::vector<const ast_entity *> entities;
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
     {
         if ((*itr)->name() == name)
@@ -111,7 +108,6 @@ template <typename T>
 auto ast_entity_collection<T>::find_recursive(const std::string_view name, const ast_entity_type type) const noexcept
     -> ast_entity *
 {
-    std::vector<const ast_entity *> entities;
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
     {
         if ((*itr)->name() == name && (*itr)->entity_type() == type)
