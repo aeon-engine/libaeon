@@ -59,7 +59,7 @@ inline void blit(const image_view<T> &src, image_view<T> &dst, const math::vecto
     for (auto y = 0; y < h; ++y)
     {
         const auto src_row = &src_data[y * src_stride];
-        auto dst_row = &dst_data[(pos.y + y) * dst_stride];
+        auto dst_row = &dst_data[(static_cast<std::ptrdiff_t>(pos.y) + y) * dst_stride];
 
         for (auto x = 0; x < w; ++x)
         {
@@ -119,7 +119,7 @@ inline void blend_blit(const image_view<T> &src, image_view<T> &dst, const math:
     for (auto y = 0; y < h; ++y)
     {
         const auto src_row = &src_data[y * src_stride];
-        auto dst_row = &dst_data[(pos.y + y) * dst_stride];
+        auto dst_row = &dst_data[(static_cast<std::ptrdiff_t>(pos.y) + y) * dst_stride];
 
         for (auto x = 0; x < w; ++x)
         {
