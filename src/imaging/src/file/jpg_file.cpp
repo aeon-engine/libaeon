@@ -101,7 +101,7 @@ void save(const image_view<T> &image, const subsample_mode subsample, int qualit
     std::vector<std::uint8_t> dest_buffer(tjBufSize(width(image), height(image), tjsubsample));
     auto dest_buffer_data = dest_buffer.data();
 
-    auto actual_size = static_cast<unsigned long>(dest_buffer.size());
+    auto actual_size = static_cast<unsigned long>(std::size(dest_buffer));
     if (tjCompress2(wrapper.handle(), image.template data<std::uint8_t>(), width(image),
                     static_cast<int>(stride_y(image)), height(image), TJPF_RGB, &dest_buffer_data, &actual_size,
                     tjsubsample, quality, TJFLAG_NOREALLOC) != 0)
