@@ -140,7 +140,7 @@ inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept ->
 [[nodiscard]] inline auto dot(const quaternion &a, const quaternion &b) noexcept -> float;
 
 /*!
- * Get a pointer into the underlaying data structure of a given quaternion.
+ * Get a pointer into the underlying data structure of a given quaternion.
  * The quaternion data layout is [W X Y Z]
  * \param[in] quat - Quaternion
  * \return Pointer to quaternion floating point data.
@@ -148,7 +148,7 @@ inline auto operator!=(const quaternion &lhs, const quaternion &rhs) noexcept ->
 [[nodiscard]] inline auto ptr(quaternion &quat) noexcept -> float *;
 
 /*!
- * Get a pointer into the underlaying data structure of a given quaternion.
+ * Get a pointer into the underlying data structure of a given quaternion.
  * The quaternion data layout is [W X Y Z]
  * \param[in] quat - Quaternion
  * \return Const pointer to quaternion floating point data.

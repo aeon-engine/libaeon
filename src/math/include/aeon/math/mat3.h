@@ -212,7 +212,7 @@ inline auto operator!=(const mat3 &lhs, const mat3 &rhs) noexcept -> bool;
 [[nodiscard]] inline auto qr_decompose(const mat3 &mat, vector3<float> &scale, vector3<float> &shear) noexcept -> mat3;
 
 /*!
- * Get a pointer into the underlaying data structure of a given matrix.
+ * Get a pointer into the underlying data structure of a given matrix.
  * The matrix data layout is column major.
  * \param[in] mat - Matrix
  * \return Pointer to column major floating point data.
@@ -220,7 +220,7 @@ inline auto operator!=(const mat3 &lhs, const mat3 &rhs) noexcept -> bool;
 [[nodiscard]] inline auto ptr(mat3 &mat) noexcept -> float *;
 
 /*!
- * Get a pointer into the underlaying data structure of a given matrix.
+ * Get a pointer into the underlying data structure of a given matrix.
  * The matrix data layout is column major.
  * \param[in] mat - Matrix
  * \return Const pointer to column major floating point data.

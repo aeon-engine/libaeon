@@ -387,7 +387,7 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
                       quaternion &orientation) noexcept;
 
 /*!
- * Get a pointer into the underlaying data structure of a given matrix.
+ * Get a pointer into the underlying data structure of a given matrix.
  * The matrix data layout is column major.
  * \param[in] mat - Matrix
  * \return Pointer to column major floating point data.
@@ -395,7 +395,7 @@ inline void decompose(const mat4 &mat, vector3<float> &translation, vector3<floa
 [[nodiscard]] inline auto ptr(mat4 &mat) noexcept -> float *;
 
 /*!
- * Get a pointer into the underlaying data structure of a given matrix.
+ * Get a pointer into the underlying data structure of a given matrix.
  * The matrix data layout is column major.
  * \param[in] mat - Matrix
  * \return Const pointer to column major floating point data.

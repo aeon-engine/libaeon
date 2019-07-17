@@ -383,7 +383,7 @@ template <typename T>
 [[nodiscard]] inline auto ceil(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
- * Get a pointer into the underlaying data structure of a given vector.
+ * Get a pointer into the underlying data structure of a given vector.
  * The vector data layout is [X Y]
  * \param[in] vec - Vector
  * \return Pointer to vector data.
@@ -392,7 +392,7 @@ template <typename T>
 [[nodiscard]] inline auto ptr(vector2<T> &vec) noexcept -> T *;
 
 /*!
- * Get a pointer into the underlaying data structure of a given vector.
+ * Get a pointer into the underlying data structure of a given vector.
  * The vector data layout is [X Y]
  * \param[in] vec - Vector
  * \return Const pointer to vector data.

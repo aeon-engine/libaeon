@@ -42,7 +42,7 @@ protected:
 };
 
 /*!
- * An image. This class is owns the underlaying pixel data and provides are view on
+ * An image. This class is owns the underlying pixel data and provides are view on
  * this data through image_view.
  */
 template <typename T>
