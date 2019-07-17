@@ -17,7 +17,7 @@
 namespace aeon::reflection::internal
 {
 
-auto get_linkage_kind(CXCursor cursor) noexcept -> ast::linkage_kind
+auto get_linkage_kind(const CXCursor cursor) noexcept -> ast::linkage_kind
 {
     switch (clang_getCursorLinkage(cursor))
     {
@@ -37,7 +37,7 @@ auto get_linkage_kind(CXCursor cursor) noexcept -> ast::linkage_kind
     }
 }
 
-auto get_access_specifier(CXCursor cursor) noexcept -> ast::access_specifier
+auto get_access_specifier(const CXCursor cursor) noexcept -> ast::access_specifier
 {
     switch (clang_getCXXAccessSpecifier(cursor))
     {
@@ -55,7 +55,7 @@ auto get_access_specifier(CXCursor cursor) noexcept -> ast::access_specifier
     }
 }
 
-auto get_exception_specification(CXCursor cursor) noexcept -> ast::exception_specification
+auto get_exception_specification(const CXCursor cursor) noexcept -> ast::exception_specification
 {
     switch (clang_getCursorExceptionSpecificationType(cursor))
     {
@@ -79,9 +79,9 @@ auto get_exception_specification(CXCursor cursor) noexcept -> ast::exception_spe
     }
 }
 
-void parse_function_parameters(ast::ast_function &function, CXCursor cursor)
+void parse_function_parameters(ast::ast_function &function, const CXCursor cursor)
 {
-    clang_visit(cursor, [&function](CXCursor c, CXCursor parent) {
+    clang_visit(cursor, [&function](const CXCursor c, [[maybe_unused]] const CXCursor parent) {
         switch (clang_getCursorKind(c))
         {
             case CXCursor_ParmDecl:
@@ -96,7 +96,7 @@ void parse_function_parameters(ast::ast_function &function, CXCursor cursor)
     });
 }
 
-auto is_forward_declaration(CXCursor cursor) noexcept -> bool
+auto is_forward_declaration(const CXCursor cursor) noexcept -> bool
 {
     const auto definition = clang_getCursorDefinition(cursor);
 
@@ -106,7 +106,7 @@ auto is_forward_declaration(CXCursor cursor) noexcept -> bool
     return !clang_equalCursors(cursor, definition);
 }
 
-void entity_visitor(CXCursor cursor, ast::ast_entity &ns)
+void entity_visitor(const CXCursor cursor, ast::ast_entity &ns)
 {
     clang_visit(cursor, [&ns](CXCursor c, CXCursor parent) {
         switch (clang_getCursorKind(c))
@@ -151,7 +151,7 @@ void entity_visitor(CXCursor cursor, ast::ast_entity &ns)
                 auto &astenum = *ns.emplace_back(
                     std::make_unique<ast::ast_enum>(to_string(clang_getCursorSpelling(c)), get_linkage_kind(c)));
 
-                clang_visit(c, [&astenum](CXCursor c, CXCursor parent) {
+                clang_visit(c, [&astenum](const CXCursor c, const CXCursor parent) {
                     switch (clang_getCursorKind(c))
                     {
                         case CXCursor_EnumConstantDecl:

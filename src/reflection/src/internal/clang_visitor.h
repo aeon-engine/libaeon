@@ -12,8 +12,8 @@ inline void clang_visit(CXCursor cursor, std::function<void(CXCursor, CXCursor)>
 {
     clang_visitChildren(
         cursor,
-        [](CXCursor c, CXCursor parent, CXClientData client_data) {
-            const auto func = static_cast<std::function<void(CXCursor, CXCursor)> *>(client_data);
+        [](const CXCursor c, const CXCursor parent, const CXClientData client_data) {
+            const auto func = static_cast<std::function<void(const CXCursor, const CXCursor)> *>(client_data);
             (*func)(c, parent);
             return CXChildVisit_Continue;
         },

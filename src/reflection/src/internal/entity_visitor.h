@@ -9,6 +9,6 @@
 namespace aeon::reflection::internal
 {
 
-void entity_visitor(CXCursor cursor, ast::ast_entity &ns);
+void entity_visitor(const CXCursor cursor, ast::ast_entity &ns);
 
 } // namespace aeon::reflection::internal
