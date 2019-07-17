@@ -184,7 +184,7 @@ template <typename T>
 [[nodiscard]] inline auto stride_y(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
- * Returns true if the given image descriptor describes an image where all the data is layed out
+ * Returns true if the given image descriptor describes an image where all the data is laid out
  * in memory in a continuous fashion (ie. stride_x=sizeof(T) and stride_y=sizeof(T)*width)
  * \param[in] descriptor - An image descriptor.
  * \return True if the image is continuous.
@@ -196,7 +196,7 @@ template <typename T>
  * Returns true if the given coordinate falls within the dimensions of the given image descriptor.
  * \param[in] descriptor - An image descriptor.
  * \param[in] coord - A coordinate (X, Y)
- * \return True if the coordinate is within the dimenions of the image.
+ * \return True if the coordinate is within the dimensions of the image.
  */
 template <typename T>
 [[nodiscard]] inline auto contains(const image_descriptor<T> &descriptor,

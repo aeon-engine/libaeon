@@ -193,7 +193,7 @@ private:
 [[nodiscard]] inline auto stride_y(const dynamic_image_descriptor &descriptor) noexcept -> std::ptrdiff_t;
 
 /*!
- * Returns true if the given image descriptor describes an image where all the data is layed out
+ * Returns true if the given image descriptor describes an image where all the data is laid out
  * in memory in a continuous fashion
  * (ie. stride_x=bytes_per_pixel(encoding) and stride_y=bytes_per_pixel(encoding)*width)
  * \param[in] descriptor - An image descriptor.
@@ -205,7 +205,7 @@ private:
  * Returns true if the given coordinate falls within the dimensions of the given image descriptor.
  * \param[in] descriptor - An image descriptor.
  * \param[in] coord - A coordinate (X, Y)
- * \return True if the coordinate is within the dimenions of the image.
+ * \return True if the coordinate is within the dimensions of the image.
  */
 [[nodiscard]] inline auto contains(const dynamic_image_descriptor &descriptor,
                                    const math::vector2<dimension> coord) noexcept -> bool;

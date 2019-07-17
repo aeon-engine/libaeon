@@ -116,7 +116,7 @@ template <typename T>
 [[nodiscard]] inline auto stride_y(const image_view_base<T> &view) noexcept;
 
 /*!
- * Returns true if the data described by the given image view is layed out in memory in a
+ * Returns true if the data described by the given image view is laid out in memory in a
  * continuous fashion
  * (ie. stride_x=bytes_per_pixel(encoding) and stride_y=bytes_per_pixel(encoding)*width)
  * \param[in] view - An image view
@@ -129,7 +129,7 @@ template <typename T>
  * Returns true if the given coordinate falls within the dimensions of the given image view.
  * \param[in] view - An image view
  * \param[in] coord - A coordinate (X, Y)
- * \return True if the coordinate is within the dimenions of the image view.
+ * \return True if the coordinate is within the dimensions of the image view.
  */
 template <typename T>
 [[nodiscard]] inline auto contains(const image_view_base<T> &view, const math::vector2<dimension> coord) noexcept;

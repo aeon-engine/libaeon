@@ -89,7 +89,7 @@ struct mono_jit_internal_call_wrapper<return_t(args_t...), func,
 
 /*!
  * Wrap a non-static function for mono_jit::add_internal_call, where automatic type
- * converstion is done through convert_mono_type. Add your own specialisation implementation
+ * conversion is done through convert_mono_type. Add your own specialization implementation
  * of this class to support more types.
  */
 #define aeon_mono_auto_wrap(func) &aeon::mono::mono_jit_internal_call_wrapper<decltype(func), func>::wrapper

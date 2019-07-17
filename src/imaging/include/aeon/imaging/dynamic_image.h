@@ -175,7 +175,7 @@ private:
 [[nodiscard]] inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t;
 
 /*!
- * Returns true if the data of the given image is layed out in memory in a continuous fashion
+ * Returns true if the data of the given image is laid out in memory in a continuous fashion
  * (ie. stride_x=bytes_per_pixel(encoding) and stride_y=bytes_per_pixel(encoding)*width)
  * \param[in] image - A dynamic image
  * \return True if the image is continuous.
@@ -186,7 +186,7 @@ private:
  * Returns true if the given coordinate falls within the dimensions of the given image.
  * \param[in] image - A dynamic image
  * \param[in] coord - A coordinate (X, Y)
- * \return True if the coordinate is within the dimenions of the image.
+ * \return True if the coordinate is within the dimensions of the image.
  */
 [[nodiscard]] inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool;
 

@@ -27,7 +27,7 @@ class quaternion;
  * Class that represents a 4x4 matrix.
  *
  * Interface (like constructor) is row order.
- * Data is layed out in column order so that the class can be used with OpenGL.
+ * Data is laid out in column order so that the class can be used with OpenGL.
  *
  * The class is 16-bytes aligned to allow for SIMD optimizations.
  */

@@ -88,7 +88,7 @@ public:
     explicit constexpr vector4(const vector2<T> vec, const T z) noexcept;
 
     /*!
-     * Create a vector based on the given 2D vector and seperate Z and W values.
+     * Create a vector based on the given 2D vector and separate Z and W values.
      */
     explicit constexpr vector4(const vector2<T> vec, const T z, const T w) noexcept;
 

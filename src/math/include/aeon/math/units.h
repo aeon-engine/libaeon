@@ -149,7 +149,7 @@ private:
 
 /*!
  * Unit type with a double as underlying data size.
- * Recommended when using large scale units such as lightyear and AU.
+ * Recommended when using large scale units such as light-year and AU.
  */
 template <typename T, typename U = void>
 using unitd = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, double>;
@@ -179,7 +179,7 @@ using unitll = unit_base<unit_prefix_t<T, U>, unit_type_t<T, U>, long long>;
 
 /*!
  * Unit type with a double as underlying data size.
- * Recommended when using large scale units such as lightyear and AU.
+ * Recommended when using large scale units such as light-year and AU.
  */
 template <typename T, typename U = void>
 using unit = unitd<T, U>;
