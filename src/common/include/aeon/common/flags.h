@@ -73,12 +73,6 @@ public:
 
     ~flags() = default;
 
-    constexpr auto &operator&=(const int mask) noexcept
-    {
-        value_ &= mask;
-        return *this;
-    }
-
     constexpr auto &operator&=(const std::uint64_t mask) noexcept
     {
         value_ &= mask;
@@ -138,11 +132,6 @@ public:
     constexpr auto operator^(const enum_type_t f) const noexcept
     {
         return flags<enum_type_t>(flag(value_ ^ static_cast<uint64_t>(f)));
-    }
-
-    constexpr auto operator&(const int mask) const noexcept
-    {
-        return flags<enum_type_t>(flag(value_ & mask));
     }
 
     constexpr auto operator&(const std::uint64_t mask) const noexcept
