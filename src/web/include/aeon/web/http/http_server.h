@@ -10,6 +10,6 @@ namespace aeon::web::http
 {
 
 template <typename http_server_socket_t>
-using http_server = sockets::tcp_server<typename http_server_socket_t, sockets::http::http_server_session>;
+using http_server = sockets::tcp_server<http_server_socket_t, http_server_session>;
 
 } // namespace aeon::web::http
