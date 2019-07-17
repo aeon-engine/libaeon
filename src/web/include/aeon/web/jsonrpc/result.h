@@ -41,32 +41,32 @@ public:
     result(const result &) = default;
     auto operator=(const result &) -> result & = default;
 
-    auto id() const noexcept
+    [[nodiscard]] auto id() const noexcept
     {
         return id_;
     }
 
-    auto has_id() const noexcept
+    [[nodiscard]] auto has_id() const noexcept
     {
         return id_.has_value();
     }
 
-    auto type() const noexcept
+    [[nodiscard]] auto type() const noexcept
     {
         return result_type_;
     }
 
-    auto &result_type() const noexcept
+    [[nodiscard]] auto &result_type() const noexcept
     {
         return result_;
     }
 
-    auto error_code() const noexcept
+    [[nodiscard]] auto error_code() const noexcept
     {
         return error_code_;
     }
 
-    auto &error_description() const noexcept
+    [[nodiscard]] auto &error_description() const noexcept
     {
         return error_description_;
     }

@@ -2,7 +2,6 @@
 
 #include <aeon/tracelog/tracelog.h>
 #include "context.h"
-#include <iostream>
 
 namespace aeon::tracelog
 {

@@ -5,7 +5,6 @@
 #include <aeon/streams/filters/filter.h>
 #include <aeon/streams/seek_direction.h>
 #include <aeon/streams/tags.h>
-#include <iostream>
 
 namespace aeon::streams
 {

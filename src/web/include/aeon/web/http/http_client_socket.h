@@ -27,7 +27,7 @@ class http_client_socket : public sockets::tcp_socket
 public:
     explicit http_client_socket(asio::io_context &context);
 
-    virtual ~http_client_socket();
+    ~http_client_socket() override;
 
     http_client_socket(http_client_socket &&) = delete;
     auto operator=(http_client_socket &&) -> http_client_socket & = delete;
@@ -42,12 +42,12 @@ public:
 private:
     void on_data(const std::uint8_t *data, const std::size_t size) override;
 
-    auto __on_line(const std::string &line) -> bool;
+    [[nodiscard]] auto __on_line(const std::string &line) -> bool;
 
-    auto __parse_expected_content_length() -> bool;
+    [[nodiscard]] auto __parse_expected_content_length() -> bool;
 
-    auto __handle_read_status_state(const std::string &line) -> bool;
-    auto __handle_read_headers_state(const std::string &line) -> bool;
+    [[nodiscard]] auto __handle_read_status_state(const std::string &line) -> bool;
+    [[nodiscard]] auto __handle_read_headers_state(const std::string &line) -> bool;
 
     http_state state_;
     reply reply_;

@@ -22,6 +22,12 @@ struct test_data
             deleted_callback();
     }
 
+    test_data(test_data &&) noexcept = delete;
+    auto operator=(test_data &&) noexcept -> test_data & = delete;
+
+    test_data(const test_data &) = delete;
+    auto operator=(const test_data &) -> test_data & = delete;
+
     std::string a;
     std::vector<int> b;
     std::function<void()> deleted_callback;
@@ -30,14 +36,22 @@ struct test_data
 class itestplugin1 : public aeon::plugins::plugin
 {
 public:
-    virtual ~itestplugin1() = default;
+    itestplugin1() = default;
 
-    virtual auto was_loaded() const noexcept -> bool = 0;
+    itestplugin1(itestplugin1 &&) noexcept = delete;
+    auto operator=(itestplugin1 &&) noexcept -> itestplugin1 & = delete;
 
-    virtual auto test_func1() const noexcept -> int = 0;
-    virtual auto test_func2(const int var) const noexcept -> int = 0;
+    itestplugin1(const itestplugin1 &) = delete;
+    auto operator=(const itestplugin1 &) -> itestplugin1 & = delete;
+
+    ~itestplugin1() override = default;
+
+    [[nodiscard]] virtual auto was_loaded() const noexcept -> bool = 0;
+
+    [[nodiscard]] virtual auto test_func1() const noexcept -> int = 0;
+    [[nodiscard]] virtual auto test_func2(const int var) const noexcept -> int = 0;
 
     virtual void set_unload_callback(const std::function<void()> callback) = 0;
 
-    virtual auto test_dll_heap() const -> std::unique_ptr<test_data> = 0;
+    [[nodiscard]] virtual auto test_dll_heap() const -> std::unique_ptr<test_data> = 0;
 };

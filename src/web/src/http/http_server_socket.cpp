@@ -166,7 +166,7 @@ auto http_server_socket::__handle_read_method_state(const std::string &line) -> 
     if (!detail::validate_uri(request_uri))
         return status_code::bad_request;
 
-    request request(method, url_decode(request_uri));
+    const request request(method, url_decode(request_uri));
 
     if (request.get_method() == http_method::invalid)
         return status_code::method_not_allowed;

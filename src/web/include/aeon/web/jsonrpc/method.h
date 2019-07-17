@@ -24,7 +24,7 @@ public:
     method(const method &) = default;
     auto operator=(const method &) -> method & = default;
 
-    auto name() const noexcept -> const std::string &;
+    [[nodiscard]] auto name() const noexcept -> const std::string &;
     auto operator()(const ptree::property_tree &params) const -> result;
 
 private:

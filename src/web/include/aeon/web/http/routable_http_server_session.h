@@ -11,11 +11,11 @@
 namespace aeon::web::http
 {
 
-class routable_http_server_session : public http_server_session
+class routable_http_server_session final : public http_server_session
 {
 public:
     explicit routable_http_server_session();
-    virtual ~routable_http_server_session();
+    ~routable_http_server_session() final;
 
     routable_http_server_session(routable_http_server_session &&) = default;
     auto operator=(routable_http_server_session &&) -> routable_http_server_session & = default;

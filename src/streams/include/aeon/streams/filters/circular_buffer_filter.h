@@ -7,7 +7,6 @@
 #include <aeon/streams/stream_traits.h>
 #include <aeon/streams/tags.h>
 #include <aeon/streams/exception.h>
-#include <iostream>
 
 namespace aeon::streams
 {

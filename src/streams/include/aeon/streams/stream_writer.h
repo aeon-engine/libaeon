@@ -7,7 +7,7 @@
 #include <aeon/streams/stream_traits.h>
 #include <aeon/common/signed_sizeof.h>
 #include <aeon/common/assert.h>
-#include <string>
+#include <string_view>
 #include <vector>
 #include <array>
 

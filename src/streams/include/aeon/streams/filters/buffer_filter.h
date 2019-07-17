@@ -6,8 +6,6 @@
 #include <aeon/streams/seek_direction.h>
 #include <aeon/streams/stream_traits.h>
 #include <aeon/streams/tags.h>
-#include <aeon/streams/exception.h>
-#include <iostream>
 #include <algorithm>
 #include <array>
 

@@ -14,7 +14,7 @@ namespace utf8
 
 [[nodiscard]] auto to_utf16(const std::string_view &str) -> std::u16string
 {
-    internal::uconverter converter{"utf-8"};
+    const internal::uconverter converter{"utf-8"};
     return converter.to_uchars(str);
 }
 
@@ -53,7 +53,7 @@ namespace utf16
 
 [[nodiscard]] auto to_utf8(const std::u16string_view &str) -> std::string
 {
-    internal::uconverter converter{"utf-8"};
+    const internal::uconverter converter{"utf-8"};
     return converter.from_uchars(str);
 }
 

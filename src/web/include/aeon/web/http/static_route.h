@@ -17,8 +17,11 @@ auto to_url_path(const std::string &path) -> std::string;
 auto is_image_extension(const std::string &extension) -> bool;
 } // namespace detail
 
-struct static_route_settings
+struct static_route_settings final
 {
+    static_route_settings() = default;
+    ~static_route_settings() = default;
+
     static_route_settings(static_route_settings &&) = default;
     auto operator=(static_route_settings &&) -> static_route_settings & = default;
 
@@ -40,13 +43,14 @@ struct static_route_settings
     std::vector<std::string> hidden_files = detail::hidden_files;
 };
 
-class static_route : public route
+class static_route final : public route
 {
 public:
     explicit static_route(std::string mount_point, const std::filesystem::path &base_path);
     explicit static_route(std::string mount_point, const std::filesystem::path &base_path,
                           static_route_settings settings);
-    virtual ~static_route();
+
+    ~static_route() final;
 
     static_route(static_route &&) = default;
     auto operator=(static_route &&) -> static_route & = default;
@@ -64,18 +68,20 @@ private:
     void on_http_request(http_server_socket &source, routable_http_server_session &session,
                          const request &request) override;
 
-    auto get_path_for_default_files(const std::filesystem::path &path) const -> std::filesystem::path;
+    [[nodiscard]] auto get_path_for_default_files(const std::filesystem::path &path) const -> std::filesystem::path;
 
     void reply_file(http_server_socket &source, routable_http_server_session &session,
                     const std::filesystem::path &file) const;
     void reply_folder(http_server_socket &source, routable_http_server_session &session,
                       const std::filesystem::path &path) const;
 
-    auto get_current_directory_header_name(const std::filesystem::path &path) const -> std::string;
-    auto get_directory_listing_entries(const std::filesystem::path &path) const -> std::vector<directory_listing_entry>;
-    auto is_image_folder(const std::vector<directory_listing_entry> &entries) const -> bool;
-    auto is_hidden_file(const std::string &filename) const -> bool;
-    auto generate_hyperlink_html(const std::string &name, const std::string &destination) const -> std::string;
+    [[nodiscard]] auto get_current_directory_header_name(const std::filesystem::path &path) const -> std::string;
+    [[nodiscard]] auto get_directory_listing_entries(const std::filesystem::path &path) const
+        -> std::vector<directory_listing_entry>;
+    [[nodiscard]] auto is_image_folder(const std::vector<directory_listing_entry> &entries) const -> bool;
+    [[nodiscard]] auto is_hidden_file(const std::string &filename) const -> bool;
+    [[nodiscard]] auto generate_hyperlink_html(const std::string &name, const std::string &destination) const
+        -> std::string;
 
     std::filesystem::path base_path_;
     static_route_settings settings_;

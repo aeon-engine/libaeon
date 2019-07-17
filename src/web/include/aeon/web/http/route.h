@@ -26,7 +26,7 @@ public:
     virtual void on_http_request(http_server_socket &source, routable_http_server_session &session,
                                  const request &request) = 0;
 
-    auto mount_point() const noexcept -> const std::string &;
+    [[nodiscard]] auto mount_point() const noexcept -> const std::string &;
 
 private:
     std::string mount_point_;

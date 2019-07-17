@@ -5,7 +5,6 @@
 #include <aeon/streams/filters/filter.h>
 #include <aeon/streams/stream_traits.h>
 #include <aeon/streams/tags.h>
-#include <iostream>
 #include <algorithm>
 
 namespace aeon::streams

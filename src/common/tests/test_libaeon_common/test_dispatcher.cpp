@@ -56,8 +56,8 @@ TEST(test_dispatcher, test_dispatcher_call_int)
 
     std::thread t([&]() { dispatcher.run(); });
 
-    bool called = false;
-    int value = dispatcher.call<int>([&called]() {
+    auto called = false;
+    const auto value = dispatcher.call<int>([&called]() {
         called = true;
         return 1337;
     });

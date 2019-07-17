@@ -30,14 +30,14 @@ public:
      * Attempt to find a suitable mime type for a given file extension.
      * Returns the default mime type if this could not be found.
      */
-    auto find_mime_type_by_extension(const std::string &extension) const -> std::string;
+    [[nodiscard]] auto find_mime_type_by_extension(const std::string &extension) const -> std::string;
 
     /*!
      * Attempt to find a suitable file extension for a mime type. Returns an empty
      * string if this could not be found. Since this method is used considerably less
      * than finding a mime type by extension, it's performance will be relatively bad.
      */
-    auto find_extension_by_mime_type(const std::string &mime_type) const -> std::string;
+    [[nodiscard]] auto find_extension_by_mime_type(const std::string &mime_type) const -> std::string;
 
     /*!
      * Set the default mime type. This is the mime type that will be used if the
@@ -49,7 +49,7 @@ public:
      * Get the default mime type. This is the mime type that will be used if the
      * file extension is not registered, and thus unknown.
      */
-    auto get_default_mime_type() const noexcept -> const std::string &;
+    [[nodiscard]] auto get_default_mime_type() const noexcept -> const std::string &;
 
 private:
     /*!

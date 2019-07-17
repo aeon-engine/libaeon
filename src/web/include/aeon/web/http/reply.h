@@ -19,19 +19,19 @@ public:
     reply();
     explicit reply(const status_code status);
 
-    auto get_status_code() const
+    [[nodiscard]] auto get_status_code() const
     {
         return status_;
     }
 
-    auto get_content_length() const
+    [[nodiscard]] auto get_content_length() const
     {
         return content_.size();
     }
 
-    auto get_content() -> std::vector<std::uint8_t>;
+    [[nodiscard]] auto get_content() -> std::vector<std::uint8_t>;
 
-    auto get_raw_headers() const -> const std::vector<std::string> &;
+    [[nodiscard]] auto get_raw_headers() const -> const std::vector<std::string> &;
 
 private:
     void append_raw_http_header_line(const std::string &header_line);

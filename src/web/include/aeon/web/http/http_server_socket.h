@@ -38,7 +38,7 @@ public:
      */
     explicit http_server_socket(asio::ip::tcp::socket socket);
 
-    virtual ~http_server_socket();
+    ~http_server_socket() override;
 
     http_server_socket(http_server_socket &&) = delete;
     auto operator=(http_server_socket &&) -> http_server_socket & = delete;

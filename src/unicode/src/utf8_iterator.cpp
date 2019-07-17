@@ -13,7 +13,7 @@ void utf8_iterator::advance() noexcept
 
     if (next_offset_ < len_)
     {
-        int chr = 0;
+        auto chr = 0;
         U8_NEXT(str_, next_offset_, len_, chr);
         char_ = static_cast<char32_t>(chr);
     }

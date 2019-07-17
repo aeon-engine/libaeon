@@ -13,7 +13,7 @@ void utf16_iterator::advance() noexcept
 
     if (next_offset_ < len_)
     {
-        int chr = 0;
+        auto chr = 0;
         U16_NEXT(str_, next_offset_, len_, chr);
         char_ = static_cast<char32_t>(chr);
     }
