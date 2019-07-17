@@ -12,7 +12,7 @@ namespace aeon::common
 {
 
 template <typename key_type_t, typename value_type_t>
-class linear_map final
+class unordered_flatmap final
 {
 public:
     using key_type = key_type_t;
@@ -21,9 +21,9 @@ public:
     using map_type = std::vector<pair_type>;
     using iterator = typename map_type::iterator;
 
-    linear_map() = default;
+    unordered_flatmap() = default;
 
-    linear_map(std::initializer_list<pair_type> init)
+    unordered_flatmap(std::initializer_list<pair_type> init)
         : map_{}
     {
         for (auto &&val : init)
@@ -32,12 +32,12 @@ public:
         }
     }
 
-    ~linear_map() = default;
+    ~unordered_flatmap() = default;
 
-    linear_map(const linear_map &) = default;
-    auto operator=(const linear_map &) -> linear_map & = default;
-    linear_map(linear_map &&) noexcept = default;
-    auto operator=(linear_map &&) noexcept -> linear_map & = default;
+    unordered_flatmap(const unordered_flatmap &) = default;
+    auto operator=(const unordered_flatmap &) -> unordered_flatmap & = default;
+    unordered_flatmap(unordered_flatmap &&) noexcept = default;
+    auto operator=(unordered_flatmap &&) noexcept -> unordered_flatmap & = default;
 
     auto insert(key_type key, value_type value) -> iterator
     {
@@ -85,7 +85,7 @@ public:
     {
         auto itr = find(key);
         if (itr == std::end(map_))
-            throw std::out_of_range{"aeon linear_map key out of range."};
+            throw std::out_of_range{"aeon unordered_flatmap key out of range."};
 
         return itr->second;
     }
@@ -94,7 +94,7 @@ public:
     {
         auto itr = find(key);
         if (itr == std::end(map_))
-            throw std::out_of_range{"aeon linear_map key out of range."};
+            throw std::out_of_range{"aeon unordered_flatmap key out of range."};
 
         return itr->second;
     }
@@ -204,7 +204,7 @@ public:
         map_.reserve(size);
     }
 
-    auto operator==(const linear_map<key_type, value_type> &other) const noexcept -> bool
+    auto operator==(const unordered_flatmap<key_type, value_type> &other) const noexcept -> bool
     {
         if (size() != std::size(other))
             return false;
@@ -223,7 +223,7 @@ public:
         return true;
     }
 
-    auto operator!=(const linear_map<key_type, value_type> &other) const noexcept -> bool
+    auto operator!=(const unordered_flatmap<key_type, value_type> &other) const noexcept -> bool
     {
         return !(*this == other);
     }

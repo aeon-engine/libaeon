@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/linear_map.h>
+#include <aeon/common/unordered_flatmap.h>
 #include <aeon/common/uuid.h>
 #include <variant>
 #include <vector>
@@ -15,7 +15,7 @@ namespace aeon::ptree
 
 class property_tree;
 using array = std::vector<property_tree>;
-using object = common::linear_map<std::string, property_tree>;
+using object = common::unordered_flatmap<std::string, property_tree>;
 using blob = std::vector<std::uint8_t>;
 
 class property_tree

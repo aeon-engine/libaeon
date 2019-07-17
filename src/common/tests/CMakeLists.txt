@@ -15,7 +15,6 @@ add_unit_test_suite(
         test_flags.cpp
         test_from_chars.cpp
         test_lexical_parse.cpp
-        test_linear_map.cpp
         test_literals.cpp
         test_scope_guard.cpp
         test_signals.cpp
@@ -25,6 +24,7 @@ add_unit_test_suite(
         test_string_table.cpp
         test_stringtraits.cpp
         test_tribool.cpp
+        test_unordered_flatmap.cpp
         test_uuid.cpp
         test_variant.cpp
         test_version.cpp

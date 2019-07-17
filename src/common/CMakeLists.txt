@@ -23,7 +23,6 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/hexdump.h
     include/aeon/common/intrinsics.h
     include/aeon/common/lexical_parse.h
-    include/aeon/common/linear_map.h
     include/aeon/common/listener_subject.h
     include/aeon/common/literals.h
     include/aeon/common/parallelizer.h
@@ -43,6 +42,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/timer.h
     include/aeon/common/tribool.h
     include/aeon/common/type_traits.h
+    include/aeon/common/unordered_flatmap.h
     include/aeon/common/unused.h
     include/aeon/common/uuid.h
     include/aeon/common/variant.h
