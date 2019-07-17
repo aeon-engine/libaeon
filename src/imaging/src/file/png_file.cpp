@@ -216,7 +216,7 @@ void save(const image_view<T> &image, streams::idynamic_stream &stream)
         throw save_exception();
     AEON_IGNORE_VS_WARNING_POP()
 
-    const auto color_type = detail::png_color_type_traits<T>::color_type();
+    constexpr auto color_type = detail::png_color_type_traits<T>::color_type();
     const auto w = static_cast<png_uint_32>(width(image));
     const auto h = static_cast<png_uint_32>(height(image));
     const auto bit_depth = 8; // TODO: store bit depth in the image data.
