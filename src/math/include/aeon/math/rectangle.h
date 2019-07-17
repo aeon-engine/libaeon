@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for a rectangle.
+ * \brief Mathematical operations for a rectangle.
  */
 
 #pragma once

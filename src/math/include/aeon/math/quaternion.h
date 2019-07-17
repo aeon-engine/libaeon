@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for a quaternion.
+ * \brief Mathematical operations for a quaternion.
  */
 
 #pragma once

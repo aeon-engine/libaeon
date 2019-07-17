@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for vector2.
+ * \brief Mathematical operations for vector2.
  */
 
 #pragma once

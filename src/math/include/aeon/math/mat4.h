@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for a 4x4 matrix.
+ * \brief Mathematical operations for a 4x4 matrix.
  */
 
 #pragma once

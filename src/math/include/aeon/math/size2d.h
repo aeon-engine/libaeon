@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for size2d.
+ * \brief Mathematical operations for size2d.
  */
 
 #pragma once

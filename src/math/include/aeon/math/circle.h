@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for a 2D circle.
+ * \brief Mathematical operations for a 2D circle.
  */
 
 #pragma once

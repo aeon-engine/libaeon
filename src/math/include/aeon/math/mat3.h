@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for a 3x3 matrix.
+ * \brief Mathematical operations for a 3x3 matrix.
  */
 
 #pragma once

@@ -2,7 +2,7 @@
 
 /*!
  * \file
- * \brief Mathmatical operations for a range.
+ * \brief Mathematical operations for a range.
  */
 
 #pragma once
