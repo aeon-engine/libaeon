@@ -105,15 +105,17 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline constexpr auto vector3<T>::operator[](const std::size_t i) noexcept -> T &
 {
-    aeon_assert_array_bounds(value, i);
-    return value[i];
+    std::array<T *, 3> value{&x, &y, &z};
+    aeon_assert_size_bounds(value, i);
+    return *value[i];
 }
 
 template <typename T>
 [[nodiscard]] inline constexpr auto vector3<T>::operator[](const std::size_t i) const noexcept -> const T &
 {
-    aeon_assert_array_bounds(value, i);
-    return value[i];
+    std::array<const T *, 3> value{&x, &y, &z};
+    aeon_assert_size_bounds(value, i);
+    return *value[i];
 }
 
 template <typename T>

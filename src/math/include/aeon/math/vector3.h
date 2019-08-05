@@ -105,15 +105,9 @@ public:
      */
     constexpr void set(const T new_x, const T new_y, const T new_z) noexcept;
 
-    union {
-        struct
-        {
-            T x;
-            T y;
-            T z;
-        };
-        T value[3];
-    };
+    T x;
+    T y;
+    T z;
 };
 
 template <typename T>

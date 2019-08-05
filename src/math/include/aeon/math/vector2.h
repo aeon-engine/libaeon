@@ -79,14 +79,8 @@ public:
      */
     constexpr void set(const T new_x, const T new_y) noexcept;
 
-    union {
-        struct
-        {
-            T x;
-            T y;
-        };
-        T value[2];
-    };
+    T x;
+    T y;
 };
 
 template <typename T>

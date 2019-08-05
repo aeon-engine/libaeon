@@ -5,6 +5,7 @@
 #include <aeon/common/assert.h>
 #include <cmath>
 #include <limits>
+#include <array>
 
 namespace aeon::math
 {
@@ -56,15 +57,17 @@ inline constexpr vector2<T>::vector2(const T xy[2]) noexcept
 template <typename T>
 [[nodiscard]] inline constexpr auto vector2<T>::operator[](const std::size_t i) noexcept -> T &
 {
-    aeon_assert_array_bounds(value, i);
-    return value[i];
+    std::array<T *, 2> value{&x, &y};
+    aeon_assert_size_bounds(value, i);
+    return *value[i];
 }
 
 template <typename T>
 [[nodiscard]] inline constexpr auto vector2<T>::operator[](const std::size_t i) const noexcept -> const T &
 {
-    aeon_assert_array_bounds(value, i);
-    return value[i];
+    std::array<const T *, 2> value{&x, &y};
+    aeon_assert_size_bounds(value, i);
+    return *value[i];
 }
 
 template <typename T>
