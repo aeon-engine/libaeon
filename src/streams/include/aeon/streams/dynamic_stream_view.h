@@ -17,7 +17,7 @@ class dynamic_stream_view : public idynamic_stream
 public:
     explicit dynamic_stream_view(device_t &device);
 
-    virtual ~dynamic_stream_view() = default;
+    ~dynamic_stream_view() override = default;
 
     dynamic_stream_view(dynamic_stream_view &&) noexcept(std::is_nothrow_move_constructible_v<device_t>) = default;
     auto operator=(dynamic_stream_view &&) noexcept(std::is_nothrow_move_assignable_v<device_t>)
