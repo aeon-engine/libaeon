@@ -8,7 +8,11 @@
 #endif
 #endif
 
+#include <aeon/common/compilers.h>
+
+AEON_IGNORE_VS_WARNING_PUSH(4201)
 #include <mono/jit/jit.h>
+AEON_IGNORE_VS_WARNING_POP()
 
 namespace aeon::mono
 {

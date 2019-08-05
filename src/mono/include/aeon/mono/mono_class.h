@@ -10,7 +10,12 @@
 
 #include <aeon/mono/mono_static_function.h>
 #include <aeon/common/type_traits.h>
+#include <aeon/common/compilers.h>
+
+AEON_IGNORE_VS_WARNING_PUSH(4201)
 #include <mono/jit/jit.h>
+AEON_IGNORE_VS_WARNING_POP()
+
 #include <string>
 
 namespace aeon::mono

@@ -2,7 +2,12 @@
 
 #pragma once
 
+#include <aeon/common/compilers.h>
+
+AEON_IGNORE_VS_WARNING_PUSH(4201)
 #include <mono/metadata/reflection.h>
+AEON_IGNORE_VS_WARNING_POP()
+
 #include <stdexcept>
 #include <string>
 
