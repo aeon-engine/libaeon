@@ -168,12 +168,12 @@ template <typename T>
 template <typename U>
 inline void ast_entity_collection<T>::visit(U &&visitor, const bool recursive) const
 {
-    visit_internal(std::forward<U>(visitor), recursive, 0);
+    visit_internal(std::forward<U>(visitor), recursive);
 }
 
 template <typename T>
 template <typename U>
-inline void ast_entity_collection<T>::visit_internal(U &&visitor, const bool recursive, const int depth) const
+inline void ast_entity_collection<T>::visit_internal(U &&visitor, const bool recursive) const
 {
     for (const auto &child : common::collection<T>::data_)
     {
@@ -181,41 +181,41 @@ inline void ast_entity_collection<T>::visit_internal(U &&visitor, const bool rec
         {
             case ast_entity_type::global_namespace_t:
             case ast_entity_type::namespace_t:
-                visitor(child->template as<ast_namespace>(), depth);
+                visitor(child->template as<ast_namespace>());
                 break;
             case ast_entity_type::struct_t:
-                visitor(child->template as<ast_struct>(), depth);
+                visitor(child->template as<ast_struct>());
                 break;
             case ast_entity_type::union_t:
-                visitor(child->template as<ast_union>(), depth);
+                visitor(child->template as<ast_union>());
                 break;
             case ast_entity_type::class_t:
-                visitor(child->template as<ast_class>(), depth);
+                visitor(child->template as<ast_class>());
                 break;
             case ast_entity_type::enum_t:
-                visitor(child->template as<ast_enum>(), depth);
+                visitor(child->template as<ast_enum>());
                 break;
             case ast_entity_type::field_t:
-                visitor(child->template as<ast_field>(), depth);
+                visitor(child->template as<ast_field>());
                 break;
             case ast_entity_type::method_t:
-                visitor(child->template as<ast_method>(), depth);
+                visitor(child->template as<ast_method>());
                 break;
             case ast_entity_type::function_t:
-                visitor(child->template as<ast_function>(), depth);
+                visitor(child->template as<ast_function>());
                 break;
             case ast_entity_type::constructor_t:
-                visitor(child->template as<ast_constructor>(), depth);
+                visitor(child->template as<ast_constructor>());
                 break;
             case ast_entity_type::destructor_t:
-                visitor(child->template as<ast_destructor>(), depth);
+                visitor(child->template as<ast_destructor>());
                 break;
             default:
                 aeon_assert_fail("Unhandled entity type.");
         }
 
         if (recursive)
-            child->visit_internal(std::forward<U>(visitor), recursive, depth + 1);
+            child->visit_internal(std::forward<U>(visitor), recursive);
     }
 }
 

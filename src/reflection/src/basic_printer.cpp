@@ -23,7 +23,7 @@ struct ast_basic_print_visitor
     {
     }
 
-    void operator()(const ast::ast_namespace &entity, const int depth)
+    void operator()(const ast::ast_namespace &entity)
     {
         indent();
         stream_ << "namespace " << entity.name() << '\n';
@@ -38,7 +38,7 @@ struct ast_basic_print_visitor
         stream_ << "} // namespace " << entity.name() << '\n';
     }
 
-    void operator()(const ast::ast_struct &entity, const int depth)
+    void operator()(const ast::ast_struct &entity)
     {
         indent();
         stream_ << "struct " << entity.name() << '\n';
@@ -53,7 +53,7 @@ struct ast_basic_print_visitor
         stream_ << "};\n";
     }
 
-    void operator()(const ast::ast_union &entity, const int depth)
+    void operator()(const ast::ast_union &entity)
     {
         indent();
         stream_ << "union " << entity.name() << '\n';
@@ -68,7 +68,7 @@ struct ast_basic_print_visitor
         stream_ << "};\n";
     }
 
-    void operator()(const ast::ast_class &entity, const int depth)
+    void operator()(const ast::ast_class &entity)
     {
         indent();
         stream_ << "class " << entity.name() << '\n';
@@ -83,7 +83,7 @@ struct ast_basic_print_visitor
         stream_ << "};\n";
     }
 
-    void operator()(const ast::ast_enum &entity, const int depth)
+    void operator()(const ast::ast_enum &entity)
     {
         indent();
         stream_ << "enum class " << entity.name() << '\n';
@@ -99,18 +99,18 @@ struct ast_basic_print_visitor
         stream_ << "};" << entity.name() << '\n';
     }
 
-    void operator()(const ast::ast_field &entity, const int depth)
+    void operator()(const ast::ast_field &entity)
     {
         indent();
         stream_ << entity.type() << ' ' << entity.name() << ";\n";
     }
 
-    void operator()(const ast::ast_method &entity, const int depth)
+    void operator()(const ast::ast_method &entity)
     {
-        operator()(entity.as<ast::ast_function>(), depth);
+        operator()(entity.as<ast::ast_function>());
     }
 
-    void operator()(const ast::ast_function &entity, const int depth)
+    void operator()(const ast::ast_function &entity)
     {
         indent();
         stream_ << entity.return_type() << ' ' << entity.name() << '(';
@@ -130,7 +130,7 @@ struct ast_basic_print_visitor
         stream_ << ')' << ";\n";
     }
 
-    void operator()(const ast::ast_constructor &entity, const int depth)
+    void operator()(const ast::ast_constructor &entity)
     {
         indent();
         stream_ << entity.name() << '(';
@@ -150,7 +150,7 @@ struct ast_basic_print_visitor
         stream_ << ')' << ";\n";
     }
 
-    void operator()(const ast::ast_destructor &entity, const int depth)
+    void operator()(const ast::ast_destructor &entity)
     {
         indent();
         stream_ << entity.name() << "();\n";

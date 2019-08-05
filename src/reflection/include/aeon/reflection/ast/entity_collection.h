@@ -58,7 +58,7 @@ public:
 
 private:
     template <typename U>
-    void visit_internal(U &&visitor, const bool recursive, const int depth) const;
+    void visit_internal(U &&visitor, const bool recursive) const;
 };
 
 } // namespace aeon::reflection::ast
