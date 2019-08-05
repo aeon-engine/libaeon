@@ -20,8 +20,8 @@ public:
 
     ~ast_entity_collection() = default;
 
-    ast_entity_collection(const ast_entity_collection &) noexcept = default;
-    auto operator=(const ast_entity_collection &) noexcept -> ast_entity_collection & = default;
+    ast_entity_collection(const ast_entity_collection &) = default;
+    auto operator=(const ast_entity_collection &) -> ast_entity_collection & = default;
 
     ast_entity_collection(ast_entity_collection &&) noexcept = default;
     auto operator=(ast_entity_collection &&) noexcept -> ast_entity_collection & = default;
