@@ -83,7 +83,7 @@ TEST(test_streams, test_streams_stringstream_device)
     if (!pipeline.good())
         FAIL();
 
-    const auto result = pipeline.write("blah", 4);
+    [[maybe_unused]] const auto result = pipeline.write("blah", 4);
     EXPECT_EQ("<<<[PREFIX]blah[POSTFIX]>>>", ss.str());
 
     char test[4];

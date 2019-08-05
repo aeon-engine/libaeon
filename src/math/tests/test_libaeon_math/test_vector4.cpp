@@ -8,5 +8,5 @@ using namespace aeon;
 
 TEST(test_vector4, test_vector4_default_int)
 {
-    math::vector4<int> vec;
+    [[maybe_unused]] math::vector4<int> vec;
 }

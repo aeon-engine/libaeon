@@ -14,21 +14,23 @@ namespace aeon::midi
 
 namespace meta_event
 {
-static const unsigned char sequence_number = 0x00;
-static const unsigned char text_event = 0x01;
-static const unsigned char copyright_notice = 0x02;
-static const unsigned char track_name = 0x03;
-static const unsigned char instrument_name = 0x04;
-static const unsigned char lyric_text = 0x05;
-static const unsigned char marker_text = 0x06;
-static const unsigned char cue_point = 0x07;
-static const unsigned char channel_prefix_assignment = 0x20;
-static const unsigned char end_of_track = 0x2F;
-static const unsigned char tempo_setting = 0x51;
-static const unsigned char smpte_offset = 0x54;
-static const unsigned char time_signature = 0x58;
-static const unsigned char key_signature = 0x59;
-static const unsigned char sequencer_specific = 0x7F;
+
+[[maybe_unused]] static constexpr unsigned char sequence_number = 0x00;
+[[maybe_unused]] static constexpr unsigned char text_event = 0x01;
+[[maybe_unused]] static constexpr unsigned char copyright_notice = 0x02;
+[[maybe_unused]] static constexpr unsigned char track_name = 0x03;
+[[maybe_unused]] static constexpr unsigned char instrument_name = 0x04;
+[[maybe_unused]] static constexpr unsigned char lyric_text = 0x05;
+[[maybe_unused]] static constexpr unsigned char marker_text = 0x06;
+[[maybe_unused]] static constexpr unsigned char cue_point = 0x07;
+[[maybe_unused]] static constexpr unsigned char channel_prefix_assignment = 0x20;
+[[maybe_unused]] static constexpr unsigned char end_of_track = 0x2F;
+[[maybe_unused]] static constexpr unsigned char tempo_setting = 0x51;
+[[maybe_unused]] static constexpr unsigned char smpte_offset = 0x54;
+[[maybe_unused]] static constexpr unsigned char time_signature = 0x58;
+[[maybe_unused]] static constexpr unsigned char key_signature = 0x59;
+[[maybe_unused]] static constexpr unsigned char sequencer_specific = 0x7F;
+
 } // namespace meta_event
 
 midi_file_reader::midi_file_reader(const std::string &filename)

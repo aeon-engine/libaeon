@@ -8,7 +8,7 @@ using namespace aeon;
 
 TEST(test_quaternion, test_quaternion_default)
 {
-    math::quaternion quat;
+    [[maybe_unused]] math::quaternion quat;
 }
 
 TEST(test_quaternion, test_quaternion_equals)

@@ -8,7 +8,7 @@ using namespace aeon;
 
 TEST(test_size2d, test_size2d_default_int)
 {
-    math::size2d<int> size;
+    [[maybe_unused]] math::size2d<int> size;
 }
 
 struct external_size2d

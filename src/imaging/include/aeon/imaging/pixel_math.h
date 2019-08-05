@@ -95,12 +95,12 @@ struct pixel_math<rgb24> final
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.b), 0, 255))};
     }
 
-    [[nodiscard]] static constexpr auto alpha(const rgb24 value) noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto alpha([[maybe_unused]] const rgb24 value) noexcept -> std::uint8_t
     {
         return 255;
     }
 
-    [[nodiscard]] static constexpr auto alpha_ratio(const rgb24 value) noexcept -> float
+    [[nodiscard]] static constexpr auto alpha_ratio([[maybe_unused]] const rgb24 value) noexcept -> float
     {
         return 1.0f;
     }
@@ -158,12 +158,12 @@ struct pixel_math<bgr24> final
                 static_cast<std::uint8_t>(std::clamp(static_cast<int>(value.r), 0, 255))};
     }
 
-    [[nodiscard]] static constexpr auto alpha(const bgr24 value) noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto alpha([[maybe_unused]] const bgr24 value) noexcept -> std::uint8_t
     {
         return 255;
     }
 
-    [[nodiscard]] static constexpr auto alpha_ratio(const bgr24 value) noexcept -> float
+    [[nodiscard]] static constexpr auto alpha_ratio([[maybe_unused]] const bgr24 value) noexcept -> float
     {
         return 1.0f;
     }

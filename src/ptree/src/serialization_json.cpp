@@ -119,7 +119,7 @@ static void to_json(const bool val, streams::idynamic_stream &stream)
         writer << "false";
 }
 
-static void to_json(const blob &val, streams::idynamic_stream &stream)
+static void to_json([[maybe_unused]] const blob &val, [[maybe_unused]] streams::idynamic_stream &stream)
 {
     aeon_assert_fail("Json serializer does not support binary blobs.");
     throw ptree_serialization_exception{};

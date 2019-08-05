@@ -8,7 +8,7 @@ using namespace aeon;
 
 TEST(test_size3d, test_size3d_default_int)
 {
-    math::size3d<int> size;
+    [[maybe_unused]] math::size3d<int> size;
 }
 
 TEST(test_size3d, test_size3d_clamp)

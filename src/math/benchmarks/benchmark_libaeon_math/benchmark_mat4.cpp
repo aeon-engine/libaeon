@@ -15,7 +15,7 @@ static void benchmark_mat4_multiply_identity(benchmark::State &state)
     benchmark::DoNotOptimize(mat1);
     benchmark::DoNotOptimize(mat2);
 
-    for (auto _ : state)
+    for ([[maybe_unused]] auto _ : state)
         benchmark::DoNotOptimize(mat1 * mat2);
 }
 
@@ -29,7 +29,7 @@ static void benchmark_mat4_multiply_translation_with_identity(benchmark::State &
     benchmark::DoNotOptimize(mat1);
     benchmark::DoNotOptimize(mat2);
 
-    for (auto _ : state)
+    for ([[maybe_unused]] auto _ : state)
         benchmark::DoNotOptimize(mat1 * mat2);
 }
 
@@ -43,7 +43,7 @@ static void benchmark_mat4_multiply_rotation_with_identity(benchmark::State &sta
     benchmark::DoNotOptimize(mat1);
     benchmark::DoNotOptimize(mat2);
 
-    for (auto _ : state)
+    for ([[maybe_unused]] auto _ : state)
         benchmark::DoNotOptimize(mat1 * mat2);
 }
 

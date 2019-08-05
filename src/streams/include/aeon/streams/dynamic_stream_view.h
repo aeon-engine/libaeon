@@ -82,7 +82,8 @@ inline dynamic_stream_view<device_t>::dynamic_stream_view(device_t &device)
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::read(char *data, const std::streamsize size) -> std::streamsize
+inline auto dynamic_stream_view<device_t>::read([[maybe_unused]] char *data,
+                                                [[maybe_unused]] const std::streamsize size) -> std::streamsize
 {
     if constexpr (is_input_v<device_t>)
         return device_ref_->read(data, size);
@@ -94,7 +95,8 @@ inline auto dynamic_stream_view<device_t>::read(char *data, const std::streamsiz
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::seekg(const std::streamoff offset, const seek_direction direction) -> bool
+inline auto dynamic_stream_view<device_t>::seekg([[maybe_unused]] const std::streamoff offset,
+                                                 [[maybe_unused]] const seek_direction direction) -> bool
 {
     if constexpr (is_input_seekable_v<device_t>)
         return device_ref_->seekg(offset, direction);
@@ -118,7 +120,8 @@ template <typename device_t>
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::write(const char *data, const std::streamsize size) -> std::streamsize
+inline auto dynamic_stream_view<device_t>::write([[maybe_unused]] const char *data,
+                                                 [[maybe_unused]] const std::streamsize size) -> std::streamsize
 {
     if constexpr (is_output_v<device_t>)
         return device_ref_->write(data, size);
@@ -130,7 +133,8 @@ inline auto dynamic_stream_view<device_t>::write(const char *data, const std::st
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::seekp(const std::streamoff offset, const seek_direction direction) -> bool
+inline auto dynamic_stream_view<device_t>::seekp([[maybe_unused]] const std::streamoff offset,
+                                                 [[maybe_unused]] const seek_direction direction) -> bool
 {
     if constexpr (is_output_seekable_v<device_t>)
         return device_ref_->seekp(offset, direction);

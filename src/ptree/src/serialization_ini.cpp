@@ -38,12 +38,12 @@ static void to_string(const std::monostate, streams::idynamic_stream &stream)
     writer << "null";
 }
 
-static void to_string(const array &arr, streams::idynamic_stream &stream)
+static void to_string([[maybe_unused]] const array &arr, [[maybe_unused]] streams::idynamic_stream &stream)
 {
     throw ptree_unsupported_ini_format{};
 }
 
-static void to_string(const object &obj, streams::idynamic_stream &stream)
+static void to_string([[maybe_unused]] const object &obj, [[maybe_unused]] streams::idynamic_stream &stream)
 {
     throw ptree_unsupported_ini_format{};
 }
@@ -84,7 +84,7 @@ static void to_string(const bool val, streams::idynamic_stream &stream)
         writer << "false";
 }
 
-static void to_string(const blob &val, streams::idynamic_stream &stream)
+static void to_string([[maybe_unused]] const blob &val, [[maybe_unused]] streams::idynamic_stream &stream)
 {
     aeon_assert_fail("Ini serializer does not support binary blobs.");
     throw ptree_serialization_exception{};

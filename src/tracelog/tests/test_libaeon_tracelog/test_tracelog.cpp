@@ -5,7 +5,7 @@
 #include <thread>
 #include <chrono>
 
-static void test_func3(float a, const char *str)
+static void test_func3([[maybe_unused]] float a, [[maybe_unused]] const char *str)
 {
     aeon_tracelog_scoped();
     std::this_thread::sleep_for(std::chrono::milliseconds(3));
@@ -20,7 +20,7 @@ static void test_func2(int arg)
     test_func3(static_cast<float>(arg + 10), "Bye");
 }
 
-static void test_func1(int arg1, float arg2)
+static void test_func1(int arg1, [[maybe_unused]] float arg2)
 {
     aeon_tracelog_scoped();
 

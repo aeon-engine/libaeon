@@ -151,7 +151,7 @@ void entity_visitor(const CXCursor cursor, ast::ast_entity &ns)
                 auto &astenum = *ns.emplace_back(
                     std::make_unique<ast::ast_enum>(to_string(clang_getCursorSpelling(c)), get_linkage_kind(c)));
 
-                clang_visit(c, [&astenum](const CXCursor c, const CXCursor parent) {
+                clang_visit(c, [&astenum](const CXCursor c, [[maybe_unused]] const CXCursor parent) {
                     switch (clang_getCursorKind(c))
                     {
                         case CXCursor_EnumConstantDecl:

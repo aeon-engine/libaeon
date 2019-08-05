@@ -36,7 +36,7 @@ void tcp_socket::on_disconnected()
 {
 }
 
-void tcp_socket::on_error(const std::error_code &ec)
+void tcp_socket::on_error([[maybe_unused]] const std::error_code &ec)
 {
 }
 

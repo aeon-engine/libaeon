@@ -38,8 +38,8 @@ void http_jsonrpc_route::register_method(const jsonrpc::method &method) const
     rpc_server_ref_.register_method(method);
 }
 
-void http_jsonrpc_route::on_http_request(http_server_socket &source, routable_http_server_session &session,
-                                         const request &request)
+void http_jsonrpc_route::on_http_request(http_server_socket &source,
+                                         [[maybe_unused]] routable_http_server_session &session, const request &request)
 {
     if (!validate_request(source, request))
         return;

@@ -9,17 +9,17 @@ using namespace aeon;
 
 TEST(test_mat4, test_mat4_default)
 {
-    math::mat4 mat;
+    [[maybe_unused]] math::mat4 mat;
 }
 
 TEST(test_mat4, test_mat4_zero)
 {
-    const auto mat = math::mat4::zero();
+    [[maybe_unused]] const auto mat = math::mat4::zero();
 }
 
 TEST(test_mat4, test_mat4_identity)
 {
-    const auto mat = math::mat4::indentity();
+    [[maybe_unused]] const auto mat = math::mat4::indentity();
 }
 
 TEST(test_mat4, test_mat4_multiply_identity)

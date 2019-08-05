@@ -8,7 +8,7 @@ using namespace aeon;
 
 TEST(test_vector2, test_vector2_default_int)
 {
-    math::vector2<int> vec;
+    [[maybe_unused]] math::vector2<int> vec;
 }
 
 TEST(test_vector2, test_vector2_operators_add)

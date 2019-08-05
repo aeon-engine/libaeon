@@ -8,17 +8,17 @@ using namespace aeon;
 
 TEST(test_mat3, test_mat3_default)
 {
-    math::mat3 mat;
+    [[maybe_unused]] math::mat3 mat;
 }
 
 TEST(test_mat3, test_mat3_zero)
 {
-    const auto mat = math::mat3::zero();
+    [[maybe_unused]] const auto mat = math::mat3::zero();
 }
 
 TEST(test_mat3, test_mat3_identity)
 {
-    const auto mat = math::mat3::indentity();
+    [[maybe_unused]] const auto mat = math::mat3::indentity();
 }
 
 TEST(test_mat3, test_mat3_equals)

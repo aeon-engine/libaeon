@@ -16,7 +16,7 @@ static void benchmark_mat3_sse_multiply_identity(benchmark::State &state)
     benchmark::DoNotOptimize(mat1);
     benchmark::DoNotOptimize(mat2);
 
-    for (auto _ : state)
+    for ([[maybe_unused]] auto _ : state)
         benchmark::DoNotOptimize(mat1 * mat2);
 }
 
@@ -30,7 +30,7 @@ static void benchmark_mat3_sse_multiply_rotation_with_identity(benchmark::State 
     benchmark::DoNotOptimize(mat1);
     benchmark::DoNotOptimize(mat2);
 
-    for (auto _ : state)
+    for ([[maybe_unused]] auto _ : state)
         benchmark::DoNotOptimize(mat1 * mat2);
 }
 

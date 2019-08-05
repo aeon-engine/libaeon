@@ -119,7 +119,7 @@ void static_route::reply_file(http_server_socket &source, routable_http_server_s
     source.respond(mime_type, file_stream);
 }
 
-void static_route::reply_folder(http_server_socket &source, routable_http_server_session &session,
+void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] routable_http_server_session &session,
                                 const std::filesystem::path &path) const
 {
     const auto header_name = get_current_directory_header_name(path);

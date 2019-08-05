@@ -3,22 +3,22 @@
 #include "mono_jit_fixture.h"
 #include <aeon/mono/mono_string.h>
 
-void MyObject_CreateInternal(MonoObject *this_ptr)
+void MyObject_CreateInternal([[maybe_unused]] MonoObject *this_ptr)
 {
     std::cout << "MyObject created." << std::endl;
 }
 
-void MyObject_DestroyInternal(MonoObject *this_ptr)
+void MyObject_DestroyInternal([[maybe_unused]] MonoObject *this_ptr)
 {
     std::cout << "MyObject deleted." << std::endl;
 }
 
-void MyObject_DoStuff(MonoObject *this_ptr, std::string value)
+void MyObject_DoStuff([[maybe_unused]] MonoObject *this_ptr, std::string value)
 {
     std::cout << "DoStuff was called with: " << value << std::endl;
 }
 
-std::string MyObject_ReturnAString(MonoObject *this_ptr, std::string value)
+std::string MyObject_ReturnAString([[maybe_unused]] MonoObject *this_ptr, std::string value)
 {
     std::cout << "ReturnAString was called with: " << value << std::endl;
     return "The value: " + value;
