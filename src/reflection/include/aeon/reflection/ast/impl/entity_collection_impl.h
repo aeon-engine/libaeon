@@ -5,6 +5,7 @@
 #include <aeon/reflection/ast/exception.h>
 #include <aeon/common/assert.h>
 #include <type_traits>
+#include <utility>
 
 namespace aeon::reflection::ast
 {
@@ -167,7 +168,7 @@ template <typename T>
 template <typename U>
 inline void ast_entity_collection<T>::visit(U &&visitor, const bool recursive) const
 {
-    visit_internal(std::move(visitor), recursive, 0);
+    visit_internal(std::forward<U>(visitor), recursive, 0);
 }
 
 template <typename T>
@@ -214,7 +215,7 @@ inline void ast_entity_collection<T>::visit_internal(U &&visitor, const bool rec
         }
 
         if (recursive)
-            child->visit_internal(std::move(visitor), recursive, depth + 1);
+            child->visit_internal(std::forward<U>(visitor), recursive, depth + 1);
     }
 }
 
