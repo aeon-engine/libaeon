@@ -17,8 +17,8 @@ public:
 
     ~ast_function_collection() = default;
 
-    ast_function_collection(const ast_function_collection &) noexcept = default;
-    auto operator=(const ast_function_collection &) noexcept -> ast_function_collection & = default;
+    ast_function_collection(const ast_function_collection &) = default;
+    auto operator=(const ast_function_collection &) -> ast_function_collection & = default;
 
     ast_function_collection(ast_function_collection &&) noexcept = default;
     auto operator=(ast_function_collection &&) noexcept -> ast_function_collection & = default;
