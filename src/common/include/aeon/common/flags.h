@@ -192,11 +192,6 @@ private:
     inline constexpr auto operator|(const f lhs, const f rhs) noexcept->aeon::common::flags<f>                         \
     {                                                                                                                  \
         return aeon::common::flags<f>(lhs) | rhs;                                                                      \
-    }                                                                                                                  \
-                                                                                                                       \
-    inline constexpr auto operator|(f lhs, aeon::common::flags<f> rhs) noexcept->aeon::common::flags<f>                \
-    {                                                                                                                  \
-        return lhs | rhs;                                                                                              \
     }
 
 } // namespace aeon::common
