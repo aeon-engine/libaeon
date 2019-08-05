@@ -44,7 +44,7 @@ void free_dll_handle(const dll_handle handle)
 
 void *get_dll_proc_address(const dll_handle handle, const char *proc)
 {
-    return GetProcAddress(static_cast<HMODULE>(handle), proc);
+    return reinterpret_cast<void *>(GetProcAddress(static_cast<HMODULE>(handle), proc));
 }
 
 #elif (defined(AEON_PLATFORM_OS_LINUX) || defined(AEON_PLATFORM_OS_MACOS))
