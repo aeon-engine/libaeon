@@ -46,3 +46,7 @@
 #ifndef aeon_text
 #define aeon_text(str) aeon_concatenate(aeon_string_encoding, str)
 #endif
+
+#ifndef aeon_single_arg
+#define aeon_single_arg(...) __VA_ARGS__
+#endif
