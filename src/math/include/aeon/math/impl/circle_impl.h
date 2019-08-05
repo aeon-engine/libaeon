@@ -152,7 +152,7 @@ template <typename T>
 template <typename T>
 inline constexpr void scale(circle<T> &c, const T val) noexcept
 {
-    c = scaled(c);
+    c = scaled(c, val);
 }
 
 template <typename T>
