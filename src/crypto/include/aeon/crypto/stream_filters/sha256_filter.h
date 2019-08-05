@@ -26,8 +26,8 @@ public:
     sha256_filter(sha256_filter &&) noexcept = default;
     auto operator=(sha256_filter &&) noexcept -> sha256_filter & = default;
 
-    sha256_filter(const sha256_filter &) noexcept = default;
-    auto operator=(const sha256_filter &) noexcept -> sha256_filter & = default;
+    sha256_filter(const sha256_filter &) = delete;
+    auto operator=(const sha256_filter &) -> sha256_filter & = delete;
 
     ~sha256_filter() = default;
 
