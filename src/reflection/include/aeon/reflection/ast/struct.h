@@ -21,7 +21,7 @@ public:
     {
     }
 
-    virtual ~ast_struct() = default;
+    ~ast_struct() override = default;
 
     ast_struct(const ast_struct &) noexcept = delete;
     auto operator=(const ast_struct &) noexcept -> ast_struct & = delete;
