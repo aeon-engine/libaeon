@@ -233,7 +233,7 @@ TEST(test_string, test_string_split)
 {
     std::string str = "one two three";
     auto result = aeon::common::string::split(str, ' ');
-    ASSERT_EQ(3, result.size());
+    ASSERT_EQ(3u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("two", result[1]);
     EXPECT_EQ("three", result[2]);
@@ -243,7 +243,7 @@ TEST(test_string, test_string_splitsv)
 {
     std::string str = "one two three";
     auto result = aeon::common::string::splitsv(str, ' ');
-    ASSERT_EQ(3, result.size());
+    ASSERT_EQ(3u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("two", result[1]);
     EXPECT_EQ("three", result[2]);
@@ -253,7 +253,7 @@ TEST(test_string, test_string_split_double_space)
 {
     std::string str = "one  two three";
     auto result = aeon::common::string::split(str, ' ');
-    ASSERT_EQ(4, result.size());
+    ASSERT_EQ(4u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("", result[1]);
     EXPECT_EQ("two", result[2]);
@@ -264,7 +264,7 @@ TEST(test_string, test_string_splitsv_double_space)
 {
     std::string str = "one  two three";
     auto result = aeon::common::string::splitsv(str, ' ');
-    ASSERT_EQ(4, result.size());
+    ASSERT_EQ(4u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("", result[1]);
     EXPECT_EQ("two", result[2]);
@@ -275,7 +275,7 @@ TEST(test_string, test_string_split_one_token)
 {
     std::string str = "one";
     const auto result = aeon::common::string::split(str, ' ');
-    ASSERT_EQ(1, result.size());
+    ASSERT_EQ(1u, std::size(result));
     EXPECT_EQ("one", result[0]);
 }
 
@@ -283,7 +283,7 @@ TEST(test_string, test_string_splitsv_one_token)
 {
     std::string str = "one";
     const auto result = aeon::common::string::splitsv(str, ' ');
-    ASSERT_EQ(1, result.size());
+    ASSERT_EQ(1u, std::size(result));
     EXPECT_EQ("one", result[0]);
 }
 

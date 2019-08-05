@@ -47,69 +47,69 @@ TEST(test_rdp, test_advance_reverse_eof_bof_current)
 TEST(test_rdp, test_offset_check_char)
 {
     rdp::parser parser{"123"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_TRUE(parser.check('1'));
-    EXPECT_EQ(1, rdp::offset(parser));
+    EXPECT_EQ(1u, rdp::offset(parser));
     EXPECT_FALSE(parser.check('1'));
-    EXPECT_EQ(1, rdp::offset(parser));
+    EXPECT_EQ(1u, rdp::offset(parser));
     EXPECT_TRUE(parser.check('2'));
-    EXPECT_EQ(2, rdp::offset(parser));
+    EXPECT_EQ(2u, rdp::offset(parser));
     EXPECT_FALSE(parser.check('2'));
-    EXPECT_EQ(2, rdp::offset(parser));
+    EXPECT_EQ(2u, rdp::offset(parser));
     EXPECT_TRUE(parser.check('3'));
-    EXPECT_EQ(3, rdp::offset(parser));
+    EXPECT_EQ(3u, rdp::offset(parser));
     EXPECT_FALSE(parser.check('3'));
-    EXPECT_EQ(3, rdp::offset(parser));
+    EXPECT_EQ(3u, rdp::offset(parser));
 }
 
 TEST(test_rdp, test_offset_check_string)
 {
     rdp::parser parser{"123"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_FALSE(parser.check("13"));
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_TRUE(parser.check("12"));
-    EXPECT_EQ(2, rdp::offset(parser));
+    EXPECT_EQ(2u, rdp::offset(parser));
     EXPECT_FALSE(parser.check("34"));
-    EXPECT_EQ(2, rdp::offset(parser));
+    EXPECT_EQ(2u, rdp::offset(parser));
     EXPECT_TRUE(parser.check("3"));
-    EXPECT_EQ(3, rdp::offset(parser));
+    EXPECT_EQ(3u, rdp::offset(parser));
 }
 
 TEST(test_rdp, test_offset_skip)
 {
     rdp::parser parser{"111122223333"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     parser.skip('2');
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     parser.skip('1');
-    EXPECT_EQ(4, rdp::offset(parser));
+    EXPECT_EQ(4u, rdp::offset(parser));
     parser.skip('1');
-    EXPECT_EQ(4, rdp::offset(parser));
+    EXPECT_EQ(4u, rdp::offset(parser));
     parser.skip('2');
-    EXPECT_EQ(8, rdp::offset(parser));
+    EXPECT_EQ(8u, rdp::offset(parser));
     parser.skip('3');
-    EXPECT_EQ(12, rdp::offset(parser));
+    EXPECT_EQ(12u, rdp::offset(parser));
 }
 
 TEST(test_rdp, test_offset_skip_until)
 {
     rdp::parser parser{"111122223333"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     parser.skip_until('1');
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     parser.skip_until('2');
-    EXPECT_EQ(4, rdp::offset(parser));
+    EXPECT_EQ(4u, rdp::offset(parser));
     parser.skip_until('2');
-    EXPECT_EQ(4, rdp::offset(parser));
+    EXPECT_EQ(4u, rdp::offset(parser));
     parser.skip_until('3');
-    EXPECT_EQ(8, rdp::offset(parser));
+    EXPECT_EQ(8u, rdp::offset(parser));
 }
 
 TEST(test_rdp, test_offset_match_until)
 {
     rdp::parser parser{"111122223333"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_EQ("1111", parser.match_until('2').value());
     EXPECT_EQ("2222", parser.match_until('3').value());
     EXPECT_TRUE(parser.match_until('4').is_unmatched());
@@ -118,7 +118,7 @@ TEST(test_rdp, test_offset_match_until)
 TEST(test_rdp, test_offset_match_pred)
 {
     rdp::parser parser{"1234abcd5678"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_TRUE(parser.match([](const auto c) { return std::isalpha(c) != 0; }).is_unmatched());
 
     // TODO: A lambda cannot appear in an unevaluated context. Fix with C++20.
@@ -131,7 +131,7 @@ TEST(test_rdp, test_offset_match_pred)
 TEST(test_rdp, test_offset_match_pred_indexed)
 {
     rdp::parser parser{"1a2b3c4d"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_TRUE(parser
                     .match_indexed([](const auto c, const auto i) {
                         if (i % 2 == 0)
@@ -154,7 +154,7 @@ TEST(test_rdp, test_offset_match_pred_indexed)
 TEST(test_rdp, test_offset_match_regex)
 {
     rdp::parser parser{"111122223333aaaabbbbcccc1234"};
-    EXPECT_EQ(0, rdp::offset(parser));
+    EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_TRUE(parser.match_regex("[a-zA-Z]+").is_unmatched());
     EXPECT_EQ("111122223333", parser.match_regex("[1-3]+").value());
     EXPECT_TRUE(parser.match_regex("[1-3]+").is_unmatched());

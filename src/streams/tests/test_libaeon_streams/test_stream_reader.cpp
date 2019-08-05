@@ -56,7 +56,7 @@ TEST(test_streams, test_streams_stream_reader_read_vector)
     streams::stream_reader reader{device};
     const auto vec = reader.read_to_vector<char>();
 
-    EXPECT_EQ(12, std::size(vec));
+    EXPECT_EQ(12u, std::size(vec));
 }
 
 TEST(test_streams, test_streams_stream_reader_read_string)
@@ -69,7 +69,7 @@ TEST(test_streams, test_streams_stream_reader_read_string)
     streams::stream_reader reader{device};
     const auto str = reader.read_to_string();
 
-    EXPECT_EQ(12, std::size(str));
+    EXPECT_EQ(12u, std::size(str));
     EXPECT_EQ("Hello! 12345", str);
 }
 
@@ -78,7 +78,7 @@ TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
     auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
-    ASSERT_EQ(0, std::size(device));
+    ASSERT_EQ(0u, std::size(device));
 
     std::string val = "Hello! 12345";
     writer << streams::length_prefix_string{val};
@@ -128,7 +128,7 @@ void test_prefixed_varint_string(const std::string &str, const int expected_vari
     auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
-    ASSERT_EQ(0, std::size(device));
+    ASSERT_EQ(0u, std::size(device));
 
     std::string val = str;
     writer << streams::length_prefix_string<streams::varint>{val};

@@ -51,12 +51,12 @@ TEST(test_ptree, deserialize_ini)
     const auto result = ptree::serialization::from_ini(stream);
 
     const auto &headers = result.object_value();
-    EXPECT_EQ(2, std::size(headers));
+    EXPECT_EQ(2u, std::size(headers));
     EXPECT_TRUE(headers.contains("header1"));
     EXPECT_TRUE(headers.contains("another_header"));
 
     const auto &header1 = headers.at("header1").object_value();
-    EXPECT_EQ(7, std::size(header1));
+    EXPECT_EQ(7u, std::size(header1));
     EXPECT_EQ(42, header1.at("value").integer_value());
     EXPECT_EQ(false, header1.at("another_value").bool_value());
     EXPECT_EQ(true, header1.at("another_bool").bool_value());
@@ -66,7 +66,7 @@ TEST(test_ptree, deserialize_ini)
     EXPECT_EQ(-10, header1.at("value4").integer_value());
 
     const auto &another_header = headers.at("another_header").object_value();
-    EXPECT_EQ(2, std::size(another_header));
+    EXPECT_EQ(2u, std::size(another_header));
     EXPECT_EQ(1337, another_header.at("val").integer_value());
     EXPECT_EQ(common::uuid::parse("f976d1e3-0f0d-4c9c-b7c5-2e31eb4bae89"),
               another_header.at("uuid_value").uuid_value());

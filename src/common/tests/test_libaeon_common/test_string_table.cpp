@@ -25,38 +25,38 @@ TEST(test_string_table, test_string_table_all)
     name1 str2("Hello2");
     name2 str3("Bye");
 
-    EXPECT_EQ(name1::size(), 2);
-    EXPECT_EQ(name2::size(), 1);
-    EXPECT_EQ(name3::size(), 0);
+    EXPECT_EQ(name1::size(), 2u);
+    EXPECT_EQ(name2::size(), 1u);
+    EXPECT_EQ(name3::size(), 0u);
 
     EXPECT_EQ("Hello", str.str());
     EXPECT_EQ("Hello2", str2.str());
     EXPECT_EQ("Bye", str3.str());
 
     name1 str4("Hello2");
-    EXPECT_EQ(name1::size(), 2);
+    EXPECT_EQ(name1::size(), 2u);
     EXPECT_EQ("Hello2", str4.str());
 
     str2 = "Hello3";
-    EXPECT_EQ(name1::size(), 3);
+    EXPECT_EQ(name1::size(), 3u);
     EXPECT_EQ("Hello3", str2.str());
     EXPECT_EQ("Hello2", str4.str());
-    EXPECT_EQ(name3::size(), 0);
+    EXPECT_EQ(name3::size(), 0u);
 
     name3 str5("AnotherString");
-    EXPECT_EQ(name1::size(), 3);
-    EXPECT_EQ(name2::size(), 1);
-    EXPECT_EQ(name3::size(), 1);
+    EXPECT_EQ(name1::size(), 3u);
+    EXPECT_EQ(name2::size(), 1u);
+    EXPECT_EQ(name3::size(), 1u);
 
     name1 str_empty;
-    EXPECT_EQ(name1::size(), 3);
+    EXPECT_EQ(name1::size(), 3u);
     EXPECT_EQ("", str_empty.str());
 
     str_empty = "testing";
-    EXPECT_EQ(name1::size(), 4);
+    EXPECT_EQ(name1::size(), 4u);
     EXPECT_EQ("testing", str_empty.str());
 
     str_empty = "";
-    EXPECT_EQ(name1::size(), 4);
+    EXPECT_EQ(name1::size(), 4u);
     EXPECT_EQ("", str_empty.str());
 }

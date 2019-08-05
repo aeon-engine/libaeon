@@ -18,7 +18,7 @@ struct test_fixture_unordered_flatmap_default_data : ::testing::Test
 
     void SetUp() override
     {
-        ASSERT_EQ(5, unordered_flatmap_.size());
+        ASSERT_EQ(5u, std::size(unordered_flatmap_));
     }
 
     common::unordered_flatmap<std::string, int> unordered_flatmap_;
@@ -71,7 +71,7 @@ TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_index
     ASSERT_EQ(32, at_four);
     ASSERT_EQ(5, at_five);
 
-    ASSERT_EQ(5, unordered_flatmap_.size());
+    ASSERT_EQ(5u, std::size(unordered_flatmap_));
 }
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_push_back)
@@ -89,7 +89,7 @@ TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_index
     const auto cant_find = unordered_flatmap_["Something! 123"];
 
     ASSERT_EQ(0, cant_find);
-    ASSERT_EQ(6, unordered_flatmap_.size());
+    ASSERT_EQ(6u, std::size(unordered_flatmap_));
 }
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_empty_and_clear)
@@ -112,7 +112,7 @@ TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_not_f
     const auto result = unordered_flatmap_.find("Something! 123");
 
     ASSERT_TRUE(result == unordered_flatmap_.end());
-    ASSERT_EQ(5, unordered_flatmap_.size());
+    ASSERT_EQ(5u, std::size(unordered_flatmap_));
 }
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_iterate)
@@ -138,42 +138,42 @@ TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_itera
         ++loop_times;
     }
 
-    ASSERT_EQ(5, unordered_flatmap_.size());
+    ASSERT_EQ(5u, std::size(unordered_flatmap_));
     ASSERT_EQ(5, loop_times);
 }
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase_by_key)
 {
     unordered_flatmap_.erase("Something! 123");
-    ASSERT_EQ(5, unordered_flatmap_.size());
+    ASSERT_EQ(5u, std::size(unordered_flatmap_));
 
     unordered_flatmap_.erase("Three");
-    ASSERT_EQ(4, unordered_flatmap_.size());
+    ASSERT_EQ(4u, std::size(unordered_flatmap_));
 
     unordered_flatmap_.erase("Two");
-    ASSERT_EQ(3, unordered_flatmap_.size());
+    ASSERT_EQ(3u, std::size(unordered_flatmap_));
 }
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase_by_iterator)
 {
-    ASSERT_EQ(5, unordered_flatmap_.size());
+    ASSERT_EQ(5u, std::size(unordered_flatmap_));
 
     auto result = unordered_flatmap_.find("Three");
     unordered_flatmap_.erase(result);
 
-    ASSERT_EQ(4, unordered_flatmap_.size());
+    ASSERT_EQ(4u, std::size(unordered_flatmap_));
 
     result = unordered_flatmap_.find("Two");
     unordered_flatmap_.erase(result);
 
-    ASSERT_EQ(3, unordered_flatmap_.size());
+    ASSERT_EQ(3u, std::size(unordered_flatmap_));
 }
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase_if)
 {
-    ASSERT_EQ(5, unordered_flatmap_.size());
+    ASSERT_EQ(5u, std::size(unordered_flatmap_));
     unordered_flatmap_.erase_if([](const auto &pair) { return (pair.first == "Two" || pair.first == "Four"); });
-    ASSERT_EQ(3, unordered_flatmap_.size());
+    ASSERT_EQ(3u, std::size(unordered_flatmap_));
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_size)

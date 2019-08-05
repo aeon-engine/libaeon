@@ -8,7 +8,7 @@ TEST(test_lexical_parse, test_parse_int)
     const auto result = aeon::common::lexical_parse::number("1234");
     EXPECT_TRUE(result.is_integer());
     EXPECT_EQ(result.integer_value(), 1234);
-    EXPECT_EQ(result.offset(), 4);
+    EXPECT_EQ(result.offset(), 4u);
 }
 
 TEST(test_lexical_parse, test_parse_int_with_junk)
@@ -16,7 +16,7 @@ TEST(test_lexical_parse, test_parse_int_with_junk)
     const auto result = aeon::common::lexical_parse::number("-1234abc");
     EXPECT_TRUE(result.is_integer());
     EXPECT_EQ(result.integer_value(), -1234);
-    EXPECT_EQ(result.offset(), 5);
+    EXPECT_EQ(result.offset(), 5u);
 }
 
 TEST(test_lexical_parse, test_parse_double)
@@ -24,7 +24,7 @@ TEST(test_lexical_parse, test_parse_double)
     const auto result = aeon::common::lexical_parse::number("1234.0");
     EXPECT_TRUE(result.is_double());
     EXPECT_EQ(result.double_value(), 1234.0);
-    EXPECT_EQ(result.offset(), 6);
+    EXPECT_EQ(result.offset(), 6u);
 }
 
 TEST(test_lexical_parse, test_parse_double_with_junk)
@@ -32,7 +32,7 @@ TEST(test_lexical_parse, test_parse_double_with_junk)
     const auto result = aeon::common::lexical_parse::number("1234.0abc");
     EXPECT_TRUE(result.is_double());
     EXPECT_EQ(result.double_value(), 1234.0);
-    EXPECT_EQ(result.offset(), 6);
+    EXPECT_EQ(result.offset(), 6u);
 }
 
 TEST(test_lexical_parse, test_parse_double_scientific)
@@ -40,7 +40,7 @@ TEST(test_lexical_parse, test_parse_double_scientific)
     const auto result = aeon::common::lexical_parse::number("1234e-1");
     EXPECT_TRUE(result.is_double());
     EXPECT_EQ(result.double_value(), 123.4);
-    EXPECT_EQ(result.offset(), 7);
+    EXPECT_EQ(result.offset(), 7u);
 }
 
 TEST(test_lexical_parse, test_parse_double_scientific2)
@@ -48,7 +48,7 @@ TEST(test_lexical_parse, test_parse_double_scientific2)
     const auto result = aeon::common::lexical_parse::number("1234E-1");
     EXPECT_TRUE(result.is_double());
     EXPECT_EQ(result.double_value(), 123.4);
-    EXPECT_EQ(result.offset(), 7);
+    EXPECT_EQ(result.offset(), 7u);
 }
 
 TEST(test_lexical_parse, test_parse_double_scientific_with_junk)
@@ -56,5 +56,5 @@ TEST(test_lexical_parse, test_parse_double_scientific_with_junk)
     const auto result = aeon::common::lexical_parse::number("1234E-1abc");
     EXPECT_TRUE(result.is_double());
     EXPECT_EQ(result.double_value(), 123.4);
-    EXPECT_EQ(result.offset(), 7);
+    EXPECT_EQ(result.offset(), 7u);
 }

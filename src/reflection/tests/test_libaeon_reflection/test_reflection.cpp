@@ -22,12 +22,12 @@ TEST(test_reflection, test_reflection_parse_methods)
     const auto &cls = result["aeon"]["testing"]["test_class"].as<ast::ast_class>();
     const auto public_methods = cls.methods(ast::access_specifier::public_t);
 
-    EXPECT_EQ(std::size(public_methods), 4);
+    EXPECT_EQ(std::size(public_methods), 4u);
 
-    EXPECT_EQ(1, std::size(public_methods.find("public_method2", 2)));
+    EXPECT_EQ(1u, std::size(public_methods.find("public_method2", 2)));
     EXPECT_NE(std::end(public_methods), public_methods.find("public_method2", {"int", "float"}));
 
-    EXPECT_EQ(1, std::size(public_methods.find("public_method2", 3)));
+    EXPECT_EQ(1u, std::size(public_methods.find("public_method2", 3)));
     EXPECT_NE(std::end(public_methods), public_methods.find("public_method2", {"int", "float", "std::string"}));
 
     EXPECT_EQ((*public_methods.find("public_method2", {"int", "float"}))->exception_specification(),
@@ -38,18 +38,18 @@ TEST(test_reflection, test_reflection_parse_methods)
               *public_methods.find("public_method2", {"int", "float", "std::string"}));
 
     const auto protected_methods = cls.methods(ast::access_specifier::protected_t);
-    EXPECT_EQ(std::size(protected_methods), 3);
+    EXPECT_EQ(std::size(protected_methods), 3u);
 
     const auto private_methods = cls.methods(ast::access_specifier::private_t);
-    EXPECT_EQ(std::size(private_methods), 3);
+    EXPECT_EQ(std::size(private_methods), 3u);
     EXPECT_FALSE(std::empty(private_methods.find("private_method1")));
     EXPECT_TRUE(private_methods.contains("private_method1", 0));
     EXPECT_TRUE(private_methods.contains("private_method2", {"int", "float", "std::string"}));
     EXPECT_TRUE(private_methods.contains("private_method3", {"aeon::testing::unknown_type3"}));
 
     const auto ctors = cls.constructors();
-    EXPECT_EQ(1, std::size(ctors.find(0)));
-    EXPECT_EQ(1, std::size(ctors.find({"int", "float"})));
+    EXPECT_EQ(1u, std::size(ctors.find(0)));
+    EXPECT_EQ(1u, std::size(ctors.find({"int", "float"})));
 }
 
 TEST(test_reflection, test_reflection_enum)
@@ -63,12 +63,12 @@ TEST(test_reflection, test_reflection_enum)
     ASSERT_TRUE(result["aeon"]["testing"].contains("test_enum_class", ast::ast_entity_type::enum_t));
 
     const auto &test_enum = result["aeon"]["testing"]["test_enum"].as<ast::ast_enum>();
-    EXPECT_EQ(test_enum.constants_count(), 3);
+    EXPECT_EQ(test_enum.constants_count(), 3u);
     EXPECT_TRUE((test_enum.constants() ==
                  std::vector<std::string>{"test_enum_member1", "test_enum_member2", "test_enum_member3"}));
 
     const auto &test_enum_class = result["aeon"]["testing"]["test_enum_class"].as<ast::ast_enum>();
-    EXPECT_EQ(test_enum_class.constants_count(), 4);
+    EXPECT_EQ(test_enum_class.constants_count(), 4u);
     EXPECT_TRUE((test_enum_class.constants() == std::vector<std::string>{"member1", "member2", "member3", "member4"}));
 }
 
@@ -83,7 +83,7 @@ TEST(test_reflection, test_reflection_static_function)
 
     const auto &cls = result["aeon"]["testing"]["test_class"].as<ast::ast_class>();
 
-    EXPECT_EQ(cls.size(), 4);
+    EXPECT_EQ(std::size(cls), 4u);
 
     const auto public_method_itr = cls.find("public_method");
     ASSERT_NE(public_method_itr, std::end(cls));

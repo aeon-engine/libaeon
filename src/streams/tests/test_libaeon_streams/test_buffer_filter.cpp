@@ -10,13 +10,13 @@
 
 using namespace aeon;
 
-template <typename pipeline_t, long unsigned int size>
+template <typename pipeline_t, std::size_t size>
 void expect_buffer(pipeline_t &pipeline, const std::array<char, size> &expected)
 {
     std::array<char, size> data_readback{};
 
     const auto result = pipeline.read(std::data(data_readback), aeon_signed_sizeof(data_readback));
-    EXPECT_EQ(result, size);
+    EXPECT_EQ(static_cast<std::size_t>(result), size);
     EXPECT_THAT(data_readback, ::testing::ElementsAreArray(expected));
     pipeline.seekg(0, streams::seek_direction::begin);
 }

@@ -27,7 +27,7 @@ namespace utf8
 void append(const char32_t from, std::string &to)
 {
     std::array<char, 4> data;
-    auto data_offset = 0;
+    auto data_offset = 0u;
     UBool error = FALSE;
 
     U8_APPEND(std::data(data), data_offset, std::size(data), from, error);
@@ -66,7 +66,7 @@ namespace utf16
 void append(const char32_t from, std::u16string &to)
 {
     std::array<char16_t, 2> data;
-    auto data_offset = 0;
+    auto data_offset = 0u;
     UBool error = FALSE;
 
     U16_APPEND(std::data(data), data_offset, std::size(data), from, error);
