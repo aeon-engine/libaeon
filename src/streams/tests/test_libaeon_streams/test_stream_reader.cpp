@@ -123,7 +123,7 @@ TEST(test_streams, test_streams_stream_reader_varint)
     test_varint(268435456, 5);
 }
 
-void test_prefixed_varint_string(const std::string &str, const int expected_varint_length)
+void test_prefixed_varint_string(const std::string &str)
 {
     auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
@@ -144,13 +144,11 @@ void test_prefixed_varint_string(const std::string &str, const int expected_vari
 
 TEST(test_streams, test_streams_stream_reader_stdstring_varint_prefixed)
 {
-    test_prefixed_varint_string("hello", 1);
+    test_prefixed_varint_string("hello");
     test_prefixed_varint_string("12345678901234567890123456789012345678901234567890" // 50
                                 "12345678901234567890123456789012345678901234567890" // 50
-                                "12345678901234567890123456",                        // 26
-                                1);                                                  // 126 characters
+                                "12345678901234567890123456");                       // 26
     test_prefixed_varint_string("12345678901234567890123456789012345678901234567890" // 50
                                 "12345678901234567890123456789012345678901234567890" // 50
-                                "123456789012345678901234567",                       // 27
-                                2);                                                  // 127 characters
+                                "123456789012345678901234567");                      // 27
 }
