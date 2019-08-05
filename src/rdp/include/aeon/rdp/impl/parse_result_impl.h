@@ -29,7 +29,7 @@ inline auto matched<T>::value() const noexcept -> const T &
 }
 
 inline parse_error::parse_error(const parser &parser, std::string message) noexcept
-    : cursor_(std::move(parser.cursor()))
+    : cursor_(parser.cursor())
     , message_(std::move(message))
 {
 }
