@@ -22,7 +22,7 @@ static constexpr auto points_per_inch = 72.0f;
     FT_Face face = nullptr;
 
     if (FT_New_Memory_Face(library, reinterpret_cast<const FT_Byte *>(std::data(data)),
-                           static_cast<FT_Long>(std::size(data)), 0, &face) != 0)
+                           static_cast<FT_Long>(std::size(data)), index, &face) != 0)
         throw font_exception{};
 
     return face;
