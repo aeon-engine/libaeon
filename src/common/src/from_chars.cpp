@@ -53,7 +53,7 @@ auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&
 auto from_chars(const char *first, const char *last, std::int32_t &value, const int base) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
-    const auto [ptr, ec] = std::from_chars(first, last, value, base);
+    auto [ptr, ec] = std::from_chars(first, last, value, base);
     return {ptr, ec};
 #else
     std::int32_t val = 0;
@@ -71,7 +71,7 @@ auto from_chars(const char *first, const char *last, std::int32_t &value, const 
 auto from_chars(const char *first, const char *last, std::int64_t &value, const int base) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
-    const auto [ptr, ec] = std::from_chars(first, last, value, base);
+    auto [ptr, ec] = std::from_chars(first, last, value, base);
     return {ptr, ec};
 #else
     std::int64_t val = 0;
@@ -89,7 +89,7 @@ auto from_chars(const char *first, const char *last, std::int64_t &value, const 
 auto from_chars(const char *first, const char *last, std::uint32_t &value, const int base) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
-    const auto [ptr, ec] = std::from_chars(first, last, value, base);
+    auto [ptr, ec] = std::from_chars(first, last, value, base);
     return {ptr, ec};
 #else
     std::uint32_t val = 0;
@@ -107,7 +107,7 @@ auto from_chars(const char *first, const char *last, std::uint32_t &value, const
 auto from_chars(const char *first, const char *last, std::uint64_t &value, const int base) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
-    const auto [ptr, ec] = std::from_chars(first, last, value, base);
+    auto [ptr, ec] = std::from_chars(first, last, value, base);
     return {ptr, ec};
 #else
     std::uint64_t val = 0;
@@ -125,7 +125,7 @@ auto from_chars(const char *first, const char *last, std::uint64_t &value, const
 auto from_chars(const char *first, const char *last, float &value) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_FLOAT))
-    const auto [ptr, ec] = std::from_chars(first, last, value);
+    auto [ptr, ec] = std::from_chars(first, last, value);
     return {ptr, ec};
 #else
     return internal::from_chars_internal(first, last, value, strtof);
@@ -135,7 +135,7 @@ auto from_chars(const char *first, const char *last, float &value) -> from_chars
 auto from_chars(const char *first, const char *last, double &value) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_DOUBLE))
-    const auto [ptr, ec] = std::from_chars(first, last, value);
+    auto [ptr, ec] = std::from_chars(first, last, value);
     return {ptr, ec};
 #else
     return internal::from_chars_internal(first, last, value, strtod);
@@ -145,7 +145,7 @@ auto from_chars(const char *first, const char *last, double &value) -> from_char
 auto from_chars(const char *first, const char *last, long double &value) -> from_chars_result
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_LONG_DOUBLE))
-    const auto [ptr, ec] = std::from_chars(first, last, value);
+    auto [ptr, ec] = std::from_chars(first, last, value);
     return {ptr, ec};
 #else
     return internal::from_chars_internal(first, last, value, strtold);

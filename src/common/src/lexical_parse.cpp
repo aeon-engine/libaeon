@@ -28,7 +28,7 @@ auto number(const std::string_view &str) -> lexical_parse_result
     if (internal::is_possibly_double(str))
     {
         auto value = 0.0;
-        const auto [ptr, ec] = from_chars(str, value);
+        auto [ptr, ec] = from_chars(str, value);
 
         if (ec != std::errc{})
             throw lexical_parse_exception{};
@@ -37,7 +37,7 @@ auto number(const std::string_view &str) -> lexical_parse_result
     }
 
     std::int64_t value = 0;
-    const auto [ptr, ec] = from_chars(str, value);
+    auto [ptr, ec] = from_chars(str, value);
 
     if (ec != std::errc{})
         throw lexical_parse_exception{};

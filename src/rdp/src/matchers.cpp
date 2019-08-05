@@ -113,7 +113,7 @@ auto parse_decimal(parser &parser) noexcept -> parse_result<T>
         return unmatched{};
 
     T value;
-    const auto [ptr, ec] = common::from_chars(*result, value);
+    auto [ptr, ec] = common::from_chars(*result, value);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -142,7 +142,7 @@ auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
         return unmatched{};
 
     double value;
-    const auto [ptr, ec] = common::from_chars(*result, value);
+    auto [ptr, ec] = common::from_chars(*result, value);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -161,7 +161,7 @@ auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
         return unmatched{};
 
     std::uint64_t value;
-    const auto [ptr, ec] = common::from_chars(*result, value, 2);
+    auto [ptr, ec] = common::from_chars(*result, value, 2);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -188,7 +188,7 @@ auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
         return unmatched{};
 
     std::uint64_t value;
-    const auto [ptr, ec] = common::from_chars(*result, value, 16);
+    auto [ptr, ec] = common::from_chars(*result, value, 16);
 
     if (ec != std::errc{})
         return unmatched{};
