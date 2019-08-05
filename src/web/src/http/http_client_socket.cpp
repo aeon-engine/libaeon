@@ -25,8 +25,10 @@ http_client_socket::http_client_socket(asio::io_context &context)
 
 http_client_socket::~http_client_socket() = default;
 
-void http_client_socket::request_async(const std::string &host, const std::string &uri, const http_method method)
+void http_client_socket::request_async(const std::string &host, const std::string &uri,
+                                       [[maybe_unused]] const http_method method)
 {
+    // TODO: Use the given method for the request, instead of just GET
     const auto request =
         "GET " + url_encode(uri) + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
     auto stream = streams::make_string_stream(request);
