@@ -5,7 +5,7 @@
 #include <clang-c/Index.h>
 #include <functional>
 
-namespace aeon::reflection::internal
+namespace aeon::clang::internal
 {
 
 inline void clang_visit(CXCursor cursor, std::function<void(CXCursor, CXCursor)> func)
@@ -20,4 +20,4 @@ inline void clang_visit(CXCursor cursor, std::function<void(CXCursor, CXCursor)>
         &func);
 }
 
-} // namespace aeon::reflection::internal
+} // namespace aeon::clang::internal

@@ -14,7 +14,7 @@
 #include <aeon/ast/method.h>
 #include <aeon/common/assert.h>
 
-namespace aeon::reflection::internal
+namespace aeon::clang::internal
 {
 
 auto get_linkage_kind(const CXCursor cursor) noexcept -> ast::linkage_kind
@@ -249,4 +249,4 @@ void entity_visitor(const CXCursor cursor, ast::ast_entity &ns)
     });
 }
 
-} // namespace aeon::reflection::internal
+} // namespace aeon::clang::internal

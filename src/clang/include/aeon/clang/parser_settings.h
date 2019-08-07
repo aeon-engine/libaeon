@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-namespace aeon::reflection
+namespace aeon::clang
 {
 
 enum class cpp_standard
@@ -32,7 +32,7 @@ public:
     void add_include_path(const std::filesystem::path &path);
     void add_define(const std::string &define);
 
-    auto args() const
+    [[nodiscard]] auto args() const
     {
         std::vector<const char *> args;
 
@@ -46,4 +46,4 @@ private:
     std::vector<std::string> args_;
 };
 
-} // namespace aeon::reflection
+} // namespace aeon::clang

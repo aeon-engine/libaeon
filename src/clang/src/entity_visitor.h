@@ -6,9 +6,9 @@
 #include <clang-c/Index.h>
 #include <memory>
 
-namespace aeon::reflection::internal
+namespace aeon::clang::internal
 {
 
 void entity_visitor(const CXCursor cursor, ast::ast_entity &ns);
 
-} // namespace aeon::reflection::internal
+} // namespace aeon::clang::internal

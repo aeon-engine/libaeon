@@ -8,7 +8,7 @@
 #include <vector>
 #include <stdexcept>
 
-namespace aeon::reflection::internal
+namespace aeon::clang::internal
 {
 
 class clang_translation_unit final
@@ -49,4 +49,4 @@ private:
     CXTranslationUnit translation_unit_;
 };
 
-} // namespace aeon::reflection::internal
+} // namespace aeon::clang::internal

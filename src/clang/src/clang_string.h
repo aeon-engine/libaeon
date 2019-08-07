@@ -6,7 +6,7 @@
 #include <clang-c/CXString.h>
 #include <string>
 
-namespace aeon::reflection::internal
+namespace aeon::clang::internal
 {
 
 inline auto to_string(const CXString str)
@@ -16,4 +16,4 @@ inline auto to_string(const CXString str)
     return stdstr;
 }
 
-} // namespace aeon::reflection::internal
+} // namespace aeon::clang::internal

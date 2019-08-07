@@ -4,7 +4,7 @@
 
 #include <clang-c/Index.h>
 
-namespace aeon::reflection::internal
+namespace aeon::clang::internal
 {
 
 class clang_index final
@@ -35,4 +35,4 @@ private:
     CXIndex index_;
 };
 
-} // namespace aeon::reflection::internal
+} // namespace aeon::clang::internal
