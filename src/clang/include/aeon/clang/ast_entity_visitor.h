@@ -4,11 +4,10 @@
 
 #include <aeon/ast/entity.h>
 #include <clang-c/Index.h>
-#include <memory>
 
-namespace aeon::clang::internal
+namespace aeon::clang
 {
 
-void entity_visitor(const CXCursor cursor, ast::ast_entity &ns);
+void ast_entity_visitor(const CXCursor cursor, ast::ast_entity &ns);
 
-} // namespace aeon::clang::internal
+} // namespace aeon::clang

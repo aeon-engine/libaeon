@@ -3,21 +3,25 @@
 handle_local_dependencies_file()
 
 set(LIB_AEON_CLANG_PUBLIC_SOURCE
+    include/aeon/clang/ast_entity_visitor.h
+    include/aeon/clang/ast_parser.h
+    include/aeon/clang/index.h
     include/aeon/clang/parser_settings.h
-    include/aeon/clang/reflection.h
+    include/aeon/clang/string.h
+    include/aeon/clang/translation_unit.h
+    include/aeon/clang/visitor.h
 )
 
 source_group(public FILES ${LIB_AEON_CLANG_PUBLIC_SOURCE})
 
 set(LIB_AEON_CLANG_PRIVATE_SOURCE
-    src/clang_index.h
-    src/clang_string.h
-    src/clang_translation_unit.h
-    src/clang_visitor.h
-    src/entity_visitor.cpp
-    src/entity_visitor.h
+    src/ast_entity_visitor.cpp
+    src/ast_parser.cpp
+    src/index.cpp
     src/parser_settings.cpp
-    src/reflection.cpp
+    src/string.cpp
+    src/translation_unit.cpp
+    src/visitor.cpp
 )
 
 source_group(private FILES ${LIB_AEON_CLANG_PRIVATE_SOURCE})

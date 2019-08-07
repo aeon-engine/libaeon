@@ -1,6 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/clang/reflection.h>
+#include <aeon/clang/ast_parser.h>
 #include <aeon/ast/basic_printer.h>
 #include <aeon/ast/class.h>
 #include <aeon/ast/enum.h>
@@ -13,7 +13,7 @@ using namespace aeon::clang;
 
 TEST(test_reflection, test_reflection_parse_methods)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "class_with_methods.h");
 
     ASSERT_TRUE(result.contains("aeon", ast::ast_entity_type::namespace_t));
@@ -55,7 +55,7 @@ TEST(test_reflection, test_reflection_parse_methods)
 
 TEST(test_reflection, test_reflection_enum)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "enum.h");
 
     ASSERT_TRUE(result.contains("aeon", ast::ast_entity_type::namespace_t));
@@ -75,7 +75,7 @@ TEST(test_reflection, test_reflection_enum)
 
 TEST(test_reflection, test_reflection_static_function)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "class_with_static_function.h");
 
     ASSERT_TRUE(result.contains("aeon", ast::ast_entity_type::namespace_t));
@@ -99,7 +99,7 @@ TEST(test_reflection, test_reflection_static_function)
 
 TEST(test_reflection, test_reflection_function_types)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "functions_and_methods.h");
 
     const auto public_method_result = result.find_recursive("public_method", ast::ast_entity_type::method_t);
@@ -121,7 +121,7 @@ TEST(test_reflection, test_reflection_function_types)
 
 TEST(test_reflection, test_reflection_fields)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "class_with_fields.h");
 
     const auto test_class_result = result.find_recursive("test_class", ast::ast_entity_type::class_t);
@@ -133,14 +133,14 @@ TEST(test_reflection, test_reflection_fields)
 
 TEST(test_reflection, test_reflection_basic_printer)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "functions_and_methods.h");
     print_basic(result);
 }
 
 TEST(test_reflection, test_reflection_annotate)
 {
-    const parser parser;
+    const ast_parser parser;
     const auto result = parser.parse(AEON_CLANG_UNITTEST_DATA_PATH "annotations.h");
 
     const auto &test_class1 = result["aeon"]["testing"]["test_class1"].as<ast::ast_class>();

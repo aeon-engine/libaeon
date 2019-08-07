@@ -9,17 +9,17 @@
 namespace aeon::clang
 {
 
-class parser
+class ast_parser
 {
 public:
-    parser();
-    ~parser() = default;
+    ast_parser();
+    ~ast_parser() = default;
 
-    parser(const parser &) = delete;
-    auto operator=(const parser &) -> parser & = delete;
+    ast_parser(const ast_parser &) = delete;
+    auto operator=(const ast_parser &) -> ast_parser & = delete;
 
-    parser(parser &&o) noexcept = delete;
-    auto operator=(parser &&o) noexcept -> parser & = delete;
+    ast_parser(ast_parser &&o) noexcept = delete;
+    auto operator=(ast_parser &&o) noexcept -> ast_parser & = delete;
 
     [[nodiscard]] auto parse(const std::filesystem::path &path,
                              const parser_settings &settings = parser_settings{}) const -> ast::global_namespace;
