@@ -26,7 +26,7 @@ public:
     clang_index(clang_index &&o) noexcept = delete;
     auto operator=(clang_index &&o) noexcept -> clang_index & = delete;
 
-    auto get() const noexcept
+    [[nodiscard]] auto get() const noexcept
     {
         return index_;
     }
