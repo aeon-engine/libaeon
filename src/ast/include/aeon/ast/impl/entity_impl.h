@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <algorithm>
+
 namespace aeon::ast
 {
 
