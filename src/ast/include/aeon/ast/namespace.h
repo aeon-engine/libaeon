@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
+#include <aeon/ast/entity.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_namespace : public ast_entity
@@ -30,4 +30,4 @@ protected:
     }
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

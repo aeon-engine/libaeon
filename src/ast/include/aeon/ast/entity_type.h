@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 enum class ast_entity_type
@@ -24,4 +24,4 @@ enum class ast_entity_type
     destructor_t,
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

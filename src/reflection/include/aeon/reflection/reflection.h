@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/reflection/parser_settings.h>
-#include <aeon/reflection/ast/global_namespace.h>
+#include <aeon/ast/global_namespace.h>
 #include <filesystem>
 #include <memory>
 

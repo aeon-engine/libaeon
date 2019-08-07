@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity_collection.h>
+#include <aeon/ast/entity_collection.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 template <typename T>
@@ -44,6 +44,6 @@ public:
         noexcept -> bool;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast
 
-#include <aeon/reflection/ast/impl/function_collection_impl.h>
+#include <aeon/ast/impl/function_collection_impl.h>

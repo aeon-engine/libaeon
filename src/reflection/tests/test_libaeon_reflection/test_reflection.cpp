@@ -1,13 +1,14 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
 #include <aeon/reflection/reflection.h>
-#include <aeon/reflection/basic_printer.h>
-#include <aeon/reflection/ast/class.h>
-#include <aeon/reflection/ast/enum.h>
-#include <aeon/reflection/ast/constructor.h>
+#include <aeon/ast/basic_printer.h>
+#include <aeon/ast/class.h>
+#include <aeon/ast/enum.h>
+#include <aeon/ast/constructor.h>
 #include <reflection_unittest_data.h>
 #include <gtest/gtest.h>
 
+using namespace aeon;
 using namespace aeon::reflection;
 
 TEST(test_reflection, test_reflection_parse_methods)

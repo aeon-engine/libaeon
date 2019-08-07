@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/namespace.h>
+#include <aeon/ast/entity.h>
 #include <clang-c/Index.h>
 #include <memory>
 

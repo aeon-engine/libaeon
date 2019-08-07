@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
+#include <aeon/ast/entity.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_union final : public ast_entity
@@ -24,4 +24,4 @@ public:
     auto operator=(ast_union &&) noexcept -> ast_union & = default;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

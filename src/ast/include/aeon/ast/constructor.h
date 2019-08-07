@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/function.h>
+#include <aeon/ast/function.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_constructor final : public ast_function
@@ -25,4 +25,4 @@ public:
     auto operator=(ast_constructor &&) noexcept -> ast_constructor & = default;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity_type.h>
+#include <aeon/ast/entity_type.h>
 #include <aeon/common/collection.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_entity;
@@ -61,6 +61,6 @@ private:
     void visit_internal(U &&visitor, const bool recursive) const;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast
 
-#include <aeon/reflection/ast/impl/entity_collection_impl.h>
+#include <aeon/ast/impl/entity_collection_impl.h>

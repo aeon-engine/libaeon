@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity_type.h>
-#include <aeon/reflection/ast/entity_collection.h>
-#include <aeon/reflection/ast/exception.h>
+#include <aeon/ast/entity_type.h>
+#include <aeon/ast/entity_collection.h>
+#include <aeon/ast/exception.h>
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 enum class linkage_kind
@@ -62,6 +62,6 @@ protected:
     std::vector<std::string> annotations_;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast
 
-#include <aeon/reflection/ast/impl/entity_impl.h>
+#include <aeon/ast/impl/entity_impl.h>

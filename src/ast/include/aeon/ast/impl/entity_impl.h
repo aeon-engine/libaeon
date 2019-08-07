@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 inline auto ast_entity::entity_type() const noexcept -> ast_entity_type
@@ -71,4 +71,4 @@ inline auto ast_entity::annotations() const noexcept -> const std::vector<std::s
     return annotations_;
 }
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
-#include <aeon/reflection/ast/function_collection.h>
-#include <aeon/reflection/ast/method.h>
-#include <aeon/reflection/ast/constructor.h>
-#include <aeon/reflection/ast/access_specifier.h>
-#include <aeon/reflection/ast/field.h>
+#include <aeon/ast/entity.h>
+#include <aeon/ast/function_collection.h>
+#include <aeon/ast/method.h>
+#include <aeon/ast/constructor.h>
+#include <aeon/ast/access_specifier.h>
+#include <aeon/ast/field.h>
 #include <aeon/common/assert.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_struct : public ast_entity
@@ -104,4 +104,4 @@ protected:
     }
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

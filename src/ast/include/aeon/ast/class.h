@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/struct.h>
+#include <aeon/ast/struct.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_class final : public ast_struct
@@ -24,4 +24,4 @@ public:
     auto operator=(ast_class &&) noexcept -> ast_class & = default;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

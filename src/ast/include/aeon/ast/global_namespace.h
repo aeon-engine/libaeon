@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/namespace.h>
+#include <aeon/ast/namespace.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class global_namespace final : public ast_namespace
@@ -20,4 +20,4 @@ public:
     auto operator=(global_namespace &&) noexcept -> global_namespace & = default;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
-#include <aeon/reflection/ast/access_specifier.h>
+#include <aeon/ast/entity.h>
+#include <aeon/ast/access_specifier.h>
 #include <aeon/common/flags.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 enum class field_flag : int
@@ -63,4 +63,4 @@ private:
     common::flags<field_flag> flags_;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

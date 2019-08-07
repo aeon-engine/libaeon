@@ -4,7 +4,7 @@
 
 #include <aeon/common/flags.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 enum class access_specifier : int
@@ -17,4 +17,4 @@ enum class access_specifier : int
 
 aeon_declare_flag_operators(access_specifier);
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

@@ -2,16 +2,16 @@
 
 #include "clang_string.h"
 #include "clang_visitor.h"
-#include <aeon/reflection/ast/constructor.h>
-#include <aeon/reflection/ast/destructor.h>
-#include <aeon/reflection/ast/namespace.h>
-#include <aeon/reflection/ast/struct.h>
-#include <aeon/reflection/ast/class.h>
-#include <aeon/reflection/ast/enum.h>
-#include <aeon/reflection/ast/union.h>
-#include <aeon/reflection/ast/field.h>
-#include <aeon/reflection/ast/function.h>
-#include <aeon/reflection/ast/method.h>
+#include <aeon/ast/constructor.h>
+#include <aeon/ast/destructor.h>
+#include <aeon/ast/namespace.h>
+#include <aeon/ast/struct.h>
+#include <aeon/ast/class.h>
+#include <aeon/ast/enum.h>
+#include <aeon/ast/union.h>
+#include <aeon/ast/field.h>
+#include <aeon/ast/function.h>
+#include <aeon/ast/method.h>
 #include <aeon/common/assert.h>
 
 namespace aeon::reflection::internal

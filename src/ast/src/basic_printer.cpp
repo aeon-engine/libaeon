@@ -1,18 +1,18 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
 
-#include <aeon/reflection/basic_printer.h>
-#include <aeon/reflection/ast/namespace.h>
-#include <aeon/reflection/ast/struct.h>
-#include <aeon/reflection/ast/union.h>
-#include <aeon/reflection/ast/class.h>
-#include <aeon/reflection/ast/enum.h>
-#include <aeon/reflection/ast/field.h>
-#include <aeon/reflection/ast/method.h>
-#include <aeon/reflection/ast/function.h>
-#include <aeon/reflection/ast/constructor.h>
-#include <aeon/reflection/ast/destructor.h>
+#include <aeon/ast/basic_printer.h>
+#include <aeon/ast/namespace.h>
+#include <aeon/ast/struct.h>
+#include <aeon/ast/union.h>
+#include <aeon/ast/class.h>
+#include <aeon/ast/enum.h>
+#include <aeon/ast/field.h>
+#include <aeon/ast/method.h>
+#include <aeon/ast/function.h>
+#include <aeon/ast/constructor.h>
+#include <aeon/ast/destructor.h>
 
-namespace aeon::reflection
+namespace aeon::ast
 {
 
 struct ast_basic_print_visitor
@@ -83,7 +83,7 @@ struct ast_basic_print_visitor
         stream_ << "};\n";
     }
 
-    void operator()(const ast::ast_enum &entity)
+    void operator()(const ast::ast_enum &entity) const
     {
         indent();
         stream_ << "enum class " << entity.name() << '\n';
@@ -99,18 +99,18 @@ struct ast_basic_print_visitor
         stream_ << "};" << entity.name() << '\n';
     }
 
-    void operator()(const ast::ast_field &entity)
+    void operator()(const ast::ast_field &entity) const
     {
         indent();
         stream_ << entity.type() << ' ' << entity.name() << ";\n";
     }
 
-    void operator()(const ast::ast_method &entity)
+    void operator()(const ast::ast_method &entity) const
     {
         operator()(entity.as<ast::ast_function>());
     }
 
-    void operator()(const ast::ast_function &entity)
+    void operator()(const ast::ast_function &entity) const
     {
         indent();
         stream_ << entity.return_type() << ' ' << entity.name() << '(';
@@ -130,7 +130,7 @@ struct ast_basic_print_visitor
         stream_ << ')' << ";\n";
     }
 
-    void operator()(const ast::ast_constructor &entity)
+    void operator()(const ast::ast_constructor &entity) const
     {
         indent();
         stream_ << entity.name() << '(';
@@ -150,14 +150,14 @@ struct ast_basic_print_visitor
         stream_ << ')' << ";\n";
     }
 
-    void operator()(const ast::ast_destructor &entity)
+    void operator()(const ast::ast_destructor &entity) const
     {
         indent();
         stream_ << entity.name() << "();\n";
     }
 
 private:
-    void indent()
+    void indent() const
     {
         stream_ << std::string(depth_ * 4, ' ');
     }
@@ -176,4 +176,4 @@ void print_basic(const ast::ast_entity &entity, std::ostream &stream)
     entity.visit(ast_basic_print_visitor{stream}, false);
 }
 
-} // namespace aeon::reflection
+} // namespace aeon::ast

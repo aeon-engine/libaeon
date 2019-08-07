@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/exception.h>
+#include <aeon/ast/exception.h>
 #include <aeon/common/assert.h>
 #include <type_traits>
 #include <utility>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_namespace;
@@ -219,4 +219,4 @@ inline void ast_entity_collection<T>::visit_internal(U &&visitor, const bool rec
     }
 }
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

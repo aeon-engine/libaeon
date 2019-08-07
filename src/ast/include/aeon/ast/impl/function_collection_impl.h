@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 template <typename T>
@@ -124,4 +124,4 @@ inline auto ast_function_collection<T>::contains(const std::string_view name,
     return find(name, parameter_types) != std::end(common::collection<T>::data_);
 }
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

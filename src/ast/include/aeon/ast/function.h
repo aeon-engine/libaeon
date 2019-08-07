@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
+#include <aeon/ast/entity.h>
 #include <vector>
 #include <string>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 enum class exception_specification
@@ -128,4 +128,4 @@ private:
     ast::exception_specification exception_specification_;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

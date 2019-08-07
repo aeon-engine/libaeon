@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
+#include <aeon/ast/entity.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_destructor final : public ast_entity
@@ -24,4 +24,4 @@ public:
     auto operator=(ast_destructor &&) noexcept -> ast_destructor & = default;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast

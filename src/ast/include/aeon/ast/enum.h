@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/reflection/ast/entity.h>
+#include <aeon/ast/entity.h>
 
-namespace aeon::reflection::ast
+namespace aeon::ast
 {
 
 class ast_enum final : public ast_entity
@@ -47,4 +47,4 @@ private:
     std::vector<std::string> constants_;
 };
 
-} // namespace aeon::reflection::ast
+} // namespace aeon::ast
