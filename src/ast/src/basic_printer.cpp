@@ -115,7 +115,7 @@ struct ast_basic_print_visitor
         indent();
         stream_ << entity.return_type() << ' ' << entity.name() << '(';
 
-        bool first = true;
+        auto first = true;
         for (const auto &parameter : entity.parameters())
         {
             if (first)
@@ -135,7 +135,7 @@ struct ast_basic_print_visitor
         indent();
         stream_ << entity.name() << '(';
 
-        bool first = true;
+        auto first = true;
         for (const auto &parameter : entity.parameters())
         {
             if (first)
