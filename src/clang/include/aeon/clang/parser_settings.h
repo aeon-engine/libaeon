@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/common/container.h>
 #include <filesystem>
 #include <vector>
 #include <string>
@@ -34,12 +35,7 @@ public:
 
     [[nodiscard]] auto args() const
     {
-        std::vector<const char *> args;
-
-        for (const auto &arg : args_)
-            args.emplace_back(std::data(arg));
-
-        return args;
+        return common::container::transform<const char *>(args_, [](const auto &arg) { return std::data(arg); });
     }
 
 private:
