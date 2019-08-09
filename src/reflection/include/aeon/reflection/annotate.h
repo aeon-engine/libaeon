@@ -2,13 +2,6 @@
 
 #pragma once
 
-/*!
- * I'll remember the good things how can you forget all the years that we shared in our way
- * Things were changing my life, taking your place in my life and our time drifting away.
- *
- * - On Reflection, Gentle Giant (1975)
- */
-
 #if (defined(__AEON_REFLECTION__))
 #define __AEON_Q(x) #x
 #define __AEON_QUOTE(x) __AEON_Q(x)

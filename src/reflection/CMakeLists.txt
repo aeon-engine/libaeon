@@ -2,21 +2,36 @@
 
 set(LIB_AEON_REFLECTION_PUBLIC_SOURCE
     include/aeon/reflection/annotate.h
+    include/aeon/reflection/exception.h
+    include/aeon/reflection/field_info.h
+    include/aeon/reflection/reflection.h
+    include/aeon/reflection/reflection_info.h
 )
 
 source_group(public FILES ${LIB_AEON_REFLECTION_PUBLIC_SOURCE})
 
-add_library(aeon_reflection INTERFACE)
+set(LIB_AEON_REFLECTION_PRIVATE_SOURCE
+    src/reflection_info.cpp
+)
 
-target_sources(aeon_reflection
-    INTERFACE
-        ${LIB_AEON_REFLECTION_PUBLIC_SOURCE}
+source_group(private FILES ${LIB_AEON_REFLECTION_PRIVATE_SOURCE})
+
+add_library(aeon_reflection STATIC
+    ${LIB_AEON_REFLECTION_PUBLIC_SOURCE}
+    ${LIB_AEON_REFLECTION_PRIVATE_SOURCE}
+)
+
+set_target_properties(aeon_reflection PROPERTIES
+    FOLDER dep/libaeon
+    LINKER_LANGUAGE CXX
 )
 
 target_include_directories(aeon_reflection
-    INTERFACE
+    PUBLIC
         include
         ${CMAKE_CURRENT_BINARY_DIR}
+    PRIVATE
+        src
 )
 
 install(
@@ -33,3 +48,7 @@ install(
 
 set(AEON_REFLECTION_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 configure_file(reflection_path.h.in reflection_path.h @ONLY)
+
+if (AEON_ENABLE_TESTING)
+    add_subdirectory(tests)
+endif ()
