@@ -13,8 +13,7 @@
 namespace aeon::common::string
 {
 
-[[nodiscard]] auto split(const std::string &str, const char delim, std::vector<std::string> &elements)
-    -> std::vector<std::string> &
+auto split(const std::string &str, const char delim, std::vector<std::string> &elements) -> std::vector<std::string> &
 {
     std::stringstream ss{str};
     std::string item;
@@ -27,13 +26,13 @@ namespace aeon::common::string
     return elements;
 }
 
-[[nodiscard]] auto split(const std::string &str, const char delim) -> std::vector<std::string>
+auto split(const std::string &str, const char delim) -> std::vector<std::string>
 {
     std::vector<std::string> elements;
     return split(str, delim, elements);
 }
 
-[[nodiscard]] auto splitsv(const std::string_view &str, const char delim, std::vector<std::string_view> &elements)
+auto splitsv(const std::string_view &str, const char delim, std::vector<std::string_view> &elements)
     -> std::vector<std::string_view>
 {
     auto start = 0_size_t;
@@ -52,7 +51,7 @@ namespace aeon::common::string
     return elements;
 }
 
-[[nodiscard]] auto splitsv(const std::string_view &str, const char delim) -> std::vector<std::string_view>
+auto splitsv(const std::string_view &str, const char delim) -> std::vector<std::string_view>
 {
     std::vector<std::string_view> elements;
     return splitsv(str, delim, elements);
@@ -94,94 +93,94 @@ void trimsv(std::string_view &str)
     rtrimsv(str);
 }
 
-[[nodiscard]] auto ltrimmed(const std::string &str) -> std::string
+auto ltrimmed(const std::string &str) -> std::string
 {
     auto trimstr = str;
     ltrim(trimstr);
     return trimstr;
 }
 
-[[nodiscard]] auto ltrimmedsv(const std::string_view &str) -> std::string_view
+auto ltrimmedsv(const std::string_view &str) -> std::string_view
 {
     auto trimstr = str;
     ltrimsv(trimstr);
     return trimstr;
 }
 
-[[nodiscard]] auto rtrimmed(const std::string &str) -> std::string
+auto rtrimmed(const std::string &str) -> std::string
 {
     auto trimstr = str;
     rtrim(trimstr);
     return trimstr;
 }
 
-[[nodiscard]] auto rtrimmedsv(const std::string_view &str) -> std::string_view
+auto rtrimmedsv(const std::string_view &str) -> std::string_view
 {
     auto trimstr = str;
     rtrimsv(trimstr);
     return trimstr;
 }
 
-[[nodiscard]] auto trimmed(const std::string &str) -> std::string
+auto trimmed(const std::string &str) -> std::string
 {
     auto trimstr = str;
     trim(trimstr);
     return trimstr;
 }
 
-[[nodiscard]] auto trimmedsv(const std::string_view &str) -> std::string_view
+auto trimmedsv(const std::string_view &str) -> std::string_view
 {
     auto trimstr = str;
     trimsv(trimstr);
     return trimstr;
 }
 
-[[nodiscard]] auto left(const std::string &str, const std::size_t len) -> std::string
+auto left(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(0, len);
 }
 
-[[nodiscard]] auto leftsv(const std::string_view &str, const std::size_t len) -> std::string_view
+auto leftsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(0, len);
 }
 
-[[nodiscard]] auto right(const std::string &str, const std::size_t len) -> std::string
+auto right(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(str.size() - len);
 }
 
-[[nodiscard]] auto rightsv(const std::string_view &str, const std::size_t len) -> std::string_view
+auto rightsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(str.size() - len);
 }
 
-[[nodiscard]] auto stripped_left(const std::string &str, const std::size_t len) -> std::string
+auto stripped_left(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(len);
 }
 
-[[nodiscard]] auto stripped_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view
+auto stripped_leftsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(len);
 }
 
-[[nodiscard]] auto stripped_right(const std::string &str, const std::size_t len) -> std::string
+auto stripped_right(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(0, str.size() - len);
 }
 
-[[nodiscard]] auto stripped_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view
+auto stripped_rightsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(0, str.size() - len);
 }
 
-[[nodiscard]] auto stripped_both(const std::string &str, const std::size_t len) -> std::string
+auto stripped_both(const std::string &str, const std::size_t len) -> std::string
 {
     return str.substr(len, str.size() - len - len);
 }
 
-[[nodiscard]] auto stripped_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view
+auto stripped_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view
 {
     return str.substr(len, str.size() - len - len);
 }
@@ -216,7 +215,7 @@ void strip_bothsv(std::string_view &str, const std::size_t len)
     str = stripped_bothsv(str, len);
 }
 
-[[nodiscard]] auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
+auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
 {
     std::vector<std::string> vec;
     vec.reserve(argc);
@@ -242,7 +241,7 @@ void replace(std::string &str, const std::string &from, const std::string &to)
     }
 }
 
-[[nodiscard]] auto replace_copy(const std::string &str, const std::string &from, const std::string &to) -> std::string
+auto replace_copy(const std::string &str, const std::string &from, const std::string &to) -> std::string
 {
     std::string copy = str;
     replace(copy, from, to);
@@ -258,7 +257,7 @@ void to_lower(std::string &str)
     std::transform(std::begin(str), std::end(str), std::begin(str), to_lower_internal);
 }
 
-[[nodiscard]] auto to_lower_copy(const std::string &str) -> std::string
+auto to_lower_copy(const std::string &str) -> std::string
 {
     std::string result = str;
     to_lower(result);
@@ -274,14 +273,14 @@ void to_upper(std::string &str)
     std::transform(std::begin(str), std::end(str), std::begin(str), to_upper_internal);
 }
 
-[[nodiscard]] auto to_upper_copy(const std::string &str) -> std::string
+auto to_upper_copy(const std::string &str) -> std::string
 {
     std::string result = str;
     to_upper(result);
     return result;
 }
 
-[[nodiscard]] auto begins_with(const std::string &str, const std::string &val) -> bool
+auto begins_with(const std::string &str, const std::string &val) -> bool
 {
     if (str.size() < val.size())
         return false;
@@ -289,7 +288,7 @@ void to_upper(std::string &str)
     return left(str, val.size()) == val;
 }
 
-[[nodiscard]] auto begins_withsv(const std::string_view &str, const std::string_view &val) -> bool
+auto begins_withsv(const std::string_view &str, const std::string_view &val) -> bool
 {
     if (str.size() < val.size())
         return false;
@@ -297,7 +296,7 @@ void to_upper(std::string &str)
     return leftsv(str, val.size()) == val;
 }
 
-[[nodiscard]] auto ends_with(const std::string &str, const std::string &val) -> bool
+auto ends_with(const std::string &str, const std::string &val) -> bool
 {
     if (str.size() < val.size())
         return false;
@@ -305,7 +304,7 @@ void to_upper(std::string &str)
     return right(str, val.size()) == val;
 }
 
-[[nodiscard]] auto ends_withsv(const std::string_view &str, const std::string_view &val) -> bool
+auto ends_withsv(const std::string_view &str, const std::string_view &val) -> bool
 {
     if (str.size() < val.size())
         return false;
@@ -313,24 +312,24 @@ void to_upper(std::string &str)
     return rightsv(str, val.size()) == val;
 }
 
-[[nodiscard]] auto contains(const std::string_view &str, const std::string_view &val) -> bool
+auto contains(const std::string_view &str, const std::string_view &val) -> bool
 {
     return str.find(val) != std::string::npos;
 }
 
-[[nodiscard]] auto contains(const std::string_view &str, const char c) -> bool
+auto contains(const std::string_view &str, const char c) -> bool
 {
     return str.find(c) != std::string::npos;
 }
 
-[[nodiscard]] auto char_to_hex(const char c) -> std::string
+auto char_to_hex(const char c) -> std::string
 {
     std::ostringstream ss;
     ss << '%' << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<short>(c & 0xff);
     return ss.str();
 }
 
-[[nodiscard]] auto hex_to_char(const std::string &str) -> char
+auto hex_to_char(const std::string &str) -> char
 {
     if (str.empty())
         return 0;
