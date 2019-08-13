@@ -185,6 +185,48 @@ auto stripped_bothsv(const std::string_view &str, const std::size_t len) -> std:
     return str.substr(len, str.size() - len - len);
 }
 
+auto char_stripped_left(const std::string &str, const char c) -> std::string
+{
+    auto stripstr = str;
+    char_strip_left(stripstr, c);
+    return stripstr;
+}
+
+auto char_stripped_leftsv(const std::string_view &str, const char c) -> std::string_view
+{
+    auto stripstr = str;
+    char_strip_leftsv(stripstr, c);
+    return stripstr;
+}
+
+auto char_stripped_right(const std::string &str, const char c) -> std::string
+{
+    auto stripstr = str;
+    char_strip_right(stripstr, c);
+    return stripstr;
+}
+
+auto char_stripped_rightsv(const std::string_view &str, const char c) -> std::string_view
+{
+    auto stripstr = str;
+    char_strip_rightsv(stripstr, c);
+    return stripstr;
+}
+
+auto char_stripped_both(const std::string &str, const char c) -> std::string
+{
+    auto stripstr = str;
+    char_strip_both(stripstr, c);
+    return stripstr;
+}
+
+auto char_stripped_bothsv(const std::string_view &str, const char c) -> std::string_view
+{
+    auto stripstr = str;
+    char_strip_bothsv(stripstr, c);
+    return stripstr;
+}
+
 void strip_left(std::string &str, const std::size_t len)
 {
     str = stripped_left(str, len);
@@ -213,6 +255,39 @@ void strip_both(std::string &str, const std::size_t len)
 void strip_bothsv(std::string_view &str, const std::size_t len)
 {
     str = stripped_bothsv(str, len);
+}
+
+void char_strip_left(std::string &str, const char c)
+{
+    str.erase(std::begin(str), std::find_if(std::begin(str), std::end(str), [c](const int ch) { return c != ch; }));
+}
+
+void char_strip_leftsv(std::string_view &str, const char c)
+{
+    str.remove_prefix(container::count_until(std::begin(str), std::end(str), [c](const int ch) { return c != ch; }));
+}
+
+void char_strip_right(std::string &str, const char c)
+{
+    str.erase(std::find_if(std::rbegin(str), std::rend(str), [c](const int ch) { return c != ch; }).base(),
+              std::end(str));
+}
+
+void char_strip_rightsv(std::string_view &str, const char c)
+{
+    str.remove_suffix(container::count_until(std::rbegin(str), std::rend(str), [c](const int ch) { return c != ch; }));
+}
+
+void char_strip_both(std::string &str, const char c)
+{
+    char_strip_left(str, c);
+    char_strip_right(str, c);
+}
+
+void char_strip_bothsv(std::string_view &str, const char c)
+{
+    char_strip_leftsv(str, c);
+    char_strip_rightsv(str, c);
 }
 
 auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>

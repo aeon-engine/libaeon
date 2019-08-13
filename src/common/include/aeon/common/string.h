@@ -149,6 +149,36 @@ void trimsv(std::string_view &str);
 [[nodiscard]] auto stripped_bothsv(const std::string_view &str, const std::size_t len) -> std::string_view;
 
 /*!
+ * Strip all characters equal to c on the left side of the string.
+ */
+[[nodiscard]] auto char_stripped_left(const std::string &str, const char c) -> std::string;
+
+/*!
+ * Strip all characters equal to c on the left side of the string_view.
+ */
+[[nodiscard]] auto char_stripped_leftsv(const std::string_view &str, const char c) -> std::string_view;
+
+/*!
+ * Strip all characters equal to c on the right side of the string.
+ */
+[[nodiscard]] auto char_stripped_right(const std::string &str, const char c) -> std::string;
+
+/*!
+ * Strip all characters equal to c on the right side of the string_view.
+ */
+[[nodiscard]] auto char_stripped_rightsv(const std::string_view &str, const char c) -> std::string_view;
+
+/*!
+ * Strip all characters equal to c on both sides of the string.
+ */
+[[nodiscard]] auto char_stripped_both(const std::string &str, const char c) -> std::string;
+
+/*!
+ * Strip all characters equal to c on both sides of the string_view.
+ */
+[[nodiscard]] auto char_stripped_bothsv(const std::string_view &str, const char c) -> std::string_view;
+
+/*!
  * Strip len characters at the left of the string
  */
 void strip_left(std::string &str, const std::size_t len);
@@ -177,6 +207,36 @@ void strip_both(std::string &str, const std::size_t len);
  * Strip len characters on both sides of the string_view.
  */
 void strip_bothsv(std::string_view &str, const std::size_t len);
+
+/*!
+ * Strip all characters equal to c on the left side of the string.
+ */
+void char_strip_left(std::string &str, const char c);
+
+/*!
+ * Strip all characters equal to c on the left side of the string_view.
+ */
+void char_strip_leftsv(std::string_view &str, const char c);
+
+/*!
+ * Strip all characters equal to c on the right side of the string.
+ */
+void char_strip_right(std::string &str, const char c);
+
+/*!
+ * Strip all characters equal to c on the right side of the string_view.
+ */
+void char_strip_rightsv(std::string_view &str, const char c);
+
+/*!
+ * Strip all characters equal to c on both sides of the string.
+ */
+void char_strip_both(std::string &str, const char c);
+
+/*!
+ * Strip all characters equal to c on both sides of the string_view.
+ */
+void char_strip_bothsv(std::string_view &str, const char c);
 
 /*!
  * Convert standard argc and argv arguments into a vector of strings.

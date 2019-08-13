@@ -399,6 +399,66 @@ TEST(test_string, test_utility_strip_bothsv)
     EXPECT_EQ("", view4);
 }
 
+TEST(test_string, test_utility_char_strip_left)
+{
+    EXPECT_EQ("two three", common::string::char_stripped_left("--two three", '-'));
+    EXPECT_EQ("--two three", common::string::char_stripped_left("--two three", '+'));
+
+    std::string str = "--two three";
+    common::string::char_strip_left(str, '-');
+    EXPECT_EQ("two three", str);
+}
+
+TEST(test_string, test_utility_char_strip_leftsv)
+{
+    EXPECT_EQ("two three--", common::string::char_stripped_leftsv("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_leftsv("--two three--", '+'));
+
+    std::string_view str = "--two three--";
+    common::string::char_strip_leftsv(str, '-');
+    EXPECT_EQ("two three--", str);
+}
+
+TEST(test_string, test_utility_char_strip_right)
+{
+    EXPECT_EQ("--two three", common::string::char_stripped_right("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_right("--two three--", '+'));
+
+    std::string str = "--two three--";
+    common::string::char_strip_right(str, '-');
+    EXPECT_EQ("--two three", str);
+}
+
+TEST(test_string, test_utility_char_strip_rightsv)
+{
+    EXPECT_EQ("--two three", common::string::char_stripped_rightsv("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_rightsv("--two three--", '+'));
+
+    std::string_view str = "--two three--";
+    common::string::char_strip_rightsv(str, '-');
+    EXPECT_EQ("--two three", str);
+}
+
+TEST(test_string, test_utility_char_strip_both)
+{
+    EXPECT_EQ("two three", common::string::char_stripped_both("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_both("--two three--", '+'));
+
+    std::string str = "--two three--";
+    common::string::char_strip_both(str, '-');
+    EXPECT_EQ("two three", str);
+}
+
+TEST(test_string, test_utility_char_strip_bothsv)
+{
+    EXPECT_EQ("two three", common::string::char_stripped_bothsv("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_bothsv("--two three--", '+'));
+
+    std::string_view str = "--two three--";
+    common::string::char_strip_bothsv(str, '-');
+    EXPECT_EQ("two three", str);
+}
+
 TEST(test_string, test_string_args_to_vector_empty)
 {
     const auto result = common::string::args_to_vector(0, nullptr);
