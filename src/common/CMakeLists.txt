@@ -43,6 +43,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/tribool.h
     include/aeon/common/type_traits.h
     include/aeon/common/unordered_flatmap.h
+    include/aeon/common/unordered_flatset.h
     include/aeon/common/unused.h
     include/aeon/common/uuid.h
     include/aeon/common/variant.h

@@ -25,6 +25,7 @@ add_unit_test_suite(
         test_stringtraits.cpp
         test_tribool.cpp
         test_unordered_flatmap.cpp
+        test_unordered_flatset.cpp
         test_uuid.cpp
         test_variant.cpp
         test_version.cpp
