@@ -8,6 +8,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/collection.h
     include/aeon/common/color.h
     include/aeon/common/color_limits.h
+    include/aeon/common/commandline_parser.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
     include/aeon/common/delay.h
@@ -63,6 +64,7 @@ source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
 
 set(LIB_AEON_COMMON_PRIVATE_SOURCE
     src/base64.cpp
+    src/commandline_parser.cpp
     src/dll_loader.cpp
     src/from_chars.cpp
     src/hexdump.cpp
