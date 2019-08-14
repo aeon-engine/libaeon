@@ -39,7 +39,7 @@ void commandline_parser::add_argument(const std::string &name, std::string descr
     arguments_.emplace(std::move(arg_name), std::move(description));
 }
 
-auto commandline_parser::parse(const int argc, const char *argv[]) const -> commandline_parse_result
+auto commandline_parser::parse(const int argc, char *argv[]) const -> commandline_parse_result
 {
     std::vector<std::string_view> arguments;
 

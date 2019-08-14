@@ -134,7 +134,7 @@ public:
     void add_option(const std::string &name, std::string description);
     void add_argument(const std::string &name, std::string description);
 
-    auto parse(const int argc, const char *argv[]) const -> commandline_parse_result;
+    auto parse(const int argc, char *argv[]) const -> commandline_parse_result;
     auto parse(const std::vector<std::string_view> &args) const -> commandline_parse_result;
 
     void print_help_text(const std::string_view exe_name) const;
