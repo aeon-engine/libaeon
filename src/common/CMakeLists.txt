@@ -18,6 +18,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/dll_loader.h
     include/aeon/common/endianness.h
     include/aeon/common/flags.h
+    include/aeon/common/fmtflags.h
     include/aeon/common/fourcc.h
     include/aeon/common/from_chars.h
     include/aeon/common/hexdump.h
