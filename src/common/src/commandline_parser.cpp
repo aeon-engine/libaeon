@@ -43,8 +43,8 @@ auto commandline_parser::parse(const int argc, char *argv[]) const -> commandlin
 {
     std::vector<std::string_view> arguments;
 
-    arguments.reserve(argc);
-    for (auto i = 0; i < argc; ++i)
+    arguments.reserve(argc - 1);
+    for (auto i = 1; i < argc; ++i)
         arguments.emplace_back(argv[i]);
 
     return parse(arguments);
