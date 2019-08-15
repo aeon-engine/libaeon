@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/ast/exception.h>
+#include <aeon/ast/entity_type_traits.h>
 #include <aeon/common/assert.h>
 #include <type_traits>
 #include <utility>
@@ -126,6 +127,24 @@ auto ast_entity_collection<T>::find_recursive(const std::string_view name, const
     }
 
     return nullptr;
+}
+
+template <typename T>
+template <typename U>
+inline auto ast_entity_collection<T>::find_recursive_typed() const noexcept -> std::vector<U *>
+{
+    std::vector<U *> results;
+
+    for (const auto &child : common::collection<T>::data_)
+    {
+        if (child->entity_type() == entity_type_info<U>::entity_type)
+            results.push_back(reinterpret_cast<U *>(child.get()));
+
+        auto recurse_result = child->template find_recursive_typed<U>();
+        results.insert(std::end(results), std::begin(recurse_result), std::end(recurse_result));
+    }
+
+    return results;
 }
 
 template <typename T>
