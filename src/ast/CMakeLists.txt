@@ -9,6 +9,7 @@ set(LIB_AEON_AST_PUBLIC_SOURCE
     include/aeon/ast/entity.h
     include/aeon/ast/entity_collection.h
     include/aeon/ast/entity_type.h
+    include/aeon/ast/entity_type_traits.h
     include/aeon/ast/enum.h
     include/aeon/ast/exception.h
     include/aeon/ast/field.h
