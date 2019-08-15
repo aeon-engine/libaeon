@@ -36,6 +36,12 @@ void parser_settings::add_include_path(const std::filesystem::path &path)
     args_.emplace_back("-I" + path.u8string());
 }
 
+void parser_settings::add_include_paths(const std::vector<std::filesystem::path> &include_paths)
+{
+    for (const auto &path : include_paths)
+        add_include_path(path);
+}
+
 void parser_settings::add_define(const std::string &define)
 {
     args_.emplace_back("-D" + define);

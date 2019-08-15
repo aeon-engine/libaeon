@@ -31,6 +31,7 @@ public:
 
     void add_argument(std::string arg);
     void add_include_path(const std::filesystem::path &path);
+    void add_include_paths(const std::vector<std::filesystem::path> &include_paths);
     void add_define(const std::string &define);
 
     [[nodiscard]] auto args() const
