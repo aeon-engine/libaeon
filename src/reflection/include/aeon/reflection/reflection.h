@@ -23,7 +23,6 @@
             return std::make_unique<classname>();                                                                      \
         }                                                                                                              \
                                                                                                                        \
-    private:                                                                                                           \
         [[nodiscard]] auto get_field_info() const noexcept                                                             \
             -> const std::vector<aeon::reflection::field_info> & override                                              \
         {                                                                                                              \

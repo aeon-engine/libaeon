@@ -4,6 +4,7 @@ set(LIB_AEON_PTREE_PUBLIC_SOURCE
     include/aeon/ptree/config_file.h
     include/aeon/ptree/ptree.h
     include/aeon/ptree/exception.h
+    include/aeon/ptree/reflection.h
 )
 
 source_group(public FILES ${LIB_AEON_PTREE_PUBLIC_SOURCE})
@@ -24,6 +25,12 @@ set(LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE
 
 source_group(public\\serialization FILES ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE})
 
+set(LIB_AEON_PTREE_PRIVATE_SOURCE
+    src/reflection.cpp
+)
+
+source_group(private FILES ${LIB_AEON_PTREE_PRIVATE_SOURCE})
+
 set(LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE
     src/serialization_json.cpp
     src/serialization_abf.cpp
@@ -37,6 +44,7 @@ add_library(aeon_ptree
         ${LIB_AEON_PTREE_PUBLIC_SOURCE}
         ${LIB_AEON_PTREE_PUBLIC_IMPL_SOURCE}
         ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE}
+        ${LIB_AEON_PTREE_PRIVATE_SOURCE}
         ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE}
 )
 
@@ -55,6 +63,7 @@ target_link_libraries(aeon_ptree
     aeon_rdp
     aeon_unicode
     aeon_streams
+    aeon_reflection
 )
 
 install(

@@ -43,8 +43,6 @@ public:
     auto get_field_type(const char *const name) const -> std::string_view;
 
     [[nodiscard]] virtual auto create() const -> std::unique_ptr<reflection_object> = 0;
-
-private:
     [[nodiscard]] virtual auto get_field_info() const noexcept -> const std::vector<field_info> & = 0;
 };
 
