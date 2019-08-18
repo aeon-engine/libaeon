@@ -27,6 +27,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/lexical_parse.h
     include/aeon/common/listener_subject.h
     include/aeon/common/literals.h
+    include/aeon/common/memory.h
     include/aeon/common/parallelizer.h
     include/aeon/common/parameters.h
     include/aeon/common/platform.h
