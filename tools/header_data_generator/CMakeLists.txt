@@ -29,11 +29,6 @@ target_link_libraries(aeon_header_data_generator
 )
 
 install(
-    DIRECTORY include/aeon
-    DESTINATION include
-)
-
-install(
     TARGETS aeon_header_data_generator
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
