@@ -3,18 +3,8 @@
 #pragma once
 
 #include <aeon/reflection/reflection_info.h>
+#include <aeon/reflection/reflection_object.h>
 
-/*!
- * I'll remember the good things how can you forget all the years that we shared in our way
- * Things were changing my life, taking your place in my life and our time drifting away.
- *
- * - On Reflection, Gentle Giant (1975)
- */
-namespace aeon::reflection
-{
-} // namespace aeon::reflection
-
-// clang-format off
 #define AEON_REFLECTION_BEGIN(classname)                                                                               \
     class reflection_info_impl final : public aeon::reflection::reflection_info                                        \
     {                                                                                                                  \
@@ -28,6 +18,11 @@ namespace aeon::reflection
         reflection_info_impl(reflection_info_impl &&) noexcept = default;                                              \
         auto operator=(reflection_info_impl &&) noexcept -> reflection_info_impl & = default;                          \
                                                                                                                        \
+        [[nodiscard]] auto create() const -> std::unique_ptr<aeon::reflection::reflection_object> override             \
+        {                                                                                                              \
+            return std::make_unique<classname>();                                                                      \
+        }                                                                                                              \
+                                                                                                                       \
     private:                                                                                                           \
         [[nodiscard]] auto get_field_info() const noexcept                                                             \
             -> const std::vector<aeon::reflection::field_info> & override                                              \
@@ -36,17 +31,20 @@ namespace aeon::reflection
                                                                                                                        \
             static std::vector<aeon::reflection::field_info> info = {
 
+// clang-format off
 #define AEON_REFLECTION_FIELD(type, name)                                                                              \
-    {(#name), (#type),                                                                                                 \
-     reinterpret_cast<std::ptrdiff_t>(                                                                                 \
-         &reinterpret_cast<std::uint8_t const &>((static_cast<reflection_class_type *>(nullptr)->name)))},
+                {                                                                                                      \
+                    (#name), (#type),                                                                                  \
+                    reinterpret_cast<std::ptrdiff_t>(                                                                  \
+                    &reinterpret_cast<std::uint8_t const &>((static_cast<reflection_class_type *>(nullptr)->name)))    \
+                },
 
 #define AEON_REFLECTION_END()                                                                                          \
-        };                                                                                                             \
+            };                                                                                                         \
                                                                                                                        \
-        return info;                                                                                                   \
-    }                                                                                                                  \
-};                                                                                                                     \
+            return info;                                                                                               \
+        }                                                                                                              \
+    };                                                                                                                 \
                                                                                                                        \
 public:                                                                                                                \
     [[nodiscard]] static auto reflection_info() noexcept->const aeon::reflection::reflection_info &                    \

@@ -6,6 +6,7 @@ set(LIB_AEON_REFLECTION_PUBLIC_SOURCE
     include/aeon/reflection/field_info.h
     include/aeon/reflection/reflection.h
     include/aeon/reflection/reflection_info.h
+    include/aeon/reflection/reflection_object.h
 )
 
 source_group(public FILES ${LIB_AEON_REFLECTION_PUBLIC_SOURCE})

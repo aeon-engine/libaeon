@@ -8,6 +8,6 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_reflection.cpp
-    LIBRARIES aeon_reflection
+    LIBRARIES aeon_reflection aeon_common
     FOLDER dep/libaeon/tests
 )
