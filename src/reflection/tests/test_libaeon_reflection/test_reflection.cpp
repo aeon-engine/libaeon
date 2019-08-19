@@ -4,7 +4,9 @@
 #include <aeon/common/memory.h>
 #include <gtest/gtest.h>
 
-class test_class final : public aeon::reflection::reflection_object
+using namespace aeon;
+
+class test_class final : public reflection::reflection_object
 {
     AEON_REFLECTION_BEGIN(test_class)
     AEON_REFLECTION_FIELD(int, private_integer)
@@ -45,7 +47,7 @@ private:
 
 TEST(test_reflection, test_reflection_rt)
 {
-    auto test = aeon::common::dynamic_unique_ptr_cast<test_class>(test_class::reflection_info().create());
+    auto test = common::dynamic_unique_ptr_cast<test_class>(test_class::reflection_info().create());
     ASSERT_NE(nullptr, test);
 
     EXPECT_EQ(test->get_integer(), 0);
