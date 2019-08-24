@@ -62,9 +62,7 @@ auto zlib_decompress::read(char *data, const std::streamsize size, const read_ca
 {
     auto &zstream = decompress_->stream();
 
-    unsigned long bytes_inflated = 0;
     auto read_size_remaining = size;
-
     auto data_buffer = data;
 
     do
@@ -88,7 +86,7 @@ auto zlib_decompress::read(char *data, const std::streamsize size, const read_ca
         if (inflate(&zstream, Z_SYNC_FLUSH) != Z_OK)
             throw zlib_decompress_exception{};
 
-        bytes_inflated = zstream.total_out - prev_total_out;
+        const auto bytes_inflated = zstream.total_out - prev_total_out;
         read_size_remaining -= bytes_inflated;
 
         data_buffer += bytes_inflated;
