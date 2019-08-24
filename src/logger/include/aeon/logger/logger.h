@@ -60,24 +60,26 @@ class logger final
 {
 public:
     logger(base_backend &backend, std::string module)
-        : backend_{backend}
+        : backend_{&backend}
         , module_{std::move(module)}
     {
     }
 
+    ~logger() = default;
+
     auto operator()(const log_level level) const -> logger_stream
     {
-        return logger_stream(backend_, module_, level);
+        return logger_stream(*backend_, module_, level);
     }
 
     logger(const logger &) noexcept = delete;
     auto operator=(const logger &) noexcept -> logger & = delete;
 
-    logger(logger &&) noexcept = delete;
-    auto operator=(logger &&) noexcept -> logger & = delete;
+    logger(logger &&) noexcept = default;
+    auto operator=(logger &&) noexcept -> logger & = default;
 
 private:
-    base_backend &backend_;
+    base_backend *backend_;
     std::string module_;
 };
 
