@@ -5,11 +5,12 @@
 #include <aeon/ast/function.h>
 #include <aeon/ast/access_specifier.h>
 #include <aeon/common/flags.h>
+#include <cstdint>
 
 namespace aeon::ast
 {
 
-enum class method_flag : int
+enum class method_flag : std::uint32_t
 {
     is_const = 0x01,
     is_defaulted = 0x02,

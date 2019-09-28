@@ -3,11 +3,12 @@
 #pragma once
 
 #include <aeon/common/flags.h>
+#include <cstdint>
 
 namespace aeon::ast
 {
 
-enum class access_specifier : int
+enum class access_specifier : std::uint32_t
 {
     invalid_t = 0x01,
     public_t = 0x02,

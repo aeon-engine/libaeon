@@ -5,11 +5,12 @@
 #include <aeon/ast/entity.h>
 #include <aeon/ast/access_specifier.h>
 #include <aeon/common/flags.h>
+#include <cstdint>
 
 namespace aeon::ast
 {
 
-enum class field_flag : int
+enum class field_flag : std::uint32_t
 {
     is_mutable = 0x01,
     is_static = 0x02,

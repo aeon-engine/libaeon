@@ -5,6 +5,7 @@
 #include <aeon/streams/devices/detail/iostream_device_base.h>
 #include <aeon/common/flags.h>
 #include <filesystem>
+#include <cstdint>
 #include <fstream>
 
 namespace aeon::streams
@@ -16,7 +17,7 @@ enum class file_mode
     binary
 };
 
-enum class file_flag
+enum class file_flag : std::uint32_t
 {
     none = 0x00,
     at_end = 0x01,

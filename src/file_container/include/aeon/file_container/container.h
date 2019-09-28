@@ -10,11 +10,12 @@
 #include <filesystem>
 #include <vector>
 #include <string>
+#include <cstdint>
 
 namespace aeon::file_container
 {
 
-enum class read_items
+enum class read_items : std::uint32_t
 {
     header = 0x00,
     metadata = 0x01,
