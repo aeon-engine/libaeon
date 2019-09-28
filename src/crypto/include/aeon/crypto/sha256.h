@@ -9,6 +9,8 @@
 namespace aeon::crypto
 {
 
+using sha256_hash = std::array<std::uint8_t, 32>;
+
 class sha256 final
 {
 public:
@@ -26,7 +28,7 @@ public:
     void write(const char *data, const std::streamsize size) noexcept;
     void write(const std::string_view str) noexcept;
 
-    [[nodiscard]] auto finalize() noexcept -> std::array<std::uint8_t, 32>;
+    [[nodiscard]] auto finalize() noexcept -> sha256_hash;
     void reset() noexcept;
 
 private:

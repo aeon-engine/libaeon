@@ -83,7 +83,7 @@ void sha256::write(const std::string_view str) noexcept
     write(std::data(str), static_cast<std::streamsize>(std::size(str)));
 }
 
-auto sha256::finalize() noexcept -> std::array<std::uint8_t, 32>
+auto sha256::finalize() noexcept -> sha256_hash
 {
     const auto block_nb = (1 + ((block_size - 9) < (size_ % block_size)));
     const auto len_b = (total_size_ + size_) << 3;
@@ -93,7 +93,7 @@ auto sha256::finalize() noexcept -> std::array<std::uint8_t, 32>
     common::bits::unpack32(static_cast<std::uint32_t>(len_b), std::data(block_) + pm_len - 4);
     transform(std::data(block_), block_nb);
 
-    std::array<std::uint8_t, 32> digest;
+    sha256_hash digest;
     for (auto i = 0; i < 8; i++)
     {
         common::bits::unpack32(hash_[i], &digest[i << 2]);
