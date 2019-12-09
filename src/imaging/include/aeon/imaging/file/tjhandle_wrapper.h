@@ -15,8 +15,8 @@ public:
     tjhandle_wrapper(const tjhandle_wrapper &) = delete;
     auto operator=(const tjhandle_wrapper &)->tjhandle_wrapper & = delete;
 
-    tjhandle_wrapper(tjhandle_wrapper && o) = default;
-    auto operator=(tjhandle_wrapper &&other)->tjhandle_wrapper & = default;
+    tjhandle_wrapper(tjhandle_wrapper &&) = delete;
+    auto operator=(tjhandle_wrapper &&)->tjhandle_wrapper & = delete;
 
     [[nodiscard]] auto handle() const noexcept;
 
@@ -52,8 +52,8 @@ public:
     tjhandle_decompress_wrapper(const tjhandle_decompress_wrapper &) = delete;
     auto operator=(const tjhandle_decompress_wrapper &)->tjhandle_decompress_wrapper & = delete;
 
-    tjhandle_decompress_wrapper(tjhandle_decompress_wrapper && o) = default;
-    auto operator=(tjhandle_decompress_wrapper &&other)->tjhandle_decompress_wrapper & = default;
+    tjhandle_decompress_wrapper(tjhandle_decompress_wrapper &&) = delete;
+    auto operator=(tjhandle_decompress_wrapper &&)->tjhandle_decompress_wrapper & = delete;
 };
 
 inline tjhandle_decompress_wrapper::tjhandle_decompress_wrapper()
@@ -70,8 +70,8 @@ public:
     tjhandle_compress_wrapper(const tjhandle_compress_wrapper &) = delete;
     auto operator=(const tjhandle_compress_wrapper &)->tjhandle_compress_wrapper & = delete;
 
-    tjhandle_compress_wrapper(tjhandle_compress_wrapper && o) = default;
-    auto operator=(tjhandle_compress_wrapper &&other)->tjhandle_compress_wrapper & = default;
+    tjhandle_compress_wrapper(tjhandle_compress_wrapper &&) = delete;
+    auto operator=(tjhandle_compress_wrapper &&)->tjhandle_compress_wrapper & = delete;
 };
 
 inline tjhandle_compress_wrapper::tjhandle_compress_wrapper()
