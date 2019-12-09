@@ -16,8 +16,8 @@ public:
     png_write_structs(const png_write_structs &) = delete;
     auto operator=(const png_write_structs &)->png_write_structs & = delete;
 
-    png_write_structs(png_write_structs && o) = default;
-    auto operator=(png_write_structs &&other)->png_write_structs & = default;
+    png_write_structs(png_write_structs &&) = delete;
+    auto operator=(png_write_structs &&)->png_write_structs & = delete;
 };
 
 inline png_write_structs::png_write_structs()

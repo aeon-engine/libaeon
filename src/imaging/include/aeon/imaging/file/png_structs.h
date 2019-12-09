@@ -15,8 +15,8 @@ public:
     png_structs(const png_structs &) = delete;
     auto operator=(const png_structs &)->png_structs & = delete;
 
-    png_structs(png_structs && o) = default;
-    auto operator=(png_structs &&other)->png_structs & = default;
+    png_structs(png_structs &&) = delete;
+    auto operator=(png_structs &&)->png_structs & = delete;
 
     [[nodiscard]] auto png_ptr() const;
     [[nodiscard]] auto info_ptr() const;
