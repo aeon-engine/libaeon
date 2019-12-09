@@ -16,7 +16,7 @@ namespace aeon::web::http
 
 auto detail::to_url_path(const std::string &path) -> std::string
 {
-    return common::string::replace_copy(path, "\\", "/");
+    return common::string::replace_copy<char>(path, "\\", "/");
 }
 
 auto detail::is_image_extension(const std::string &extension) -> bool
@@ -62,7 +62,7 @@ void static_route::on_http_request(http_server_socket &source, routable_http_ser
 
     // If the full path does not contain the base path, then it's trying to
     // access outside of base path (higher directories). Denied.
-    if (!common::string::begins_withsv(full_path.u8string(), base_path_.u8string()))
+    if (!common::string::begins_with(full_path.u8string(), base_path_.u8string()))
     {
         source.respond_default(status_code::forbidden);
         return;

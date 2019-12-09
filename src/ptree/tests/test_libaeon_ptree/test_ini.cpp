@@ -32,7 +32,7 @@ TEST(test_ptree, serialize_ini)
 
     // Strip all \r's to workaround git's auto line-endings on windows
     auto expected = reader.read_to_string();
-    common::string::replace(expected, "\r", "");
+    common::string::replace<char>(expected, "\r", "");
 
     EXPECT_EQ(expected, str);
 }
