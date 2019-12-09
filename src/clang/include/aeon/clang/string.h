@@ -24,6 +24,8 @@ public:
     [[nodiscard]] auto to_std_string() const -> std::string;
 
 private:
+    void dispose() noexcept;
+
     CXString str_;
 };
 
