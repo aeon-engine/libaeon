@@ -46,8 +46,8 @@ inline static constexpr void clear_flag(T &val, const T flag) noexcept
     val &= (val & (~flag));
 }
 
-template <typename T>
-[[nodiscard]] inline static constexpr auto check_flag(const T value, const T flag) noexcept
+template <typename T, typename U>
+[[nodiscard]] inline static constexpr auto check_flag(const T value, const U flag) noexcept
 {
     return (value & flag) == flag;
 }
