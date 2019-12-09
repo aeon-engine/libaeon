@@ -4,6 +4,7 @@
 
 #include <aeon/plugins/plugin.h>
 #include <aeon/common/dll_loader.h>
+#include <aeon/common/compilers.h>
 #include <memory>
 #include <map>
 #include <functional>
@@ -132,10 +133,7 @@ public:
 
     ~scoped_plugin()
     {
-        if (plugin_interface_ && loader_)
-        {
-            loader_->unload(plugin_interface_);
-        }
+        unload();
     }
 
     scoped_plugin(scoped_plugin && other) noexcept
@@ -148,10 +146,14 @@ public:
 
     scoped_plugin &operator=(scoped_plugin &&other) noexcept
     {
-        plugin_interface_ = std::move(other.plugin_interface_);
-        loader_ = std::move(other.loader_);
-        other.plugin_interface_ = nullptr;
-        other.loader_ = nullptr;
+        if (AEON_LIKELY(this != &other))
+        {
+            unload();
+            plugin_interface_ = std::move(other.plugin_interface_);
+            loader_ = std::move(other.loader_);
+            other.plugin_interface_ = nullptr;
+            other.loader_ = nullptr;
+        }
         return *this;
     }
 
@@ -186,6 +188,17 @@ public:
     }
 
 private:
+    void unload()
+    {
+        if (plugin_interface_ && loader_)
+        {
+            loader_->unload(plugin_interface_);
+        }
+
+        plugin_interface_ = nullptr;
+        loader_ = nullptr;
+    }
+
     T *plugin_interface_;
     plugin_loader *loader_;
 };
