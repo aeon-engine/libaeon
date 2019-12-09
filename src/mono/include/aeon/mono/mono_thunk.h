@@ -47,8 +47,8 @@ public:
     mono_thunk(const mono_thunk &) = delete;
     auto operator=(const mono_thunk &) -> mono_thunk & = delete;
 
-    mono_thunk(mono_thunk &&o) = delete;
-    auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
+    mono_thunk(mono_thunk &&) = delete;
+    auto operator=(mono_thunk &&) -> mono_thunk & = delete;
 
     void operator()(args_t... args) const
     {
@@ -80,8 +80,8 @@ public:
     mono_thunk(const mono_thunk &) = delete;
     auto operator=(const mono_thunk &) -> mono_thunk & = delete;
 
-    mono_thunk(mono_thunk &&o) = delete;
-    auto operator=(mono_thunk &&o) -> mono_thunk & = delete;
+    mono_thunk(mono_thunk &&) = delete;
+    auto operator=(mono_thunk &&) -> mono_thunk & = delete;
 
     [[nodiscard]] auto operator()(args_t... args) const
     {

@@ -27,8 +27,8 @@ public:
     mono_class_instance(const mono_class_instance &) = delete;
     auto operator=(const mono_class_instance &) -> mono_class_instance & = delete;
 
-    mono_class_instance(mono_class_instance &&o) noexcept;
-    auto operator=(mono_class_instance &&o) noexcept -> mono_class_instance &;
+    mono_class_instance(mono_class_instance &&) noexcept;
+    auto operator=(mono_class_instance &&) noexcept -> mono_class_instance &;
 
     [[nodiscard]] auto get_method(const std::string &name, int argc = 0) const -> mono_method;
 

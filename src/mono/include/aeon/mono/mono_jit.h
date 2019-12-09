@@ -41,8 +41,8 @@ public:
     mono_jit(const mono_jit &) = delete;
     auto operator=(const mono_jit &) -> mono_jit & = delete;
 
-    mono_jit(mono_jit &&o) = delete;
-    auto operator=(mono_jit &&o) -> mono_jit & = delete;
+    mono_jit(mono_jit &&) = delete;
+    auto operator=(mono_jit &&) -> mono_jit & = delete;
 
     [[nodiscard]] auto load_assembly(const std::string &path) const -> mono_assembly;
 

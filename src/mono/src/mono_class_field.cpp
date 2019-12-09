@@ -24,9 +24,9 @@ mono_class_field::mono_class_field(MonoClass *monoclass, const std::string &name
 }
 
 mono_class_field::~mono_class_field() = default;
-mono_class_field::mono_class_field(mono_class_field &&o) noexcept = default;
 
-auto mono_class_field::operator=(mono_class_field &&o) noexcept -> mono_class_field & = default;
+mono_class_field::mono_class_field(mono_class_field &&) noexcept = default;
+auto mono_class_field::operator=(mono_class_field &&) noexcept -> mono_class_field & = default;
 
 [[nodiscard]] auto mono_class_field::get_mono_class_field_ptr() const noexcept -> MonoClassField *
 {

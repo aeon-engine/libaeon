@@ -31,8 +31,8 @@ public:
     mono_gc_handle(const mono_gc_handle &) = default;
     auto operator=(const mono_gc_handle &)->mono_gc_handle & = default;
 
-    mono_gc_handle(mono_gc_handle && o) = default;
-    auto operator=(mono_gc_handle &&o)->mono_gc_handle & = default;
+    mono_gc_handle(mono_gc_handle &&) = default;
+    auto operator=(mono_gc_handle &&)->mono_gc_handle & = default;
 
     void lock() noexcept;
     void unlock() noexcept;

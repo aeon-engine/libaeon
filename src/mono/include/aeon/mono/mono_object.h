@@ -29,8 +29,8 @@ public:
     mono_object(const mono_object &) = default;
     auto operator=(const mono_object &) -> mono_object & = default;
 
-    mono_object(mono_object &&o) noexcept = default;
-    auto operator=(mono_object &&o) noexcept -> mono_object & = default;
+    mono_object(mono_object &&) noexcept = default;
+    auto operator=(mono_object &&) noexcept -> mono_object & = default;
 
 protected:
     MonoObject *object_;

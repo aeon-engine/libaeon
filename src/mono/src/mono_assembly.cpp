@@ -39,9 +39,9 @@ mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
 
 mono_assembly::~mono_assembly() = default;
 
-mono_assembly::mono_assembly(mono_assembly &&o) noexcept = default;
+mono_assembly::mono_assembly(mono_assembly &&) noexcept = default;
 
-auto mono_assembly::operator=(mono_assembly &&o) noexcept -> mono_assembly & = default;
+auto mono_assembly::operator=(mono_assembly &&) noexcept -> mono_assembly & = default;
 
 [[nodiscard]] auto mono_assembly::get_mono_assembly_ptr() const noexcept -> MonoAssembly *
 {

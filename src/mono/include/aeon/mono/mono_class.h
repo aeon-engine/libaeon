@@ -37,8 +37,8 @@ public:
     mono_class(const mono_class &) = delete;
     [[nodiscard]] auto operator=(const mono_class &) -> mono_class & = delete;
 
-    mono_class(mono_class &&o) noexcept;
-    [[nodiscard]] auto operator=(mono_class &&o) noexcept -> mono_class &;
+    mono_class(mono_class &&) noexcept;
+    [[nodiscard]] auto operator=(mono_class &&) noexcept -> mono_class &;
 
     [[nodiscard]] auto get_static_function(const std::string &name, int argc = 0) const -> mono_static_function;
 

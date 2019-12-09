@@ -30,8 +30,8 @@ public:
     mono_string(const mono_string &) = delete;
     auto operator=(const mono_string &) -> mono_string & = delete;
 
-    mono_string(mono_string &&o) noexcept;
-    auto operator=(mono_string &&o) noexcept -> mono_string &;
+    mono_string(mono_string &&) noexcept;
+    auto operator=(mono_string &&) noexcept -> mono_string &;
 
     auto operator=(const std::string &str) noexcept -> mono_string &;
 

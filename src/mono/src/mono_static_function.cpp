@@ -21,8 +21,7 @@ mono_static_function::mono_static_function(const mono_assembly *assembly, MonoCl
 
 mono_static_function::~mono_static_function() = default;
 
-mono_static_function::mono_static_function(mono_static_function &&o) noexcept = default;
-
-auto mono_static_function::operator=(mono_static_function &&o) noexcept -> mono_static_function & = default;
+mono_static_function::mono_static_function(mono_static_function &&) noexcept = default;
+auto mono_static_function::operator=(mono_static_function &&) noexcept -> mono_static_function & = default;
 
 } // namespace aeon::mono

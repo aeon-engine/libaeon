@@ -45,8 +45,8 @@ protected:
     mono_thunk_base(const mono_thunk_base &) noexcept = default;
     auto operator=(const mono_thunk_base &) noexcept -> mono_thunk_base & = default;
 
-    mono_thunk_base(mono_thunk_base &&o) noexcept = default;
-    auto operator=(mono_thunk_base &&o) noexcept -> mono_thunk_base & = default;
+    mono_thunk_base(mono_thunk_base &&) noexcept = default;
+    auto operator=(mono_thunk_base &&) noexcept -> mono_thunk_base & = default;
 
     const mono_assembly *assembly_;
     signature method_;

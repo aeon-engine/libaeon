@@ -34,8 +34,8 @@ public:
     mono_assembly(const mono_assembly &) = delete;
     auto operator=(const mono_assembly &) -> mono_assembly & = delete;
 
-    mono_assembly(mono_assembly &&o) noexcept;
-    auto operator=(mono_assembly &&o) noexcept -> mono_assembly &;
+    mono_assembly(mono_assembly &&) noexcept;
+    auto operator=(mono_assembly &&) noexcept -> mono_assembly &;
 
     [[nodiscard]] auto get_mono_assembly_ptr() const noexcept -> MonoAssembly *;
     [[nodiscard]] auto get_mono_domain_ptr() const noexcept -> MonoDomain *;

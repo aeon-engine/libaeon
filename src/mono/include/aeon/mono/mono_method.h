@@ -35,8 +35,8 @@ public:
     mono_method(const mono_method &) = delete;
     [[nodiscard]] auto operator=(const mono_method &) -> mono_method & = delete;
 
-    mono_method(mono_method &&o) noexcept;
-    [[nodiscard]] auto operator=(mono_method &&o) noexcept -> mono_method &;
+    mono_method(mono_method &&) noexcept;
+    [[nodiscard]] auto operator=(mono_method &&) noexcept -> mono_method &;
 
     template <typename function_signature_t>
     [[nodiscard]] auto get_thunk();

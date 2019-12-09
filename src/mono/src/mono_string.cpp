@@ -19,9 +19,8 @@ mono_string::mono_string(MonoDomain *domain, const std::string &str) noexcept
 
 mono_string::~mono_string() = default;
 
-mono_string::mono_string(mono_string &&o) noexcept = default;
-
-auto mono_string::operator=(mono_string &&o) noexcept -> mono_string & = default;
+mono_string::mono_string(mono_string &&) noexcept = default;
+auto mono_string::operator=(mono_string &&) noexcept -> mono_string & = default;
 
 auto mono_string::operator=(const std::string &str) noexcept -> mono_string &
 {

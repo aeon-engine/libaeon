@@ -32,8 +32,8 @@ public:
     mono_class_field(const mono_class_field &) = delete;
     auto operator=(const mono_class_field &) -> mono_class_field & = delete;
 
-    mono_class_field(mono_class_field &&o) noexcept;
-    auto operator=(mono_class_field &&o) noexcept -> mono_class_field &;
+    mono_class_field(mono_class_field &&) noexcept;
+    auto operator=(mono_class_field &&) noexcept -> mono_class_field &;
 
     [[nodiscard]] auto get_mono_class_field_ptr() const noexcept -> MonoClassField *;
 

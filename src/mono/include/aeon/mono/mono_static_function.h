@@ -34,8 +34,8 @@ public:
     mono_static_function(const mono_static_function &) = delete;
     auto operator=(const mono_static_function &) -> mono_static_function & = delete;
 
-    mono_static_function(mono_static_function &&o) noexcept;
-    auto operator=(mono_static_function &&o) noexcept -> mono_static_function &;
+    mono_static_function(mono_static_function &&) noexcept;
+    auto operator=(mono_static_function &&) noexcept -> mono_static_function &;
 
     template <typename function_signature_t>
     [[nodiscard]] auto get_thunk() const noexcept;

@@ -37,9 +37,8 @@ mono_class_instance::mono_class_instance(const mono_assembly *assembly, MonoDoma
 
 mono_class_instance::~mono_class_instance() = default;
 
-mono_class_instance::mono_class_instance(mono_class_instance &&o) noexcept = default;
-
-auto mono_class_instance::operator=(mono_class_instance &&o) noexcept -> mono_class_instance & = default;
+mono_class_instance::mono_class_instance(mono_class_instance &&) noexcept = default;
+auto mono_class_instance::operator=(mono_class_instance &&) noexcept -> mono_class_instance & = default;
 
 [[nodiscard]] auto mono_class_instance::get_method(const std::string &name, int argc /*= 0*/) const -> mono_method
 {

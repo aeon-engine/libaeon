@@ -38,9 +38,9 @@ mono_class::mono_class(const mono_assembly *assembly, MonoImage *image, const st
 }
 
 mono_class::~mono_class() = default;
-mono_class::mono_class(mono_class &&o) noexcept = default;
 
-auto mono_class::operator=(mono_class &&o) noexcept -> mono_class & = default;
+mono_class::mono_class(mono_class &&) noexcept = default;
+auto mono_class::operator=(mono_class &&) noexcept -> mono_class & = default;
 
 [[nodiscard]] auto mono_class::get_static_function(const std::string &name, int argc /*= 0*/) const
     -> mono_static_function

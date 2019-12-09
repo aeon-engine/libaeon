@@ -23,8 +23,7 @@ mono_method::mono_method(const mono_assembly *assembly, MonoClass *cls, MonoObje
 
 mono_method::~mono_method() = default;
 
-mono_method::mono_method(mono_method &&o) noexcept = default;
-
-auto mono_method::operator=(mono_method &&o) noexcept -> mono_method & = default;
+mono_method::mono_method(mono_method &&) noexcept = default;
+auto mono_method::operator=(mono_method &&) noexcept -> mono_method & = default;
 
 } // namespace aeon::mono
