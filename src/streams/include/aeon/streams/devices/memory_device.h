@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/streams/devices/memory_view_device.h>
+#include <aeon/common/compilers.h>
 
 namespace aeon::streams
 {
@@ -90,12 +91,15 @@ inline memory_device<T>::memory_device(memory_device &&other) noexcept
 template <typename T>
 inline auto memory_device<T>::operator=(memory_device &&other) noexcept -> memory_device &
 {
-    buffer_ = std::move(other.buffer_);
+    if (AEON_LIKELY(this != &other))
+    {
+        buffer_ = std::move(other.buffer_);
 
-    memory_view_device<T>::buffer_view_ = &buffer_;
+        memory_view_device<T>::buffer_view_ = &buffer_;
 
-    if (!std::empty(buffer_))
-        memory_view_device<T>::update_span();
+        if (!std::empty(buffer_))
+            memory_view_device<T>::update_span();
+    }
 
     return *this;
 }
@@ -114,12 +118,15 @@ inline memory_device<T>::memory_device(const memory_device &other)
 template <typename T>
 inline auto memory_device<T>::operator=(const memory_device &other) -> memory_device &
 {
-    buffer_ = other.buffer_;
+    if (AEON_LIKELY(this != &other))
+    {
+        buffer_ = other.buffer_;
 
-    memory_view_device<T>::buffer_view_ = &buffer_;
+        memory_view_device<T>::buffer_view_ = &buffer_;
 
-    if (!std::empty(buffer_))
-        memory_view_device<T>::update_span();
+        if (!std::empty(buffer_))
+            memory_view_device<T>::update_span();
+    }
 
     return *this;
 }
