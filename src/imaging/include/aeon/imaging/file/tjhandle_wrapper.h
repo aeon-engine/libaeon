@@ -11,7 +11,6 @@ class [[nodiscard]] tjhandle_wrapper
 {
 public:
     tjhandle_wrapper(tjhandle handle);
-    ~tjhandle_wrapper();
 
     tjhandle_wrapper(const tjhandle_wrapper &) = delete;
     auto operator=(const tjhandle_wrapper &)->tjhandle_wrapper & = delete;
@@ -20,6 +19,9 @@ public:
     auto operator=(tjhandle_wrapper &&other)->tjhandle_wrapper & = default;
 
     [[nodiscard]] auto handle() const noexcept;
+
+protected:
+    ~tjhandle_wrapper();
 
 private:
     tjhandle handle_;
