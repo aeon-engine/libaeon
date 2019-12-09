@@ -29,6 +29,7 @@ template <typename T>
     return result;
 }
 
-[[nodiscard]] auto from_reflection_object(const reflection::reflection_object &obj, const reflection::reflection_info &reflection_info) -> property_tree;
+[[nodiscard]] auto from_reflection_object(const reflection::reflection_object &obj,
+                                          const reflection::reflection_info &reflection_info) -> property_tree;
 
 } // namespace aeon::ptree
