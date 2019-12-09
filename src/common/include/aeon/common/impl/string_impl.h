@@ -35,7 +35,7 @@ template <typename T>
                                   std::vector<std::basic_string_view<T>> &elements)
     -> std::vector<std::basic_string_view<T>>
 {
-    auto start = std::basic_string_view<T>::size_type{};
+    auto start = typename std::basic_string_view<T>::size_type{};
     auto pos = str.find_first_of(delim, start);
 
     while (pos != std::basic_string_view<T>::npos)
@@ -357,7 +357,7 @@ inline void replace(std::basic_string<T> &str, const std::basic_string<T> &from,
     if (std::empty(from))
         return;
 
-    auto start_pos = std::basic_string<T>::size_type{};
+    auto start_pos = typename std::basic_string<T>::size_type{};
     while ((start_pos = str.find(from, start_pos)) != std::basic_string<T>::npos)
     {
         str.replace(start_pos, std::size(from), to);
