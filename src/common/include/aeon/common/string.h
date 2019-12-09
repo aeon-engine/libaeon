@@ -239,11 +239,6 @@ void char_strip_both(std::string &str, const char c);
 void char_strip_bothsv(std::string_view &str, const char c);
 
 /*!
- * Convert standard argc and argv arguments into a vector of strings.
- */
-[[nodiscard]] auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>;
-
-/*!
  * Replace all occurrences of a string with another string.
  */
 void replace(std::string &str, const std::string &from, const std::string &to);

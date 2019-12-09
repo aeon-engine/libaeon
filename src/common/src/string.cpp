@@ -290,19 +290,6 @@ void char_strip_bothsv(std::string_view &str, const char c)
     char_strip_rightsv(str, c);
 }
 
-auto args_to_vector(int argc, char *argv[]) -> std::vector<std::string>
-{
-    std::vector<std::string> vec;
-    vec.reserve(argc);
-
-    for (int i = 0; i < argc; ++i)
-    {
-        vec.emplace_back(argv[i]);
-    }
-
-    return vec;
-}
-
 void replace(std::string &str, const std::string &from, const std::string &to)
 {
     if (from.empty())

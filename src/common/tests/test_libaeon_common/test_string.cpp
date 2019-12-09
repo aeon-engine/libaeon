@@ -459,12 +459,6 @@ TEST(test_string, test_utility_char_strip_bothsv)
     EXPECT_EQ("two three", str);
 }
 
-TEST(test_string, test_string_args_to_vector_empty)
-{
-    const auto result = common::string::args_to_vector(0, nullptr);
-    EXPECT_TRUE(result.empty());
-}
-
 TEST(test_string, test_string_to_lower)
 {
     EXPECT_EQ("test", common::string::to_lower_copy("TeSt"));
