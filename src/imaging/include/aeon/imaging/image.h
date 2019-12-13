@@ -20,33 +20,11 @@ namespace aeon::imaging
 {
 
 /*!
- * Base class for image. This is mainly used to have a common base for images
- * of different templated pixel types.
- */
-class image_base
-{
-public:
-    virtual ~image_base() = default;
-
-    image_base(const image_base &) = delete;
-    auto operator=(const image_base &) -> image_base & = delete;
-
-    image_base(image_base &&) noexcept = default;
-    auto operator=(image_base &&) noexcept -> image_base & = default;
-
-    [[nodiscard]] virtual auto raw_data() noexcept -> std::byte * = 0;
-    [[nodiscard]] virtual auto raw_data() const noexcept -> const std::byte * = 0;
-
-protected:
-    image_base() = default;
-};
-
-/*!
  * An image. This class is owns the underlying pixel data and provides are view on
  * this data through image_view.
  */
 template <typename T>
-class image : public image_view<T>, public image_base
+class image : public image_view<T>
 {
     friend class dynamic_image;
 
@@ -91,20 +69,6 @@ public:
      */
     [[nodiscard]] auto clone() const -> image<T>;
 
-    /*!
-     * Access the raw internal data of this image without any bounds checks.
-     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
-     * \return A pointer to the raw data.
-     */
-    [[nodiscard]] auto raw_data() noexcept -> std::byte * override;
-
-    /*!
-     * Access the raw internal data of this image without any bounds checks.
-     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
-     * \return A const pointer to the raw data.
-     */
-    [[nodiscard]] auto raw_data() const noexcept -> const std::byte * override;
-
 private:
     /*!
      * Internal helper method to transfer the data to a std::unique_ptr<image_base>.
@@ -113,7 +77,7 @@ private:
      * After calling this method, this class should be considered moved and can no
      * longer be used.
      */
-    [[nodiscard]] auto move_to_dynamic_image() -> std::unique_ptr<image_base>;
+    [[nodiscard]] auto move_to_dynamic_image() -> std::unique_ptr<internal::image_base>;
 
     std::vector<std::byte> data_;
 };

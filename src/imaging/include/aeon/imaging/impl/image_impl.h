@@ -46,19 +46,7 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto image<T>::raw_data() noexcept -> std::byte *
-{
-    return std::data(data_);
-}
-
-template <typename T>
-[[nodiscard]] inline auto image<T>::raw_data() const noexcept -> const std::byte *
-{
-    return std::data(data_);
-}
-
-template <typename T>
-[[nodiscard]] inline auto image<T>::move_to_dynamic_image() -> std::unique_ptr<image_base>
+[[nodiscard]] inline auto image<T>::move_to_dynamic_image() -> std::unique_ptr<internal::image_base>
 {
     return std::make_unique<image<T>>(image_view<T>::descriptor_, std::move(data_));
 }

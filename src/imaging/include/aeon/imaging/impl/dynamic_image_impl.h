@@ -62,7 +62,21 @@ inline dynamic_image::dynamic_image(image<T> &&image)
 }
 
 template <typename T>
+inline dynamic_image::dynamic_image(image_view<T> &&image)
+    : dynamic_descriptor_(image.descriptor())
+    , image_{std::make_unique<image_view<T>>{descriptor{image}, image.data()}}
+{
+}
+
+template <typename T>
 inline dynamic_image::dynamic_image(std::unique_ptr<image<T>> image)
+    : dynamic_descriptor_(image.descriptor())
+    , image_{std::move(image)}
+{
+}
+
+template <typename T>
+inline dynamic_image::dynamic_image(std::unique_ptr<image_view<T>> image)
     : dynamic_descriptor_(image.descriptor())
     , image_{std::move(image)}
 {

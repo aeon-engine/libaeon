@@ -10,6 +10,7 @@
 
 #include <aeon/imaging/image_descriptor.h>
 #include <aeon/imaging/image_view_base.h>
+#include <aeon/imaging/image_base.h>
 #include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
 #include <cstdint>
@@ -23,7 +24,7 @@ namespace aeon::imaging
  * An image_view does not own the data that it provides a view on.
  */
 template <typename T>
-class image_view : public image_view_base<T>
+class image_view : public image_view_base<T>, public internal::image_base
 {
 public:
     /*!
@@ -138,6 +139,20 @@ public:
      * \return A reference to a pixel at the given coordinate.
      */
     [[nodiscard]] auto at(const math::vector2<dimension> coord) const noexcept -> const T &;
+
+    /*!
+     * Access the raw internal data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A pointer to the raw data.
+     */
+    [[nodiscard]] auto raw_data() noexcept -> std::byte * override;
+
+    /*!
+     * Access the raw internal data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A const pointer to the raw data.
+     */
+    [[nodiscard]] auto raw_data() const noexcept -> const std::byte * override;
 
 protected:
     /*!
