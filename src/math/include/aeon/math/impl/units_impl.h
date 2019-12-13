@@ -19,8 +19,9 @@ inline constexpr unit_base<prefix_type_t, unit_type_t, unit_value_type_t>::unit_
 
 template <typename prefix_type_t, typename unit_type_t, typename unit_value_type_t>
 template <typename conversion_value_type_t, std::enable_if_t<std::is_arithmetic_v<conversion_value_type_t>> *>
-inline constexpr auto unit_base<prefix_type_t, unit_type_t, unit_value_type_t>::
-    operator=(const conversion_value_type_t value) noexcept -> unit_base &
+inline constexpr auto
+    unit_base<prefix_type_t, unit_type_t, unit_value_type_t>::operator=(const conversion_value_type_t value) noexcept
+    -> unit_base &
 {
     set_absolute_value(static_cast<unit_value_type_t>(value));
     return *this;
@@ -37,8 +38,8 @@ inline constexpr unit_base<prefix_type_t, unit_type_t, unit_value_type_t>::unit_
 
 template <typename prefix_type_t, typename unit_type_t, typename unit_value_type_t>
 template <typename other_prefix_type_t, typename other_unit_type_t>
-inline constexpr auto unit_base<prefix_type_t, unit_type_t, unit_value_type_t>::
-    operator=(const unit_base<other_prefix_type_t, other_unit_type_t, unit_value_type_t> &other) noexcept -> unit_base &
+inline constexpr auto unit_base<prefix_type_t, unit_type_t, unit_value_type_t>::operator=(
+    const unit_base<other_prefix_type_t, other_unit_type_t, unit_value_type_t> &other) noexcept -> unit_base &
 {
     static_assert(unit_is_same_type_v<unit_type_t, other_unit_type_t>, "Units must be of the same type.");
     value_ = other.base_unit_count();

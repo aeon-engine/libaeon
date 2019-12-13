@@ -49,8 +49,9 @@ inline dynamic_stream<device_t>::dynamic_stream(dynamic_stream &&other) noexcept
 }
 
 template <typename device_t>
-inline auto dynamic_stream<device_t>::
-    operator=(dynamic_stream &&other) noexcept(std::is_nothrow_move_assignable_v<device_t>) -> dynamic_stream &
+inline auto
+    dynamic_stream<device_t>::operator=(dynamic_stream &&other) noexcept(std::is_nothrow_move_assignable_v<device_t>)
+        -> dynamic_stream &
 {
     if (AEON_LIKELY(this != &other))
     {
