@@ -69,8 +69,6 @@ public:
      */
     bool add(const key_t &name, const std::shared_ptr<value_t> &obj)
     {
-        obj->name_ = name;
-
         const auto result = objects_.find(name);
 
         if (result != objects_.end())
