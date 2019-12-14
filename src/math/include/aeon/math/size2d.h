@@ -37,6 +37,13 @@ public:
      * Converting constructor
      */
     template <typename U>
+    explicit constexpr size2d(const size2d<U> size) noexcept;
+
+    /*!
+     * Create a size based on the given width and height.
+     * Converting constructor
+     */
+    template <typename U>
     explicit constexpr size2d(const U width, const U height) noexcept;
 
     template <typename U>

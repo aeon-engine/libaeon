@@ -23,6 +23,14 @@ inline constexpr size2d<T>::size2d(const T width, const T height) noexcept
 {
 }
 
+template<typename T>
+template<typename U>
+inline constexpr size2d<T>::size2d(const size2d<U> size) noexcept
+    : width{static_cast<T>(size.width)}
+    , height{static_cast<T>(size.height)}
+{
+}
+
 template <typename T>
 template <typename U>
 inline constexpr size2d<T>::size2d(const U width, const U height) noexcept
