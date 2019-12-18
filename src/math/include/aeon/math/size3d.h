@@ -364,6 +364,12 @@ inline constexpr auto operator*(const size3d<T> &lhs, const T &rhs) noexcept -> 
 template <typename T>
 inline constexpr auto operator*=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
 
+template <typename T>
+inline constexpr auto operator/(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+
+template <typename T>
+inline constexpr auto operator/=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>;
+
 template <typename T, typename U>
 inline constexpr auto operator*(const size3d<T> &lhs, const size3d<U> &rhs) noexcept -> size3d<T>;
 
@@ -381,6 +387,12 @@ inline constexpr auto operator*(const size3d<T> &lhs, const U &rhs) noexcept -> 
 
 template <typename T, typename U>
 inline constexpr auto operator*=(size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
+
+template <typename T, typename U>
+inline constexpr auto operator/(const size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
+
+template <typename T, typename U>
+inline constexpr auto operator/=(size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>;
 
 } // namespace aeon::math
 

@@ -329,6 +329,19 @@ inline constexpr auto operator*=(size3d<T> &lhs, const T &rhs) noexcept -> size3
     return lhs;
 }
 
+template <typename T>
+inline constexpr auto operator/(const size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>
+{
+    return {width(lhs) / rhs, height(lhs) / rhs, depth(lhs) / rhs};
+}
+
+template <typename T>
+inline constexpr auto operator/=(size3d<T> &lhs, const T &rhs) noexcept -> size3d<T>
+{
+    lhs = lhs / rhs;
+    return lhs;
+}
+
 template <typename T, typename U>
 inline constexpr auto operator*(const size3d<T> &lhs, const size3d<U> &rhs) noexcept -> size3d<T>
 {
@@ -371,6 +384,20 @@ template <typename T, typename U>
 inline constexpr auto operator*=(size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>
 {
     lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline constexpr auto operator/(const size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>
+{
+    return {static_cast<T>(static_cast<U>(width(lhs)) / rhs), static_cast<T>(static_cast<U>(height(lhs)) / rhs),
+            static_cast<T>(static_cast<U>(depth(lhs)) / rhs)};
+}
+
+template <typename T, typename U>
+inline constexpr auto operator/=(size3d<T> &lhs, const U &rhs) noexcept -> size3d<T>
+{
+    lhs = lhs / rhs;
     return lhs;
 }
 
