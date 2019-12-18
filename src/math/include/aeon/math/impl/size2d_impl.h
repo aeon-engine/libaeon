@@ -332,6 +332,19 @@ inline constexpr auto operator*=(size2d<T> &lhs, const T &rhs) noexcept -> size2
     return lhs;
 }
 
+template <typename T>
+inline constexpr auto operator/(const size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    return {width(lhs) / rhs, height(lhs) / rhs};
+}
+
+template <typename T>
+inline constexpr auto operator/=(size2d<T> &lhs, const T &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs / rhs;
+    return lhs;
+}
+
 template <typename T, typename U>
 inline constexpr auto operator*(const size2d<T> &lhs, const size2d<U> &rhs) noexcept -> size2d<T>
 {
@@ -369,6 +382,19 @@ template <typename T, typename U>
 inline constexpr auto operator*=(size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>
 {
     lhs = lhs * rhs;
+    return lhs;
+}
+
+template <typename T, typename U>
+inline constexpr auto operator/(const size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>
+{
+    return {static_cast<T>(static_cast<U>(width(lhs)) / rhs), static_cast<T>(static_cast<U>(height(lhs)) / rhs)};
+}
+
+template <typename T, typename U>
+inline constexpr auto operator/=(size2d<T> &lhs, const U &rhs) noexcept -> size2d<T>
+{
+    lhs = lhs / rhs;
     return lhs;
 }
 
