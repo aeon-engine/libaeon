@@ -70,6 +70,8 @@ inline auto operator+(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24;
 inline auto operator+=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24;
 inline auto operator-(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24;
 inline auto operator-=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24;
+inline auto operator==(const rgb24 lhs, const rgb24 rhs) noexcept -> bool;
+inline auto operator!=(const rgb24 lhs, const rgb24 rhs) noexcept -> bool;
 
 inline auto operator*(const rgba32 lhs, const float rhs) noexcept -> rgba32;
 inline auto operator*=(rgba32 &lhs, const float rhs) noexcept -> rgba32;
@@ -79,6 +81,8 @@ inline auto operator+(const rgba32 lhs, const rgba32 rhs) noexcept -> rgba32;
 inline auto operator+=(rgba32 &lhs, const rgba32 rhs) noexcept -> rgba32;
 inline auto operator-(const rgba32 lhs, const rgba32 rhs) noexcept -> rgba32;
 inline auto operator-=(rgba32 &lhs, const rgba32 rhs) noexcept -> rgba32;
+inline auto operator==(const rgba32 lhs, const rgba32 rhs) noexcept -> bool;
+inline auto operator!=(const rgba32 lhs, const rgba32 rhs) noexcept -> bool;
 
 inline auto operator*(const bgr24 lhs, const float rhs) noexcept -> bgr24;
 inline auto operator*=(bgr24 &lhs, const float rhs) noexcept -> bgr24;
@@ -88,6 +92,8 @@ inline auto operator+(const bgr24 lhs, const bgr24 rhs) noexcept -> bgr24;
 inline auto operator+=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24;
 inline auto operator-(const bgr24 lhs, const bgr24 rhs) noexcept -> bgr24;
 inline auto operator-=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24;
+inline auto operator==(const bgr24 lhs, const bgr24 rhs) noexcept -> bool;
+inline auto operator!=(const bgr24 lhs, const bgr24 rhs) noexcept -> bool;
 
 inline auto operator*(const bgra32 lhs, const float rhs) noexcept -> bgra32;
 inline auto operator*=(bgra32 &lhs, const float rhs) noexcept -> bgra32;
@@ -97,6 +103,8 @@ inline auto operator+(const bgra32 lhs, const bgra32 rhs) noexcept -> bgra32;
 inline auto operator+=(bgra32 &lhs, const bgra32 rhs) noexcept -> bgra32;
 inline auto operator-(const bgra32 lhs, const bgra32 rhs) noexcept -> bgra32;
 inline auto operator-=(bgra32 &lhs, const bgra32 rhs) noexcept -> bgra32;
+inline auto operator==(const bgra32 lhs, const bgra32 rhs) noexcept -> bool;
+inline auto operator!=(const bgra32 lhs, const bgra32 rhs) noexcept -> bool;
 
 } // namespace aeon::imaging
 

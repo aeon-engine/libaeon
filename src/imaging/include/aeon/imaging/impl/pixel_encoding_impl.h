@@ -59,6 +59,16 @@ inline auto operator-=(rgb24 &lhs, const rgb24 rhs) noexcept -> rgb24
     return lhs;
 }
 
+inline auto operator==(const rgb24 lhs, const rgb24 rhs) noexcept -> bool
+{
+    return lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b;
+}
+
+inline auto operator!=(const rgb24 lhs, const rgb24 rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
+
 inline auto operator*(const rgba32 lhs, const float rhs) noexcept -> rgba32
 {
     return {
@@ -117,6 +127,16 @@ inline auto operator-=(rgba32 &lhs, const rgba32 rhs) noexcept -> rgba32
     return lhs;
 }
 
+inline auto operator==(const rgba32 lhs, const rgba32 rhs) noexcept -> bool
+{
+    return lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b && lhs.a == rhs.a;
+}
+
+inline auto operator!=(const rgba32 lhs, const rgba32 rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
+
 inline auto operator*(const bgr24 lhs, const float rhs) noexcept -> bgr24
 {
     return {static_cast<std::uint8_t>(std::clamp(lhs.b * rhs, 0.0f, 255.0f)),
@@ -167,6 +187,16 @@ inline auto operator-=(bgr24 &lhs, const bgr24 rhs) noexcept -> bgr24
 {
     lhs = lhs - rhs;
     return lhs;
+}
+
+inline auto operator==(const bgr24 lhs, const bgr24 rhs) noexcept -> bool
+{
+    return lhs.b == rhs.b && lhs.g == rhs.g && lhs.r == rhs.r;
+}
+
+inline auto operator!=(const bgr24 lhs, const bgr24 rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
 }
 
 inline auto operator*(const bgra32 lhs, const float rhs) noexcept -> bgra32
@@ -225,6 +255,16 @@ inline auto operator-=(bgra32 &lhs, const bgra32 rhs) noexcept -> bgra32
 {
     lhs = lhs - rhs;
     return lhs;
+}
+
+inline auto operator==(const bgra32 lhs, const bgra32 rhs) noexcept -> bool
+{
+    return lhs.b == rhs.b && lhs.g == rhs.g && lhs.r == rhs.r && lhs.a == rhs.a;
+}
+
+inline auto operator!=(const bgra32 lhs, const bgra32 rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
 }
 
 } // namespace aeon::imaging
