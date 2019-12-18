@@ -8,7 +8,6 @@ set(LIB_AEON_IMAGING_PUBLIC_SOURCE
     include/aeon/imaging/dynamic_image_descriptor.h
     include/aeon/imaging/exceptions.h
     include/aeon/imaging/image.h
-    include/aeon/imaging/image_base.h
     include/aeon/imaging/image_descriptor.h
     include/aeon/imaging/image_view.h
     include/aeon/imaging/image_view_base.h

@@ -110,18 +110,6 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto image_view<T>::raw_data() noexcept -> std::byte *
-{
-    return data<std::byte>();
-}
-
-template <typename T>
-[[nodiscard]] inline auto image_view<T>::raw_data() const noexcept -> const std::byte *
-{
-    return data<std::byte>();
-}
-
-template <typename T>
 [[nodiscard]] inline auto null(const image_view<T> &view) noexcept -> bool
 {
     return null(descriptor(view)) || view.data() == nullptr;

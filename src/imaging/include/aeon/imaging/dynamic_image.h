@@ -43,26 +43,11 @@ public:
     explicit dynamic_image(image<T> &&image);
 
     /*!
-     * Move an existing image_view<T> to a dynamic image. This will take over ownership of
-     * the internal image object by move semantics.
-     * \param[in] image - An existing image.
-     */
-    template <typename T>
-    explicit dynamic_image(image_view<T> &&image);
-
-    /*!
      * Move an existing unique_ptr of image<T> to a dynamic image.
      * \param[in] image - An existing image unique_ptr.
      */
     template <typename T>
     explicit dynamic_image(std::unique_ptr<image<T>> image);
-
-    /*!
-     * Move an existing unique_ptr of image_view<T> to a dynamic image.
-     * \param[in] image - An existing image_view unique_ptr.
-     */
-    template <typename T>
-    explicit dynamic_image(std::unique_ptr<image_view<T>> image);
 
     ~dynamic_image();
 
@@ -110,7 +95,7 @@ public:
 
 private:
     dynamic_image_descriptor dynamic_descriptor_;
-    std::unique_ptr<internal::image_base> image_;
+    std::unique_ptr<image_base> image_;
 };
 
 /*!
