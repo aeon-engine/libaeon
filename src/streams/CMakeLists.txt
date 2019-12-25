@@ -6,6 +6,7 @@ set(LIB_AEON_STREAMS_PUBLIC_SOURCE
     include/aeon/streams/dynamic_stream_view.h
     include/aeon/streams/exception.h
     include/aeon/streams/idynamic_stream.h
+    include/aeon/streams/idynamic_stream_fwd.h
     include/aeon/streams/length_prefix_string.h
     include/aeon/streams/make_string_stream.h
     include/aeon/streams/make_string_view_stream.h
