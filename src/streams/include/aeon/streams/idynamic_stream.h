@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/streams/seek_direction.h>
+#include <aeon/streams/tags.h>
 #include <ios>
 
 namespace aeon::streams
@@ -11,6 +12,11 @@ namespace aeon::streams
 class idynamic_stream
 {
 public:
+    // The categories of a dynamic stream can not be known at compile time. Instead the check is done at runtime.
+    struct category : input, input_seekable, output, output_seekable, flushable, has_size, has_status, has_eof
+    {
+    };
+
     virtual ~idynamic_stream() = default;
 
     idynamic_stream(idynamic_stream &&) noexcept = default;
