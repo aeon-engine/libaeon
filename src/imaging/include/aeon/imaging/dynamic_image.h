@@ -35,6 +35,13 @@ public:
     explicit dynamic_image(const dynamic_image_descriptor &dynamic_descriptor);
 
     /*!
+     * Create a dynamic image from existing raw data.
+     * \param[in] dynamic_descriptor - A dynamic image descriptor.
+     * \param[in] data - Raw image data following the strides and dimensions from the descriptor
+     */
+    explicit dynamic_image(const dynamic_image_descriptor &dynamic_descriptor, std::vector<std::byte> &&data);
+
+    /*!
      * Move an existing image<T> to a dynamic image. This will take over ownership of
      * the internal image data by move semantics.
      * \param[in] image - An existing image.

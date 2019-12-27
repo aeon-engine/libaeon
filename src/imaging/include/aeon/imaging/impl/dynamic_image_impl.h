@@ -46,11 +46,51 @@ template <typename T>
     }
 }
 
+template <typename T>
+[[nodiscard]] inline auto create_typed_image(const dynamic_image_descriptor &dynamic_descriptor, std::vector<std::byte> &&data)
+    -> std::unique_ptr<image_base>
+{
+    return std::make_unique<image<T>>(descriptor<T>(dynamic_descriptor), std::move(data));
+}
+
+[[nodiscard]] inline auto create_image(const dynamic_image_descriptor &dynamic_descriptor, std::vector<std::byte> &&data)
+    -> std::unique_ptr<image_base>
+{
+    switch (encoding(dynamic_descriptor))
+    {
+        case pixel_encoding::unsigned8:
+            return internal::create_typed_image<std::uint8_t>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::unsigned16:
+            return internal::create_typed_image<std::uint16_t>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::unsigned32:
+            return internal::create_typed_image<std::uint32_t>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::float32:
+            return internal::create_typed_image<float>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::rgb24:
+            return internal::create_typed_image<rgb24>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::rgba32:
+            return internal::create_typed_image<rgba32>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::bgr24:
+            return internal::create_typed_image<bgr24>(dynamic_descriptor, std::move(data));
+        case pixel_encoding::bgra32:
+            return internal::create_typed_image<bgra32>(dynamic_descriptor, std::move(data));
+        default:
+            aeon_assert_fail("Unexpected encoding.");
+            throw imaging_exception{};
+    }
+}
+
 } // namespace internal
 
 inline dynamic_image::dynamic_image(const dynamic_image_descriptor &dynamic_descriptor)
     : dynamic_descriptor_{dynamic_descriptor}
     , image_{internal::create_image(dynamic_descriptor)}
+{
+}
+
+inline dynamic_image::dynamic_image(const dynamic_image_descriptor &dynamic_descriptor, std::vector<std::byte> &&data)
+    : dynamic_descriptor_{dynamic_descriptor}
+    , image_{internal::create_image(dynamic_descriptor, std::move(data))}
 {
 }
 
