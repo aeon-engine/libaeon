@@ -26,6 +26,12 @@ class dynamic_image_descriptor
 {
 public:
     /*!
+     * Create an empty image descriptor. This descriptor can not be used to create an image.
+     * This descriptor will be considered null() and not valid().
+     */
+    dynamic_image_descriptor() noexcept;
+
+    /*!
      * Create an image descriptor based on given dimensions. The X and Y stride are
      * automatically calculated based on the given dimensions and encoding.
      * In this case it is assumed that the pixels are tightly packed.

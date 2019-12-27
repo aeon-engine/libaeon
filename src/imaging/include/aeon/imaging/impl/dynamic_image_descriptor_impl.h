@@ -8,6 +8,11 @@
 namespace aeon::imaging
 {
 
+inline dynamic_image_descriptor::dynamic_image_descriptor() noexcept
+    : dynamic_image_descriptor{pixel_encoding::unsigned8, {0, 0}, 0, 0}
+{
+}
+
 inline dynamic_image_descriptor::dynamic_image_descriptor(const pixel_encoding encoding,
                                                           const math::size2d<dimension> dimensions) noexcept
     : dynamic_image_descriptor{encoding, dimensions, bytes_per_pixel(encoding),
