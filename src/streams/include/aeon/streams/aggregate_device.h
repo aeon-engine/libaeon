@@ -310,14 +310,14 @@ template <typename filter_t, typename device_t>
 }
 
 template <typename operator_device_t, typename operator_filter_t,
-          typename std::enable_if<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int>::type = 0>
+          std::enable_if_t<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int> = 0>
 [[nodiscard]] inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
 {
     return device_view{device.device()};
 }
 
 template <int i, typename operator_device_t, typename operator_filter_t,
-          typename std::enable_if<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int>::type = 0>
+          std::enable_if_t<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int> = 0>
 [[nodiscard]] inline auto make_split(const aggregate_device<operator_filter_t, operator_device_t> &device)
 {
     constexpr auto idx = aggregate_device<operator_filter_t, operator_device_t>::filter_count() - i - 1;
@@ -326,10 +326,9 @@ template <int i, typename operator_device_t, typename operator_filter_t,
 
 } // namespace aeon::streams
 
-template <
-    typename operator_device_t, typename operator_filter_t,
-    typename std::enable_if<
-        aeon::streams::is_device_v<operator_device_t> && aeon::streams::is_filter_v<operator_filter_t>, int>::type = 0>
+template <typename operator_device_t, typename operator_filter_t,
+          std::enable_if_t<
+              aeon::streams::is_device_v<operator_device_t> && aeon::streams::is_filter_v<operator_filter_t>, int> = 0>
 inline auto operator|(operator_device_t &&device, operator_filter_t &&filter)
 {
     return aeon::streams::aggregate_device{std::forward<operator_filter_t>(filter),

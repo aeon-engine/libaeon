@@ -134,7 +134,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return Circumference
  */
-template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type * = nullptr>
+template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto circumference(const circle<T> &c) noexcept -> float;
 
 /*!
@@ -143,7 +143,7 @@ template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::typ
  * \param[in] c - Circle
  * \return Circumference
  */
-template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type * = nullptr>
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto circumference(const circle<T> &c) noexcept -> T;
 
 /*!
@@ -152,7 +152,7 @@ template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type
  * \param[in] c - Circle
  * \return Area
  */
-template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type * = nullptr>
+template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto area(const circle<T> &c) noexcept -> float;
 
 /*!
@@ -161,7 +161,7 @@ template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::typ
  * \param[in] c - Circle
  * \return Area
  */
-template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type * = nullptr>
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto area(const circle<T> &c) noexcept -> T;
 
 /*!

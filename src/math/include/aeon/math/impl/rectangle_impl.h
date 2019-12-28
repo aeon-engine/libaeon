@@ -499,7 +499,7 @@ inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle
 
 template <typename T, typename U>
 inline constexpr auto slice_horizontal(const rectangle<T> &rect, const U ratio,
-                                       typename std::enable_if<std::is_floating_point_v<U>>::type *) noexcept
+                                       std::enable_if_t<std::is_floating_point_v<U>> *) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>
 {
     aeon_assert_value_in_range(ratio, 0.0f, 1.0f);
@@ -519,7 +519,7 @@ inline constexpr auto slice_horizontal_absolute(const rectangle<T> &rect, const 
 
 template <typename T, typename U>
 inline constexpr auto slice_vertical(const rectangle<T> &rect, const U ratio,
-                                     typename std::enable_if<std::is_floating_point_v<U>>::type *) noexcept
+                                     std::enable_if_t<std::is_floating_point_v<U>> *) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>
 {
     aeon_assert_value_in_range(ratio, 0.0f, 1.0f);

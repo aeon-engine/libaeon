@@ -101,7 +101,7 @@ public:
         return future.get();
     }
 
-    template <typename T, typename std::enable_if<!std::is_void<T>::value>::type * = nullptr>
+    template <typename T, std::enable_if_t<!std::is_void_v<T>> * = nullptr>
     T call(const std::function<T()> &job)
     {
         std::promise<T> promise;

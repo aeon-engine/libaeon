@@ -622,7 +622,7 @@ template <typename T>
 template <typename T, typename U>
 [[nodiscard]] inline constexpr auto
     slice_horizontal(const rectangle<T> &rect, const U ratio,
-                     typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
+                     std::enable_if_t<std::is_floating_point_v<U>> *dummy = nullptr) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 /*!
@@ -644,7 +644,7 @@ template <typename T>
 template <typename T, typename U>
 [[nodiscard]] inline constexpr auto
     slice_vertical(const rectangle<T> &rect, const U ratio,
-                   typename std::enable_if<std::is_floating_point_v<U>>::type *dummy = nullptr) noexcept
+                   std::enable_if_t<std::is_floating_point_v<U>> *dummy = nullptr) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
 /*!

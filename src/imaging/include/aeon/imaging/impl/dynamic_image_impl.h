@@ -47,14 +47,14 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto create_typed_image(const dynamic_image_descriptor &dynamic_descriptor, std::vector<std::byte> &&data)
-    -> std::unique_ptr<image_base>
+[[nodiscard]] inline auto create_typed_image(const dynamic_image_descriptor &dynamic_descriptor,
+                                             std::vector<std::byte> &&data) -> std::unique_ptr<image_base>
 {
     return std::make_unique<image<T>>(descriptor<T>(dynamic_descriptor), std::move(data));
 }
 
-[[nodiscard]] inline auto create_image(const dynamic_image_descriptor &dynamic_descriptor, std::vector<std::byte> &&data)
-    -> std::unique_ptr<image_base>
+[[nodiscard]] inline auto create_image(const dynamic_image_descriptor &dynamic_descriptor,
+                                       std::vector<std::byte> &&data) -> std::unique_ptr<image_base>
 {
     switch (encoding(dynamic_descriptor))
     {

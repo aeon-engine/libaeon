@@ -85,19 +85,19 @@ template <typename T>
     return radius(c) * T(2);
 }
 
-template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type *>
+template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> *>
 [[nodiscard]] inline constexpr auto circumference(const circle<T> &c) noexcept -> float
 {
     return static_cast<float>(diameter(c)) * constants<float>::pi;
 }
 
-template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type *>
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>> *>
 [[nodiscard]] inline constexpr auto circumference(const circle<T> &c) noexcept -> T
 {
     return diameter(c) * constants<T>::pi;
 }
 
-template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::type *>
+template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> *>
 [[nodiscard]] inline constexpr auto area(const circle<T> &c) noexcept -> float
 {
     const auto r = radius(c);
@@ -105,7 +105,7 @@ template <typename T, typename std::enable_if<!std::is_floating_point_v<T>>::typ
     return constants<float>::pi * static_cast<float>(r2);
 }
 
-template <typename T, typename std::enable_if<std::is_floating_point_v<T>>::type *>
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>> *>
 [[nodiscard]] inline constexpr auto area(const circle<T> &c) noexcept -> T
 {
     const auto r = radius(c);
