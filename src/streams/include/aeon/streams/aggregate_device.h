@@ -324,13 +324,11 @@ template <int i, typename operator_device_t, typename operator_filter_t,
     return device_view{aggregate_device_filter<idx>::get(device)};
 }
 
-} // namespace aeon::streams
-
 template <typename operator_device_t, typename operator_filter_t,
-          std::enable_if_t<
-              aeon::streams::is_device_v<operator_device_t> && aeon::streams::is_filter_v<operator_filter_t>, int> = 0>
+          std::enable_if_t<is_device_v<operator_device_t> && is_filter_v<operator_filter_t>, int> = 0>
 inline auto operator|(operator_device_t &&device, operator_filter_t &&filter)
 {
-    return aeon::streams::aggregate_device{std::forward<operator_filter_t>(filter),
-                                           std::forward<operator_device_t>(device)};
+    return aggregate_device{std::forward<operator_filter_t>(filter), std::forward<operator_device_t>(device)};
 }
+
+} // namespace aeon::streams
