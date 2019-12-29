@@ -188,6 +188,11 @@ public:
             unset(f);
     }
 
+    constexpr void force_set(const underlying_type v) noexcept
+    {
+        value_ = v;
+    }
+
 private:
     underlying_type value_;
 };
