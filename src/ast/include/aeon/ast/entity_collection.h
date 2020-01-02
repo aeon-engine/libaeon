@@ -43,7 +43,7 @@ public:
         -> ast_entity *;
 
     template <typename U>
-    [[nodiscard]] auto find_recursive_typed() const noexcept -> std::vector<U *>;
+    [[nodiscard]] auto find_recursive_typed() const -> std::vector<U *>;
 
     [[nodiscard]] auto contains(const std::string_view name) const noexcept -> bool;
 

@@ -131,7 +131,7 @@ auto ast_entity_collection<T>::find_recursive(const std::string_view name, const
 
 template <typename T>
 template <typename U>
-inline auto ast_entity_collection<T>::find_recursive_typed() const noexcept -> std::vector<U *>
+inline auto ast_entity_collection<T>::find_recursive_typed() const -> std::vector<U *>
 {
     std::vector<U *> results;
 
