@@ -161,6 +161,11 @@ void ast_entity_visitor(const CXCursor cursor, ast::ast_entity &ns)
                 clang_visit(c, [&astenum](const CXCursor c, [[maybe_unused]] const CXCursor parent) {
                     switch (clang_getCursorKind(c))
                     {
+                        case CXCursor_AnnotateAttr:
+                        {
+                            astenum.add_annotation(to_std_string(clang_getCursorSpelling(c)));
+                        }
+                        break;
                         case CXCursor_EnumConstantDecl:
                         {
                             astenum.as<ast::ast_enum>().add_constant(to_std_string(clang_getCursorSpelling(c)));
