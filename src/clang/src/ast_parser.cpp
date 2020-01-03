@@ -12,7 +12,7 @@ ast_parser::ast_parser() = default;
 auto ast_parser::parse(const std::filesystem::path &path, const parser_settings &settings) const
     -> ast::global_namespace
 {
-    ast::global_namespace unit;
+    ast::global_namespace unit{ast::ast_source_location{path}};
     parse(path, unit, settings);
     return unit;
 }

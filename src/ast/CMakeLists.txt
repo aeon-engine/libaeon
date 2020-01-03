@@ -18,6 +18,7 @@ set(LIB_AEON_AST_PUBLIC_SOURCE
     include/aeon/ast/global_namespace.h
     include/aeon/ast/method.h
     include/aeon/ast/namespace.h
+    include/aeon/ast/source_location.h
     include/aeon/ast/struct.h
     include/aeon/ast/union.h
 )

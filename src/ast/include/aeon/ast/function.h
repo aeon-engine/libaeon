@@ -56,9 +56,10 @@ class ast_function : public ast_entity
 {
 public:
     explicit ast_function(std::string name, std::string return_type, const ast::linkage_kind linkage_kind,
-                          const ast::exception_specification exception_specification) noexcept
-        : ast_function{ast_entity_type::function_t, std::move(name), std::move(return_type), linkage_kind,
-                       exception_specification}
+                          const ast::exception_specification exception_specification,
+                          ast_source_location location) noexcept
+        : ast_function{ast_entity_type::function_t, std::move(name),    std::move(return_type), linkage_kind,
+                       exception_specification,     std::move(location)}
     {
     }
 
@@ -107,15 +108,17 @@ public:
 
 protected:
     explicit ast_function(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
-                          const ast::exception_specification exception_specification) noexcept
-        : ast_function{type, std::move(name), {}, linkage_kind, exception_specification}
+                          const ast::exception_specification exception_specification,
+                          ast_source_location location) noexcept
+        : ast_function{type, std::move(name), {}, linkage_kind, exception_specification, std::move(location)}
     {
     }
 
     explicit ast_function(const ast_entity_type type, std::string name, std::string return_type,
                           const ast::linkage_kind linkage_kind,
-                          const ast::exception_specification exception_specification) noexcept
-        : ast_entity{type, std::move(name), linkage_kind}
+                          const ast::exception_specification exception_specification,
+                          ast_source_location location) noexcept
+        : ast_entity{type, std::move(name), linkage_kind, std::move(location)}
         , parameters_{}
         , return_type_{std::move(return_type)}
         , exception_specification_{exception_specification}

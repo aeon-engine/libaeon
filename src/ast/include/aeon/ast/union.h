@@ -10,8 +10,8 @@ namespace aeon::ast
 class ast_union final : public ast_entity
 {
 public:
-    explicit ast_union(std::string name, const ast::linkage_kind linkage_kind) noexcept
-        : ast_entity{ast_entity_type::union_t, std::move(name), linkage_kind}
+    explicit ast_union(std::string name, const ast::linkage_kind linkage_kind, ast_source_location location) noexcept
+        : ast_entity{ast_entity_type::union_t, std::move(name), linkage_kind, std::move(location)}
     {
     }
 

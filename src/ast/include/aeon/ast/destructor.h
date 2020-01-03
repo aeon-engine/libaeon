@@ -10,8 +10,9 @@ namespace aeon::ast
 class ast_destructor final : public ast_entity
 {
 public:
-    explicit ast_destructor(std::string name, const ast::linkage_kind linkage_kind) noexcept
-        : ast_entity{ast_entity_type::destructor_t, std::move(name), linkage_kind}
+    explicit ast_destructor(std::string name, const ast::linkage_kind linkage_kind,
+                            ast_source_location location) noexcept
+        : ast_entity{ast_entity_type::destructor_t, std::move(name), linkage_kind, std::move(location)}
     {
     }
 

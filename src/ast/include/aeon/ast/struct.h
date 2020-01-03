@@ -16,8 +16,8 @@ namespace aeon::ast
 class ast_struct : public ast_entity
 {
 public:
-    explicit ast_struct(std::string name, const ast::linkage_kind linkage_kind) noexcept
-        : ast_struct{ast_entity_type::struct_t, std::move(name), linkage_kind}
+    explicit ast_struct(std::string name, const ast::linkage_kind linkage_kind, ast_source_location location) noexcept
+        : ast_struct{ast_entity_type::struct_t, std::move(name), linkage_kind, std::move(location)}
     {
     }
 
@@ -98,8 +98,9 @@ public:
     }
 
 protected:
-    explicit ast_struct(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind) noexcept
-        : ast_entity{type, std::move(name), linkage_kind}
+    explicit ast_struct(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+                        ast_source_location location) noexcept
+        : ast_entity{type, std::move(name), linkage_kind, std::move(location)}
     {
     }
 };

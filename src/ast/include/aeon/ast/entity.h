@@ -4,7 +4,7 @@
 
 #include <aeon/ast/entity_type.h>
 #include <aeon/ast/entity_collection.h>
-#include <aeon/ast/exception.h>
+#include <aeon/ast/source_location.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -52,14 +52,20 @@ public:
 
     [[nodiscard]] auto annotations() const noexcept -> const std::vector<std::string> &;
 
+    [[nodiscard]] auto source_location() const noexcept -> const ast_source_location &;
+
 protected:
-    explicit ast_entity(const ast_entity_type type, const ast::linkage_kind linkage_kind) noexcept;
-    explicit ast_entity(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind) noexcept;
+    explicit ast_entity(const ast_entity_type type, const ast::linkage_kind linkage_kind,
+                        ast_source_location location) noexcept;
+    explicit ast_entity(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+                        ast_source_location location) noexcept;
 
     ast_entity_type entity_type_;
     std::string name_;
     ast::linkage_kind linkage_kind_;
     std::vector<std::string> annotations_;
+
+    ast_source_location source_location_;
 };
 
 } // namespace aeon::ast

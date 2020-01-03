@@ -29,22 +29,25 @@ inline auto ast_entity::as() const -> const T &
     return dynamic_cast<const T &>(*this);
 }
 
-inline ast_entity::ast_entity(const ast_entity_type type, const ast::linkage_kind linkage_kind) noexcept
+inline ast_entity::ast_entity(const ast_entity_type type, const ast::linkage_kind linkage_kind,
+                              ast_source_location location) noexcept
     : ast_entity_collection<std::unique_ptr<ast_entity>>{}
     , entity_type_{type}
     , name_{}
     , linkage_kind_{linkage_kind}
     , annotations_{}
+    , source_location_{std::move(location)}
 {
 }
 
-inline ast_entity::ast_entity(const ast_entity_type type, std::string name,
-                              const ast::linkage_kind linkage_kind) noexcept
+inline ast_entity::ast_entity(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+                              ast_source_location location) noexcept
     : ast_entity_collection<std::unique_ptr<ast_entity>>{}
     , entity_type_{type}
     , name_{std::move(name)}
     , linkage_kind_{linkage_kind}
     , annotations_{}
+    , source_location_{std::move(location)}
 {
 }
 
@@ -71,6 +74,11 @@ inline auto ast_entity::has_annotation(const std::string &annotation) const noex
 inline auto ast_entity::annotations() const noexcept -> const std::vector<std::string> &
 {
     return annotations_;
+}
+
+inline auto ast_entity::source_location() const noexcept -> const ast_source_location &
+{
+    return source_location_;
 }
 
 } // namespace aeon::ast

@@ -22,8 +22,9 @@ class ast_field final : public ast_entity
 {
 public:
     explicit ast_field(std::string name, std::string type, const access_specifier access,
-                       const common::flags<field_flag> flags, const ast::linkage_kind linkage_kind) noexcept
-        : ast_entity{ast_entity_type::field_t, std::move(name), linkage_kind}
+                       const common::flags<field_flag> flags, const ast::linkage_kind linkage_kind,
+                       ast_source_location location) noexcept
+        : ast_entity{ast_entity_type::field_t, std::move(name), linkage_kind, std::move(location)}
         , type_{std::move(type)}
         , access_{access}
         , flags_{flags}

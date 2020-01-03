@@ -26,9 +26,10 @@ class ast_method final : public ast_function
 public:
     explicit ast_method(std::string name, std::string return_type, const access_specifier access,
                         common::flags<method_flag> flags, const ast::linkage_kind linkage_kind,
-                        const ast::exception_specification exception_specification) noexcept
-        : ast_function{ast_entity_type::method_t, std::move(name), std::move(return_type), linkage_kind,
-                       exception_specification}
+                        const ast::exception_specification exception_specification,
+                        ast_source_location location) noexcept
+        : ast_function{ast_entity_type::method_t, std::move(name),    std::move(return_type), linkage_kind,
+                       exception_specification,   std::move(location)}
         , access_{access}
         , flags_{flags}
     {

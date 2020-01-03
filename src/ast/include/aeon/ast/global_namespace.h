@@ -10,7 +10,11 @@ namespace aeon::ast
 class global_namespace final : public ast_namespace
 {
 public:
-    global_namespace() noexcept = default;
+    global_namespace(ast_source_location location) noexcept
+        : ast_namespace{std::move(location)}
+    {
+    }
+
     virtual ~global_namespace() = default;
 
     global_namespace(const global_namespace &) noexcept = delete;
