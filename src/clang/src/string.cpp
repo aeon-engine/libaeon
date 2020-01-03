@@ -34,6 +34,9 @@ auto scoped_cxstring::operator=(scoped_cxstring &&other) noexcept -> scoped_cxst
 
 auto scoped_cxstring::to_std_string() const -> std::string
 {
+    if (!str_.data)
+        return {};
+
     return clang_getCString(str_);
 }
 
