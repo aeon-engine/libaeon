@@ -171,6 +171,14 @@ public:
         value_ |= static_cast<underlying_type>(f);
     }
 
+    constexpr void set(const enum_type f, const bool condition) noexcept
+    {
+        if (condition)
+            set(f);
+        else
+            unset(f);
+    }
+
     constexpr void unset(const enum_type f) noexcept
     {
         value_ &= ~static_cast<underlying_type>(f);
