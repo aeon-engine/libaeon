@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
 
 #include <aeon/streams/stream.h>
 #include <aeon/streams/devices/memory_device.h>

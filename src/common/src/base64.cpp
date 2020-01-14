@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2019 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
 
 // Based on an implementation by Megumi Tomita, https://gist.github.com/tomykaira/f0fd86b6c73063283afe550bc5d77594
 
