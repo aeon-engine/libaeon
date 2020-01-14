@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <stdexcept>
-
 namespace aeon::common
 {
 
