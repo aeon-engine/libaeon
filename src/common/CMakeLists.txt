@@ -11,6 +11,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/commandline_parser.h
     include/aeon/common/compilers.h
     include/aeon/common/container.h
+    include/aeon/common/converting_variant.h
     include/aeon/common/delay.h
     include/aeon/common/deprecated.h
     include/aeon/common/dispatcher.h
@@ -49,7 +50,6 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/unordered_flatset.h
     include/aeon/common/unused.h
     include/aeon/common/uuid.h
-    include/aeon/common/variant.h
     include/aeon/common/version.h
 )
 
@@ -57,6 +57,9 @@ source_group(public FILES ${LIB_AEON_COMMON_PUBLIC_SOURCE})
 
 set(LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE
     include/aeon/common/impl/color_impl.h
+    include/aeon/common/impl/converting_variant_conversion.h
+    include/aeon/common/impl/converting_variant_enum_traits.h
+    include/aeon/common/impl/converting_variant_impl.h
     include/aeon/common/impl/string_impl.h
     include/aeon/common/impl/version_impl.h
 )

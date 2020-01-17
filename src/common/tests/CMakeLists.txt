@@ -11,6 +11,7 @@ add_unit_test_suite(
         test_bits.cpp
         test_commandline_parser.cpp
         test_container.cpp
+        test_converting_variant.cpp
         test_dispatcher.cpp
         test_endianness.cpp
         test_flags.cpp
@@ -28,7 +29,6 @@ add_unit_test_suite(
         test_unordered_flatmap.cpp
         test_unordered_flatset.cpp
         test_uuid.cpp
-        test_variant.cpp
         test_version.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
