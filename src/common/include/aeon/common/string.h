@@ -14,6 +14,14 @@ namespace aeon::common::string
 {
 
 /*!
+ * Compare 2 strings case insensitive. Note that this function does not take encoding or locale into account for
+ * performance reasons.
+ */
+template <typename T>
+[[nodiscard]] inline auto iequals(const std::basic_string_view<T> &str1, const std::basic_string_view<T> &str2) noexcept
+    -> bool;
+
+/*!
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Appends tokens to the given elements vector and returns it.
  */

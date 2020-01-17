@@ -4,9 +4,18 @@
 
 #include <cstdint>
 #include <array>
+#include <locale>
 
 namespace aeon::common::string
 {
+
+template <typename T>
+[[nodiscard]] inline auto iequals(const std::basic_string_view<T> &str1, const std::basic_string_view<T> &str2) noexcept
+    -> bool
+{
+    return std::equal(std::cbegin(str1), std::cend(str1), std::cbegin(str2), std::cend(str2),
+                      [](const auto a, const auto b) { return std::tolower(a) == std::tolower(b); });
+}
 
 template <typename T>
 [[nodiscard]] inline auto split(const std::basic_string<T> &str, const T delim,
