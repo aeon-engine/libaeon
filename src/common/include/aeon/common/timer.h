@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <aeon/common/platform.h>
 #include <chrono>
 
 namespace aeon::common
