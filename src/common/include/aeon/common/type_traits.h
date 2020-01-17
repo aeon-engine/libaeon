@@ -113,4 +113,10 @@ struct is_std_vector
 template <typename T>
 using is_std_vector_v = typename is_std_vector<T>::value;
 
+/*!
+ * Variadic version of is_same_v
+ */
+template <class T, class... U>
+static constexpr auto is_any_same_v = (std::is_same_v<T, U> || ...);
+
 } // namespace aeon::common::type_traits
