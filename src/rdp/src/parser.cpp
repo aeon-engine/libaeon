@@ -90,6 +90,11 @@ auto parser::size() const noexcept -> std::size_t
     return std::size(view_);
 }
 
+auto parser::remaining_size() const noexcept -> std::size_t
+{
+    return std::distance(current_, std::end(view_));
+}
+
 [[nodiscard]] auto parser::cursor() const noexcept -> rdp::cursor
 {
     // Find beginning of the line

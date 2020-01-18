@@ -104,6 +104,12 @@ public:
     [[nodiscard]] auto size() const noexcept -> std::size_t;
 
     /*!
+     * Get the remaining size of the input string
+     * \return The remaining size of the input string
+     */
+    [[nodiscard]] auto remaining_size() const noexcept -> std::size_t;
+
+    /*!
      * Get the cursor information of the current offset. The cursor contains the current line, the line number and
      * column. This class can help in forming user-friendly error messages. \return A cursor class containing
      * information of the current offset.
