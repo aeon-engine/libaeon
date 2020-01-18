@@ -3,6 +3,7 @@
 #include <aeon/rdp/parser.h>
 #include <aeon/rdp/cursor.h>
 #include <aeon/rdp/parse_result.h>
+#include <aeon/rdp/scoped_state.h>
 #include <aeon/common/compilers.h>
 #include <aeon/common/string.h>
 
@@ -38,6 +39,20 @@ auto parser::advance() noexcept -> bool
         return false;
 
     ++current_;
+    return true;
+}
+
+auto parser::advance(const std::size_t count) noexcept -> bool
+{
+    scoped_state state{*this};
+
+    for (auto i = 0u; i < count; ++i)
+    {
+        if (!advance())
+            return false;
+    }
+
+    state.accept();
     return true;
 }
 

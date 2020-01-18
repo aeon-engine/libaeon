@@ -63,6 +63,12 @@ public:
     auto advance() noexcept -> bool;
 
     /*!
+     * Advance a certain amount of characters
+     * \return True if possible, false on eof
+     */
+    auto advance(const std::size_t count) noexcept -> bool;
+
+    /*!
      * Reverse to the previous character
      * \return True if possible, false if the beginning is reached
      */
