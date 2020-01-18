@@ -107,6 +107,12 @@ public:
     auto filename() const noexcept -> std::string_view;
 
     /*!
+     * Get a range of characters based on given indices.
+     * \return The string in the given range indices of characters. Returns error if the indices are out of range.
+     */
+    auto get_range(const std::size_t begin, const std::size_t end) const noexcept -> parse_result<std::string_view>;
+
+    /*!
      * Check if a certain character is at the current position. Moves the internal index 1 if matched.
      * \return True if character is at current position
      */

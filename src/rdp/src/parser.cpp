@@ -126,6 +126,17 @@ auto parser::filename() const noexcept -> std::string_view
     return filename_;
 }
 
+auto parser::get_range(const std::size_t begin, const std::size_t end) const noexcept -> parse_result<std::string_view>
+{
+    if (end <= begin)
+        return parse_error{*this, "End <= Begin."};
+
+    if (end >= std::size(view_))
+        return parse_error{*this, "Index out of range."};
+
+    return matched{view_.substr(begin, end - begin)};
+}
+
 auto parser::check(const char c) noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
