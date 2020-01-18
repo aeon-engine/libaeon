@@ -218,6 +218,25 @@ auto parser::match_until(const char c) noexcept -> parse_result<std::string_view
     return matched{result};
 }
 
+auto parser::match_until(const std::string_view str) noexcept -> parse_result<std::string_view>
+{
+    auto itr = current_;
+
+    while (itr + std::size(str) <= std::cend(view_))
+    {
+        if (str == std::string_view{&*itr, std::size(str)})
+        {
+            const auto result = common::string::make_string_view(current_, itr);
+            current_ = itr;
+            return matched{result};
+        }
+
+        ++itr;
+    }
+
+    return unmatched{};
+}
+
 auto eof(const parser &parser) noexcept -> bool
 {
     return parser.eof();

@@ -115,6 +115,13 @@ TEST(test_rdp, test_offset_match_until)
     EXPECT_TRUE(parser.match_until('4').is_unmatched());
 }
 
+TEST(test_rdp, test_offset_match_until_string)
+{
+    rdp::parser parser{"112233abc123"};
+    EXPECT_EQ("112233", parser.match_until("abc").value());
+    EXPECT_EQ("abc1", parser.match_until("23").value());
+}
+
 TEST(test_rdp, test_offset_match_pred)
 {
     rdp::parser parser{"1234abcd5678"};

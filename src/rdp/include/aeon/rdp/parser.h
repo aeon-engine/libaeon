@@ -173,6 +173,12 @@ public:
      */
     auto match_until(const char c) noexcept -> parse_result<std::string_view>;
 
+    /*!
+     * Match any character until the given string. The result will not contain the given end string.
+     * If eof is reached before the given string is found, unmatched will be returned.
+     */
+    auto match_until(const std::string_view str) noexcept -> parse_result<std::string_view>;
+
 private:
     std::string_view view_;
     std::string_view::const_iterator current_;
