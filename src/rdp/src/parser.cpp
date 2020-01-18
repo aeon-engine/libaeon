@@ -65,22 +65,22 @@ auto parser::reverse() noexcept -> bool
     return true;
 }
 
-auto parser::current() const noexcept -> char
+[[nodiscard]] auto parser::current() const noexcept -> char
 {
     return *current_;
 }
 
-auto parser::operator*() const noexcept -> char
+[[nodiscard]] auto parser::operator*() const noexcept -> char
 {
     return current();
 }
 
-auto parser::offset() const noexcept -> std::size_t
+[[nodiscard]] auto parser::offset() const noexcept -> std::size_t
 {
     return std::distance(std::begin(view_), current_);
 }
 
-auto parser::cursor() const noexcept -> rdp::cursor
+[[nodiscard]] auto parser::cursor() const noexcept -> rdp::cursor
 {
     // Find beginning of the line
     auto line_begin = current_;
@@ -121,12 +121,13 @@ auto parser::cursor() const noexcept -> rdp::cursor
     return rdp::cursor{filename(), line, line_number, column};
 }
 
-auto parser::filename() const noexcept -> std::string_view
+[[nodiscard]] auto parser::filename() const noexcept -> std::string_view
 {
     return filename_;
 }
 
-auto parser::get_range(const std::size_t begin, const std::size_t end) const noexcept -> parse_result<std::string_view>
+[[nodiscard]] auto parser::get_range(const std::size_t begin, const std::size_t end) const noexcept
+    -> parse_result<std::string_view>
 {
     if (end <= begin)
         return parse_error{*this, "End <= Begin."};
@@ -137,7 +138,7 @@ auto parser::get_range(const std::size_t begin, const std::size_t end) const noe
     return matched{view_.substr(begin, end - begin)};
 }
 
-auto parser::check(const char c) noexcept -> bool
+[[nodiscard]] auto parser::check(const char c) noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
         return false;
@@ -150,7 +151,7 @@ auto parser::check(const char c) noexcept -> bool
     return true;
 }
 
-auto parser::check(const std::string_view str) noexcept -> bool
+[[nodiscard]] auto parser::check(const std::string_view str) noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
         return false;
@@ -180,7 +181,7 @@ void parser::skip_until(const char c) noexcept
         advance();
 }
 
-auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
+[[nodiscard]] auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
     -> parse_result<std::string_view>
 {
     if (AEON_UNLIKELY(eof()))
@@ -201,7 +202,7 @@ auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::f
     return matched{result};
 }
 
-auto parser::match_until(const char c) noexcept -> parse_result<std::string_view>
+[[nodiscard]] auto parser::match_until(const char c) noexcept -> parse_result<std::string_view>
 {
     auto itr = current_;
 
@@ -218,7 +219,7 @@ auto parser::match_until(const char c) noexcept -> parse_result<std::string_view
     return matched{result};
 }
 
-auto parser::match_until(const std::string_view str) noexcept -> parse_result<std::string_view>
+[[nodiscard]] auto parser::match_until(const std::string_view str) noexcept -> parse_result<std::string_view>
 {
     auto itr = current_;
 
@@ -237,27 +238,27 @@ auto parser::match_until(const std::string_view str) noexcept -> parse_result<st
     return unmatched{};
 }
 
-auto eof(const parser &parser) noexcept -> bool
+[[nodiscard]] auto eof(const parser &parser) noexcept -> bool
 {
     return parser.eof();
 }
 
-auto bof(const parser &parser) noexcept -> bool
+[[nodiscard]] auto bof(const parser &parser) noexcept -> bool
 {
     return parser.bof();
 }
 
-auto current(const parser &parser) noexcept -> char
+[[nodiscard]] auto current(const parser &parser) noexcept -> char
 {
     return parser.current();
 }
 
-auto offset(const parser &parser) noexcept -> std::size_t
+[[nodiscard]] auto offset(const parser &parser) noexcept -> std::size_t
 {
     return parser.offset();
 }
 
-auto filename(const parser &parser) noexcept -> std::string_view
+[[nodiscard]] auto filename(const parser &parser) noexcept -> std::string_view
 {
     return parser.filename();
 }

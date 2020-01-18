@@ -78,52 +78,53 @@ public:
      * Get the character at the current position. Calling this when eof() is true results in undefined behavior.
      * \return Returns the current character.
      */
-    auto current() const noexcept -> char;
+    [[nodiscard]] auto current() const noexcept -> char;
 
     /*!
      * Get the character at the current position. Calling this when eof() is true results in undefined behavior.
      * \return Returns the current character.
      */
-    auto operator*() const noexcept -> char;
+    [[nodiscard]] auto operator*() const noexcept -> char;
 
     /*!
      * Get the current parse offset index.
      * \return The current parse offset index.
      */
-    auto offset() const noexcept -> std::size_t;
+    [[nodiscard]] auto offset() const noexcept -> std::size_t;
 
     /*!
      * Get the cursor information of the current offset. The cursor contains the current line, the line number and
      * column. This class can help in forming user-friendly error messages. \return A cursor class containing
      * information of the current offset.
      */
-    auto cursor() const noexcept -> rdp::cursor;
+    [[nodiscard]] auto cursor() const noexcept -> rdp::cursor;
 
     /*!
      * Get the filename of the current object being parsed (if set during construction).
      * This can help in forming user-friendly error messages.
      * \return A filename, if set.
      */
-    auto filename() const noexcept -> std::string_view;
+    [[nodiscard]] auto filename() const noexcept -> std::string_view;
 
     /*!
      * Get a range of characters based on given indices.
      * \return The string in the given range indices of characters. Returns error if the indices are out of range.
      */
-    auto get_range(const std::size_t begin, const std::size_t end) const noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto get_range(const std::size_t begin, const std::size_t end) const noexcept
+        -> parse_result<std::string_view>;
 
     /*!
      * Check if a certain character is at the current position. Moves the internal index 1 if matched.
      * \return True if character is at current position
      */
-    auto check(const char c) noexcept -> bool;
+    [[nodiscard]] auto check(const char c) noexcept -> bool;
 
     /*!
      * Check if a certain string is at the current position. Moves the internal index by the length
      * of the given string if matched.
      * \return True if character is at current position
      */
-    auto check(const std::string_view str) noexcept -> bool;
+    [[nodiscard]] auto check(const std::string_view str) noexcept -> bool;
 
     /*!
      * Skip all occurrences of a certain character and move the internal index to the first character
@@ -143,7 +144,7 @@ public:
      * The matcher's signature is: auto pred(const char c) noexcept -> bool
      */
     template <typename matcher_t>
-    auto match(matcher_t pred) noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto match(matcher_t pred) noexcept -> parse_result<std::string_view>;
 
     /*!
      * Match with a matcher. The second argument given to the predicate is the index of the matched character.
@@ -153,7 +154,7 @@ public:
      * The matcher's signature is: auto pred(const char c, const std::size_t index) noexcept -> bool
      */
     template <typename matcher_t>
-    auto match_indexed(matcher_t pred) noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto match_indexed(matcher_t pred) noexcept -> parse_result<std::string_view>;
 
     /*!
      * Match with regular expressions. The expression is only matched when it starts at the current index.
@@ -163,21 +164,21 @@ public:
      * "[a-zA-Z]+"
      * "[0-9]+"
      */
-    auto match_regex(const std::string_view regex,
-                     std::basic_regex<char>::flag_type flags = std::regex_constants::ECMAScript)
+    [[nodiscard]] auto match_regex(const std::string_view regex,
+                                   std::basic_regex<char>::flag_type flags = std::regex_constants::ECMAScript)
         -> parse_result<std::string_view>;
 
     /*!
      * Match any character until the given character. The result will not contain the given end character.
      * If eof is reached before the given character is found, unmatched will be returned.
      */
-    auto match_until(const char c) noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto match_until(const char c) noexcept -> parse_result<std::string_view>;
 
     /*!
      * Match any character until the given string. The result will not contain the given end string.
      * If eof is reached before the given string is found, unmatched will be returned.
      */
-    auto match_until(const std::string_view str) noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto match_until(const std::string_view str) noexcept -> parse_result<std::string_view>;
 
 private:
     std::string_view view_;
