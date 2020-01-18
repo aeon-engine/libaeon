@@ -69,6 +69,11 @@ public:
     auto advance(const std::size_t count) noexcept -> bool;
 
     /*!
+     * Advance to the end of the input string. This will make eof() return true.
+     */
+    void advance_to_end() noexcept;
+
+    /*!
      * Reverse to the previous character
      * \return True if possible, false if the beginning is reached
      */

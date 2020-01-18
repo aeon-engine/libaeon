@@ -56,6 +56,11 @@ auto parser::advance(const std::size_t count) noexcept -> bool
     return true;
 }
 
+void parser::advance_to_end() noexcept
+{
+    current_ = std::end(view_);
+}
+
 auto parser::reverse() noexcept -> bool
 {
     if (AEON_UNLIKELY(bof()))
