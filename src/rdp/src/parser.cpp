@@ -85,6 +85,11 @@ auto parser::reverse() noexcept -> bool
     return std::distance(std::begin(view_), current_);
 }
 
+auto parser::size() const noexcept -> std::size_t
+{
+    return std::size(view_);
+}
+
 [[nodiscard]] auto parser::cursor() const noexcept -> rdp::cursor
 {
     // Find beginning of the line
