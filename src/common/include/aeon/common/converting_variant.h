@@ -88,6 +88,14 @@ public:
     template <typename from_t, typename to_t>
     void convert_value();
 
+    /*!
+     * Get the internal std::variant.
+     */
+    [[nodiscard]] const auto &get_variant_value() const noexcept
+    {
+        return data_;
+    }
+
 private:
     template <typename from_t, typename to_t>
     [[nodiscard]] auto get_value_internal() const -> to_t;
