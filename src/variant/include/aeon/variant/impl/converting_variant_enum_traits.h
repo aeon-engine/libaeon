@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/common/converting_variant.h>
+#include <aeon/variant/converting_variant.h>
 
-namespace aeon::common::internal
+namespace aeon::variant::internal
 {
 
 template <typename T>
@@ -85,6 +85,12 @@ struct converting_variant_enum_traits<std::string>
     static constexpr auto type = converting_variant::type::string;
 };
 
+template <>
+struct converting_variant_enum_traits<chrono::calendar>
+{
+    static constexpr auto type = converting_variant::type::calendar;
+};
+
 template <typename T>
 struct converting_variant_object_traits
 {
@@ -158,9 +164,15 @@ struct converting_variant_object_traits<std::string>
 };
 
 template <>
+struct converting_variant_object_traits<chrono::calendar>
+{
+    using type = chrono::calendar;
+};
+
+template <>
 struct converting_variant_object_traits<bool>
 {
     using type = bool;
 };
 
-} // namespace aeon::common::internal
+} // namespace aeon::variant::internal

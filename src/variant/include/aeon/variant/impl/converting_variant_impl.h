@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <aeon/common/impl/converting_variant_enum_traits.h>
-#include <aeon/common/impl/converting_variant_conversion.h>
+#include <aeon/variant/impl/converting_variant_enum_traits.h>
+#include <aeon/variant/impl/converting_variant_conversion.h>
 #include <cassert>
 
-namespace aeon::common
+namespace aeon::variant
 {
 
 namespace internal
@@ -14,31 +14,11 @@ namespace internal
 
 template <typename T>
 static constexpr auto is_supported_variant_type_v =
-    type_traits::is_any_same_v<T, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t, std::uint32_t,
-                               std::int64_t, std::uint64_t, float, double, std::string, bool>;
+    common::type_traits::is_any_same_v<T, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
+                                       std::uint32_t, std::int64_t, std::uint64_t, float, double, std::string,
+                                       chrono::calendar, bool>;
 
 } // namespace internal
-
-inline converting_variant::converting_variant() noexcept
-    : data_{}
-    , type_{static_cast<std::uint32_t>(type::unknown)}
-    , user_index_{0}
-{
-}
-
-inline converting_variant::converting_variant(const char *const str)
-    : data_{std::string{str}}
-    , type_{static_cast<std::uint32_t>(type::string)}
-    , user_index_{0}
-{
-}
-
-inline converting_variant::converting_variant(const enum class type t) noexcept
-    : data_{}
-    , type_{static_cast<std::uint32_t>(t)}
-    , user_index_{0}
-{
-}
 
 template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int>>
 inline converting_variant::converting_variant(T &&value, const int user_index)
@@ -54,26 +34,6 @@ inline converting_variant::converting_variant(const T &value, const int user_ind
     , type_{static_cast<std::uint32_t>(internal::converting_variant_enum_traits<std::decay_t<T>>::type)}
     , user_index_{static_cast<std::uint32_t>(user_index)}
 {
-}
-
-inline auto converting_variant::type() const noexcept -> enum class type { return static_cast<enum class type>(type_); }
-
-inline auto converting_variant::is_user_type() const noexcept -> bool
-{
-    return type() == type::user;
-}
-
-inline auto converting_variant::user_index() const noexcept -> int
-{
-    if (!is_user_type() || is_null())
-        return 0;
-
-    return user_index_;
-}
-
-inline auto converting_variant::is_null() const noexcept -> bool
-{
-    return data_.index() == 0;
 }
 
 template <typename T>
@@ -122,6 +82,8 @@ inline auto converting_variant::get_value() const -> T
                 return get_value_internal<bool, T>();
             case type::string:
                 return get_value_internal<std::string, T>();
+            case type::calendar:
+                return get_value_internal<chrono::calendar, T>();
             case type::user:
             case type::unknown:
             default:
@@ -190,4 +152,4 @@ inline auto converting_variant::get_user_value_internal() const -> to_t
     }
 }
 
-} // namespace aeon::common
+} // namespace aeon::variant
