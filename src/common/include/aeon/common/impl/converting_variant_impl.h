@@ -26,6 +26,13 @@ inline converting_variant::converting_variant() noexcept
 {
 }
 
+inline converting_variant::converting_variant(const enum class type t) noexcept
+    : data_{}
+    , type_{static_cast<std::uint32_t>(t)}
+    , user_index_{0}
+{
+}
+
 template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int>>
 inline converting_variant::converting_variant(T &&value, const int user_index)
     : data_{typename internal::converting_variant_object_traits<std::decay_t<T>>::type{std::forward<T>(value)}}

@@ -33,6 +33,8 @@ public:
 
     converting_variant() noexcept;
 
+    explicit converting_variant(const type t) noexcept;
+
     template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int> = 0>
     converting_variant(T &&value, const int user_index = 0);
 
