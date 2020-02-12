@@ -47,6 +47,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(ComponentUtils)
 enable_component(ast)
+enable_component(chrono)
 enable_component(clang)
 enable_component(common)
 enable_component(compression)
