@@ -28,16 +28,16 @@ inline converting_variant::converting_variant() noexcept
 
 template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int>>
 inline converting_variant::converting_variant(T &&value, const int user_index)
-    : data_{typename internal::converting_variant_object_traits<T>::type{std::forward<T>(value)}}
-    , type_{static_cast<std::uint32_t>(internal::converting_variant_enum_traits<T>::type)}
+    : data_{typename internal::converting_variant_object_traits<std::decay_t<T>>::type{std::forward<T>(value)}}
+    , type_{static_cast<std::uint32_t>(internal::converting_variant_enum_traits<std::decay_t<T>>::type)}
     , user_index_{static_cast<std::uint32_t>(user_index)}
 {
 }
 
 template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int>>
 inline converting_variant::converting_variant(const T &value, const int user_index)
-    : data_{typename internal::converting_variant_object_traits<T>::type{value}}
-    , type_{static_cast<std::uint32_t>(internal::converting_variant_enum_traits<T>::type)}
+    : data_{typename internal::converting_variant_object_traits<std::decay_t<T>>::type{value}}
+    , type_{static_cast<std::uint32_t>(internal::converting_variant_enum_traits<std::decay_t<T>>::type)}
     , user_index_{static_cast<std::uint32_t>(user_index)}
 {
 }
