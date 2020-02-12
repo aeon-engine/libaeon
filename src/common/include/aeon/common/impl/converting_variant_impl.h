@@ -26,6 +26,13 @@ inline converting_variant::converting_variant() noexcept
 {
 }
 
+inline converting_variant::converting_variant(const char *const str)
+    : data_{std::string{str}}
+    , type_{static_cast<std::uint32_t>(type::string)}
+    , user_index_{0}
+{
+}
+
 inline converting_variant::converting_variant(const enum class type t) noexcept
     : data_{}
     , type_{static_cast<std::uint32_t>(t)}

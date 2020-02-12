@@ -41,6 +41,8 @@ public:
     template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int> = 0>
     converting_variant(const T &value, const int user_index = 0);
 
+    converting_variant(const char *const str);
+
     ~converting_variant() = default;
 
     converting_variant(const converting_variant &other) = default;

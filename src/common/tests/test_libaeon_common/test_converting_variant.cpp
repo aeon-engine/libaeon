@@ -25,6 +25,16 @@ TEST(test_converting_variant, create_with_string)
     EXPECT_EQ(common::converting_variant::type::string, v.type());
 }
 
+TEST(test_converting_variant, create_with_const_char)
+{
+    const auto test = "Hello";
+    common::converting_variant v{test};
+    EXPECT_FALSE(v.is_null());
+    EXPECT_EQ(0, v.user_index());
+    EXPECT_FALSE(v.is_user_type());
+    EXPECT_EQ(common::converting_variant::type::string, v.type());
+}
+
 TEST(test_converting_variant, create_with_int8)
 {
     common::converting_variant v{static_cast<std::int8_t>(5)};
