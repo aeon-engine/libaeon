@@ -65,6 +65,8 @@ public:
 
     [[nodiscard]] auto str() const -> std::string;
 
+    [[nodiscard]] auto u8str() const -> std::u8string;
+
     [[nodiscard]] auto size() const noexcept -> std::size_t;
 
     [[nodiscard]] static auto generate() -> uuid;

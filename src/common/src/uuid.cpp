@@ -53,10 +53,36 @@ namespace detail
     return values[d - digits_begin];
 }
 
-static auto check_close_brace(const char c, const char open_brace) noexcept -> bool
+[[nodiscard]] static auto check_close_brace(const char c, const char open_brace) noexcept -> bool
 {
     return open_brace == '{' && c == '}';
 }
+
+template <typename T>
+[[nodiscard]] auto to_string(const uuid::data_type &data) -> T
+{
+    T result;
+    result.reserve(36);
+
+    auto i = 0_size_t;
+    for (const auto val : data)
+    {
+        const size_t hi = (val >> 4) & 0x0F;
+        result += detail::to_char(hi);
+
+        const size_t lo = val & 0x0F;
+        result += detail::to_char(lo);
+
+        if (i == 3 || i == 5 || i == 7 || i == 9)
+        {
+            result += '-';
+        }
+
+        ++i;
+    }
+    return result;
+}
+
 } // namespace detail
 
 uuid::uuid() noexcept
@@ -158,26 +184,12 @@ uuid::~uuid() noexcept = default;
 
 [[nodiscard]] auto uuid::str() const -> std::string
 {
-    std::string result;
-    result.reserve(36);
+    return detail::to_string<std::string>(data);
+}
 
-    auto i = 0_size_t;
-    for (const auto val : data)
-    {
-        const size_t hi = (val >> 4) & 0x0F;
-        result += detail::to_char(hi);
-
-        const size_t lo = val & 0x0F;
-        result += detail::to_char(lo);
-
-        if (i == 3 || i == 5 || i == 7 || i == 9)
-        {
-            result += '-';
-        }
-
-        ++i;
-    }
-    return result;
+auto uuid::u8str() const -> std::u8string
+{
+    return detail::to_string<std::u8string>(data);
 }
 
 [[nodiscard]] auto uuid::size() const noexcept -> std::size_t
