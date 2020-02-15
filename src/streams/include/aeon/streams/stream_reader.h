@@ -33,8 +33,12 @@ public:
 
     [[nodiscard]] auto device() const noexcept -> device_t &;
 
-    void read_line(std::string &line) const;
+    template <typename char_t>
+    void read_line(std::basic_string<char_t> &line) const;
+
     [[nodiscard]] auto read_line() const -> std::string;
+
+    [[nodiscard]] auto read_u8line() const -> std::u8string;
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec) const;
@@ -85,15 +89,18 @@ template <typename device_t>
 }
 
 template <typename device_t>
-inline void stream_reader<device_t>::read_line(std::string &line) const
+template <typename char_t>
+inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) const
 {
+    static_assert(sizeof(char_t) == 1, "read_line requires a character type with size 1.");
+
     if constexpr (std::is_same_v<device_t, idynamic_stream>)
         aeon_assert(device_->is_input_seekable(), "read_line requires an input seekable device.");
     else
         static_assert(is_input_seekable_v<device_t>, "read_line requires an input seekable device.");
 
     std::streamsize peek_size = 0;
-    char peek_data[read_block_size] = {};
+    char_t peek_data[read_block_size] = {};
     while ((peek_size = device_->read(peek_data, read_block_size)) > 0)
     {
         // TODO: Replace strchr with something more modern.
@@ -131,6 +138,14 @@ template <typename device_t>
 [[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> std::string
 {
     std::string line;
+    read_line(line);
+    return line;
+}
+
+template <typename device_t>
+auto stream_reader<device_t>::read_u8line() const -> std::u8string
+{
+    std::u8string line;
     read_line(line);
     return line;
 }
@@ -223,6 +238,13 @@ inline auto &operator>>(stream_reader<device_t> &reader, T &val)
 
 template <typename device_t>
 inline auto &operator>>(stream_reader<device_t> &reader, std::string &val)
+{
+    reader.read_line(val);
+    return reader;
+}
+
+template <typename device_t>
+inline auto &operator>>(stream_reader<device_t> &reader, std::u8string &val)
 {
     reader.read_line(val);
     return reader;

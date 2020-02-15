@@ -109,6 +109,17 @@ inline auto &operator<<(stream_writer<device_t> &writer, const std::string_view 
     return writer;
 }
 
+template <typename device_t>
+inline auto &operator<<(stream_writer<device_t> &writer, const std::u8string_view &val)
+{
+    const auto size = static_cast<std::streamsize>(std::size(val));
+
+    if (writer.device().write(reinterpret_cast<const char *>(std::data(val)), size) != static_cast<std::streamsize>(size))
+        throw stream_exception{};
+
+    return writer;
+}
+
 template <typename device_t, typename T>
 inline auto &operator<<(stream_writer<device_t> &writer, const std::vector<T> &val)
 {
