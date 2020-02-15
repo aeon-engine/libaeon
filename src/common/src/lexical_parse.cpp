@@ -10,7 +10,8 @@ namespace aeon::common::lexical_parse
 namespace internal
 {
 
-static auto is_possibly_double(const std::string_view &str) noexcept
+template <typename T>
+static auto is_possibly_double(const std::basic_string_view<T> &str) noexcept
 {
     for (const auto c : str)
     {
@@ -21,9 +22,8 @@ static auto is_possibly_double(const std::string_view &str) noexcept
     return false;
 }
 
-} // namespace internal
-
-auto number(const std::string_view &str) -> lexical_parse_result
+template <typename T>
+auto number(const std::basic_string_view<T> &str) -> lexical_parse_result
 {
     if (internal::is_possibly_double(str))
     {
@@ -45,7 +45,8 @@ auto number(const std::string_view &str) -> lexical_parse_result
     return {value, static_cast<std::size_t>(ptr - std::data(str))};
 }
 
-auto extract_number_string(const std::string_view &str) noexcept -> std::string_view
+template <typename T>
+auto extract_number_string(const std::basic_string_view<T> &str) noexcept -> std::basic_string_view<T>
 {
     std::size_t end_offset = 0;
     for (const auto c : str)
@@ -57,6 +58,28 @@ auto extract_number_string(const std::string_view &str) noexcept -> std::string_
     }
 
     return {};
+}
+
+} // namespace internal
+
+auto number(const std::string_view &str) -> lexical_parse_result
+{
+    return internal::number(str);
+}
+
+auto number(const std::u8string_view &str) -> lexical_parse_result
+{
+    return internal::number(str);
+}
+
+auto extract_number_string(const std::string_view &str) noexcept -> std::string_view
+{
+    return internal::extract_number_string(str);
+}
+
+auto extract_number_string(const std::u8string_view &str) noexcept -> std::u8string_view
+{
+    return internal::extract_number_string(str);
 }
 
 } // namespace aeon::common::lexical_parse
