@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
 
 #include <aeon/chrono/calendar.h>
+#include "timezone_impl.h"
 #include <unicode/gregocal.h>
 #include <unicode/smpdtfmt.h>
 #include <stdexcept>
@@ -92,8 +93,8 @@ calendar::calendar(const std::string &str)
 
     // This part is a little nasty. We should be the owner of the timezone, so we must clone
     // it and set the pointer to gain ownership of it; otherwise the calendar has ownership over it.
-    timezone_ = timezone{reinterpret_cast<timezone_impl *>(calendar_->getTimeZone().clone())};
-    calendar_->setTimeZone(*reinterpret_cast<icu::TimeZone *>(timezone_.timezone_.get()));
+    timezone_ = timezone{std::make_unique<timezone_impl>(calendar_->getTimeZone().clone())};
+    calendar_->setTimeZone(*timezone_.timezone_->get());
 }
 
 calendar::calendar(timezone zone)
@@ -103,7 +104,7 @@ calendar::calendar(timezone zone)
 
 calendar::calendar(timezone zone, const std::chrono::system_clock::time_point utc_time)
     : timezone_{std::move(zone)}
-    , calendar_{internal::create_calendar(*reinterpret_cast<icu::TimeZone *>(timezone_.timezone_.get()))}
+    , calendar_{internal::create_calendar(*timezone_.timezone_->get())}
 {
     set(utc_time);
 }
@@ -111,7 +112,7 @@ calendar::calendar(timezone zone, const std::chrono::system_clock::time_point ut
 calendar::calendar(timezone zone, const std::int32_t year, const std::int32_t month, const std::int32_t date,
                    const std::int32_t hour, const std::int32_t minute, const std::int32_t second)
     : timezone_{std::move(zone)}
-    , calendar_{internal::create_calendar(*reinterpret_cast<icu::TimeZone *>(timezone_.timezone_.get()))}
+    , calendar_{internal::create_calendar(*timezone_.timezone_->get())}
 {
     set(year, month, date, hour, minute, second);
 }
@@ -122,14 +123,14 @@ calendar::calendar(const calendar &other)
     : timezone_{other.timezone_}
     , calendar_{static_cast<gregorian_calendar_impl *>(other.calendar_->clone())}
 {
-    calendar_->setTimeZone(*reinterpret_cast<icu::TimeZone *>(timezone_.timezone_.get()));
+    calendar_->setTimeZone(*timezone_.timezone_->get());
 }
 
 auto calendar::operator=(const calendar &other) -> calendar &
 {
     calendar_.reset(static_cast<gregorian_calendar_impl *>(other.calendar_->clone()));
     timezone_ = other.timezone_;
-    calendar_->setTimeZone(*reinterpret_cast<icu::TimeZone *>(timezone_.timezone_.get()));
+    calendar_->setTimeZone(*timezone_.timezone_->get());
     return *this;
 }
 
@@ -199,7 +200,7 @@ auto calendar::operator+=(const std::chrono::milliseconds &time) -> calendar &
 
 void calendar::set_timezone(timezone zone)
 {
-    calendar_->setTimeZone(*reinterpret_cast<icu::TimeZone *>(zone.timezone_.get()));
+    calendar_->setTimeZone(*zone.timezone_->get());
     timezone_ = std::move(zone);
 }
 

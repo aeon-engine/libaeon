@@ -4,6 +4,7 @@ handle_local_dependencies_file()
 
 set(LIB_AEON_CHRONO_PUBLIC_SOURCE
     include/aeon/chrono/calendar.h
+    include/aeon/chrono/offset.h
     include/aeon/chrono/timezone.h
 )
 
@@ -12,6 +13,7 @@ source_group(public FILES ${LIB_AEON_CHRONO_PUBLIC_SOURCE})
 set(LIB_AEON_CHRONO_PRIVATE_SOURCE
     src/calendar.cpp
     src/timezone.cpp
+    src/timezone_impl.h
 )
 
 source_group(private FILES ${LIB_AEON_CHRONO_PRIVATE_SOURCE})

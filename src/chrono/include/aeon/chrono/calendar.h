@@ -65,8 +65,8 @@ public:
     calendar(const calendar &other);
     auto operator=(const calendar &other) -> calendar &;
 
-    calendar(calendar &&) noexcept;
-    auto operator=(calendar &&) noexcept -> calendar &;
+    calendar(calendar &&other) noexcept;
+    auto operator=(calendar &&other) noexcept -> calendar &;
 
     auto operator==(const calendar &other) const -> bool;
     auto operator!=(const calendar &other) const -> bool;

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <unicode/uversion.h>
+#include <aeon/chrono/offset.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -12,18 +12,6 @@ namespace aeon::chrono
 {
 
 class timezone_impl;
-
-enum class offset_timezone
-{
-    local,
-    gmt
-};
-
-struct offset_result
-{
-    std::chrono::milliseconds raw_offset{};
-    std::chrono::milliseconds dst_offset{};
-};
 
 class timezone final
 {
@@ -95,7 +83,7 @@ public:
 
 private:
     timezone();
-    explicit timezone(timezone_impl *tz);
+    explicit timezone(std::unique_ptr<timezone_impl> tz);
     std::unique_ptr<timezone_impl> timezone_;
 };
 
