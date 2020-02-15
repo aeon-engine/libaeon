@@ -34,7 +34,7 @@ constexpr auto max_hex_bytes_per_line = 16;
 
 [[nodiscard]] auto generate_variable_name(const std::filesystem::path &path)
 {
-    auto filename = path.filename().u8string();
+    auto filename = path.filename().string();
     common::string::trim(filename);
     common::string::replace<char>(filename, " ", "-");
     common::string::replace<char>(filename, ".", "_");

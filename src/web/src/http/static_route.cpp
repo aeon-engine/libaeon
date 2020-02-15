@@ -108,10 +108,10 @@ auto static_route::get_path_for_default_files(const std::filesystem::path &path)
 void static_route::reply_file(http_server_socket &source, routable_http_server_session &session,
                               const std::filesystem::path &file) const
 {
-    auto extension = file.extension().u8string();
+    auto extension = file.extension().string();
 
     if (extension.empty())
-        extension = file.stem().u8string();
+        extension = file.stem().string();
 
     const auto mime_type = session.find_mime_type_by_extension(extension);
 
@@ -176,7 +176,7 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
 
 auto static_route::get_current_directory_header_name(const std::filesystem::path &path) const -> std::string
 {
-    return path.stem().u8string();
+    return path.stem().string();
 }
 
 auto static_route::get_directory_listing_entries(const std::filesystem::path &path) const
@@ -189,7 +189,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
 
         if (std::filesystem::is_regular_file(file_entry))
         {
-            const auto filename = file_entry.path().filename().u8string();
+            const auto filename = file_entry.path().filename().string();
 
             if (is_hidden_file(filename))
                 continue;
@@ -200,7 +200,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
         else if (std::filesystem::is_directory(file_entry))
         {
             entry.is_directory = true;
-            entry.display_name = file_entry.path().filename().u8string() + "/";
+            entry.display_name = file_entry.path().filename().string() + "/";
         }
         else // If it's not a regular file or folder... carry on.
         {
@@ -219,7 +219,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
 
     for (const auto &entry : entries)
     {
-        if (!detail::is_image_extension(std::filesystem::path(entry.display_name).extension().u8string()))
+        if (!detail::is_image_extension(std::filesystem::path{entry.display_name}.extension().string()))
         {
             is_image_folder = false;
             break;

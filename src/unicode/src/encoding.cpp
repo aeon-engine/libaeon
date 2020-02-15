@@ -24,8 +24,21 @@ namespace utf8
     return {std::begin(view), std::end(view)};
 }
 
+[[nodiscard]] auto to_utf16(const std::u8string_view &str) -> std::u16string
+{
+    // TODO: Fix for C++20 migration.
+    return to_utf16(std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)});
+}
+
+[[nodiscard]] auto to_utf32(const std::u8string_view &str) -> std::u32string
+{
+    // TODO: Fix for C++20 migration.
+    return to_utf32(std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)});
+}
+
 void append(const char32_t from, std::string &to)
 {
+    // TODO: Fix for C++20 migration.
     std::array<char, 4> data;
     auto data_offset = 0u;
     UBool error = FALSE;
@@ -39,6 +52,29 @@ void append(const char32_t from, std::string &to)
 }
 
 void append(const std::u32string_view &from, std::string &to)
+{
+    // TODO: Fix for C++20 migration.
+    for (const auto c : from)
+    {
+        append(c, to);
+    }
+}
+
+void append(const char32_t from, std::u8string &to)
+{
+    std::array<char, 4> data;
+    auto data_offset = 0u;
+    UBool error = FALSE;
+
+    U8_APPEND(std::data(data), data_offset, std::size(data), from, error);
+
+    if (error == TRUE)
+        throw unicode_conversion_exception{};
+
+    to.append(std::begin(data), std::begin(data) + data_offset);
+}
+
+void append(const std::u32string_view &from, std::u8string &to)
 {
     for (const auto c : from)
     {

@@ -53,7 +53,7 @@ TEST(test_fonts, test_load_rgb_glyph)
     imaging::file::png::save(rgb_image, "test_fonts_emoji.png");
 }
 
-static auto generate_text_image(const fonts::face &face, const std::string &str) -> imaging::image<imaging::rgb24>
+static auto generate_text_image(const fonts::face &face, const std::u8string &str) -> imaging::image<imaging::rgb24>
 {
     const imaging::image_descriptor<imaging::rgb24> descriptor{{1024, 256}};
     imaging::image image{descriptor};
@@ -106,7 +106,7 @@ TEST(test_fonts, test_load_text_string)
         streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "lucky_star.txt"});
 
     streams::stream_reader reader{text_file};
-    const auto image = generate_text_image(face, reader.read_to_string());
+    const auto image = generate_text_image(face, reader.read_to_u8string());
 
     const auto rgb_image = imaging::convert::to_rgb24(image);
     imaging::file::png::save(rgb_image, "test_fonts_text.png");

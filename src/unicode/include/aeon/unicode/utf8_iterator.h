@@ -24,8 +24,20 @@ public:
         advance();
     }
 
+    // TODO: Fix for C++20 migration.
+    explicit utf8_iterator(const std::u8string_view &str) noexcept
+        : utf8_iterator{std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)}}
+    {
+    }
+
     explicit utf8_iterator(const std::string_view &str, const std::int32_t offset) noexcept
         : base_utf_iterator<std::string_view, std::uint8_t>{str, offset}
+    {
+    }
+
+    // TODO: Fix for C++20 migration.
+    explicit utf8_iterator(const std::u8string_view &str, const std::int32_t offset) noexcept
+        : utf8_iterator{std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)}, offset}
     {
     }
 

@@ -33,7 +33,7 @@ void parser_settings::add_argument(std::string arg)
 
 void parser_settings::add_include_path(const std::filesystem::path &path)
 {
-    args_.emplace_back("-I" + path.u8string());
+    args_.emplace_back("-I" + path.string());
 }
 
 void parser_settings::add_include_paths(const std::vector<std::filesystem::path> &include_paths)

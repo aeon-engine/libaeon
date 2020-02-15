@@ -13,9 +13,13 @@ namespace utf8
 
 [[nodiscard]] auto to_utf16(const std::string_view &str) -> std::u16string;
 [[nodiscard]] auto to_utf32(const std::string_view &str) -> std::u32string;
+[[nodiscard]] auto to_utf16(const std::u8string_view &str) -> std::u16string;
+[[nodiscard]] auto to_utf32(const std::u8string_view &str) -> std::u32string;
 
 void append(const char32_t from, std::string &to);
 void append(const std::u32string_view &from, std::string &to);
+void append(const char32_t from, std::u8string &to);
+void append(const std::u32string_view &from, std::u8string &to);
 
 } // namespace utf8
 

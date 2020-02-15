@@ -49,7 +49,9 @@ public:
     [[nodiscard]] auto read_to_vector(const std::streamoff size) const -> std::vector<T>;
 
     void read_to_string(std::string &str) const;
+    void read_to_string(std::u8string &str) const;
     [[nodiscard]] auto read_to_string() const -> std::string;
+    [[nodiscard]] auto read_to_u8string() const -> std::u8string;
 
 private:
     device_t *device_;
@@ -186,9 +188,26 @@ inline void stream_reader<device_t>::read_to_string(std::string &str) const
 }
 
 template <typename device_t>
+inline void stream_reader<device_t>::read_to_string(std::u8string &str) const
+{
+    aeon_assert(std::empty(str), "Expected given string to be empty.");
+
+    const auto vec = read_to_vector<char8_t>();
+    str.insert(std::begin(str), std::begin(vec), std::end(vec));
+}
+
+template <typename device_t>
 [[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> std::string
 {
     std::string str;
+    read_to_string(str);
+    return str;
+}
+
+template <typename device_t>
+[[nodiscard]] inline auto stream_reader<device_t>::read_to_u8string() const -> std::u8string
+{
+    std::u8string str;
     read_to_string(str);
     return str;
 }

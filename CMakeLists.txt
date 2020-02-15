@@ -28,7 +28,7 @@ handle_local_dependencies_file()
 
 include(CompilerFlags)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 ################################################################################
 

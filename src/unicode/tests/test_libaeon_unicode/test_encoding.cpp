@@ -8,9 +8,9 @@ using namespace aeon;
 
 constexpr std::array<const std::uint8_t, 3> bom_signature{0xef, 0xbb, 0xbf};
 
-inline auto bom() -> std::string
+inline auto bom() -> std::u8string
 {
-    return std::string{std::begin(bom_signature), std::end(bom_signature)};
+    return std::u8string{std::begin(bom_signature), std::end(bom_signature)};
 }
 
 TEST(test_encoding, test_encoding_convert)
@@ -19,7 +19,10 @@ TEST(test_encoding, test_encoding_convert)
     const auto converted = unicode::utf8::to_utf16(str);
     const auto converted2 = unicode::utf16::to_utf8(converted);
 
-    EXPECT_EQ(str, converted2);
+    // TODO: Fix for C++20 migration.
+    const auto converted2_u8 = std::u8string{std::begin(converted2), std::end(converted2)};
+
+    EXPECT_TRUE(str == converted2_u8);
 }
 
 TEST(test_encoding, test_encoding_convert_with_bom)
@@ -28,7 +31,10 @@ TEST(test_encoding, test_encoding_convert_with_bom)
     const auto converted = unicode::utf8::to_utf16(str);
     const auto converted2 = unicode::utf16::to_utf8(converted);
 
-    EXPECT_EQ(str, converted2);
+    // TODO: Fix for C++20 migration.
+    const auto converted2_u8 = std::u8string{std::begin(converted2), std::end(converted2)};
+
+    EXPECT_TRUE(str == converted2_u8);
 }
 
 TEST(test_encoding, test_encoding_utf32)
