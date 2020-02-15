@@ -16,12 +16,12 @@ TEST(test_iterator, test_iterator_utf)
     unicode::utf_string_view utf8_view{utf8_str};
     const std::vector<char32_t> decoded_utf8(std::begin(utf8_view), std::end(utf8_view));
     EXPECT_EQ(5u, std::size(decoded_utf8));
-    EXPECT_THAT(decoded_utf8, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
+    EXPECT_TRUE(decoded_utf8 == (std::vector<char32_t>{12425, 12365, 9734, 12377, 12383}));
 
     unicode::utf_string_view utf16_view{utf16_str};
     const std::vector<char32_t> decoded_utf16(std::begin(utf16_view), std::end(utf16_view));
     EXPECT_EQ(5u, std::size(decoded_utf16));
-    EXPECT_THAT(decoded_utf16, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
+    EXPECT_TRUE(decoded_utf16 == (std::vector<char32_t>{12425, 12365, 9734, 12377, 12383}));
 }
 
 TEST(test_iterator, test_iterator_utf8_character_str)
@@ -44,7 +44,7 @@ TEST(test_iterator, test_iterator_utf16_character_str)
     unicode::utf_string_view utf16_view{utf16_str};
     for (auto itr = std::begin(utf16_view); itr != std::end(utf16_view); ++itr)
     {
-        EXPECT_EQ(unicode::utf32::to_utf16(*itr), itr.character_str());
+        EXPECT_TRUE(unicode::utf32::to_utf16(*itr) == itr.character_str());
     }
 }
 
@@ -55,5 +55,5 @@ TEST(test_iterator, test_iterator_utf32)
     unicode::utf_string_view utf32_view{str};
     const std::vector<char32_t> decoded(std::begin(utf32_view), std::end(utf32_view));
     EXPECT_EQ(5u, std::size(decoded));
-    EXPECT_THAT(decoded, testing::ElementsAre(12425, 12365, 9734, 12377, 12383));
+    EXPECT_TRUE(decoded == (std::vector<char32_t>{12425, 12365, 9734, 12377, 12383}));
 }
