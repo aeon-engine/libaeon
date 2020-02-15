@@ -64,8 +64,8 @@ inline memory_view_device<T>::memory_view_device(T &buffer) noexcept
     : buffer_view_{&buffer}
     , span_device_{common::span<typename T::value_type>{}}
 {
-    static_assert(std::disjunction_v<common::type_traits::is_std_vector<T>, std::is_same<T, std::string>>,
-                  "Device requires either std::vector or std::string");
+    static_assert(common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> || std::is_same_v<T, std::u8string>,
+                  "Device requires either std::vector, std::string or std::u8string");
 
     if (!std::empty(*buffer_view_))
         update_span();
@@ -76,8 +76,8 @@ inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
     : buffer_view_{const_cast<T *>(&buffer)}
     , span_device_{common::span<typename T::value_type>{}}
 {
-    static_assert(std::disjunction_v<common::type_traits::is_std_vector<T>, std::is_same<T, std::string>>,
-                  "Device requires either std::vector or std::string");
+    static_assert(common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> || std::is_same_v<T, std::u8string>,
+                  "Device requires either std::vector, std::string or std::u8string");
 
     if (!std::empty(*buffer_view_))
         update_span();
