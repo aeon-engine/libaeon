@@ -50,7 +50,7 @@ TEST(test_reflection, test_reflection_parse_methods)
 
     const auto ctors = cls.constructors();
     EXPECT_EQ(1u, std::size(ctors.find(0)));
-    EXPECT_EQ(1u, std::size(ctors.find({"int", "float"})));
+    EXPECT_EQ(1u, std::size(ctors.find(std::vector<std::string_view>{"int", "float"})));
 }
 
 TEST(test_reflection, test_reflection_enum)
