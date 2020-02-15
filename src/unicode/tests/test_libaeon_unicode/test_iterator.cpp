@@ -32,7 +32,7 @@ TEST(test_iterator, test_iterator_utf8_character_str)
     unicode::utf_string_view utf8_view{utf8_str};
     for (auto itr = std::begin(utf8_view); itr != std::end(utf8_view); ++itr)
     {
-        EXPECT_EQ(unicode::utf32::to_utf8(*itr), itr.character_str());
+        EXPECT_TRUE(unicode::utf32::to_utf8(*itr) == itr.character_str());
     }
 }
 

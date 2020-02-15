@@ -18,12 +18,6 @@ template <typename T>
 struct utf_iterator_traits;
 
 template <>
-struct utf_iterator_traits<std::string_view>
-{
-    using iterator_type = utf8_iterator;
-};
-
-template <>
 struct utf_iterator_traits<std::u8string_view>
 {
     using iterator_type = utf8_iterator;
@@ -115,10 +109,6 @@ public:
 private:
     std::u32string_view str_;
 };
-
-utf_string_view(char *const)->utf_string_view<std::string_view>;
-utf_string_view(const char *const)->utf_string_view<std::string_view>;
-utf_string_view(const std::string &)->utf_string_view<std::string_view>;
 
 utf_string_view(char8_t *const)->utf_string_view<std::u8string_view>;
 utf_string_view(const char8_t *const)->utf_string_view<std::u8string_view>;

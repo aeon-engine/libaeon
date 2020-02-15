@@ -92,8 +92,9 @@ static void to_json(const std::string &obj_str, streams::idynamic_stream &stream
 {
     streams::stream_writer writer{stream};
     writer << '"';
-    // TODO: Proper UTF-8 support
-    writer << unicode::stringutils::escape(obj_str);
+    // TODO: Add utf8 support to ptree
+    std::u8string str{std::cbegin(obj_str), std::cend(obj_str)};
+    writer << unicode::stringutils::escape(str);
     writer << '"';
 }
 
@@ -128,7 +129,7 @@ static void to_json([[maybe_unused]] const blob &val, [[maybe_unused]] streams::
 class json_parser final
 {
 public:
-    explicit json_parser(const std::string_view &view)
+    explicit json_parser(const std::u8string_view &view)
         : view_{view}
         , itr_{std::begin(view_)}
         , prev_itr_{itr_}
@@ -152,7 +153,11 @@ public:
             return parse_null();
 
         if (token == '"')
-            return parse_string();
+        {
+            // TODO: Add utf-8 support to ptree
+            const auto str = parse_string();
+            return std::string{std::cbegin(str), std::cend(str)};
+        }
 
         if (token == '{')
             return parse_object();
@@ -174,13 +179,13 @@ private:
     {
         if (token == 't')
         {
-            check("true");
+            check(u8"true");
             return true;
         }
 
         if (token == 'f')
         {
-            check("false");
+            check(u8"false");
             return false;
         }
 
@@ -189,7 +194,7 @@ private:
 
     [[nodiscard]] auto parse_null() -> property_tree
     {
-        check("null");
+        check(u8"null");
         return nullptr;
     }
 
@@ -213,7 +218,8 @@ private:
             if (token != ':')
                 throw ptree_serialization_exception{};
 
-            data.emplace(std::move(key), parse());
+            std::string key_str{std::cbegin(key), std::cend(key)};
+            data.emplace(std::move(key_str), parse());
 
             token = next_token();
             if (token == '}')
@@ -267,7 +273,7 @@ private:
         return result.double_value();
     }
 
-    void check(const std::string_view &expected)
+    void check(const std::u8string_view &expected)
     {
         itr_ = prev_itr_;
         if (view_.str().compare(itr_.offset(), std::size(expected), expected) == 0)
@@ -280,9 +286,9 @@ private:
         }
     }
 
-    [[nodiscard]] auto parse_string() -> std::string
+    [[nodiscard]] auto parse_string() -> std::u8string
     {
-        std::string out;
+        std::u8string out;
 
         while (true)
         {
@@ -354,9 +360,9 @@ private:
         return *itr_++;
     }
 
-    unicode::utf_string_view<std::string_view> view_;
-    unicode::utf_string_view<std::string_view>::iterator itr_;
-    unicode::utf_string_view<std::string_view>::iterator prev_itr_;
+    unicode::utf_string_view<std::u8string_view> view_;
+    unicode::utf_string_view<std::u8string_view>::iterator itr_;
+    unicode::utf_string_view<std::u8string_view>::iterator prev_itr_;
 };
 
 } // namespace internal
@@ -377,7 +383,7 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
 void from_json(streams::idynamic_stream &stream, property_tree &ptree)
 {
     streams::stream_reader reader{stream};
-    const auto str = reader.read_to_string();
+    const auto str = reader.read_to_u8string();
     internal::json_parser parser{str};
     ptree = parser.parse();
 }

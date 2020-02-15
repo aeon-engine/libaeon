@@ -8,7 +8,7 @@
 namespace aeon::unicode
 {
 
-class utf8_iterator final : public base_utf_iterator<std::string_view, std::uint8_t>
+class utf8_iterator final : public base_utf_iterator<std::u8string_view, std::uint8_t>
 {
 public:
     using value_type = const char32_t;
@@ -17,27 +17,15 @@ public:
     using difference_type = std::int32_t;
     using iterator_category = std::forward_iterator_tag;
 
-    explicit utf8_iterator(const std::string_view &str) noexcept
-        : base_utf_iterator<std::string_view, std::uint8_t>{str}
+    explicit utf8_iterator(const std::u8string_view &str) noexcept
+        : base_utf_iterator<std::u8string_view, std::uint8_t>{str}
     {
         consume_bom();
         advance();
     }
 
-    // TODO: Fix for C++20 migration.
-    explicit utf8_iterator(const std::u8string_view &str) noexcept
-        : utf8_iterator{std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)}}
-    {
-    }
-
-    explicit utf8_iterator(const std::string_view &str, const std::int32_t offset) noexcept
-        : base_utf_iterator<std::string_view, std::uint8_t>{str, offset}
-    {
-    }
-
-    // TODO: Fix for C++20 migration.
     explicit utf8_iterator(const std::u8string_view &str, const std::int32_t offset) noexcept
-        : utf8_iterator{std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)}, offset}
+        : base_utf_iterator<std::u8string_view, std::uint8_t>{str, offset}
     {
     }
 

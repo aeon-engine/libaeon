@@ -12,52 +12,16 @@ namespace aeon::unicode
 namespace utf8
 {
 
-[[nodiscard]] auto to_utf16(const std::string_view &str) -> std::u16string
+[[nodiscard]] auto to_utf16(const std::u8string_view &str) -> std::u16string
 {
     const internal::uconverter converter{"utf-8"};
     return converter.to_uchars(str);
 }
 
-[[nodiscard]] auto to_utf32(const std::string_view &str) -> std::u32string
+[[nodiscard]] auto to_utf32(const std::u8string_view &str) -> std::u32string
 {
     utf_string_view view{str};
     return {std::begin(view), std::end(view)};
-}
-
-[[nodiscard]] auto to_utf16(const std::u8string_view &str) -> std::u16string
-{
-    // TODO: Fix for C++20 migration.
-    return to_utf16(std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)});
-}
-
-[[nodiscard]] auto to_utf32(const std::u8string_view &str) -> std::u32string
-{
-    // TODO: Fix for C++20 migration.
-    return to_utf32(std::string_view{reinterpret_cast<const char *>(std::data(str)), std::size(str)});
-}
-
-void append(const char32_t from, std::string &to)
-{
-    // TODO: Fix for C++20 migration.
-    std::array<char, 4> data;
-    auto data_offset = 0u;
-    UBool error = FALSE;
-
-    U8_APPEND(std::data(data), data_offset, std::size(data), from, error);
-
-    if (error == TRUE)
-        throw unicode_conversion_exception{};
-
-    to.append(std::begin(data), std::begin(data) + data_offset);
-}
-
-void append(const std::u32string_view &from, std::string &to)
-{
-    // TODO: Fix for C++20 migration.
-    for (const auto c : from)
-    {
-        append(c, to);
-    }
 }
 
 void append(const char32_t from, std::u8string &to)
@@ -87,7 +51,7 @@ void append(const std::u32string_view &from, std::u8string &to)
 namespace utf16
 {
 
-[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> std::string
+[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> std::u8string
 {
     const internal::uconverter converter{"utf-8"};
     return converter.from_uchars(str);
@@ -126,16 +90,16 @@ void append(const std::u32string_view &from, std::u16string &to)
 namespace utf32
 {
 
-[[nodiscard]] auto to_utf8(const char32_t c) -> std::string
+[[nodiscard]] auto to_utf8(const char32_t c) -> std::u8string
 {
-    std::string to;
+    std::u8string to;
     utf8::append(c, to);
     return to;
 }
 
-[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> std::string
+[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> std::u8string
 {
-    std::string to;
+    std::u8string to;
     utf8::append(str, to);
     return to;
 }
