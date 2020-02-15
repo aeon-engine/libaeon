@@ -111,7 +111,7 @@ struct is_std_vector
  * Check if a given type is an std::vector
  */
 template <typename T>
-using is_std_vector_v = typename is_std_vector<T>::value;
+static constexpr auto is_std_vector_v = is_std_vector<T>::value;
 
 /*!
  * Variadic version of is_same_v
