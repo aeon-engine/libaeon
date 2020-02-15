@@ -21,7 +21,7 @@ namespace internal
 {
 
 template <typename T, typename FuncT>
-auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&func) -> from_chars_result
+auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&func) -> from_chars_result<char>
 {
     auto end = const_cast<char *>(last);
     value = func(first, &end);
@@ -34,7 +34,7 @@ auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&
 
 template <typename T, typename FuncT>
 auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&func, const int base)
-    -> from_chars_result
+    -> from_chars_result<char>
 {
     if (*first == '0')
         return {first + 1, {}};
@@ -50,7 +50,7 @@ auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&
 
 } // namespace internal
 
-auto from_chars(const char *first, const char *last, std::int32_t &value, const int base) -> from_chars_result
+auto from_chars(const char *first, const char *last, std::int32_t &value, const int base) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
     auto [ptr, ec] = std::from_chars(first, last, value, base);
@@ -68,7 +68,7 @@ auto from_chars(const char *first, const char *last, std::int32_t &value, const 
 #endif
 }
 
-auto from_chars(const char *first, const char *last, std::int64_t &value, const int base) -> from_chars_result
+auto from_chars(const char *first, const char *last, std::int64_t &value, const int base) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
     auto [ptr, ec] = std::from_chars(first, last, value, base);
@@ -86,7 +86,7 @@ auto from_chars(const char *first, const char *last, std::int64_t &value, const 
 #endif
 }
 
-auto from_chars(const char *first, const char *last, std::uint32_t &value, const int base) -> from_chars_result
+auto from_chars(const char *first, const char *last, std::uint32_t &value, const int base) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
     auto [ptr, ec] = std::from_chars(first, last, value, base);
@@ -104,7 +104,7 @@ auto from_chars(const char *first, const char *last, std::uint32_t &value, const
 #endif
 }
 
-auto from_chars(const char *first, const char *last, std::uint64_t &value, const int base) -> from_chars_result
+auto from_chars(const char *first, const char *last, std::uint64_t &value, const int base) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
     auto [ptr, ec] = std::from_chars(first, last, value, base);
@@ -122,7 +122,39 @@ auto from_chars(const char *first, const char *last, std::uint64_t &value, const
 #endif
 }
 
-auto from_chars(const char *first, const char *last, float &value) -> from_chars_result
+auto from_chars(const char8_t *first, const char8_t *last, std::int32_t &value, const int base)
+    -> from_chars_result<char8_t>
+{
+    const auto result =
+        from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value, base);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
+}
+
+auto from_chars(const char8_t *first, const char8_t *last, std::int64_t &value, const int base)
+    -> from_chars_result<char8_t>
+{
+    const auto result =
+        from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value, base);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
+}
+
+auto from_chars(const char8_t *first, const char8_t *last, std::uint32_t &value, const int base)
+    -> from_chars_result<char8_t>
+{
+    const auto result =
+        from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value, base);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
+}
+
+auto from_chars(const char8_t *first, const char8_t *last, std::uint64_t &value, const int base)
+    -> from_chars_result<char8_t>
+{
+    const auto result =
+        from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value, base);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
+}
+
+auto from_chars(const char *first, const char *last, float &value) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_FLOAT))
     auto [ptr, ec] = std::from_chars(first, last, value);
@@ -132,7 +164,7 @@ auto from_chars(const char *first, const char *last, float &value) -> from_chars
 #endif
 }
 
-auto from_chars(const char *first, const char *last, double &value) -> from_chars_result
+auto from_chars(const char *first, const char *last, double &value) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_DOUBLE))
     auto [ptr, ec] = std::from_chars(first, last, value);
@@ -142,7 +174,7 @@ auto from_chars(const char *first, const char *last, double &value) -> from_char
 #endif
 }
 
-auto from_chars(const char *first, const char *last, long double &value) -> from_chars_result
+auto from_chars(const char *first, const char *last, long double &value) -> from_chars_result<char>
 {
 #if (defined(AEON_COMPILER_HAS_FROM_CHARS_LONG_DOUBLE))
     auto [ptr, ec] = std::from_chars(first, last, value);
@@ -150,6 +182,24 @@ auto from_chars(const char *first, const char *last, long double &value) -> from
 #else
     return internal::from_chars_internal(first, last, value, strtold);
 #endif
+}
+
+auto from_chars(const char8_t *first, const char8_t *last, float &value) -> from_chars_result<char8_t>
+{
+    const auto result = from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
+}
+
+auto from_chars(const char8_t *first, const char8_t *last, double &value) -> from_chars_result<char8_t>
+{
+    const auto result = from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
+}
+
+auto from_chars(const char8_t *first, const char8_t *last, long double &value) -> from_chars_result<char8_t>
+{
+    const auto result = from_chars(reinterpret_cast<const char *>(first), reinterpret_cast<const char *>(last), value);
+    return {reinterpret_cast<const char8_t *>(result.ptr), result.ec};
 }
 
 } // namespace aeon::common
