@@ -114,7 +114,8 @@ inline auto &operator<<(stream_writer<device_t> &writer, const std::u8string_vie
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
 
-    if (writer.device().write(reinterpret_cast<const char *>(std::data(val)), size) != static_cast<std::streamsize>(size))
+    if (writer.device().write(reinterpret_cast<const char *>(std::data(val)), size) !=
+        static_cast<std::streamsize>(size))
         throw stream_exception{};
 
     return writer;
