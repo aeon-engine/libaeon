@@ -18,12 +18,32 @@ inline auto make_string_view_stream(const std::string &str)
     return make_dynamic_stream(streams::memory_view_device{str});
 }
 
+inline auto make_string_view_stream(std::u8string &str)
+{
+    return make_dynamic_stream(streams::memory_view_device{str});
+}
+
+inline auto make_string_view_stream(const std::u8string &str)
+{
+    return make_dynamic_stream(streams::memory_view_device{str});
+}
+
 inline auto make_string_view_stream_ptr(std::string &str)
 {
     return make_dynamic_stream_ptr(streams::memory_view_device{str});
 }
 
 inline auto make_string_view_stream_ptr(const std::string &str)
+{
+    return make_dynamic_stream_ptr(streams::memory_view_device{str});
+}
+
+inline auto make_string_view_stream_ptr(std::u8string &str)
+{
+    return make_dynamic_stream_ptr(streams::memory_view_device{str});
+}
+
+inline auto make_string_view_stream_ptr(const std::u8string &str)
 {
     return make_dynamic_stream_ptr(streams::memory_view_device{str});
 }
