@@ -9,6 +9,7 @@ set(LIB_AEON_RTMIDI_PUBLIC_SOURCE
     include/aeon/midi/midi_input_manager.h
     include/aeon/midi/midi_messages.h
     include/aeon/midi/midi_output_device.h
+    include/aeon/midi/midi_utils.h
 )
 
 source_group(public FILES ${LIB_AEON_RTMIDI_PUBLIC_SOURCE})
@@ -19,6 +20,7 @@ set(LIB_AEON_RTMIDI_PRIVATE_SOURCE
     src/midi_input_device.cpp
     src/midi_input_manager.cpp
     src/midi_output_device.cpp
+    src/midi_utils.cpp
 )
 
 source_group(private FILES ${LIB_AEON_RTMIDI_PRIVATE_SOURCE})

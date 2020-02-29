@@ -8,6 +8,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_midi.cpp
+        test_midi_utils.cpp
     LIBRARIES aeon_midi
     FOLDER dep/libaeon/tests
 )
