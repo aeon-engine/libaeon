@@ -50,7 +50,7 @@ template <typename device_t>
 inline stream_writer<device_t>::stream_writer(device_t &device) noexcept
     : device_{&device}
 {
-    if constexpr (std::is_same_v<device_t, idynamic_stream>)
+    if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
     {
         aeon_assert(device_->is_output(), "Stream writer requires an output device.");
     }
