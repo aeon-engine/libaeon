@@ -26,24 +26,17 @@ libAeon is tested on the most recent versions of Visual Studio 2019. It is best 
 
 ### Linux
 
-libAeon requires GCC 10 but parts still may work on GCC 9 or even 8 (Untested).
+libAeon requires GCC 9.2.0 or higher and has also been tested with GCC 10. Parts of the library may still work on GCC 8 (Untested).
 
 1.  Make sure you have cloned the submodules
 
     ```git submodule update --init```
 
-2.  Make sure that CMake uses the correct compiler. The easiest way to do this is to set some environment variables
-
-    ```
-    export CC=gcc10
-    export CXX=g++-10
-    ```
-
-3.  Run `./bootstrap.sh`
+2.  Run `./bootstrap.sh`
 
     This will download all dependencies and generate a Makefile in the `build` subfolder.
 
-4.  Enter the `build` folder and run make
+3.  Enter the `build` folder and run make
 
 ### Other platforms
 
