@@ -23,9 +23,9 @@ public:
     }
 
     template <typename T>
-    back_emplace_iterator<container_type> &operator=(T &&args)
+    back_emplace_iterator<container_type> &operator=(const T &args)
     {
-        container_->emplace_back(std::forward<T>(args));
+        container_->emplace_back(args);
         return *this;
     }
 
