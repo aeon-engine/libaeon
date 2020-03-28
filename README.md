@@ -32,11 +32,18 @@ libAeon requires GCC 10 but parts still may work on GCC 9 or even 8 (Untested).
 
     ```git submodule update --init```
 
-2.  Run `./bootstrap.sh`
+2.  Make sure that CMake uses the correct compiler. The easiest way to do this is to set some environment variables
+
+    ```
+    export CC=gcc10
+    export CXX=g++-10
+    ```
+
+3.  Run `./bootstrap.sh`
 
     This will download all dependencies and generate a Makefile in the `build` subfolder.
 
-3.  Enter the `build` folder and run make
+4.  Enter the `build` folder and run make
 
 ### Other platforms
 
