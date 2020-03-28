@@ -45,6 +45,13 @@ However there are no prebuilt dependencies available for these platforms. You ca
 dependencies that are installed on the system already instead of downloading prebuilt ones. If you have any questions about this feel
 free to contact me. I will try to do my best to help, but I can't guarantee anything.
 
+### Docker (Linux)
+
+You can also build libAeon in the official docker image that is also used for Continuous integration. The sources for this environment can
+be found on [github](https://github.com/aeon-engine/docker_linux_build_environment).
+
+This image is also available on dockerhub as ```aeonengine/linux_build_environment```.
+
 License
 --------------
 The Aeon Library is released under the 2-Clause BSD license.
