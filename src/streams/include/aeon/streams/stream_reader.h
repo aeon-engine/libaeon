@@ -77,7 +77,7 @@ inline stream_reader<device_t>::stream_reader(device_t &device) noexcept
     }
     else
     {
-        static_assert(is_device_v<device_t>, "Stream writer requires a device.");
+        static_assert(is_device_v<device_t>, "Stream reader requires a device.");
         static_assert(is_input_v<device_t>, "Stream reader requires an input device.");
     }
 }
