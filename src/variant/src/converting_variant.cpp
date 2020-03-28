@@ -26,14 +26,14 @@ converting_variant::converting_variant(const std::chrono::system_clock::time_poi
 {
 }
 
-converting_variant::converting_variant(const enum class type t) noexcept
+converting_variant::converting_variant(const enum type t) noexcept
     : data_{}
     , type_{static_cast<std::uint32_t>(t)}
     , user_index_{0}
 {
 }
 
-auto converting_variant::type() const noexcept -> enum class type { return static_cast<enum class type>(type_); }
+auto converting_variant::type() const noexcept -> enum type { return static_cast<enum type>(type_); }
 
 auto converting_variant::is_user_type() const noexcept -> bool
 {

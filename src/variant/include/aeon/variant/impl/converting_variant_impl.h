@@ -125,7 +125,7 @@ template <typename from_t, typename to_t>
 inline auto converting_variant::get_value_internal() const -> to_t
 {
     assert(!is_null());
-    assert(internal::converting_variant_enum_traits<from_t>::type == static_cast<enum class type>(type_));
+    assert(internal::converting_variant_enum_traits<from_t>::type == static_cast<enum type>(type_));
 
     if constexpr (std::is_same_v<from_t, to_t>)
         return std::get<from_t>(data_);
