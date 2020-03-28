@@ -26,7 +26,7 @@ libAeon is tested on the most recent versions of Visual Studio 2019. It is best 
 
 ### Linux
 
-libAeon requires at least GCC 9 but parts still may work on GCC 8 (Untested).
+libAeon requires GCC 10 but parts still may work on GCC 9 or even 8 (Untested).
 
 1.  Make sure you have cloned the submodules
 
