@@ -8,6 +8,44 @@ libAeon
 
 A general purpose C++20 support library.
 
+How to build
+--------------
+### Windows (Visual Studio 2019)
+
+libAeon is tested on the most recent versions of Visual Studio 2019. It is best to just install the latest stable version when building.
+
+1. Make sure you have cloned the submodules
+
+   ```git submodule update --init```
+
+2. Run `bootstrap.cmd`
+
+   This will download all dependencies and generate the Visual Studio solution and project files in the `vs_build` subfolder.
+
+3. Load the solution in Visual Studio and build
+
+### Linux
+
+libAeon requires at least GCC 9 but parts still may work on GCC 8 (Untested).
+
+1. Make sure you have cloned the submodules
+
+   ```git submodule update --init```
+
+2. Run `./bootstrap.sh`
+
+   This will download all dependencies and generate a Makefile in the `build` subfolder.
+
+3. Enter the `build` folder and run make
+
+
+### Other platforms
+
+libAeon has also been successfully tested on other platforms like BSD and macOS. As long as you use a recent compiler this should work.
+However there are no prebuilt dependencies available for these platforms. You can try using `./bootstrap_local.sh`. This will try to use
+dependencies that are installed on the system already instead of downloading prebuilt ones. If you have any questions about this feel
+free to contact me. I will try to do my best to help, but I can't guarantee anything.
+
 License
 --------------
 The Aeon Library is released under the 2-Clause BSD license.
