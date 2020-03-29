@@ -10,5 +10,5 @@ steps:
   displayName: 'Bootstrap'
 - script: cd build && make -j2
   displayName: 'Build'
-- script: cd build && LD_LIBRARY_PATH=$(pwd)/bin ctest
+- script: cd build && ctest
   displayName: 'Test'
