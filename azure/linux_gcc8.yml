@@ -6,7 +6,7 @@ container: aeonengine/linux_build_environment:latest
 steps:
 - script: git submodule update --init
   displayName: 'Init submodules'
-- script: mkdir build && cd build && cmake ../ -DCMAKE_INSTALL_PREFIX=$(pwd)/install -DAEON_COMPONENT_CLANG=OFF
+- script: mkdir build && cd build && cmake ../ -DCMAKE_INSTALL_PREFIX=$(pwd)/install
   displayName: 'Bootstrap'
 - script: cd build && make -j2
   displayName: 'Build'
