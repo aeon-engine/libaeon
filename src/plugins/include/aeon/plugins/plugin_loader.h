@@ -125,6 +125,12 @@ template <typename T>
 class [[nodiscard]] scoped_plugin
 {
 public:
+    scoped_plugin()
+        : plugin_interface_{}
+        , loader_{}
+    {
+    }
+
     scoped_plugin(T * p)
         : plugin_interface_(p)
         , loader_(p ? &plugin_interface_->get_plugin_loader() : nullptr)
