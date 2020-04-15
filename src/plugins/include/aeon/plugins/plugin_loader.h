@@ -139,7 +139,7 @@ public:
 
     ~scoped_plugin()
     {
-        unload();
+        reset();
     }
 
     scoped_plugin(scoped_plugin && other) noexcept
@@ -154,7 +154,7 @@ public:
     {
         if (AEON_LIKELY(this != &other))
         {
-            unload();
+            reset();
             plugin_interface_ = std::move(other.plugin_interface_);
             loader_ = std::move(other.loader_);
             other.plugin_interface_ = nullptr;
@@ -186,15 +186,7 @@ public:
         return plugin_interface_;
     }
 
-    [[nodiscard]] auto release() noexcept
-    {
-        const auto plugin = plugin_interface_;
-        plugin_interface_ = nullptr;
-        return plugin;
-    }
-
-private:
-    void unload()
+    void reset()
     {
         if (plugin_interface_ && loader_)
         {
@@ -205,6 +197,14 @@ private:
         loader_ = nullptr;
     }
 
+    [[nodiscard]] auto release() noexcept
+    {
+        const auto plugin = plugin_interface_;
+        plugin_interface_ = nullptr;
+        return plugin;
+    }
+
+private:
     T *plugin_interface_;
     plugin_loader *loader_;
 };
