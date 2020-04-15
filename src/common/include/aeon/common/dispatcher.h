@@ -49,7 +49,7 @@ public:
 
             if (!queue_.empty())
             {
-                func = queue_.front();
+                func = std::move(queue_.front());
                 queue_.pop();
             }
 
@@ -74,19 +74,19 @@ public:
         }
     }
 
-    void post(const std::function<void()> &job)
+    void post(std::function<void()> &&job)
     {
         std::scoped_lock lock(mutex_);
-        queue_.push(job);
+        queue_.push(std::move(job));
         signal_cv_.notify_one();
     }
 
-    void call(const std::function<void()> &job)
+    void call(std::function<void()> &&job)
     {
         std::promise<void> promise;
         auto future = promise.get_future();
 
-        post([job, &promise]() {
+        post([job = std::move(job), &promise]() {
             try
             {
                 job();
@@ -102,12 +102,12 @@ public:
     }
 
     template <typename T, std::enable_if_t<!std::is_void_v<T>> * = nullptr>
-    T call(const std::function<T()> &job)
+    T call(std::function<T()> &&job)
     {
         std::promise<T> promise;
         auto future = promise.get_future();
 
-        post([job, &promise]() {
+        post([job = std::move(job), &promise]() {
             try
             {
                 promise.set_value(job());
