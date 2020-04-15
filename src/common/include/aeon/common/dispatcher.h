@@ -121,6 +121,14 @@ public:
         return future.get();
     }
 
+    void sync_fence()
+    {
+        std::promise<void> promise;
+        auto future = promise.get_future();
+        post([&promise]() { promise.set_value(); });
+        future.get();
+    }
+
     void stop()
     {
         std::scoped_lock guard(mutex_);
