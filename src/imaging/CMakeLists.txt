@@ -15,6 +15,7 @@ set(LIB_AEON_IMAGING_PUBLIC_SOURCE
     include/aeon/imaging/pixel_encoding.h
     include/aeon/imaging/pixel_encoding_traits.h
     include/aeon/imaging/pixel_math.h
+    include/aeon/imaging/shared_image.h
 )
 
 source_group(public FILES ${LIB_AEON_IMAGING_PUBLIC_SOURCE})
@@ -27,6 +28,7 @@ set(LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE
     include/aeon/imaging/impl/image_view_base_impl.h
     include/aeon/imaging/impl/image_view_impl.h
     include/aeon/imaging/impl/pixel_encoding_impl.h
+    include/aeon/imaging/impl/shared_image_impl.h
 )
 
 source_group(public\\impl FILES ${LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE})

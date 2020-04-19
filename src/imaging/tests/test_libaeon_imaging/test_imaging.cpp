@@ -3,6 +3,7 @@
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/dynamic_image.h>
 #include <aeon/imaging/pixel_encoding.h>
+#include <aeon/imaging/shared_image.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -72,5 +73,41 @@ TEST(test_imaging, test_construct_dynamic_image)
 
     EXPECT_EQ(10 * 10 * aeon_signed_sizeof(std::uint8_t), imaging::size(image));
     EXPECT_EQ(imaging::pixel_encoding::unsigned8, imaging::encoding(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
+}
+
+TEST(test_imaging, test_construct_shared_image8)
+{
+    imaging::image_descriptor<std::uint8_t> d{10, 10};
+    imaging::shared_image image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(std::uint8_t), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
+}
+
+TEST(test_imaging, test_construct_shared_image16)
+{
+    imaging::image_descriptor<std::uint16_t> d{10, 10};
+    imaging::shared_image image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(std::uint16_t), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
+}
+
+TEST(test_imaging, test_construct_shared_float32)
+{
+    imaging::image_descriptor<float> d{10, 10};
+    imaging::shared_image image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(float), imaging::size(image));
+    EXPECT_EQ(d, imaging::descriptor(image));
+}
+
+TEST(test_imaging, test_construct_shared_rgb24)
+{
+    imaging::image_descriptor<imaging::rgb24> d{10, 10};
+    imaging::shared_image image{d};
+
+    EXPECT_EQ(10 * 10 * aeon_signed_sizeof(imaging::rgb24), imaging::size(image));
     EXPECT_EQ(d, imaging::descriptor(image));
 }
