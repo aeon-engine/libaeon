@@ -9,6 +9,7 @@
 #pragma once
 
 #include <aeon/imaging/image_view.h>
+#include <aeon/imaging/image_base.h>
 #include <vector>
 #include <memory>
 
@@ -18,28 +19,6 @@
  */
 namespace aeon::imaging
 {
-
-/*!
- * Base class for image. This is mainly used to have a common base for images
- * of different templated pixel types.
- */
-class image_base
-{
-public:
-    virtual ~image_base() = default;
-
-    image_base(const image_base &) = delete;
-    auto operator=(const image_base &) -> image_base & = delete;
-
-    image_base(image_base &&) noexcept = default;
-    auto operator=(image_base &&) noexcept -> image_base & = default;
-
-    [[nodiscard]] virtual auto raw_data() noexcept -> std::byte * = 0;
-    [[nodiscard]] virtual auto raw_data() const noexcept -> const std::byte * = 0;
-
-protected:
-    image_base() = default;
-};
 
 /*!
  * An image. This class is owns the underlying pixel data and provides are view on
