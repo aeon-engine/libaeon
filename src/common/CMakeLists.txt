@@ -34,6 +34,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/preprocessor.h
     include/aeon/common/scope_guard.h
     include/aeon/common/shared_vector.h
+    include/aeon/common/shared_vector_fwd.h
     include/aeon/common/signals.h
     include/aeon/common/signed_sizeof.h
     include/aeon/common/singleton.h
