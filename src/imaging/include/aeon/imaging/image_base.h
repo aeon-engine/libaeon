@@ -16,8 +16,8 @@ class image_base
 public:
     virtual ~image_base() = default;
 
-    image_base(const image_base &) = delete;
-    auto operator=(const image_base &) -> image_base & = delete;
+    image_base(const image_base &) = default;
+    auto operator=(const image_base &) -> image_base & = default;
 
     image_base(image_base &&) noexcept = default;
     auto operator=(image_base &&) noexcept -> image_base & = default;
