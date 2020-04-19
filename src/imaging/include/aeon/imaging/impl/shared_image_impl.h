@@ -61,6 +61,12 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline auto shared_image<T>::shared_data() const noexcept -> common::shared_vector<std::byte>
+{
+    return data_;
+}
+
+template <typename T>
 [[nodiscard]] inline auto shared_image<T>::move_to_dynamic_image() -> std::unique_ptr<image_base>
 {
     return std::make_unique<shared_image<T>>(image_view<T>::descriptor_, std::move(data_));

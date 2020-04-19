@@ -75,6 +75,13 @@ public:
      */
     [[nodiscard]] auto raw_data() const noexcept -> const std::byte * override;
 
+    /*!
+     * Access the raw internal shared data of this image without any bounds checks.
+     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
+     * \return A shared vector to the raw data.
+     */
+    [[nodiscard]] auto shared_data() const noexcept -> common::shared_vector<std::byte>;
+
 private:
     /*!
      * Internal helper method to transfer the data to a std::unique_ptr<image_base>.
