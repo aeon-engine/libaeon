@@ -9,10 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: aeonengine/linux_build_environment
 
     steps:
-    - uses: aeonengine/linux_build_environment
-
     - uses: actions/checkout@v2
 
     - name: Init submodules
