@@ -4,6 +4,7 @@
 
 #include <aeon/ast/entity_type.h>
 #include <aeon/common/collection.h>
+#include <string_view>
 
 namespace aeon::ast
 {
