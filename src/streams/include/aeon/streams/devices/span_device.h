@@ -5,8 +5,9 @@
 #include <aeon/streams/devices/device.h>
 #include <aeon/streams/seek_direction.h>
 #include <aeon/streams/tags.h>
-#include <aeon/common/span.h>
+#include <span>
 #include <algorithm>
+#include <ios>
 
 namespace aeon::streams
 {
@@ -19,7 +20,7 @@ public:
     {
     };
 
-    explicit span_device(common::span<T> span) noexcept;
+    explicit span_device(std::span<T> span) noexcept;
 
     span_device(span_device &&) noexcept = default;
     auto operator=(span_device &&) noexcept -> span_device & = default;
@@ -45,18 +46,18 @@ public:
 
     [[nodiscard]] auto size() const noexcept -> std::streamoff;
 
-    [[nodiscard]] auto get_span() const noexcept -> const common::span<T> &;
+    [[nodiscard]] auto get_span() const noexcept -> const std::span<T> &;
 
-    void set_span(common::span<T> span) noexcept;
+    void set_span(std::span<T> span) noexcept;
 
 protected:
-    common::span<T> span_;
+    std::span<T> span_;
     std::streamoff read_idx_;
     std::streamoff write_idx_;
 };
 
 template <typename T>
-inline span_device<T>::span_device(common::span<T> span) noexcept
+inline span_device<T>::span_device(std::span<T> span) noexcept
     : span_{std::move(span)}
     , read_idx_{0}
     , write_idx_{0}
@@ -107,12 +108,12 @@ inline auto span_device<T>::seekg(const std::streamoff offset, const seek_direct
         break;
         case seek_direction::end:
         {
-            idx = (std::size(span_) - 1) - offset;
+            idx = (std::ssize(span_) - 1) - offset;
         }
         break;
     }
 
-    if (idx < 0 || idx >= std::size(span_))
+    if (idx < 0 || idx >= std::ssize(span_))
         return false;
 
     read_idx_ = idx;
@@ -143,12 +144,12 @@ inline auto span_device<T>::seekp(const std::streamoff offset, const seek_direct
         break;
         case seek_direction::end:
         {
-            idx = (std::size(span_) - 1) - offset;
+            idx = (std::ssize(span_) - 1) - offset;
         }
         break;
     }
 
-    if (idx < 0 || idx >= std::size(span_))
+    if (idx < 0 || idx >= std::ssize(span_))
         return false;
 
     write_idx_ = idx;
@@ -164,23 +165,23 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline auto span_device<T>::eof() const noexcept -> bool
 {
-    return read_idx_ >= std::size(span_);
+    return read_idx_ >= std::ssize(span_);
 }
 
 template <typename T>
 [[nodiscard]] inline auto span_device<T>::size() const noexcept -> std::streamoff
 {
-    return static_cast<std::streamoff>(std::size(span_));
+    return std::ssize(span_);
 }
 
 template <typename T>
-[[nodiscard]] inline auto span_device<T>::get_span() const noexcept -> const common::span<T> &
+[[nodiscard]] inline auto span_device<T>::get_span() const noexcept -> const std::span<T> &
 {
     return span_;
 }
 
 template <typename T>
-inline void span_device<T>::set_span(common::span<T> span) noexcept
+inline void span_device<T>::set_span(std::span<T> span) noexcept
 {
     span_ = std::move(span);
 }

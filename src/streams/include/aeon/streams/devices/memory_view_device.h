@@ -62,7 +62,7 @@ protected:
 template <typename T>
 inline memory_view_device<T>::memory_view_device(T &buffer) noexcept
     : buffer_view_{&buffer}
-    , span_device_{common::span<typename T::value_type>{}}
+    , span_device_{std::span<typename T::value_type>{}}
 {
     static_assert(common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> ||
                       std::is_same_v<T, std::u8string>,
@@ -75,7 +75,7 @@ inline memory_view_device<T>::memory_view_device(T &buffer) noexcept
 template <typename T>
 inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
     : buffer_view_{const_cast<T *>(&buffer)}
-    , span_device_{common::span<typename T::value_type>{}}
+    , span_device_{std::span<typename T::value_type>{}}
 {
     static_assert(common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> ||
                       std::is_same_v<T, std::u8string>,
@@ -88,7 +88,7 @@ inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
 template <typename T>
 inline memory_view_device<T>::memory_view_device() noexcept
     : buffer_view_{}
-    , span_device_{common::span<typename T::value_type>{}}
+    , span_device_{std::span<typename T::value_type>{}}
 {
 }
 
@@ -189,7 +189,7 @@ template <typename T>
 template <typename T>
 void memory_view_device<T>::update_span()
 {
-    span_device_.set_span(common::span{*buffer_view_});
+    span_device_.set_span(std::span{*buffer_view_});
 }
 
 } // namespace aeon::streams

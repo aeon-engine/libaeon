@@ -11,6 +11,7 @@
 #include <aeon/common/type_traits.h>
 #include <gtest/gtest.h>
 #include <fstream>
+#include <array>
 #include <utility>
 #include <cstring>
 
@@ -25,7 +26,7 @@ struct test_output_filter : streams::filter
     template <typename sink_t>
     auto write(sink_t &sink, const char *data, const std::streamsize size) const -> std::streamsize
     {
-        common::span data_span{data, size};
+        std::span data_span{data, static_cast<std::size_t>(size)};
         std::string new_data = "[PREFIX]";
         new_data.insert(std::end(new_data), std::begin(data_span), std::end(data_span));
         new_data += "[POSTFIX]";
@@ -47,7 +48,7 @@ struct test_output_filter2 : streams::filter
     template <typename sink_t>
     auto write(sink_t &sink, const char *data, const std::streamsize size) const -> std::streamsize
     {
-        common::span data_span{data, size};
+        std::span data_span{data, static_cast<std::size_t>(size)};
         std::string new_data = "<<<";
         new_data.insert(std::end(new_data), std::begin(data_span), std::end(data_span));
         new_data += ">>>";
@@ -97,7 +98,7 @@ TEST(test_streams, test_streams_stringstream_device)
 TEST(test_streams, test_streams_span_device)
 {
     std::array<char, 20> test_array;
-    auto device = streams::span_device{common::span{test_array}};
+    auto device = streams::span_device(std::span<char>{test_array});
 
     ASSERT_EQ(5, device.write("12345", 5));
     ASSERT_EQ(5, device.write("67890", 5));
@@ -125,7 +126,7 @@ TEST(test_streams, test_streams_span_device)
 TEST(test_streams, test_streams_circular_buffer_filter)
 {
     std::array<char, 20> test_array;
-    auto device = streams::span_device{common::span{test_array}} | streams::circular_buffer_filter{};
+    auto device = streams::span_device{std::span<char>(test_array)} | streams::circular_buffer_filter{};
 
     ASSERT_EQ(5, device.write("12345", 5));
     ASSERT_EQ(5, device.write("67890", 5));

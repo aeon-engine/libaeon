@@ -95,7 +95,7 @@ TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
 void test_varint(const std::uint64_t value, const int expected_encoding_length)
 {
     std::array<char, sizeof(std::uint64_t) + 1> data;
-    auto device = streams::span_device<char>{common::span{data}};
+    auto device = streams::span_device<char>{std::span{data}};
     streams::stream_writer writer{device};
 
     writer << streams::varint{value};

@@ -5,6 +5,7 @@
 #include <aeon/common/signed_sizeof.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <array>
 
 using namespace aeon;
 

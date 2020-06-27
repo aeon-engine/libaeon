@@ -3,6 +3,7 @@
 #include <aeon/streams/make_vector_stream.h>
 #include <gtest/gtest.h>
 #include <cstring>
+#include <array>
 
 using namespace aeon;
 
@@ -20,8 +21,8 @@ TEST(test_streams, test_streams_dynamic_stream_create)
     EXPECT_FALSE(dynamic_device.is_flushable());
 
     std::array<char, 5> read;
-    ASSERT_EQ(5, dynamic_device.read(std::data(read), std::size(read)));
-    EXPECT_EQ(0, std::memcmp("12345", std::data(read), std::size(read)));
+    ASSERT_EQ(5, dynamic_device.read(std::data(read), std::ssize(read)));
+    EXPECT_EQ(0, std::memcmp("12345", std::data(read), std::ssize(read)));
 }
 
 TEST(test_streams, test_streams_dynamic_stream_create_ptr)
@@ -38,6 +39,6 @@ TEST(test_streams, test_streams_dynamic_stream_create_ptr)
     EXPECT_FALSE(dynamic_device->is_flushable());
 
     std::array<char, 5> read;
-    ASSERT_EQ(5, dynamic_device->read(std::data(read), std::size(read)));
-    EXPECT_EQ(0, std::memcmp("12345", std::data(read), std::size(read)));
+    ASSERT_EQ(5, dynamic_device->read(std::data(read), std::ssize(read)));
+    EXPECT_EQ(0, std::memcmp("12345", std::data(read), std::ssize(read)));
 }

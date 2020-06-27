@@ -20,7 +20,6 @@ add_unit_test_suite(
         test_scope_guard.cpp
         test_signals.cpp
         test_singleton.cpp
-        test_span.cpp
         test_string.cpp
         test_string_table.cpp
         test_stringtraits.cpp
