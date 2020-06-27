@@ -4,6 +4,7 @@
 
 #include <aeon/common/assert.h>
 #include <type_traits>
+#include <stdexcept>
 #include <cstddef>
 #include <iterator>
 #include <array>
