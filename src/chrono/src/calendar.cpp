@@ -21,6 +21,12 @@ public:
     using icu::GregorianCalendar::GregorianCalendar;
     ~gregorian_calendar_impl() final = default;
 
+    gregorian_calendar_impl(const gregorian_calendar_impl &other) = delete;
+    auto operator=(const gregorian_calendar_impl &other) -> gregorian_calendar_impl & = delete;
+
+    gregorian_calendar_impl(gregorian_calendar_impl &&other) noexcept = delete;
+    auto operator=(gregorian_calendar_impl &&other) noexcept -> gregorian_calendar_impl & = delete;
+
     /*!
      * complete() must be called after manually changing date and/or time fields.
      * However this method is protected. This method exposes it to the calendar implementation.
