@@ -62,13 +62,17 @@ public:
                                const double time_code) = 0;
 };
 
-class midi_input_manager : public common::listener_subject<midi_input_listener>
+class midi_input_manager
 {
 public:
     explicit midi_input_manager(midi_input_device &device);
     ~midi_input_manager();
 
     void run_one();
+
+    void attach_input_listener(midi_input_listener &listener);
+    void detach_input_listener(midi_input_listener &listener);
+    void detach_all_input_listeners();
 
     [[nodiscard]] auto &get_input_device()
     {
@@ -88,6 +92,7 @@ private:
     std::vector<unsigned char> receive_buffer_;
 
     std::array<std::vector<midi_note>, max_midi_channels> notes_;
+    common::listener_subject<midi_input_listener> input_listeners_;
 };
 
 } // namespace aeon::midi

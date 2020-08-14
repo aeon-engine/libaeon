@@ -33,10 +33,22 @@ void midi_input_manager::run_one()
 
     __parse_note_data(receive_buffer_);
 
-    for (auto listener : listeners_)
-    {
-        listener->on_midi_input(*this, receive_buffer_, time_code);
-    }
+    input_listeners_.invoke_each(&midi_input_listener::on_midi_input, *this, receive_buffer_, time_code);
+}
+
+void midi_input_manager::attach_input_listener(midi_input_listener &listener)
+{
+    input_listeners_.attach(listener);
+}
+
+void midi_input_manager::detach_input_listener(midi_input_listener &listener)
+{
+    input_listeners_.detach(listener);
+}
+
+void midi_input_manager::detach_all_input_listeners()
+{
+    input_listeners_.detach_all();
 }
 
 void midi_input_manager::__parse_note_data(const std::vector<unsigned char> &data)

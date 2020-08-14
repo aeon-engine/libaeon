@@ -9,20 +9,14 @@ namespace aeon::common
 {
 
 /*!
- * Base class for the subject of a observer pattern (listener class).
- * Observers are not specificly implemented since the pattern states that
- * only "Update()" is allowed. We want to be a little bit more generic,
- * hence the template.
- *
- * It's up to the implemented class to iterate over the listeners_ vector
- * and call the appropriate methods.
+ * Subject of a observer pattern (listener class).
  */
 template <typename T>
-class listener_subject
+class listener_subject final
 {
 public:
     listener_subject() = default;
-    virtual ~listener_subject() = default;
+    ~listener_subject() = default;
 
     listener_subject(listener_subject<T> &&) = default;
     auto operator=(listener_subject<T> &&) -> listener_subject<T> & = default;
@@ -36,9 +30,9 @@ public:
      * This does not take ownership of this pointer, so it's up to
      * the caller to keep this pointer alive, and delete it appropriately.
      */
-    void attach_listener(T *listener)
+    void attach(T &listener)
     {
-        listeners_.push_back(listener);
+        listeners_.push_back(&listener);
     }
 
     /*!
@@ -46,9 +40,9 @@ public:
      *
      * This will not delete the object, but merely detach it.
      */
-    void detach_listener(T *listener)
+    void detach(T &listener)
     {
-        listeners_.erase(std::remove(listeners_.begin(), listeners_.end(), listener), listeners_.end());
+        listeners_.erase(std::remove(std::begin(listeners_), std::end(listeners_), &listener), std::end(listeners_));
     }
 
     /*!
@@ -56,12 +50,30 @@ public:
      *
      * This will not delete the objects, but merely detach them.
      */
-    void detach_all_listeners()
+    void detach_all()
     {
         listeners_.clear();
     }
 
-protected:
+    /*!
+     * Invoke a method in every attached listener
+     */
+    template <typename func_t, class... args_t>
+    void invoke_each(func_t &&func, args_t &&... args)
+    {
+        for (const auto &listener : listeners_)
+            std::invoke(func, listener, std::forward<args_t>(args)...);
+    }
+
+    /*!
+     * Access all attached listeners
+     */
+    [[nodiscard]] const auto &listeners() const noexcept
+    {
+        return listeners_;
+    }
+
+private:
     std::vector<T *> listeners_;
 };
 
