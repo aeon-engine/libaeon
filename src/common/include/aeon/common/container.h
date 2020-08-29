@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <array>
+#include <iterator>
 #include <algorithm>
 
 namespace aeon::common::container
