@@ -238,93 +238,100 @@ template <typename T>
 
 #define process_image(img, func, ...)                                                                                  \
     [&]() {                                                                                                            \
-        switch (encoding(img))                                                                                         \
+        switch (aeon::imaging::encoding(img))                                                                          \
         {                                                                                                              \
-            case pixel_encoding::unsigned8:                                                                            \
-                func(view<std::uint8_t>(img), ##__VA_ARGS__);                                                          \
+            case aeon::imaging::pixel_encoding::unsigned8:                                                             \
+                func(aeon::imaging::view<std::uint8_t>(img), ##__VA_ARGS__);                                           \
                 return;                                                                                                \
-            case pixel_encoding::unsigned16:                                                                           \
-                func(view<std::uint16_t>(img), ##__VA_ARGS__);                                                         \
+            case aeon::imaging::pixel_encoding::unsigned16:                                                            \
+                func(aeon::imaging::view<std::uint16_t>(img), ##__VA_ARGS__);                                          \
                 return;                                                                                                \
-            case pixel_encoding::unsigned32:                                                                           \
-                func(view<std::uint32_t>(img), ##__VA_ARGS__);                                                         \
+            case aeon::imaging::pixel_encoding::unsigned32:                                                            \
+                func(aeon::imaging::view<std::uint32_t>(img), ##__VA_ARGS__);                                          \
                 return;                                                                                                \
-            case pixel_encoding::float32:                                                                              \
-                func(view<float>(img), ##__VA_ARGS__);                                                                 \
+            case aeon::imaging::pixel_encoding::float32:                                                               \
+                func(aeon::imaging::view<float>(img), ##__VA_ARGS__);                                                  \
                 return;                                                                                                \
-            case pixel_encoding::rgb24:                                                                                \
-                func(view<rgb24>(img), ##__VA_ARGS__);                                                                 \
+            case aeon::imaging::pixel_encoding::rgb24:                                                                 \
+                func(aeon::imaging::view<aeon::imaging::rgb24>(img), ##__VA_ARGS__);                                   \
                 return;                                                                                                \
-            case pixel_encoding::rgba32:                                                                               \
-                func(view<rgba32>(img), ##__VA_ARGS__);                                                                \
+            case aeon::imaging::pixel_encoding::rgba32:                                                                \
+                func(aeon::imaging::view<aeon::imaging::rgba32>(img), ##__VA_ARGS__);                                  \
                 return;                                                                                                \
-            case pixel_encoding::bgr24:                                                                                \
-                func(view<bgr24>(img), ##__VA_ARGS__);                                                                 \
+            case aeon::imaging::pixel_encoding::bgr24:                                                                 \
+                func(aeon::imaging::view<aeon::imaging::bgr24>(img), ##__VA_ARGS__);                                   \
                 return;                                                                                                \
-            case pixel_encoding::bgra32:                                                                               \
-                func(view<bgra32>(img), ##__VA_ARGS__);                                                                \
+            case aeon::imaging::pixel_encoding::bgra32:                                                                \
+                func(aeon::imaging::view<aeon::imaging::bgra32>(img), ##__VA_ARGS__);                                  \
                 return;                                                                                                \
             default:                                                                                                   \
-                throw imaging_exception();                                                                             \
+                throw aeon::imaging::imaging_exception();                                                              \
         }                                                                                                              \
     }();
 
 #define process_image_to_copy(img, func, ...)                                                                          \
-    [&]() -> dynamic_image {                                                                                           \
-        switch (encoding(img))                                                                                         \
+    [&]() -> aeon::imaging::dynamic_image {                                                                            \
+        switch (aeon::imaging::encoding(img))                                                                          \
         {                                                                                                              \
-            case pixel_encoding::unsigned8:                                                                            \
-                return dynamic_image{func(view<std::uint8_t>(img), ##__VA_ARGS__)};                                    \
-            case pixel_encoding::unsigned16:                                                                           \
-                return dynamic_image{func(view<std::uint16_t>(img), ##__VA_ARGS__)};                                   \
-            case pixel_encoding::unsigned32:                                                                           \
-                return dynamic_image{func(view<std::uint32_t>(img), ##__VA_ARGS__)};                                   \
-            case pixel_encoding::float32:                                                                              \
-                return dynamic_image{func(view<float>(img), ##__VA_ARGS__)};                                           \
-            case pixel_encoding::rgb24:                                                                                \
-                return dynamic_image{func(view<rgb24>(img), ##__VA_ARGS__)};                                           \
-            case pixel_encoding::rgba32:                                                                               \
-                return dynamic_image{func(view<rgba32>(img), ##__VA_ARGS__)};                                          \
-            case pixel_encoding::bgr24:                                                                                \
-                return dynamic_image{func(view<bgr24>(img), ##__VA_ARGS__)};                                           \
-            case pixel_encoding::bgra32:                                                                               \
-                return dynamic_image{func(view<bgra32>(img), ##__VA_ARGS__)};                                          \
+            case aeon::imaging::pixel_encoding::unsigned8:                                                             \
+                return aeon::imaging::dynamic_image{func(aeon::imaging::view<std::uint8_t>(img), ##__VA_ARGS__)};      \
+            case aeon::imaging::pixel_encoding::unsigned16:                                                            \
+                return aeon::imaging::dynamic_image{func(aeon::imaging::view<std::uint16_t>(img), ##__VA_ARGS__)};     \
+            case aeon::imaging::pixel_encoding::unsigned32:                                                            \
+                return aeon::imaging::dynamic_image{func(aeon::imaging::view<std::uint32_t>(img), ##__VA_ARGS__)};     \
+            case aeon::imaging::pixel_encoding::float32:                                                               \
+                return aeon::imaging::dynamic_image{func(aeon::imaging::view<float>(img), ##__VA_ARGS__)};             \
+            case aeon::imaging::pixel_encoding::rgb24:                                                                 \
+                return aeon::imaging::dynamic_image{                                                                   \
+                    func(aeon::imaging::view<aeon::imaging::rgb24>(img), ##__VA_ARGS__)};                              \
+            case aeon::imaging::pixel_encoding::rgba32:                                                                \
+                return aeon::imaging::dynamic_image{                                                                   \
+                    func(aeon::imaging::view<aeon::imaging::rgba32>(img), ##__VA_ARGS__)};                             \
+            case aeon::imaging::pixel_encoding::bgr24:                                                                 \
+                return aeon::imaging::dynamic_image{                                                                   \
+                    func(aeon::imaging::view<aeon::imaging::bgr24>(img), ##__VA_ARGS__)};                              \
+            case aeon::imaging::pixel_encoding::bgra32:                                                                \
+                return aeon::imaging::dynamic_image{                                                                   \
+                    func(aeon::imaging::view<aeon::imaging::bgra32>(img), ##__VA_ARGS__)};                             \
             default:                                                                                                   \
-                throw imaging_exception();                                                                             \
+                throw aeon::imaging::imaging_exception();                                                              \
         }                                                                                                              \
     }();
 
 #define process_image_with_dst(src, dst, func, ...)                                                                    \
     [&]() {                                                                                                            \
-        aeon_assert(encoding(src) == encoding(dst), "Encoding mismatch between source and destination.");              \
-        switch (encoding(src))                                                                                         \
+        aeon_assert(aeon::imaging::encoding(src) == aeon::imaging::encoding(dst),                                      \
+                    "Encoding mismatch between source and destination.");                                              \
+        switch (aeon::imaging::encoding(src))                                                                          \
         {                                                                                                              \
-            case pixel_encoding::unsigned8:                                                                            \
-                func(view<std::uint8_t>(src), view<std::uint8_t>(dst), ##__VA_ARGS__);                                 \
+            case aeon::imaging::pixel_encoding::unsigned8:                                                             \
+                func(aeon::imaging::view<std::uint8_t>(src), aeon::imaging::view<std::uint8_t>(dst), ##__VA_ARGS__);   \
                 return;                                                                                                \
-            case pixel_encoding::unsigned16:                                                                           \
-                func(view<std::uint16_t>(src), view<std::uint16_t>(dst), ##__VA_ARGS__);                               \
+            case aeon::imaging::pixel_encoding::unsigned16:                                                            \
+                func(aeon::imaging::view<std::uint16_t>(src), aeon::imaging::view<std::uint16_t>(dst), ##__VA_ARGS__); \
                 return;                                                                                                \
-            case pixel_encoding::unsigned32:                                                                           \
-                func(view<std::uint32_t>(src), view<std::uint32_t>(dst), ##__VA_ARGS__);                               \
+            case aeon::imaging::pixel_encoding::unsigned32:                                                            \
+                func(aeon::imaging::view<std::uint32_t>(src), aeon::imaging::view<std::uint32_t>(dst), ##__VA_ARGS__); \
                 return;                                                                                                \
-            case pixel_encoding::float32:                                                                              \
-                func(view<float>(src), view<float>(dst), ##__VA_ARGS__);                                               \
+            case aeon::imaging::pixel_encoding::float32:                                                               \
+                func(aeon::imaging::view<float>(src), aeon::imaging::view<float>(dst), ##__VA_ARGS__);                 \
                 return;                                                                                                \
-            case pixel_encoding::rgb24:                                                                                \
-                func(view<rgb24>(src), view<rgb24>(dst), ##__VA_ARGS__);                                               \
+            case aeon::imaging::pixel_encoding::rgb24:                                                                 \
+                func(aeon::imaging::view<rgb24>(src), aeon::imaging::view<aeon::imaging::rgb24>(dst), ##__VA_ARGS__);  \
                 return;                                                                                                \
-            case pixel_encoding::rgba32:                                                                               \
-                func(view<rgba32>(src), view<rgba32>(dst), ##__VA_ARGS__);                                             \
+            case aeon::imaging::pixel_encoding::rgba32:                                                                \
+                func(aeon::imaging::view<rgba32>(src), aeon::imaging::view<aeon::imaging::rgba32>(dst),                \
+                     ##__VA_ARGS__);                                                                                   \
                 return;                                                                                                \
-            case pixel_encoding::bgr24:                                                                                \
-                func(view<bgr24>(src), view<bgr24>(dst), ##__VA_ARGS__);                                               \
+            case aeon::imaging::pixel_encoding::bgr24:                                                                 \
+                func(aeon::imaging::view<bgr24>(src), aeon::imaging::view<aeon::imaging::bgr24>(dst), ##__VA_ARGS__);  \
                 return;                                                                                                \
-            case pixel_encoding::bgra32:                                                                               \
-                func(view<bgra32>(src), view<bgra32>(dst), ##__VA_ARGS__);                                             \
+            case aeon::imaging::pixel_encoding::bgra32:                                                                \
+                func(aeon::imaging::view<bgra32>(src), aeon::imaging::view<aeon::imaging::bgra32>(dst),                \
+                     ##__VA_ARGS__);                                                                                   \
                 return;                                                                                                \
             default:                                                                                                   \
-                throw imaging_exception();                                                                             \
+                throw aeon::imaging::imaging_exception();                                                              \
         }                                                                                                              \
     }();
 
