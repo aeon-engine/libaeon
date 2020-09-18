@@ -37,6 +37,15 @@ inline image<T>::image(const image_descriptor<T> &descriptor, std::vector<std::b
 }
 
 template <typename T>
+inline image<T>::image(const image_view<T> &view)
+    : image_view<T>{descriptor(view)}
+    , data_(size(descriptor(view)))
+{
+    std::copy_n(view.template data<std::byte>(), size(descriptor(view)), std::data(data_));
+    image_view<T>::data_ptr_ = std::data(data_);
+}
+
+template <typename T>
 inline image<T>::~image() = default;
 
 template <typename T>

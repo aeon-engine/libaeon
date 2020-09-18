@@ -54,6 +54,11 @@ public:
      */
     explicit image(const image_descriptor<T> &descriptor, std::vector<std::byte> &&data);
 
+    /*!
+     * Make a copy of the given image_view.
+     */
+    explicit image(const image_view<T> &view);
+
     virtual ~image();
 
     image(const image<T> &) = delete;
