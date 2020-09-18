@@ -10,9 +10,19 @@ namespace aeon::imaging
 template <typename T>
 struct pixel_math final
 {
+    [[nodiscard]] static constexpr auto component_min() noexcept -> T
+    {
+        return std::numeric_limits<T>::min();
+    }
+
     [[nodiscard]] static constexpr auto min() noexcept -> T
     {
         return std::numeric_limits<T>::min();
+    }
+
+    [[nodiscard]] static constexpr auto component_max() noexcept -> T
+    {
+        return std::numeric_limits<T>::max();
     }
 
     [[nodiscard]] static constexpr auto max() noexcept -> T
@@ -49,9 +59,19 @@ struct pixel_math final
 template <>
 struct pixel_math<float> final
 {
+    [[nodiscard]] static constexpr auto component_min() noexcept -> float
+    {
+        return 0.0f;
+    }
+
     [[nodiscard]] static constexpr auto min() noexcept -> float
     {
         return 0.0f;
+    }
+
+    [[nodiscard]] static constexpr auto component_max() noexcept -> float
+    {
+        return 1.0f;
     }
 
     [[nodiscard]] static constexpr auto max() noexcept -> float
@@ -78,14 +98,24 @@ struct pixel_math<float> final
 template <>
 struct pixel_math<rgb24> final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto component_min() noexcept -> std::uint8_t
     {
         return 0;
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto min() noexcept -> rgb24
+    {
+        return rgb24{component_min(), component_min(), component_min()};
+    }
+
+    [[nodiscard]] static constexpr auto component_max() noexcept -> std::uint8_t
     {
         return 255;
+    }
+
+    [[nodiscard]] static constexpr auto max() noexcept -> rgb24
+    {
+        return rgb24{component_max(), component_max(), component_max()};
     }
 
     [[nodiscard]] static constexpr auto clamp(const rgb24 value) noexcept -> rgb24
@@ -109,14 +139,24 @@ struct pixel_math<rgb24> final
 template <>
 struct pixel_math<rgba32> final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto component_min() noexcept -> std::uint8_t
     {
         return 0;
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto min() noexcept -> rgba32
+    {
+        return rgba32{component_min(), component_min(), component_min(), component_min()};
+    }
+
+    [[nodiscard]] static constexpr auto component_max() noexcept -> std::uint8_t
     {
         return 255;
+    }
+
+    [[nodiscard]] static constexpr auto max() noexcept -> rgba32
+    {
+        return rgba32{component_max(), component_max(), component_max(), component_max()};
     }
 
     [[nodiscard]] static constexpr auto clamp(const rgba32 value) noexcept -> rgba32
@@ -134,21 +174,31 @@ struct pixel_math<rgba32> final
 
     [[nodiscard]] static constexpr auto alpha_ratio(const rgba32 value) noexcept -> float
     {
-        return static_cast<float>(alpha(value)) / static_cast<float>(max());
+        return static_cast<float>(alpha(value)) / static_cast<float>(component_max());
     }
 };
 
 template <>
 struct pixel_math<bgr24> final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto component_min() noexcept -> std::uint8_t
     {
         return 0;
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto min() noexcept -> bgr24
+    {
+        return bgr24{component_min(), component_min(), component_min()};
+    }
+
+    [[nodiscard]] static constexpr auto component_max() noexcept -> std::uint8_t
     {
         return 255;
+    }
+
+    [[nodiscard]] static constexpr auto max() noexcept -> bgr24
+    {
+        return bgr24{component_max(), component_max(), component_max()};
     }
 
     [[nodiscard]] static constexpr auto clamp(const bgr24 value) noexcept -> bgr24
@@ -172,14 +222,24 @@ struct pixel_math<bgr24> final
 template <>
 struct pixel_math<bgra32> final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto component_min() noexcept -> std::uint8_t
     {
         return 0;
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> std::uint8_t
+    [[nodiscard]] static constexpr auto min() noexcept -> bgra32
+    {
+        return bgra32{component_min(), component_min(), component_min(), component_min()};
+    }
+
+    [[nodiscard]] static constexpr auto component_max() noexcept -> std::uint8_t
     {
         return 255;
+    }
+
+    [[nodiscard]] static constexpr auto max() noexcept -> bgra32
+    {
+        return bgra32{component_max(), component_max(), component_max(), component_max()};
     }
 
     [[nodiscard]] static constexpr auto clamp(const bgra32 value) noexcept -> bgra32
@@ -197,7 +257,7 @@ struct pixel_math<bgra32> final
 
     [[nodiscard]] static constexpr auto alpha_ratio(const bgra32 value) noexcept -> float
     {
-        return static_cast<float>(alpha(value)) / static_cast<float>(max());
+        return static_cast<float>(alpha(value)) / static_cast<float>(component_max());
     }
 };
 
