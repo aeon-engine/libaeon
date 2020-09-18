@@ -263,6 +263,7 @@ template <typename T>
                 return;                                                                                                \
             case pixel_encoding::bgra32:                                                                               \
                 func(view<bgra32>(img), ##__VA_ARGS__);                                                                \
+                return;                                                                                                \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \
@@ -321,6 +322,7 @@ template <typename T>
                 return;                                                                                                \
             case pixel_encoding::bgra32:                                                                               \
                 func(view<bgra32>(src), view<bgra32>(dst), ##__VA_ARGS__);                                             \
+                return;                                                                                                \
             default:                                                                                                   \
                 throw imaging_exception();                                                                             \
         }                                                                                                              \
