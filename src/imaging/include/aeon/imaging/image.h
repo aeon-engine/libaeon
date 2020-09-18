@@ -59,7 +59,7 @@ public:
      */
     explicit image(const image_view<T> &view);
 
-    virtual ~image();
+    ~image() override;
 
     image(const image<T> &) = delete;
     auto operator=(const image<T> &) -> image<T> & = delete;
