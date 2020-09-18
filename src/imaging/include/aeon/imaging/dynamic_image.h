@@ -267,7 +267,7 @@ template <typename T>
             default:                                                                                                   \
                 throw aeon::imaging::imaging_exception();                                                              \
         }                                                                                                              \
-    }();
+    }()
 
 #define process_image_to_copy(img, func, ...)                                                                          \
     [&]() -> aeon::imaging::dynamic_image {                                                                            \
@@ -296,7 +296,7 @@ template <typename T>
             default:                                                                                                   \
                 throw aeon::imaging::imaging_exception();                                                              \
         }                                                                                                              \
-    }();
+    }()
 
 #define process_image_with_dst(src, dst, func, ...)                                                                    \
     [&]() {                                                                                                            \
@@ -333,7 +333,7 @@ template <typename T>
             default:                                                                                                   \
                 throw aeon::imaging::imaging_exception();                                                              \
         }                                                                                                              \
-    }();
+    }()
 
 } // namespace aeon::imaging
 
