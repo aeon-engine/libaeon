@@ -230,6 +230,12 @@ inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, con
 }
 
 template <typename T>
+inline constexpr auto ratio(const size2d<T> &val) noexcept -> float
+{
+    return static_cast<float>(width(val)) / static_cast<float>(height(val));
+}
+
+template <typename T>
 inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
     return width(lhs) == width(rhs) && height(lhs) == height(rhs);

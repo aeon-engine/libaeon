@@ -315,6 +315,14 @@ template <typename T>
 inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size2d<T> &max_size) noexcept
     -> size2d<T>;
 
+/*!
+ * Returns the aspect ratio of the given size (width / height).
+ * \param[in] val - Size2d value
+ * \return Float aspect ratio (width / height)
+ */
+template <typename T>
+inline constexpr auto ratio(const size2d<T> &val) noexcept -> float;
+
 template <typename T>
 inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 
