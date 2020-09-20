@@ -36,6 +36,36 @@ namespace detail
     throw save_exception{};
 }
 
+template <typename T>
+struct save_impl
+{
+    static void process(const image_view<T> &image, const subsample_mode subsample, int quality,
+                        streams::idynamic_stream &stream)
+    {
+        aeon_assert_value_in_range(quality, 1, 100);
+
+        detail::tjhandle_compress_wrapper wrapper;
+
+        const auto tjsubsample = detail::subsample_mode_to_tjsamp(subsample);
+        std::vector<std::uint8_t> dest_buffer(tjBufSize(width(image), height(image), tjsubsample));
+        auto dest_buffer_data = dest_buffer.data();
+
+        auto actual_size = static_cast<unsigned long>(std::size(dest_buffer));
+        if (tjCompress2(wrapper.handle(), image.template data<std::uint8_t>(), width(image),
+                        static_cast<int>(stride_y(image)), height(image), TJPF_RGB, &dest_buffer_data, &actual_size,
+                        tjsubsample, quality, TJFLAG_NOREALLOC) != 0)
+            throw save_exception();
+
+        dest_buffer.resize(actual_size);
+
+        streams::stream_writer writer{stream};
+        writer.vector_write(dest_buffer);
+
+        if (stream.is_flushable())
+            stream.flush();
+    }
+};
+
 } // namespace detail
 
 [[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image
@@ -77,14 +107,14 @@ void save(const dynamic_image &image, const subsample_mode subsample, int qualit
 void save(const dynamic_image &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream)
 {
     aeon_assert(encoding(image) == pixel_encoding::rgb24, "Encoding mismatch.");
-    process_image(image, save, subsample, quality, stream);
+    process_image<detail::save_impl>(image, subsample, quality, stream);
 }
 
 template <typename T>
 void save(const image_view<T> &image, const subsample_mode subsample, int quality, const std::filesystem::path &path)
 {
     auto stream = streams::make_dynamic_stream(streams::file_sink_device{path});
-    save(image, subsample, quality, stream);
+    save<T>(image, subsample, quality, stream);
 }
 
 template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode subsample, int quality,
@@ -93,27 +123,7 @@ template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode s
 template <typename T>
 void save(const image_view<T> &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream)
 {
-    aeon_assert_value_in_range(quality, 1, 100);
-
-    detail::tjhandle_compress_wrapper wrapper;
-
-    const auto tjsubsample = detail::subsample_mode_to_tjsamp(subsample);
-    std::vector<std::uint8_t> dest_buffer(tjBufSize(width(image), height(image), tjsubsample));
-    auto dest_buffer_data = dest_buffer.data();
-
-    auto actual_size = static_cast<unsigned long>(std::size(dest_buffer));
-    if (tjCompress2(wrapper.handle(), image.template data<std::uint8_t>(), width(image),
-                    static_cast<int>(stride_y(image)), height(image), TJPF_RGB, &dest_buffer_data, &actual_size,
-                    tjsubsample, quality, TJFLAG_NOREALLOC) != 0)
-        throw save_exception();
-
-    dest_buffer.resize(actual_size);
-
-    streams::stream_writer writer{stream};
-    writer.vector_write(dest_buffer);
-
-    if (stream.is_flushable())
-        stream.flush();
+    detail::save_impl<T>::process(image, subsample, quality, stream);
 }
 
 template void save<rgb24>(const image_view<rgb24> &image, const subsample_mode subsample, int quality,

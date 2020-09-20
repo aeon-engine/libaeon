@@ -65,6 +65,49 @@ struct png_color_type_traits<rgba32>
     }
 };
 
+template <typename T>
+struct save_impl
+{
+    static void process(const image_view<T> &image, streams::idynamic_stream &stream)
+    {
+        // Check our stream
+        if (!stream.good())
+            throw save_exception();
+
+        auto png_structs = detail::png_write_structs{};
+
+        // Bind errors from libpng
+        AEON_IGNORE_VS_WARNING_PUSH(4611)
+        if (setjmp(png_jmpbuf(png_structs.png_ptr())))
+            throw save_exception();
+        AEON_IGNORE_VS_WARNING_POP()
+
+        constexpr auto color_type = detail::png_color_type_traits<T>::color_type();
+        const auto w = static_cast<png_uint_32>(width(image));
+        const auto h = static_cast<png_uint_32>(height(image));
+        const auto bit_depth = 8; // TODO: store bit depth in the image data.
+
+        png_set_IHDR(png_structs.png_ptr(), png_structs.info_ptr(), w, h, bit_depth, color_type, PNG_INTERLACE_NONE,
+                     PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+        auto rowpointer_buffer = std::vector<const std::uint8_t *>(h);
+        const auto rowpointer_buffer_ptr = rowpointer_buffer.data();
+        const auto pixel_data_ptr = reinterpret_cast<const std::uint8_t *>(image.data());
+
+        for (auto y = 0u; y < h; ++y)
+            rowpointer_buffer_ptr[y] = pixel_data_ptr + y * stride_y(image);
+
+        // TODO: Figure out an alternative for const cast here.
+        png_set_rows(png_structs.png_ptr(), png_structs.info_ptr(), const_cast<png_bytepp>(rowpointer_buffer_ptr));
+        png_set_write_fn(png_structs.png_ptr(), &stream, detail::png_write_callback, nullptr);
+        png_write_png(png_structs.png_ptr(), png_structs.info_ptr(), PNG_TRANSFORM_IDENTITY, nullptr);
+
+        // Flush the output after writing.
+        if (stream.is_flushable())
+            stream.flush();
+    }
+};
+
 } // namespace detail
 
 [[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image
@@ -188,14 +231,14 @@ void save(const dynamic_image &image, streams::idynamic_stream &stream)
 {
     aeon_assert((encoding(image) == pixel_encoding::rgb24) || (encoding(image) == pixel_encoding::rgba32),
                 "Encoding mismatch.");
-    process_image(image, save, stream);
+    process_image<detail::save_impl>(image, stream);
 }
 
 template <typename T>
 void save(const image_view<T> &image, const std::filesystem::path &path)
 {
     auto stream = streams::make_dynamic_stream(streams::file_sink_device{path});
-    save(image, stream);
+    save<T>(image, stream);
 }
 
 template void save<rgb24>(const image_view<rgb24> &image, const std::filesystem::path &path);
@@ -204,41 +247,7 @@ template void save<rgba32>(const image_view<rgba32> &image, const std::filesyste
 template <typename T>
 void save(const image_view<T> &image, streams::idynamic_stream &stream)
 {
-    // Check our stream
-    if (!stream.good())
-        throw save_exception();
-
-    auto png_structs = detail::png_write_structs{};
-
-    // Bind errors from libpng
-    AEON_IGNORE_VS_WARNING_PUSH(4611)
-    if (setjmp(png_jmpbuf(png_structs.png_ptr())))
-        throw save_exception();
-    AEON_IGNORE_VS_WARNING_POP()
-
-    constexpr auto color_type = detail::png_color_type_traits<T>::color_type();
-    const auto w = static_cast<png_uint_32>(width(image));
-    const auto h = static_cast<png_uint_32>(height(image));
-    const auto bit_depth = 8; // TODO: store bit depth in the image data.
-
-    png_set_IHDR(png_structs.png_ptr(), png_structs.info_ptr(), w, h, bit_depth, color_type, PNG_INTERLACE_NONE,
-                 PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-    auto rowpointer_buffer = std::vector<const std::uint8_t *>(h);
-    const auto rowpointer_buffer_ptr = rowpointer_buffer.data();
-    const auto pixel_data_ptr = reinterpret_cast<const std::uint8_t *>(image.data());
-
-    for (auto y = 0u; y < h; ++y)
-        rowpointer_buffer_ptr[y] = pixel_data_ptr + y * stride_y(image);
-
-    // TODO: Figure out an alternative for const cast here.
-    png_set_rows(png_structs.png_ptr(), png_structs.info_ptr(), const_cast<png_bytepp>(rowpointer_buffer_ptr));
-    png_set_write_fn(png_structs.png_ptr(), &stream, detail::png_write_callback, nullptr);
-    png_write_png(png_structs.png_ptr(), png_structs.info_ptr(), PNG_TRANSFORM_IDENTITY, nullptr);
-
-    // Flush the output after writing.
-    if (stream.is_flushable())
-        stream.flush();
+    detail::save_impl<T>::process(image, stream);
 }
 
 template void save<rgb24>(const image_view<rgb24> &image, streams::idynamic_stream &stream);
