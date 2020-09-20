@@ -53,7 +53,7 @@ public:
         return char_;
     }
 
-    auto operator-> () const noexcept
+    auto operator->() const noexcept
     {
         return &char_;
     }

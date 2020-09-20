@@ -44,7 +44,7 @@ template <typename device_t>
 class dynamic_stream;
 
 template <typename device_t>
-stream_writer(dynamic_stream<device_t> &)->stream_writer<idynamic_stream>;
+stream_writer(dynamic_stream<device_t> &) -> stream_writer<idynamic_stream>;
 
 template <typename device_t>
 inline stream_writer<device_t>::stream_writer(device_t &device) noexcept

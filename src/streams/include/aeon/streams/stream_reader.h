@@ -65,7 +65,7 @@ template <typename device_t>
 class dynamic_stream;
 
 template <typename device_t>
-stream_reader(dynamic_stream<device_t> &)->stream_reader<idynamic_stream>;
+stream_reader(dynamic_stream<device_t> &) -> stream_reader<idynamic_stream>;
 
 template <typename device_t>
 inline stream_reader<device_t>::stream_reader(device_t &device) noexcept

@@ -20,7 +20,7 @@ public:
     explicit tcp_client(asio::io_context &io_context, const std::string &host, const std::string &service);
     ~tcp_client() = default;
 
-    auto operator-> () const -> socket_handler_t *;
+    auto operator->() const -> socket_handler_t *;
 
 protected:
     asio::ip::tcp::resolver resolver_;
@@ -47,7 +47,7 @@ inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, co
 }
 
 template <typename socket_handler_t>
-inline auto tcp_client<socket_handler_t>::operator-> () const -> socket_handler_t *
+inline auto tcp_client<socket_handler_t>::operator->() const -> socket_handler_t *
 {
     return socket_.get();
 }

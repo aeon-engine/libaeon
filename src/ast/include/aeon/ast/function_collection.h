@@ -28,8 +28,9 @@ public:
     [[nodiscard]] auto find(const std::string_view name, const unsigned int parameter_count) const noexcept
         -> ast_function_collection<T>;
 
-    [[nodiscard]] auto find(const std::string_view name, const std::vector<std::string_view> &parameter_types) const
-        noexcept -> typename common::collection<T>::const_iterator;
+    [[nodiscard]] auto find(const std::string_view name,
+                            const std::vector<std::string_view> &parameter_types) const noexcept ->
+        typename common::collection<T>::const_iterator;
 
     [[nodiscard]] auto find(const unsigned int parameter_count) const noexcept -> ast_function_collection<T>;
 
@@ -40,8 +41,8 @@ public:
 
     [[nodiscard]] auto contains(const std::string_view name, const unsigned int parameter_count) const noexcept -> bool;
 
-    [[nodiscard]] auto contains(const std::string_view name, const std::vector<std::string_view> &parameter_types) const
-        noexcept -> bool;
+    [[nodiscard]] auto contains(const std::string_view name,
+                                const std::vector<std::string_view> &parameter_types) const noexcept -> bool;
 };
 
 } // namespace aeon::ast
