@@ -8,7 +8,6 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_circle.cpp
-        test_units.cpp
         test_mat3.cpp
         test_mat3_sse.cpp
         test_mat4.cpp
@@ -19,6 +18,7 @@ add_unit_test_suite(
         test_rectangle.cpp
         test_size2d.cpp
         test_size3d.cpp
+        test_units.cpp
         test_vector2.cpp
         test_vector3.cpp
         test_vector4.cpp
