@@ -135,4 +135,29 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
     return std::abs(a - b) <= ((abs_a > abs_b ? abs_b : abs_a) * epsilon);
 }
 
+/*!
+ * From The art of computer programming by Knuth
+ */
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+[[nodiscard]] inline constexpr auto
+    definitely_greater_than(const T a, const T b, const T epsilon = std::numeric_limits<T>::epsilon()) noexcept -> bool
+{
+    const auto abs_a = std::abs(a);
+    const auto abs_b = std::abs(b);
+    return (a - b) > ((abs_a < abs_b ? abs_b : abs_a) * epsilon);
+}
+
+/*!
+ * From The art of computer programming by Knuth
+ */
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+[[nodiscard]] inline constexpr auto definitely_less_than(const T a, const T b,
+                                                         const T epsilon = std::numeric_limits<T>::epsilon()) noexcept
+    -> bool
+{
+    const auto abs_a = std::abs(a);
+    const auto abs_b = std::abs(b);
+    return (b - a) > ((abs_a < abs_b ? abs_b : abs_a) * epsilon);
+}
+
 } // namespace aeon::math
