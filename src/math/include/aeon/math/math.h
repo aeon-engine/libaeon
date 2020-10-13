@@ -8,6 +8,7 @@
 #pragma once
 
 #include <type_traits>
+#include <limits>
 #include <cmath>
 #include <algorithm>
 
@@ -102,6 +103,36 @@ template <typename T>
         val *= base;
 
     return val;
+}
+
+/*!
+ * Calculate whether the difference between a and b is smaller than the acceptable error (epsilon),
+ * determined by the larger of a or b. This means that the two values are "close enough", and we can say that they're
+ * approximately equal. From The art of computer programming by Knuth
+ */
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+[[nodiscard]] inline constexpr auto approximately_equal(const T a, const T b,
+                                                        const T epsilon = std::numeric_limits<T>::epsilon()) noexcept
+{
+    const auto abs_a = std::abs(a);
+    const auto abs_b = std::abs(b);
+    return std::abs(a - b) <= ((abs_a < abs_b ? abs_b : abs_a) * epsilon);
+}
+
+/*!
+ * Calculate whether the difference between a and b is smaller than the acceptable error (epsilon),
+ * determined by the smaller of a or b. This means that the values differ less than the acceptable difference in any
+ * calculation, so that perhaps they're not actually equal, but they're "essentially equal" (given the epsilon). From
+ * The art of computer programming by Knuth
+ */
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+[[nodiscard]] inline constexpr auto essentially_equal(const T a, const T b,
+                                                      const T epsilon = std::numeric_limits<T>::epsilon()) noexcept
+    -> bool
+{
+    const auto abs_a = std::abs(a);
+    const auto abs_b = std::abs(b);
+    return std::abs(a - b) <= ((abs_a > abs_b ? abs_b : abs_a) * epsilon);
 }
 
 } // namespace aeon::math
