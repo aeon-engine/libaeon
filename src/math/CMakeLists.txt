@@ -18,6 +18,8 @@ set(LIB_AEON_MATH_PUBLIC_SOURCE
     include/aeon/math/quaternion_stream.h
     include/aeon/math/range.h
     include/aeon/math/range_stream.h
+    include/aeon/math/ray3d.h
+    include/aeon/math/ray3d_stream.h
     include/aeon/math/rectangle.h
     include/aeon/math/rectangle_stream.h
     include/aeon/math/simplex_noise.h
@@ -48,6 +50,8 @@ set(LIB_AEON_MATH_PUBLIC_IMPL_SOURCE
     include/aeon/math/impl/quaternion_impl.h
     include/aeon/math/impl/quaternion_operators_impl.h
     include/aeon/math/impl/range_impl.h
+    include/aeon/math/impl/ray3d_impl.h
+    include/aeon/math/impl/ray3d_operators_impl.h
     include/aeon/math/impl/rectangle_impl.h
     include/aeon/math/impl/size2d_impl.h
     include/aeon/math/impl/size3d_impl.h

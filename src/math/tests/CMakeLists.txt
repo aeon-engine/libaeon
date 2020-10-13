@@ -16,6 +16,7 @@ add_unit_test_suite(
         test_plane.cpp
         test_quaternion.cpp
         test_range.cpp
+        test_ray3d.cpp
         test_rectangle.cpp
         test_size2d.cpp
         test_size3d.cpp
