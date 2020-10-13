@@ -13,6 +13,7 @@ add_unit_test_suite(
         test_mat4.cpp
         test_mat4_sse.cpp
         test_math.cpp
+        test_plane.cpp
         test_quaternion.cpp
         test_range.cpp
         test_rectangle.cpp

@@ -12,6 +12,8 @@ set(LIB_AEON_MATH_PUBLIC_SOURCE
     include/aeon/math/math.h
     include/aeon/math/math_fwd.h
     include/aeon/math/perlin_noise.h
+    include/aeon/math/plane.h
+    include/aeon/math/plane_stream.h
     include/aeon/math/quaternion.h
     include/aeon/math/quaternion_stream.h
     include/aeon/math/range.h
@@ -41,6 +43,8 @@ set(LIB_AEON_MATH_PUBLIC_IMPL_SOURCE
     include/aeon/math/impl/mat3_operators_impl.h
     include/aeon/math/impl/mat4_impl.h
     include/aeon/math/impl/mat4_operators_impl.h
+    include/aeon/math/impl/plane_impl.h
+    include/aeon/math/impl/plane_operators_impl.h
     include/aeon/math/impl/quaternion_impl.h
     include/aeon/math/impl/quaternion_operators_impl.h
     include/aeon/math/impl/range_impl.h
