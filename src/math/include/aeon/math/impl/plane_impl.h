@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <aeon/math/math.h>
-
 namespace aeon::math
 {
 
