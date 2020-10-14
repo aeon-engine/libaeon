@@ -75,4 +75,22 @@ template <typename T>
     return normal(plane) * distance(plane);
 }
 
+template <typename T>
+[[nodiscard]] inline constexpr auto intersection(const plane<T> &plane1, const plane<T> &plane2,
+                                                 const plane<T> &plane3) noexcept -> std::optional<vector3<T>>
+{
+    const auto normal1 = normal(plane1);
+    const auto normal2 = normal(plane2);
+    const auto normal3 = normal(plane3);
+
+    const auto denominator = dot(cross(normal1, normal2), normal3);
+
+    if (approximately_zero(denominator))
+        return std::nullopt;
+
+    return ((cross(normal2, normal3) * distance(plane1)) + (cross(normal3, normal1) * distance(plane2)) +
+            (cross(normal1, normal2) * distance(plane3))) /
+           denominator;
+}
+
 } // namespace aeon::math
