@@ -6,7 +6,6 @@
 #include <aeon/math/vector3.h>
 #include <aeon/common/assert.h>
 #include <cmath>
-#include <limits>
 
 namespace aeon::math
 {
@@ -255,7 +254,7 @@ template <typename T>
 {
     auto l = length(vec);
 
-    if (l > std::numeric_limits<T>::epsilon())
+    if (l > constants<T>::tolerance)
         return vec / l;
 
     return vector4<T>::zero();

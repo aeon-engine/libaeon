@@ -8,7 +8,6 @@
 #pragma once
 
 #include <type_traits>
-#include <limits>
 #include <cmath>
 #include <algorithm>
 
@@ -41,6 +40,7 @@ struct constants<float>
     static constexpr auto ln_10 = 2.3025850929940456840179914546843642f;   // ln(10)
     static constexpr auto sqrt_2 = 1.4142135623730950488016887242096981f;  // sqrt(2)
     static constexpr auto sqrt1_2 = 0.7071067811865475244008443621048490f; // 1/sqrt(2)
+    static constexpr auto tolerance = 1.0E-05f;
 };
 
 template <>
@@ -57,6 +57,7 @@ struct constants<double>
     static constexpr auto ln_10 = 2.3025850929940456840179914546843642;   // ln(10)
     static constexpr auto sqrt_2 = 1.4142135623730950488016887242096981;  // sqrt(2)
     static constexpr auto sqrt1_2 = 0.7071067811865475244008443621048490; // 1/sqrt(2)
+    static constexpr auto tolerance = 1.0E-10;
 };
 
 /*!
@@ -126,7 +127,7 @@ template <typename T>
  */
 template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 [[nodiscard]] inline constexpr auto approximately_equal(const T a, const T b,
-                                                        const T epsilon = std::numeric_limits<T>::epsilon()) noexcept
+                                                        const T epsilon = constants<T>::tolerance) noexcept
 {
     const auto abs_a = std::abs(a);
     const auto abs_b = std::abs(b);
@@ -141,8 +142,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
  */
 template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 [[nodiscard]] inline constexpr auto essentially_equal(const T a, const T b,
-                                                      const T epsilon = std::numeric_limits<T>::epsilon()) noexcept
-    -> bool
+                                                      const T epsilon = constants<T>::tolerance) noexcept -> bool
 {
     const auto abs_a = std::abs(a);
     const auto abs_b = std::abs(b);
@@ -153,8 +153,8 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
  * From The art of computer programming by Knuth
  */
 template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
-[[nodiscard]] inline constexpr auto
-    definitely_greater_than(const T a, const T b, const T epsilon = std::numeric_limits<T>::epsilon()) noexcept -> bool
+[[nodiscard]] inline constexpr auto definitely_greater_than(const T a, const T b,
+                                                            const T epsilon = constants<T>::tolerance) noexcept -> bool
 {
     const auto abs_a = std::abs(a);
     const auto abs_b = std::abs(b);
@@ -166,8 +166,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
  */
 template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 [[nodiscard]] inline constexpr auto definitely_less_than(const T a, const T b,
-                                                         const T epsilon = std::numeric_limits<T>::epsilon()) noexcept
-    -> bool
+                                                         const T epsilon = constants<T>::tolerance) noexcept -> bool
 {
     const auto abs_a = std::abs(a);
     const auto abs_b = std::abs(b);
