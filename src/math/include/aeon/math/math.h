@@ -34,6 +34,13 @@ struct constants<float>
     static constexpr auto pi_2 = 1.57079632679489661923f;
     static constexpr auto pi_4 = 0.785398163397448309616f;
     static constexpr auto tau = pi * 2.0f;
+    static constexpr auto e = 2.7182818284590452353602874713526625f;
+    static constexpr auto log_2e = 1.4426950408889634073599246810018921f;  // log_2(e)
+    static constexpr auto log_10e = 0.4342944819032518276511289189166051f; // log_10(e)
+    static constexpr auto ln_2 = 0.6931471805599453094172321214581766f;    // ln(2)
+    static constexpr auto ln_10 = 2.3025850929940456840179914546843642f;   // ln(10)
+    static constexpr auto sqrt_2 = 1.4142135623730950488016887242096981f;  // sqrt(2)
+    static constexpr auto sqrt1_2 = 0.7071067811865475244008443621048490f; // 1/sqrt(2)
 };
 
 template <>
@@ -43,6 +50,13 @@ struct constants<double>
     static constexpr auto pi_2 = 1.57079632679489661923;
     static constexpr auto pi_4 = 0.785398163397448309616;
     static constexpr auto tau = pi * 2.0;
+    static constexpr auto e = 2.7182818284590452353602874713526625;
+    static constexpr auto log_2e = 1.4426950408889634073599246810018921;  // log_2(e)
+    static constexpr auto log_10e = 0.4342944819032518276511289189166051; // log_10(e)
+    static constexpr auto ln_2 = 0.6931471805599453094172321214581766;    // ln(2)
+    static constexpr auto ln_10 = 2.3025850929940456840179914546843642;   // ln(10)
+    static constexpr auto sqrt_2 = 1.4142135623730950488016887242096981;  // sqrt(2)
+    static constexpr auto sqrt1_2 = 0.7071067811865475244008443621048490; // 1/sqrt(2)
 };
 
 /*!
