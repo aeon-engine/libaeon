@@ -173,4 +173,13 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
     return (b - a) > ((abs_a < abs_b ? abs_b : abs_a) * epsilon);
 }
 
+/*!
+ * Returns true if the given value is approximately zero
+ */
+template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+[[nodiscard]] inline constexpr auto approximately_zero(const T a, const T epsilon = constants<T>::tolerance) noexcept
+{
+    return std::abs(a) < epsilon;
+}
+
 } // namespace aeon::math
