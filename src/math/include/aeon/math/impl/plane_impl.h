@@ -93,4 +93,22 @@ template <typename T>
            denominator;
 }
 
+template <typename T>
+[[nodiscard]] inline constexpr auto intersection(const plane<T> &plane, const ray3d<T> &ray) noexcept
+    -> std::optional<vector3<T>>
+{
+    const auto denominator = dot(normal(plane), normal(ray));
+
+    if (approximately_zero(denominator))
+        return std::nullopt;
+
+    const auto distance = (dot(normal(plane), origin(ray)) - distance(plane)) / denominator;
+
+    if (distance > constants<T>::tolerance)
+        return std::nullopt;
+
+    distance = -distance;
+    return origin(ray) + normal(ray) * distance;
+}
+
 } // namespace aeon::math

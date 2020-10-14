@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/math/vector3.h>
+#include <aeon/math/ray3d.h>
 #include <optional>
 
 namespace aeon::math
@@ -48,6 +49,10 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline constexpr auto intersection(const plane<T> &plane1, const plane<T> &plane2,
                                                  const plane<T> &plane3) noexcept -> std::optional<vector3<T>>;
+
+template <typename T>
+[[nodiscard]] inline constexpr auto intersection(const plane<T> &plane, const ray3d<T> &ray) noexcept
+    -> std::optional<vector3<T>>;
 
 template <typename T>
 inline constexpr auto operator==(const plane<T> &lhs, const plane<T> &rhs) noexcept -> bool;
