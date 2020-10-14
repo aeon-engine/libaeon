@@ -1,10 +1,5 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
 
-/*!
- * \file
- * \brief Mathematical operations for a range.
- */
-
 #pragma once
 
 #include <aeon/math/vector3.h>
@@ -12,9 +7,6 @@
 namespace aeon::math
 {
 
-/*!
- * Class that represents a range (begin-end).
- */
 template <typename T>
 class plane
 {
