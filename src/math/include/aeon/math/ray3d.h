@@ -12,8 +12,8 @@ class ray3d
 {
 public:
     constexpr ray3d() noexcept;
-    constexpr ray3d(const vector3<T> normal) noexcept;
-    constexpr ray3d(const vector3<T> normal, const vector3<T> origin) noexcept;
+    constexpr explicit ray3d(const vector3<T> normal) noexcept;
+    constexpr explicit ray3d(const vector3<T> normal, const vector3<T> origin) noexcept;
 
     ~ray3d() noexcept = default;
 

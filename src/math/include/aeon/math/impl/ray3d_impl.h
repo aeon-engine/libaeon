@@ -47,7 +47,7 @@ constexpr void normalize(ray3d<T> &ray) noexcept
 template <typename T>
 [[nodiscard]] inline constexpr auto normalized(const ray3d<T> &ray) noexcept -> ray3d<T>
 {
-    return {normalized(normal(ray)), origin(ray)};
+    return ray3d<T>{normalized(normal(ray)), origin(ray)};
 }
 
 } // namespace aeon::math
