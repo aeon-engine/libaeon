@@ -64,9 +64,9 @@ template <typename T>
     const auto l = length(normal(p));
 
     if (l == T{})
-        return {};
+        return plane<T>{};
 
-    return {normal(p) /= l, distance(p) /= l};
+    return plane<T>{normal(p) /= l, distance(p) /= l};
 }
 
 template <typename T>

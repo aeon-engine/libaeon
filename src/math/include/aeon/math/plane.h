@@ -14,10 +14,10 @@ class plane
 {
 public:
     constexpr plane() noexcept;
-    constexpr plane(const T a, const T b, const T c, const T distance) noexcept;
-    constexpr plane(const vector3<T> normal) noexcept;
-    constexpr plane(const vector3<T> normal, const T distance) noexcept;
-    constexpr plane(const vector3<T> point, const vector3<T> normal) noexcept;
+    constexpr explicit plane(const T a, const T b, const T c, const T distance) noexcept;
+    constexpr explicit plane(const vector3<T> normal) noexcept;
+    constexpr explicit plane(const vector3<T> normal, const T distance) noexcept;
+    constexpr explicit plane(const vector3<T> point, const vector3<T> normal) noexcept;
 
     ~plane() noexcept = default;
 
