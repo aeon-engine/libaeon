@@ -41,6 +41,20 @@ inline constexpr plane<T>::plane(const vector3<T> point, const vector3<T> normal
 }
 
 template <typename T>
+inline constexpr plane<T>::plane(const vector3<T> &point1, const vector3<T> &point2, const vector3<T> point3,
+                                 const winding_order order) noexcept
+    : normal{}
+    , distance{}
+{
+    if (order == winding_order::clockwise)
+        normal = normalized(cross(point1 - point3, point1 - point2));
+    else
+        normal = normalized(cross(point1 - point2, point1 - point3));
+
+    distance = dot(normal, point1);
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto normal(const plane<T> &plane) noexcept -> vector3<T>
 {
     return plane.normal;

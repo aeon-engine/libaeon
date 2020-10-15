@@ -9,6 +9,12 @@
 namespace aeon::math
 {
 
+enum class winding_order
+{
+    clockwise,
+    counter_clockwise
+};
+
 template <typename T>
 class plane
 {
@@ -18,6 +24,8 @@ public:
     constexpr explicit plane(const vector3<T> normal) noexcept;
     constexpr explicit plane(const vector3<T> normal, const T distance) noexcept;
     constexpr explicit plane(const vector3<T> point, const vector3<T> normal) noexcept;
+    constexpr explicit plane(const vector3<T> &point1, const vector3<T> &point2, const vector3<T> point3,
+                             const winding_order order = winding_order::clockwise) noexcept;
 
     ~plane() noexcept = default;
 
