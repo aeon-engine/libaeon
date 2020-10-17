@@ -45,6 +45,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 ################################################################################
 
+option(BUILD_SHARED_LIBS "Build shared libraries if possible" ON)
+
 include(ComponentUtils)
 enable_component(ast)
 enable_component(chrono)
@@ -58,6 +60,11 @@ enable_component(imaging)
 enable_component(logger)
 enable_component(math)
 enable_component(midi)
+
+if (WIN32)
+    enable_component(platform)
+endif ()
+
 enable_component(plugins)
 enable_component(ptree)
 enable_component(rdp)
