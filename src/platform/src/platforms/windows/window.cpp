@@ -191,6 +191,11 @@ auto window_win32::native_handle() const noexcept -> void *
     return handle_;
 }
 
+auto window_win32::context() const noexcept -> const platform::context &
+{
+    return context_;
+}
+
 void window_win32::on_position_changed(const math::vector2<std::int32_t> &position) const noexcept
 {
     if (events_)

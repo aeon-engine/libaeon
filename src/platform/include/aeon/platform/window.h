@@ -10,6 +10,8 @@
 namespace aeon::platform
 {
 
+class context;
+
 class window
 {
 public:
@@ -35,6 +37,8 @@ public:
     [[nodiscard]] virtual auto closed() const noexcept -> bool = 0;
 
     [[nodiscard]] virtual auto native_handle() const noexcept -> void * = 0;
+
+    [[nodiscard]] virtual auto context() const noexcept -> const context & = 0;
 };
 
 } // namespace aeon::platform

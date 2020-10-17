@@ -44,6 +44,8 @@ public:
 
     [[nodiscard]] auto native_handle() const noexcept -> void * final;
 
+    [[nodiscard]] auto context() const noexcept -> const platform::context & final;
+
     void on_position_changed(const math::vector2<std::int32_t> &position) const noexcept;
     void on_size_changed(const math::size2d<std::int32_t> &size) const noexcept;
     void on_closing() noexcept;
