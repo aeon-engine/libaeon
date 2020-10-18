@@ -216,6 +216,12 @@ public:
      */
     [[nodiscard]] auto match_until(const std::string_view str) noexcept -> parse_result<std::string_view>;
 
+    /*!
+     * Match any character until the given characters. The result will not contain the given end characters.
+     * If eof is reached before the given characters are found, unmatched will be returned.
+     */
+    [[nodiscard]] auto match_until(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>;
+
 private:
     std::string_view view_;
     std::string_view::const_iterator current_;

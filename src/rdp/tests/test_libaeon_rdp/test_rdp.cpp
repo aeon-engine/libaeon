@@ -161,6 +161,18 @@ TEST(test_rdp, test_offset_match_until)
     EXPECT_TRUE(parser.match_until('4').is_unmatched());
 }
 
+TEST(test_rdp, test_offset_match_until_multiple)
+{
+    rdp::parser parser{"11112,222|3333"};
+    EXPECT_EQ(0u, rdp::offset(parser));
+    EXPECT_EQ("1111", parser.match_until({'2', ','}).value());
+    EXPECT_EQ(10u, parser.remaining_size());
+    EXPECT_EQ("2", parser.match_until({'2', ','}).value());
+    EXPECT_EQ(9u, parser.remaining_size());
+    EXPECT_EQ(",222", parser.match_until({'3', '|'}).value());
+    EXPECT_TRUE(parser.match_until('4').is_unmatched());
+}
+
 TEST(test_rdp, test_offset_match_until_string)
 {
     rdp::parser parser{"112233abc123"};

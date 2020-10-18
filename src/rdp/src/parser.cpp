@@ -279,6 +279,23 @@ void parser::skip_until(const std::initializer_list<char> c) noexcept
     return unmatched{};
 }
 
+auto parser::match_until(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>
+{
+    auto itr = current_;
+
+    do
+    {
+        ++itr;
+
+        if (AEON_UNLIKELY(itr == std::end(view_)))
+            return unmatched{};
+    } while (!common::container::contains(std::begin(c), std::end(c), *itr));
+
+    const auto result = common::string::make_string_view(current_, itr);
+    current_ = itr;
+    return matched{result};
+}
+
 [[nodiscard]] auto eof(const parser &parser) noexcept -> bool
 {
     return parser.eof();
