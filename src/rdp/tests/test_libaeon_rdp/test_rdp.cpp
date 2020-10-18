@@ -76,6 +76,24 @@ TEST(test_rdp, test_offset_check_string)
     EXPECT_EQ(3u, rdp::offset(parser));
 }
 
+TEST(test_rdp, test_offset_check_multiple)
+{
+    rdp::parser parser{"123"};
+    EXPECT_EQ(0u, rdp::offset(parser));
+    EXPECT_TRUE(parser.check({'1', '|'}));
+    EXPECT_EQ(1u, rdp::offset(parser));
+    EXPECT_FALSE(parser.check({'|', '1'}));
+    EXPECT_EQ(1u, rdp::offset(parser));
+    EXPECT_TRUE(parser.check({'2', '5'}));
+    EXPECT_EQ(2u, rdp::offset(parser));
+    EXPECT_FALSE(parser.check({'5', '2'}));
+    EXPECT_EQ(2u, rdp::offset(parser));
+    EXPECT_TRUE(parser.check({'3', '4'}));
+    EXPECT_EQ(3u, rdp::offset(parser));
+    EXPECT_FALSE(parser.check({'4', '3'}));
+    EXPECT_EQ(3u, rdp::offset(parser));
+}
+
 TEST(test_rdp, test_offset_skip)
 {
     rdp::parser parser{"111122223333"};

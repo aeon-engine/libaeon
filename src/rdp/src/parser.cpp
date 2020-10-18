@@ -6,6 +6,7 @@
 #include <aeon/rdp/scoped_state.h>
 #include <aeon/common/compilers.h>
 #include <aeon/common/string.h>
+#include <aeon/common/container.h>
 
 namespace aeon::rdp
 {
@@ -180,6 +181,19 @@ auto parser::remaining_size() const noexcept -> std::size_t
     }
 
     current_ = itr;
+
+    return true;
+}
+
+auto parser::check(const std::initializer_list<char> c) noexcept -> bool
+{
+    if (AEON_UNLIKELY(eof()))
+        return false;
+
+    if (!common::container::contains(std::begin(c), std::end(c), current()))
+        return false;
+
+    ++current_;
 
     return true;
 }

@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string_view>
+#include <initializer_list>
 #include <regex>
 
 namespace aeon::rdp
@@ -142,6 +143,12 @@ public:
      * \return True if character is at current position
      */
     [[nodiscard]] auto check(const std::string_view str) noexcept -> bool;
+
+    /*!
+     * Check if one of the given characters are the current position. Moves the internal index 1 if matched.
+     * \return True if one of the given characters are at current position
+     */
+    [[nodiscard]] auto check(const std::initializer_list<char> c) noexcept -> bool;
 
     /*!
      * Skip all occurrences of a certain character and move the internal index to the first character
