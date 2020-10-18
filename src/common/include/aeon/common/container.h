@@ -88,7 +88,7 @@ void erase_if(container_t &items, const unary_predicate_t &predicate)
 }
 
 template <typename T, std::size_t N>
-[[nodiscard]] inline constexpr auto make_array(T &&value)
+[[nodiscard]] inline constexpr auto make_array(T &&value) noexcept
 {
     std::array<T, N> arr;
     arr.fill(std::forward<T>(value));
@@ -129,7 +129,7 @@ template <typename map_type_t, typename value_type_t>
  * The signature of the predicate should be equivalent to bool(const type1 &left, const type2 &right);
  */
 template <typename forward_itr_t, typename pred_t>
-inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p)
+inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p) noexcept
 {
     if (first == last)
         return;
@@ -145,7 +145,7 @@ inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p)
 }
 
 template <typename iterator_t, typename value_t>
-inline auto contains(iterator_t first, iterator_t last, const value_t &value) -> bool
+inline auto contains(iterator_t first, iterator_t last, const value_t &value) noexcept -> bool
 {
     if (first == last)
         return false;
