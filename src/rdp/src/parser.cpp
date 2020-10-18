@@ -216,6 +216,12 @@ void parser::skip_until(const char c) noexcept
         advance();
 }
 
+void parser::skip_until(const std::initializer_list<char> c) noexcept
+{
+    while (!eof() && !common::container::contains(std::begin(c), std::end(c), current()))
+        advance();
+}
+
 [[nodiscard]] auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
     -> parse_result<std::string_view>
 {

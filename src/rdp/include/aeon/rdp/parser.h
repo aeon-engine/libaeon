@@ -169,6 +169,12 @@ public:
     void skip_until(const char c) noexcept;
 
     /*!
+     * Skip all characters that are not the given characters and move the internal index to right after the first
+     * character that matches the given ones.
+     */
+    void skip_until(const std::initializer_list<char> c) noexcept;
+
+    /*!
      * Match with a matcher.
      *
      * The matcher's signature is: auto pred(const char c) noexcept -> bool
