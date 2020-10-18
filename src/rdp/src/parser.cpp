@@ -204,6 +204,12 @@ void parser::skip(const char c) noexcept
         advance();
 }
 
+void parser::skip(const std::initializer_list<char> c) noexcept
+{
+    while (!eof() && common::container::contains(std::begin(c), std::end(c), current()))
+        advance();
+}
+
 void parser::skip_until(const char c) noexcept
 {
     while (!eof() && current() != c)

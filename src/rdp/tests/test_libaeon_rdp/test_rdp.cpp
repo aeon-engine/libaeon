@@ -110,6 +110,20 @@ TEST(test_rdp, test_offset_skip)
     EXPECT_EQ(12u, rdp::offset(parser));
 }
 
+TEST(test_rdp, test_offset_skip_multiple)
+{
+    rdp::parser parser{"11112222333344444555556666677777"};
+    EXPECT_EQ(0u, rdp::offset(parser));
+    parser.skip({'2', '3'});
+    EXPECT_EQ(0u, rdp::offset(parser));
+    parser.skip({'1', '2'});
+    EXPECT_EQ(8u, rdp::offset(parser));
+    parser.skip({'1', '2'});
+    EXPECT_EQ(8u, rdp::offset(parser));
+    parser.skip({'3', '4', '5', '7'});
+    EXPECT_EQ(22u, rdp::offset(parser));
+}
+
 TEST(test_rdp, test_offset_skip_until)
 {
     rdp::parser parser{"111122223333"};
