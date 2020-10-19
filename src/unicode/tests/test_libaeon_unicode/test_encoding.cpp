@@ -1,17 +1,11 @@
 ﻿// Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
 
 #include <aeon/unicode/encoding.h>
+#include <aeon/common/bom.h>
 #include <gtest/gtest.h>
 #include <array>
 
 using namespace aeon;
-
-constexpr std::array<const std::uint8_t, 3> bom_signature{0xef, 0xbb, 0xbf};
-
-inline auto bom() -> std::u8string
-{
-    return std::u8string{std::begin(bom_signature), std::end(bom_signature)};
-}
 
 TEST(test_encoding, test_encoding_convert)
 {
@@ -27,7 +21,7 @@ TEST(test_encoding, test_encoding_convert)
 
 TEST(test_encoding, test_encoding_convert_with_bom)
 {
-    const auto str = bom() + u8"I like Π, and らき☆すた, Raki☆Suta ";
+    const auto str = common::bom::utf8::u8string() + u8"I like Π, and らき☆すた, Raki☆Suta ";
     const auto converted = unicode::utf8::to_utf16(str);
     const auto converted2 = unicode::utf16::to_utf8(converted);
 

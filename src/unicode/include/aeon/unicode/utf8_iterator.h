@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/unicode/base_utf_iterator.h>
+#include <aeon/common/bom.h>
 #include <aeon/common/assert.h>
 
 namespace aeon::unicode
@@ -68,7 +69,8 @@ private:
         if (len_ < 3)
             return;
 
-        if (str_[0] == 0xEF && str_[1] == 0xBB && str_[2] == 0xBF)
+        if (str_[0] == common::bom::utf8::signature[0] && str_[1] == common::bom::utf8::signature[1] &&
+            str_[2] == common::bom::utf8::signature[2])
             next_offset_ += 3;
     }
 
