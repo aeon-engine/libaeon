@@ -62,6 +62,21 @@ void skip_until_newline(parser &parser) noexcept
     parser.skip_until('\n');
 }
 
+void skip_byte_order_marker(parser &parser) noexcept
+{
+    scoped_state state{parser};
+
+    static constexpr std::array bom{static_cast<char>(0xEF), static_cast<char>(0xBB), static_cast<char>(0xBF)};
+
+    for (const auto c : bom)
+    {
+        if (!parser.check(c))
+            return;
+    }
+
+    state.accept();
+}
+
 auto match_alpha(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isalpha(c) != 0; });

@@ -41,6 +41,11 @@ void skip_whitespace_and_newline(parser &parser) noexcept;
 void skip_until_newline(parser &parser) noexcept;
 
 /*!
+ * Skip a possible Byte Order Marker (BOM); usually found at the start of Windows UTF-8 files.
+ */
+void skip_byte_order_marker(parser &parser) noexcept;
+
+/*!
  * Match alpha characters (a-zA-Z) and return the result if any were matched.
  */
 auto match_alpha(parser &parser) noexcept -> parse_result<std::string_view>;

@@ -2,6 +2,7 @@
 
 #include <aeon/rdp/parser.h>
 #include <aeon/rdp/matchers.h>
+#include <aeon/common/bom.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -347,4 +348,17 @@ TEST(test_rdp, test_parse_hexadecimal_prefixed)
     check_parse_hex_prefixed("0xBD74", 48500);
     check_parse_hex_prefixed("0xF1DA85FC", 4057630204);
     check_parse_hex_prefixed("0x57DB41EA587DB4FC", 6330726175962150140u);
+}
+
+void check_skip_byte_order_marker(const std::string_view str, const std::string_view expected)
+{
+    rdp::parser parser{str};
+    rdp::skip_byte_order_marker(parser);
+    EXPECT_TRUE(parser.check(expected));
+}
+
+TEST(test_rdp, test_skip_byte_order_marker)
+{
+    check_skip_byte_order_marker("Hello", "Hello");
+    check_skip_byte_order_marker(common::bom::utf8::string() + "Hello", "Hello");
 }
