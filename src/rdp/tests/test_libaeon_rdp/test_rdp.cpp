@@ -182,6 +182,18 @@ TEST(test_rdp, test_offset_match_until_string)
     EXPECT_EQ(2u, parser.remaining_size());
 }
 
+TEST(test_rdp, test_offset_match_each)
+{
+    rdp::parser parser{"1213414adbdcacd55658758"};
+    EXPECT_EQ(0u, rdp::offset(parser));
+    EXPECT_TRUE(parser.match_each({'2', '3', '4'}).is_unmatched());
+
+    EXPECT_EQ("1213414", parser.match_each({'1', '2', '3', '4'}).value());
+    EXPECT_EQ("adbdcacd", parser.match_each({'a', 'b', 'c', 'd'}).value());
+    EXPECT_TRUE(parser.match_each({'1', '2', '3', '4'}).is_unmatched());
+    EXPECT_EQ("55658758", parser.match_each({'5', '6', '7', '8'}).value());
+}
+
 TEST(test_rdp, test_offset_match_pred)
 {
     rdp::parser parser{"1234abcd5678"};

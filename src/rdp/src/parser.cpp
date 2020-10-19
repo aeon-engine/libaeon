@@ -222,6 +222,11 @@ void parser::skip_until(const std::initializer_list<char> c) noexcept
         advance();
 }
 
+auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>
+{
+    return match([&c](const char ch) { return common::container::contains(std::begin(c), std::end(c), ch); });
+}
+
 [[nodiscard]] auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
     -> parse_result<std::string_view>
 {

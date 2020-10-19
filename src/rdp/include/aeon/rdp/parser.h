@@ -175,6 +175,11 @@ public:
     void skip_until(const std::initializer_list<char> c) noexcept;
 
     /*!
+     * Match each of the given characters. The match ends at the first character that isn't in the given list.
+     */
+    [[nodiscard]] auto match_each(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>;
+
+    /*!
      * Match with a matcher.
      *
      * The matcher's signature is: auto pred(const char c) noexcept -> bool
