@@ -248,7 +248,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
                            std::regex_constants::match_not_null | std::regex_constants::match_continuous))
         return unmatched{};
 
-    aeon_assert(match.size() >= 1, "Bug: expected at least 1 match result.");
+    aeon_assert(!match.empty(), "Bug: expected at least 1 match result.");
 
     const auto result = common::string::make_string_view(match.begin()->first, match.begin()->second);
     current_ = match.begin()->second;
