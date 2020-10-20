@@ -256,7 +256,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
     return matched{result};
 }
 
-[[nodiscard]] auto parser::match_until(const char c) noexcept -> parse_result<std::string_view>
+[[nodiscard]] auto parser::match_until(const char c, const eof_mode mode) noexcept -> parse_result<std::string_view>
 {
     auto itr = current_;
 
@@ -265,7 +265,12 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
         ++itr;
 
         if (AEON_UNLIKELY(itr == std::end(view_)))
-            return unmatched{};
+        {
+            if (mode == eof_mode::fail)
+                return unmatched{};
+            else
+                break;
+        }
     } while (*itr != c);
 
     const auto result = common::string::make_string_view(current_, itr);
@@ -292,7 +297,8 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
     return unmatched{};
 }
 
-auto parser::match_until(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>
+auto parser::match_until(const std::initializer_list<char> c, const eof_mode mode) noexcept
+    -> parse_result<std::string_view>
 {
     auto itr = current_;
 
@@ -301,7 +307,12 @@ auto parser::match_until(const std::initializer_list<char> c) noexcept -> parse_
         ++itr;
 
         if (AEON_UNLIKELY(itr == std::end(view_)))
-            return unmatched{};
+        {
+            if (mode == eof_mode::fail)
+                return unmatched{};
+            else
+                break;
+        }
     } while (!common::container::contains(std::begin(c), std::end(c), *itr));
 
     const auto result = common::string::make_string_view(current_, itr);

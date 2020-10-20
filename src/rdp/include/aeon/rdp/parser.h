@@ -14,6 +14,12 @@ class cursor;
 template <typename T>
 class parse_result;
 
+enum class eof_mode
+{
+    match, // When eof is reached, still match the currently taken characters
+    fail   // When eof is reached, fail the match
+};
+
 /*!
  * Recursive-Descent-Parsing (RDP).
  * This class contains helper methods (matches and skippers) to aid with implementing RDP.
@@ -219,7 +225,8 @@ public:
      * Match any character until the given character. The result will not contain the given end character.
      * If eof is reached before the given character is found, unmatched will be returned.
      */
-    [[nodiscard]] auto match_until(const char c) noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto match_until(const char c, const eof_mode mode = eof_mode::fail) noexcept
+        -> parse_result<std::string_view>;
 
     /*!
      * Match any character until the given string. The result will not contain the given end string.
@@ -231,7 +238,8 @@ public:
      * Match any character until the given characters. The result will not contain the given end characters.
      * If eof is reached before the given characters are found, unmatched will be returned.
      */
-    [[nodiscard]] auto match_until(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>;
+    [[nodiscard]] auto match_until(const std::initializer_list<char> c, const eof_mode mode = eof_mode::fail) noexcept
+        -> parse_result<std::string_view>;
 
 private:
     std::string_view view_;
