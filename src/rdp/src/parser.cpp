@@ -154,6 +154,22 @@ auto parser::remaining_size() const noexcept -> std::size_t
     return matched{view_.substr(begin, end - begin)};
 }
 
+auto parser::peek(const std::string_view str) noexcept -> bool
+{
+    if (AEON_UNLIKELY(eof()))
+        return false;
+
+    auto itr = current_;
+
+    for (const auto c : str)
+    {
+        if (AEON_UNLIKELY(itr == std::end(view_)) || c != *itr++)
+            return false;
+    }
+
+    return true;
+}
+
 [[nodiscard]] auto parser::check(const char c) noexcept -> bool
 {
     if (AEON_UNLIKELY(eof()))
@@ -169,18 +185,10 @@ auto parser::remaining_size() const noexcept -> std::size_t
 
 [[nodiscard]] auto parser::check(const std::string_view str) noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof()))
+    if (!peek(str))
         return false;
 
-    auto itr = current_;
-
-    for (const auto c : str)
-    {
-        if (AEON_UNLIKELY(itr == std::end(view_)) || c != *itr++)
-            return false;
-    }
-
-    current_ = itr;
+    current_ += std::size(str);
 
     return true;
 }

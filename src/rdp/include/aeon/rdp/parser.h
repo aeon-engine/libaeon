@@ -132,6 +132,12 @@ public:
         -> parse_result<std::string_view>;
 
     /*!
+     * Peek ahead to see if a certain string is at the current position. Unlike check(), it does not move the cursor.
+     * In order to peek a single character, you should use the current() method.
+     */
+    [[nodiscard]] auto peek(const std::string_view str) noexcept -> bool;
+
+    /*!
      * Check if a certain character is at the current position. Moves the internal index 1 if matched.
      * \return True if character is at current position
      */
