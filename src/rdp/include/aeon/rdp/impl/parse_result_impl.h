@@ -18,7 +18,7 @@ inline matched<T>::matched() noexcept
 
 template <typename T>
 inline matched<T>::matched(T value) noexcept(std::is_nothrow_move_constructible_v<T>)
-    : value_{std::move(value)}
+    : value_(std::move(value))
 {
 }
 

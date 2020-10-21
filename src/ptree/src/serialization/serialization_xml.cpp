@@ -54,11 +54,7 @@ public:
             throw ptree_xml_deserialize_exception{arr.error().message()};
         }
 
-        // TODO: This is a hack. There is always a top-level ptree array object with 1 child.
-        if (std::size(arr.value()) != 1)
-            throw ptree_xml_deserialize_exception{"Parse error."};
-
-        ptree = std::move(arr.value().at(0));
+        ptree = std::move(arr.value());
     }
 
 private:
