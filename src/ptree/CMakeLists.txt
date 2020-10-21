@@ -21,6 +21,7 @@ set(LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE
     include/aeon/ptree/serialization/serialization_abf.h
     include/aeon/ptree/serialization/serialization_ini.h
     include/aeon/ptree/serialization/serialization_json.h
+    include/aeon/ptree/serialization/serialization_xml.h
 )
 
 source_group(public\\serialization FILES ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE})
@@ -35,6 +36,7 @@ set(LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE
     src/serialization/serialization_abf.cpp
     src/serialization/serialization_ini.cpp
     src/serialization/serialization_json.cpp
+    src/serialization/serialization_xml.cpp
 )
 
 source_group(private\\serialization FILES ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE})
