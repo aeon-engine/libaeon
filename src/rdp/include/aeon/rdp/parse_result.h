@@ -28,6 +28,8 @@ public:
     matched(matched<T> &&) noexcept(std::is_nothrow_move_constructible_v<T>) = default;
     auto operator=(matched<T> &&) noexcept(std::is_nothrow_move_assignable_v<T>) -> matched<T> & = default;
 
+    auto value() noexcept -> T &;
+
     auto value() const noexcept -> const T &;
 
 private:
@@ -84,7 +86,11 @@ public:
 
     operator bool() const noexcept;
 
+    auto value() noexcept -> T &;
+
     auto value() const noexcept -> const T &;
+
+    auto operator*() noexcept -> T &;
 
     auto operator*() const noexcept -> const T &;
 

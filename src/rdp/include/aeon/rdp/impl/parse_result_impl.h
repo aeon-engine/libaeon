@@ -23,6 +23,12 @@ inline matched<T>::matched(T value) noexcept(std::is_nothrow_move_constructible_
 }
 
 template <typename T>
+inline auto matched<T>::value() noexcept -> T &
+{
+    return value_;
+}
+
+template <typename T>
 inline auto matched<T>::value() const noexcept -> const T &
 {
     return value_;
@@ -81,10 +87,23 @@ inline parse_result<T>::operator bool() const noexcept
 }
 
 template <typename T>
+inline auto parse_result<T>::value() noexcept -> T &
+{
+    aeon_assert(result(), "value should only be called if result() returns true.");
+    return std::get<matched<T>>(result_).value();
+}
+
+template <typename T>
 inline auto parse_result<T>::value() const noexcept -> const T &
 {
     aeon_assert(result(), "value should only be called if result() returns true.");
     return std::get<matched<T>>(result_).value();
+}
+
+template <typename T>
+inline auto parse_result<T>::operator*() noexcept -> T &
+{
+    return value();
 }
 
 template <typename T>
