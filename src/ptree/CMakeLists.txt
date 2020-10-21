@@ -32,9 +32,9 @@ set(LIB_AEON_PTREE_PRIVATE_SOURCE
 source_group(private FILES ${LIB_AEON_PTREE_PRIVATE_SOURCE})
 
 set(LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE
-    src/serialization_abf.cpp
-    src/serialization_ini.cpp
-    src/serialization_json.cpp
+    src/serialization/serialization_abf.cpp
+    src/serialization/serialization_ini.cpp
+    src/serialization/serialization_json.cpp
 )
 
 source_group(private\\serialization FILES ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE})
