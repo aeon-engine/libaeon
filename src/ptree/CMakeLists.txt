@@ -26,6 +26,14 @@ set(LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE
 
 source_group(public\\serialization FILES ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE})
 
+set(LIB_AEON_PTREE_PUBLIC_XML_DOM_SOURCE
+    include/aeon/ptree/xml_dom/exception.h
+    include/aeon/ptree/xml_dom/xml_document.h
+    include/aeon/ptree/xml_dom/xml_node.h
+)
+
+source_group(public\\xml_dom FILES ${LIB_AEON_PTREE_PUBLIC_XML_DOM_SOURCE})
+
 set(LIB_AEON_PTREE_PRIVATE_SOURCE
     src/reflection.cpp
 )
@@ -41,13 +49,22 @@ set(LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE
 
 source_group(private\\serialization FILES ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE})
 
+set(LIB_AEON_PTREE_PRIVATE_XML_DOM_SOURCE
+    src/xml_dom/xml_document.cpp
+    src/xml_dom/xml_node.cpp
+)
+
+source_group(private\\xml_dom FILES ${LIB_AEON_PTREE_PRIVATE_XML_DOM_SOURCE})
+
 add_library(aeon_ptree
     STATIC
         ${LIB_AEON_PTREE_PUBLIC_SOURCE}
         ${LIB_AEON_PTREE_PUBLIC_IMPL_SOURCE}
         ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE}
+        ${LIB_AEON_PTREE_PUBLIC_XML_DOM_SOURCE}
         ${LIB_AEON_PTREE_PRIVATE_SOURCE}
         ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE}
+        ${LIB_AEON_PTREE_PRIVATE_XML_DOM_SOURCE}
 )
 
 set_target_properties(aeon_ptree PROPERTIES
@@ -63,9 +80,10 @@ target_include_directories(aeon_ptree
 target_link_libraries(aeon_ptree
     aeon_common
     aeon_rdp
-    aeon_unicode
-    aeon_streams
     aeon_reflection
+    aeon_streams
+    aeon_unicode
+    aeon_variant
 )
 
 install(

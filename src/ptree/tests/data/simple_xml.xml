@@ -1,0 +1,6 @@
+<test_xml>
+    <values>
+        <value a="3" b="4">Something</value>
+        <value>Another Thing</value>
+    </values>
+</test_xml>

@@ -12,6 +12,7 @@ add_unit_test_suite(
         test_ini.cpp
         test_ptree.cpp
         test_reflection.cpp
+        test_xml.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_ptree
