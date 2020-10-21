@@ -111,7 +111,7 @@ private:
             obj.emplace(std::string{result.value().name}, std::string{result.value().value});
         }
 
-        return rdp::matched{property_tree{std::move(obj)}};
+        return rdp::matched{property_tree{object{{"?xml", std::move(obj)}}}};
     }
 
     [[nodiscard]] auto parse_element() -> rdp::parse_result<property_tree>
