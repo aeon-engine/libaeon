@@ -9,7 +9,7 @@
 namespace aeon::ptree::serialization
 {
 
-class ptree_unsupported_ini_format : public ptree_serialization_exception
+class ptree_unsupported_ini_format final : public ptree_serialization_exception
 {
 };
 
