@@ -32,7 +32,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 ################################################################################
 
-option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 5.1.0 or higher." OFF)
+option(AEON_ENABLE_COVERAGE "Enable code coverage. Requires linux with GCC 10 or higher." OFF)
 
 if (AEON_ENABLE_COVERAGE)
     include(Coverage)
