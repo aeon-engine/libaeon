@@ -103,7 +103,7 @@ if (AEON_ENABLE_DOXYGEN)
         message(STATUS "Generating doxygen documentation.")
 
         set(DOXYGEN_PROJECT_NAME "libAeon")
-        set(DOXYGEN_PROJECT_BRIEF "A C++17 support library.")
+        set(DOXYGEN_PROJECT_BRIEF "A C++20 support library.")
 
         if (MSVC)
             set(DOXYGEN_WARN_FORMAT "$file($line) : $text")
