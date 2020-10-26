@@ -28,8 +28,8 @@ class xml_node
 public:
     virtual ~xml_node() noexcept;
 
-    xml_node(const xml_node &) = delete;
-    auto operator=(const xml_node &) -> xml_node & = delete;
+    xml_node(const xml_node &) noexcept;
+    auto operator=(const xml_node &) noexcept -> xml_node &;
 
     xml_node(xml_node &&) noexcept;
     auto operator=(xml_node &&) noexcept -> xml_node &;
@@ -39,10 +39,7 @@ public:
         return type_;
     }
 
-    [[nodiscard]] const auto &name() const noexcept
-    {
-        return name_;
-    }
+    [[nodiscard]] auto name() const -> const std::string &;
 
     [[nodiscard]] auto has_value() const noexcept -> bool;
 
@@ -75,7 +72,7 @@ public:
 protected:
     explicit xml_node(const xml_document &document) noexcept;
     explicit xml_node(const xml_document &document, const property_tree &pt, const xml_node_type type) noexcept;
-    explicit xml_node(const xml_document &document, const property_tree &pt, std::string name,
+    explicit xml_node(const xml_document &document, const property_tree &pt, const std::string &name,
                       const xml_node_type type) noexcept;
 
     [[nodiscard]] auto value_impl() const -> const std::string &;
@@ -83,7 +80,7 @@ protected:
 private:
     const xml_document *document_;
     const property_tree *pt_;
-    std::string name_;
+    const std::string *name_;
     xml_node_type type_;
 };
 

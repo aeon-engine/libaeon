@@ -9,9 +9,22 @@ namespace aeon::ptree::xml_dom
 
 xml_node::~xml_node() noexcept = default;
 
+xml_node::xml_node(const xml_node &) noexcept = default;
+
+auto xml_node::operator=(const xml_node &) noexcept -> xml_node & = default;
+
 xml_node::xml_node(xml_node &&) noexcept = default;
 
 auto xml_node::operator=(xml_node &&) noexcept -> xml_node & = default;
+
+auto xml_node::name() const -> const std::string &
+{
+
+    if (!name_)
+        throw xml_dom_exception{};
+
+    return *name_;
+}
 
 auto xml_node::has_value() const noexcept -> bool
 {
@@ -164,7 +177,7 @@ auto xml_node::value_impl() const -> const std::string &
 xml_node::xml_node(const xml_document &document) noexcept
     : document_{&document}
     , pt_{nullptr}
-    , name_{}
+    , name_{nullptr}
     , type_{xml_node_type::invalid}
 {
 }
@@ -172,16 +185,16 @@ xml_node::xml_node(const xml_document &document) noexcept
 xml_node::xml_node(const xml_document &document, const property_tree &pt, const xml_node_type type) noexcept
     : document_{&document}
     , pt_{&pt}
-    , name_{}
+    , name_{nullptr}
     , type_{type}
 {
 }
 
-xml_node::xml_node(const xml_document &document, const property_tree &pt, std::string name,
+xml_node::xml_node(const xml_document &document, const property_tree &pt, const std::string &name,
                    const xml_node_type type) noexcept
     : document_{&document}
     , pt_{&pt}
-    , name_{std::move(name)}
+    , name_{&name}
     , type_{type}
 {
 }
