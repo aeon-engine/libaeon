@@ -130,10 +130,21 @@ window_win32::window_win32(const window_create_info &info, context_win32 &contex
         position = info.position.value();
 
     const auto title = internal::to_wstring(info.title);
+    const auto style = internal::get_style(info);
+    const auto ex_style = WS_EX_APPWINDOW;
 
-    handle_ = CreateWindowExW(WS_EX_APPWINDOW, class_.classname(), std::data(title), internal::get_style(info),
-                              position.x, position.y, info.size.width, info.size.height, nullptr, nullptr,
-                              GetModuleHandleW(nullptr), nullptr);
+    RECT window_rect;
+    window_rect.left = 0;
+    window_rect.top = 0;
+    window_rect.right = info.size.width;
+    window_rect.bottom = info.size.height;
+
+    if (info.client_area_size)
+        AdjustWindowRectEx(&window_rect, style, FALSE, ex_style);
+
+    handle_ = CreateWindowExW(ex_style, class_.classname(), std::data(title), style, position.x, position.y,
+                              window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, nullptr,
+                              nullptr, GetModuleHandleW(nullptr), nullptr);
 
     if (!handle_)
         internal::throw_last_error();

@@ -26,6 +26,11 @@ struct window_create_info final
      */
     std::optional<math::vector2<std::int32_t>> position = std::nullopt;
 
+    /*!
+     * The given size is treated as the size of the client area. If set to false, the given size is the size of the
+     * entire window including possible borders.
+     */
+    std::uint32_t client_area_size : 1 = true;
     std::uint32_t resizable : 1 = true;
     std::uint32_t visible : 1 = true;
 
