@@ -131,7 +131,7 @@ window_win32::window_win32(const window_create_info &info, context_win32 &contex
 
     const auto title = internal::to_wstring(info.title);
     const auto style = internal::get_style(info);
-    const auto ex_style = WS_EX_APPWINDOW;
+    const auto ex_style = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 
     RECT window_rect;
     window_rect.left = 0;
