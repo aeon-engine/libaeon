@@ -38,16 +38,6 @@ public:
     {
     }
 
-    virtual void on_key_down([[maybe_unused]] const context &context, [[maybe_unused]] const std::uint32_t key_code,
-                             [[maybe_unused]] const std::uint32_t character_code, [[maybe_unused]] const bool repeated)
-    {
-    }
-
-    virtual void on_key_up([[maybe_unused]] const context &context, [[maybe_unused]] const std::uint32_t key_code,
-                           [[maybe_unused]] const std::uint32_t character_code, [[maybe_unused]] const bool repeated)
-    {
-    }
-
     virtual void on_window_closed([[maybe_unused]] const context &context) noexcept
     {
     }
