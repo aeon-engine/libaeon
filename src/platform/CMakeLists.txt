@@ -7,6 +7,7 @@ set(LIB_AEON_PLATFORM_PUBLIC_SOURCE
     include/aeon/platform/exception.h
     include/aeon/platform/input_events.h
     include/aeon/platform/modifier_keys_state.h
+    include/aeon/platform/native_handles.h
     include/aeon/platform/window.h
     include/aeon/platform/window_create_info.h
     include/aeon/platform/window_events.h

@@ -42,7 +42,7 @@ public:
         return events_;
     }
 
-    [[nodiscard]] auto native_handle() const noexcept -> void * final;
+    [[nodiscard]] auto native_handles() const noexcept -> platform::native_handles final;
 
     [[nodiscard]] auto context() const noexcept -> const platform::context & final;
 

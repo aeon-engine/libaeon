@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/platform/native_handles.h>
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
 #include <string>
@@ -36,7 +37,7 @@ public:
 
     [[nodiscard]] virtual auto closed() const noexcept -> bool = 0;
 
-    [[nodiscard]] virtual auto native_handle() const noexcept -> void * = 0;
+    [[nodiscard]] virtual auto native_handles() const noexcept -> platform::native_handles = 0;
 
     [[nodiscard]] virtual auto context() const noexcept -> const context & = 0;
 };

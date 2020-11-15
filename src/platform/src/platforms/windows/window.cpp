@@ -197,9 +197,9 @@ auto window_win32::closed() const noexcept -> bool
     return closing_;
 }
 
-auto window_win32::native_handle() const noexcept -> void *
+auto window_win32::native_handles() const noexcept -> platform::native_handles
 {
-    return handle_;
+    return {handle_, GetModuleHandleW(nullptr)};
 }
 
 auto window_win32::context() const noexcept -> const platform::context &
