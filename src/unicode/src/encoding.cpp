@@ -26,7 +26,7 @@ namespace utf8
 
 void append(const char32_t from, std::u8string &to)
 {
-    std::array<char, 4> data;
+    std::array<std::uint8_t, 4> data;
     auto data_offset = 0u;
     UBool error = FALSE;
 
