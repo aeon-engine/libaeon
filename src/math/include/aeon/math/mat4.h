@@ -20,6 +20,9 @@ class rectangle;
 template <typename T>
 class vector3;
 
+template <typename T>
+class size2d;
+
 class mat3;
 class quaternion;
 
@@ -337,6 +340,18 @@ public:
     template <typename T, typename U>
     [[nodiscard]] static auto projection_fov(const unit_base<radian, void, U> fov, const T width, const T height,
                                              const U near, const U far) noexcept -> mat4;
+
+    /*!
+     * Create a projection (perspective) matrix based on given values.
+     * \param[in] fov - Full field of view in radians
+     * \param[in] size - Size of the view
+     * \param[in] near - Near clip plane
+     * \param[in] far - Far clip plane
+     * \return A projection (perspective) matrix.
+     */
+    template <typename T>
+    [[nodiscard]] static auto projection_fov(const unitf<radian> fov, const size2d<T> size, const float near,
+                                             const float far) noexcept -> mat4;
 
     std::array<vector4<float>, 4> column;
 };

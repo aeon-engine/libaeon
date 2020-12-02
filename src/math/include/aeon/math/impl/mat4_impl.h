@@ -339,6 +339,14 @@ template <typename T, typename U>
                           static_cast<float>(near), static_cast<float>(far));
 }
 
+template <typename T>
+[[nodiscard]] inline auto mat4::projection_fov(const unitf<radian> fov, const size2d<T> size, const float near,
+                                               const float far) noexcept -> mat4
+{
+    return projection_fov(static_cast<float>(fov), static_cast<float>(width(size)), static_cast<float>(height(size)),
+                          static_cast<float>(near), static_cast<float>(far));
+}
+
 [[nodiscard]] inline constexpr auto determinant(const mat4 &mat) noexcept -> float
 {
     // clang-format off
