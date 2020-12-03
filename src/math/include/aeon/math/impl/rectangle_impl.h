@@ -54,6 +54,15 @@ inline constexpr rectangle<T>::rectangle(const vector2<T> left_top, const size2d
 }
 
 template <typename T>
+inline constexpr rectangle<T>::rectangle(const size2d<T> size) noexcept
+    : left{0}
+    , top{0}
+    , right{width(size)}
+    , bottom{height(size)}
+{
+}
+
+template <typename T>
 inline constexpr rectangle<T>::rectangle(const vector2<T> position, const size2d<T> size,
                                          const anchor_point anchor) noexcept
 {

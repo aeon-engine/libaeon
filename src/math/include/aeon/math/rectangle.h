@@ -58,6 +58,12 @@ public:
     constexpr rectangle(const vector2<T> left_top, const size2d<T> size) noexcept;
 
     /*!
+     * Create a rectangle with the given size at position 0, 0
+     * \param[in] size - The size of the rectangle (left=0, top=0, right=width, bottom=height)
+     */
+    constexpr rectangle(const size2d<T> size) noexcept;
+
+    /*!
      * Create a rectangle based on the given values.
      * \note
      * \param[in] position - The coordinates of an anchor point within the rectangle.
