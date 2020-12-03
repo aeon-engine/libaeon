@@ -65,7 +65,6 @@ public:
 
     /*!
      * Create a rectangle based on the given values.
-     * \note
      * \param[in] position - The coordinates of an anchor point within the rectangle.
      * \param[in] size - The size of the rectangle. The size of the rectangle is guaranteed.
      *                   This means that for example a given anchor point in the middle, may
