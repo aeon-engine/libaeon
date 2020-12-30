@@ -249,7 +249,7 @@ public:
     }
 
     template <class... Args>
-    auto emplace(const_iterator pos, Args &&... args) -> iterator
+    auto emplace(const_iterator pos, Args &&...args) -> iterator
     {
         return data_->emplace(pos, std::forward<Args>(args)...);
     }
@@ -275,7 +275,7 @@ public:
     }
 
     template <class... Args>
-    auto emplace_back(Args &&... args) -> reference
+    auto emplace_back(Args &&...args) -> reference
     {
         return data_->emplace_back(std::forward<Args>(args)...);
     }

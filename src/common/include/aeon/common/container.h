@@ -96,7 +96,7 @@ template <typename T, std::size_t N>
 }
 
 template <typename... T>
-[[nodiscard]] inline constexpr auto make_array2(T &&... values)
+[[nodiscard]] inline constexpr auto make_array2(T &&...values)
     -> std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>
 {
     return std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>{

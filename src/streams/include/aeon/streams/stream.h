@@ -8,7 +8,7 @@ namespace aeon::streams
 {
 
 template <typename first_t, typename... T>
-inline auto make_aggregate_device(first_t &&first, T &&... t)
+inline auto make_aggregate_device(first_t &&first, T &&...t)
 {
     return (std::forward<first_t>(first) | (... | std::forward<T>(t)));
 }

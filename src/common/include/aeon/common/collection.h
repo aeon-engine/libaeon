@@ -113,7 +113,7 @@ public:
     auto insert(const_iterator pos, std::initializer_list<T> ilist) -> iterator;
 
     template <class... args_t>
-    auto emplace(const_iterator pos, args_t &&... args) -> iterator;
+    auto emplace(const_iterator pos, args_t &&...args) -> iterator;
 
     auto erase(const_iterator pos) -> iterator;
 
@@ -124,7 +124,7 @@ public:
     void push_back(T &&value);
 
     template <class... args_t>
-    auto emplace_back(args_t &&... args) -> reference;
+    auto emplace_back(args_t &&...args) -> reference;
 
     void pop_back();
 
@@ -359,7 +359,7 @@ inline auto collection<T>::insert(const_iterator pos, std::initializer_list<T> i
 
 template <typename T>
 template <class... args_t>
-inline auto collection<T>::emplace(const_iterator pos, args_t &&... args) -> iterator
+inline auto collection<T>::emplace(const_iterator pos, args_t &&...args) -> iterator
 {
     return data_.insert(pos, std::forward<args_t>(args)...);
 }
@@ -390,7 +390,7 @@ inline void collection<T>::push_back(T &&value)
 
 template <typename T>
 template <class... args_t>
-inline auto collection<T>::emplace_back(args_t &&... args) -> reference
+inline auto collection<T>::emplace_back(args_t &&...args) -> reference
 {
     return data_.emplace_back(std::forward<args_t>(args)...);
 }

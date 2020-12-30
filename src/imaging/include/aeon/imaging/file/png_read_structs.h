@@ -14,10 +14,10 @@ public:
     ~png_read_structs();
 
     png_read_structs(const png_read_structs &) = delete;
-    auto operator=(const png_read_structs &)->png_read_structs & = delete;
+    auto operator=(const png_read_structs &) -> png_read_structs & = delete;
 
     png_read_structs(png_read_structs &&) = delete;
-    auto operator=(png_read_structs &&)->png_read_structs & = delete;
+    auto operator=(png_read_structs &&) -> png_read_structs & = delete;
 };
 
 inline png_read_structs::png_read_structs()

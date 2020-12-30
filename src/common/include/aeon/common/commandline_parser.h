@@ -37,17 +37,17 @@ public:
     ~commandline_parse_result() = default;
 
     commandline_parse_result(const commandline_parse_result &) = default;
-    auto operator=(const commandline_parse_result &)->commandline_parse_result & = default;
+    auto operator=(const commandline_parse_result &) -> commandline_parse_result & = default;
 
     commandline_parse_result(commandline_parse_result &&) noexcept = default;
     commandline_parse_result &operator=(commandline_parse_result &&) noexcept = default;
 
-    [[nodiscard]] auto success() const noexcept->bool
+    [[nodiscard]] auto success() const noexcept -> bool
     {
         return result_;
     }
 
-    [[nodiscard]] auto failed() const noexcept->bool
+    [[nodiscard]] auto failed() const noexcept -> bool
     {
         return !success();
     }
@@ -57,7 +57,7 @@ public:
         return success();
     }
 
-    [[nodiscard]] auto positional(const std::size_t i) const->std::string_view
+    [[nodiscard]] auto positional(const std::size_t i) const -> std::string_view
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -68,7 +68,7 @@ public:
         return positional_[i];
     }
 
-    [[nodiscard]] auto has_option(const std::string_view option) const->bool
+    [[nodiscard]] auto has_option(const std::string_view option) const -> bool
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -76,7 +76,7 @@ public:
         return options_.contains(option);
     }
 
-    [[nodiscard]] auto has_argument(const std::string_view arg) const->bool
+    [[nodiscard]] auto has_argument(const std::string_view arg) const -> bool
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -84,7 +84,7 @@ public:
         return arguments_.contains(arg);
     }
 
-    [[nodiscard]] auto get_argument(const std::string_view arg) const->std::string_view
+    [[nodiscard]] auto get_argument(const std::string_view arg) const -> std::string_view
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -97,8 +97,8 @@ public:
         throw std::out_of_range{"Argument not found."};
     }
 
-    [[nodiscard]] auto get_argument(const std::string_view arg, const std::string_view default_value)
-        const->std::string_view
+    [[nodiscard]] auto get_argument(const std::string_view arg, const std::string_view default_value) const
+        -> std::string_view
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};

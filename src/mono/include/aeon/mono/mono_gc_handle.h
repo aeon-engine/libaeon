@@ -24,15 +24,15 @@ class mono_object;
 class [[nodiscard]] mono_gc_handle final
 {
 public:
-    explicit mono_gc_handle(mono_object & obj) noexcept;
-    explicit mono_gc_handle(MonoObject * obj) noexcept;
+    explicit mono_gc_handle(mono_object &obj) noexcept;
+    explicit mono_gc_handle(MonoObject *obj) noexcept;
     ~mono_gc_handle();
 
     mono_gc_handle(const mono_gc_handle &) = default;
-    auto operator=(const mono_gc_handle &)->mono_gc_handle & = default;
+    auto operator=(const mono_gc_handle &) -> mono_gc_handle & = default;
 
     mono_gc_handle(mono_gc_handle &&) = default;
-    auto operator=(mono_gc_handle &&)->mono_gc_handle & = default;
+    auto operator=(mono_gc_handle &&) -> mono_gc_handle & = default;
 
     void lock() noexcept;
     void unlock() noexcept;

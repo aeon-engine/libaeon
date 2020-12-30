@@ -338,7 +338,7 @@ inline constexpr auto intersection(const rectangle<T> &rect1, const rectangle<T>
 }
 
 template <typename T, typename... U>
-inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept
+inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &...rectangles) noexcept
     -> rectangle<T>
 {
     // clang-format off

@@ -13,10 +13,10 @@ public:
     png_structs();
 
     png_structs(const png_structs &) = delete;
-    auto operator=(const png_structs &)->png_structs & = delete;
+    auto operator=(const png_structs &) -> png_structs & = delete;
 
     png_structs(png_structs &&) = delete;
-    auto operator=(png_structs &&)->png_structs & = delete;
+    auto operator=(png_structs &&) -> png_structs & = delete;
 
     [[nodiscard]] auto png_ptr() const;
     [[nodiscard]] auto info_ptr() const;
@@ -25,7 +25,7 @@ public:
 protected:
     ~png_structs();
 
-    auto create_info_struct() const->png_infop;
+    auto create_info_struct() const -> png_infop;
 
     png_structp png_ptr_;
     png_infop info_ptr_;

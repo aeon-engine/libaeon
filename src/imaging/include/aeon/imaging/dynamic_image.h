@@ -237,7 +237,7 @@ template <typename T>
 [[nodiscard]] inline auto raw_data(const dynamic_image &image) noexcept -> const std::byte *;
 
 template <template <typename> class T, typename... args_t>
-inline void process_image(const dynamic_image &src, dynamic_image &dst, args_t &&... args)
+inline void process_image(const dynamic_image &src, dynamic_image &dst, args_t &&...args)
 {
     aeon_assert(encoding(src) == encoding(dst), "Encoding mismatch between source and destination.");
     switch (encoding(src))
@@ -274,7 +274,7 @@ inline void process_image(const dynamic_image &src, dynamic_image &dst, args_t &
 }
 
 template <template <typename> class T, typename... args_t>
-inline void process_image(const dynamic_image &img, args_t &&... args)
+inline void process_image(const dynamic_image &img, args_t &&...args)
 {
     switch (encoding(img))
     {
@@ -308,7 +308,7 @@ inline void process_image(const dynamic_image &img, args_t &&... args)
 }
 
 template <template <typename> class T, typename... args_t>
-inline auto process_image_to_copy(const dynamic_image &img, args_t &&... args) -> dynamic_image
+inline auto process_image_to_copy(const dynamic_image &img, args_t &&...args) -> dynamic_image
 {
     switch (encoding(img))
     {

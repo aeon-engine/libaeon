@@ -31,10 +31,10 @@ public:
     }
 
     scoped_trace_log(scoped_trace_log &&) = delete;
-    auto operator=(scoped_trace_log &&)->scoped_trace_log & = delete;
+    auto operator=(scoped_trace_log &&) -> scoped_trace_log & = delete;
 
     scoped_trace_log(const scoped_trace_log &) = delete;
-    auto operator=(const scoped_trace_log &)->scoped_trace_log & = delete;
+    auto operator=(const scoped_trace_log &) -> scoped_trace_log & = delete;
 
 private:
     trace_log_entry *entry_;

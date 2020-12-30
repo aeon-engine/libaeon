@@ -43,10 +43,10 @@ public:
     ~glyph() = default;
 
     glyph(const glyph &) = delete;
-    auto operator=(const glyph &)->glyph & = delete;
+    auto operator=(const glyph &) -> glyph & = delete;
 
-    glyph(glyph && other) noexcept = default;
-    auto operator=(glyph &&other) noexcept->glyph & = default;
+    glyph(glyph &&other) noexcept = default;
+    auto operator=(glyph &&other) noexcept -> glyph & = default;
 
     [[nodiscard]] auto &view() const noexcept
     {

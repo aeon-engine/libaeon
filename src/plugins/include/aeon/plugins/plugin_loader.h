@@ -131,7 +131,7 @@ public:
     {
     }
 
-    scoped_plugin(T * p)
+    scoped_plugin(T *p)
         : plugin_interface_(p)
         , loader_(p ? &plugin_interface_->get_plugin_loader() : nullptr)
     {
@@ -142,7 +142,7 @@ public:
         reset();
     }
 
-    scoped_plugin(scoped_plugin && other) noexcept
+    scoped_plugin(scoped_plugin &&other) noexcept
         : plugin_interface_(std::move(other.plugin_interface_))
         , loader_(std::move(other.loader_))
     {

@@ -59,7 +59,7 @@ public:
      * Invoke a method in every attached listener
      */
     template <typename func_t, class... args_t>
-    void invoke_each(func_t &&func, args_t &&... args)
+    void invoke_each(func_t &&func, args_t &&...args)
     {
         for (const auto &listener : listeners_)
             std::invoke(func, listener, std::forward<args_t>(args)...);

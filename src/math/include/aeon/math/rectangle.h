@@ -406,7 +406,7 @@ template <typename T>
  * \return Bounding box/union of all given rectangles.
  */
 template <typename T, typename... U>
-[[nodiscard]] inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &... rectangles) noexcept
+[[nodiscard]] inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &...rectangles) noexcept
     -> rectangle<T>;
 
 /*!
