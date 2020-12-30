@@ -21,11 +21,3 @@
 #define AEON_PACK_STRUCT_PUSH(nnn)
 #define AEON_PACK_STRUCT_POP(nnn) __attribute__((aligned(nnn), packed))
 #endif
-
-#if (AEON_PLATFORM_OS_WINDOWS)
-#define AEON_LIKELY(x) x
-#define AEON_UNLIKELY(x) x
-#else
-#define AEON_LIKELY(x) __builtin_expect((x), 1)
-#define AEON_UNLIKELY(x) __builtin_expect((x), 0)
-#endif

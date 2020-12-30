@@ -2,7 +2,6 @@
 
 #include <aeon/rdp/matchers.h>
 #include <aeon/rdp/scoped_state.h>
-#include <aeon/common/compilers.h>
 #include <aeon/common/from_chars.h>
 
 #include <cctype>
@@ -14,7 +13,7 @@ namespace aeon::rdp
 
 auto check_whitespace(parser &parser) noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof(parser)))
+    if (eof(parser)) [[unlikely]]
         return false;
 
     if (current(parser) != ' ' && current(parser) != '\t')
@@ -27,7 +26,7 @@ auto check_whitespace(parser &parser) noexcept -> bool
 
 auto check_newline(parser &parser) noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof(parser)))
+    if (eof(parser)) [[unlikely]]
         return false;
 
     scoped_state state{parser};
@@ -90,7 +89,7 @@ auto match_digit(parser &parser) noexcept -> parse_result<std::string_view>
 auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match_indexed([](const auto c, const auto i) {
-        if (AEON_UNLIKELY(i == 0) && c == '-')
+        if (i == 0 && c == '-') [[unlikely]]
             return true;
 
         return std::isdigit(c) != 0;

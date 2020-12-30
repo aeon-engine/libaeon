@@ -1,5 +1,4 @@
 #include <aeon/clang/string.h>
-#include <aeon/common/compilers.h>
 #include <clang-c/Index.h>
 
 namespace aeon::clang
@@ -22,7 +21,7 @@ scoped_cxstring::scoped_cxstring(scoped_cxstring &&other) noexcept
 
 auto scoped_cxstring::operator=(scoped_cxstring &&other) noexcept -> scoped_cxstring &
 {
-    if (AEON_LIKELY(this != &other))
+    if (this != &other) [[likely]]
     {
         dispose();
         str_ = other.str_;

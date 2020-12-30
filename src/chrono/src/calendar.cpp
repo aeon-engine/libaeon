@@ -1,7 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
 
 #include <aeon/chrono/calendar.h>
-#include <aeon/common/compilers.h>
 #include "timezone_impl.h"
 #include <unicode/gregocal.h>
 #include <unicode/smpdtfmt.h>
@@ -135,7 +134,7 @@ calendar::calendar(const calendar &other)
 
 auto calendar::operator=(const calendar &other) -> calendar &
 {
-    if (AEON_LIKELY(this != &other))
+    if (this != &other) [[likely]]
     {
         calendar_.reset(static_cast<gregorian_calendar_impl *>(other.calendar_->clone()));
         timezone_ = other.timezone_;

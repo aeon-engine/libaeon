@@ -3,7 +3,6 @@
 #pragma once
 
 #include <aeon/rdp/parse_result.h>
-#include <aeon/common/compilers.h>
 #include <aeon/common/string.h>
 
 namespace aeon::rdp
@@ -20,7 +19,7 @@ inline parser::parser(iterator_t begin, iterator_t end)
 template <typename matcher_t>
 inline auto parser::match(matcher_t pred) noexcept -> parse_result<std::string_view>
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return unmatched{};
 
     auto itr = current_;
@@ -39,7 +38,7 @@ inline auto parser::match(matcher_t pred) noexcept -> parse_result<std::string_v
 template <typename matcher_t>
 inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<std::string_view>
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return unmatched{};
 
     auto itr = current_;

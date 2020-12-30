@@ -4,7 +4,6 @@
 #include <aeon/rdp/cursor.h>
 #include <aeon/rdp/parse_result.h>
 #include <aeon/rdp/scoped_state.h>
-#include <aeon/common/compilers.h>
 #include <aeon/common/string.h>
 #include <aeon/common/container.h>
 
@@ -36,7 +35,7 @@ parser::parser(const std::string_view v, const std::string_view filename)
 
 auto parser::advance() noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return false;
 
     ++current_;
@@ -64,7 +63,7 @@ void parser::advance_to_end() noexcept
 
 auto parser::reverse() noexcept -> bool
 {
-    if (AEON_UNLIKELY(bof()))
+    if (bof()) [[unlikely]]
         return false;
 
     --current_;
@@ -156,14 +155,17 @@ auto parser::remaining_size() const noexcept -> std::size_t
 
 auto parser::peek(const std::string_view str) noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return false;
 
     auto itr = current_;
 
     for (const auto c : str)
     {
-        if (AEON_UNLIKELY(itr == std::end(view_)) || c != *itr++)
+        if (itr == std::end(view_)) [[unlikely]]
+            return false;
+
+        if (c != *itr++)
             return false;
     }
 
@@ -172,7 +174,7 @@ auto parser::peek(const std::string_view str) noexcept -> bool
 
 [[nodiscard]] auto parser::check(const char c) noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return false;
 
     if (current() != c)
@@ -195,7 +197,7 @@ auto parser::peek(const std::string_view str) noexcept -> bool
 
 auto parser::check(const std::initializer_list<char> c) noexcept -> bool
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return false;
 
     if (!common::container::contains(std::begin(c), std::end(c), current()))
@@ -238,7 +240,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
 [[nodiscard]] auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
     -> parse_result<std::string_view>
 {
-    if (AEON_UNLIKELY(eof()))
+    if (eof()) [[unlikely]]
         return unmatched{};
 
     const std::regex r{std::data(regex), flags};
@@ -264,7 +266,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
     {
         ++itr;
 
-        if (AEON_UNLIKELY(itr == std::end(view_)))
+        if (itr == std::end(view_)) [[unlikely]]
         {
             if (mode == eof_mode::fail)
                 return unmatched{};
@@ -306,7 +308,7 @@ auto parser::match_until(const std::initializer_list<char> c, const eof_mode mod
     {
         ++itr;
 
-        if (AEON_UNLIKELY(itr == std::end(view_)))
+        if (itr == std::end(view_)) [[unlikely]]
         {
             if (mode == eof_mode::fail)
                 return unmatched{};

@@ -3,7 +3,6 @@
 #pragma once
 
 #include <aeon/streams/devices/memory_view_device.h>
-#include <aeon/common/compilers.h>
 
 namespace aeon::streams
 {
@@ -91,7 +90,7 @@ inline memory_device<T>::memory_device(memory_device &&other) noexcept
 template <typename T>
 inline auto memory_device<T>::operator=(memory_device &&other) noexcept -> memory_device &
 {
-    if (AEON_LIKELY(this != &other))
+    if (this != &other) [[likely]]
     {
         buffer_ = std::move(other.buffer_);
 
@@ -118,7 +117,7 @@ inline memory_device<T>::memory_device(const memory_device &other)
 template <typename T>
 inline auto memory_device<T>::operator=(const memory_device &other) -> memory_device &
 {
-    if (AEON_LIKELY(this != &other))
+    if (this != &other) [[likely]]
     {
         buffer_ = other.buffer_;
 
