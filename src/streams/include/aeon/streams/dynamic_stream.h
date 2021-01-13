@@ -4,7 +4,6 @@
 
 #include <aeon/streams/dynamic_stream_view.h>
 #include <aeon/streams/stream_traits.h>
-#include <aeon/common/compilers.h>
 #include <type_traits>
 #include <memory>
 
@@ -53,7 +52,7 @@ inline auto
     dynamic_stream<device_t>::operator=(dynamic_stream &&other) noexcept(std::is_nothrow_move_assignable_v<device_t>)
         -> dynamic_stream &
 {
-    if (AEON_LIKELY(this != &other))
+    if (this != &other) [[likely]]
     {
         device_ = std::move(other.device_);
         dynamic_stream_view<device_t>::device_ref_ = &device_;

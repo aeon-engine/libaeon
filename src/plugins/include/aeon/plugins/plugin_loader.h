@@ -4,7 +4,6 @@
 
 #include <aeon/plugins/plugin.h>
 #include <aeon/common/dll_loader.h>
-#include <aeon/common/compilers.h>
 #include <memory>
 #include <map>
 #include <functional>
@@ -152,7 +151,7 @@ public:
 
     scoped_plugin &operator=(scoped_plugin &&other) noexcept
     {
-        if (AEON_LIKELY(this != &other))
+        if (this != &other) [[likely]]
         {
             reset();
             plugin_interface_ = std::move(other.plugin_interface_);
