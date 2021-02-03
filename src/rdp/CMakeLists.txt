@@ -1,4 +1,4 @@
-# Distributed under the BSD 2-Clause License - Copyright 2012-2020 Robin Degen
+# Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 set(LIB_AEON_RDP_PUBLIC_SOURCE
     include/aeon/rdp/parser.h
