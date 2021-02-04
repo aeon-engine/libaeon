@@ -283,6 +283,12 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto chebyshev_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T
+{
+    return max(absolute_distance(lhs, rhs));
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto midpoint(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>
 {
     return (lhs + rhs) * 0.5f;
