@@ -99,7 +99,7 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline constexpr auto contains(const vector2<T> &vec, const size2d<T> size) noexcept -> bool
 {
-    return (vec.x > T() && vec.x < width(size) && vec.y > T() && vec.y < height(size));
+    return (vec.x >= T() && vec.x < width(size) && vec.y >= T() && vec.y < height(size));
 }
 
 template <typename T>
