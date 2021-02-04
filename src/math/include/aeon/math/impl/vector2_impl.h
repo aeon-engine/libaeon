@@ -236,7 +236,7 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline constexpr auto manhattan_distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T
 {
-    return std::abs(lhs.x - rhs.x) + std::abs(lhs.y - rhs.y);
+    return sum(absolute_distance(lhs, rhs));
 }
 
 template <typename T>
