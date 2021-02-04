@@ -393,6 +393,16 @@ template <typename T>
 [[nodiscard]] inline constexpr auto squared_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
 
 /*!
+ * Calculate the absolute distance between 2 given vector points.
+ * \param[in] lhs - Vector
+ * \param[in] rhs - Vector
+ * \return Vector with the absolute distances for each component;
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto absolute_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept
+    -> vector3<T>;
+
+/*!
  * Calculate the manhattan distance ("taxicab geometry") between 2 given vector points.
  * \param[in] lhs - Vector
  * \param[in] rhs - Vector

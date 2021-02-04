@@ -227,6 +227,13 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto absolute_distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept
+    -> vector2<T>
+{
+    return {std::abs(lhs.x - rhs.x), std::abs(lhs.y - rhs.y)};
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto manhattan_distance(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> T
 {
     return std::abs(lhs.x - rhs.x) + std::abs(lhs.y - rhs.y);
