@@ -315,6 +315,12 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto manhattan_distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T
+{
+    return std::abs(lhs.x - rhs.x) + std::abs(lhs.y - rhs.y) + std::abs(lhs.z - rhs.z) + std::abs(lhs.w - rhs.w);
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto midpoint(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>
 {
     return (lhs + rhs) * 0.5f;

@@ -369,6 +369,15 @@ template <typename T>
 [[nodiscard]] inline constexpr auto squared_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
 
 /*!
+ * Calculate the manhattan distance ("taxicab geometry") between 2 given vector points.
+ * \param[in] lhs - Vector
+ * \param[in] rhs - Vector
+ * \return Manhattan distance
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto manhattan_distance(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> T;
+
+/*!
  * Calculate middle point between two given points.
  * \param[in] lhs - Vector
  * \param[in] rhs - Vector
