@@ -271,6 +271,14 @@ template <typename T>
 [[nodiscard]] inline constexpr auto translated(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
 /*!
+ * Calculate the sum of each component (X+Y+Z+W) for a given vector
+ * \param[in] vec - Vector
+ * \return The sum of each component (X+Y+Z+W);
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto sum(const vector4<T> &vec) noexcept -> T;
+
+/*!
  * Calculate the dot product of 2 given vectors.
  * \param[in] lhs - Vector
  * \param[in] rhs - Vector

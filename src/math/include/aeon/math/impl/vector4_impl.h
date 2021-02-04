@@ -226,6 +226,12 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto sum(const vector4<T> &vec) noexcept -> T
+{
+    return vec.x + vec.y + vec.z + vec.w;
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto dot(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T
 {
     return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z) + (lhs.w * rhs.w);
