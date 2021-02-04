@@ -319,6 +319,22 @@ template <typename T>
 [[nodiscard]] inline constexpr auto normalized(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
+ * Determine the lowest value component (min(x, y, z, w))
+ * \param[in] vec - Vector
+ * \return The lowest value component
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto min(const vector4<T> &vec) noexcept -> T;
+
+/*!
+ * Determine the highest value component (max(x, y, z, w))
+ * \param[in] vec - Vector
+ * \return The highest value component
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto max(const vector4<T> &vec) noexcept -> T;
+
+/*!
  * Calculate the sine values of a given vector.
  * \param[in] vec - Vector
  * \return Sine values of the given vector.

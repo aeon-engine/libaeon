@@ -204,6 +204,18 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto min(const vector3<T> &vec) noexcept -> T
+{
+    return std::min({vec.x, vec.y, vec.z});
+}
+
+template <typename T>
+[[nodiscard]] inline constexpr auto max(const vector3<T> &vec) noexcept -> T
+{
+    return std::max({vec.x, vec.y, vec.z});
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto sin(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {std::sin(vec.x), std::sin(vec.y), std::sin(vec.z)};
