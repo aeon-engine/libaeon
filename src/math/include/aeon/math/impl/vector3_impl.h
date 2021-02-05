@@ -177,7 +177,10 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline constexpr auto length(const vector3<T> &vec) noexcept -> T
 {
-    return std::sqrt(dot(vec, vec));
+    if constexpr (!std::is_integral_v<T>)
+        return std::sqrt(dot(vec, vec));
+    else
+        return static_cast<T>(std::sqrt(static_cast<double>(dot(vec, vec))));
 }
 
 template <typename T>
