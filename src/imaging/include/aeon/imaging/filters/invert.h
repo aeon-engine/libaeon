@@ -50,11 +50,11 @@ struct invert_vertically_impl
 
         for (auto y = 0; y < height(img); ++y)
         {
-            const auto offset = y * stride_y(img);
+            const auto offset = y * stride(img);
             const auto src_scanline = &src_data[offset];
             const auto src_scanline_end = &src_data[offset + width(img) * sizeof(T)];
 
-            const auto dst_offset = (static_cast<std::ptrdiff_t>(height(img)) - y - 1) * stride_y(new_image);
+            const auto dst_offset = (static_cast<std::ptrdiff_t>(height(img)) - y - 1) * stride(new_image);
             const auto dst_scanline = &dst_data[dst_offset];
 
             std::copy(src_scanline, src_scanline_end, dst_scanline);

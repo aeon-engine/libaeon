@@ -58,11 +58,11 @@ struct blit_impl
 
         const auto w = width(src);
         const auto h = height(src);
-        const auto src_stride = stride_y(src) / sizeof(T);
+        const auto src_stride = stride(src) / sizeof(T);
         const auto src_data = src.data();
 
         auto dst_data = dst.data();
-        const auto dst_stride = stride_y(dst) / sizeof(T);
+        const auto dst_stride = stride(dst) / sizeof(T);
 
         for (auto y = 0; y < h; ++y)
         {
@@ -109,11 +109,11 @@ struct blend_blit_impl
 
         const auto w = width(src);
         const auto h = height(src);
-        const auto src_stride = stride_y(src) / sizeof(T);
+        const auto src_stride = stride(src) / sizeof(T);
         const auto src_data = src.data();
 
         auto dst_data = dst.data();
-        const auto dst_stride = stride_y(dst) / sizeof(T);
+        const auto dst_stride = stride(dst) / sizeof(T);
 
         for (auto y = 0; y < h; ++y)
         {

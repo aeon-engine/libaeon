@@ -95,7 +95,7 @@ struct save_impl
         const auto pixel_data_ptr = reinterpret_cast<const std::uint8_t *>(image.data());
 
         for (auto y = 0u; y < h; ++y)
-            rowpointer_buffer_ptr[y] = pixel_data_ptr + y * stride_y(image);
+            rowpointer_buffer_ptr[y] = pixel_data_ptr + y * stride(image);
 
         // TODO: Figure out an alternative for const cast here.
         png_set_rows(png_structs.png_ptr(), png_structs.info_ptr(), const_cast<png_bytepp>(rowpointer_buffer_ptr));

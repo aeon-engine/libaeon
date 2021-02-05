@@ -127,9 +127,9 @@ template <typename T>
 {
     aeon_assert(math::contains(rect, rectangle(view)), "View rectangle does not fit within image.");
 
-    const image_descriptor<T> descriptor{math::size(rect), stride_x(view), stride_y(view)};
+    const image_descriptor<T> descriptor{math::size(rect), stride(view)};
     const auto data_offset =
-        view.template data<std::byte>() + math::top(rect) * stride_y(view) + math::left(rect) * stride_x(view);
+        view.template data<std::byte>() + math::top(rect) * stride(view) + math::left(rect) * sizeof(T);
     return image_view{descriptor, data_offset};
 }
 

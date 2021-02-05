@@ -52,7 +52,7 @@ struct save_impl
 
         auto actual_size = static_cast<unsigned long>(std::size(dest_buffer));
         if (tjCompress2(wrapper.handle(), image.template data<std::uint8_t>(), width(image),
-                        static_cast<int>(stride_y(image)), height(image), TJPF_RGB, &dest_buffer_data, &actual_size,
+                        static_cast<int>(stride(image)), height(image), TJPF_RGB, &dest_buffer_data, &actual_size,
                         tjsubsample, quality, TJFLAG_NOREALLOC) != 0)
             throw save_exception();
 

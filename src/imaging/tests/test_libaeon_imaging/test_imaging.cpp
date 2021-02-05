@@ -63,7 +63,7 @@ TEST(test_imaging, test_image_free_functions)
 
     ASSERT_EQ(imaging::width(d), imaging::width(image));
     ASSERT_EQ(imaging::height(d), imaging::height(image));
-    ASSERT_EQ(imaging::stride_x(d), imaging::stride_x(image));
+    ASSERT_EQ(imaging::stride(d), imaging::stride(image));
 }
 
 TEST(test_imaging, test_construct_dynamic_image)

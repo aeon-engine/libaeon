@@ -166,24 +166,16 @@ private:
 [[nodiscard]] inline auto rectangle(const dynamic_image &image) noexcept -> math::rectangle<dimension>;
 
 /*!
- * Get the X stride of the given image.
- * The X stride is the amount of bytes between 2 pixels.
+ * Get the stride of the given image.
+ * The stride is the amount of bytes between 2 lines/rows.
  * \param[in] image - A dynamic image
- * \return The X stride of the image.
+ * \return The stride of the image.
  */
-[[nodiscard]] inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t;
-
-/*!
- * Get the Y stride of the given image.
- * The Y stride is the amount of bytes between 2 lines/rows.
- * \param[in] image - A dynamic image
- * \return The Y stride of the image.
- */
-[[nodiscard]] inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t;
+[[nodiscard]] inline auto stride(const dynamic_image &image) noexcept -> std::ptrdiff_t;
 
 /*!
  * Returns true if the data of the given image is laid out in memory in a continuous fashion
- * (ie. stride_x=bytes_per_pixel(encoding) and stride_y=bytes_per_pixel(encoding)*width)
+ * (ie. stride=bytes_per_pixel(encoding)*width)
  * \param[in] image - A dynamic image
  * \return True if the image is continuous.
  */
@@ -198,7 +190,7 @@ private:
 [[nodiscard]] inline auto contains(const dynamic_image &image, const math::vector2<dimension> coord) noexcept -> bool;
 
 /*!
- * Get the full size in bytes of the image in memory (stride_y * height).
+ * Get the full size in bytes of the image in memory (stride * height).
  * \param[in] image - A dynamic image
  * \return The size in bytes.
  */

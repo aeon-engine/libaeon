@@ -98,27 +98,18 @@ template <typename T>
 [[nodiscard]] inline auto rectangle(const image_view_base<T> &view) noexcept;
 
 /*!
- * Get the X stride of the given image view.
- * The X stride is the amount of bytes between 2 pixels.
+ * Get the stride of the given image view.
+ * The stride is the amount of bytes between 2 lines/rows.
  * \param[in] view - An image view
- * \return The X stride of the image view.
+ * \return The stride of the image view.
  */
 template <typename T>
-[[nodiscard]] inline auto stride_x(const image_view_base<T> &view) noexcept;
-
-/*!
- * Get the Y stride of the given image view.
- * The Y stride is the amount of bytes between 2 lines/rows.
- * \param[in] view - An image view
- * \return The Y stride of the image view.
- */
-template <typename T>
-[[nodiscard]] inline auto stride_y(const image_view_base<T> &view) noexcept;
+[[nodiscard]] inline auto stride(const image_view_base<T> &view) noexcept;
 
 /*!
  * Returns true if the data described by the given image view is laid out in memory in a
  * continuous fashion
- * (ie. stride_x=bytes_per_pixel(encoding) and stride_y=bytes_per_pixel(encoding)*width)
+ * (ie. stride=bytes_per_pixel(encoding)*width)
  * \param[in] view - An image view
  * \return True if the image view's data is continuous.
  */
@@ -136,7 +127,7 @@ template <typename T>
 
 /*!
  * Get the full size in bytes of the data described by the image view in
- * memory (stride_y * height).
+ * memory (stride * height).
  * \param[in] view - An image view
  * \return The size in bytes.
  */

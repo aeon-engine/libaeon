@@ -60,15 +60,9 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto stride_x(const image_view_base<T> &view) noexcept
+[[nodiscard]] inline auto stride(const image_view_base<T> &view) noexcept
 {
-    return stride_x(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto stride_y(const image_view_base<T> &view) noexcept
-{
-    return stride_y(descriptor(view));
+    return stride(descriptor(view));
 }
 
 template <typename T>

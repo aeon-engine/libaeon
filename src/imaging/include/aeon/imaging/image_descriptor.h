@@ -32,16 +32,16 @@ class image_descriptor
 
 public:
     /*!
-     * Create an image descriptor based on given dimensions. The X and Y stride are
-     * automatically calculated based on the given dimensions and pixel type.
+     * Create an image descriptor based on given dimensions. The stride is
+     * assumed to be width * sizeof(T)
      * In this case it is assumed that the pixels are tightly packed.
      * \param[in] dimensions - The width and height of the image.
      */
     explicit image_descriptor(const math::size2d<dimension> dimensions) noexcept;
 
     /*!
-     * Create an image descriptor based on given width and height. The X and Y stride are
-     * automatically calculated based on the given dimensions and pixel type.
+     * Create an image descriptor based on given width and height. The stride is
+     * assumed to be width * sizeof(T)
      * In this case it is assumed that the pixels are tightly packed.
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
@@ -50,20 +50,10 @@ public:
 
     /*!
      * Create an image descriptor based on given dimensions and a vertical stride in bytes.
-     * The X stride is automatically calculated based on the given pixel type.
      * \param[in] dimensions - The width and height of the image.
-     * \param[in] stride_y - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit image_descriptor(const math::size2d<dimension> dimensions, const std::ptrdiff_t stride_y) noexcept;
-
-    /*!
-     * Create an image descriptor based on given dimensions and strides in bytes.
-     * \param[in] dimensions - The width and height of the image.
-     * \param[in] stride_x - The amount of bytes between 2 pixels.
-     * \param[in] stride_y - The amount of bytes between the start of 2 lines/rows.
-     */
-    explicit image_descriptor(const math::size2d<dimension> dimensions, const std::ptrdiff_t stride_x,
-                              const std::ptrdiff_t stride_y) noexcept;
+    explicit image_descriptor(const math::size2d<dimension> dimensions, const std::ptrdiff_t stride) noexcept;
 
     ~image_descriptor();
 
@@ -91,16 +81,10 @@ public:
     [[nodiscard]] auto dimensions() const noexcept -> math::size2d<dimension>;
 
     /*!
-     * Get the X stride of the image. The X stride is the amount of bytes between 2 pixels.
-     * \return The X stride of the image.
+     * Get the stride of the image. The stride is the amount of bytes between 2 lines/rows.
+     * \return The stride of the image.
      */
-    [[nodiscard]] auto stride_x() const noexcept -> std::ptrdiff_t;
-
-    /*!
-     * Get the Y stride of the image. The Y stride is the amount of bytes between 2 lines/rows.
-     * \return The Y stride of the image.
-     */
-    [[nodiscard]] auto stride_y() const noexcept -> std::ptrdiff_t;
+    [[nodiscard]] auto stride() const noexcept -> std::ptrdiff_t;
 
 private:
     /*!
@@ -109,8 +93,7 @@ private:
     image_descriptor() noexcept;
 
     math::size2d<dimension> dimensions_;
-    std::ptrdiff_t stride_x_;
-    std::ptrdiff_t stride_y_;
+    std::ptrdiff_t stride_;
 };
 
 /*!
@@ -166,26 +149,17 @@ template <typename T>
 [[nodiscard]] inline auto rectangle(const image_descriptor<T> &descriptor) noexcept -> math::rectangle<dimension>;
 
 /*!
- * Get the X stride of the image as described in an image descriptor.
- * The X stride is the amount of bytes between 2 pixels.
+ * Get the stride of the image as described in an image descriptor.
+ * The stride is the amount of bytes between 2 lines/rows.
  * \param[in] descriptor - An image descriptor.
- * \return The X stride of the image.
+ * \return The stride of the image.
  */
 template <typename T>
-[[nodiscard]] inline auto stride_x(const image_descriptor<T> &descriptor) noexcept;
-
-/*!
- * Get the Y stride of the image as described in an image descriptor.
- * The Y stride is the amount of bytes between 2 lines/rows.
- * \param[in] descriptor - An image descriptor.
- * \return The Y stride of the image.
- */
-template <typename T>
-[[nodiscard]] inline auto stride_y(const image_descriptor<T> &descriptor) noexcept;
+[[nodiscard]] inline auto stride(const image_descriptor<T> &descriptor) noexcept;
 
 /*!
  * Returns true if the given image descriptor describes an image where all the data is laid out
- * in memory in a continuous fashion (ie. stride_x=sizeof(T) and stride_y=sizeof(T)*width)
+ * in memory in a continuous fashion (ie. stride=sizeof(T)*width)
  * \param[in] descriptor - An image descriptor.
  * \return True if the image is continuous.
  */
@@ -215,7 +189,7 @@ template <typename T>
 
 /*!
  * Get the full size in bytes of the image in memory an image would take up as described with the
- * given image descriptor (stride_y * height)
+ * given image descriptor (stride * height)
  * \param[in] descriptor - An image descriptor.
  * \return The size in bytes.
  */

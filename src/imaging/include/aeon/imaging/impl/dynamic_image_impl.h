@@ -179,14 +179,9 @@ template <typename T>
     return rectangle(descriptor(image));
 }
 
-[[nodiscard]] inline auto stride_x(const dynamic_image &image) noexcept -> std::ptrdiff_t
+[[nodiscard]] inline auto stride(const dynamic_image &image) noexcept -> std::ptrdiff_t
 {
-    return stride_x(descriptor(image));
-}
-
-[[nodiscard]] inline auto stride_y(const dynamic_image &image) noexcept -> std::ptrdiff_t
-{
-    return stride_y(descriptor(image));
+    return stride(descriptor(image));
 }
 
 [[nodiscard]] inline auto continuous(const dynamic_image &image) noexcept -> bool
