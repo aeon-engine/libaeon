@@ -9,7 +9,6 @@
 #pragma once
 
 #include <aeon/imaging/image_descriptor.h>
-#include <aeon/imaging/image_view_base.h>
 #include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
 #include <cstdint>
@@ -23,7 +22,7 @@ namespace aeon::imaging
  * An image_view does not own the data that it provides a view on.
  */
 template <typename T>
-class image_view : public image_view_base<T>
+class image_view
 {
 public:
     /*!
@@ -54,6 +53,12 @@ public:
 
     image_view(image_view<T> &&) noexcept = default;
     auto operator=(image_view<T> &&) noexcept -> image_view<T> & = default;
+
+    /*!
+     * Get the descriptor of the image view.
+     * \return The descriptor of the image view.
+     */
+    [[nodiscard]] auto descriptor() const noexcept -> image_descriptor<T>;
 
     /*!
      * Get a pointer to the raw image data.
@@ -148,8 +153,88 @@ protected:
      */
     explicit image_view(const image_descriptor<T> &descriptor) noexcept;
 
+    image_descriptor<T> descriptor_;
     std::byte *data_ptr_;
 };
+
+/*!
+ * Get the descriptor of the given image view
+ * \param[in] view - An image view
+ * \return The descriptor of the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto descriptor(const image_view<T> &view) noexcept -> image_descriptor<T>;
+
+/*!
+ * Get the width of the given image view.
+ * \param[in] view - An image view
+ * \return The width of the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto width(const image_view<T> &view) noexcept;
+
+/*!
+ * Get the height of the given image view.
+ * \param[in] view - An image view
+ * \return The height of the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto height(const image_view<T> &view) noexcept;
+
+/*!
+ * Get the dimensions of the given image view (width, height).
+ * \param[in] view - An image view
+ * \return The dimensions of the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto dimensions(const image_view<T> &view) noexcept;
+
+/*!
+ * Get the rectangle of the image view (based on the dimensions).
+ * The rectangle is constructed with top and left as 0, and right and bottom as width and height
+ * respectively.
+ * \param[in] view - An image view
+ * \return The rectangle surrounding the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto rectangle(const image_view<T> &view) noexcept;
+
+/*!
+ * Get the stride of the given image view.
+ * The stride is the amount of bytes between 2 lines/rows.
+ * \param[in] view - An image view
+ * \return The stride of the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto stride(const image_view<T> &view) noexcept;
+
+/*!
+ * Returns true if the data described by the given image view is laid out in memory in a
+ * continuous fashion
+ * (ie. stride=bytes_per_pixel(encoding)*width)
+ * \param[in] view - An image view
+ * \return True if the image view's data is continuous.
+ */
+template <typename T>
+[[nodiscard]] inline auto continuous(const image_view<T> &view) noexcept;
+
+/*!
+ * Returns true if the given coordinate falls within the dimensions of the given image view.
+ * \param[in] view - An image view
+ * \param[in] coord - A coordinate (X, Y)
+ * \return True if the coordinate is within the dimensions of the image view.
+ */
+template <typename T>
+[[nodiscard]] inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept;
+
+/*!
+ * Get the full size in bytes of the data described by the image view in
+ * memory (stride * height).
+ * \param[in] view - An image view
+ * \return The size in bytes.
+ */
+template <typename T>
+[[nodiscard]] inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t;
 
 /*!
  * Returns true if the image view is null. An image view is null when

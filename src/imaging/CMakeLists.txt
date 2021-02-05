@@ -12,7 +12,6 @@ set(LIB_AEON_IMAGING_PUBLIC_SOURCE
     include/aeon/imaging/image_base.h
     include/aeon/imaging/image_descriptor.h
     include/aeon/imaging/image_view.h
-    include/aeon/imaging/image_view_base.h
     include/aeon/imaging/pixel_encoding.h
     include/aeon/imaging/pixel_encoding_traits.h
     include/aeon/imaging/pixel_math.h
@@ -26,7 +25,6 @@ set(LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE
     include/aeon/imaging/impl/dynamic_image_impl.h
     include/aeon/imaging/impl/image_descriptor_impl.h
     include/aeon/imaging/impl/image_impl.h
-    include/aeon/imaging/impl/image_view_base_impl.h
     include/aeon/imaging/impl/image_view_impl.h
     include/aeon/imaging/impl/pixel_encoding_impl.h
     include/aeon/imaging/impl/shared_image_impl.h
