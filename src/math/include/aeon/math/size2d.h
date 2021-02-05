@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <aeon/math/convert_type.h>
 #include <aeon/math/math_fwd.h>
 
 namespace aeon::math
