@@ -50,60 +50,6 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline auto descriptor(const image_view<T> &view) noexcept -> image_descriptor<T>
-{
-    return view.descriptor();
-}
-
-template <typename T>
-[[nodiscard]] inline auto width(const image_view<T> &view) noexcept
-{
-    return width(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto height(const image_view<T> &view) noexcept
-{
-    return height(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto dimensions(const image_view<T> &view) noexcept
-{
-    return dimensions(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto rectangle(const image_view<T> &view) noexcept
-{
-    return rectangle(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto stride(const image_view<T> &view) noexcept
-{
-    return stride(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto continuous(const image_view<T> &view) noexcept
-{
-    return continuous(descriptor(view));
-}
-
-template <typename T>
-[[nodiscard]] inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept
-{
-    return contains(descriptor(view), coord);
-}
-
-template <typename T>
-[[nodiscard]] inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t
-{
-    return size(descriptor(view));
-}
-
-template <typename T>
 [[nodiscard]] inline auto image_view<T>::data() noexcept -> T *
 {
     return reinterpret_cast<T *>(data_ptr_);
@@ -167,6 +113,60 @@ template <typename T>
 [[nodiscard]] inline auto image_view<T>::at(const math::vector2<dimension> coord) const noexcept -> const T &
 {
     return *data(coord);
+}
+
+template <typename T>
+[[nodiscard]] inline auto descriptor(const image_view<T> &view) noexcept -> image_descriptor<T>
+{
+    return view.descriptor();
+}
+
+template <typename T>
+[[nodiscard]] inline auto width(const image_view<T> &view) noexcept
+{
+    return width(descriptor(view));
+}
+
+template <typename T>
+[[nodiscard]] inline auto height(const image_view<T> &view) noexcept
+{
+    return height(descriptor(view));
+}
+
+template <typename T>
+[[nodiscard]] inline auto dimensions(const image_view<T> &view) noexcept
+{
+    return dimensions(descriptor(view));
+}
+
+template <typename T>
+[[nodiscard]] inline auto rectangle(const image_view<T> &view) noexcept
+{
+    return rectangle(descriptor(view));
+}
+
+template <typename T>
+[[nodiscard]] inline auto stride(const image_view<T> &view) noexcept
+{
+    return stride(descriptor(view));
+}
+
+template <typename T>
+[[nodiscard]] inline auto continuous(const image_view<T> &view) noexcept
+{
+    return continuous(descriptor(view));
+}
+
+template <typename T>
+[[nodiscard]] inline auto contains(const image_view<T> &view, const math::vector2<dimension> coord) noexcept
+{
+    return contains(descriptor(view), coord);
+}
+
+template <typename T>
+[[nodiscard]] inline auto size(const image_view<T> &view) noexcept -> std::ptrdiff_t
+{
+    return size(descriptor(view));
 }
 
 template <typename T>
