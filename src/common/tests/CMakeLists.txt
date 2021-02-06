@@ -24,6 +24,7 @@ add_unit_test_suite(
         test_string_table.cpp
         test_stringtraits.cpp
         test_tribool.cpp
+        test_type_traits.cpp
         test_unordered_flatmap.cpp
         test_unordered_flatset.cpp
         test_uuid.cpp

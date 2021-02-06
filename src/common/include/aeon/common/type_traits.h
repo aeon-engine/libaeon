@@ -119,4 +119,49 @@ static constexpr auto is_std_vector_v = is_std_vector<T>::value;
 template <class T, class... U>
 static constexpr auto is_any_same_v = (std::is_same_v<T, U> || ...);
 
+/*!
+ * Change one type into another while preserving const
+ */
+template <typename T, typename U>
+struct preserve_const
+{
+    using type = std::conditional_t<std::is_const_v<std::remove_pointer_t<T>>, const U, U>;
+};
+
+/*!
+ * Change one type into another while preserving const
+ */
+template <typename T, typename U>
+using preserve_const_t = typename preserve_const<T, U>::type;
+
+/*!
+ * Change one type into another while preserving volatile
+ */
+template <typename T, typename U>
+struct preserve_volatile
+{
+    using type = std::conditional_t<std::is_volatile_v<std::remove_pointer_t<T>>, volatile U, U>;
+};
+
+/*!
+ * Change one type into another while preserving volatile
+ */
+template <typename T, typename U>
+using preserve_volatile_t = typename preserve_volatile<T, U>::type;
+
+/*!
+ * Change one type into another while preserving const and volatile
+ */
+template <typename T, typename U>
+struct preserve_cv
+{
+    using type = preserve_const_t<T, preserve_volatile_t<T, U>>;
+};
+
+/*!
+ * Change one type into another while preserving const and volatile
+ */
+template <typename T, typename U>
+using preserve_cv_t = typename preserve_cv<T, U>::type;
+
 } // namespace aeon::common::type_traits
