@@ -1,13 +1,25 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/math/mat_view.h>
+#include <aeon/common/signed_sizeof.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
 
 TEST(test_mat_view, test_mat_view_default)
 {
-    math::mat_view<float> mat;
+    math::mat_view mat;
+    EXPECT_TRUE(math::null(mat));
+    EXPECT_FALSE(math::valid(mat));
+    EXPECT_TRUE(math::continuous(mat));
+    EXPECT_EQ(math::width(mat), 0);
+    EXPECT_EQ(math::height(mat), 0);
+    EXPECT_EQ(math::stride(mat), 0);
+}
+
+TEST(test_mat_view, test_const_mat_view_default)
+{
+    math::const_mat_view mat;
     EXPECT_TRUE(math::null(mat));
     EXPECT_FALSE(math::valid(mat));
     EXPECT_TRUE(math::continuous(mat));
@@ -26,7 +38,8 @@ TEST(test_mat_view, test_mat_view_from_mat3)
     EXPECT_TRUE(math::continuous(mat));
     EXPECT_EQ(math::width(mat), 3);
     EXPECT_EQ(math::height(mat), 3);
-    EXPECT_EQ(math::stride(mat), aeon_signed_sizeof(float) * 3);
+    EXPECT_EQ(math::stride(mat), sizeof(float) * 3);
+    EXPECT_EQ(math::stride(mat), math::element_type(mat).size * 3);
 }
 
 TEST(test_mat_view, test_mat_view_from_const_mat3)
@@ -39,7 +52,8 @@ TEST(test_mat_view, test_mat_view_from_const_mat3)
     EXPECT_TRUE(math::continuous(mat));
     EXPECT_EQ(math::width(mat), 3);
     EXPECT_EQ(math::height(mat), 3);
-    EXPECT_EQ(math::stride(mat), aeon_signed_sizeof(float) * 3);
+    EXPECT_EQ(math::stride(mat), sizeof(float) * 3);
+    EXPECT_EQ(math::stride(mat), math::element_type(mat).size * 3);
 }
 
 TEST(test_mat_view, test_mat_view_from_mat4)
@@ -52,7 +66,8 @@ TEST(test_mat_view, test_mat_view_from_mat4)
     EXPECT_TRUE(math::continuous(mat));
     EXPECT_EQ(math::width(mat), 4);
     EXPECT_EQ(math::height(mat), 4);
-    EXPECT_EQ(math::stride(mat), aeon_signed_sizeof(float) * 4);
+    EXPECT_EQ(math::stride(mat), sizeof(float) * 4);
+    EXPECT_EQ(math::stride(mat), math::element_type(mat).size * 4);
 }
 
 TEST(test_mat_view, test_mat_view_from_const_mat4)
@@ -65,7 +80,8 @@ TEST(test_mat_view, test_mat_view_from_const_mat4)
     EXPECT_TRUE(math::continuous(mat));
     EXPECT_EQ(math::width(mat), 4);
     EXPECT_EQ(math::height(mat), 4);
-    EXPECT_EQ(math::stride(mat), aeon_signed_sizeof(float) * 4);
+    EXPECT_EQ(math::stride(mat), sizeof(float) * 4);
+    EXPECT_EQ(math::stride(mat), math::element_type(mat).size * 4);
 }
 
 TEST(test_mat_view, test_mat_row_column_order)
@@ -83,22 +99,22 @@ TEST(test_mat_view, test_mat_row_column_order)
     const auto mat = math::make_view(mat4);
 
     // Mat4 is column order, a mat_view is row order
-    EXPECT_EQ(mat.at(0, 0), mat4.at(0, 0));
-    EXPECT_EQ(mat.at(1, 0), mat4.at(0, 1));
-    EXPECT_EQ(mat.at(2, 0), mat4.at(0, 2));
-    EXPECT_EQ(mat.at(3, 0), mat4.at(0, 3));
-    EXPECT_EQ(mat.at(0, 1), mat4.at(1, 0));
-    EXPECT_EQ(mat.at(1, 1), mat4.at(1, 1));
-    EXPECT_EQ(mat.at(2, 1), mat4.at(1, 2));
-    EXPECT_EQ(mat.at(3, 1), mat4.at(1, 3));
-    EXPECT_EQ(mat.at(0, 2), mat4.at(2, 0));
-    EXPECT_EQ(mat.at(1, 2), mat4.at(2, 1));
-    EXPECT_EQ(mat.at(2, 2), mat4.at(2, 2));
-    EXPECT_EQ(mat.at(3, 2), mat4.at(2, 3));
-    EXPECT_EQ(mat.at(0, 3), mat4.at(3, 0));
-    EXPECT_EQ(mat.at(1, 3), mat4.at(3, 1));
-    EXPECT_EQ(mat.at(2, 3), mat4.at(3, 2));
-    EXPECT_EQ(mat.at(3, 3), mat4.at(3, 3));
+    EXPECT_EQ(mat.at<float>(0, 0), mat4.at(0, 0));
+    EXPECT_EQ(mat.at<float>(1, 0), mat4.at(0, 1));
+    EXPECT_EQ(mat.at<float>(2, 0), mat4.at(0, 2));
+    EXPECT_EQ(mat.at<float>(3, 0), mat4.at(0, 3));
+    EXPECT_EQ(mat.at<float>(0, 1), mat4.at(1, 0));
+    EXPECT_EQ(mat.at<float>(1, 1), mat4.at(1, 1));
+    EXPECT_EQ(mat.at<float>(2, 1), mat4.at(1, 2));
+    EXPECT_EQ(mat.at<float>(3, 1), mat4.at(1, 3));
+    EXPECT_EQ(mat.at<float>(0, 2), mat4.at(2, 0));
+    EXPECT_EQ(mat.at<float>(1, 2), mat4.at(2, 1));
+    EXPECT_EQ(mat.at<float>(2, 2), mat4.at(2, 2));
+    EXPECT_EQ(mat.at<float>(3, 2), mat4.at(2, 3));
+    EXPECT_EQ(mat.at<float>(0, 3), mat4.at(3, 0));
+    EXPECT_EQ(mat.at<float>(1, 3), mat4.at(3, 1));
+    EXPECT_EQ(mat.at<float>(2, 3), mat4.at(3, 2));
+    EXPECT_EQ(mat.at<float>(3, 3), mat4.at(3, 3));
 }
 
 TEST(test_mat_view, test_mat_row_column_order_const)
@@ -116,22 +132,22 @@ TEST(test_mat_view, test_mat_row_column_order_const)
     const auto mat = math::make_view(mat4);
 
     // Mat4 is column order, a mat_view is row order
-    EXPECT_EQ(mat.at(0, 0), mat4.at(0, 0));
-    EXPECT_EQ(mat.at(1, 0), mat4.at(0, 1));
-    EXPECT_EQ(mat.at(2, 0), mat4.at(0, 2));
-    EXPECT_EQ(mat.at(3, 0), mat4.at(0, 3));
-    EXPECT_EQ(mat.at(0, 1), mat4.at(1, 0));
-    EXPECT_EQ(mat.at(1, 1), mat4.at(1, 1));
-    EXPECT_EQ(mat.at(2, 1), mat4.at(1, 2));
-    EXPECT_EQ(mat.at(3, 1), mat4.at(1, 3));
-    EXPECT_EQ(mat.at(0, 2), mat4.at(2, 0));
-    EXPECT_EQ(mat.at(1, 2), mat4.at(2, 1));
-    EXPECT_EQ(mat.at(2, 2), mat4.at(2, 2));
-    EXPECT_EQ(mat.at(3, 2), mat4.at(2, 3));
-    EXPECT_EQ(mat.at(0, 3), mat4.at(3, 0));
-    EXPECT_EQ(mat.at(1, 3), mat4.at(3, 1));
-    EXPECT_EQ(mat.at(2, 3), mat4.at(3, 2));
-    EXPECT_EQ(mat.at(3, 3), mat4.at(3, 3));
+    EXPECT_EQ(mat.at<float>(0, 0), mat4.at(0, 0));
+    EXPECT_EQ(mat.at<float>(1, 0), mat4.at(0, 1));
+    EXPECT_EQ(mat.at<float>(2, 0), mat4.at(0, 2));
+    EXPECT_EQ(mat.at<float>(3, 0), mat4.at(0, 3));
+    EXPECT_EQ(mat.at<float>(0, 1), mat4.at(1, 0));
+    EXPECT_EQ(mat.at<float>(1, 1), mat4.at(1, 1));
+    EXPECT_EQ(mat.at<float>(2, 1), mat4.at(1, 2));
+    EXPECT_EQ(mat.at<float>(3, 1), mat4.at(1, 3));
+    EXPECT_EQ(mat.at<float>(0, 2), mat4.at(2, 0));
+    EXPECT_EQ(mat.at<float>(1, 2), mat4.at(2, 1));
+    EXPECT_EQ(mat.at<float>(2, 2), mat4.at(2, 2));
+    EXPECT_EQ(mat.at<float>(3, 2), mat4.at(2, 3));
+    EXPECT_EQ(mat.at<float>(0, 3), mat4.at(3, 0));
+    EXPECT_EQ(mat.at<float>(1, 3), mat4.at(3, 1));
+    EXPECT_EQ(mat.at<float>(2, 3), mat4.at(3, 2));
+    EXPECT_EQ(mat.at<float>(3, 3), mat4.at(3, 3));
 }
 
 TEST(test_mat_view, test_make_view)
@@ -153,10 +169,10 @@ TEST(test_mat_view, test_make_view)
     EXPECT_EQ(math::height(sub_mat), 2);
 
     // Mat4 is column order, a mat_view is row order
-    EXPECT_EQ(sub_mat.at(0, 0), mat4.at(1, 1));
-    EXPECT_EQ(sub_mat.at(0, 1), mat4.at(2, 1));
-    EXPECT_EQ(sub_mat.at(1, 0), mat4.at(1, 2));
-    EXPECT_EQ(sub_mat.at(1, 1), mat4.at(2, 2));
+    EXPECT_EQ(sub_mat.at<float>(0, 0), mat4.at(1, 1));
+    EXPECT_EQ(sub_mat.at<float>(0, 1), mat4.at(2, 1));
+    EXPECT_EQ(sub_mat.at<float>(1, 0), mat4.at(1, 2));
+    EXPECT_EQ(sub_mat.at<float>(1, 1), mat4.at(2, 2));
 }
 
 TEST(test_mat_view, test_equals)
@@ -211,17 +227,17 @@ TEST(test_mat_view, test_add)
     auto mat = math::make_view(mat3);
     mat += 10.0f;
 
-    EXPECT_EQ(11.0f, mat.at(0, 0));
-    EXPECT_EQ(12.0f, mat.at(0, 1));
-    EXPECT_EQ(13.0f, mat.at(0, 2));
+    EXPECT_EQ(11.0f, mat.at<float>(0, 0));
+    EXPECT_EQ(12.0f, mat.at<float>(0, 1));
+    EXPECT_EQ(13.0f, mat.at<float>(0, 2));
 
-    EXPECT_EQ(14.0f, mat.at(1, 0));
-    EXPECT_EQ(15.0f, mat.at(1, 1));
-    EXPECT_EQ(16.0f, mat.at(1, 2));
+    EXPECT_EQ(14.0f, mat.at<float>(1, 0));
+    EXPECT_EQ(15.0f, mat.at<float>(1, 1));
+    EXPECT_EQ(16.0f, mat.at<float>(1, 2));
 
-    EXPECT_EQ(17.0f, mat.at(2, 0));
-    EXPECT_EQ(18.0f, mat.at(2, 1));
-    EXPECT_EQ(19.0f, mat.at(2, 2));
+    EXPECT_EQ(17.0f, mat.at<float>(2, 0));
+    EXPECT_EQ(18.0f, mat.at<float>(2, 1));
+    EXPECT_EQ(19.0f, mat.at<float>(2, 2));
 }
 
 TEST(test_mat_view, test_subtract)
@@ -238,15 +254,15 @@ TEST(test_mat_view, test_subtract)
     auto mat = math::make_view(mat3);
     mat -= 10.0f;
 
-    EXPECT_EQ(0.0f, mat.at(0, 0));
-    EXPECT_EQ(10.0f, mat.at(0, 1));
-    EXPECT_EQ(20.0f, mat.at(0, 2));
+    EXPECT_EQ(0.0f, mat.at<float>(0, 0));
+    EXPECT_EQ(10.0f, mat.at<float>(0, 1));
+    EXPECT_EQ(20.0f, mat.at<float>(0, 2));
 
-    EXPECT_EQ(30.0f, mat.at(1, 0));
-    EXPECT_EQ(40.0f, mat.at(1, 1));
-    EXPECT_EQ(50.0f, mat.at(1, 2));
+    EXPECT_EQ(30.0f, mat.at<float>(1, 0));
+    EXPECT_EQ(40.0f, mat.at<float>(1, 1));
+    EXPECT_EQ(50.0f, mat.at<float>(1, 2));
 
-    EXPECT_EQ(60.0f, mat.at(2, 0));
-    EXPECT_EQ(70.0f, mat.at(2, 1));
-    EXPECT_EQ(80.0f, mat.at(2, 2));
+    EXPECT_EQ(60.0f, mat.at<float>(2, 0));
+    EXPECT_EQ(70.0f, mat.at<float>(2, 1));
+    EXPECT_EQ(80.0f, mat.at<float>(2, 2));
 }

@@ -5,181 +5,169 @@
 namespace aeon::math
 {
 
-template <typename T>
-inline mat<T>::mat() noexcept
-    : mat_view<T>{}
+inline mat::mat() noexcept
+    : mat_view{}
     , data_{}
 {
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions) noexcept
-    : mat_view<T>{dimensions, nullptr}
-    , data_(mat_view<T>::stride_ * height(mat_view<T>::dimensions_))
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions) noexcept
+    : mat_view{type, dimensions, nullptr}
+    , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height) noexcept
-    : mat_view<T>{width, height, nullptr}
-    , data_(mat_view<T>::stride_ * height(mat_view<T>::dimensions_))
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height) noexcept
+    : mat_view{type, width, height, nullptr}
+    , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride) noexcept
-    : mat_view<T>{dimensions, stride, nullptr}
-    , data_(mat_view<T>::stride_ * height(mat_view<T>::dimensions_))
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                const stride_type stride) noexcept
+    : mat_view{type, dimensions, stride, nullptr}
+    , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride) noexcept
-    : mat_view<T>{width, height, stride, nullptr}
-    , data_(mat_view<T>::stride_ * height(mat_view<T>::dimensions_))
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                const stride_type stride) noexcept
+    : mat_view{type, width, height, stride, nullptr}
+    , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, const std::vector<underlying_type> &data)
-    : mat_view<T>{dimensions, nullptr}
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                const std::vector<underlying_type> &data)
+    : mat_view{type, dimensions, nullptr}
     , data_{data}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height, const std::vector<underlying_type> &data)
-    : mat_view<T>{width, height, nullptr}
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                const std::vector<underlying_type> &data)
+    : mat_view{type, width, height, nullptr}
     , data_{data}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
-                   const std::vector<underlying_type> &data)
-    : mat_view<T>{dimensions, stride, nullptr}
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+                const std::vector<underlying_type> &data)
+    : mat_view{type, dimensions, stride, nullptr}
     , data_{data}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                   const std::vector<underlying_type> &data)
-    : mat_view<T>{width, height, stride, nullptr}
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                const stride_type stride, const std::vector<underlying_type> &data)
+    : mat_view{type, width, height, stride, nullptr}
     , data_{data}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, std::vector<underlying_type> &&data) noexcept
-    : mat_view<T>{dimensions, nullptr}
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                std::vector<underlying_type> &&data) noexcept
+    : mat_view{type, dimensions, nullptr}
     , data_{std::move(data)}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height,
-                   std::vector<underlying_type> &&data) noexcept
-    : mat_view<T>{width, height, nullptr}
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                std::vector<underlying_type> &&data) noexcept
+    : mat_view{type, width, height, nullptr}
     , data_{std::move(data)}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
-                   std::vector<underlying_type> &&data) noexcept
-    : mat_view<T>{dimensions, stride, nullptr}
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+                std::vector<underlying_type> &&data) noexcept
+    : mat_view{type, dimensions, stride, nullptr}
     , data_{std::move(data)}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                   std::vector<underlying_type> &&data) noexcept
-    : mat_view<T>{width, height, stride, nullptr}
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                const stride_type stride, std::vector<underlying_type> &&data) noexcept
+    : mat_view{type, width, height, stride, nullptr}
     , data_{std::move(data)}
 {
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, const underlying_type *data) noexcept
-    : mat_view<T>{dimensions, nullptr}
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const underlying_type *data)
+    : mat_view{type, dimensions, nullptr}
+    , data_{}
+{
+    copy_from_pointer(data);
+}
+
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                const underlying_type *data)
+    : mat_view{type, width, height, nullptr}
+    , data_{}
+{
+    copy_from_pointer(data);
+}
+
+inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+                const underlying_type *data)
+    : mat_view{type, dimensions, stride, nullptr}
+    , data_{}
+{
+    copy_from_pointer(data);
+}
+
+inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                const stride_type stride, const underlying_type *data)
+    : mat_view{type, width, height, stride, nullptr}
     , data_{}
 {
     copy_from_pointer(data);
 }
 
 template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height, const underlying_type *data) noexcept
-    : mat_view<T>{width, height, nullptr}
-    , data_{}
-{
-    copy_from_pointer(data);
-}
-
-template <typename T>
-inline mat<T>::mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
-                   const underlying_type *data) noexcept
-    : mat_view<T>{dimensions, stride, nullptr}
-    , data_{}
-{
-    copy_from_pointer(data);
-}
-
-template <typename T>
-inline mat<T>::mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                   const underlying_type *data) noexcept
-    : mat_view<T>{width, height, stride, nullptr}
-    , data_{}
-{
-    copy_from_pointer(data);
-}
-
-template <typename T>
-inline mat<T>::mat(const mat_view<T> &other)
-    : mat_view<T>{dimensions(other), stride(other), nullptr}
+inline mat::mat(const mat_view_base<T> &other)
+    : mat_view{math::element_type(other), math::dimensions(other), math::stride(other), nullptr}
     , data_{}
 {
     copy_from_pointer(std::data(other));
 }
 
 template <typename T>
-inline auto mat<T>::operator=(const mat_view<T> &other) -> mat &
+inline auto mat::operator=(const mat_view_base<T> &other) -> mat &
 {
     if (this != &other) [[likely]]
     {
-        mat_view<T>::dimensions_ = dimensions(other);
-        mat_view<T>::stride_ = stride(other);
+        mat_view::type_ = math::element_type(other);
+        mat_view::dimensions_ = math::dimensions(other);
+        mat_view::stride_ = math::stride(other);
         copy_from_pointer(std::data(other));
     }
 
     return *this;
 }
 
-template <typename T>
-[[nodiscard]] inline auto mat<T>::clone() const -> mat<T>
+[[nodiscard]] inline auto mat::clone() const -> mat
 {
-    return mat{dimensions, stride, data_};
+    return mat{type_, dimensions_, stride_, data_};
 }
 
-template <typename T>
-void mat<T>::copy_from_pointer(const underlying_type *data)
+inline void mat::copy_from_pointer(const underlying_type *data)
 {
-    const auto size = mat_view<T>::size();
+    const auto size = mat_view::size();
     data_.resize(size);
-    mat_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
     std::copy_n(data, size, std::begin(data_));
 }
 

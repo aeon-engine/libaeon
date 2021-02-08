@@ -5,11 +5,10 @@
 namespace aeon::math
 {
 
-template <typename T>
 class mat;
 
 template <typename T>
-class mat_view;
+class mat_view_base;
 
 class mat3;
 

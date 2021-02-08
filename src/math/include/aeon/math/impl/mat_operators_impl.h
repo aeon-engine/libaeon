@@ -6,13 +6,13 @@ namespace aeon::math
 {
 
 template <typename T>
-inline constexpr auto operator+=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &
+inline constexpr auto operator+=(mat &lhs, const T rhs) -> mat &
 {
     for (auto y = 0; y < height(lhs); ++y)
     {
         for (auto x = 0; x < width(lhs); ++x)
         {
-            lhs.at(x, y) += rhs;
+            lhs.at<T>(x, y) += rhs;
         }
     }
 
@@ -20,13 +20,13 @@ inline constexpr auto operator+=(mat<T> &lhs, const typename mat_view<T>::value_
 }
 
 template <typename T>
-inline constexpr auto operator-=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &
+inline constexpr auto operator-=(mat &lhs, const T rhs) -> mat &
 {
     for (auto y = 0; y < height(lhs); ++y)
     {
         for (auto x = 0; x < width(lhs); ++x)
         {
-            lhs.at(x, y) -= rhs;
+            lhs.at<T>(x, y) -= rhs;
         }
     }
 
@@ -34,13 +34,13 @@ inline constexpr auto operator-=(mat<T> &lhs, const typename mat_view<T>::value_
 }
 
 template <typename T>
-inline constexpr auto operator*=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &
+inline constexpr auto operator*=(mat &lhs, const T rhs) -> mat &
 {
     for (auto y = 0; y < height(lhs); ++y)
     {
         for (auto x = 0; x < width(lhs); ++x)
         {
-            lhs.at(x, y) *= rhs;
+            lhs.at<T>(x, y) *= rhs;
         }
     }
 
@@ -48,13 +48,13 @@ inline constexpr auto operator*=(mat<T> &lhs, const typename mat_view<T>::value_
 }
 
 template <typename T>
-inline constexpr auto operator/=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &
+inline constexpr auto operator/=(mat &lhs, const T rhs) -> mat &
 {
     for (auto y = 0; y < height(lhs); ++y)
     {
         for (auto x = 0; x < width(lhs); ++x)
         {
-            lhs.at(x, y) /= rhs;
+            lhs.at<T>(x, y) /= rhs;
         }
     }
 
@@ -62,30 +62,30 @@ inline constexpr auto operator/=(mat<T> &lhs, const typename mat_view<T>::value_
 }
 
 template <typename T>
-inline constexpr auto operator+(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>
+inline constexpr auto operator+(const mat_view &lhs, const T rhs) -> mat
 {
-    auto result = mat<T>{dimensions(lhs), stride(lhs), std::data(lhs)};
+    auto result = mat{element_type(lhs), dimensions(lhs), stride(lhs), std::data(lhs)};
     return std::move(result += rhs);
 }
 
 template <typename T>
-inline constexpr auto operator-(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>
+inline constexpr auto operator-(const mat_view &lhs, const T rhs) -> mat
 {
-    auto result = mat<T>{dimensions(lhs), stride(lhs), std::data(lhs)};
+    auto result = mat{element_type(lhs), dimensions(lhs), stride(lhs), std::data(lhs)};
     return std::move(result -= rhs);
 }
 
 template <typename T>
-inline constexpr auto operator*(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>
+inline constexpr auto operator*(const mat_view &lhs, const T rhs) -> mat
 {
-    auto result = mat<T>{dimensions(lhs), stride(lhs), std::data(lhs)};
+    auto result = mat{element_type(lhs), dimensions(lhs), stride(lhs), std::data(lhs)};
     return std::move(result *= rhs);
 }
 
 template <typename T>
-inline constexpr auto operator/(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>
+inline constexpr auto operator/(const mat_view &lhs, const T rhs) -> mat
 {
-    auto result = mat<T>{dimensions(lhs), stride(lhs), std::data(lhs)};
+    auto result = mat{element_type(lhs), dimensions(lhs), stride(lhs), std::data(lhs)};
     return std::move(result /= rhs);
 }
 

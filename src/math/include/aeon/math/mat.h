@@ -11,15 +11,15 @@ namespace aeon::math
  * Class that represents a matrix of dynamic size
  * Unlike mat3 and mat4, data is laid out in row order
  */
-template <typename T>
-class mat : public mat_view<T>
+class mat : public mat_view
 {
 public:
-    using value_type = T;
-    using underlying_type = std::byte;
-    using dimensions_type = typename mat_view<T>::dimensions_type;
-    using size_type = typename mat_view<T>::size_type;
-    using stride_type = typename mat_view<T>::stride_type;
+    using underlying_type = mat_view::underlying_type;
+    using value_type = mat_view::value_type;
+    using dimensions_type = mat_view::dimensions_type;
+    using size_type = mat_view::size_type;
+    using ssize_type = mat_view::ssize_type;
+    using stride_type = mat_view::stride_type;
 
     /*!
      * Create an empty matrix.
@@ -28,142 +28,165 @@ public:
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      */
-    explicit mat(const size2d<dimensions_type> dimensions) noexcept;
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions) noexcept;
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height) noexcept;
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height) noexcept;
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride) noexcept;
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                 const stride_type stride) noexcept;
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride) noexcept;
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                 const stride_type stride) noexcept;
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, const std::vector<underlying_type> &data);
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                 const std::vector<underlying_type> &data);
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height, const std::vector<underlying_type> &data);
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                 const std::vector<underlying_type> &data);
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions and
      * stride.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
                  const std::vector<underlying_type> &data);
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions and
      * stride.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                 const std::vector<underlying_type> &data);
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                 const stride_type stride, const std::vector<underlying_type> &data);
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, std::vector<underlying_type> &&data) noexcept;
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                 std::vector<underlying_type> &&data) noexcept;
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height,
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
                  std::vector<underlying_type> &&data) noexcept;
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions and
      * stride.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
                  std::vector<underlying_type> &&data) noexcept;
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions and
      * stride.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                 std::vector<underlying_type> &&data) noexcept;
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                 const stride_type stride, std::vector<underlying_type> &&data) noexcept;
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, const underlying_type *data) noexcept;
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+                 const underlying_type *data);
 
     /*!
      * Create a matrix with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height, const underlying_type *data) noexcept;
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                 const underlying_type *data);
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      * stride.
      */
-    explicit mat(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
-                 const underlying_type *data) noexcept;
+    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+                 const underlying_type *data);
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      * stride.
      */
-    explicit mat(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                 const underlying_type *data) noexcept;
+    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                 const stride_type stride, const underlying_type *data);
 
-    ~mat() noexcept = default;
+    ~mat() noexcept override = default;
 
     mat(const mat &) = delete;
     auto operator=(const mat &) -> mat & = delete;
@@ -171,15 +194,18 @@ public:
     mat(mat &&) noexcept = default;
     auto operator=(mat &&) noexcept -> mat & = default;
 
-    explicit mat(const mat_view<T> &other);
-    auto operator=(const mat_view<T> &other) -> mat &;
+    template <typename T>
+    explicit mat(const mat_view_base<T> &other);
+
+    template <typename T>
+    auto operator=(const mat_view_base<T> &other) -> mat &;
 
     /*!
      * Make a copy of the matrix. In order to avoid performance issues, the class is made
      * non-copyable. In order to copy the matrix, a call to clone() must be done explicitly.
      * \return A copy of this image.
      */
-    [[nodiscard]] auto clone() const -> mat<T>;
+    [[nodiscard]] auto clone() const -> mat;
 
 protected:
     void copy_from_pointer(const underlying_type *data);
@@ -188,28 +214,28 @@ protected:
 };
 
 template <typename T>
-inline constexpr auto operator+=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &;
+inline constexpr auto operator+=(mat &lhs, const T rhs) -> mat &;
 
 template <typename T>
-inline constexpr auto operator-=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &;
+inline constexpr auto operator-=(mat &lhs, const T rhs) -> mat &;
 
 template <typename T>
-inline constexpr auto operator*=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &;
+inline constexpr auto operator*=(mat &lhs, const T rhs) -> mat &;
 
 template <typename T>
-inline constexpr auto operator/=(mat<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T> &;
+inline constexpr auto operator/=(mat &lhs, const T rhs) -> mat &;
 
 template <typename T>
-inline constexpr auto operator+(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>;
+inline constexpr auto operator+(const mat_view &lhs, const T rhs) -> mat;
 
 template <typename T>
-inline constexpr auto operator-(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>;
+inline constexpr auto operator-(const mat_view &lhs, const T rhs) -> mat;
 
 template <typename T>
-inline constexpr auto operator*(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>;
+inline constexpr auto operator*(const mat_view &lhs, const T rhs) -> mat;
 
 template <typename T>
-inline constexpr auto operator/(const mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) -> mat<T>;
+inline constexpr auto operator/(const mat_view &lhs, const T rhs) -> mat;
 
 } // namespace aeon::math
 

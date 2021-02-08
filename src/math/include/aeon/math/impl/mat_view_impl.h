@@ -6,245 +6,257 @@
 #include <aeon/math/rectangle.h>
 #include <aeon/math/mat3.h>
 #include <aeon/common/assert.h>
-#include <aeon/common/signed_sizeof.h>
 
 namespace aeon::math
 {
 
 template <typename T>
-inline constexpr mat_view<T>::mat_view() noexcept
-    : data_ptr_{nullptr}
+inline constexpr mat_view_base<T>::mat_view_base() noexcept
+    : type_{}
+    , data_ptr_{nullptr}
     , dimensions_{}
     , stride_{0}
 {
 }
 
 template <typename T>
-inline constexpr mat_view<T>::mat_view(const size2d<dimensions_type> dimensions, element_type *data) noexcept
-    : mat_view{dimensions, math::width(dimensions) * sizeof(T), reinterpret_cast<underlying_type *>(data)}
+inline constexpr mat_view_base<T>::mat_view_base(const common::element_type type,
+                                                 const size2d<dimensions_type> dimensions,
+                                                 underlying_type *data) noexcept
+    : mat_view_base{type, dimensions, math::width(dimensions) * type.size, data}
 {
 }
 
 template <typename T>
-inline constexpr mat_view<T>::mat_view(const dimensions_type width, const dimensions_type height,
-                                       element_type *data) noexcept
-    : mat_view{size2d{width, height}, data}
+inline constexpr mat_view_base<T>::mat_view_base(const common::element_type type, const dimensions_type width,
+                                                 const dimensions_type height, underlying_type *data) noexcept
+    : mat_view_base{type, size2d{width, height}, data}
 {
 }
 
 template <typename T>
-inline constexpr mat_view<T>::mat_view(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
-                                       underlying_type *data) noexcept
-    : data_ptr_{data}
+inline constexpr mat_view_base<T>::mat_view_base(const common::element_type type,
+                                                 const size2d<dimensions_type> dimensions, const stride_type stride,
+                                                 underlying_type *data) noexcept
+    : type_{type}
+    , data_ptr_{data}
     , dimensions_{dimensions}
     , stride_{stride}
 {
 }
 
 template <typename T>
-inline constexpr mat_view<T>::mat_view(const dimensions_type width, const dimensions_type height,
-                                       const std::ptrdiff_t stride, underlying_type *data) noexcept
-    : mat_view{size2d{width, height}, stride, data}
+inline constexpr mat_view_base<T>::mat_view_base(const common::element_type type, const dimensions_type width,
+                                                 const dimensions_type height, const stride_type stride,
+                                                 underlying_type *data) noexcept
+    : mat_view_base{type, size2d{width, height}, stride, data}
 {
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::width() const noexcept -> dimensions_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::element_type() const noexcept -> common::element_type
+{
+    return type_;
+}
+
+template <typename T>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::width() const noexcept -> dimensions_type
 {
     return math::width(dimensions_);
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::height() const noexcept -> dimensions_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::height() const noexcept -> dimensions_type
 {
     return math::height(dimensions_);
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::dimensions() const noexcept -> size2d<dimensions_type>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::dimensions() const noexcept -> size2d<dimensions_type>
 {
     return dimensions_;
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::stride() const noexcept -> stride_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::stride() const noexcept -> stride_type
 {
     return stride_;
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::size() const noexcept -> size_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::size() const noexcept -> size_type
 {
     return static_cast<size_type>(stride_ * height());
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::ssize() const noexcept -> ssize_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::ssize() const noexcept -> ssize_type
 {
     return static_cast<ssize_type>(stride_ * height());
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::at(const vector2<dimensions_type> coord) noexcept -> value_type &
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const vector2<dimensions_type> coord) noexcept -> value_type *
 {
-    // Note: X and Y are swapped due to column ordering
-    return reinterpret_cast<value_type &>(ptr<std::byte>()[stride_ * coord.y + sizeof(T) * coord.x]);
+    aeon_assert(valid(*this), "Matrix view is not valid.");
+    return &data_ptr_[stride_ * coord.y + type_.size * coord.x];
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::at(const vector2<dimensions_type> coord) const noexcept -> value_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const vector2<dimensions_type> coord) const noexcept
+    -> const value_type *
 {
-    // Note: X and Y are swapped due to column ordering
-    return reinterpret_cast<const value_type &>(ptr<const std::byte>()[stride_ * coord.y + sizeof(T) * coord.x]);
+    aeon_assert(valid(*this), "Matrix view is not valid.");
+    return &data_ptr_[stride_ * coord.y + type_.size * coord.x];
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::at(const dimensions_type column_index,
-                                                    const dimensions_type row_index) noexcept -> value_type &
-{
-    return at(vector2{column_index, row_index});
-}
-
-template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::at(const dimensions_type column_index,
-                                                    const dimensions_type row_index) const noexcept -> value_type
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const dimensions_type column_index,
+                                                         const dimensions_type row_index) noexcept -> value_type *
 {
     return at(vector2{column_index, row_index});
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::data() noexcept -> underlying_type *
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const dimensions_type column_index,
+                                                         const dimensions_type row_index) const noexcept
+    -> const value_type *
+{
+    return at(vector2{column_index, row_index});
+}
+
+template <typename T>
+template <typename U>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const vector2<dimensions_type> coord) noexcept -> U &
+{
+    return *reinterpret_cast<U *>(at(coord));
+}
+
+template <typename T>
+template <typename U>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const vector2<dimensions_type> coord) const noexcept
+    -> const U &
+{
+    return *reinterpret_cast<const U *>(at(coord));
+}
+
+template <typename T>
+template <typename U>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const dimensions_type column_index,
+                                                         const dimensions_type row_index) noexcept -> U &
+{
+    return *reinterpret_cast<U *>(at(column_index, row_index));
+}
+
+template <typename T>
+template <typename U>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::at(const dimensions_type column_index,
+                                                         const dimensions_type row_index) const noexcept -> const U &
+{
+    return *reinterpret_cast<const U *>(at(column_index, row_index));
+}
+
+template <typename T>
+[[nodiscard]] inline constexpr auto mat_view_base<T>::data() noexcept -> value_type *
 {
     return data_ptr_;
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::data() const noexcept -> const underlying_type *
+[[nodiscard]] inline constexpr auto mat_view_base<T>::data() const noexcept -> const value_type *
 {
     return data_ptr_;
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::ptr() noexcept -> value_type *
+[[nodiscard]] inline constexpr auto element_type(const mat_view_base<T> &view) noexcept
 {
-    return ptr<value_type>();
+    return view.element_type();
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto mat_view<T>::ptr() const noexcept -> const value_type *
-{
-    return ptr<value_type>();
-}
-
-template <typename T>
-template <typename U>
-[[nodiscard]] inline constexpr auto mat_view<T>::ptr() noexcept -> U *
-{
-    return reinterpret_cast<U *>(data_ptr_);
-}
-
-template <typename T>
-template <typename U>
-[[nodiscard]] inline constexpr auto mat_view<T>::ptr() const noexcept -> const U *
-{
-    return reinterpret_cast<const U *>(data_ptr_);
-}
-
-template <typename T>
-[[nodiscard]] inline constexpr auto width(const mat_view<T> &view) noexcept
+[[nodiscard]] inline constexpr auto width(const mat_view_base<T> &view) noexcept
 {
     return view.width();
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto height(const mat_view<T> &view) noexcept
+[[nodiscard]] inline constexpr auto height(const mat_view_base<T> &view) noexcept
 {
     return view.height();
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto dimensions(const mat_view<T> &view) noexcept
+[[nodiscard]] inline constexpr auto dimensions(const mat_view_base<T> &view) noexcept
 {
     return view.dimensions();
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto stride(const mat_view<T> &view) noexcept
+[[nodiscard]] inline constexpr auto stride(const mat_view_base<T> &view) noexcept
 {
     return view.stride();
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto continuous(const mat_view<T> &view) noexcept
+[[nodiscard]] inline constexpr auto continuous(const mat_view_base<T> &view) noexcept
 {
-    return (height(view) == 1) || (stride(view) == aeon_signed_sizeof(T) * width(view));
+    return (height(view) == 1) || (stride(view) == width(view) * element_type(view).size);
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto contains(const mat_view<T> &view,
-                                             const vector2<typename mat_view<T>::dimensions_type> coord) noexcept
+[[nodiscard]] inline constexpr auto contains(const mat_view_base<T> &view,
+                                             const vector2<typename mat_view_base<T>::dimensions_type> coord) noexcept
 {
     return contains(coord, dimensions(view));
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto size(const mat_view<T> &view) noexcept -> typename mat_view<T>::size_type
+[[nodiscard]] inline constexpr auto size(const mat_view_base<T> &view) noexcept -> typename mat_view_base<T>::size_type
 {
     return stride(view) * height(view);
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto null(const mat_view<T> &view) noexcept -> bool
+[[nodiscard]] inline constexpr auto null(const mat_view_base<T> &view) noexcept -> bool
 {
-    return ptr(view) == nullptr || (stride(view) == 0 && null(dimensions(view)));
+    return data(view) == nullptr || (stride(view) == 0 && null(dimensions(view)));
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto valid(const mat_view<T> &view) noexcept -> bool
+[[nodiscard]] inline constexpr auto valid(const mat_view_base<T> &view) noexcept -> bool
 {
     return !null(view);
 }
 
 template <typename T>
-[[nodiscard]] inline constexpr auto make_view(const mat_view<T> &view, const rectangle<int> &rect) noexcept
-    -> mat_view<T>
+[[nodiscard]] inline auto make_view(const mat_view_base<T> &view, const rectangle<int> &rect) noexcept
+    -> mat_view_base<T>
 {
     aeon_assert(math::contains(rect, rectangle<int>{0, 0, dimensions(view)}),
                 "View rectangle does not fit within image.");
-    const auto data_offset = view.template ptr<std::byte>() + top(rect) * stride(view) + left(rect) * sizeof(T);
-    return mat_view<T>{width(rect), height(rect), stride(view), data_offset};
+    return mat_view_base<T>(element_type(view), width(rect), height(rect), stride(view),
+                            view.at(left(rect), top(rect)));
 }
 
-[[nodiscard]] inline constexpr auto make_view(mat3 &mat) noexcept -> mat_view<float>
+[[nodiscard]] inline auto make_view(mat3 &mat) noexcept -> mat_view
 {
-    return mat_view{3, 3, ptr(mat)};
+    return mat_view{common::element_type::f32_1, 3, 3, std::data(mat)};
 }
 
-[[nodiscard]] inline constexpr auto make_view(const mat3 &mat) noexcept -> mat_view<const float>
+[[nodiscard]] inline auto make_view(const mat3 &mat) noexcept -> const_mat_view
 {
-    return mat_view{3, 3, ptr(mat)};
+    return const_mat_view{common::element_type::f32_1, 3, 3, std::data(mat)};
 }
 
-[[nodiscard]] inline constexpr auto make_view(mat4 &mat) noexcept -> mat_view<float>
+[[nodiscard]] inline auto make_view(mat4 &mat) noexcept -> mat_view
 {
-    return mat_view{4, 4, ptr(mat)};
+    return mat_view{common::element_type::f32_1, 4, 4, std::data(mat)};
 }
 
-[[nodiscard]] inline constexpr auto make_view(const mat4 &mat) noexcept -> mat_view<const float>
+[[nodiscard]] inline auto make_view(const mat4 &mat) noexcept -> const_mat_view
 {
-    return mat_view{4, 4, ptr(mat)};
-}
-
-template <typename T>
-[[nodiscard]] inline constexpr auto ptr(mat_view<T> &mat) noexcept -> typename mat_view<T>::value_type *
-{
-    return mat.ptr();
-}
-
-template <typename T>
-[[nodiscard]] inline constexpr auto ptr(const mat_view<T> &mat) noexcept -> const typename mat_view<T>::value_type *
-{
-    return mat.ptr();
+    return const_mat_view{common::element_type::f32_1, 4, 4, std::data(mat)};
 }
 
 } // namespace aeon::math

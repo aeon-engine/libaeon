@@ -3,7 +3,8 @@
 #pragma once
 
 #include <aeon/math/size2d.h>
-#include <aeon/common/type_traits.h>
+#include <aeon/common/element_type.h>
+#include <type_traits>
 
 namespace aeon::math
 {
@@ -23,63 +24,78 @@ class mat4;
  * Unlike mat3 and mat4, data is laid out in row order
  */
 template <typename T>
-class mat_view
+class mat_view_base
 {
 public:
-    using element_type = T;
-    using value_type = std::remove_cv_t<element_type>;
-    using underlying_type = common::type_traits::preserve_cv_t<element_type, std::byte>;
+    static_assert(std::is_same_v<T, std::byte> || std::is_same_v<T, const std::byte>,
+                  "T must be std::byte or const std::byte.");
+
+    using underlying_type = T;
+    using value_type = std::remove_cv_t<underlying_type>;
     using dimensions_type = std::int32_t;
     using size_type = std::size_t;
     using ssize_type = std::ptrdiff_t;
-    using stride_type = std::ptrdiff_t;
+    using stride_type = std::size_t;
 
     /*!
      * Create an empty matrix.
      */
-    constexpr mat_view() noexcept;
+    constexpr mat_view_base() noexcept;
 
     /*!
      * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Raw matrix data
      */
-    constexpr explicit mat_view(const size2d<dimensions_type> dimensions, element_type *data) noexcept;
+    constexpr explicit mat_view_base(const common::element_type type, const size2d<dimensions_type> dimensions,
+                                     underlying_type *data) noexcept;
 
     /*!
      * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] data - Raw matrix data
      */
-    constexpr explicit mat_view(const dimensions_type width, const dimensions_type height, element_type *data) noexcept;
+    constexpr explicit mat_view_base(const common::element_type type, const dimensions_type width,
+                                     const dimensions_type height, underlying_type *data) noexcept;
 
     /*!
      * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Raw matrix data
      */
-    constexpr explicit mat_view(const size2d<dimensions_type> dimensions, const std::ptrdiff_t stride,
-                                underlying_type *data) noexcept;
+    constexpr explicit mat_view_base(const common::element_type type, const size2d<dimensions_type> dimensions,
+                                     const stride_type stride, underlying_type *data) noexcept;
 
     /*!
      * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Raw matrix data
      */
-    constexpr explicit mat_view(const dimensions_type width, const dimensions_type height, const std::ptrdiff_t stride,
-                                underlying_type *data) noexcept;
+    constexpr explicit mat_view_base(const common::element_type type, const dimensions_type width,
+                                     const dimensions_type height, const stride_type stride,
+                                     underlying_type *data) noexcept;
 
-    ~mat_view() noexcept = default;
+    virtual ~mat_view_base() noexcept = default;
 
-    constexpr mat_view(const mat_view &) noexcept = default;
-    constexpr auto operator=(const mat_view &) noexcept -> mat_view & = default;
+    constexpr mat_view_base(const mat_view_base &) noexcept = default;
+    constexpr auto operator=(const mat_view_base &) noexcept -> mat_view_base & = default;
 
-    constexpr mat_view(mat_view &&) noexcept = default;
-    constexpr auto operator=(mat_view &&) noexcept -> mat_view & = default;
+    constexpr mat_view_base(mat_view_base &&) noexcept = default;
+    constexpr auto operator=(mat_view_base &&) noexcept -> mat_view_base & = default;
+
+    /*!
+     * Get the element type of the matrix.
+     * \return The element type of the matrix
+     */
+    [[nodiscard]] constexpr auto element_type() const noexcept -> common::element_type;
 
     /*!
      * Get the width of the matrix.
@@ -122,14 +138,14 @@ public:
      * \param[in] coord - A coordinate
      * \return Value based on the given column and row index.
      */
-    [[nodiscard]] constexpr auto at(const vector2<dimensions_type> coord) noexcept -> value_type &;
+    [[nodiscard]] constexpr auto at(const vector2<dimensions_type> coord) noexcept -> value_type *;
 
     /*!
      * Access a value within this matrix based on a given coordinate
      * \param[in] coord - A coordinate
      * \return Value based on the given column and row index.
      */
-    [[nodiscard]] constexpr auto at(const vector2<dimensions_type> coord) const noexcept -> value_type;
+    [[nodiscard]] constexpr auto at(const vector2<dimensions_type> coord) const noexcept -> const value_type *;
 
     /*!
      * Access a value within this matrix based on a given coordinate
@@ -138,7 +154,7 @@ public:
      * \return Value based on the given column and row index.
      */
     [[nodiscard]] constexpr auto at(const dimensions_type column_index, const dimensions_type row_index) noexcept
-        -> value_type &;
+        -> value_type *;
 
     /*!
      * Access a value within this matrix based on a given coordinate
@@ -147,73 +163,91 @@ public:
      * \return Value based on the given column and row index.
      */
     [[nodiscard]] constexpr auto at(const dimensions_type column_index, const dimensions_type row_index) const noexcept
-        -> value_type;
+        -> const value_type *;
+
+    /*!
+     * Access a value within this matrix based on a given coordinate
+     * \param[in] coord - A coordinate
+     * \return Value based on the given column and row index.
+     */
+    template <typename U>
+    [[nodiscard]] constexpr auto at(const vector2<dimensions_type> coord) noexcept -> U &;
+
+    /*!
+     * Access a value within this matrix based on a given coordinate
+     * \param[in] coord - A coordinate
+     * \return Value based on the given column and row index.
+     */
+    template <typename U>
+    [[nodiscard]] constexpr auto at(const vector2<dimensions_type> coord) const noexcept -> const U &;
+
+    /*!
+     * Access a value within this matrix based on a given coordinate
+     * \param[in] column_index - Column
+     * \param[in] row_index - Row
+     * \return Value based on the given column and row index.
+     */
+    template <typename U>
+    [[nodiscard]] constexpr auto at(const dimensions_type column_index, const dimensions_type row_index) noexcept
+        -> U &;
+
+    /*!
+     * Access a value within this matrix based on a given coordinate
+     * \param[in] column_index - Column
+     * \param[in] row_index - Row
+     * \return Value based on the given column and row index.
+     */
+    template <typename U>
+    [[nodiscard]] constexpr auto at(const dimensions_type column_index, const dimensions_type row_index) const noexcept
+        -> const U &;
 
     /*!
      * Get a pointer to the raw matrix data buffer
      * \return Pointer to raw data.
      */
-    [[nodiscard]] constexpr auto data() noexcept -> underlying_type *;
+    [[nodiscard]] constexpr auto data() noexcept -> value_type *;
 
     /*!
      * Get a pointer to the raw matrix data buffer
      * \return Pointer to raw data.
      */
-    [[nodiscard]] constexpr auto data() const noexcept -> const underlying_type *;
-
-    /*!
-     * Get a pointer to the raw matrix data.
-     * \return Pointer to raw data.
-     */
-    [[nodiscard]] constexpr auto ptr() noexcept -> value_type *;
-
-    /*!
-     * Get a pointer to the raw data.
-     * \return Pointer to raw data.
-     */
-    [[nodiscard]] constexpr auto ptr() const noexcept -> const value_type *;
-
-    /*!
-     * Get a pointer to the raw matrix data.
-     * \return Pointer to raw data.
-     */
-    template <typename U>
-    [[nodiscard]] constexpr auto ptr() noexcept -> U *;
-
-    /*!
-     * Get a pointer to the raw data.
-     * \return Pointer to raw data.
-     */
-    template <typename U>
-    [[nodiscard]] constexpr auto ptr() const noexcept -> const U *;
+    [[nodiscard]] constexpr auto data() const noexcept -> const value_type *;
 
 protected:
+    common::element_type type_;
     underlying_type *data_ptr_;
     size2d<dimensions_type> dimensions_;
     stride_type stride_;
 };
 
-template <typename T>
-inline constexpr auto operator+=(mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) noexcept
-    -> mat_view<T> &;
+using mat_view = mat_view_base<std::byte>;
+using const_mat_view = mat_view_base<const std::byte>;
 
 template <typename T>
-inline constexpr auto operator-=(mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) noexcept
-    -> mat_view<T> &;
+inline constexpr auto operator+=(mat_view &lhs, const T rhs) noexcept -> mat_view &;
 
 template <typename T>
-inline constexpr auto operator*=(mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) noexcept
-    -> mat_view<T> &;
+inline constexpr auto operator-=(mat_view &lhs, const T rhs) noexcept -> mat_view &;
 
 template <typename T>
-inline constexpr auto operator/=(mat_view<T> &lhs, const typename mat_view<T>::value_type rhs) noexcept
-    -> mat_view<T> &;
+inline constexpr auto operator*=(mat_view &lhs, const T rhs) noexcept -> mat_view &;
 
 template <typename T>
-inline constexpr auto operator==(const mat_view<T> &lhs, const mat_view<T> &rhs) noexcept -> bool;
+inline constexpr auto operator/=(mat_view &lhs, const T rhs) noexcept -> mat_view &;
 
+template <typename T, typename U>
+inline constexpr auto operator==(const mat_view_base<T> &lhs, const mat_view_base<U> &rhs) noexcept -> bool;
+
+template <typename T, typename U>
+inline constexpr auto operator!=(const mat_view_base<T> &lhs, const mat_view_base<U> &rhs) noexcept -> bool;
+
+/*!
+ * Get the element type of the matrix.
+ * \param[in] view - A matrix view
+ * \return The element type of the matrix
+ */
 template <typename T>
-inline constexpr auto operator!=(const mat_view<T> &lhs, const mat_view<T> &rhs) noexcept -> bool;
+[[nodiscard]] inline constexpr auto element_type(const mat_view_base<T> &view) noexcept;
 
 /*!
  * Get the width of the given matrix view.
@@ -221,7 +255,7 @@ inline constexpr auto operator!=(const mat_view<T> &lhs, const mat_view<T> &rhs)
  * \return The width of the matrix view.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto width(const mat_view<T> &view) noexcept;
+[[nodiscard]] inline constexpr auto width(const mat_view_base<T> &view) noexcept;
 
 /*!
  * Get the height of the given matrix view.
@@ -229,7 +263,7 @@ template <typename T>
  * \return The height of the matrix view.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto height(const mat_view<T> &view) noexcept;
+[[nodiscard]] inline constexpr auto height(const mat_view_base<T> &view) noexcept;
 
 /*!
  * Get the dimensions of the given matrix view (width, height).
@@ -237,7 +271,7 @@ template <typename T>
  * \return The dimensions of the matrix view.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto dimensions(const mat_view<T> &view) noexcept;
+[[nodiscard]] inline constexpr auto dimensions(const mat_view_base<T> &view) noexcept;
 
 /*!
  * Get the stride of the given matrix view.
@@ -246,7 +280,7 @@ template <typename T>
  * \return The stride of the matrix view.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto stride(const mat_view<T> &view) noexcept;
+[[nodiscard]] inline constexpr auto stride(const mat_view_base<T> &view) noexcept;
 
 /*!
  * Returns true if the data described by the given matrix view is laid out in memory in a
@@ -256,7 +290,7 @@ template <typename T>
  * \return True if the mat view's data is continuous.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto continuous(const mat_view<T> &view) noexcept;
+[[nodiscard]] inline constexpr auto continuous(const mat_view_base<T> &view) noexcept;
 
 /*!
  * Returns true if the given coordinate falls within the dimensions of the given matrix view.
@@ -265,8 +299,8 @@ template <typename T>
  * \return True if the coordinate is within the dimensions of the matrix view.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto contains(const mat_view<T> &view,
-                                             const vector2<typename mat_view<T>::dimensions_type> coord) noexcept;
+[[nodiscard]] inline constexpr auto contains(const mat_view_base<T> &view,
+                                             const vector2<typename mat_view_base<T>::dimensions_type> coord) noexcept;
 
 /*!
  * Get the full size in bytes of the data described by the matrix view in
@@ -275,7 +309,7 @@ template <typename T>
  * \return The size in bytes.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto size(const mat_view<T> &view) noexcept -> typename mat_view<T>::size_type;
+[[nodiscard]] inline constexpr auto size(const mat_view_base<T> &view) noexcept -> typename mat_view_base<T>::size_type;
 
 /*!
  * Returns true if the matrix view is null. A matrix view is null when
@@ -284,7 +318,7 @@ template <typename T>
  * \return Returns true if the matrix view is null.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto null(const mat_view<T> &view) noexcept -> bool;
+[[nodiscard]] inline constexpr auto null(const mat_view_base<T> &view) noexcept -> bool;
 
 /*!
  * Returns true if the matrix view is valid. A matrix view is valid when it is not null.
@@ -293,7 +327,7 @@ template <typename T>
  * \return Returns true if the matrix view is valid.
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto valid(const mat_view<T> &view) noexcept -> bool;
+[[nodiscard]] inline constexpr auto valid(const mat_view_base<T> &view) noexcept -> bool;
 
 /*!
  * Create a new view on an existing view based on a given rectangle. This will essentially
@@ -304,54 +338,36 @@ template <typename T>
  * \return Returns A new view
  */
 template <typename T>
-[[nodiscard]] inline constexpr auto make_view(const mat_view<T> &view, const rectangle<int> &rect) noexcept
-    -> mat_view<T>;
+[[nodiscard]] inline auto make_view(const mat_view_base<T> &view, const rectangle<int> &rect) noexcept
+    -> mat_view_base<T>;
 
 /*!
  * Create a new view on an existing view based on a given mat3.
  * \param[in] mat - A 3x3 matrix
  * \return Returns A new view
  */
-[[nodiscard]] inline constexpr auto make_view(mat3 &mat) noexcept -> mat_view<float>;
+[[nodiscard]] inline auto make_view(mat3 &mat) noexcept -> mat_view;
 
 /*!
  * Create a new view on an existing view based on a given mat3.
  * \param[in] mat - A 3x3 matrix
  * \return Returns A new view
  */
-[[nodiscard]] inline constexpr auto make_view(const mat3 &mat) noexcept -> mat_view<const float>;
+[[nodiscard]] inline auto make_view(const mat3 &mat) noexcept -> const_mat_view;
 
 /*!
  * Create a new view on an existing view based on a given mat3.
  * \param[in] mat - A 4x4 matrix
  * \return Returns A new view
  */
-[[nodiscard]] inline constexpr auto make_view(mat4 &mat) noexcept -> mat_view<float>;
+[[nodiscard]] inline auto make_view(mat4 &mat) noexcept -> mat_view;
 
 /*!
  * Create a new view on an existing view based on a given mat3.
  * \param[in] mat - A 4x4 matrix
  * \return Returns A new view
  */
-[[nodiscard]] inline constexpr auto make_view(const mat4 &mat) noexcept -> mat_view<const float>;
-
-/*!
- * Get a pointer into the underlying data structure of a given matrix.
- * The matrix data layout is column major.
- * \param[in] mat - Matrix
- * \return Pointer to matrix data.
- */
-template <typename T>
-[[nodiscard]] inline constexpr auto ptr(mat_view<T> &mat) noexcept -> typename mat_view<T>::value_type *;
-
-/*!
- * Get a pointer into the underlying data structure of a given matrix.
- * The matrix data layout is column major.
- * \param[in] mat - Matrix
- * \return Const pointer to matrix data.
- */
-template <typename T>
-[[nodiscard]] inline constexpr auto ptr(const mat_view<T> &mat) noexcept -> const typename mat_view<T>::value_type *;
+[[nodiscard]] inline auto make_view(const mat4 &mat) noexcept -> const_mat_view;
 
 } // namespace aeon::math
 
