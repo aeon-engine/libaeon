@@ -149,6 +149,16 @@ template <typename T>
     // clang-format on
 }
 
+[[nodiscard]] inline auto mat3::data() noexcept -> std::byte *
+{
+    return reinterpret_cast<std::byte *>(&column);
+}
+
+[[nodiscard]] inline auto mat3::data() const noexcept -> const std::byte *
+{
+    return reinterpret_cast<const std::byte *>(&column);
+}
+
 [[nodiscard]] inline constexpr auto determinant(const mat3 &mat) noexcept -> float
 {
     return (mat[0][0] * mat[1][1] * mat[2][2]) + (mat[1][0] * mat[2][1] * mat[0][2]) +

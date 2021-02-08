@@ -177,6 +177,18 @@ public:
      */
     [[nodiscard]] static auto rotate(const unitf<radian> angle) noexcept -> mat3;
 
+    /*!
+     * Get a pointer to the raw matrix data buffer
+     * \return Pointer to raw data.
+     */
+    [[nodiscard]] auto data() noexcept -> std::byte *;
+
+    /*!
+     * Get a pointer to the raw matrix data buffer
+     * \return Pointer to raw data.
+     */
+    [[nodiscard]] auto data() const noexcept -> const std::byte *;
+
     std::array<vector3<float>, 3> column;
 };
 
