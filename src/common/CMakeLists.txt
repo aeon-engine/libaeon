@@ -18,6 +18,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/dispatcher_fwd.h
     include/aeon/common/dll_export.h
     include/aeon/common/dll_loader.h
+    include/aeon/common/element_type.h
     include/aeon/common/endianness.h
     include/aeon/common/expect.h
     include/aeon/common/flags.h

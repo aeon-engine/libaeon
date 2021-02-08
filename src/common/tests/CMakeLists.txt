@@ -12,6 +12,7 @@ add_unit_test_suite(
         test_commandline_parser.cpp
         test_container.cpp
         test_dispatcher.cpp
+        test_element_type.cpp
         test_endianness.cpp
         test_flags.cpp
         test_from_chars.cpp
