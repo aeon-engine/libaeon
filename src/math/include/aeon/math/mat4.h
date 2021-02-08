@@ -353,6 +353,18 @@ public:
     [[nodiscard]] static auto projection_fov(const unitf<radian> fov, const size2d<T> size, const float near,
                                              const float far) noexcept -> mat4;
 
+    /*!
+     * Get a pointer to the raw matrix data buffer
+     * \return Pointer to raw data.
+     */
+    [[nodiscard]] auto data() noexcept -> std::byte *;
+
+    /*!
+     * Get a pointer to the raw matrix data buffer
+     * \return Pointer to raw data.
+     */
+    [[nodiscard]] auto data() const noexcept -> const std::byte *;
+
     std::array<vector4<float>, 4> column;
 };
 

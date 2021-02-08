@@ -347,6 +347,16 @@ template <typename T>
                           static_cast<float>(near), static_cast<float>(far));
 }
 
+[[nodiscard]] inline auto mat4::data() noexcept -> std::byte *
+{
+    return reinterpret_cast<std::byte *>(&column);
+}
+
+[[nodiscard]] inline auto mat4::data() const noexcept -> const std::byte *
+{
+    return reinterpret_cast<const std::byte *>(&column);
+}
+
 [[nodiscard]] inline constexpr auto determinant(const mat4 &mat) noexcept -> float
 {
     // clang-format off
