@@ -101,6 +101,61 @@ TEST(test_element_type, test_element_type_sizes)
     EXPECT_EQ(sizeof(double) * 2, common::element_type::f64_2.size);
     EXPECT_EQ(sizeof(double) * 3, common::element_type::f64_3.size);
     EXPECT_EQ(sizeof(double) * 4, common::element_type::f64_4.size);
+
+    EXPECT_EQ(sizeof(std::uint8_t), common::element_type::u8_1_stride_4.size);
+    EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_1_stride_4.size);
+}
+
+TEST(test_element_type, test_element_type_strides)
+{
+    EXPECT_EQ(sizeof(std::int8_t) * 1, common::element_type::s8_1.stride);
+    EXPECT_EQ(sizeof(std::int8_t) * 2, common::element_type::s8_2.stride);
+    EXPECT_EQ(sizeof(std::int8_t) * 3, common::element_type::s8_3.stride);
+    EXPECT_EQ(sizeof(std::int8_t) * 4, common::element_type::s8_4.stride);
+    EXPECT_EQ(sizeof(std::uint8_t) * 1, common::element_type::u8_1.stride);
+    EXPECT_EQ(sizeof(std::uint8_t) * 2, common::element_type::u8_2.stride);
+    EXPECT_EQ(sizeof(std::uint8_t) * 3, common::element_type::u8_3.stride);
+    EXPECT_EQ(sizeof(std::uint8_t) * 4, common::element_type::u8_4.stride);
+
+    EXPECT_EQ(sizeof(std::int16_t) * 1, common::element_type::s16_1.stride);
+    EXPECT_EQ(sizeof(std::int16_t) * 2, common::element_type::s16_2.stride);
+    EXPECT_EQ(sizeof(std::int16_t) * 3, common::element_type::s16_3.stride);
+    EXPECT_EQ(sizeof(std::int16_t) * 4, common::element_type::s16_4.stride);
+    EXPECT_EQ(sizeof(std::uint16_t) * 1, common::element_type::u16_1.stride);
+    EXPECT_EQ(sizeof(std::uint16_t) * 2, common::element_type::u16_2.stride);
+    EXPECT_EQ(sizeof(std::uint16_t) * 3, common::element_type::u16_3.stride);
+    EXPECT_EQ(sizeof(std::uint16_t) * 4, common::element_type::u16_4.stride);
+
+    EXPECT_EQ(sizeof(std::int32_t) * 1, common::element_type::s32_1.stride);
+    EXPECT_EQ(sizeof(std::int32_t) * 2, common::element_type::s32_2.stride);
+    EXPECT_EQ(sizeof(std::int32_t) * 3, common::element_type::s32_3.stride);
+    EXPECT_EQ(sizeof(std::int32_t) * 4, common::element_type::s32_4.stride);
+    EXPECT_EQ(sizeof(std::uint32_t) * 1, common::element_type::u32_1.stride);
+    EXPECT_EQ(sizeof(std::uint32_t) * 2, common::element_type::u32_2.stride);
+    EXPECT_EQ(sizeof(std::uint32_t) * 3, common::element_type::u32_3.stride);
+    EXPECT_EQ(sizeof(std::uint32_t) * 4, common::element_type::u32_4.stride);
+
+    EXPECT_EQ(sizeof(std::int64_t) * 1, common::element_type::s64_1.stride);
+    EXPECT_EQ(sizeof(std::int64_t) * 2, common::element_type::s64_2.stride);
+    EXPECT_EQ(sizeof(std::int64_t) * 3, common::element_type::s64_3.stride);
+    EXPECT_EQ(sizeof(std::int64_t) * 4, common::element_type::s64_4.stride);
+    EXPECT_EQ(sizeof(std::uint64_t) * 1, common::element_type::u64_1.stride);
+    EXPECT_EQ(sizeof(std::uint64_t) * 2, common::element_type::u64_2.stride);
+    EXPECT_EQ(sizeof(std::uint64_t) * 3, common::element_type::u64_3.stride);
+    EXPECT_EQ(sizeof(std::uint64_t) * 4, common::element_type::u64_4.stride);
+
+    EXPECT_EQ(sizeof(float) * 1, common::element_type::f32_1.stride);
+    EXPECT_EQ(sizeof(float) * 2, common::element_type::f32_2.stride);
+    EXPECT_EQ(sizeof(float) * 3, common::element_type::f32_3.stride);
+    EXPECT_EQ(sizeof(float) * 4, common::element_type::f32_4.stride);
+
+    EXPECT_EQ(sizeof(double) * 1, common::element_type::f64_1.stride);
+    EXPECT_EQ(sizeof(double) * 2, common::element_type::f64_2.stride);
+    EXPECT_EQ(sizeof(double) * 3, common::element_type::f64_3.stride);
+    EXPECT_EQ(sizeof(double) * 4, common::element_type::f64_4.stride);
+
+    EXPECT_EQ(sizeof(std::uint8_t) * 4, common::element_type::u8_1_stride_4.stride);
+    EXPECT_EQ(sizeof(std::uint8_t) * 4, common::element_type::u16_1_stride_4.stride);
 }
 
 TEST(test_element_type, test_element_type_ctor)
@@ -163,7 +218,7 @@ TEST(test_element_type, test_element_offset_of)
 {
     const common::element_type t{common::element_type::f32_4};
     const auto width = 4;
-    const auto stride = t.size * width;
+    const auto stride = t.stride * width;
 
     EXPECT_EQ(0, common::offset_of(t, stride, 0, 0));
     EXPECT_EQ(sizeof(float) * 4, common::offset_of(t, stride, 1, 0));
@@ -176,7 +231,7 @@ TEST(test_element_type, test_element_offset_of_with_stride_element)
 {
     const common::element_type t{common::element_type::u8_3_stride_4};
     const auto width = 4;
-    const auto stride = t.size * width;
+    const auto stride = t.stride * width;
 
     EXPECT_EQ(0, common::offset_of(t, stride, 0, 0));
     EXPECT_EQ(4, common::offset_of(t, stride, 1, 0));

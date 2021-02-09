@@ -47,13 +47,14 @@ create_data_type_trait(std::int64_t, element_type_name::s64);
 create_data_type_trait(float, element_type_name::f32);
 create_data_type_trait(double, element_type_name::f64);
 
-template <typename T, std::size_t count_t, std::size_t size_t = sizeof(T) * count_t>
+template <typename T, std::size_t count_t, std::size_t stride_t = sizeof(T) * count_t>
 struct element_type_info
 {
     static_assert(count_t > 0, "element_count_t must be > 0");
     static constexpr auto name = element_type_name_trait<T>::name;
     static constexpr auto count = count_t;
-    static constexpr auto size = size_t;
+    static constexpr auto size = sizeof(T) * count_t;
+    static constexpr auto stride = stride_t;
 };
 
 struct element_type final
@@ -62,6 +63,7 @@ struct element_type final
         : name{element_type_name::undefined}
         , count{0}
         , size{0}
+        , stride{0}
     {
     }
 
@@ -70,9 +72,11 @@ struct element_type final
         : name{info.name}
         , count{info.count}
         , size{info.size}
+        , stride{info.stride}
     {
         static_assert(count_t > 0, "element_count_t must be > 0");
         static_assert(info.size > 0, "size must be > 0");
+        static_assert(info.stride > 0, "stride must be > 0");
     }
 
     template <typename T, int count_t, int size_t>
@@ -80,21 +84,24 @@ struct element_type final
     {
         static_assert(count_t > 0, "element_count_t must be > 0");
         static_assert(info.size > 0, "size must be > 0");
+        static_assert(info.stride > 0, "stride must be > 0");
 
         name = info.name;
         count = info.count;
         size = info.size;
+        stride = info.stride;
         return *this;
     }
 
     [[nodiscard]] auto valid() const noexcept
     {
-        return name != element_type_name::undefined && count > 0 && size > 0;
+        return name != element_type_name::undefined && count > 0 && size > 0 && stride > 0;
     }
 
     element_type_name name;
     std::size_t count;
     std::size_t size;
+    std::size_t stride;
 
     static constexpr auto u8_1 = element_type_info<std::uint8_t, 1>{}; // 1 element of uint8_t
     static constexpr auto u8_2 = element_type_info<std::uint8_t, 2>{}; // 2 elements of uint8_t
@@ -178,7 +185,7 @@ struct element_type final
 
 inline constexpr auto operator==(const element_type &lhs, const element_type &rhs) noexcept -> bool
 {
-    return lhs.name == rhs.name && lhs.count == rhs.count && lhs.size == rhs.size;
+    return lhs.name == rhs.name && lhs.count == rhs.count && lhs.size == rhs.size && lhs.stride == rhs.stride;
 }
 
 inline constexpr auto operator!=(const element_type &lhs, const element_type &rhs) noexcept -> bool
@@ -189,7 +196,7 @@ inline constexpr auto operator!=(const element_type &lhs, const element_type &rh
 /*!
  * Calculate the offset of an element within an array of bytes
  * \param[in] type - An element type
- * \param[in] stride - The stride in bytes (Typically width * type.size)
+ * \param[in] stride - The stride in bytes (Typically width * type.stride)
  * \param[in] x - The x position
  * \param[in] y - The y position
  * \return The offset in bytes that an element would be at
@@ -201,7 +208,7 @@ inline constexpr auto operator!=(const element_type &lhs, const element_type &rh
     aeon_assert(y >= 0, "Y must be >= 0");
     aeon_assert(stride > 0, "stride must be >= 0");
 
-    return stride * y + type.size * x;
+    return stride * y + type.stride * x;
 }
 
 } // namespace aeon::common
