@@ -140,6 +140,14 @@ TEST(test_element_type, test_element_type_compare)
     EXPECT_TRUE(t != t4);
     EXPECT_TRUE(t2 != t4);
     EXPECT_TRUE(t3 != t4);
+
+    const common::element_type t5{common::element_type::u8_4};
+    const common::element_type t6{common::element_type::u8_3_stride_4};
+
+    EXPECT_TRUE(t5 != t6);
+    EXPECT_FALSE(t5 == t6);
+    EXPECT_TRUE(t6 != t5);
+    EXPECT_FALSE(t6 == t5);
 }
 
 TEST(test_element_type, test_element_type_copy)
