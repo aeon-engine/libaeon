@@ -104,6 +104,15 @@ struct element_type final
         return name != element_type_name::undefined && component_size > 0 && count > 0 && size > 0 && stride > 0;
     }
 
+    /*!
+     * Check if the component is continuous (stride == size).
+     * \return True if the component is continuous
+     */
+    [[nodiscard]] auto continuous() const noexcept
+    {
+        return stride == size;
+    }
+
     element_type_name name;
     std::size_t component_size;
     std::size_t count;
