@@ -52,6 +52,7 @@ struct element_type_info
 {
     static_assert(count_t > 0, "element_count_t must be > 0");
     static constexpr auto name = element_type_name_trait<T>::name;
+    static constexpr auto component_size = sizeof(T);
     static constexpr auto count = count_t;
     static constexpr auto size = sizeof(T) * count_t;
     static constexpr auto stride = stride_t;
@@ -61,6 +62,7 @@ struct element_type final
 {
     constexpr element_type() noexcept
         : name{element_type_name::undefined}
+        , component_size{0}
         , count{0}
         , size{0}
         , stride{0}
@@ -70,11 +72,13 @@ struct element_type final
     template <typename T, int count_t, int size_t>
     constexpr element_type(element_type_info<T, count_t, size_t> info) noexcept
         : name{info.name}
+        , component_size{info.component_size}
         , count{info.count}
         , size{info.size}
         , stride{info.stride}
     {
         static_assert(count_t > 0, "element_count_t must be > 0");
+        static_assert(info.component_size > 0, "component_size must be > 0");
         static_assert(info.size > 0, "size must be > 0");
         static_assert(info.stride > 0, "stride must be > 0");
     }
@@ -83,10 +87,12 @@ struct element_type final
     constexpr auto operator=(element_type_info<T, count_t, size_t> info) noexcept -> element_type &
     {
         static_assert(count_t > 0, "element_count_t must be > 0");
+        static_assert(info.component_size > 0, "component_size must be > 0");
         static_assert(info.size > 0, "size must be > 0");
         static_assert(info.stride > 0, "stride must be > 0");
 
         name = info.name;
+        component_size = info.component_size;
         count = info.count;
         size = info.size;
         stride = info.stride;
@@ -95,10 +101,11 @@ struct element_type final
 
     [[nodiscard]] auto valid() const noexcept
     {
-        return name != element_type_name::undefined && count > 0 && size > 0 && stride > 0;
+        return name != element_type_name::undefined && component_size > 0 && count > 0 && size > 0 && stride > 0;
     }
 
     element_type_name name;
+    std::size_t component_size;
     std::size_t count;
     std::size_t size;
     std::size_t stride;
@@ -185,7 +192,8 @@ struct element_type final
 
 inline constexpr auto operator==(const element_type &lhs, const element_type &rhs) noexcept -> bool
 {
-    return lhs.name == rhs.name && lhs.count == rhs.count && lhs.size == rhs.size && lhs.stride == rhs.stride;
+    return lhs.name == rhs.name && lhs.component_size == rhs.component_size && lhs.count == rhs.count &&
+           lhs.size == rhs.size && lhs.stride == rhs.stride;
 }
 
 inline constexpr auto operator!=(const element_type &lhs, const element_type &rhs) noexcept -> bool

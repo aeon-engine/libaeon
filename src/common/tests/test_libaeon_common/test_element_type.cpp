@@ -106,6 +106,58 @@ TEST(test_element_type, test_element_type_sizes)
     EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_1_stride_4.size);
 }
 
+TEST(test_element_type, test_element_type_component_size)
+{
+    EXPECT_EQ(sizeof(std::int8_t), common::element_type::s8_1.component_size);
+    EXPECT_EQ(sizeof(std::int8_t), common::element_type::s8_2.component_size);
+    EXPECT_EQ(sizeof(std::int8_t), common::element_type::s8_3.component_size);
+    EXPECT_EQ(sizeof(std::int8_t), common::element_type::s8_4.component_size);
+    EXPECT_EQ(sizeof(std::uint8_t), common::element_type::u8_1.component_size);
+    EXPECT_EQ(sizeof(std::uint8_t), common::element_type::u8_2.component_size);
+    EXPECT_EQ(sizeof(std::uint8_t), common::element_type::u8_3.component_size);
+    EXPECT_EQ(sizeof(std::uint8_t), common::element_type::u8_4.component_size);
+
+    EXPECT_EQ(sizeof(std::int16_t), common::element_type::s16_1.component_size);
+    EXPECT_EQ(sizeof(std::int16_t), common::element_type::s16_2.component_size);
+    EXPECT_EQ(sizeof(std::int16_t), common::element_type::s16_3.component_size);
+    EXPECT_EQ(sizeof(std::int16_t), common::element_type::s16_4.component_size);
+    EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_1.component_size);
+    EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_2.component_size);
+    EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_3.component_size);
+    EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_4.component_size);
+
+    EXPECT_EQ(sizeof(std::int32_t), common::element_type::s32_1.component_size);
+    EXPECT_EQ(sizeof(std::int32_t), common::element_type::s32_2.component_size);
+    EXPECT_EQ(sizeof(std::int32_t), common::element_type::s32_3.component_size);
+    EXPECT_EQ(sizeof(std::int32_t), common::element_type::s32_4.component_size);
+    EXPECT_EQ(sizeof(std::uint32_t), common::element_type::u32_1.component_size);
+    EXPECT_EQ(sizeof(std::uint32_t), common::element_type::u32_2.component_size);
+    EXPECT_EQ(sizeof(std::uint32_t), common::element_type::u32_3.component_size);
+    EXPECT_EQ(sizeof(std::uint32_t), common::element_type::u32_4.component_size);
+
+    EXPECT_EQ(sizeof(std::int64_t), common::element_type::s64_1.component_size);
+    EXPECT_EQ(sizeof(std::int64_t), common::element_type::s64_2.component_size);
+    EXPECT_EQ(sizeof(std::int64_t), common::element_type::s64_3.component_size);
+    EXPECT_EQ(sizeof(std::int64_t), common::element_type::s64_4.component_size);
+    EXPECT_EQ(sizeof(std::uint64_t), common::element_type::u64_1.component_size);
+    EXPECT_EQ(sizeof(std::uint64_t), common::element_type::u64_2.component_size);
+    EXPECT_EQ(sizeof(std::uint64_t), common::element_type::u64_3.component_size);
+    EXPECT_EQ(sizeof(std::uint64_t), common::element_type::u64_4.component_size);
+
+    EXPECT_EQ(sizeof(float), common::element_type::f32_1.component_size);
+    EXPECT_EQ(sizeof(float), common::element_type::f32_2.component_size);
+    EXPECT_EQ(sizeof(float), common::element_type::f32_3.component_size);
+    EXPECT_EQ(sizeof(float), common::element_type::f32_4.component_size);
+
+    EXPECT_EQ(sizeof(double), common::element_type::f64_1.component_size);
+    EXPECT_EQ(sizeof(double), common::element_type::f64_2.component_size);
+    EXPECT_EQ(sizeof(double), common::element_type::f64_3.component_size);
+    EXPECT_EQ(sizeof(double), common::element_type::f64_4.component_size);
+
+    EXPECT_EQ(sizeof(std::uint8_t), common::element_type::u8_1_stride_4.component_size);
+    EXPECT_EQ(sizeof(std::uint16_t), common::element_type::u16_1_stride_4.component_size);
+}
+
 TEST(test_element_type, test_element_type_strides)
 {
     EXPECT_EQ(sizeof(std::int8_t) * 1, common::element_type::s8_1.stride);
