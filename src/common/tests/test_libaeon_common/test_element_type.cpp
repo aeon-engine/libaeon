@@ -158,3 +158,29 @@ TEST(test_element_type, test_element_type_copy)
     EXPECT_TRUE(t == t2);
     EXPECT_FALSE(t != t2);
 }
+
+TEST(test_element_type, test_element_offset_of)
+{
+    const common::element_type t{common::element_type::f32_4};
+    const auto width = 4;
+    const auto stride = t.size * width;
+
+    EXPECT_EQ(0, common::offset_of(t, stride, 0, 0));
+    EXPECT_EQ(sizeof(float) * 4, common::offset_of(t, stride, 1, 0));
+    EXPECT_EQ(sizeof(float) * 8, common::offset_of(t, stride, 2, 0));
+    EXPECT_EQ(sizeof(float) * 12, common::offset_of(t, stride, 3, 0));
+    EXPECT_EQ(sizeof(float) * 16, common::offset_of(t, stride, 0, 1));
+}
+
+TEST(test_element_type, test_element_offset_of_with_stride_element)
+{
+    const common::element_type t{common::element_type::u8_3_stride_4};
+    const auto width = 4;
+    const auto stride = t.size * width;
+
+    EXPECT_EQ(0, common::offset_of(t, stride, 0, 0));
+    EXPECT_EQ(4, common::offset_of(t, stride, 1, 0));
+    EXPECT_EQ(8, common::offset_of(t, stride, 2, 0));
+    EXPECT_EQ(12, common::offset_of(t, stride, 3, 0));
+    EXPECT_EQ(16, common::offset_of(t, stride, 0, 1));
+}

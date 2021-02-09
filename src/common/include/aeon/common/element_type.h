@@ -186,4 +186,22 @@ inline constexpr auto operator!=(const element_type &lhs, const element_type &rh
     return !(lhs == rhs);
 }
 
+/*!
+ * Calculate the offset of an element within an array of bytes
+ * \param[in] type - An element type
+ * \param[in] stride - The stride in bytes (Typically width * type.size)
+ * \param[in] x - The x position
+ * \param[in] y - The y position
+ * \return The offset in bytes that an element would be at
+ */
+[[nodiscard]] inline constexpr auto offset_of(const element_type &type, const std::size_t stride, const std::int64_t x,
+                                              const std::int64_t y) noexcept -> std::size_t
+{
+    aeon_assert(x >= 0, "X must be >= 0");
+    aeon_assert(y >= 0, "Y must be >= 0");
+    aeon_assert(stride > 0, "stride must be >= 0");
+
+    return stride * y + type.size * x;
+}
+
 } // namespace aeon::common
