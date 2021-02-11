@@ -5,6 +5,7 @@ set(LIB_AEON_MATH_PUBLIC_SOURCE
     include/aeon/math/circle.h
     include/aeon/math/circle_stream.h
     include/aeon/math/convert_type.h
+    include/aeon/math/hash.h
     include/aeon/math/imat.h
     include/aeon/math/mat.h
     include/aeon/math/mat3.h
