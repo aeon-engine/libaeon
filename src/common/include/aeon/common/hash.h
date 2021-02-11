@@ -12,7 +12,7 @@ namespace aeon::common
 /*!
  * Magic number used in the TEA algorithm (Tiny Encryption Algorithm)
  *
- * The value originals from the golden ratio:
+ * The value originates from the golden ratio:
  * phi = (1 + sqrt(5)) / 2 = 1,6180339887498948482045868343656.
  * (int)(2^32 / phi) = 2654435769 = 0x9e3779b97f4a7c16
  */
