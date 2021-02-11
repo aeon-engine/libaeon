@@ -59,3 +59,21 @@ template <typename... args_t>
 }
 
 } // namespace aeon::common
+
+template <typename T, typename U>
+struct std::hash<std::pair<T, U>>
+{
+    inline auto operator()(const std::pair<T, U> &val) const noexcept -> std::size_t
+    {
+        return aeon::common::hash_combined(val.first, val.second);
+    }
+};
+
+template <typename... args_t>
+struct std::hash<std::tuple<args_t...>>
+{
+    inline auto operator()(const std::tuple<args_t...> &val) const noexcept -> std::size_t
+    {
+        return std::apply([](auto &...arg) { return aeon::common::hash_combined(arg...); }, val);
+    }
+};

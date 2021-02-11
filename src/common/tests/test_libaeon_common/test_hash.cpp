@@ -49,3 +49,36 @@ TEST(test_hash, test_variadic_hash_combine)
     EXPECT_NE(result2, result3);
     EXPECT_NE(result1, result3);
 }
+
+TEST(test_hash, test_hash_pair)
+{
+    std::pair<int, float> value1{1, 2.0f};
+    EXPECT_NE(0u, std::hash<decltype(value1)>{}(value1));
+
+    std::pair<float, int> value2{2.0f, 1};
+    EXPECT_NE(0u, std::hash<decltype(value2)>{}(value2));
+
+    EXPECT_NE(std::hash<decltype(value1)>{}(value1), std::hash<decltype(value2)>{}(value2));
+}
+
+TEST(test_hash, test_hash_tuple)
+{
+    std::tuple<int, float> value1{1, 2.0f};
+    EXPECT_NE(0u, std::hash<decltype(value1)>{}(value1));
+
+    std::tuple<float, int> value2{2.0f, 1};
+    EXPECT_NE(0u, std::hash<decltype(value2)>{}(value2));
+
+    EXPECT_NE(std::hash<decltype(value1)>{}(value1), std::hash<decltype(value2)>{}(value2));
+}
+
+TEST(test_hash, test_hash_pair_equal_to_tuple)
+{
+    std::pair<int, float> pair_value{1, 2.0f};
+    std::tuple<int, float> tuple_value{1, 2.0f};
+    EXPECT_EQ(std::hash<decltype(pair_value)>{}(pair_value), std::hash<decltype(tuple_value)>{}(tuple_value));
+
+    std::pair<float, int> pair_value2{2.0f, 1};
+    std::tuple<float, int> tuple_value2{2.0f, 1};
+    EXPECT_EQ(std::hash<decltype(pair_value2)>{}(pair_value2), std::hash<decltype(tuple_value2)>{}(tuple_value2));
+}
