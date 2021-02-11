@@ -41,9 +41,9 @@ void hash_combine_impl(std::size_t &seed, const T &v)
  * Should be called for each value that needs to be hashed.
  */
 template <typename... args_t>
-void hash_combine(std::size_t &seed, args_t... args)
+void hash_combine(std::size_t &seed, args_t &&...args)
 {
-    (internal::hash_combine_impl(seed, args), ...);
+    (internal::hash_combine_impl(seed, std::forward<args_t>(args)), ...);
 }
 
 /*!
@@ -51,10 +51,10 @@ void hash_combine(std::size_t &seed, args_t... args)
  * This version of the function returns the final hash instead of applying it to an existing value.
  */
 template <typename... args_t>
-[[nodiscard]] auto hash_combined(args_t... args)
+[[nodiscard]] auto hash_combined(args_t &&...args)
 {
     std::size_t seed = 0;
-    (internal::hash_combine_impl(seed, args), ...);
+    (internal::hash_combine_impl(seed, std::forward<args_t>(args)), ...);
     return seed;
 }
 

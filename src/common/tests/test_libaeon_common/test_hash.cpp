@@ -31,6 +31,13 @@ TEST(test_hash, test_hash_combined)
     EXPECT_EQ(common::hash_combined(0, 0), hash);
 }
 
+TEST(test_hash, test_hash_combined_lvalue)
+{
+    const auto value1 = 1;
+    const auto value2 = 2;
+    EXPECT_EQ(common::hash_combined(1, 2), common::hash_combined(value1, value2));
+}
+
 TEST(test_hash, test_variadic_hash_combine)
 {
     std::size_t hash = 0;
