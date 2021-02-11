@@ -25,6 +25,7 @@ set(LIB_AEON_COMMON_PUBLIC_SOURCE
     include/aeon/common/fmtflags.h
     include/aeon/common/fourcc.h
     include/aeon/common/from_chars.h
+    include/aeon/common/hash.h
     include/aeon/common/hexdump.h
     include/aeon/common/intrinsics.h
     include/aeon/common/lexical_parse.h
