@@ -5,12 +5,13 @@ set(LIB_AEON_MATH_PUBLIC_SOURCE
     include/aeon/math/circle.h
     include/aeon/math/circle_stream.h
     include/aeon/math/convert_type.h
+    include/aeon/math/imat.h
     include/aeon/math/mat.h
-    include/aeon/math/mat_view.h
     include/aeon/math/mat3.h
     include/aeon/math/mat3_stream.h
     include/aeon/math/mat4.h
     include/aeon/math/mat4_stream.h
+    include/aeon/math/mat_view.h
     include/aeon/math/math.h
     include/aeon/math/math_fwd.h
     include/aeon/math/perlin_noise.h
@@ -43,10 +44,9 @@ source_group(public FILES ${LIB_AEON_MATH_PUBLIC_SOURCE})
 
 set(LIB_AEON_MATH_PUBLIC_IMPL_SOURCE
     include/aeon/math/impl/circle_impl.h
+    include/aeon/math/impl/imat_impl.h
     include/aeon/math/impl/mat_impl.h
-    include/aeon/math/impl/mat_operators_impl.h
     include/aeon/math/impl/mat_view_impl.h
-    include/aeon/math/impl/mat_view_operators_impl.h
     include/aeon/math/impl/mat3_impl.h
     include/aeon/math/impl/mat3_operators_impl.h
     include/aeon/math/impl/mat4_impl.h

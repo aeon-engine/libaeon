@@ -42,39 +42,7 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
 }
 
 inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
-                const std::vector<underlying_type> &data)
-    : mat_view{type, dimensions, nullptr}
-    , data_{data}
-{
-    mat_view::data_ptr_ = std::data(data_);
-}
-
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
-                const std::vector<underlying_type> &data)
-    : mat_view{type, width, height, nullptr}
-    , data_{data}
-{
-    mat_view::data_ptr_ = std::data(data_);
-}
-
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
-                const std::vector<underlying_type> &data)
-    : mat_view{type, dimensions, stride, nullptr}
-    , data_{data}
-{
-    mat_view::data_ptr_ = std::data(data_);
-}
-
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
-                const stride_type stride, const std::vector<underlying_type> &data)
-    : mat_view{type, width, height, stride, nullptr}
-    , data_{data}
-{
-    mat_view::data_ptr_ = std::data(data_);
-}
-
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
-                std::vector<underlying_type> &&data) noexcept
+                std::vector<underlying_type> data) noexcept
     : mat_view{type, dimensions, nullptr}
     , data_{std::move(data)}
 {
@@ -82,7 +50,7 @@ inline mat::mat(const common::element_type type, const size2d<dimensions_type> d
 }
 
 inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
-                std::vector<underlying_type> &&data) noexcept
+                std::vector<underlying_type> data) noexcept
     : mat_view{type, width, height, nullptr}
     , data_{std::move(data)}
 {
@@ -90,7 +58,7 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
 }
 
 inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
-                std::vector<underlying_type> &&data) noexcept
+                std::vector<underlying_type> data) noexcept
     : mat_view{type, dimensions, stride, nullptr}
     , data_{std::move(data)}
 {
@@ -98,7 +66,7 @@ inline mat::mat(const common::element_type type, const size2d<dimensions_type> d
 }
 
 inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
-                const stride_type stride, std::vector<underlying_type> &&data) noexcept
+                const stride_type stride, std::vector<underlying_type> data) noexcept
     : mat_view{type, width, height, stride, nullptr}
     , data_{std::move(data)}
 {
@@ -136,16 +104,14 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
     copy_from_pointer(data);
 }
 
-template <typename T>
-inline mat::mat(const mat_view_base<T> &other)
+inline mat::mat(const imat &other)
     : mat_view{math::element_type(other), math::dimensions(other), math::stride(other), nullptr}
     , data_{}
 {
     copy_from_pointer(std::data(other));
 }
 
-template <typename T>
-inline auto mat::operator=(const mat_view_base<T> &other) -> mat &
+inline auto mat::operator=(const imat &other) -> mat &
 {
     if (this != &other) [[likely]]
     {

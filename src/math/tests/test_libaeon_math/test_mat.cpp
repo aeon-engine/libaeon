@@ -19,61 +19,6 @@ TEST(test_mat, test_mat_default)
     EXPECT_EQ(0.0f, math::element_type(mat).size);
 }
 
-TEST(test_mat, test_add)
-{
-    // clang-format off
-    math::mat3 mat3
-    {
-        1.0f, 2.0f, 3.0f,
-        4.0f, 5.0f, 6.0f,
-        7.0f, 8.0f, 9.0f
-    };
-    // clang-format on
-
-    const auto mat = static_cast<math::mat>(math::make_view(mat3));
-    EXPECT_EQ(common::element_type_name::f32, math::element_type(mat).name);
-    EXPECT_EQ(1, math::element_type(mat).count);
-    EXPECT_EQ(sizeof(float), math::element_type(mat).size);
-
-    EXPECT_EQ(1.0f, mat.at<float>(0, 0));
-    EXPECT_EQ(2.0f, mat.at<float>(0, 1));
-    EXPECT_EQ(3.0f, mat.at<float>(0, 2));
-
-    EXPECT_EQ(4.0f, mat.at<float>(1, 0));
-    EXPECT_EQ(5.0f, mat.at<float>(1, 1));
-    EXPECT_EQ(6.0f, mat.at<float>(1, 2));
-
-    EXPECT_EQ(7.0f, mat.at<float>(2, 0));
-    EXPECT_EQ(8.0f, mat.at<float>(2, 1));
-    EXPECT_EQ(9.0f, mat.at<float>(2, 2));
-
-    const auto mat_copy = mat + 10.0f;
-
-    EXPECT_EQ(1.0f, mat.at<float>(0, 0));
-    EXPECT_EQ(2.0f, mat.at<float>(0, 1));
-    EXPECT_EQ(3.0f, mat.at<float>(0, 2));
-
-    EXPECT_EQ(4.0f, mat.at<float>(1, 0));
-    EXPECT_EQ(5.0f, mat.at<float>(1, 1));
-    EXPECT_EQ(6.0f, mat.at<float>(1, 2));
-
-    EXPECT_EQ(7.0f, mat.at<float>(2, 0));
-    EXPECT_EQ(8.0f, mat.at<float>(2, 1));
-    EXPECT_EQ(9.0f, mat.at<float>(2, 2));
-
-    EXPECT_EQ(11.0f, mat_copy.at<float>(0, 0));
-    EXPECT_EQ(12.0f, mat_copy.at<float>(0, 1));
-    EXPECT_EQ(13.0f, mat_copy.at<float>(0, 2));
-
-    EXPECT_EQ(14.0f, mat_copy.at<float>(1, 0));
-    EXPECT_EQ(15.0f, mat_copy.at<float>(1, 1));
-    EXPECT_EQ(16.0f, mat_copy.at<float>(1, 2));
-
-    EXPECT_EQ(17.0f, mat_copy.at<float>(2, 0));
-    EXPECT_EQ(18.0f, mat_copy.at<float>(2, 1));
-    EXPECT_EQ(19.0f, mat_copy.at<float>(2, 2));
-}
-
 TEST(test_mat, test_clone)
 {
     // clang-format off
