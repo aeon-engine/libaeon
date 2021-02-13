@@ -46,6 +46,11 @@ public:
     glyph(glyph &&other) noexcept = default;
     auto operator=(glyph &&other) noexcept -> glyph & = default;
 
+    [[nodiscard]] auto has_view() const noexcept
+    {
+        return math::valid(view_);
+    }
+
     [[nodiscard]] auto &view() const noexcept
     {
         return view_;

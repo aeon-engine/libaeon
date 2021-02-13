@@ -73,7 +73,7 @@ static auto generate_text_image(const fonts::face &face, const std::u8string &st
 
         const auto glyph = face.load_glyph(c);
 
-        if (math::valid(glyph.view()))
+        if (glyph.has_view())
         {
             if (glyph.pixel_type() == fonts::glyph_pixel_type::gray)
                 math::blit(imaging::convert::to_rgb_copy(glyph.view()), image, position + glyph.offset());
