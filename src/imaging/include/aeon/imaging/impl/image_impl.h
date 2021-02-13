@@ -5,83 +5,128 @@
 namespace aeon::imaging
 {
 
-template <typename T>
-inline image<T>::image()
-    : image_view<T>{}
+inline image::image() noexcept
+    : image_view{}
     , data_{}
 {
 }
 
-template <typename T>
-inline image<T>::image(const image_descriptor<T> &descriptor)
-    : image_view<T>{descriptor}
-    , data_(size(descriptor))
+inline image::image(const common::element_type type, const pixel_encoding encoding,
+                    const math::size2d<dimensions_type> dimensions) noexcept
+    : image_view{type, encoding, dimensions, nullptr}
+    , data_(math::width(dimensions) * type.stride * math::height(dimensions))
 {
-    image_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline image<T>::image(const image_descriptor<T> &descriptor, const std::vector<std::byte> &data)
-    : image_view<T>{descriptor}
-    , data_{data}
+inline image::image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                    const dimensions_type height) noexcept
+    : image_view{type, encoding, width, height, nullptr}
+    , data_(width * type.stride * height)
 {
-    image_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline image<T>::image(const image_descriptor<T> &descriptor, std::vector<std::byte> &&data)
-    : image_view<T>{descriptor}
+inline image::image(const common::element_type type, const pixel_encoding encoding,
+                    const math::size2d<dimensions_type> dimensions, const stride_type stride) noexcept
+    : image_view{type, encoding, dimensions, stride, nullptr}
+    , data_(stride * math::height(dimensions))
+{
+    mat_view::data_ptr_ = std::data(data_);
+}
+
+inline image::image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                    const dimensions_type height, const stride_type stride) noexcept
+    : image_view{type, encoding, width, height, stride, nullptr}
+    , data_(stride * height)
+{
+    mat_view::data_ptr_ = std::data(data_);
+}
+
+inline image::image(const common::element_type type, const pixel_encoding encoding,
+                    const math::size2d<dimensions_type> dimensions, std::vector<underlying_type> data) noexcept
+    : image_view{type, encoding, dimensions, nullptr}
     , data_{std::move(data)}
 {
-    image_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline image<T>::image(const image_view<T> &view)
-    : image_view<T>{descriptor(view)}
-    , data_(size(descriptor(view)))
+inline image::image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                    const dimensions_type height, std::vector<underlying_type> data) noexcept
+    : image_view{type, encoding, width, height, nullptr}
+    , data_{std::move(data)}
 {
-    std::copy_n(view.template data<std::byte>(), size(descriptor(view)), std::data(data_));
-    image_view<T>::data_ptr_ = std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-inline image<T>::~image() = default;
-
-template <typename T>
-[[nodiscard]] inline auto image<T>::clone() const -> image<T>
+inline image::image(const common::element_type type, const pixel_encoding encoding,
+                    const math::size2d<dimensions_type> dimensions, const stride_type stride,
+                    std::vector<underlying_type> data) noexcept
+    : image_view{type, encoding, dimensions, stride, nullptr}
+    , data_{std::move(data)}
 {
-    return image{image_view<T>::descriptor_, data_};
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-[[nodiscard]] inline auto image<T>::raw_data() noexcept -> std::byte *
+inline image::image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                    const dimensions_type height, const stride_type stride, std::vector<underlying_type> data) noexcept
+    : image_view{type, encoding, width, height, stride, nullptr}
+    , data_{std::move(data)}
 {
-    return std::data(data_);
+    mat_view::data_ptr_ = std::data(data_);
 }
 
-template <typename T>
-[[nodiscard]] inline auto image<T>::raw_data() const noexcept -> const std::byte *
+inline image::image(const common::element_type type, const pixel_encoding encoding,
+                    const math::size2d<dimensions_type> dimensions, const underlying_type *data)
+    : image_view{type, encoding, dimensions, nullptr}
+    , data_{}
 {
-    return std::data(data_);
+    copy_from_pointer(data);
 }
 
-template <typename T>
-[[nodiscard]] inline auto image<T>::move_to_dynamic_image() -> std::unique_ptr<image_base>
+inline image::image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                    const dimensions_type height, const underlying_type *data)
+    : image_view{type, encoding, width, height, nullptr}
+    , data_{}
 {
-    return std::make_unique<image<T>>(image_view<T>::descriptor_, std::move(data_));
+    copy_from_pointer(data);
 }
 
-template <typename T>
-[[nodiscard]] inline auto raw_data(image<T> &image) noexcept -> std::byte *
+inline image::image(const common::element_type type, const pixel_encoding encoding,
+                    const math::size2d<dimensions_type> dimensions, const stride_type stride,
+                    const underlying_type *data)
+    : image_view{type, encoding, dimensions, stride, nullptr}
+    , data_{}
 {
-    return image.raw_data();
+    copy_from_pointer(data);
 }
 
-template <typename T>
-[[nodiscard]] inline auto raw_data(const image<T> &image) noexcept -> const std::byte *
+inline image::image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                    const dimensions_type height, const stride_type stride, const underlying_type *data)
+    : image_view{type, encoding, width, height, stride, nullptr}
+    , data_{}
 {
-    return image.raw_data();
+    copy_from_pointer(data);
+}
+
+inline image::image(const iimage &view)
+    : image_view{math::element_type(view), imaging::encoding(view), math::dimensions(view), math::stride(view), nullptr}
+    , data_{}
+{
+    copy_from_pointer(std::data(view));
+}
+
+inline auto image::clone() const -> image
+{
+    return image{type_, encoding_, dimensions_, stride_, data_};
+}
+
+inline void image::copy_from_pointer(const underlying_type *data)
+{
+    const auto size = mat_view::size();
+    data_.resize(size);
+    mat_view::data_ptr_ = std::data(data_);
+    std::copy_n(data, size, std::begin(data_));
 }
 
 } // namespace aeon::imaging

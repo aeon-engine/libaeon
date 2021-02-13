@@ -3,31 +3,21 @@
 handle_local_dependencies_file()
 
 set(LIB_AEON_IMAGING_PUBLIC_SOURCE
-    include/aeon/imaging/dimension.h
-    include/aeon/imaging/dynamic_image.h
-    include/aeon/imaging/dynamic_image_descriptor.h
-    include/aeon/imaging/dynamic_image_fwd.h
     include/aeon/imaging/exceptions.h
+    include/aeon/imaging/iimage.h
     include/aeon/imaging/image.h
-    include/aeon/imaging/image_base.h
-    include/aeon/imaging/image_descriptor.h
     include/aeon/imaging/image_view.h
     include/aeon/imaging/pixel_encoding.h
     include/aeon/imaging/pixel_encoding_traits.h
     include/aeon/imaging/pixel_math.h
-    include/aeon/imaging/shared_image.h
 )
 
 source_group(public FILES ${LIB_AEON_IMAGING_PUBLIC_SOURCE})
 
 set(LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE
-    include/aeon/imaging/impl/dynamic_image_descriptor_impl.h
-    include/aeon/imaging/impl/dynamic_image_impl.h
-    include/aeon/imaging/impl/image_descriptor_impl.h
     include/aeon/imaging/impl/image_impl.h
     include/aeon/imaging/impl/image_view_impl.h
-    include/aeon/imaging/impl/pixel_encoding_impl.h
-    include/aeon/imaging/impl/shared_image_impl.h
+    include/aeon/imaging/impl/pixel_encoding_impl
 )
 
 source_group(public\\impl FILES ${LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE})
@@ -52,12 +42,6 @@ set(LIB_AEON_IMAGING_PRIVATE_FILE_SOURCE
 
 source_group(private\\file FILES ${LIB_AEON_IMAGING_PRIVATE_FILE_SOURCE})
 
-set(LIB_AEON_IMAGING_PUBLIC_GENERATORS_SOURCE
-    include/aeon/imaging/generators/simplex_noise.h
-)
-
-source_group(public\\generators FILES ${LIB_AEON_IMAGING_PUBLIC_GENERATORS_SOURCE})
-
 set(LIB_AEON_IMAGING_PUBLIC_CONVERTERS_SOURCE
     include/aeon/imaging/converters/convert_pixel.h
     include/aeon/imaging/converters/convert_encoding.h
@@ -73,9 +57,6 @@ set(LIB_AEON_IMAGING_PRIVATE_CONVERTERS_SOURCE
 source_group(private\\converters FILES ${LIB_AEON_IMAGING_PRIVATE_CONVERTERS_SOURCE})
 
 set(LIB_AEON_IMAGING_PUBLIC_FILTERS_SOURCE
-    include/aeon/imaging/filters/blit.h
-    include/aeon/imaging/filters/fill.h
-    include/aeon/imaging/filters/invert.h
     include/aeon/imaging/filters/resize.h
 )
 
@@ -92,7 +73,6 @@ add_library(aeon_imaging STATIC
     ${LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE}
     ${LIB_AEON_IMAGING_PUBLIC_FILE_SOURCE}
     ${LIB_AEON_IMAGING_PRIVATE_FILE_SOURCE}
-    ${LIB_AEON_IMAGING_PUBLIC_GENERATORS_SOURCE}
     ${LIB_AEON_IMAGING_PUBLIC_CONVERTERS_SOURCE}
     ${LIB_AEON_IMAGING_PRIVATE_CONVERTERS_SOURCE}
     ${LIB_AEON_IMAGING_PUBLIC_FILTERS_SOURCE}

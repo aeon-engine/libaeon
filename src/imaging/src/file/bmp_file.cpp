@@ -1,7 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/imaging/file/bmp_file.h>
-#include <aeon/imaging/filters/invert.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/common/compilers.h>
@@ -43,50 +42,54 @@ struct bitmap_info_header
     std::uint32_t clr_important;
 } AEON_PACK_STRUCT_POP(1);
 
-[[nodiscard]] static auto calculate_stride(const bitmap_info_header &info_header) noexcept
+[[nodiscard]] static auto calculate_stride(const bitmap_info_header &info_header) noexcept -> std::size_t
 {
-    return 4 * ((info_header.width * info_header.bitcount + 31) / 32);
+    return ((info_header.width * info_header.bitcount + 31) / 32) * 4ull;
 }
 
 } // namespace detail
 
-[[nodiscard]] auto load(const std::filesystem::path &path) -> dynamic_image
+[[nodiscard]] auto load(const std::filesystem::path &path) -> image
 {
     auto stream = streams::make_dynamic_stream(streams::file_source_device{path});
     return load(stream);
 }
 
-[[nodiscard]] auto load(streams::idynamic_stream &stream) -> dynamic_image
+[[nodiscard]] auto load(streams::idynamic_stream &stream) -> image
 {
     detail::bitmap_file_header header{};
 
     if (stream.read(reinterpret_cast<char *>(&header), aeon_signed_sizeof(detail::bitmap_file_header)) !=
         aeon_signed_sizeof(detail::bitmap_file_header))
-        throw load_exception();
+        throw load_exception{};
 
     if (header.type != detail::expected_bitmap_type)
-        throw load_exception();
+        throw load_exception{};
 
     detail::bitmap_info_header info_header{};
 
     if (stream.read(reinterpret_cast<char *>(&info_header), aeon_signed_sizeof(detail::bitmap_info_header)) !=
         aeon_signed_sizeof(detail::bitmap_info_header))
-        throw load_exception();
+        throw load_exception{};
 
     if (!stream.seekg(header.offbits, streams::seek_direction::begin))
-        throw load_exception();
+        throw load_exception{};
 
     std::vector<std::byte> pixel_data(info_header.size_image);
 
     if (stream.read(reinterpret_cast<char *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
-        throw load_exception();
+        throw load_exception{};
 
-    const auto d =
-        image_descriptor<bgr24>{{static_cast<dimension>(info_header.width), static_cast<dimension>(info_header.height)},
-                                static_cast<dimension>(detail::calculate_stride(info_header))};
+    auto img = image{common::element_type::u8_3,
+                     pixel_encoding::bgr,
+                     info_header.width,
+                     info_header.height,
+                     detail::calculate_stride(info_header),
+                     std::move(pixel_data)};
 
-    const auto img = image<bgr24>{d, std::move(pixel_data)};
-    return dynamic_image(filters::invert_vertically(img));
+    math::invert_vertically(img);
+
+    return img;
 }
 
 } // namespace aeon::imaging::file::bmp

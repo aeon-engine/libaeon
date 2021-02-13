@@ -68,29 +68,30 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
         throw font_exception{};
 }
 
-[[nodiscard]] static auto create_image_view_uint8(const FT_Bitmap &bitmap) noexcept -> imaging::image_view<std::uint8_t>
+[[nodiscard]] static auto create_image_view_uint8(const FT_Bitmap &bitmap) noexcept -> imaging::image_view
 {
     if (!bitmap.buffer)
         return {};
 
     aeon_assert(bitmap.pixel_mode == FT_PIXEL_MODE_GRAY, "Expected gray uint8 pixel format.");
 
-    const imaging::image_descriptor<std::uint8_t> descriptor{
-        math::size2d<imaging::dimension>{bitmap.width, bitmap.rows}, bitmap.pitch};
-    return imaging::image_view{descriptor, reinterpret_cast<const std::byte *>(bitmap.buffer)};
+    return imaging::image_view{common::element_type::u8_1, imaging::pixel_encoding::monochrome,
+                               math::size2d<imaging::image_view::dimensions_type>{bitmap.width, bitmap.rows},
+                               static_cast<imaging::image_view::stride_type>(bitmap.pitch),
+                               reinterpret_cast<std::byte *>(bitmap.buffer)};
 }
 
-[[nodiscard]] static auto create_image_view_bgra32(const FT_Bitmap &bitmap) noexcept
-    -> imaging::image_view<imaging::bgra32>
+[[nodiscard]] static auto create_image_view_bgra32(const FT_Bitmap &bitmap) noexcept -> imaging::image_view
 {
     if (!bitmap.buffer)
         return {};
 
     aeon_assert(bitmap.pixel_mode == FT_PIXEL_MODE_BGRA, "Expected BGRA32 pixel format.");
 
-    const imaging::image_descriptor<imaging::bgra32> descriptor{
-        math::size2d<imaging::dimension>{bitmap.width, bitmap.rows}, bitmap.pitch};
-    return imaging::image_view{descriptor, reinterpret_cast<const std::byte *>(bitmap.buffer)};
+    return imaging::image_view{common::element_type::u8_4, imaging::pixel_encoding::bgra,
+                               math::size2d<imaging::image_view::dimensions_type>{bitmap.width, bitmap.rows},
+                               static_cast<imaging::image_view::stride_type>(bitmap.pitch),
+                               reinterpret_cast<std::byte *>(bitmap.buffer)};
 }
 
 [[nodiscard]] static auto load_glyph(const FT_Face face, const bool has_color_emoji, const int dimensions_px,

@@ -269,6 +269,30 @@ template <typename T>
 [[nodiscard]] inline auto at(const imat &m, const imat::dimensions_type x, const imat::dimensions_type y) noexcept
     -> const T *;
 
+/*!
+ * Fill the given matrix with a value. The given type must match the element_type, otherwise it will trigger undefined
+ * behavior.
+ */
+template <typename T>
+inline void fill(imat &m, const T value) noexcept;
+
+/*!
+ * Fill a part of the given matrix with a value. The given type must match the element_type, otherwise it will trigger
+ * undefined behavior.
+ */
+template <typename T>
+inline void fill(imat &m, const math::rectangle<imat::dimensions_type> rect, const T value) noexcept;
+
+/*!
+ * Blit the contents of one matrix into another
+ */
+inline void blit(const imat &src, imat &dst, const vector2<imat::dimensions_type> pos) noexcept;
+
+/*!
+ * Invert the given matrix vertically (flip upside-down)
+ */
+inline void invert_vertically(imat &m);
+
 } // namespace aeon::math
 
 #include <aeon/math/impl/imat_impl.h>

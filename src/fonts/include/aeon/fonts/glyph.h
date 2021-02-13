@@ -18,10 +18,9 @@ enum class glyph_pixel_type
 class [[nodiscard]] glyph final
 {
 public:
-    explicit glyph(imaging::image_view<std::uint8_t> view, const math::vector2<int> &offset,
+    explicit glyph(imaging::image_view view, const math::vector2<int> &offset,
                    const math::vector2<int> &advance) noexcept
         : view_{std::move(view)}
-        , color_view_{}
         , offset_{offset}
         , advance_{advance}
         , pixel_type_{glyph_pixel_type::gray}
@@ -29,12 +28,11 @@ public:
     {
     }
 
-    explicit glyph(imaging::image_view<imaging::bgra32> view, const math::vector2<int> &offset,
-                   const math::vector2<int> &advance, const int dimensions) noexcept
-        : view_{}
-        , color_view_{std::move(view)}
-        , offset_{offset * (static_cast<float>(dimensions) / static_cast<float>(imaging::width(view)))}
-        , advance_{advance * (static_cast<float>(dimensions) / static_cast<float>(imaging::width(view)))}
+    explicit glyph(imaging::image_view view, const math::vector2<int> &offset, const math::vector2<int> &advance,
+                   const int dimensions) noexcept
+        : view_{std::move(view)}
+        , offset_{offset * (static_cast<float>(dimensions) / static_cast<float>(math::width(view)))}
+        , advance_{advance * (static_cast<float>(dimensions) / static_cast<float>(math::width(view)))}
         , pixel_type_{glyph_pixel_type::color}
         , dimensions_{dimensions}
     {
@@ -51,11 +49,6 @@ public:
     [[nodiscard]] auto &view() const noexcept
     {
         return view_;
-    }
-
-    [[nodiscard]] auto &color_view() const noexcept
-    {
-        return color_view_;
     }
 
     [[nodiscard]] auto offset() const noexcept
@@ -86,8 +79,7 @@ public:
     }
 
 private:
-    imaging::image_view<std::uint8_t> view_;
-    imaging::image_view<imaging::bgra32> color_view_;
+    imaging::image_view view_;
     math::vector2<int> offset_;
     math::vector2<int> advance_;
     glyph_pixel_type pixel_type_;

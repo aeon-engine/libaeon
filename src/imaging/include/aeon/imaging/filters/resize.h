@@ -3,7 +3,6 @@
 #pragma once
 
 #include <aeon/imaging/image.h>
-#include <aeon/imaging/dynamic_image.h>
 
 namespace aeon::imaging::filters
 {
@@ -14,14 +13,19 @@ namespace detail
 template <typename T>
 struct resize_bilinear_impl
 {
-    static auto process(const image_view<T> &img, const math::size2d<dimension> size) -> image<T>
+    static auto process(const iimage &img, const common::element_type element_type,
+                        const math::size2d<image::dimensions_type> size) -> image
     {
-        image new_image(image_descriptor<T>{size});
-        const auto dst = new_image.data();
+        const auto source_stride = math::stride(img);
+        image new_image{element_type, encoding(img), size};
+        const auto dest_stride = math::stride(new_image);
 
-        const float x_ratio = static_cast<float>(width(img) - 1) / width(size);
-        const float y_ratio = static_cast<float>(height(img) - 1) / height(size);
-        auto offset = 0;
+        const auto *const src = std::data(img);
+        auto *const dst = std::data(new_image);
+
+        const float x_ratio = static_cast<float>(width(img) - 1) / static_cast<float>(width(size));
+        const float y_ratio = static_cast<float>(height(img) - 1) / static_cast<float>(height(size));
+
         for (auto i = 0; i < height(size); ++i)
         {
             for (auto j = 0; j < width(size); ++j)
@@ -31,15 +35,18 @@ struct resize_bilinear_impl
                 const auto x_diff = (x_ratio * j) - x;
                 const auto y_diff = (y_ratio * i) - y;
 
-                const auto &A = img.at({x, y});
-                const auto &B = img.at({x + 1, y});
-                const auto &C = img.at({x, y + 1});
-                const auto &D = img.at({x + 1, y + 1});
+                const auto A = *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x, y));
+                const auto B =
+                    *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x + 1, y));
+                const auto C =
+                    *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x, y + 1));
+                const auto D =
+                    *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x + 1, y + 1));
 
                 // Y = A(1-w)(1-h) + B(w)(1-h) + C(h)(1-w) + Dwh
-                dst[offset++] =
-                    static_cast<T>((A * (1.0f - x_diff) * (1.0f - y_diff)) + (B * (x_diff) * (1.0f - y_diff)) +
-                                   (C * (y_diff) * (1.0f - x_diff)) + (D * (x_diff * y_diff)));
+                *reinterpret_cast<T *>(dst + common::offset_of(element_type, dest_stride, j, i)) =
+                    static_cast<T>(((A * (1.0f - x_diff) * (1.0f - y_diff)) + (B * (x_diff) * (1.0f - y_diff)) +
+                                    (C * (y_diff) * (1.0f - x_diff)) + (D * (x_diff * y_diff))));
             }
         }
 
@@ -49,15 +56,35 @@ struct resize_bilinear_impl
 
 } // namespace detail
 
-template <typename T>
-[[nodiscard]] inline auto resize_bilinear(const image_view<T> &img, const math::size2d<dimension> size) -> image<T>
+[[nodiscard]] inline auto resize_bilinear(const iimage &img, const math::size2d<image::dimensions_type> size) -> image
 {
-    return detail::resize_bilinear_impl<T>::process(img, size);
-}
+    const auto element_type = math::element_type(img);
+    const auto encoding = imaging::encoding(img);
 
-[[nodiscard]] inline auto resize_bilinear(const dynamic_image &img, const math::size2d<dimension> size) -> dynamic_image
-{
-    return process_image_to_copy<detail::resize_bilinear_impl>(img, size);
+    if (element_type == common::element_type::u8_3 || element_type == common::element_type::u8_3_stride_4)
+    {
+        if (encoding == pixel_encoding::rgb)
+            return detail::resize_bilinear_impl<rgb24>::process(img, element_type, size);
+        else if (encoding == pixel_encoding::bgr)
+            return detail::resize_bilinear_impl<bgr24>::process(img, element_type, size);
+    }
+    else if (element_type == common::element_type::u8_4)
+    {
+        if (encoding == pixel_encoding::rgba)
+            return detail::resize_bilinear_impl<rgba32>::process(img, element_type, size);
+        else if (encoding == pixel_encoding::bgra)
+            return detail::resize_bilinear_impl<bgra32>::process(img, element_type, size);
+    }
+    else if (element_type == common::element_type::f32_1 || element_type == common::element_type::f32_1_stride_8)
+    {
+        return detail::resize_bilinear_impl<float>::process(img, element_type, size);
+    }
+    else if (element_type == common::element_type::f64_1)
+    {
+        return detail::resize_bilinear_impl<double>::process(img, element_type, size);
+    }
+
+    throw std::runtime_error{"Unsupported format."};
 }
 
 } // namespace aeon::imaging::filters

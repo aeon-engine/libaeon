@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <aeon/imaging/dimension.h>
 #include <aeon/common/compilers.h>
+#include <cstdint>
 
 namespace aeon::imaging
 {
@@ -50,16 +50,14 @@ struct bgra32
 
 static_assert(sizeof(bgra32) == 4, "Alignment problem: bgra32 must be 4 bytes in size.");
 
-enum class pixel_encoding : std::uint32_t
+enum class pixel_encoding
 {
-    unsigned8 = 0,
-    unsigned16 = 1,
-    unsigned32 = 2,
-    float32 = 3,
-    rgb24 = 4,
-    rgba32 = 5,
-    bgr24 = 6,
-    bgra32 = 7
+    monochrome,
+    rgb,
+    rgba,
+    bgr,
+    bgra,
+    undefined
 };
 
 inline auto operator*(const rgb24 lhs, const float rhs) noexcept -> rgb24;

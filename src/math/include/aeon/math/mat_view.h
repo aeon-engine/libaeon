@@ -3,7 +3,6 @@
 #pragma once
 
 #include <aeon/math/imat.h>
-#include <type_traits>
 
 namespace aeon::math
 {

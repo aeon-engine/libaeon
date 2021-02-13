@@ -16,7 +16,7 @@
  */
 
 #include <aeon/math/simplex_noise.h>
-
+#include <stdexcept>
 #include <cmath>
 
 namespace aeon::math::simplex_noise
@@ -208,6 +208,29 @@ static const int simplex[64][4] = {
 {
     return octave_noise_4d(octaves, persistence, scale, x, y, z, w) * (hiBound - loBound) / 2.0f +
            (hiBound + loBound) / 2.0f;
+}
+
+void scaled_octave_noise(imat &matrix, const float octaves, const float persistence, const float scale)
+{
+    const auto width = math::width(matrix);
+    const auto height = math::height(matrix);
+    const auto stride = math::stride(matrix);
+    const auto element_type = math::element_type(matrix);
+
+    if (element_type != common::element_type::f32_1 && element_type != common::element_type::f32_1_stride_8)
+        throw std::runtime_error{"Matrix must be element_type::f32_1 or common::element_type::f32_1_stride_8"};
+
+    auto *const data = std::data(matrix);
+
+    for (auto y = 0; y < height; ++y)
+    {
+        for (auto x = 0; x < width; ++x)
+        {
+            auto *float_data = reinterpret_cast<float *>(data + common::offset_of(element_type, stride, x, y));
+            *float_data = scaled_octave_noise_2d(octaves, persistence, scale, 0.0f, 1.0f, static_cast<float>(x),
+                                                 static_cast<float>(y));
+        }
+    }
 }
 
 // 2D Scaled Simplex raw noise.

@@ -88,8 +88,8 @@ inline mat_view::mat_view(const common::element_type type, const dimensions_type
 [[nodiscard]] inline auto make_view(mat_view &view, const rectangle<int> &rect) noexcept -> mat_view
 {
     aeon_assert(math::contains(rect, rectangle<int>{0, 0, dimensions(view)}),
-                "View rectangle does not fit within image.");
-    return mat_view(element_type(view), width(rect), height(rect), stride(view), at(view, left(rect), top(rect)));
+                "View rectangle does not fit within matrix.");
+    return mat_view{element_type(view), width(rect), height(rect), stride(view), at(view, left(rect), top(rect))};
 }
 
 [[nodiscard]] inline auto make_view(mat3 &mat) noexcept -> mat_view

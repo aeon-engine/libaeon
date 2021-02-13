@@ -9,9 +9,7 @@
 #pragma once
 
 #include <aeon/imaging/image_view.h>
-#include <aeon/imaging/image_base.h>
 #include <vector>
-#include <memory>
 
 /*!
  * Imaging library with support for reading, writing and filtering images of
@@ -24,48 +22,165 @@ namespace aeon::imaging
  * An image. This class is owns the underlying pixel data and provides are view on
  * this data through image_view.
  */
-template <typename T>
-class image : public image_view<T>, public image_base
+class image : public image_view
 {
-    friend class dynamic_image;
-
 public:
-    /*!
-     * Create an empty image. This will create an image (and view) that is marked
-     * as "null" and "invalid".
-     */
-    image();
+    using underlying_type = image::underlying_type;
+    using dimensions_type = image::dimensions_type;
+    using size_type = image::size_type;
+    using stride_type = image::stride_type;
 
     /*!
-     * Create a new image. This will allocate memory based on the values set
-     * in the image descriptor.
+     * Create an empty image.
      */
-    explicit image(const image_descriptor<T> &descriptor);
+    image() noexcept;
 
     /*!
-     * Create a new image by copying existing pixel data from a vector.
-     * The size of the vector must match the values set in the given image descriptor.
+     * Create an image with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] dimensions - The width and height of the image.
      */
-    explicit image(const image_descriptor<T> &descriptor, const std::vector<std::byte> &data);
+    explicit image(const common::element_type type, const pixel_encoding encoding,
+                   const math::size2d<dimensions_type> dimensions) noexcept;
 
     /*!
-     * Create a new image by moving existing pixel data from a vector (take over ownership).
-     * The size of the vector must match the values set in the given image descriptor.
+     * Create an image with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
      */
-    explicit image(const image_descriptor<T> &descriptor, std::vector<std::byte> &&data);
+    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                   const dimensions_type height) noexcept;
 
     /*!
-     * Make a copy of the given image_view.
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit image(const image_view<T> &view);
+    explicit image(const common::element_type type, const pixel_encoding encoding,
+                   const math::size2d<dimensions_type> dimensions, const stride_type stride) noexcept;
 
-    ~image() override;
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                   const dimensions_type height, const stride_type stride) noexcept;
 
-    image(const image<T> &) = delete;
-    auto operator=(const image<T> &) -> image<T> & = delete;
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding,
+                   const math::size2d<dimensions_type> dimensions, std::vector<underlying_type> data) noexcept;
 
-    image(image<T> &&o) noexcept = default;
-    auto operator=(image<T> &&other) noexcept -> image<T> & = default;
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                   const dimensions_type height, std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
+     * stride.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding,
+                   const math::size2d<dimensions_type> dimensions, const stride_type stride,
+                   std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
+     * stride.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                   const dimensions_type height, const stride_type stride, std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding,
+                   const math::size2d<dimensions_type> dimensions, const underlying_type *data);
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                   const dimensions_type height, const underlying_type *data);
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     * stride.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding,
+                   const math::size2d<dimensions_type> dimensions, const stride_type stride,
+                   const underlying_type *data);
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     * stride.
+     */
+    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+                   const dimensions_type height, const stride_type stride, const underlying_type *data);
+
+    /*!
+     * Make a copy of the given iimage.
+     */
+    explicit image(const iimage &view);
+
+    ~image() override = default;
+
+    image(const image &) = delete;
+    auto operator=(const image &) -> image & = delete;
+
+    image(image &&) noexcept = default;
+    auto operator=(image &&) noexcept -> image & = default;
 
     /*!
      * Make a copy of the image. In order to avoid performance issues, the class is made
@@ -73,50 +188,13 @@ public:
      * explicitly.
      * \return A copy of this image.
      */
-    [[nodiscard]] auto clone() const -> image<T>;
-
-    /*!
-     * Access the raw internal data of this image without any bounds checks.
-     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
-     * \return A pointer to the raw data.
-     */
-    [[nodiscard]] auto raw_data() noexcept -> std::byte * override;
-
-    /*!
-     * Access the raw internal data of this image without any bounds checks.
-     * Extreme care must be taken when using this method to use the correct size, pixel type and strides.
-     * \return A const pointer to the raw data.
-     */
-    [[nodiscard]] auto raw_data() const noexcept -> const std::byte * override;
+    [[nodiscard]] auto clone() const -> image;
 
 private:
-    /*!
-     * Internal helper method to transfer the data to a std::unique_ptr<image_base>.
-     * This is used by dynamic_image to take over ownership of this class.
-     *
-     * After calling this method, this class should be considered moved and can no
-     * longer be used.
-     */
-    [[nodiscard]] auto move_to_dynamic_image() -> std::unique_ptr<image_base>;
+    void copy_from_pointer(const underlying_type *data);
 
     std::vector<std::byte> data_;
 };
-
-/*!
- * Access the raw internal data of an image without any bounds checks.
- * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
- * \return A pointer to the raw data.
- */
-template <typename T>
-[[nodiscard]] inline auto raw_data(image<T> &image) noexcept -> std::byte *;
-
-/*!
- * Access the raw internal data of an image without any bounds checks.
- * Extreme care must be taken when using this function to use the correct size, pixel type and strides.
- * \return A const pointer to the raw data.
- */
-template <typename T>
-[[nodiscard]] inline auto raw_data(const image<T> &image) noexcept -> const std::byte *;
 
 } // namespace aeon::imaging
 

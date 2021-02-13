@@ -40,6 +40,8 @@ dimension, you can ensure that each gets a unique noise value and they don't
 all look identical.
 */
 
+#include <aeon/math/imat.h>
+
 namespace aeon::math::simplex_noise
 {
 
@@ -68,6 +70,8 @@ namespace aeon::math::simplex_noise
 [[nodiscard]] auto scaled_octave_noise_4d(const float octaves, const float persistence, const float scale,
                                           const float loBound, const float hiBound, const float x, const float y,
                                           const float z, const float w) -> float;
+
+void scaled_octave_noise(imat &matrix, const float octaves, const float persistence, const float scale);
 
 // Scaled Raw Simplex noise
 // The result will be between the two parameters passed.
