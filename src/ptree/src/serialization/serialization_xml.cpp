@@ -166,6 +166,20 @@ private:
         return rdp::matched{property_tree{object{{std::string{element_name.value()}, std::move(children)}}}};
     }
 
+    [[nodiscard]] auto parse_cdata() -> rdp::parse_result<property_tree>
+    {
+        rdp::skip_whitespace_and_newline(parser_);
+        const auto result = parser_.match_until(cdata_end);
+
+        if (result.is_error())
+            return result.error();
+
+        if (!parser_.check(cdata_end))
+            return rdp::parse_error{parser_, "Expected ]]>."};
+
+        return rdp::matched{property_tree{std::string{result.value()}}};
+    }
+
     [[nodiscard]] auto parse_nodes(const std::string &parent_node) -> rdp::parse_result<array>
     {
         array nodes;
@@ -199,7 +213,7 @@ private:
     {
         if (parser_.check(cdata_begin))
         {
-            return rdp::parse_error{parser_, "CDATA is not yet unsupported."};
+            return parse_cdata();
         }
         else if (parser_.check(comment_begin))
         {
