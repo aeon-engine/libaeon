@@ -17,9 +17,13 @@ xml_node::xml_node(xml_node &&) noexcept = default;
 
 auto xml_node::operator=(xml_node &&) noexcept -> xml_node & = default;
 
+auto xml_node::has_name() const noexcept -> bool
+{
+    return name_ != nullptr;
+}
+
 auto xml_node::name() const -> const std::string &
 {
-
     if (!name_)
         throw xml_dom_exception{};
 

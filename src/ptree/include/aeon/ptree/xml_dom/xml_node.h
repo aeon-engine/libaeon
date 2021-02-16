@@ -39,6 +39,8 @@ public:
         return type_;
     }
 
+    [[nodiscard]] auto has_name() const noexcept -> bool;
+
     [[nodiscard]] auto name() const -> const std::string &;
 
     [[nodiscard]] auto has_value() const noexcept -> bool;
