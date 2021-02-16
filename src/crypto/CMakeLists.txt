@@ -1,27 +1,15 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_CRYPTO_PUBLIC_SOURCE
-    include/aeon/crypto/sha256.h
+set(SOURCES
+    private/sha256.cpp
+    public/aeon/crypto/sha256.h
+    public/aeon/crypto/stream_filters/sha256_filter.h
 )
 
-source_group(public FILES ${LIB_AEON_CRYPTO_PUBLIC_SOURCE})
-
-set(LIB_AEON_CRYPTO_PUBLIC_STREAM_FILTERS_SOURCE
-    include/aeon/crypto/stream_filters/sha256_filter.h
-)
-
-source_group(public\\stream_filters FILES ${LIB_AEON_CRYPTO_PUBLIC_STREAM_FILTERS_SOURCE})
-
-set(LIB_AEON_CRYPTO_PRIVATE_SOURCE
-    src/sha256.cpp
-)
-
-source_group(private FILES ${LIB_AEON_CRYPTO_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_crypto STATIC
-    ${LIB_AEON_CRYPTO_PUBLIC_SOURCE}
-    ${LIB_AEON_CRYPTO_PUBLIC_STREAM_FILTERS_SOURCE}
-    ${LIB_AEON_CRYPTO_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_crypto PROPERTIES
@@ -30,7 +18,7 @@ set_target_properties(aeon_crypto PROPERTIES
 
 target_include_directories(aeon_crypto
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_crypto
@@ -39,7 +27,7 @@ target_link_libraries(aeon_crypto
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

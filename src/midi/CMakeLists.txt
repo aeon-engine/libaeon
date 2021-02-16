@@ -2,32 +2,26 @@
 
 handle_local_dependencies_file()
 
-set(LIB_AEON_RTMIDI_PUBLIC_SOURCE
-    include/aeon/midi/midi_device.h
-    include/aeon/midi/midi_file_reader.h
-    include/aeon/midi/midi_input_device.h
-    include/aeon/midi/midi_input_manager.h
-    include/aeon/midi/midi_messages.h
-    include/aeon/midi/midi_output_device.h
-    include/aeon/midi/midi_utils.h
+set(SOURCES
+    private/midi_device.cpp
+    private/midi_file_reader.cpp
+    private/midi_input_device.cpp
+    private/midi_input_manager.cpp
+    private/midi_output_device.cpp
+    private/midi_utils.cpp
+    public/aeon/midi/midi_device.h
+    public/aeon/midi/midi_file_reader.h
+    public/aeon/midi/midi_input_device.h
+    public/aeon/midi/midi_input_manager.h
+    public/aeon/midi/midi_messages.h
+    public/aeon/midi/midi_output_device.h
+    public/aeon/midi/midi_utils.h
 )
 
-source_group(public FILES ${LIB_AEON_RTMIDI_PUBLIC_SOURCE})
-
-set(LIB_AEON_RTMIDI_PRIVATE_SOURCE
-    src/midi_device.cpp
-    src/midi_file_reader.cpp
-    src/midi_input_device.cpp
-    src/midi_input_manager.cpp
-    src/midi_output_device.cpp
-    src/midi_utils.cpp
-)
-
-source_group(private FILES ${LIB_AEON_RTMIDI_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_midi STATIC
-    ${LIB_AEON_RTMIDI_PUBLIC_SOURCE}
-    ${LIB_AEON_RTMIDI_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_midi PROPERTIES
@@ -37,7 +31,7 @@ set_target_properties(aeon_midi PROPERTIES
 
 target_include_directories(aeon_midi
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_midi
@@ -47,7 +41,7 @@ target_link_libraries(aeon_midi
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

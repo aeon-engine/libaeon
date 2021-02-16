@@ -26,46 +26,40 @@ set(AEON_MONO_CONFIG_DIR "${_MONO_CONFIG_DIR}"
 
 configure_file(mono_build_config.h.in mono_build_config.h @ONLY)
 
-set(LIB_AEON_MONO_PUBLIC_SOURCE
-    include/aeon/mono/mono_assembly.h
-    include/aeon/mono/mono_class.h
-    include/aeon/mono/mono_class_instance.h
-    include/aeon/mono/mono_exception.h
-    include/aeon/mono/mono_gc_handle.h
-    include/aeon/mono/mono_jit.h
-    include/aeon/mono/mono_method.h
-    include/aeon/mono/mono_object.h
-    include/aeon/mono/mono_string.h
-    include/aeon/mono/mono_class_field.h
-    include/aeon/mono/mono_static_function.h
-    include/aeon/mono/mono_thunk_base.h
-    include/aeon/mono/mono_thunk.h
-    include/aeon/mono/mono_method_thunk.h
-    include/aeon/mono/mono_type_conversion.h
-    include/aeon/mono/mono_thunk_signature.h
+set(SOURCES
+    private/mono_assembly.cpp
+    private/mono_class.cpp
+    private/mono_class_field.cpp
+    private/mono_class_instance.cpp
+    private/mono_exception.cpp
+    private/mono_gc_handle.cpp
+    private/mono_jit.cpp
+    private/mono_method.cpp
+    private/mono_object.cpp
+    private/mono_static_function.cpp
+    private/mono_string.cpp
+    public/aeon/mono/mono_assembly.h
+    public/aeon/mono/mono_class.h
+    public/aeon/mono/mono_class_field.h
+    public/aeon/mono/mono_class_instance.h
+    public/aeon/mono/mono_exception.h
+    public/aeon/mono/mono_gc_handle.h
+    public/aeon/mono/mono_jit.h
+    public/aeon/mono/mono_method.h
+    public/aeon/mono/mono_method_thunk.h
+    public/aeon/mono/mono_object.h
+    public/aeon/mono/mono_static_function.h
+    public/aeon/mono/mono_string.h
+    public/aeon/mono/mono_thunk.h
+    public/aeon/mono/mono_thunk_base.h
+    public/aeon/mono/mono_thunk_signature.h
+    public/aeon/mono/mono_type_conversion.h
 )
 
-source_group(public FILES ${LIB_AEON_MONO_PUBLIC_SOURCE})
-
-set(LIB_AEON_MONO_PRIVATE_SOURCE
-    src/mono_assembly.cpp
-    src/mono_class.cpp
-    src/mono_class_instance.cpp
-    src/mono_exception.cpp
-    src/mono_gc_handle.cpp
-    src/mono_jit.cpp
-    src/mono_method.cpp
-    src/mono_object.cpp
-    src/mono_string.cpp
-    src/mono_class_field.cpp
-    src/mono_static_function.cpp
-)
-
-source_group(private FILES ${LIB_AEON_MONO_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_mono STATIC
-    ${LIB_AEON_MONO_PUBLIC_SOURCE}
-    ${LIB_AEON_MONO_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_mono PROPERTIES
@@ -75,7 +69,7 @@ set_target_properties(aeon_mono PROPERTIES
 
 target_include_directories(aeon_mono
     PUBLIC
-        include
+        public
         ${MONO_INCLUDE_PATH}
         ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -86,7 +80,7 @@ target_link_libraries(aeon_mono
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

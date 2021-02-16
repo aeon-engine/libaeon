@@ -1,22 +1,16 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_PLUGINS_PUBLIC_SOURCE
-    include/aeon/plugins/plugin.h
-    include/aeon/plugins/plugin_loader.h
+set(SOURCES
+    private/plugin.cpp
+    private/plugin_loader.cpp
+    public/aeon/plugins/plugin.h
+    public/aeon/plugins/plugin_loader.h
 )
 
-source_group(public FILES ${LIB_AEON_PLUGINS_PUBLIC_SOURCE})
-
-set(LIB_AEON_PLUGINS_PRIVATE_SOURCE
-    src/plugin.cpp
-    src/plugin_loader.cpp
-)
-
-source_group(private FILES ${LIB_AEON_PLUGINS_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_plugins STATIC
-    ${LIB_AEON_PLUGINS_PUBLIC_SOURCE}
-    ${LIB_AEON_PLUGINS_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_plugins PROPERTIES
@@ -26,7 +20,7 @@ set_target_properties(aeon_plugins PROPERTIES
 
 target_include_directories(aeon_plugins
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_plugins
@@ -42,7 +36,7 @@ if (UNIX AND NOT APPLE)
 endif ()
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

@@ -1,25 +1,19 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_REFLECTION_PUBLIC_SOURCE
-    include/aeon/reflection/annotate.h
-    include/aeon/reflection/exception.h
-    include/aeon/reflection/field_info.h
-    include/aeon/reflection/reflection.h
-    include/aeon/reflection/reflection_info.h
-    include/aeon/reflection/reflection_object.h
+set(SOURCES
+    private/reflection_info.cpp
+    public/aeon/reflection/annotate.h
+    public/aeon/reflection/exception.h
+    public/aeon/reflection/field_info.h
+    public/aeon/reflection/reflection.h
+    public/aeon/reflection/reflection_info.h
+    public/aeon/reflection/reflection_object.h
 )
 
-source_group(public FILES ${LIB_AEON_REFLECTION_PUBLIC_SOURCE})
-
-set(LIB_AEON_REFLECTION_PRIVATE_SOURCE
-    src/reflection_info.cpp
-)
-
-source_group(private FILES ${LIB_AEON_REFLECTION_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_reflection STATIC
-    ${LIB_AEON_REFLECTION_PUBLIC_SOURCE}
-    ${LIB_AEON_REFLECTION_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_reflection PROPERTIES
@@ -29,14 +23,14 @@ set_target_properties(aeon_reflection PROPERTIES
 
 target_include_directories(aeon_reflection
     PUBLIC
-        include
+        public
         ${CMAKE_CURRENT_BINARY_DIR}
     PRIVATE
-        src
+        private
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 
@@ -47,7 +41,7 @@ install(
     ARCHIVE DESTINATION lib
 )
 
-set(AEON_REFLECTION_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/)
+set(AEON_REFLECTION_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/public/)
 configure_file(reflection_path.h.in reflection_path.h @ONLY)
 
 if (AEON_ENABLE_TESTING)

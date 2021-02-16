@@ -1,34 +1,22 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_RDP_PUBLIC_SOURCE
-    include/aeon/rdp/parser.h
-    include/aeon/rdp/cursor.h
-    include/aeon/rdp/matchers.h
-    include/aeon/rdp/parse_result.h
-    include/aeon/rdp/scoped_state.h
+set(SOURCES
+    private/cursor.cpp
+    private/matchers.cpp
+    private/parser.cpp
+    public/aeon/rdp/cursor.h
+    public/aeon/rdp/impl/parse_result_impl.h
+    public/aeon/rdp/impl/parser_impl.h
+    public/aeon/rdp/matchers.h
+    public/aeon/rdp/parse_result.h
+    public/aeon/rdp/parser.h
+    public/aeon/rdp/scoped_state.h
 )
 
-source_group(public FILES ${LIB_AEON_RDP_PUBLIC_SOURCE})
-
-set(LIB_AEON_RDP_PUBLIC_IMPL_SOURCE
-    include/aeon/rdp/impl/parser_impl.h
-    include/aeon/rdp/impl/parse_result_impl.h
-)
-
-source_group(public\\impl FILES ${LIB_AEON_RDP_PUBLIC_IMPL_SOURCE})
-
-set(LIB_AEON_RDP_PRIVATE_SOURCE
-    src/parser.cpp
-    src/cursor.cpp
-    src/matchers.cpp
-)
-
-source_group(private FILES ${LIB_AEON_RDP_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_rdp STATIC
-    ${LIB_AEON_RDP_PUBLIC_SOURCE}
-    ${LIB_AEON_RDP_PUBLIC_IMPL_SOURCE}
-    ${LIB_AEON_RDP_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_rdp PROPERTIES
@@ -38,9 +26,7 @@ set_target_properties(aeon_rdp PROPERTIES
 
 target_include_directories(aeon_rdp
     PUBLIC
-        include
-    PRIVATE
-        ${CMAKE_BINARY_DIR}
+        public
 )
 
 target_link_libraries(aeon_rdp
@@ -49,7 +35,7 @@ target_link_libraries(aeon_rdp
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

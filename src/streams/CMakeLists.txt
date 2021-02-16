@@ -1,78 +1,48 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_STREAMS_PUBLIC_SOURCE
-    include/aeon/streams/aggregate_device.h
-    include/aeon/streams/dynamic_stream.h
-    include/aeon/streams/dynamic_stream_view.h
-    include/aeon/streams/exception.h
-    include/aeon/streams/idynamic_stream.h
-    include/aeon/streams/idynamic_stream_fwd.h
-    include/aeon/streams/length_prefix_string.h
-    include/aeon/streams/make_string_stream.h
-    include/aeon/streams/make_string_view_stream.h
-    include/aeon/streams/make_vector_stream.h
-    include/aeon/streams/make_vector_view_stream.h
-    include/aeon/streams/seek_direction.h
-    include/aeon/streams/stream.h
-    include/aeon/streams/stream_reader.h
-    include/aeon/streams/stream_traits.h
-    include/aeon/streams/stream_writer.h
-    include/aeon/streams/tags.h
-    include/aeon/streams/uuid_stream.h
-    include/aeon/streams/varint.h
+set(SOURCES
+    private/devices/detail/file_device_base.cpp
+    private/devices/stdio_device.cpp
+    public/aeon/streams/aggregate_device.h
+    public/aeon/streams/devices/detail/file_device_base.h
+    public/aeon/streams/devices/detail/iostream_device_base.h
+    public/aeon/streams/devices/device.h
+    public/aeon/streams/devices/device_view.h
+    public/aeon/streams/devices/file_device.h
+    public/aeon/streams/devices/iostream_device.h
+    public/aeon/streams/devices/memory_device.h
+    public/aeon/streams/devices/memory_view_device.h
+    public/aeon/streams/devices/span_device.h
+    public/aeon/streams/devices/stdio_device.h
+    public/aeon/streams/dynamic_stream.h
+    public/aeon/streams/dynamic_stream_view.h
+    public/aeon/streams/exception.h
+    public/aeon/streams/filters/buffer_filter.h
+    public/aeon/streams/filters/circular_buffer_filter.h
+    public/aeon/streams/filters/filter.h
+    public/aeon/streams/filters/seek_offset_filter.h
+    public/aeon/streams/filters/size_filter.h
+    public/aeon/streams/idynamic_stream.h
+    public/aeon/streams/idynamic_stream_fwd.h
+    public/aeon/streams/length_prefix_string.h
+    public/aeon/streams/make_string_stream.h
+    public/aeon/streams/make_string_view_stream.h
+    public/aeon/streams/make_vector_stream.h
+    public/aeon/streams/make_vector_view_stream.h
+    public/aeon/streams/seek_direction.h
+    public/aeon/streams/stream.h
+    public/aeon/streams/stream_reader.h
+    public/aeon/streams/stream_traits.h
+    public/aeon/streams/stream_writer.h
+    public/aeon/streams/tags.h
+    public/aeon/streams/uuid_stream.h
+    public/aeon/streams/varint.h
 )
 
-source_group(public FILES ${LIB_AEON_STREAMS_PUBLIC_SOURCE})
-
-set(LIB_AEON_STREAMS_PUBLIC_DEVICES_SOURCE
-    include/aeon/streams/devices/device.h
-    include/aeon/streams/devices/device_view.h
-    include/aeon/streams/devices/file_device.h
-    include/aeon/streams/devices/iostream_device.h
-    include/aeon/streams/devices/memory_device.h
-    include/aeon/streams/devices/memory_view_device.h
-    include/aeon/streams/devices/span_device.h
-    include/aeon/streams/devices/stdio_device.h
-)
-
-source_group(public\\devices FILES ${LIB_AEON_STREAMS_PUBLIC_DEVICES_SOURCE})
-
-set(LIB_AEON_STREAMS_PRIVATE_DEVICES_SOURCE
-    src/devices/stdio_device.cpp
-)
-
-source_group(private\\devices FILES ${LIB_AEON_STREAMS_PRIVATE_DEVICES_SOURCE})
-
-set(LIB_AEON_STREAMS_PUBLIC_DEVICES_DETAIL_SOURCE
-    include/aeon/streams/devices/detail/file_device_base.h
-    include/aeon/streams/devices/detail/iostream_device_base.h
-)
-
-source_group(public\\devices\\detail FILES ${LIB_AEON_STREAMS_PUBLIC_DEVICES_DETAIL_SOURCE})
-
-set(LIB_AEON_STREAMS_PRIVATE_DEVICES_DETAIL_SOURCE
-    src/devices/detail/file_device_base.cpp
-)
-
-source_group(private\\devices\\detail FILES ${LIB_AEON_STREAMS_PRIVATE_DEVICES_DETAIL_SOURCE})
-
-set(LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE
-    include/aeon/streams/filters/buffer_filter.h
-    include/aeon/streams/filters/circular_buffer_filter.h
-    include/aeon/streams/filters/filter.h
-    include/aeon/streams/filters/seek_offset_filter.h
-    include/aeon/streams/filters/size_filter.h
-)
-
-source_group(public\\filters FILES ${LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_streams STATIC 
-    ${LIB_AEON_STREAMS_PUBLIC_SOURCE}
-    ${LIB_AEON_STREAMS_PUBLIC_DEVICES_SOURCE}
-    ${LIB_AEON_STREAMS_PRIVATE_DEVICES_SOURCE}
-    ${LIB_AEON_STREAMS_PUBLIC_DEVICES_DETAIL_SOURCE}
-    ${LIB_AEON_STREAMS_PRIVATE_DEVICES_DETAIL_SOURCE}
-    ${LIB_AEON_STREAMS_PUBLIC_FILTERS_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_streams PROPERTIES
@@ -82,7 +52,7 @@ set_target_properties(aeon_streams PROPERTIES
 
 target_include_directories(aeon_streams
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_streams
@@ -90,7 +60,7 @@ target_link_libraries(aeon_streams
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

@@ -2,33 +2,27 @@
 
 handle_local_dependencies_file()
 
-set(LIB_AEON_CLANG_PUBLIC_SOURCE
-    include/aeon/clang/ast_entity_visitor.h
-    include/aeon/clang/ast_parser.h
-    include/aeon/clang/index.h
-    include/aeon/clang/parser_settings.h
-    include/aeon/clang/string.h
-    include/aeon/clang/translation_unit.h
-    include/aeon/clang/visitor.h
+set(SOURCES
+    private/ast_entity_visitor.cpp
+    private/ast_parser.cpp
+    private/index.cpp
+    private/parser_settings.cpp
+    private/string.cpp
+    private/translation_unit.cpp
+    private/visitor.cpp
+    public/aeon/clang/ast_entity_visitor.h
+    public/aeon/clang/ast_parser.h
+    public/aeon/clang/index.h
+    public/aeon/clang/parser_settings.h
+    public/aeon/clang/string.h
+    public/aeon/clang/translation_unit.h
+    public/aeon/clang/visitor.h
 )
 
-source_group(public FILES ${LIB_AEON_CLANG_PUBLIC_SOURCE})
-
-set(LIB_AEON_CLANG_PRIVATE_SOURCE
-    src/ast_entity_visitor.cpp
-    src/ast_parser.cpp
-    src/index.cpp
-    src/parser_settings.cpp
-    src/string.cpp
-    src/translation_unit.cpp
-    src/visitor.cpp
-)
-
-source_group(private FILES ${LIB_AEON_CLANG_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_clang STATIC
-    ${LIB_AEON_CLANG_PUBLIC_SOURCE}
-    ${LIB_AEON_CLANG_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_clang PROPERTIES
@@ -38,7 +32,7 @@ set_target_properties(aeon_clang PROPERTIES
 
 target_include_directories(aeon_clang
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_clang
@@ -50,7 +44,7 @@ target_link_libraries(aeon_clang
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

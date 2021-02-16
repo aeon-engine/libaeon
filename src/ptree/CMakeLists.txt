@@ -1,70 +1,34 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_PTREE_PUBLIC_SOURCE
-    include/aeon/ptree/config_file.h
-    include/aeon/ptree/ptree.h
-    include/aeon/ptree/exception.h
-    include/aeon/ptree/reflection.h
+set(SOURCES
+    private/reflection.cpp
+    private/serialization/serialization_abf.cpp
+    private/serialization/serialization_ini.cpp
+    private/serialization/serialization_json.cpp
+    private/serialization/serialization_xml.cpp
+    private/xml_dom/xml_document.cpp
+    private/xml_dom/xml_node.cpp
+    public/aeon/ptree/config_file.h
+    public/aeon/ptree/exception.h
+    public/aeon/ptree/impl/config_file_impl.h
+    public/aeon/ptree/impl/ptree_impl.h
+    public/aeon/ptree/ptree.h
+    public/aeon/ptree/reflection.h
+    public/aeon/ptree/serialization/exception.h
+    public/aeon/ptree/serialization/serialization_abf.h
+    public/aeon/ptree/serialization/serialization_ini.h
+    public/aeon/ptree/serialization/serialization_json.h
+    public/aeon/ptree/serialization/serialization_xml.h
+    public/aeon/ptree/xml_dom/exception.h
+    public/aeon/ptree/xml_dom/xml_document.h
+    public/aeon/ptree/xml_dom/xml_node.h
 )
 
-source_group(public FILES ${LIB_AEON_PTREE_PUBLIC_SOURCE})
-
-set(LIB_AEON_PTREE_PUBLIC_IMPL_SOURCE
-    include/aeon/ptree/impl/config_file_impl.h
-    include/aeon/ptree/impl/ptree_impl.h
-)
-
-source_group(public\\impl FILES ${LIB_AEON_PTREE_PUBLIC_IMPL_SOURCE})
-
-set(LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE
-    include/aeon/ptree/serialization/exception.h
-    include/aeon/ptree/serialization/serialization_abf.h
-    include/aeon/ptree/serialization/serialization_ini.h
-    include/aeon/ptree/serialization/serialization_json.h
-    include/aeon/ptree/serialization/serialization_xml.h
-)
-
-source_group(public\\serialization FILES ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE})
-
-set(LIB_AEON_PTREE_PUBLIC_XML_DOM_SOURCE
-    include/aeon/ptree/xml_dom/exception.h
-    include/aeon/ptree/xml_dom/xml_document.h
-    include/aeon/ptree/xml_dom/xml_node.h
-)
-
-source_group(public\\xml_dom FILES ${LIB_AEON_PTREE_PUBLIC_XML_DOM_SOURCE})
-
-set(LIB_AEON_PTREE_PRIVATE_SOURCE
-    src/reflection.cpp
-)
-
-source_group(private FILES ${LIB_AEON_PTREE_PRIVATE_SOURCE})
-
-set(LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE
-    src/serialization/serialization_abf.cpp
-    src/serialization/serialization_ini.cpp
-    src/serialization/serialization_json.cpp
-    src/serialization/serialization_xml.cpp
-)
-
-source_group(private\\serialization FILES ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE})
-
-set(LIB_AEON_PTREE_PRIVATE_XML_DOM_SOURCE
-    src/xml_dom/xml_document.cpp
-    src/xml_dom/xml_node.cpp
-)
-
-source_group(private\\xml_dom FILES ${LIB_AEON_PTREE_PRIVATE_XML_DOM_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_ptree
     STATIC
-        ${LIB_AEON_PTREE_PUBLIC_SOURCE}
-        ${LIB_AEON_PTREE_PUBLIC_IMPL_SOURCE}
-        ${LIB_AEON_PTREE_PUBLIC_SERIALIZATION_SOURCE}
-        ${LIB_AEON_PTREE_PUBLIC_XML_DOM_SOURCE}
-        ${LIB_AEON_PTREE_PRIVATE_SOURCE}
-        ${LIB_AEON_PTREE_PRIVATE_SERIALIZATION_SOURCE}
-        ${LIB_AEON_PTREE_PRIVATE_XML_DOM_SOURCE}
+        ${SOURCES}
 )
 
 set_target_properties(aeon_ptree PROPERTIES
@@ -74,7 +38,7 @@ set_target_properties(aeon_ptree PROPERTIES
 
 target_include_directories(aeon_ptree
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_ptree
@@ -87,7 +51,7 @@ target_link_libraries(aeon_ptree
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

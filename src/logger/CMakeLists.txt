@@ -1,33 +1,27 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_LOGGER_PUBLIC_SOURCE
-    include/aeon/logger/base_backend.h
-    include/aeon/logger/io_stream_sink.h
-    include/aeon/logger/logger.h
-    include/aeon/logger/log_level.h
-    include/aeon/logger/log_sink.h
-    include/aeon/logger/multithreaded_sink_backend.h
-    include/aeon/logger/simple_backend.h
-    include/aeon/logger/simple_sink_backend.h
-    include/aeon/logger/stream_sink.h
+set(SOURCES
+    private/base_backend.cpp
+    private/io_stream_sink.cpp
+    private/multithreaded_sink_backend.cpp
+    private/simple_backend.cpp
+    private/simple_sink_backend.cpp
+    private/stream_sink.cpp
+    public/aeon/logger/base_backend.h
+    public/aeon/logger/io_stream_sink.h
+    public/aeon/logger/log_level.h
+    public/aeon/logger/log_sink.h
+    public/aeon/logger/logger.h
+    public/aeon/logger/multithreaded_sink_backend.h
+    public/aeon/logger/simple_backend.h
+    public/aeon/logger/simple_sink_backend.h
+    public/aeon/logger/stream_sink.h
 )
 
-source_group(public FILES ${LIB_AEON_LOGGER_PUBLIC_SOURCE})
-
-set(LIB_AEON_LOGGER_PRIVATE_SOURCE
-    src/base_backend.cpp
-    src/io_stream_sink.cpp
-    src/multithreaded_sink_backend.cpp
-    src/simple_backend.cpp
-    src/simple_sink_backend.cpp
-    src/stream_sink.cpp
-)
-
-source_group(private FILES ${LIB_AEON_LOGGER_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_logger STATIC
-    ${LIB_AEON_LOGGER_PUBLIC_SOURCE}
-    ${LIB_AEON_LOGGER_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_logger PROPERTIES
@@ -37,7 +31,7 @@ set_target_properties(aeon_logger PROPERTIES
 
 target_include_directories(aeon_logger
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_logger
@@ -46,7 +40,7 @@ target_link_libraries(aeon_logger
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

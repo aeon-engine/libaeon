@@ -1,24 +1,18 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_TRACELOG_PUBLIC_SOURCE
-    include/aeon/tracelog/tracelog.h
+set(SOURCES
+    private/config.h
+    private/context.cpp
+    private/context.h
+    private/data.h
+    private/tracelog.cpp
+    public/aeon/tracelog/tracelog.h
 )
 
-source_group(public FILES ${LIB_AEON_TRACELOG_PUBLIC_SOURCE})
-
-set(LIB_AEON_TRACELOG_PRIVATE_SOURCE
-    src/config.h
-    src/data.h
-    src/tracelog.cpp
-    src/context.cpp
-    src/context.h
-)
-
-source_group(private FILES ${LIB_AEON_TRACELOG_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_tracelog STATIC
-    ${LIB_AEON_TRACELOG_PUBLIC_SOURCE}
-    ${LIB_AEON_TRACELOG_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_tracelog PROPERTIES
@@ -28,9 +22,9 @@ set_target_properties(aeon_tracelog PROPERTIES
 
 target_include_directories(aeon_tracelog
     PUBLIC
-        include
+        public
     PRIVATE
-        src
+        private
 )
 
 target_link_libraries(aeon_tracelog
@@ -39,7 +33,7 @@ target_link_libraries(aeon_tracelog
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

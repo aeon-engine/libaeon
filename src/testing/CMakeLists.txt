@@ -1,20 +1,14 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_TESTING_PUBLIC_SOURCE
-    include/aeon/testing/temporary_file_fixture.h
+set(SOURCES
+    private/temporary_file_fixture.cpp
+    public/aeon/testing/temporary_file_fixture.h
 )
 
-source_group(public FILES ${LIB_AEON_TESTING_PUBLIC_SOURCE})
-
-set(LIB_AEON_TESTING_PRIVATE_SOURCE
-    src/temporary_file_fixture.cpp
-)
-
-source_group(private FILES ${LIB_AEON_TESTING_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_testing STATIC
-    ${LIB_AEON_TESTING_PUBLIC_SOURCE}
-    ${LIB_AEON_TESTING_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_testing PROPERTIES
@@ -24,7 +18,7 @@ set_target_properties(aeon_testing PROPERTIES
 
 target_include_directories(aeon_testing
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_testing
@@ -32,7 +26,7 @@ target_link_libraries(aeon_testing
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

@@ -2,81 +2,39 @@
 
 handle_local_dependencies_file()
 
-set(LIB_AEON_IMAGING_PUBLIC_SOURCE
-    include/aeon/imaging/exceptions.h
-    include/aeon/imaging/iimage.h
-    include/aeon/imaging/image.h
-    include/aeon/imaging/image_view.h
-    include/aeon/imaging/pixel_encoding.h
-    include/aeon/imaging/pixel_encoding_traits.h
-    include/aeon/imaging/pixel_math.h
+set(SOURCES
+    private/converters/convert_encoding.cpp
+    private/file/bmp_file.cpp
+    private/file/jpg_file.cpp
+    private/file/png_file.cpp
+    public/aeon/imaging/converters/convert_encoding.h
+    public/aeon/imaging/converters/convert_pixel.h
+    public/aeon/imaging/converters/stride.h
+    public/aeon/imaging/exceptions.h
+    public/aeon/imaging/file/bmp_file.h
+    public/aeon/imaging/file/jpg_file.h
+    public/aeon/imaging/file/png_file.h
+    public/aeon/imaging/file/png_read_structs.h
+    public/aeon/imaging/file/png_structs.h
+    public/aeon/imaging/file/png_write_structs.h
+    public/aeon/imaging/file/tjhandle_wrapper.h
+    public/aeon/imaging/filters/resize.h
+    public/aeon/imaging/iimage.h
+    public/aeon/imaging/image.h
+    public/aeon/imaging/image_view.h
+    public/aeon/imaging/impl/image_impl.h
+    public/aeon/imaging/impl/image_view_impl.h
+    public/aeon/imaging/impl/pixel_encoding_impl
+    public/aeon/imaging/pixel_encoding.h
+    public/aeon/imaging/pixel_encoding_traits.h
+    public/aeon/imaging/pixel_math.h
+    public/aeon/imaging/utils/visibility.h
 )
 
-source_group(public FILES ${LIB_AEON_IMAGING_PUBLIC_SOURCE})
-
-set(LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE
-    include/aeon/imaging/impl/image_impl.h
-    include/aeon/imaging/impl/image_view_impl.h
-    include/aeon/imaging/impl/pixel_encoding_impl
-)
-
-source_group(public\\impl FILES ${LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE})
-
-set(LIB_AEON_IMAGING_PUBLIC_FILE_SOURCE
-    include/aeon/imaging/file/bmp_file.h
-    include/aeon/imaging/file/png_file.h
-    include/aeon/imaging/file/jpg_file.h
-    include/aeon/imaging/file/tjhandle_wrapper.h
-    include/aeon/imaging/file/png_structs.h
-    include/aeon/imaging/file/png_read_structs.h
-    include/aeon/imaging/file/png_write_structs.h
-)
-
-source_group(public\\file FILES ${LIB_AEON_IMAGING_PUBLIC_FILE_SOURCE})
-
-set(LIB_AEON_IMAGING_PRIVATE_FILE_SOURCE
-    src/file/bmp_file.cpp
-    src/file/png_file.cpp
-    src/file/jpg_file.cpp
-)
-
-source_group(private\\file FILES ${LIB_AEON_IMAGING_PRIVATE_FILE_SOURCE})
-
-set(LIB_AEON_IMAGING_PUBLIC_CONVERTERS_SOURCE
-    include/aeon/imaging/converters/convert_pixel.h
-    include/aeon/imaging/converters/convert_encoding.h
-    include/aeon/imaging/converters/stride.h
-)
-
-source_group(public\\converters FILES ${LIB_AEON_IMAGING_PUBLIC_CONVERTERS_SOURCE})
-
-set(LIB_AEON_IMAGING_PRIVATE_CONVERTERS_SOURCE
-    src/converters/convert_encoding.cpp
-)
-
-source_group(private\\converters FILES ${LIB_AEON_IMAGING_PRIVATE_CONVERTERS_SOURCE})
-
-set(LIB_AEON_IMAGING_PUBLIC_FILTERS_SOURCE
-    include/aeon/imaging/filters/resize.h
-)
-
-source_group(public\\filters FILES ${LIB_AEON_IMAGING_PUBLIC_FILTERS_SOURCE})
-
-set(LIB_AEON_IMAGING_PUBLIC_UTILS_SOURCE
-    include/aeon/imaging/utils/visibility.h
-)
-
-source_group(public\\utils FILES ${LIB_AEON_IMAGING_PUBLIC_UTILS_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_imaging STATIC
-    ${LIB_AEON_IMAGING_PUBLIC_SOURCE}
-    ${LIB_AEON_IMAGING_PUBLIC_IMPL_SOURCE}
-    ${LIB_AEON_IMAGING_PUBLIC_FILE_SOURCE}
-    ${LIB_AEON_IMAGING_PRIVATE_FILE_SOURCE}
-    ${LIB_AEON_IMAGING_PUBLIC_CONVERTERS_SOURCE}
-    ${LIB_AEON_IMAGING_PRIVATE_CONVERTERS_SOURCE}
-    ${LIB_AEON_IMAGING_PUBLIC_FILTERS_SOURCE}
-    ${LIB_AEON_IMAGING_PUBLIC_UTILS_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_imaging PROPERTIES
@@ -86,7 +44,7 @@ set_target_properties(aeon_imaging PROPERTIES
 
 target_include_directories(aeon_imaging
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_imaging
@@ -98,7 +56,7 @@ target_link_libraries(aeon_imaging
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

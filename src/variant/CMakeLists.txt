@@ -1,29 +1,17 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_VARIANT_PUBLIC_SOURCE
-    include/aeon/variant/converting_variant.h
+set(SOURCES
+    private/converting_variant.cpp
+    public/aeon/variant/converting_variant.h
+    public/aeon/variant/impl/converting_variant_conversion.h
+    public/aeon/variant/impl/converting_variant_enum_traits.h
+    public/aeon/variant/impl/converting_variant_impl.h
 )
 
-source_group(public FILES ${LIB_AEON_VARIANT_PUBLIC_SOURCE})
-
-set(LIB_AEON_VARIANT_PUBLIC_IMPL_SOURCE
-    include/aeon/variant/impl/converting_variant_conversion.h
-    include/aeon/variant/impl/converting_variant_enum_traits.h
-    include/aeon/variant/impl/converting_variant_impl.h
-)
-
-source_group(public\\impl FILES ${LIB_AEON_VARIANT_PUBLIC_IMPL_SOURCE})
-
-set(LIB_AEON_VARIANT_PRIVATE_SOURCE
-    src/converting_variant.cpp
-)
-
-source_group(private FILES ${LIB_AEON_VARIANT_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_variant STATIC
-    ${LIB_AEON_VARIANT_PUBLIC_SOURCE}
-    ${LIB_AEON_VARIANT_PUBLIC_IMPL_SOURCE}
-    ${LIB_AEON_VARIANT_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_variant PROPERTIES
@@ -32,7 +20,7 @@ set_target_properties(aeon_variant PROPERTIES
 
 target_include_directories(aeon_variant
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_variant
@@ -41,7 +29,7 @@ target_link_libraries(aeon_variant
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

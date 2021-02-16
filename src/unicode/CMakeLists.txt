@@ -2,33 +2,27 @@
 
 handle_local_dependencies_file()
 
-set(LIB_AEON_UNICODE_PUBLIC_SOURCE
-    include/aeon/unicode/encoding.h
-    include/aeon/unicode/exception.h
-    include/aeon/unicode/utf_string_view.h
-    include/aeon/unicode/base_utf_iterator.h
-    include/aeon/unicode/utf8_iterator.h
-    include/aeon/unicode/utf16_iterator.h
-    include/aeon/unicode/stringutils.h
-    include/aeon/unicode/ctypes.h
+set(SOURCES
+    private/ctypes.cpp
+    private/encoding.cpp
+    private/stringutils.cpp
+    private/ucnv_wrapper.h
+    private/utf16_iterator.cpp
+    private/utf8_iterator.cpp
+    public/aeon/unicode/base_utf_iterator.h
+    public/aeon/unicode/ctypes.h
+    public/aeon/unicode/encoding.h
+    public/aeon/unicode/exception.h
+    public/aeon/unicode/stringutils.h
+    public/aeon/unicode/utf16_iterator.h
+    public/aeon/unicode/utf8_iterator.h
+    public/aeon/unicode/utf_string_view.h
 )
 
-source_group(public FILES ${LIB_AEON_UNICODE_PUBLIC_SOURCE})
-
-set(LIB_AEON_UNICODE_PRIVATE_SOURCE
-    src/encoding.cpp
-    src/ucnv_wrapper.h
-    src/utf8_iterator.cpp
-    src/utf16_iterator.cpp
-    src/stringutils.cpp
-    src/ctypes.cpp
-)
-
-source_group(private FILES ${LIB_AEON_UNICODE_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_unicode STATIC
-    ${LIB_AEON_UNICODE_PUBLIC_SOURCE}
-    ${LIB_AEON_UNICODE_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_unicode PROPERTIES
@@ -38,7 +32,7 @@ set_target_properties(aeon_unicode PROPERTIES
 
 target_include_directories(aeon_unicode
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_unicode
@@ -47,7 +41,7 @@ target_link_libraries(aeon_unicode
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

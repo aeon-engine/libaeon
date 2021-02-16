@@ -1,89 +1,77 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-set(LIB_AEON_COMMON_PUBLIC_SOURCE
-    include/aeon/common/assert.h
-    include/aeon/common/base64.h
-    include/aeon/common/bits.h
-    include/aeon/common/bom.h
-    include/aeon/common/cached_container.h
-    include/aeon/common/collection.h
-    include/aeon/common/color.h
-    include/aeon/common/color_limits.h
-    include/aeon/common/commandline_parser.h
-    include/aeon/common/compilers.h
-    include/aeon/common/container.h
-    include/aeon/common/delay.h
-    include/aeon/common/deprecated.h
-    include/aeon/common/dispatcher.h
-    include/aeon/common/dispatcher_fwd.h
-    include/aeon/common/dll_export.h
-    include/aeon/common/dll_loader.h
-    include/aeon/common/element_type.h
-    include/aeon/common/endianness.h
-    include/aeon/common/expect.h
-    include/aeon/common/flags.h
-    include/aeon/common/fmtflags.h
-    include/aeon/common/fourcc.h
-    include/aeon/common/from_chars.h
-    include/aeon/common/hash.h
-    include/aeon/common/hexdump.h
-    include/aeon/common/intrinsics.h
-    include/aeon/common/lexical_parse.h
-    include/aeon/common/listener_subject.h
-    include/aeon/common/literals.h
-    include/aeon/common/memory.h
-    include/aeon/common/parallelizer.h
-    include/aeon/common/parameters.h
-    include/aeon/common/platform.h
-    include/aeon/common/preprocessor.h
-    include/aeon/common/scope_guard.h
-    include/aeon/common/shared_vector.h
-    include/aeon/common/shared_vector_fwd.h
-    include/aeon/common/signals.h
-    include/aeon/common/signed_sizeof.h
-    include/aeon/common/singleton.h
-    include/aeon/common/string.h
-    include/aeon/common/string_table.h
-    include/aeon/common/string_traits.h
-    include/aeon/common/tempfile.h
-    include/aeon/common/term_colors.h
-    include/aeon/common/timer.h
-    include/aeon/common/tribool.h
-    include/aeon/common/type_traits.h
-    include/aeon/common/unordered_flatmap.h
-    include/aeon/common/unordered_flatset.h
-    include/aeon/common/unused.h
-    include/aeon/common/uuid.h
-    include/aeon/common/version.h
+set(SOURCES
+    private/base64.cpp
+    private/commandline_parser.cpp
+    private/dll_loader.cpp
+    private/from_chars.cpp
+    private/hexdump.cpp
+    private/lexical_parse.cpp
+    private/string.cpp
+    private/uuid.cpp
+    public/aeon/common/assert.h
+    public/aeon/common/base64.h
+    public/aeon/common/bits.h
+    public/aeon/common/bom.h
+    public/aeon/common/cached_container.h
+    public/aeon/common/collection.h
+    public/aeon/common/color.h
+    public/aeon/common/color_limits.h
+    public/aeon/common/commandline_parser.h
+    public/aeon/common/compilers.h
+    public/aeon/common/container.h
+    public/aeon/common/delay.h
+    public/aeon/common/deprecated.h
+    public/aeon/common/dispatcher.h
+    public/aeon/common/dispatcher_fwd.h
+    public/aeon/common/dll_export.h
+    public/aeon/common/dll_loader.h
+    public/aeon/common/element_type.h
+    public/aeon/common/endianness.h
+    public/aeon/common/expect.h
+    public/aeon/common/flags.h
+    public/aeon/common/fmtflags.h
+    public/aeon/common/fourcc.h
+    public/aeon/common/from_chars.h
+    public/aeon/common/hash.h
+    public/aeon/common/hexdump.h
+    public/aeon/common/impl/color_impl.h
+    public/aeon/common/impl/string_impl.h
+    public/aeon/common/impl/version_impl.h
+    public/aeon/common/intrinsics.h
+    public/aeon/common/lexical_parse.h
+    public/aeon/common/listener_subject.h
+    public/aeon/common/literals.h
+    public/aeon/common/memory.h
+    public/aeon/common/parallelizer.h
+    public/aeon/common/parameters.h
+    public/aeon/common/platform.h
+    public/aeon/common/preprocessor.h
+    public/aeon/common/scope_guard.h
+    public/aeon/common/shared_vector.h
+    public/aeon/common/shared_vector_fwd.h
+    public/aeon/common/signals.h
+    public/aeon/common/signed_sizeof.h
+    public/aeon/common/singleton.h
+    public/aeon/common/string.h
+    public/aeon/common/string_table.h
+    public/aeon/common/string_traits.h
+    public/aeon/common/tempfile.h
+    public/aeon/common/term_colors.h
+    public/aeon/common/timer.h
+    public/aeon/common/tribool.h
+    public/aeon/common/type_traits.h
+    public/aeon/common/unordered_flatmap.h
+    public/aeon/common/unordered_flatset.h
+    public/aeon/common/unused.h
+    public/aeon/common/uuid.h
+    public/aeon/common/version.h
 )
 
-source_group(public FILES ${LIB_AEON_COMMON_PUBLIC_SOURCE})
-
-set(LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE
-    include/aeon/common/impl/color_impl.h
-    include/aeon/common/impl/string_impl.h
-    include/aeon/common/impl/version_impl.h
-)
-
-source_group(public\\impl FILES ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE})
-
-set(LIB_AEON_COMMON_PRIVATE_SOURCE
-    src/base64.cpp
-    src/commandline_parser.cpp
-    src/dll_loader.cpp
-    src/from_chars.cpp
-    src/hexdump.cpp
-    src/lexical_parse.cpp
-    src/string.cpp
-    src/uuid.cpp
-)
-
-source_group(private FILES ${LIB_AEON_COMMON_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_common STATIC
-    ${LIB_AEON_COMMON_PUBLIC_SOURCE}
-    ${LIB_AEON_COMMON_PUBLIC_IMPL_SOURCE}
-    ${LIB_AEON_COMMON_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_common PROPERTIES
@@ -93,7 +81,7 @@ set_target_properties(aeon_common PROPERTIES
 
 target_include_directories(aeon_common
     PUBLIC
-        include
+        public
     PRIVATE
         ${CMAKE_BINARY_DIR}
 )
@@ -114,7 +102,7 @@ if (UNIX)
 endif ()
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 

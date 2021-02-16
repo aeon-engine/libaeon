@@ -2,25 +2,19 @@
 
 handle_local_dependencies_file()
 
-set(LIB_AEON_CHRONO_PUBLIC_SOURCE
-    include/aeon/chrono/calendar.h
-    include/aeon/chrono/offset.h
-    include/aeon/chrono/timezone.h
+set(SOURCES
+    private/calendar.cpp
+    private/timezone.cpp
+    private/timezone_impl.h
+    public/aeon/chrono/calendar.h
+    public/aeon/chrono/offset.h
+    public/aeon/chrono/timezone.h
 )
 
-source_group(public FILES ${LIB_AEON_CHRONO_PUBLIC_SOURCE})
-
-set(LIB_AEON_CHRONO_PRIVATE_SOURCE
-    src/calendar.cpp
-    src/timezone.cpp
-    src/timezone_impl.h
-)
-
-source_group(private FILES ${LIB_AEON_CHRONO_PRIVATE_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(aeon_chrono STATIC
-    ${LIB_AEON_CHRONO_PUBLIC_SOURCE}
-    ${LIB_AEON_CHRONO_PRIVATE_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_chrono PROPERTIES
@@ -29,7 +23,7 @@ set_target_properties(aeon_chrono PROPERTIES
 
 target_include_directories(aeon_chrono
     PUBLIC
-        include
+        public
 )
 
 target_link_libraries(aeon_chrono
@@ -40,7 +34,7 @@ target_link_libraries(aeon_chrono
 )
 
 install(
-    DIRECTORY include/aeon
+    DIRECTORY public/aeon
     DESTINATION include
 )
 
