@@ -105,6 +105,17 @@ public:
     }
 
     /*!
+     * Get the address of a proc inside of the loaded dll or nullptr
+     * if it was not found. Be sure to check is_valid() first to see
+     * if the dll was loaded correctly.
+     */
+    template <typename T>
+    [[nodiscard]] auto get_proc_address(const char *proc) const
+    {
+        return reinterpret_cast<T *>(get_proc_address(proc));
+    }
+
+    /*!
      * Release the dll handle. This will return the internal handle
      * and stop it from getting removed when this class goes out of
      * scope. Be aware that free_dll_handle must be called on this
