@@ -63,6 +63,7 @@ enable_component(midi)
 
 if (WIN32)
     enable_component(platform)
+    enable_component(gl)
 endif ()
 
 enable_component(plugins)
