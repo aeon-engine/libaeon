@@ -31,6 +31,7 @@ register_component_auto(testing)
 register_component_auto(tracelog)
 register_component_auto(unicode)
 register_component_auto(variant)
+register_component_auto(vulkan)
 register_component_auto(web)
 
 finalize_components()

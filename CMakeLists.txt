@@ -86,6 +86,14 @@ if (MONO_FOUND)
     enable_component(mono)
 endif ()
 
+# If the LunarG Vulkan SDK is found on the system; attempt to build the vulkan subsystem
+if (WIN32)
+    find_package(LunarGVulkanSDK)
+    if (VULKAN_FOUND)
+        enable_component(vulkan)
+    endif ()
+endif ()
+
 ################################################################################
 
 option(AEON_ENABLE_BENCHMARK "Enable google benchmarking tests." ON)
