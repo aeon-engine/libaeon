@@ -34,6 +34,11 @@ void free_dll_handle(const dll_handle handle);
 class scoped_dll_handle
 {
 public:
+    scoped_dll_handle() noexcept
+        : handle_{nullptr}
+    {
+    }
+
     /*!
      * Attempt to load a dll by filename. Be sure to check is_valid()
      * to see if the dll was loaded correctly.
@@ -45,7 +50,7 @@ public:
 
     ~scoped_dll_handle()
     {
-        free_dll_handle(handle_);
+        free_handle();
     }
 
     scoped_dll_handle(scoped_dll_handle &&other) noexcept
@@ -56,13 +61,29 @@ public:
 
     scoped_dll_handle &operator=(scoped_dll_handle &&other) noexcept
     {
-        handle_ = other.handle_;
-        other.handle_ = nullptr;
+        if (this != &other) [[likely]]
+        {
+            free_handle();
+            handle_ = other.handle_;
+            other.handle_ = nullptr;
+        }
+
         return *this;
     }
 
     scoped_dll_handle(const scoped_dll_handle &) = delete;
     auto operator=(const scoped_dll_handle &) -> scoped_dll_handle & = delete;
+
+    auto operator=(const dll_handle handle) -> scoped_dll_handle &
+    {
+        if (handle_ != &handle) [[likely]]
+        {
+            free_handle();
+            handle_ = handle;
+        }
+
+        return *this;
+    }
 
     /*!
      * Returns true if the dll was loaded correctly.
@@ -91,12 +112,17 @@ public:
      */
     [[nodiscard]] auto release() noexcept
     {
-        const auto handle = handle_;
+        auto *const handle = handle_;
         handle_ = nullptr;
         return handle;
     }
 
 private:
+    void free_handle() const noexcept
+    {
+        free_dll_handle(handle_);
+    }
+
     dll_handle handle_;
 };
 
