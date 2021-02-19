@@ -13,17 +13,23 @@ template <typename T = int>
 class version2
 {
 public:
-    version2() noexcept;
+    constexpr version2() noexcept;
 
-    explicit version2(const T major, const T minor) noexcept;
+    constexpr explicit version2(const T major, const T minor) noexcept;
+
+    template <typename U>
+    constexpr explicit version2(const version2<U> other) noexcept;
+
+    template <typename U>
+    constexpr explicit version2(const U major, const U minor) noexcept;
 
     ~version2() = default;
 
-    version2(const version2<T> &) noexcept = default;
-    auto operator=(const version2<T> &) noexcept -> version2<T> & = default;
+    constexpr version2(const version2<T> &) noexcept = default;
+    constexpr auto operator=(const version2<T> &) noexcept -> version2<T> & = default;
 
-    version2(version2<T> &&) noexcept = default;
-    auto operator=(version2<T> &&) noexcept -> version2<T> & = default;
+    constexpr version2(version2<T> &&) noexcept = default;
+    constexpr auto operator=(version2<T> &&) noexcept -> version2<T> & = default;
 
     [[nodiscard]] auto str() const -> std::string;
 
@@ -35,23 +41,38 @@ template <typename T = int>
 class version3 : public version2<T>
 {
 public:
-    version3() noexcept;
+    constexpr version3() noexcept;
 
-    explicit version3(const T major, const T minor) noexcept;
+    constexpr explicit version3(const T major, const T minor) noexcept;
 
-    explicit version3(const T major, const T minor, const T patch) noexcept;
+    constexpr explicit version3(const T major, const T minor, const T patch) noexcept;
 
-    explicit version3(const version2<T> &ver) noexcept;
+    constexpr explicit version3(const version2<T> &ver) noexcept;
 
-    explicit version3(const version2<T> &ver, const T patch) noexcept;
+    constexpr explicit version3(const version2<T> &ver, const T patch) noexcept;
+
+    template <typename U>
+    constexpr explicit version3(const U major, const U minor) noexcept;
+
+    template <typename U>
+    constexpr explicit version3(const U major, const U minor, const U patch) noexcept;
+
+    template <typename U>
+    constexpr explicit version3(const version2<U> &ver) noexcept;
+
+    template <typename U>
+    constexpr explicit version3(const version2<U> &ver, const U patch) noexcept;
+
+    template <typename U>
+    constexpr explicit version3(const version3<U> &ver) noexcept;
 
     ~version3() = default;
 
-    version3(const version3<T> &) noexcept = default;
-    auto operator=(const version3<T> &) noexcept -> version3<T> & = default;
+    constexpr version3(const version3<T> &) noexcept = default;
+    constexpr auto operator=(const version3<T> &) noexcept -> version3<T> & = default;
 
-    version3(version3<T> &&) noexcept = default;
-    auto operator=(version3<T> &&) noexcept -> version3<T> & = default;
+    constexpr version3(version3<T> &&) noexcept = default;
+    constexpr auto operator=(version3<T> &&) noexcept -> version3<T> & = default;
 
     [[nodiscard]] auto str() const -> std::string;
 
@@ -62,99 +83,126 @@ template <typename T = int>
 class version4 : public version3<T>
 {
 public:
-    version4() noexcept;
+    constexpr version4() noexcept;
 
-    explicit version4(const T major, const T minor) noexcept;
+    constexpr explicit version4(const T major, const T minor) noexcept;
 
-    explicit version4(const T major, const T minor, const T patch) noexcept;
+    constexpr explicit version4(const T major, const T minor, const T patch) noexcept;
 
-    explicit version4(const T major, const T minor, const T patch, const T build) noexcept;
+    constexpr explicit version4(const T major, const T minor, const T patch, const T build) noexcept;
 
-    explicit version4(const version2<T> &ver) noexcept;
+    constexpr explicit version4(const version2<T> &ver) noexcept;
 
-    explicit version4(const version2<T> &ver, const int patch) noexcept;
+    constexpr explicit version4(const version2<T> &ver, const T patch) noexcept;
 
-    explicit version4(const version2<T> &ver, const int patch, const int build) noexcept;
+    constexpr explicit version4(const version2<T> &ver, const T patch, const T build) noexcept;
 
-    explicit version4(const version3<T> &ver) noexcept;
+    constexpr explicit version4(const version3<T> &ver) noexcept;
 
-    explicit version4(const version3<T> &ver, const int build) noexcept;
+    constexpr explicit version4(const version3<T> &ver, const T build) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const U major, const U minor) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const U major, const U minor, const U patch) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const U major, const U minor, const U patch, const U build) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const version2<U> &ver) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const version2<U> &ver, const U patch) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const version2<U> &ver, const U patch, const U build) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const version3<U> &ver) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const version3<U> &ver, const U build) noexcept;
+
+    template <typename U>
+    constexpr explicit version4(const version4<U> &ver) noexcept;
 
     ~version4() = default;
 
-    version4(const version4<T> &) noexcept = default;
-    auto operator=(const version4<T> &) noexcept -> version4<T> & = default;
+    constexpr version4(const version4<T> &) noexcept = default;
+    constexpr auto operator=(const version4<T> &) noexcept -> version4<T> & = default;
 
-    version4(version4<T> &&) noexcept = default;
-    auto operator=(version4<T> &&) noexcept -> version4<T> & = default;
+    constexpr version4(version4<T> &&) noexcept = default;
+    constexpr auto operator=(version4<T> &&) noexcept -> version4<T> & = default;
 
     [[nodiscard]] auto str() const -> std::string;
 
-    int build;
+    T build;
 };
 
 template <typename T>
-inline auto operator<(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator==(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const version2<T> &v) -> std::ostream &;
+inline constexpr auto operator<<(std::ostream &os, const version2<T> &v) -> std::ostream &;
 
 template <typename T>
-inline auto operator<(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator==(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const version3<T> &v) -> std::ostream &;
+inline constexpr auto operator<<(std::ostream &os, const version3<T> &v) -> std::ostream &;
 
 template <typename T>
-inline auto operator<(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator>=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
+inline constexpr auto operator>=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator==(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
+inline constexpr auto operator==(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator!=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
+inline constexpr auto operator!=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool;
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const version4<T> &v) -> std::ostream &;
+inline constexpr auto operator<<(std::ostream &os, const version4<T> &v) -> std::ostream &;
 
 using version = version4<int>;
 

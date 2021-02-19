@@ -8,16 +8,32 @@ namespace aeon::common
 {
 
 template <typename T>
-inline version2<T>::version2() noexcept
+inline constexpr version2<T>::version2() noexcept
     : major{}
     , minor{}
 {
 }
 
 template <typename T>
-inline version2<T>::version2(const T major, const T minor) noexcept
+inline constexpr version2<T>::version2(const T major, const T minor) noexcept
     : major{major}
     , minor{minor}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version2<T>::version2(const version2<U> other) noexcept
+    : major{static_cast<T>(other.major)}
+    , minor{static_cast<T>(other.minor)}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version2<T>::version2(const U major, const U minor) noexcept
+    : major{static_cast<T>(major)}
+    , minor{static_cast<T>(minor)}
 {
 }
 
@@ -33,35 +49,72 @@ inline auto version2<T>::str() const -> std::string
 }
 
 template <typename T>
-inline version3<T>::version3() noexcept
+inline constexpr version3<T>::version3() noexcept
     : version2<T>{}
     , patch{}
 {
 }
 
 template <typename T>
-inline version3<T>::version3(const T major, const T minor) noexcept
+inline constexpr version3<T>::version3(const T major, const T minor) noexcept
     : version3{major, minor, {}}
 {
 }
 
 template <typename T>
-inline version3<T>::version3(const T major, const T minor, const T patch) noexcept
+inline constexpr version3<T>::version3(const T major, const T minor, const T patch) noexcept
     : version2<T>{major, minor}
     , patch{patch}
 {
 }
 
 template <typename T>
-inline version3<T>::version3(const version2<T> &ver) noexcept
+inline constexpr version3<T>::version3(const version2<T> &ver) noexcept
     : version3{ver, {}}
 {
 }
 
 template <typename T>
-inline version3<T>::version3(const version2<T> &ver, const T patch) noexcept
+inline constexpr version3<T>::version3(const version2<T> &ver, const T patch) noexcept
     : version2<T>{ver}
     , patch{patch}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version3<T>::version3(const U major, const U minor) noexcept
+    : version3{static_cast<T>(major), static_cast<T>(minor), {}}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version3<T>::version3(const U major, const U minor, const U patch) noexcept
+    : version2<T>{static_cast<T>(major), static_cast<T>(minor)}
+    , patch{static_cast<T>(patch)}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version3<T>::version3(const version2<U> &ver) noexcept
+    : version3{ver, {}}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version3<T>::version3(const version2<U> &ver, const U patch) noexcept
+    : version2<T>{ver}
+    , patch{static_cast<T>(patch)}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version3<T>::version3(const version3<U> &ver) noexcept
+    : version3<T>{static_cast<T>(ver.major), static_cast<T>(ver.minor), static_cast<T>(ver.patch)}
 {
 }
 
@@ -79,61 +132,129 @@ inline auto version3<T>::str() const -> std::string
 }
 
 template <typename T>
-inline version4<T>::version4() noexcept
+inline constexpr version4<T>::version4() noexcept
     : version3<T>{}
     , build{}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const T major, const T minor) noexcept
+inline constexpr version4<T>::version4(const T major, const T minor) noexcept
     : version4{major, minor, {}, {}}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const T major, const T minor, const T patch) noexcept
+inline constexpr version4<T>::version4(const T major, const T minor, const T patch) noexcept
     : version4{major, minor, patch, {}}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const T major, const T minor, const T patch, const T build) noexcept
+inline constexpr version4<T>::version4(const T major, const T minor, const T patch, const T build) noexcept
     : version3<T>{major, minor, patch}
     , build{build}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const version2<T> &ver) noexcept
+inline constexpr version4<T>::version4(const version2<T> &ver) noexcept
     : version3<T>{ver.major, ver.minor, {}}
     , build{}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const version2<T> &ver, const int patch) noexcept
+inline constexpr version4<T>::version4(const version2<T> &ver, const T patch) noexcept
     : version4{ver, patch, {}}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const version2<T> &ver, const int patch, const int build) noexcept
+inline constexpr version4<T>::version4(const version2<T> &ver, const T patch, const T build) noexcept
     : version3<T>{ver.major, ver.minor, patch}
     , build{build}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const version3<T> &ver) noexcept
+inline constexpr version4<T>::version4(const version3<T> &ver) noexcept
     : version4{ver, {}}
 {
 }
 
 template <typename T>
-inline version4<T>::version4(const version3<T> &ver, const int build) noexcept
+inline constexpr version4<T>::version4(const version3<T> &ver, const T build) noexcept
     : version3<T>{ver}
     , build{build}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const U major, const U minor) noexcept
+    : version4{static_cast<T>(major), static_cast<T>(minor), {}, {}}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const U major, const U minor, const U patch) noexcept
+    : version4{static_cast<T>(major), static_cast<T>(minor), static_cast<T>(patch), {}}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const U major, const U minor, const U patch, const U build) noexcept
+    : version3<T>{static_cast<T>(major), static_cast<T>(minor), static_cast<T>(patch)}
+    , build{static_cast<T>(build)}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const version2<U> &ver) noexcept
+    : version3<T>{static_cast<T>(ver.major), static_cast<T>(ver.minor), {}}
+    , build{}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const version2<U> &ver, const U patch) noexcept
+    : version4{ver, patch, {}}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const version2<U> &ver, const U patch, const U build) noexcept
+    : version3<T>{static_cast<T>(ver.major), static_cast<T>(ver.minor), static_cast<T>(patch)}
+    , build{static_cast<T>(build)}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const version3<U> &ver) noexcept
+    : version4{ver, {}}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const version3<U> &ver, const U build) noexcept
+    : version3<T>{ver}
+    , build{static_cast<T>(build)}
+{
+}
+
+template <typename T>
+template <typename U>
+inline constexpr version4<T>::version4(const version4<U> &ver) noexcept
+    : version4{static_cast<T>(ver.major), static_cast<T>(ver.minor), static_cast<T>(ver.patch),
+               static_cast<T>(ver.build)}
 {
 }
 
@@ -153,127 +274,127 @@ inline auto version4<T>::str() const -> std::string
 }
 
 template <typename T>
-inline auto operator<(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
+inline constexpr auto operator<(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor) < std::tie(rhs.major, rhs.minor);
 }
 
 template <typename T>
-inline auto operator<=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
+inline constexpr auto operator<=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor) <= std::tie(rhs.major, rhs.minor);
 }
 
 template <typename T>
-inline auto operator>(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
+inline constexpr auto operator>(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor) > std::tie(rhs.major, rhs.minor);
 }
 
 template <typename T>
-inline auto operator>=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
+inline constexpr auto operator>=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor) >= std::tie(rhs.major, rhs.minor);
 }
 
 template <typename T>
-inline auto operator==(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
+inline constexpr auto operator==(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
 {
     return lhs.major == rhs.major && lhs.minor == rhs.minor;
 }
 
 template <typename T>
-inline auto operator!=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
+inline constexpr auto operator!=(const version2<T> &lhs, const version2<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const version2<T> &v) -> std::ostream &
+inline constexpr auto operator<<(std::ostream &os, const version2<T> &v) -> std::ostream &
 {
     return os << std::to_string(v.major) << "." << std::to_string(v.minor);
 }
 
 template <typename T>
-inline auto operator<(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
+inline constexpr auto operator<(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch) < std::tie(rhs.major, rhs.minor, rhs.patch);
 }
 
 template <typename T>
-inline auto operator<=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
+inline constexpr auto operator<=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch) <= std::tie(rhs.major, rhs.minor, rhs.patch);
 }
 
 template <typename T>
-inline auto operator>(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
+inline constexpr auto operator>(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch) > std::tie(rhs.major, rhs.minor, rhs.patch);
 }
 
 template <typename T>
-inline auto operator>=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
+inline constexpr auto operator>=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch) >= std::tie(rhs.major, rhs.minor, rhs.patch);
 }
 
 template <typename T>
-inline auto operator==(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
+inline constexpr auto operator==(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
 {
     return lhs.major == rhs.major && lhs.minor == rhs.minor && lhs.patch == rhs.patch;
 }
 
 template <typename T>
-inline auto operator!=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
+inline constexpr auto operator!=(const version3<T> &lhs, const version3<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const version3<T> &v) -> std::ostream &
+inline constexpr auto operator<<(std::ostream &os, const version3<T> &v) -> std::ostream &
 {
     return os << v.major << "." << v.minor << "." << v.patch;
 }
 
 template <typename T>
-inline auto operator<(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
+inline constexpr auto operator<(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch, lhs.build) < std::tie(rhs.major, rhs.minor, rhs.patch, rhs.build);
 }
 
 template <typename T>
-inline auto operator<=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
+inline constexpr auto operator<=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch, lhs.build) <= std::tie(rhs.major, rhs.minor, rhs.patch, rhs.build);
 }
 
 template <typename T>
-inline auto operator>(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
+inline constexpr auto operator>(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch, lhs.build) > std::tie(rhs.major, rhs.minor, rhs.patch, rhs.build);
 }
 
 template <typename T>
-inline auto operator>=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
+inline constexpr auto operator>=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
 {
     return std::tie(lhs.major, lhs.minor, lhs.patch, lhs.build) >= std::tie(rhs.major, rhs.minor, rhs.patch, rhs.build);
 }
 
 template <typename T>
-inline auto operator==(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
+inline constexpr auto operator==(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
 {
     return lhs.major == rhs.major && lhs.minor == rhs.minor && lhs.patch == rhs.patch && lhs.build == rhs.build;
 }
 
 template <typename T>
-inline auto operator!=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
+inline constexpr auto operator!=(const version4<T> &lhs, const version4<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const version4<T> &v) -> std::ostream &
+inline constexpr auto operator<<(std::ostream &os, const version4<T> &v) -> std::ostream &
 {
     return os << v.major << "." << v.minor << "." << v.patch << "." << v.build;
 }

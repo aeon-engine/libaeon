@@ -81,3 +81,25 @@ TEST(test_version, test_version_string)
     EXPECT_EQ("2.3.4.6", v2.str());
     EXPECT_EQ("3.3.4.5", v3.str());
 }
+
+TEST(test_version, test_version_convert)
+{
+    aeon::common::version4<int> v_orig{2, 3, 4, 5};
+    aeon::common::version4<float> v_float{v_orig};
+    aeon::common::version4<int> v_result{v_float};
+
+    EXPECT_TRUE(v_orig == v_result);
+}
+
+TEST(test_version, test_version_convert_partial)
+{
+    aeon::common::version2<int> v_orig{2, 3};
+    aeon::common::version4<float> v_float{v_orig, 4};
+    aeon::common::version4<int> v_float2{v_orig, 4, 5};
+
+    aeon::common::version4<int> v_result{v_float};
+    aeon::common::version4<int> v_result2{v_float2};
+
+    EXPECT_TRUE(v_orig == v_result);
+    EXPECT_TRUE(v_float2 == v_result2);
+}
