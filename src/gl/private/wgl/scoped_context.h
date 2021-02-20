@@ -65,6 +65,13 @@ public:
     scoped_context(scoped_context &&) noexcept = delete;
     auto operator=(scoped_context &&) noexcept -> scoped_context & = delete;
 
+    [[nodiscard]] auto release() noexcept
+    {
+        auto *const context = context_;
+        context_ = nullptr;
+        return context;
+    }
+
     void delete_context() noexcept
     {
         wglMakeCurrent(window_dc_, nullptr);
