@@ -44,6 +44,11 @@ inline void scissor(const math::vector2<int> position, const math::size2d<int> s
     aeon_check_gl_error(glScissor(position.x, position.y, math::width(size), math::height(size)));
 }
 
+inline void scissor(const math::size2d<int> size)
+{
+    aeon_check_gl_error(glScissor(0, 0, math::width(size), math::height(size)));
+}
+
 inline void viewport(const math::rectangle<int> rect)
 {
     aeon_check_gl_error(glViewport(rect.left, rect.top, math::width(rect), math::height(rect)));
