@@ -69,10 +69,18 @@ auto wgl::create_context(const platform::window &window, const opengl_context_cr
                            0};
 
     scoped_context temp_context{window, create_info};
-    const auto context = wglCreateContextAttribsARB(window_dc, nullptr, attribs);
-    temp_context.delete_context();
+    HGLRC context = nullptr;
+    if (create_info.version.major >= 3)
+    {
+        context = wglCreateContextAttribsARB(window_dc, nullptr, attribs);
+        temp_context.delete_context();
 
-    wglMakeCurrent(window_dc, context);
+        wglMakeCurrent(window_dc, context);
+    }
+    else
+    {
+        context = temp_context.release();
+    }
 
     return std::make_unique<wgl_opengl_context>(window, window_dc, context);
 }
