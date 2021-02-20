@@ -15,7 +15,7 @@ namespace internal
     switch (imaging::encoding(image))
     {
         case imaging::pixel_encoding::monochrome:
-            return GL_RED;
+            return GL_LUMINANCE;
         case imaging::pixel_encoding::rgb:
             return GL_RGB;
         case imaging::pixel_encoding::rgba:
