@@ -160,6 +160,11 @@ public:
      */
     [[nodiscard]] auto clone() const -> mat;
 
+    /*!
+     * Delete the matrix data and set the size and stride information to 0.
+     */
+    void clear() noexcept;
+
 protected:
     void copy_from_pointer(const underlying_type *data);
 

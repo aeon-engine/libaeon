@@ -129,6 +129,15 @@ inline auto mat::operator=(const imat &other) -> mat &
     return mat{type_, dimensions_, stride_, data_};
 }
 
+inline void mat::clear() noexcept
+{
+    type_ = {};
+    data_ptr_ = nullptr;
+    dimensions_ = {};
+    stride_ = 0;
+    data_.clear();
+}
+
 inline void mat::copy_from_pointer(const underlying_type *data)
 {
     const auto size = mat_view::size();
