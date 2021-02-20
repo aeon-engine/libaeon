@@ -121,6 +121,16 @@ inline auto image::clone() const -> image
     return image{type_, encoding_, dimensions_, stride_, data_};
 }
 
+inline void image::clear() noexcept
+{
+    encoding_ = pixel_encoding::undefined;
+    type_ = {};
+    data_ptr_ = nullptr;
+    dimensions_ = {};
+    stride_ = 0;
+    data_.clear();
+}
+
 inline void image::copy_from_pointer(const underlying_type *data)
 {
     const auto size = mat_view::size();

@@ -190,6 +190,11 @@ public:
      */
     [[nodiscard]] auto clone() const -> image;
 
+    /*!
+     * Delete the image data and set the size and stride information to 0.
+     */
+    void clear() noexcept;
+
 private:
     void copy_from_pointer(const underlying_type *data);
 
