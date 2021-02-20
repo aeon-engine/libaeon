@@ -30,7 +30,6 @@ private:
     void generate_header_additional_source_lines(streams::idynamic_stream &output_file) const;
     void generate_header_enum_definitions(streams::idynamic_stream &output_file) const;
     void generate_header_function_definitions(streams::idynamic_stream &output_file) const;
-    void generate_header_macros(streams::idynamic_stream &output_file) const;
 
     void generate_inline_header_function_definitions(streams::idynamic_stream &output_file) const;
     void generate_inline_header_initialize_impl(streams::idynamic_stream &output_file) const;

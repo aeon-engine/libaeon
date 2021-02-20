@@ -37,7 +37,6 @@ void generator::write_header(const std::filesystem::path &path) const
     generate_header_additional_source_lines(output_stream);
     generate_header_enum_definitions(output_stream);
     generate_header_function_definitions(output_stream);
-    // generate_header_macros(output_stream);
     generate_footer(output_stream);
 
     std::cout << " Took: " << std::fixed << timer.get_time_difference<double>() << " seconds.\n";
@@ -142,29 +141,6 @@ void generator::generate_header_function_definitions(streams::idynamic_stream &o
         writer << "\n";
     }
 
-    writer << "\n\n";
-}
-
-void generator::generate_header_macros(streams::idynamic_stream &output_file) const
-{
-    streams::stream_writer writer{output_file};
-
-    const auto macroName = "AEON_" + common::string::to_upper_copy(definition_.definition_name()) + "_ENTRYPOINTS";
-    writer << "#define AEON_" << macroName << "(EntryPointFunc) \\\n";
-
-    const auto &functions = definition_.functions();
-
-    for (auto i = 0ull; i < std::size(functions); ++i)
-    {
-        const auto &function = functions[i];
-        const auto proc_name = detail::generate_proc_name(function.name());
-        const auto aeon_name = "aeon_" + function.name();
-
-        writer << "    EntryPointFunc(" << proc_name << ", " << aeon_name << ", " << function.name() << ")";
-
-        if (i + 1ull < std::size(functions))
-            writer << " \\\n";
-    }
     writer << "\n\n";
 }
 
