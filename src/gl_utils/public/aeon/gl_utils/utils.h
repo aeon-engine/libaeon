@@ -59,4 +59,9 @@ inline void viewport(const math::vector2<int> position, const math::size2d<int> 
     aeon_check_gl_error(glViewport(position.x, position.y, math::width(size), math::height(size)));
 }
 
+inline void viewport(const math::size2d<int> size)
+{
+    aeon_check_gl_error(glViewport(0, 0, math::width(size), math::height(size)));
+}
+
 } // namespace aeon::gl_utils
