@@ -283,6 +283,12 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto angle(const vector2<T> &vec) -> T
+{
+    return std::atan2(vec.y, vec.x);
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto ptr(vector2<T> &vec) noexcept -> T *
 {
     return &vec.x;

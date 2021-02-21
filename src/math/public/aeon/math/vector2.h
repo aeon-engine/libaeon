@@ -429,6 +429,14 @@ template <typename T>
 [[nodiscard]] inline constexpr auto ceil(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
+ * Calculate the angle of the vector in radians
+ * \param[in] vec - Vector
+ * \return The angle of the vector in radians
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto angle(const vector2<T> &vec) -> T;
+
+/*!
  * Get a pointer into the underlying data structure of a given vector.
  * The vector data layout is [X Y]
  * \param[in] vec - Vector
