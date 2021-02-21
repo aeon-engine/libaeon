@@ -11,6 +11,7 @@
 #include <cmath>
 #include <algorithm>
 #include <cstdint>
+#include <array>
 
 /*!
  * Various classes and functions for math with SSE support where applicable.
@@ -207,6 +208,33 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
         val /= i;
     }
     return val;
+}
+
+/*!
+ * Calculate a row on Pascal's triangle.
+ * Due to the symmetrical nature of Pascal's triangle,the size of the returned array is row + 1.
+ */
+template <std::uint64_t row>
+[[nodiscard]] inline constexpr auto pascals_triangle_row() noexcept
+{
+    std::array<std::uint64_t, row + 1> values;
+
+    const auto center = row / 2ull;
+    auto k = 0ull;
+
+    while (k <= center)
+    {
+        values[k] = binomial(row, k);
+        k++;
+    }
+
+    while (k <= row)
+    {
+        values[k] = values[row - k];
+        k++;
+    }
+
+    return values;
 }
 
 } // namespace aeon::math
