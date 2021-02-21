@@ -63,3 +63,8 @@ TEST(test_math, test_math_constexpr_pow_int)
     EXPECT_EQ(16.0f, math::constexpr_pow(2.0f, 4));
     EXPECT_EQ(16.0, math::constexpr_pow(2.0, 4));
 }
+
+TEST(test_math, test_math_binomial)
+{
+    EXPECT_EQ(126, math::binomial(9, 5));
+}

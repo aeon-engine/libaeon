@@ -10,6 +10,7 @@
 #include <type_traits>
 #include <cmath>
 #include <algorithm>
+#include <cstdint>
 
 /*!
  * Various classes and functions for math with SSE support where applicable.
@@ -180,6 +181,32 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 [[nodiscard]] inline constexpr auto approximately_zero(const T a, const T epsilon = constants<T>::tolerance) noexcept
 {
     return std::abs(a) < epsilon;
+}
+
+/*!
+ * Calculate the binomial distribution of the given values (n choose k).
+ * In other words, with N tosses, what are the chances of K heads.
+ *
+ * n must be <= k.
+ *
+ * Example from https://www.mathsisfun.com/data/binomial-distribution.html:
+ * binomial(9, 5) = 126
+ * For 9 coin tosses, there are 2^9 = 512 possible outcomes.
+ * Out of those outcomes, 126 outcomes will have 5 heads.
+ * Or 126/512 = 0.246 = ~25%
+ *
+ * \param[in] n - Total number
+ * \param[in] k - Wanted number
+ */
+[[nodiscard]] inline constexpr auto binomial(const std::uint64_t n, const std::uint64_t k) noexcept
+{
+    auto val = 1ull;
+    for (auto i = 1ull; i <= k; i++)
+    {
+        val *= n + 1 - i;
+        val /= i;
+    }
+    return val;
 }
 
 } // namespace aeon::math
