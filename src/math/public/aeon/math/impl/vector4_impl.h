@@ -357,7 +357,7 @@ template <typename T>
 template <typename T>
 [[nodiscard]] inline constexpr auto midpoint(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>
 {
-    return (lhs + rhs) * 0.5f;
+    return (lhs + rhs) * T(0.5);
 }
 
 template <typename T>
