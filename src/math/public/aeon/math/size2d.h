@@ -7,12 +7,18 @@
 
 #pragma once
 
-#include <aeon/math/convert_type.h>
 #include <aeon/math/math_fwd.h>
 #include <aeon/common/concepts.h>
 
 namespace aeon::math
 {
+
+template <typename T>
+concept external_size2d = requires(T val)
+{
+    val.width;
+    val.height;
+};
 
 /*!
  * Class that represents a size (width and height).
@@ -45,8 +51,8 @@ public:
     template <common::concepts::arithmetic_convertible U>
     explicit constexpr size2d(const U width, const U height) noexcept;
 
-    template <typename U>
-    explicit constexpr size2d(const convert_type, const U &t) noexcept;
+    template <external_size2d U>
+    explicit constexpr size2d(const U &t) noexcept;
 
     ~size2d() noexcept = default;
 
@@ -56,7 +62,7 @@ public:
     constexpr size2d(size2d &&) noexcept = default;
     constexpr auto operator=(size2d &&) noexcept -> size2d & = default;
 
-    template <typename U>
+    template <external_size2d U>
     [[nodiscard]] constexpr auto convert_to() const noexcept -> U;
 
     T width;

@@ -21,7 +21,7 @@ TEST(test_size2d, test_size2d_convert_from_unknown)
 {
     const external_size2d s{10, 20};
 
-    math::size2d<int> size{math::convert_type{}, s};
+    math::size2d<int> size{s};
     EXPECT_EQ(size.width, 10);
     EXPECT_EQ(size.height, 20);
 

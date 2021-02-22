@@ -40,15 +40,15 @@ inline constexpr size2d<T>::size2d(const U width, const U height) noexcept
 }
 
 template <common::concepts::arithmetic_convertible T>
-template <typename U>
-inline constexpr size2d<T>::size2d(const convert_type, const U &t) noexcept
+template <external_size2d U>
+inline constexpr size2d<T>::size2d(const U &t) noexcept
     : width{static_cast<T>(t.width)}
     , height{static_cast<T>(t.height)}
 {
 }
 
 template <common::concepts::arithmetic_convertible T>
-template <typename U>
+template <external_size2d U>
 auto constexpr size2d<T>::convert_to() const noexcept -> U
 {
     return U{static_cast<decltype(U::width)>(width), static_cast<decltype(U::height)>(height)};
