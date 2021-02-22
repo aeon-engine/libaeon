@@ -35,6 +35,7 @@ target_link_libraries(aeon_gl_utils
     aeon_common
     aeon_gl
     aeon_imaging
+    aeon_math
 )
 
 install(
