@@ -2,17 +2,11 @@
 
 #pragma once
 
+#include <aeon/math/math_fwd.h>
 #include <aeon/math/imat.h>
 
 namespace aeon::math
 {
-
-template <typename T>
-class rectangle;
-
-class mat3;
-
-class mat4;
 
 /*!
  * Class that represents a matrix of dynamic size that does not own the data

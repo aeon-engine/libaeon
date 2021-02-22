@@ -15,9 +15,6 @@
 namespace aeon::math
 {
 
-template <typename T>
-class size2d;
-
 /*!
  * Class that represents an equiangular rectangle (left, top, right and bottom)
  */

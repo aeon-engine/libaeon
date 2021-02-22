@@ -7,13 +7,10 @@
 
 #pragma once
 
+#include <aeon/math/math_fwd.h>
+
 namespace aeon::math
 {
-
-template <typename T>
-class vector3;
-
-class mat3;
 
 /*!
  * Class that represents a quaternion.

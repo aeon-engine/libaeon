@@ -7,24 +7,13 @@
 
 #pragma once
 
+#include <aeon/math/math_fwd.h>
 #include <aeon/math/vector4.h>
 #include <aeon/math/units.h>
 #include <array>
 
 namespace aeon::math
 {
-
-template <typename T>
-class rectangle;
-
-template <typename T>
-class vector3;
-
-template <typename T>
-class size2d;
-
-class mat3;
-class quaternion;
 
 /*!
  * Class that represents a 4x4 matrix.

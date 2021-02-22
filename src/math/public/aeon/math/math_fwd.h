@@ -34,4 +34,7 @@ class size3d;
 template <typename T>
 class range;
 
+template <typename T>
+class rectangle;
+
 } // namespace aeon::math

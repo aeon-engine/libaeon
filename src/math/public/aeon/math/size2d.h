@@ -13,9 +13,6 @@
 namespace aeon::math
 {
 
-template <typename T>
-class rectangle;
-
 /*!
  * Class that represents a size (width and height).
  */

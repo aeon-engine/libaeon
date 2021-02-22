@@ -7,16 +7,11 @@
 
 #pragma once
 
+#include <aeon/math/math_fwd.h>
 #include <cstddef>
 
 namespace aeon::math
 {
-
-template <typename T>
-class vector2;
-
-template <typename T>
-class vector3;
 
 /*!
  * Class that represents a 4D vector.

@@ -7,17 +7,12 @@
 
 #pragma once
 
+#include <aeon/math/math_fwd.h>
 #include <aeon/math/vector2.h>
 #include <type_traits>
 
 namespace aeon::math
 {
-
-template <typename T>
-class size2d;
-
-template <typename T>
-class rectangle;
 
 /*!
  * Class that represents a circle as a position (center) and a radius.
