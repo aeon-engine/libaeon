@@ -164,4 +164,52 @@ struct preserve_cv
 template <typename T, typename U>
 using preserve_cv_t = typename preserve_cv<T, U>::type;
 
+/*!
+ * Check if the given type is convertible to any integer
+ */
+template <typename T>
+struct is_convertible_to_integral
+{
+    static constexpr auto value = std::is_convertible_v<T, std::int8_t> || std::is_convertible_v<T, std::uint8_t> ||
+                                  std::is_convertible_v<T, std::int16_t> || std::is_convertible_v<T, std::uint16_t> ||
+                                  std::is_convertible_v<T, std::int32_t> || std::is_convertible_v<T, std::uint32_t> ||
+                                  std::is_convertible_v<T, std::int64_t> || std::is_convertible_v<T, std::uint64_t>;
+};
+
+/*!
+ * Check if the given type is convertible to any integer
+ */
+template <typename T>
+static constexpr auto is_convertible_to_integral_v = is_convertible_to_integral<T>::value;
+
+/*!
+ * Check if the given type is convertible to a floating point value
+ */
+template <typename T>
+struct is_convertible_to_floating_point
+{
+    static constexpr auto value = std::is_convertible_v<T, float> || std::is_convertible_v<T, double>;
+};
+
+/*!
+ * Check if the given type is convertible to a floating point value
+ */
+template <typename T>
+static constexpr auto is_convertible_to_floating_point_v = is_convertible_to_floating_point<T>::value;
+
+/*!
+ * Check if the given type is convertible to any number
+ */
+template <typename T>
+struct is_convertible_to_arithmetic
+{
+    static constexpr auto value = is_convertible_to_integral_v<T> || is_convertible_to_floating_point_v<T>;
+};
+
+/*!
+ * Check if the given type is convertible to any number
+ */
+template <typename T>
+static constexpr auto is_convertible_to_arithmetic_v = is_convertible_to_arithmetic<T>::value;
+
 } // namespace aeon::common::type_traits
