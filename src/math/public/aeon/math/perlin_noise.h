@@ -12,7 +12,7 @@ public:
     perlin_noise(const double persistence, const double frequency, const double amplitude, const int octaves,
                  const int randomseed);
 
-    auto get_height(const double x, const double y) const noexcept -> double;
+    [[nodiscard]] auto get_height(const double x, const double y) const noexcept -> double;
 
     [[nodiscard]] auto get_persistance() const noexcept
     {
