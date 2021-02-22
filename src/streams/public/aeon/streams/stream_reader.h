@@ -16,6 +16,10 @@ namespace aeon::streams
 {
 
 template <typename device_t>
+concept stream_readable =
+    (is_device_v<device_t> && is_input_v<device_t>) || std::is_same_v<std::decay_t<device_t>, idynamic_stream>;
+
+template <stream_readable device_t>
 class stream_reader
 {
     static constexpr std::streamsize read_block_size = 64;
@@ -64,31 +68,24 @@ private:
 template <typename device_t>
 class dynamic_stream;
 
-template <typename device_t>
+template <stream_readable device_t>
 stream_reader(dynamic_stream<device_t> &) -> stream_reader<idynamic_stream>;
 
-template <typename device_t>
+template <stream_readable device_t>
 inline stream_reader<device_t>::stream_reader(device_t &device) noexcept
     : device_{&device}
 {
     if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
-    {
         aeon_assert(device_->is_input(), "Stream reader requires an input device.");
-    }
-    else
-    {
-        static_assert(is_device_v<device_t>, "Stream reader requires a device.");
-        static_assert(is_input_v<device_t>, "Stream reader requires an input device.");
-    }
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 [[nodiscard]] inline auto stream_reader<device_t>::device() const noexcept -> device_t &
 {
     return *device_;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 template <typename char_t>
 inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) const
 {
@@ -134,7 +131,7 @@ inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) 
     }
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 [[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> std::string
 {
     std::string line;
@@ -142,7 +139,7 @@ template <typename device_t>
     return line;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 auto stream_reader<device_t>::read_u8line() const -> std::u8string
 {
     std::u8string line;
@@ -150,7 +147,7 @@ auto stream_reader<device_t>::read_u8line() const -> std::u8string
     return line;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 template <typename T>
 inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec) const
 {
@@ -162,7 +159,7 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec) const
     read_to_vector(vec, device_->size());
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 template <typename T>
 [[nodiscard]] inline auto stream_reader<device_t>::read_to_vector() const -> std::vector<T>
 {
@@ -171,7 +168,7 @@ template <typename T>
     return vec;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 template <typename T>
 inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec, const std::streamoff size) const
 {
@@ -184,7 +181,7 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec, const s
         throw stream_exception{};
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 template <typename T>
 [[nodiscard]] inline auto stream_reader<device_t>::read_to_vector(const std::streamoff size) const -> std::vector<T>
 {
@@ -193,7 +190,7 @@ template <typename T>
     return vec;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 inline void stream_reader<device_t>::read_to_string(std::string &str) const
 {
     aeon_assert(std::empty(str), "Expected given string to be empty.");
@@ -202,7 +199,7 @@ inline void stream_reader<device_t>::read_to_string(std::string &str) const
     str.insert(std::begin(str), std::begin(vec), std::end(vec));
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 inline void stream_reader<device_t>::read_to_string(std::u8string &str) const
 {
     aeon_assert(std::empty(str), "Expected given string to be empty.");
@@ -211,7 +208,7 @@ inline void stream_reader<device_t>::read_to_string(std::u8string &str) const
     str.insert(std::begin(str), std::begin(vec), std::end(vec));
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 [[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> std::string
 {
     std::string str;
@@ -219,7 +216,7 @@ template <typename device_t>
     return str;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 [[nodiscard]] inline auto stream_reader<device_t>::read_to_u8string() const -> std::u8string
 {
     std::u8string str;
@@ -227,7 +224,7 @@ template <typename device_t>
     return str;
 }
 
-template <typename device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
+template <stream_readable device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
 inline auto &operator>>(stream_reader<device_t> &reader, T &val)
 {
     if (reader.device().read(reinterpret_cast<char *>(&val), aeon_signed_sizeof(T)) != aeon_signed_sizeof(T))
@@ -236,14 +233,14 @@ inline auto &operator>>(stream_reader<device_t> &reader, T &val)
     return reader;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 inline auto &operator>>(stream_reader<device_t> &reader, std::string &val)
 {
     reader.read_line(val);
     return reader;
 }
 
-template <typename device_t>
+template <stream_readable device_t>
 inline auto &operator>>(stream_reader<device_t> &reader, std::u8string &val)
 {
     reader.read_line(val);

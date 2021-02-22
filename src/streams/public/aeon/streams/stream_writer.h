@@ -15,6 +15,10 @@ namespace aeon::streams
 {
 
 template <typename device_t>
+concept stream_writable =
+    (is_device_v<device_t> && is_output_v<device_t>) || std::is_same_v<std::decay_t<device_t>, idynamic_stream>;
+
+template <stream_writable device_t>
 class stream_writer
 {
 public:
@@ -43,31 +47,24 @@ private:
 template <typename device_t>
 class dynamic_stream;
 
-template <typename device_t>
+template <stream_writable device_t>
 stream_writer(dynamic_stream<device_t> &) -> stream_writer<idynamic_stream>;
 
-template <typename device_t>
+template <stream_writable device_t>
 inline stream_writer<device_t>::stream_writer(device_t &device) noexcept
     : device_{&device}
 {
     if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
-    {
         aeon_assert(device_->is_output(), "Stream writer requires an output device.");
-    }
-    else
-    {
-        static_assert(is_device_v<device_t>, "Stream writer requires a device.");
-        static_assert(is_output_v<device_t>, "Stream writer requires an output device.");
-    }
 }
 
-template <typename device_t>
+template <stream_writable device_t>
 [[nodiscard]] inline auto stream_writer<device_t>::device() const noexcept -> device_t &
 {
     return *device_;
 }
 
-template <typename device_t>
+template <stream_writable device_t>
 template <typename T>
 inline void stream_writer<device_t>::vector_write(const std::vector<T> &vec) const
 {
@@ -79,7 +76,7 @@ inline void stream_writer<device_t>::vector_write(const std::vector<T> &vec) con
         throw stream_exception{};
 }
 
-template <typename device_t>
+template <stream_writable device_t>
 template <typename T, std::size_t size>
 inline void stream_writer<device_t>::array_write(const std::array<T, size> &arr) const
 {
@@ -89,7 +86,7 @@ inline void stream_writer<device_t>::array_write(const std::array<T, size> &arr)
         throw stream_exception{};
 }
 
-template <typename device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
+template <stream_writable device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
 inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
 {
     if (writer.device().write(reinterpret_cast<const char *>(&val), aeon_signed_sizeof(T)) != aeon_signed_sizeof(T))
@@ -98,7 +95,7 @@ inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
     return writer;
 }
 
-template <typename device_t>
+template <stream_writable device_t>
 inline auto &operator<<(stream_writer<device_t> &writer, const std::string_view &val)
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
@@ -109,7 +106,7 @@ inline auto &operator<<(stream_writer<device_t> &writer, const std::string_view 
     return writer;
 }
 
-template <typename device_t>
+template <stream_writable device_t>
 inline auto &operator<<(stream_writer<device_t> &writer, const std::u8string_view &val)
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
@@ -121,7 +118,7 @@ inline auto &operator<<(stream_writer<device_t> &writer, const std::u8string_vie
     return writer;
 }
 
-template <typename device_t, typename T>
+template <stream_writable device_t, typename T>
 inline auto &operator<<(stream_writer<device_t> &writer, const std::vector<T> &val)
 {
     for (const auto &v : val)
