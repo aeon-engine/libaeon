@@ -104,23 +104,19 @@ inline constexpr auto is_base_type_v = is_base_type<T>::value;
 /*!
  * Check if a given unit type has a multiplier conversion value.
  */
-aeon_define_member_value_check_trait(type_has_multiplier_value, double, multiplier);
-
-/*!
- * Convenience value variant of type_has_multiplier_value.
- */
 template <typename T>
-inline constexpr auto type_has_multiplier_value_v = type_has_multiplier_value<T>::value;
+concept unit_with_multiplier = requires(T)
+{
+    T::multiplier;
+};
 
 /*!
  * Check if a given unit type has an offset conversion value.
  */
-aeon_define_member_value_check_trait(type_has_offset_value, double, offset);
-
-/*!
- * Convenience value variant of type_has_offset_value.
- */
 template <typename T>
-inline constexpr auto type_has_offset_value_v = type_has_offset_value<T>::value;
+concept unit_with_offset = requires(T)
+{
+    T::offset;
+};
 
 } // namespace aeon::math

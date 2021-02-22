@@ -137,10 +137,10 @@ struct units_convert_magnitude
         {
             auto val = value;
 
-            if constexpr (type_has_offset_value_v<unit_t>)
+            if constexpr (unit_with_offset<unit_t>)
                 val -= static_cast<unit_value_type_t>(unit_t::offset);
 
-            if constexpr (type_has_multiplier_value_v<unit_t>)
+            if constexpr (unit_with_multiplier<unit_t>)
                 val /= static_cast<unit_value_type_t>(unit_t::multiplier);
 
             return val;
@@ -157,10 +157,10 @@ struct units_convert_magnitude
         {
             auto val = value;
 
-            if constexpr (type_has_multiplier_value_v<unit_t>)
+            if constexpr (unit_with_multiplier<unit_t>)
                 val *= static_cast<unit_value_type_t>(unit_t::multiplier);
 
-            if constexpr (type_has_offset_value_v<unit_t>)
+            if constexpr (unit_with_offset<unit_t>)
                 val += static_cast<unit_value_type_t>(unit_t::offset);
 
             return val;
