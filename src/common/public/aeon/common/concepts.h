@@ -22,4 +22,22 @@ template <typename T>
 concept arithmetic_convertible = (std::is_arithmetic_v<T> ||
                                   type_traits::is_convertible_to_arithmetic_v<T>)&&!std::is_enum_v<T>;
 
+/*!
+ * The given type must be an enum
+ */
+template <typename T>
+concept enumerable = std::is_enum_v<T>;
+
+/*!
+ * The given type must be an enum, with a signed underlying type (such as int)
+ */
+template <typename T>
+concept signed_enumerable = enumerable<T> &&std::is_signed_v<std::underlying_type_t<T>>;
+
+/*!
+ * The given type must be an enum, with an unsigned underlying type (such as unsigned int)
+ */
+template <typename T>
+concept unsigned_enumerable = enumerable<T> &&std::is_unsigned_v<std::underlying_type_t<T>>;
+
 } // namespace aeon::common::concepts
