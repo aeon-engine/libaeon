@@ -4,6 +4,7 @@
 
 #include <aeon/unicode/utf8_iterator.h>
 #include <aeon/unicode/utf16_iterator.h>
+#include <aeon/unicode/concepts.h>
 #include <string_view>
 
 struct UText;
@@ -31,7 +32,7 @@ struct utf_iterator_traits<std::u16string_view>
 
 } // namespace internal
 
-template <typename T>
+template <concepts::utf_string_view T>
 class utf_string_view final
 {
 public:
@@ -40,9 +41,6 @@ public:
     explicit utf_string_view(const T str) noexcept
         : str_{str}
     {
-        static_assert(std::is_same_v<T, std::string_view> || std::is_same_v<T, std::u8string_view> ||
-                          std::is_same_v<T, std::u16string_view>,
-                      "T must be std::string_view, std::u8string_view or std::u16string_view.");
     }
 
     ~utf_string_view() = default;

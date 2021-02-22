@@ -10,6 +10,7 @@ set(SOURCES
     private/utf16_iterator.cpp
     private/utf8_iterator.cpp
     public/aeon/unicode/base_utf_iterator.h
+    public/aeon/unicode/concepts.h
     public/aeon/unicode/ctypes.h
     public/aeon/unicode/encoding.h
     public/aeon/unicode/exception.h
