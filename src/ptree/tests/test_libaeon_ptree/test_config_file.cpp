@@ -21,6 +21,8 @@ TEST(test_ptree_config_file, has_header)
 
 TEST(test_ptree_config_file, from_ini_file)
 {
+    using namespace std::string_literals;
+
     auto stream = streams::make_dynamic_stream(streams::file_source_device{AEON_PTREE_UNITTEST_DATA_PATH "simple.ini"});
     auto result = ptree::serialization::from_ini(stream);
 
@@ -67,7 +69,7 @@ TEST(test_ptree_config_file, from_ini_file)
     config.set("a_completely_new_header", "new_value", 12131415);
     EXPECT_EQ(12131415, config.get<std::int64_t>("a_completely_new_header", "new_value"));
 
-    config.set("header1", "value", "Change the type!");
+    config.set("header1", "value", "Change the type!"s);
     EXPECT_EQ(std::nullopt, config.get<std::int64_t>("header1", "value"));
     EXPECT_EQ("Change the type!", config.get<std::string>("header1", "value"));
 }

@@ -69,13 +69,9 @@ inline auto config_file::has_entry(const std::string &header, const std::string 
     return header_object_ptr.value()->contains(key);
 }
 
-template <typename T>
+template <config_file_value T>
 inline auto config_file::get(const std::string &header, const std::string &key) const noexcept -> std::optional<T>
 {
-    static_assert(!std::is_same_v<T, bool> || !std::is_integral_v<T> || !std::is_floating_point_v<T> ||
-                      !std::is_same_v<T, std::string> || !std::is_same_v<T, common::uuid>,
-                  "Unknown or unsupported type given to config_file::get.");
-
     const auto key_object_ptr = internal::get_entry(*pt_, header, key);
 
     if (!key_object_ptr)
@@ -123,7 +119,7 @@ inline auto config_file::get(const std::string &header, const std::string &key) 
     }
 }
 
-template <typename T>
+template <config_file_value T>
 inline auto config_file::get(const std::string &header, const std::string &key, const T &default_val) -> T
 {
     const auto result = get<T>(header, key);
@@ -137,7 +133,7 @@ inline auto config_file::get(const std::string &header, const std::string &key, 
     return *result;
 }
 
-template <typename T>
+template <config_file_value T>
 inline void config_file::set(const std::string &header, const std::string &key, const T &val)
 {
     if (pt_->is_null())

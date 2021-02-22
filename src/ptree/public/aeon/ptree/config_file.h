@@ -13,6 +13,10 @@ class config_file_exception : public std::exception
 {
 };
 
+template <typename T>
+concept config_file_value = std::is_same_v<T, bool> || std::is_integral_v<T> || std::is_floating_point_v<T> ||
+                            std::is_same_v<T, std::string> || std::is_same_v<T, common::uuid>;
+
 /*!
  * Wrapper for reading and writing config file settings, for example for use in
  * conjunction with the ini format serialization.
@@ -60,7 +64,7 @@ public:
      * \param key The entry key
      * \return Either the value of the entry of key, nullopt
      */
-    template <typename T>
+    template <config_file_value T>
     [[nodiscard]] auto get(const std::string &header, const std::string &key) // NOLINT(bugprone-exception-escape)
         const noexcept -> std::optional<T>;
 
@@ -71,7 +75,7 @@ public:
      * \param default_val Default value. If the key is not found in the config file, the default value is returned.
      * \return Either the value of the entry of key, or the default value.
      */
-    template <typename T>
+    template <config_file_value T>
     [[nodiscard]] auto get(const std::string &header, const std::string &key, const T &default_val) -> T;
 
     /*!
@@ -80,7 +84,7 @@ public:
      * \param key The entry key
      * \param val The value.
      */
-    template <typename T>
+    template <config_file_value T>
     void set(const std::string &header, const std::string &key, const T &val);
 
 private:
