@@ -19,6 +19,7 @@ set(SOURCES
     public/aeon/common/color_limits.h
     public/aeon/common/commandline_parser.h
     public/aeon/common/compilers.h
+    public/aeon/common/concepts.h
     public/aeon/common/container.h
     public/aeon/common/delay.h
     public/aeon/common/deprecated.h
