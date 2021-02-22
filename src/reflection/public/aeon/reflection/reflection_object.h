@@ -24,4 +24,7 @@ public:
     auto operator=(reflection_object &&) noexcept -> reflection_object & = default;
 };
 
+template <typename T>
+concept reflection_object_implementation = std::is_base_of_v<reflection_object, T>;
+
 } // namespace aeon::reflection

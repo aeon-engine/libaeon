@@ -25,11 +25,9 @@ public:
     reflection_info(reflection_info &&) noexcept = default;
     auto operator=(reflection_info &&) noexcept -> reflection_info & = default;
 
-    template <typename U, typename T>
+    template <typename U, reflection_object_implementation T>
     auto get_field(T &instance, const char *const name) const -> U *
     {
-        static_assert(std::is_base_of_v<reflection_object, T>, "Given instance must be a reflection_object.");
-
         const auto &field_info = get_field_info();
         for (const auto &field : field_info)
         {

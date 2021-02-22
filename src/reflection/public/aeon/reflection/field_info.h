@@ -42,17 +42,15 @@ public:
         return offset_;
     }
 
-    template <typename U, typename T>
+    template <typename U, reflection_object_implementation T>
     [[nodiscard]] auto get(const T &instance) const noexcept -> const U &
     {
-        static_assert(std::is_base_of_v<reflection_object, T>, "Given instance must be a reflection_object.");
         return *(reinterpret_cast<const U *>(reinterpret_cast<const std::uint8_t *>(&instance) + offset_));
     }
 
-    template <typename U, typename T>
+    template <typename U, reflection_object_implementation T>
     void set(T &instance, const U &value) const
     {
-        static_assert(std::is_base_of_v<reflection_object, T>, "Given instance must be a reflection_object.");
         *(reinterpret_cast<U *>(reinterpret_cast<std::uint8_t *>(&instance) + offset_)) = value;
     }
 

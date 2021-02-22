@@ -14,12 +14,9 @@ namespace aeon::ptree
 [[nodiscard]] auto to_reflection_object(const reflection::reflection_info &reflection_info, const property_tree &pt)
     -> std::unique_ptr<reflection::reflection_object>;
 
-template <typename T>
+template <reflection::reflection_object_implementation T>
 [[nodiscard]] inline auto to_reflection_object(const property_tree &pt) -> std::unique_ptr<T>
 {
-    static_assert(std::is_base_of_v<reflection::reflection_object, T>,
-                  "T must inherit from reflection::reflection_object.");
-
     auto object = to_reflection_object(T::reflection_info(), pt);
     auto result = common::dynamic_unique_ptr_cast<T>(std::move(object));
 
