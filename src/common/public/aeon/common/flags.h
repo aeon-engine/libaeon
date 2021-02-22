@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/common/bits.h>
+#include <aeon/common/concepts.h>
 #include <type_traits>
 #include <cstdint>
 
@@ -47,15 +48,12 @@ public:
     underlying_type value;
 };
 
-template <typename enum_type_t>
+template <concepts::unsigned_enumerable enum_type_t>
 class flags
 {
 public:
     using enum_type = enum_type_t;
     using underlying_type = std::underlying_type_t<enum_type_t>;
-
-    static_assert(std::is_enum_v<enum_type>, "Flags can only work with an enum type.");
-    static_assert(std::is_unsigned_v<underlying_type>, "Underlying type must be unsigned.");
 
     constexpr flags() noexcept
         : value_{}
