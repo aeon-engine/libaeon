@@ -11,6 +11,10 @@ namespace aeon::streams
 {
 
 template <typename T>
+concept memory_viewable =
+    common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> || std::is_same_v<T, std::u8string>;
+
+template <memory_viewable T>
 class memory_view_device : public device
 {
 public:
@@ -59,40 +63,32 @@ protected:
     span_device<typename T::value_type> span_device_;
 };
 
-template <typename T>
+template <memory_viewable T>
 inline memory_view_device<T>::memory_view_device(T &buffer) noexcept
     : buffer_view_{&buffer}
     , span_device_{std::span<typename T::value_type>{}}
 {
-    static_assert(common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> ||
-                      std::is_same_v<T, std::u8string>,
-                  "Device requires either std::vector, std::string or std::u8string");
-
     if (!std::empty(*buffer_view_))
         update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
     : buffer_view_{const_cast<T *>(&buffer)}
     , span_device_{std::span<typename T::value_type>{}}
 {
-    static_assert(common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> ||
-                      std::is_same_v<T, std::u8string>,
-                  "Device requires either std::vector, std::string or std::u8string");
-
     if (!std::empty(*buffer_view_))
         update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_view_device<T>::memory_view_device() noexcept
     : buffer_view_{}
     , span_device_{std::span<typename T::value_type>{}}
 {
 }
 
-template <typename T>
+template <memory_viewable T>
 inline auto memory_view_device<T>::write(const char *data, const std::streamsize size) noexcept -> std::streamsize
 {
     const auto current_size = tellp();
@@ -102,25 +98,25 @@ inline auto memory_view_device<T>::write(const char *data, const std::streamsize
     return span_device_.write(data, size);
 }
 
-template <typename T>
+template <memory_viewable T>
 inline auto memory_view_device<T>::read(char *data, const std::streamsize size) noexcept -> std::streamsize
 {
     return span_device_.read(data, size);
 }
 
-template <typename T>
+template <memory_viewable T>
 inline auto memory_view_device<T>::seekg(const std::streamoff offset, const seek_direction direction) noexcept -> bool
 {
     return span_device_.seekg(offset, direction);
 }
 
-template <typename T>
+template <memory_viewable T>
 [[nodiscard]] inline auto memory_view_device<T>::tellg() const noexcept -> std::streamoff
 {
     return span_device_.tellg();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline auto memory_view_device<T>::seekp(const std::streamoff offset, const seek_direction direction) noexcept -> bool
 {
     std::streamoff idx = 0;
@@ -149,44 +145,44 @@ inline auto memory_view_device<T>::seekp(const std::streamoff offset, const seek
     return span_device_.seekp(offset, direction);
 }
 
-template <typename T>
+template <memory_viewable T>
 [[nodiscard]] inline auto memory_view_device<T>::tellp() const noexcept -> std::streamoff
 {
     return span_device_.tellp();
 }
 
-template <typename T>
+template <memory_viewable T>
 [[nodiscard]] inline auto memory_view_device<T>::eof() const noexcept -> bool
 {
     return span_device_.eof();
 }
 
-template <typename T>
+template <memory_viewable T>
 [[nodiscard]] inline auto memory_view_device<T>::size() const noexcept -> std::streamoff
 {
     return span_device_.size();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline void memory_view_device<T>::reserve(const std::streamoff size)
 {
     buffer_view_->reserve(size);
 }
 
-template <typename T>
+template <memory_viewable T>
 inline void memory_view_device<T>::resize(const std::streamoff size)
 {
     buffer_view_->resize(size);
     update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 [[nodiscard]] const auto &memory_view_device<T>::data() const noexcept
 {
     return *buffer_view_;
 }
 
-template <typename T>
+template <memory_viewable T>
 void memory_view_device<T>::update_span()
 {
     span_device_.set_span(std::span{*buffer_view_});

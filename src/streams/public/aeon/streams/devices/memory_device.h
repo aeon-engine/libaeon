@@ -7,7 +7,7 @@
 namespace aeon::streams
 {
 
-template <typename T = std::vector<char>>
+template <memory_viewable T = std::vector<char>>
 class memory_device : public memory_view_device<T>
 {
 public:
@@ -35,7 +35,7 @@ protected:
     T buffer_;
 };
 
-template <typename T>
+template <memory_viewable T>
 inline memory_device<T>::memory_device() noexcept
     : memory_view_device<T>{}
     , buffer_{}
@@ -43,7 +43,7 @@ inline memory_device<T>::memory_device() noexcept
     memory_view_device<T>::buffer_view_ = &buffer_;
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_device<T>::memory_device(const std::streamoff size)
     : memory_view_device<T>{}
     , buffer_(size)
@@ -54,7 +54,7 @@ inline memory_device<T>::memory_device(const std::streamoff size)
         memory_view_device<T>::update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_device<T>::memory_device(const T &buffer)
     : memory_view_device<T>{}
     , buffer_{buffer}
@@ -65,7 +65,7 @@ inline memory_device<T>::memory_device(const T &buffer)
         memory_view_device<T>::update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_device<T>::memory_device(T &&buffer) noexcept
     : memory_view_device<T>{}
     , buffer_{std::move(buffer)}
@@ -76,7 +76,7 @@ inline memory_device<T>::memory_device(T &&buffer) noexcept
         memory_view_device<T>::update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_device<T>::memory_device(memory_device &&other) noexcept
     : memory_view_device<T>{}
     , buffer_{std::move(other.buffer_)}
@@ -87,7 +87,7 @@ inline memory_device<T>::memory_device(memory_device &&other) noexcept
         memory_view_device<T>::update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline auto memory_device<T>::operator=(memory_device &&other) noexcept -> memory_device &
 {
     if (this != &other) [[likely]]
@@ -103,7 +103,7 @@ inline auto memory_device<T>::operator=(memory_device &&other) noexcept -> memor
     return *this;
 }
 
-template <typename T>
+template <memory_viewable T>
 inline memory_device<T>::memory_device(const memory_device &other)
     : memory_view_device<T>{}
     , buffer_{other.buffer_}
@@ -114,7 +114,7 @@ inline memory_device<T>::memory_device(const memory_device &other)
         memory_view_device<T>::update_span();
 }
 
-template <typename T>
+template <memory_viewable T>
 inline auto memory_device<T>::operator=(const memory_device &other) -> memory_device &
 {
     if (this != &other) [[likely]]
