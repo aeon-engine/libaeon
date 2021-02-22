@@ -14,21 +14,20 @@
 namespace aeon::streams
 {
 
-template <typename T = std::uint32_t>
+template <typename T>
+concept length_prefix = std::is_integral_v<T> || std::is_same_v<T, varint>;
+
+template <length_prefix T = std::uint32_t>
 struct length_prefix_string
 {
     explicit length_prefix_string(std::string &str)
         : string(str)
     {
-        static_assert(std::disjunction_v<std::is_integral<T>, std::is_same<T, varint>>,
-                      "Length prefix must be integral type or varint.");
     }
 
     explicit length_prefix_string(const std::string &str)
         : string(const_cast<std::string &>(str))
     {
-        static_assert(std::disjunction_v<std::is_integral<T>, std::is_same<T, varint>>,
-                      "Length prefix must be integral type or varint.");
     }
 
     std::string &string;
