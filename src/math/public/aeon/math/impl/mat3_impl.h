@@ -91,19 +91,19 @@ inline mat3::mat3(const quaternion &q) noexcept
     // clang-format on
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat3::scale(const T xy) noexcept -> mat3
 {
     return scale(static_cast<float>(xy));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat3::scale(const T x, const T y) noexcept -> mat3
 {
     return scale(static_cast<float>(x), static_cast<float>(y));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat3::scale(const vector2<T> &vec) noexcept -> mat3
 {
     return scale(vector2<float>{vec});
@@ -123,13 +123,13 @@ template <typename T>
     // clang-format on
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat3::translate(const T x, const T y) noexcept -> mat3
 {
     return translate(static_cast<float>(x), static_cast<float>(y));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
 {
     return translate(vector2<float>{vec});

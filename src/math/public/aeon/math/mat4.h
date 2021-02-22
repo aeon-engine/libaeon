@@ -10,6 +10,7 @@
 #include <aeon/math/math_fwd.h>
 #include <aeon/math/vector4.h>
 #include <aeon/math/units.h>
+#include <aeon/common/concepts.h>
 #include <array>
 
 namespace aeon::math
@@ -125,7 +126,7 @@ public:
      * \param[in] xyz - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto scale(const T xyz) noexcept -> mat4;
 
     /*!
@@ -135,7 +136,7 @@ public:
      * \param[in] z - Amount of scaling done over the Z axis.
      * \return A scaling matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto scale(const T x, const T y, const T z) noexcept -> mat4;
 
     /*!
@@ -143,7 +144,7 @@ public:
      * \param[in] vec - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto scale(const vector3<T> &vec) noexcept -> mat4;
 
     /*!
@@ -176,7 +177,7 @@ public:
      * \param[in] y - Amount of translation done over the Y axis.
      * \return A translation matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto translate(const T x, const T y) noexcept -> mat4;
 
     /*!
@@ -186,7 +187,7 @@ public:
      * \param[in] z - Amount of translation done over the Z axis.
      * \return A translation matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto translate(const T x, const T y, const T z) noexcept -> mat4;
 
     /*!
@@ -194,7 +195,7 @@ public:
      * \param[in] vec - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto translate(const vector3<T> &vec) noexcept -> mat4;
 
     /*!
@@ -211,7 +212,7 @@ public:
      * \param[in] vec - Vector that determines which axis will be rotated with the given angle.
      * \return A rotation matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static auto rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4;
 
     /*!
@@ -246,7 +247,7 @@ public:
      * \param[in] top - Top value
      * \return An orthographic matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top) noexcept
         -> mat4;
 
@@ -260,7 +261,7 @@ public:
      * \param[in] far - Far clip plane
      * \return An orthographic matrix.
      */
-    template <typename T, typename U>
+    template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
     [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top, const U near,
                                               const U far) noexcept -> mat4;
 
@@ -269,7 +270,7 @@ public:
      * \param[in] rect - Left, Right, Bottom and Top values
      * \return An orthographic matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect) noexcept -> mat4;
 
     /*!
@@ -279,7 +280,7 @@ public:
      * \param[in] far - Far clip plane
      * \return An orthographic matrix.
      */
-    template <typename T, typename U>
+    template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
     [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4;
 
     /*!
@@ -301,7 +302,7 @@ public:
      * \param[in] far - Far clip plane
      * \return A projection (perspective) matrix.
      */
-    template <typename T, typename U>
+    template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
     [[nodiscard]] static auto projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio, const U near,
                                          const U far) noexcept -> mat4;
 
@@ -326,7 +327,7 @@ public:
      * \param[in] far - Far clip plane
      * \return A projection (perspective) matrix.
      */
-    template <typename T, typename U>
+    template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
     [[nodiscard]] static auto projection_fov(const unit_base<radian, void, U> fov, const T width, const T height,
                                              const U near, const U far) noexcept -> mat4;
 
@@ -338,7 +339,7 @@ public:
      * \param[in] far - Far clip plane
      * \return A projection (perspective) matrix.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     [[nodiscard]] static auto projection_fov(const unitf<radian> fov, const size2d<T> size, const float near,
                                              const float far) noexcept -> mat4;
 

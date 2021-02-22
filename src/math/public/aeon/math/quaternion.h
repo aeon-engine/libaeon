@@ -8,6 +8,7 @@
 #pragma once
 
 #include <aeon/math/math_fwd.h>
+#include <aeon/common/concepts.h>
 
 namespace aeon::math
 {
@@ -31,7 +32,7 @@ public:
     /*!
      * Create a quaternion based on the given values.
      */
-    template <typename T>
+    template <common::concepts::arithmetic_convertible T>
     explicit constexpr quaternion(const T w, const T x, const T y, const T z) noexcept;
 
     /*!

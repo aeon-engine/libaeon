@@ -9,7 +9,6 @@
 
 #include <aeon/math/anchor_point.h>
 #include <aeon/math/math_fwd.h>
-#include <type_traits>
 #include <tuple>
 
 namespace aeon::math
@@ -18,7 +17,7 @@ namespace aeon::math
 /*!
  * Class that represents an equiangular rectangle (left, top, right and bottom)
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class rectangle
 {
 public:
@@ -90,7 +89,7 @@ public:
  * \param[in] rect - Rectangle
  * \return The left value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto left(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -98,7 +97,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The top value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto top(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -106,7 +105,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The right value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto right(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -114,7 +113,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The bottom value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto bottom(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -122,7 +121,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The width (right-left)
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto width(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -130,7 +129,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The height (bottom-top)
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto height(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -138,7 +137,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return Left-top coordinates
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto left_top(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
@@ -146,7 +145,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return Right-top coordinates
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto right_top(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
@@ -154,7 +153,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return Left-bottom coordinates
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto left_bottom(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
@@ -162,7 +161,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return Right-bottom coordinates
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto right_bottom(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
@@ -171,7 +170,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return Center coordinates
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto center(const rectangle<T> &rect) noexcept -> vector2<T>;
 
 /*!
@@ -179,7 +178,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return True if the rectangle is empty
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto empty(const rectangle<T> &rect) noexcept -> bool;
 
 /*!
@@ -187,7 +186,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return True if the rectangle is null
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto null(const rectangle<T> &rect) noexcept -> bool;
 
 /*!
@@ -195,7 +194,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return True if the rectangle is valid
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto valid(const rectangle<T> &rect) noexcept -> bool;
 
 /*!
@@ -203,7 +202,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The size of the rectangle (width, height)
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
 
 /*!
@@ -212,7 +211,7 @@ template <typename T>
  * \param[in] x - Relative X coordinate
  * \param[in] y - Relative Y coordinate
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexcept;
 
 /*!
@@ -221,7 +220,7 @@ inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexce
  * \param[in] x - Relative X coordinate
  * \param[in] y - Relative Y coordinate
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr void translate(rectangle<T> &rect, const U x, const U y) noexcept;
 
 /*!
@@ -229,7 +228,7 @@ inline constexpr void translate(rectangle<T> &rect, const U x, const U y) noexce
  * \param[in, out] rect - Rectangle
  * \param[in] vec - Relative X and Y coordinates.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void translate(rectangle<T> &rect, const vector2<T> &vec) noexcept;
 
 /*!
@@ -237,7 +236,7 @@ inline constexpr void translate(rectangle<T> &rect, const vector2<T> &vec) noexc
  * \param[in, out] rect - Rectangle
  * \param[in] vec - Relative X and Y coordinates.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr void translate(rectangle<T> &rect, const vector2<U> &vec) noexcept;
 
 /*!
@@ -247,7 +246,7 @@ inline constexpr void translate(rectangle<T> &rect, const vector2<U> &vec) noexc
  * \param[in] y - Relative Y coordinate
  * \return A new rectangle moved with the given offset
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 /*!
@@ -257,7 +256,7 @@ template <typename T>
  * \param[in] y - Relative Y coordinate
  * \return A new rectangle moved with the given offset
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
 
 /*!
@@ -266,7 +265,7 @@ template <typename T, typename U>
  * \param[in] vec - Relative X and Y coordinates.
  * \return A new rectangle moved with the given offset
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const vector2<T> &vec) noexcept
     -> rectangle<T>;
 
@@ -276,7 +275,7 @@ template <typename T>
  * \param[in] vec - Relative X and Y coordinates.
  * \return A new rectangle moved with the given offset
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto translated(const rectangle<T> &rect, const vector2<U> &vec) noexcept
     -> rectangle<T>;
 
@@ -286,7 +285,7 @@ template <typename T, typename U>
  * \param[in] x - New X coordinate of the left-top.
  * \param[in] y - New Y coordinate of the left-top.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void set_position(rectangle<T> &rect, const T x, const T y) noexcept;
 
 /*!
@@ -294,7 +293,7 @@ inline constexpr void set_position(rectangle<T> &rect, const T x, const T y) noe
  * \param[in, out] rect - Rectangle
  * \param[in] vec - New X and Y coordinates of the left-top.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec) noexcept;
 
 /*!
@@ -304,7 +303,7 @@ inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec) no
  * \param[in] y - New Y coordinate of an anchor point within the rectangle.
  * \param[in] anchor - Anchor point for the given position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void set_position(rectangle<T> &rect, const T x, const T y, const anchor_point anchor) noexcept;
 
 /*!
@@ -313,7 +312,7 @@ inline constexpr void set_position(rectangle<T> &rect, const T x, const T y, con
  * \param[in] vec - New X and Y coordinates of an anchor point within the rectangle.
  * \param[in] anchor - Anchor point for the given position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec, const anchor_point anchor) noexcept;
 
 /*!
@@ -323,7 +322,7 @@ inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec, co
  * \param[in] y - New Y coordinate of the left-top.
  * \return A moved copy of the given rectangle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 /*!
@@ -332,7 +331,7 @@ template <typename T>
  * \param[in] vec - New X and Y coordinates of the left-top.
  * \return A moved copy of the given rectangle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec) noexcept
     -> rectangle<T>;
 
@@ -344,7 +343,7 @@ template <typename T>
  * \param[in] anchor - Anchor point for the given position
  * \return A moved copy of the given rectangle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const T x, const T y,
                                                const anchor_point anchor) noexcept -> rectangle<T>;
 
@@ -355,7 +354,7 @@ template <typename T>
  * \param[in] anchor - Anchor point for the given position
  * \return A moved copy of the given rectangle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto positioned(const rectangle<T> &rect, const vector2<T> &vec,
                                                const anchor_point anchor) noexcept -> rectangle<T>;
 
@@ -365,7 +364,7 @@ template <typename T>
  * \param[in] outer - Outer rectangle
  * \return True if the inner rectangle is completely contained with in the outer rectangle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto contains(const rectangle<T> &inner, const rectangle<T> &outer) noexcept -> bool;
 
 /*!
@@ -374,7 +373,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return True if the point is contained with in the rectangle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto contains(const vector2<T> &vec, const rectangle<T> &rect) noexcept -> bool;
 
 /*!
@@ -383,7 +382,7 @@ template <typename T>
  * \param[in] rect2 - Rectangle
  * \return True if the given rectangles overlap each other.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto overlaps(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> bool;
 
 /*!
@@ -392,7 +391,7 @@ template <typename T>
  * \param[in] rect2 - Rectangle
  * \return Intersection rectangle
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto intersection(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept
     -> rectangle<T>;
 
@@ -402,7 +401,7 @@ template <typename T>
  * \param[in] rectangles - One or more rectangles. Must have the same type as first.
  * \return Bounding box/union of all given rectangles.
  */
-template <typename T, typename... U>
+template <common::concepts::arithmetic_convertible T, typename... U>
 [[nodiscard]] inline constexpr auto bounding_box(const rectangle<T> &first, const rectangle<U> &...rectangles) noexcept
     -> rectangle<T>;
 
@@ -411,7 +410,7 @@ template <typename T, typename... U>
  * \param[in, out] rect - Rectangle
  * \param[in] val - Value to inflate with
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void inflate(rectangle<T> &rect, const T val) noexcept;
 
 /*!
@@ -420,7 +419,7 @@ inline constexpr void inflate(rectangle<T> &rect, const T val) noexcept;
  * \param[in] val - Value to inflate with
  * \return Inflated rectangle copy based on the given one.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto inflated(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
 
 /*!
@@ -428,7 +427,7 @@ template <typename T>
  * \param[in, out] rect - Rectangle
  * \param[in] val - Value to scale with
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void scale(rectangle<T> &rect, const T val) noexcept;
 
 /*!
@@ -436,7 +435,7 @@ inline constexpr void scale(rectangle<T> &rect, const T val) noexcept;
  * \param[in, out] rect - Rectangle
  * \param[in] val - Value to scale with
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr void scale(rectangle<T> &rect, const U val) noexcept;
 
 /*!
@@ -445,7 +444,7 @@ inline constexpr void scale(rectangle<T> &rect, const U val) noexcept;
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void scale(rectangle<T> &rect, const T x, const T y) noexcept;
 
 /*!
@@ -454,7 +453,7 @@ inline constexpr void scale(rectangle<T> &rect, const T x, const T y) noexcept;
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr void scale(rectangle<T> &rect, const U x, const U y) noexcept;
 
 /*!
@@ -462,7 +461,7 @@ inline constexpr void scale(rectangle<T> &rect, const U x, const U y) noexcept;
  * \param[in, out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void scale(rectangle<T> &rect, const vector2<T> &vec) noexcept;
 
 /*!
@@ -470,7 +469,7 @@ inline constexpr void scale(rectangle<T> &rect, const vector2<T> &vec) noexcept;
  * \param[in, out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr void scale(rectangle<T> &rect, const vector2<U> &vec) noexcept;
 
 /*!
@@ -478,7 +477,7 @@ inline constexpr void scale(rectangle<T> &rect, const vector2<U> &vec) noexcept;
  * \param[in, out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept;
 
 /*!
@@ -486,7 +485,7 @@ inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept;
  * \param[in, out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr void scale(rectangle<T> &rect, const size2d<U> &size) noexcept;
 
 /*!
@@ -495,7 +494,7 @@ inline constexpr void scale(rectangle<T> &rect, const size2d<U> &size) noexcept;
  * \param[in] val - Value to scale with
  * \return Scaled rectangle based on given one.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const T val) noexcept -> rectangle<T>;
 
 /*!
@@ -504,7 +503,7 @@ template <typename T>
  * \param[in] val - Value to scale with
  * \return Scaled rectangle based on given one.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const U val) noexcept -> rectangle<T>;
 
 /*!
@@ -514,7 +513,7 @@ template <typename T, typename U>
  * \param[in] y - Vertical scale value
  * \return Scaled rectangle based on given one.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const T x, const T y) noexcept -> rectangle<T>;
 
 /*!
@@ -524,7 +523,7 @@ template <typename T>
  * \param[in] y - Vertical scale value
  * \return Scaled rectangle based on given one.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const U x, const U y) noexcept -> rectangle<T>;
 
 /*!
@@ -533,7 +532,7 @@ template <typename T, typename U>
  * \param[in] vec - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> rectangle<T>;
 
 /*!
@@ -542,7 +541,7 @@ template <typename T>
  * \param[in] vec - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const vector2<U> &vec) noexcept -> rectangle<T>;
 
 /*!
@@ -551,7 +550,7 @@ template <typename T, typename U>
  * \param[in] size - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
 
 /*!
@@ -560,7 +559,7 @@ template <typename T>
  * \param[in] size - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto scaled(const rectangle<T> &rect, const size2d<U> &size) noexcept -> rectangle<T>;
 
 /*!
@@ -569,7 +568,7 @@ template <typename T, typename U>
  * \param[in] rect2 - Rectangle
  * \return The distance between the centers of 2 rectangles.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto distance(const rectangle<T> &rect1, const rectangle<T> &rect2) noexcept -> T;
 
 /*!
@@ -578,7 +577,7 @@ template <typename T>
  * \param[in] vec - Point
  * \return The distance between the center of a rectangle and a point.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto distance(const rectangle<T> &rect, const vector2<T> &vec) noexcept -> T;
 
 /*!
@@ -586,7 +585,7 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return The area
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto area(const rectangle<T> &rect) noexcept -> T;
 
 /*!
@@ -596,7 +595,7 @@ template <typename T>
  * \param[in] vec - A point
  * \return Coordinates of a point on the rectangle closest to the given point.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto closest_point(const rectangle<T> &rect, const vector2<T> &vec) noexcept
     -> vector2<T>;
 
@@ -604,7 +603,7 @@ template <typename T>
  * Normalize a rectangle (make sure that left < right and top < bottom)
  * \param[in, out] rect - Rectangle
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void normalize(rectangle<T> &rect) noexcept;
 
 /*!
@@ -612,7 +611,7 @@ inline constexpr void normalize(rectangle<T> &rect) noexcept;
  * \param[in] rect - Rectangle
  * \return Normalized rectangle
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto normalized(const rectangle<T> &rect) noexcept -> rectangle<T>;
 
 /*!
@@ -621,7 +620,7 @@ template <typename T>
  * \param[in] ratio - A ratio between 0.0 and 1.0
  * \return Tuple of the 2 sliced rectangles.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto
     slice_horizontal(const rectangle<T> &rect, const U ratio,
                      std::enable_if_t<std::is_floating_point_v<U>> *dummy = nullptr) noexcept
@@ -633,7 +632,7 @@ template <typename T, typename U>
  * \param[in] value - Coordinate on X-axis on where to slice (must be >= top and <= bottom)
  * \return Tuple of the 2 sliced rectangles.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto slice_horizontal_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
@@ -643,7 +642,7 @@ template <typename T>
  * \param[in] ratio - A ratio between 0.0 and 1.0
  * \return Tuple of the 2 sliced rectangles.
  */
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto
     slice_vertical(const rectangle<T> &rect, const U ratio,
                    std::enable_if_t<std::is_floating_point_v<U>> *dummy = nullptr) noexcept
@@ -655,56 +654,56 @@ template <typename T, typename U>
  * \param[in] value - Coordinate on Y-axis on where to slice (must be >= left and <= right)
  * \return Tuple of the 2 sliced rectangles.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator!=(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator+(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator+=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator+(const rectangle<T> &lhs, const vector2<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator+=(rectangle<T> &lhs, const vector2<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator-(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator-=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator-(const rectangle<T> &lhs, const vector2<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator-=(rectangle<T> &lhs, const vector2<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator*(const rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator*=(rectangle<T> &lhs, const T &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator*(const rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator*=(rectangle<T> &lhs, const size2d<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator*(const rectangle<T> &lhs, const vector2<T> &rhs) noexcept -> rectangle<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator*=(rectangle<T> &lhs, const vector2<T> &rhs) noexcept -> rectangle<T>;
 
 } // namespace aeon::math

@@ -85,19 +85,19 @@ inline mat4::mat4(const quaternion &q) noexcept
     // clang-format on
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::scale(const T xyz) noexcept -> mat4
 {
     return scale(static_cast<float>(xyz));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::scale(const T x, const T y, const T z) noexcept -> mat4
 {
     return scale(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::scale(const vector3<T> &vec) noexcept -> mat4
 {
     return scale(vector3<float>{vec});
@@ -123,19 +123,19 @@ template <typename T>
     // clang-format on
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::translate(const T x, const T y) noexcept -> mat4
 {
     return translate(static_cast<float>(x), static_cast<float>(y));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::translate(const T x, const T y, const T z) noexcept -> mat4
 {
     return translate(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::translate(const vector3<T> &vec) noexcept -> mat4
 {
     return translate(vector3<float>{vec});
@@ -172,7 +172,7 @@ template <typename T>
     // clang-format on
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline auto mat4::rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4
 {
     return rotate(angle, vector3<float>{vec});
@@ -234,7 +234,7 @@ template <typename T>
     // clang-format on
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::ortho(const T left, const T right, const T bottom, const T top) noexcept
     -> mat4
 {
@@ -242,7 +242,7 @@ template <typename T>
                        static_cast<float>(top));
 }
 
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto mat4::ortho(const T left, const T right, const T bottom, const T top, const U near,
                                                 const U far) noexcept -> mat4
 {
@@ -250,13 +250,13 @@ template <typename T, typename U>
                        static_cast<float>(top), static_cast<float>(near), static_cast<float>(far));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::ortho(const rectangle<T> &rect) noexcept -> mat4
 {
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect));
 }
 
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto mat4::ortho(const rectangle<T> &rect, const U near, const U far) noexcept -> mat4
 {
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect), near, far);
@@ -292,7 +292,7 @@ template <typename T, typename U>
     // clang-format on
 }
 
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline auto mat4::projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio, const U near,
                                            const U far) noexcept -> mat4
 {
@@ -331,7 +331,7 @@ template <typename T, typename U>
     // clang-format on
 }
 
-template <typename T, typename U>
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline auto mat4::projection_fov(const unit_base<radian, void, U> fov, const T width, const T height,
                                                const U near, const U far) noexcept -> mat4
 {
@@ -339,7 +339,7 @@ template <typename T, typename U>
                           static_cast<float>(near), static_cast<float>(far));
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline auto mat4::projection_fov(const unitf<radian> fov, const size2d<T> size, const float near,
                                                const float far) noexcept -> mat4
 {

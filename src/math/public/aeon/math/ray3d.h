@@ -3,11 +3,12 @@
 #pragma once
 
 #include <aeon/math/vector3.h>
+#include <aeon/common/concepts.h>
 
 namespace aeon::math
 {
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class ray3d
 {
 public:
@@ -27,22 +28,22 @@ public:
     vector3<T> origin;
 };
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto normal(const ray3d<T> &ray) noexcept -> vector3<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto origin(const ray3d<T> &ray) noexcept -> vector3<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void normalize(ray3d<T> &ray) noexcept;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto normalized(const ray3d<T> &ray) noexcept -> ray3d<T>;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const ray3d<T> &lhs, const ray3d<T> &rhs) noexcept -> bool;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator!=(const ray3d<T> &lhs, const ray3d<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::math

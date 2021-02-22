@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/concepts.h>
+
 namespace aeon::math
 {
 
@@ -16,25 +18,25 @@ class mat4;
 
 class quaternion;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class vector2;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class vector3;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class vector4;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class size2d;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class size3d;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class range;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class rectangle;
 
 } // namespace aeon::math

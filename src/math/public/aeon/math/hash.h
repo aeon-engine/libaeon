@@ -16,9 +16,10 @@
 #include <aeon/math/rectangle.h>
 #include <aeon/math/range.h>
 #include <aeon/math/quaternion.h>
+#include <aeon/common/concepts.h>
 #include <aeon/common/hash.h>
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::vector2<T>>
 {
     inline auto operator()(const aeon::math::vector2<T> &val) const noexcept -> std::size_t
@@ -27,7 +28,7 @@ struct std::hash<aeon::math::vector2<T>>
     }
 };
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::vector3<T>>
 {
     inline auto operator()(const aeon::math::vector3<T> &val) const noexcept -> std::size_t
@@ -36,7 +37,7 @@ struct std::hash<aeon::math::vector3<T>>
     }
 };
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::vector4<T>>
 {
     inline auto operator()(const aeon::math::vector4<T> &val) const noexcept -> std::size_t
@@ -45,7 +46,7 @@ struct std::hash<aeon::math::vector4<T>>
     }
 };
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::size2d<T>>
 {
     inline auto operator()(const aeon::math::size2d<T> &val) const noexcept -> std::size_t
@@ -54,7 +55,7 @@ struct std::hash<aeon::math::size2d<T>>
     }
 };
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::size3d<T>>
 {
     inline auto operator()(const aeon::math::size3d<T> &val) const noexcept -> std::size_t
@@ -63,7 +64,7 @@ struct std::hash<aeon::math::size3d<T>>
     }
 };
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::rectangle<T>>
 {
     inline auto operator()(const aeon::math::rectangle<T> &val) const noexcept -> std::size_t
@@ -72,7 +73,7 @@ struct std::hash<aeon::math::rectangle<T>>
     }
 };
 
-template <typename T>
+template <aeon::common::concepts::arithmetic_convertible T>
 struct std::hash<aeon::math::range<T>>
 {
     inline auto operator()(const aeon::math::range<T> &val) const noexcept -> std::size_t

@@ -5,13 +5,13 @@
 namespace aeon::math
 {
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const plane<T> &lhs, const plane<T> &rhs) noexcept -> bool
 {
     return normal(lhs) == normal(rhs) && distance(lhs) == distance(rhs);
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator!=(const plane<T> &lhs, const plane<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);

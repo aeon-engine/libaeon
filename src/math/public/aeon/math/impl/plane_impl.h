@@ -5,42 +5,42 @@
 namespace aeon::math
 {
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr plane<T>::plane() noexcept
     : normal{}
     , distance{}
 {
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr plane<T>::plane(const T a, const T b, const T c, const T distance) noexcept
     : normal{a, b, c}
     , distance{distance}
 {
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr plane<T>::plane(const vector3<T> normal) noexcept
     : normal{normal}
     , distance{}
 {
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr plane<T>::plane(const vector3<T> normal, const T distance) noexcept
     : normal{normal}
     , distance{distance}
 {
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr plane<T>::plane(const vector3<T> point, const vector3<T> normal) noexcept
     : normal{normal}
     , distance{dot(normal, point)}
 {
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr plane<T>::plane(const vector3<T> &point1, const vector3<T> &point2, const vector3<T> point3,
                                  const winding_order order) noexcept
     : normal{}
@@ -54,25 +54,25 @@ inline constexpr plane<T>::plane(const vector3<T> &point1, const vector3<T> &poi
     distance = dot(normal, point1);
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto normal(const plane<T> &plane) noexcept -> vector3<T>
 {
     return plane.normal;
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto distance(const plane<T> &plane) noexcept -> T
 {
     return plane.distance;
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void normalize(plane<T> &plane) noexcept
 {
     plane = normalized(plane);
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto normalized(const plane<T> &p) noexcept -> plane<T>
 {
     const auto l = length(normal(p));
@@ -83,13 +83,13 @@ template <typename T>
     return plane<T>{normal(p) /= l, distance(p) /= l};
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto center(const plane<T> &plane) noexcept -> vector3<T>
 {
     return normal(plane) * distance(plane);
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto intersection(const plane<T> &plane1, const plane<T> &plane2,
                                                  const plane<T> &plane3) noexcept -> std::optional<vector3<T>>
 {
@@ -107,7 +107,7 @@ template <typename T>
            denominator;
 }
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto intersection(const plane<T> &plane, const ray3d<T> &ray) noexcept
     -> std::optional<vector3<T>>
 {

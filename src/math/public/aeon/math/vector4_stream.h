@@ -8,7 +8,7 @@
 namespace aeon::math
 {
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline auto operator<<(std::ostream &os, const vector4<T> &v) -> std::ostream &
 {
     return os << "vector4<" << typeid(T).name() << ">(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";

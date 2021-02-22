@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <type_traits>
+#include <aeon/common/concepts.h>
 #include <cmath>
 #include <algorithm>
 #include <cstdint>
@@ -69,7 +69,7 @@ struct constants<double>
  * \param[in] value - Value
  * \return Sigmoid curve value between 0 and 1.
  */
-template <typename T>
+template <std::floating_point T>
 [[nodiscard]] inline auto sigmoid(const T value) noexcept -> T
 {
     return 1 / (1 + std::exp(-value));
@@ -81,7 +81,7 @@ template <typename T>
  * \param[in] values - All other values (at least one). Must be the same type as first.
  * \return Lowest value out of all given values
  */
-template <typename T, typename... U>
+template <common::concepts::arithmetic T, common::concepts::arithmetic... U>
 [[nodiscard]] inline auto min(const T first, const U... values) noexcept -> T
 {
     auto retval = &first;
@@ -95,7 +95,7 @@ template <typename T, typename... U>
  * \param[in] values - All other values (at least one). Must be the same type as first.
  * \return Highest value out of all given values
  */
-template <typename T, typename... U>
+template <common::concepts::arithmetic T, common::concepts::arithmetic... U>
 [[nodiscard]] inline auto max(const T first, const U... values) noexcept -> T
 {
     auto retval = &first;
@@ -109,14 +109,12 @@ template <typename T, typename... U>
  * \param[in] exponent - The exponent value
  * \return The result of base<SUP>exponent</SUP>
  */
-template <typename T>
-[[nodiscard]] inline constexpr auto constexpr_pow(const T base, const int exponent) noexcept -> T
+template <common::concepts::arithmetic T, std::integral U>
+[[nodiscard]] inline constexpr auto constexpr_pow(const T base, const U exponent) noexcept -> T
 {
-    static_assert(std::is_arithmetic_v<T>, "Base must be arithmetic type.");
-
     auto val = base;
 
-    for (auto i = 1; i < exponent; ++i)
+    for (auto i = U(1); i < exponent; ++i)
         val *= base;
 
     return val;
@@ -127,7 +125,7 @@ template <typename T>
  * determined by the larger of a or b. This means that the two values are "close enough", and we can say that they're
  * approximately equal. From The art of computer programming by Knuth
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+template <std::floating_point T>
 [[nodiscard]] inline constexpr auto approximately_equal(const T a, const T b,
                                                         const T epsilon = constants<T>::tolerance) noexcept
 {
@@ -142,7 +140,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
  * calculation, so that perhaps they're not actually equal, but they're "essentially equal" (given the epsilon). From
  * The art of computer programming by Knuth
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+template <std::floating_point T>
 [[nodiscard]] inline constexpr auto essentially_equal(const T a, const T b,
                                                       const T epsilon = constants<T>::tolerance) noexcept -> bool
 {
@@ -154,7 +152,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 /*!
  * From The art of computer programming by Knuth
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+template <std::floating_point T>
 [[nodiscard]] inline constexpr auto definitely_greater_than(const T a, const T b,
                                                             const T epsilon = constants<T>::tolerance) noexcept -> bool
 {
@@ -166,7 +164,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 /*!
  * From The art of computer programming by Knuth
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+template <std::floating_point T>
 [[nodiscard]] inline constexpr auto definitely_less_than(const T a, const T b,
                                                          const T epsilon = constants<T>::tolerance) noexcept -> bool
 {
@@ -178,7 +176,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 /*!
  * Returns true if the given value is approximately zero
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+template <std::floating_point T>
 [[nodiscard]] inline constexpr auto approximately_zero(const T a, const T epsilon = constants<T>::tolerance) noexcept
 {
     return std::abs(a) < epsilon;

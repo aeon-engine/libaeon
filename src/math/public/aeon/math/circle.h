@@ -9,7 +9,7 @@
 
 #include <aeon/math/math_fwd.h>
 #include <aeon/math/vector2.h>
-#include <type_traits>
+#include <aeon/common/concepts.h>
 
 namespace aeon::math
 {
@@ -17,7 +17,7 @@ namespace aeon::math
 /*!
  * Class that represents a circle as a position (center) and a radius.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 class circle
 {
 public:
@@ -59,7 +59,7 @@ public:
  * \param[in] c - Circle
  * \return position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto position(const circle<T> &c) noexcept -> vector2<T>;
 
 /*!
@@ -67,28 +67,28 @@ template <typename T>
  * \param[in] c - Circle
  * \return position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto center(const circle<T> &c) noexcept -> vector2<T>;
 
 /*!
  * Returns if a circle is empty or not. A circle is considered empty if the radius is 0.
  * \param[in] c - Circle
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto empty(const circle<T> &c) noexcept -> bool;
 
 /*!
  * Returns if a circle is empty or not. A circle is considered null if the radius is 0.
  * \param[in] c - Circle
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto null(const circle<T> &c) noexcept -> bool;
 
 /*!
  * Returns if a circle is valid. A circle is considered valid if the radius is positive (>= 0).
  * \param[in] c - Circle
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto valid(const circle<T> &c) noexcept -> bool;
 
 /*!
@@ -96,7 +96,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return The size of a circle (from the left edge to the right, and top to bottom; or diameter).
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto size(const circle<T> &c) noexcept -> size2d<T>;
 
 /*!
@@ -104,7 +104,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return Radius
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto radius(const circle<T> &c) noexcept -> T;
 
 /*!
@@ -112,7 +112,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return Radius&sup2;
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto radius_squared(const circle<T> &c) noexcept -> T;
 
 /*!
@@ -120,7 +120,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return Diameter
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto diameter(const circle<T> &c) noexcept -> T;
 
 /*!
@@ -129,7 +129,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return Circumference
  */
-template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr>
+template <common::concepts::arithmetic_convertible T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto circumference(const circle<T> &c) noexcept -> float;
 
 /*!
@@ -138,7 +138,7 @@ template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr
  * \param[in] c - Circle
  * \return Circumference
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
+template <common::concepts::arithmetic_convertible T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto circumference(const circle<T> &c) noexcept -> T;
 
 /*!
@@ -147,7 +147,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
  * \param[in] c - Circle
  * \return Area
  */
-template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr>
+template <common::concepts::arithmetic_convertible T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto area(const circle<T> &c) noexcept -> float;
 
 /*!
@@ -156,7 +156,7 @@ template <typename T, std::enable_if_t<!std::is_floating_point_v<T>> * = nullptr
  * \param[in] c - Circle
  * \return Area
  */
-template <typename T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
+template <common::concepts::arithmetic_convertible T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
 [[nodiscard]] inline constexpr auto area(const circle<T> &c) noexcept -> T;
 
 /*!
@@ -165,7 +165,7 @@ template <typename T, std::enable_if_t<std::is_floating_point_v<T>> * = nullptr>
  * \param[in] x - X position
  * \param[in] y - Y position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void set_position(circle<T> &c, const T x, const T y) noexcept;
 
 /*!
@@ -173,7 +173,7 @@ inline constexpr void set_position(circle<T> &c, const T x, const T y) noexcept;
  * \param[in, out] c - Circle to move
  * \param[in] vec - Position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void set_position(circle<T> &c, const vector2<T> &vec) noexcept;
 
 /*!
@@ -182,7 +182,7 @@ inline constexpr void set_position(circle<T> &c, const vector2<T> &vec) noexcept
  * \param[in] x - X position
  * \param[in] y - Y position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto positioned(const circle<T> &c, const T x, const T y) noexcept -> circle<T>;
 
 /*!
@@ -190,7 +190,7 @@ template <typename T>
  * \param[in] c - Circle to move
  * \param[in] vec - Position
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto positioned(const circle<T> &c, const vector2<T> &vec) noexcept -> circle<T>;
 
 /*!
@@ -198,7 +198,7 @@ template <typename T>
  * \param[in, out] c - Circle to inflate
  * \param[in] val - How much to inflate the radius by
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void inflate(circle<T> &c, const T val) noexcept;
 
 /*!
@@ -206,7 +206,7 @@ inline constexpr void inflate(circle<T> &c, const T val) noexcept;
  * \param[in] c - Circle to inflate
  * \param[in] val - How much to inflate the radius by
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto inflated(const circle<T> &c, const T val) noexcept -> circle<T>;
 
 /*!
@@ -214,7 +214,7 @@ template <typename T>
  * \param[in, out] c - Circle to scale
  * \param[in] val - How much to scale the radius by
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void scale(circle<T> &c, const T val) noexcept;
 
 /*!
@@ -222,7 +222,7 @@ inline constexpr void scale(circle<T> &c, const T val) noexcept;
  * \param[in] c - Circle to scale
  * \param[in] val - How much to scale the radius by
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto scaled(const circle<T> &c, const T val) noexcept -> circle<T>;
 
 /*!
@@ -230,7 +230,7 @@ template <typename T>
  * \param[in] c - Circle
  * \return An axis-aligned rectangle that fits exactly around the circle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto rect(const circle<T> &c) noexcept -> rectangle<T>;
 
 /*!
@@ -239,7 +239,7 @@ template <typename T>
  * \param[in] rhs - Circle
  * \return The distance between the center of 2 circles.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto distance(const circle<T> &lhs, const circle<T> &rhs) noexcept -> T;
 
 /*!
@@ -248,7 +248,7 @@ template <typename T>
  * \param[in] rhs - Point
  * \return The distance between the center of a circle and a point.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto distance(const circle<T> &lhs, const vector2<T> &rhs) noexcept -> T;
 
 /*!
@@ -257,7 +257,7 @@ template <typename T>
  * \param[in] vec - Point
  * \return Boolean. True if the given point is within the circle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto contains(const circle<T> &c, const vector2<T> &vec) noexcept -> bool;
 
 /*!
@@ -266,13 +266,13 @@ template <typename T>
  * \param[in] rect - Rectangle
  * \return Boolean. True if the given rectangle overlaps with the circle.
  */
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto overlaps(const circle<T> &c, const rectangle<T> &rect) noexcept -> bool;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool;
 
-template <typename T>
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator!=(const circle<T> &lhs, const circle<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::math
