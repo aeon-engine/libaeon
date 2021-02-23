@@ -3,7 +3,6 @@
 #pragma once
 
 #include <aeon/common/color_limits.h>
-#include "..\color.h"
 
 namespace aeon::common
 {
