@@ -2,12 +2,13 @@
 
 #pragma once
 
+#include <aeon/common/concepts.h>
 #include <cstdint>
 
 namespace aeon::common
 {
 
-template <typename T>
+template <concepts::arithmetic T>
 class color3
 {
 public:
@@ -33,7 +34,7 @@ using color3u = color3<std::uint8_t>;
 using color3f = color3<float>;
 using color3d = color3<double>;
 
-template <typename T>
+template <concepts::arithmetic T>
 class color4
 {
 public:

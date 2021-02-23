@@ -2,12 +2,13 @@
 
 #pragma once
 
+#include <aeon/common/concepts.h>
 #include <limits>
 
 namespace aeon::common
 {
 
-template <typename T>
+template <concepts::arithmetic T>
 struct color_limits final
 {
     [[nodiscard]] static constexpr auto min() noexcept -> T
