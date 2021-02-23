@@ -69,6 +69,7 @@ set(SOURCES
     public/aeon/math/vector3_stream.h
     public/aeon/math/vector4.h
     public/aeon/math/vector4_stream.h
+    public/aeon/math/vector_graphics_2d.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
