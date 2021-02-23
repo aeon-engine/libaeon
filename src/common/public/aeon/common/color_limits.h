@@ -41,12 +41,12 @@ struct color_limits<double> final
 {
     [[nodiscard]] static constexpr auto min() noexcept -> double
     {
-        return 0.0f;
+        return 0.0;
     }
 
     [[nodiscard]] static constexpr auto max() noexcept -> double
     {
-        return 1.0f;
+        return 1.0;
     }
 };
 
