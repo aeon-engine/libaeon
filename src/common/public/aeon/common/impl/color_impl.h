@@ -34,6 +34,18 @@ template <concepts::arithmetic T>
 }
 
 template <concepts::arithmetic T>
+inline constexpr auto operator==(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool
+{
+    return lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b;
+}
+
+template <concepts::arithmetic T>
+inline constexpr auto operator!=(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
+
+template <concepts::arithmetic T>
 inline constexpr color_rgba<T>::color_rgba() noexcept
     : color_rgba<T>{color_limits<type>::min(), color_limits<type>::min(), color_limits<type>::min(),
                     color_limits<type>::max()}
@@ -77,6 +89,18 @@ template <concepts::arithmetic T>
 [[nodiscard]] inline constexpr auto ptr(const color_rgba<T> &color) noexcept -> const T *
 {
     return &color.r;
+}
+
+template <concepts::arithmetic T>
+inline constexpr auto operator==(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool
+{
+    return lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b && lhs.a == rhs.a;
+}
+
+template <concepts::arithmetic T>
+inline constexpr auto operator!=(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
 }
 
 } // namespace aeon::common

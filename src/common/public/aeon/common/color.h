@@ -54,6 +54,12 @@ template <concepts::arithmetic T>
 template <concepts::arithmetic T>
 [[nodiscard]] inline constexpr auto ptr(const color_rgb<T> &color) noexcept -> const T *;
 
+template <concepts::arithmetic T>
+inline constexpr auto operator==(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool;
+
+template <concepts::arithmetic T>
+inline constexpr auto operator!=(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool;
+
 AEON_PACK_STRUCT_PUSH(1)
 template <concepts::arithmetic T>
 class color_rgba
@@ -104,6 +110,12 @@ template <concepts::arithmetic T>
  */
 template <concepts::arithmetic T>
 [[nodiscard]] inline constexpr auto ptr(const color_rgba<T> &color) noexcept -> const T *;
+
+template <concepts::arithmetic T>
+inline constexpr auto operator==(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool;
+
+template <concepts::arithmetic T>
+inline constexpr auto operator!=(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::common
 
