@@ -9,6 +9,7 @@ add_unit_test_suite(
         main.cpp
         test_base64.cpp
         test_bits.cpp
+        test_color.cpp
         test_commandline_parser.cpp
         test_container.cpp
         test_dispatcher.cpp

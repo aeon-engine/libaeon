@@ -19,6 +19,12 @@ public:
     constexpr color_rgb() noexcept;
     constexpr explicit color_rgb(const type r, const type g, const type b) noexcept;
 
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgb(const U r, const U g, const U b) noexcept;
+
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgb(const color_rgb<U> color) noexcept;
+
     ~color_rgb() = default;
 
     constexpr color_rgb(const color_rgb &) noexcept = default;
@@ -72,8 +78,23 @@ public:
     constexpr explicit color_rgba(const type r, const type g, const type b) noexcept;
     constexpr explicit color_rgba(const type r, const type g, const type b, const type a) noexcept;
 
-    constexpr explicit color_rgba(const color_rgb<type> c) noexcept;
-    constexpr explicit color_rgba(const color_rgb<type> c, const type a) noexcept;
+    constexpr explicit color_rgba(const color_rgb<type> color) noexcept;
+    constexpr explicit color_rgba(const color_rgb<type> color, const type a) noexcept;
+
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgba(const U r, const U g, const U b) noexcept;
+
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgba(const U r, const U g, const U b, const U a) noexcept;
+
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgba(const color_rgb<U> color) noexcept;
+
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgba(const color_rgb<U> color, const U a) noexcept;
+
+    template <concepts::arithmetic U>
+    constexpr explicit color_rgba(const color_rgba<U> color) noexcept;
 
     ~color_rgba() = default;
 
