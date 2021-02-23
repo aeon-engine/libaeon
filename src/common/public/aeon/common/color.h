@@ -9,30 +9,30 @@ namespace aeon::common
 {
 
 template <concepts::arithmetic T>
-class color3
+class color_rgb
 {
 public:
     using type = T;
 
-    color3() noexcept;
-    explicit color3(const type r, const type g, const type b) noexcept;
+    color_rgb() noexcept;
+    explicit color_rgb(const type r, const type g, const type b) noexcept;
 
-    ~color3() = default;
+    ~color_rgb() = default;
 
-    color3(const color3 &) noexcept = default;
-    auto operator=(const color3 &) noexcept -> color3 & = default;
+    color_rgb(const color_rgb &) noexcept = default;
+    auto operator=(const color_rgb &) noexcept -> color_rgb & = default;
 
-    color3(color3 &&) noexcept = default;
-    auto operator=(color3 &&) noexcept -> color3 & = default;
+    color_rgb(color_rgb &&) noexcept = default;
+    auto operator=(color_rgb &&) noexcept -> color_rgb & = default;
 
     type r;
     type g;
     type b;
 };
 
-using color3u = color3<std::uint8_t>;
-using color3f = color3<float>;
-using color3d = color3<double>;
+using color_rgb_u = color_rgb<std::uint8_t>;
+using color_rgb_f = color_rgb<float>;
+using color_rgb_d = color_rgb<double>;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -41,7 +41,7 @@ using color3d = color3<double>;
  * \return Pointer to color data.
  */
 template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(color3<T> &color) noexcept -> T *;
+[[nodiscard]] inline constexpr auto ptr(color_rgb<T> &color) noexcept -> T *;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -50,29 +50,29 @@ template <concepts::arithmetic T>
  * \return Pointer to color data.
  */
 template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(const color3<T> &color) noexcept -> const T *;
+[[nodiscard]] inline constexpr auto ptr(const color_rgb<T> &color) noexcept -> const T *;
 
 template <concepts::arithmetic T>
-class color4
+class color_rgba
 {
 public:
     using type = T;
 
-    color4() noexcept;
+    color_rgba() noexcept;
 
-    explicit color4(const type r, const type g, const type b) noexcept;
-    explicit color4(const type r, const type g, const type b, const type a) noexcept;
+    explicit color_rgba(const type r, const type g, const type b) noexcept;
+    explicit color_rgba(const type r, const type g, const type b, const type a) noexcept;
 
-    explicit color4(const color3<type> c) noexcept;
-    explicit color4(const color3<type> c, const type a) noexcept;
+    explicit color_rgba(const color_rgb<type> c) noexcept;
+    explicit color_rgba(const color_rgb<type> c, const type a) noexcept;
 
-    ~color4() = default;
+    ~color_rgba() = default;
 
-    color4(const color4 &) noexcept = default;
-    auto operator=(const color4 &) noexcept -> color4 & = default;
+    color_rgba(const color_rgba &) noexcept = default;
+    auto operator=(const color_rgba &) noexcept -> color_rgba & = default;
 
-    color4(color4 &&) noexcept = default;
-    auto operator=(color4 &&) noexcept -> color4 & = default;
+    color_rgba(color_rgba &&) noexcept = default;
+    auto operator=(color_rgba &&) noexcept -> color_rgba & = default;
 
     type r;
     type g;
@@ -80,9 +80,9 @@ public:
     type a;
 };
 
-using color4u = color4<std::uint8_t>;
-using color4f = color4<float>;
-using color4d = color4<double>;
+using color_rgba_u = color_rgba<std::uint8_t>;
+using color_rgba_f = color_rgba<float>;
+using color_rgba_d = color_rgba<double>;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -91,7 +91,7 @@ using color4d = color4<double>;
  * \return Pointer to color data.
  */
 template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(color4<T> &color) noexcept -> T *;
+[[nodiscard]] inline constexpr auto ptr(color_rgba<T> &color) noexcept -> T *;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -100,7 +100,7 @@ template <concepts::arithmetic T>
  * \return Pointer to color data.
  */
 template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(const color4<T> &color) noexcept -> const T *;
+[[nodiscard]] inline constexpr auto ptr(const color_rgba<T> &color) noexcept -> const T *;
 
 } // namespace aeon::common
 
