@@ -16,16 +16,16 @@ class color_rgb
 public:
     using type = T;
 
-    color_rgb() noexcept;
-    explicit color_rgb(const type r, const type g, const type b) noexcept;
+    constexpr color_rgb() noexcept;
+    constexpr explicit color_rgb(const type r, const type g, const type b) noexcept;
 
     ~color_rgb() = default;
 
-    color_rgb(const color_rgb &) noexcept = default;
-    auto operator=(const color_rgb &) noexcept -> color_rgb & = default;
+    constexpr color_rgb(const color_rgb &) noexcept = default;
+    constexpr auto operator=(const color_rgb &) noexcept -> color_rgb & = default;
 
-    color_rgb(color_rgb &&) noexcept = default;
-    auto operator=(color_rgb &&) noexcept -> color_rgb & = default;
+    constexpr color_rgb(color_rgb &&) noexcept = default;
+    constexpr auto operator=(color_rgb &&) noexcept -> color_rgb & = default;
 
     type r;
     type g;
@@ -61,21 +61,21 @@ class color_rgba
 public:
     using type = T;
 
-    color_rgba() noexcept;
+    constexpr color_rgba() noexcept;
 
-    explicit color_rgba(const type r, const type g, const type b) noexcept;
-    explicit color_rgba(const type r, const type g, const type b, const type a) noexcept;
+    constexpr explicit color_rgba(const type r, const type g, const type b) noexcept;
+    constexpr explicit color_rgba(const type r, const type g, const type b, const type a) noexcept;
 
-    explicit color_rgba(const color_rgb<type> c) noexcept;
-    explicit color_rgba(const color_rgb<type> c, const type a) noexcept;
+    constexpr explicit color_rgba(const color_rgb<type> c) noexcept;
+    constexpr explicit color_rgba(const color_rgb<type> c, const type a) noexcept;
 
     ~color_rgba() = default;
 
-    color_rgba(const color_rgba &) noexcept = default;
-    auto operator=(const color_rgba &) noexcept -> color_rgba & = default;
+    constexpr color_rgba(const color_rgba &) noexcept = default;
+    constexpr auto operator=(const color_rgba &) noexcept -> color_rgba & = default;
 
-    color_rgba(color_rgba &&) noexcept = default;
-    auto operator=(color_rgba &&) noexcept -> color_rgba & = default;
+    constexpr color_rgba(color_rgba &&) noexcept = default;
+    constexpr auto operator=(color_rgba &&) noexcept -> color_rgba & = default;
 
     type r;
     type g;
