@@ -2,12 +2,14 @@
 
 #pragma once
 
+#include <aeon/common/compilers.h>
 #include <aeon/common/concepts.h>
 #include <cstdint>
 
 namespace aeon::common
 {
 
+AEON_PACK_STRUCT_PUSH(1)
 template <concepts::arithmetic T>
 class color_rgb
 {
@@ -28,7 +30,7 @@ public:
     type r;
     type g;
     type b;
-};
+} AEON_PACK_STRUCT_POP(1);
 
 using color_rgb_u = color_rgb<std::uint8_t>;
 using color_rgb_f = color_rgb<float>;
@@ -52,6 +54,7 @@ template <concepts::arithmetic T>
 template <concepts::arithmetic T>
 [[nodiscard]] inline constexpr auto ptr(const color_rgb<T> &color) noexcept -> const T *;
 
+AEON_PACK_STRUCT_PUSH(1)
 template <concepts::arithmetic T>
 class color_rgba
 {
@@ -78,7 +81,7 @@ public:
     type g;
     type b;
     type a;
-};
+} AEON_PACK_STRUCT_POP(1);
 
 using color_rgba_u = color_rgba<std::uint8_t>;
 using color_rgba_f = color_rgba<float>;
