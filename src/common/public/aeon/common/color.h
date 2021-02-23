@@ -34,6 +34,24 @@ using color3u = color3<std::uint8_t>;
 using color3f = color3<float>;
 using color3d = color3<double>;
 
+/*!
+ * Get a pointer into the underlying data structure of a given color.
+ * The color data layout is [r g b]
+ * \param[in] color - Color
+ * \return Pointer to color data.
+ */
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(color3<T> &color) noexcept -> T *;
+
+/*!
+ * Get a pointer into the underlying data structure of a given color.
+ * The color data layout is [r g b]
+ * \param[in] color - Color
+ * \return Pointer to color data.
+ */
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(const color3<T> &color) noexcept -> const T *;
+
 template <concepts::arithmetic T>
 class color4
 {
@@ -65,6 +83,24 @@ public:
 using color4u = color4<std::uint8_t>;
 using color4f = color4<float>;
 using color4d = color4<double>;
+
+/*!
+ * Get a pointer into the underlying data structure of a given color.
+ * The color data layout is [r g b a]
+ * \param[in] color - Color
+ * \return Pointer to color data.
+ */
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(color4<T> &color) noexcept -> T *;
+
+/*!
+ * Get a pointer into the underlying data structure of a given color.
+ * The color data layout is [r g b a]
+ * \param[in] color - Color
+ * \return Pointer to color data.
+ */
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(const color4<T> &color) noexcept -> const T *;
 
 } // namespace aeon::common
 

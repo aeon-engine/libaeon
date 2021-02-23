@@ -22,6 +22,18 @@ inline color3<T>::color3(const type r, const type g, const type b) noexcept
 }
 
 template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(color3<T> &color) noexcept -> T *
+{
+    return &color.r;
+}
+
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(const color3<T> &color) noexcept -> const T *
+{
+    return &color.r;
+}
+
+template <concepts::arithmetic T>
 inline color4<T>::color4() noexcept
     : color4<T>{color_limits<type>::min(), color_limits<type>::min(), color_limits<type>::min(),
                 color_limits<type>::max()}
@@ -53,6 +65,18 @@ template <concepts::arithmetic T>
 inline color4<T>::color4(const color3<type> c, const type a) noexcept
     : color4<T>{c.r, c.g, c.b, a}
 {
+}
+
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(color4<T> &color) noexcept -> T *
+{
+    return &color.r;
+}
+
+template <concepts::arithmetic T>
+[[nodiscard]] inline constexpr auto ptr(const color4<T> &color) noexcept -> const T *
+{
+    return &color.r;
 }
 
 } // namespace aeon::common
