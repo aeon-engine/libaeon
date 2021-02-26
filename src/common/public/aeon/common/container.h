@@ -71,7 +71,8 @@ template <typename U, typename T>
     std::vector<U> trans_vec;
     trans_vec.reserve(std::size(vec));
 
-    std::transform(std::begin(vec), std::end(vec), back_emplacer(trans_vec), [](const auto &v) { return v; });
+    std::transform(std::begin(vec), std::end(vec), back_emplacer(trans_vec),
+                   [](const auto &v) { return static_cast<U>(v); });
     return trans_vec;
 }
 
