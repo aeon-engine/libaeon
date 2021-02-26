@@ -148,6 +148,20 @@ face_wrapper::~face_wrapper() = default;
     return FT_Get_Char_Index(face_.get(), control_code);
 }
 
+auto face_wrapper::load_first_index() const -> std::tuple<char32_t, unsigned int>
+{
+    FT_UInt index;
+    auto control_code = FT_Get_First_Char(face_.get(), &index);
+    return {control_code, index};
+}
+
+auto face_wrapper::load_next_index(const char32_t control_code) const -> std::tuple<char32_t, unsigned int>
+{
+    FT_UInt index;
+    auto next_control_code = FT_Get_Next_Char(face_.get(), control_code, &index);
+    return {next_control_code, index};
+}
+
 [[nodiscard]] auto face_wrapper::load_glyph(const unsigned int glyph_index) const -> glyph
 {
     return internal::load_glyph(face_.get(), has_color_emoji_, dimensions_px_, glyph_index);

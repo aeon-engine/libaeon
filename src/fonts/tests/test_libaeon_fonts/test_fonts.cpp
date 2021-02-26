@@ -7,6 +7,7 @@
 #include <aeon/imaging/file/png_file.h>
 #include <aeon/imaging/converters/convert_encoding.h>
 #include <aeon/imaging/filters/resize.h>
+#include <aeon/imaging/utils/atlas.h>
 #include <aeon/common/preprocessor.h>
 #include <aeon/unicode/utf_string_view.h>
 #include "fonts_unittest_data.h"
@@ -135,4 +136,32 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
     math::blit(emoji_image, text_image, {100, 100});
 
     imaging::file::png::save(text_image, "test_fonts_text_emoji_blend.png");
+}
+
+TEST(test_fonts, test_load_glyphs_as_atlas)
+{
+    fonts::font_manager mgr;
+    auto font_file =
+        streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "ProggyClean.ttf"});
+    const auto face = mgr.load_face(font_file, 13.0f);
+
+    std::vector<imaging::image> glyphs;
+
+    auto result = face.load_first_glyph();
+
+    while (true)
+    {
+        if (!std::empty(glyphs) && std::get<0>(result) == 0)
+            break;
+
+        if (std::get<1>(result).has_view())
+            glyphs.emplace_back(std::get<1>(result).view());
+
+        result = face.load_next_glyph(std::get<0>(result));
+    }
+
+    auto atlas = imaging::utils::create_atlas(glyphs);
+
+    const auto rgb_image = imaging::convert::to_rgb_copy(atlas.image);
+    imaging::file::png::save(rgb_image, "font_atlas.png");
 }

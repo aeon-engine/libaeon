@@ -23,6 +23,36 @@ face::face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<str
 
 face::~face() = default;
 
+auto face::load_first_glyph() const -> std::tuple<char32_t, glyph>
+{
+    for (const auto &face : faces_)
+    {
+        const auto [control_code, char_index] = face->load_first_index();
+
+        if (char_index == 0)
+            continue;
+
+        return {control_code, face->load_glyph(char_index)};
+    }
+
+    return {0, faces_.at(0)->load_glyph(0)};
+}
+
+auto face::load_next_glyph(const char32_t control_code) const -> std::tuple<char32_t, glyph>
+{
+    for (const auto &face : faces_)
+    {
+        const auto [next_control_code, char_index] = face->load_next_index(control_code);
+
+        if (char_index == 0)
+            continue;
+
+        return {next_control_code, face->load_glyph(char_index)};
+    }
+
+    return {0, faces_.at(0)->load_glyph(0)};
+}
+
 [[nodiscard]] auto face::load_glyph(const char32_t control_code) const -> glyph
 {
     for (const auto &face : faces_)

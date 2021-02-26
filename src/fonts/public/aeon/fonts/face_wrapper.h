@@ -39,6 +39,18 @@ public:
     [[nodiscard]] auto get_char_index(const char32_t control_code) const -> unsigned int;
 
     /*!
+     * Get the first valid control code and its glyph index
+     * \return Tuple of the control code and the glyph index
+     */
+    [[nodiscard]] auto load_first_index() const -> std::tuple<char32_t, unsigned int>;
+
+    /*!
+     * Get the next valid control code and its glyph index from the given control code
+     * \return Tuple of the control code and the glyph index
+     */
+    [[nodiscard]] auto load_next_index(const char32_t control_code) const -> std::tuple<char32_t, unsigned int>;
+
+    /*!
      * Load a glyph. Loading the next glyph will re-use the same buffer,
      * so be sure to copy the image somewhere first before loading the next glyph.
      */

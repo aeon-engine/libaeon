@@ -29,6 +29,18 @@ public:
     auto operator=(face &&) noexcept -> face & = default;
 
     /*!
+     * Get the first valid control code and its glyph index
+     * \return Tuple of the control code and the glyph index
+     */
+    [[nodiscard]] auto load_first_glyph() const -> std::tuple<char32_t, glyph>;
+
+    /*!
+     * Get the next valid control code and its glyph index from the given control code
+     * \return Tuple of the control code and the glyph index
+     */
+    [[nodiscard]] auto load_next_glyph(const char32_t control_code) const -> std::tuple<char32_t, glyph>;
+
+    /*!
      * Load a glyph. Loading the next glyph will re-use the same buffer,
      * so be sure to copy the image somewhere first before loading the next glyph.
      */
