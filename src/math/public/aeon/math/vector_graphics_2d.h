@@ -41,17 +41,16 @@ template <std::floating_point T, std::integral U>
 }
 
 template <std::floating_point T, std::integral U>
-[[nodiscard]] inline auto path_circle(std::vector<vector2<T>> &steps, const circle<T> &circle, const U num_segments)
+inline void path_circle(std::vector<vector2<T>> &steps, const circle<T> &circle, const U num_segments)
 {
     const auto max_angle = constants<T>::tau * (static_cast<T>(num_segments) - T(1.0)) / static_cast<T>(num_segments);
-    return path_arc(steps, center(circle), radius(circle), T(0.0), max_angle, num_segments - 1);
+    path_arc(steps, center(circle), radius(circle), T(0.0), max_angle, num_segments - 1);
 }
 
 template <std::floating_point T, std::integral U>
-[[nodiscard]] inline auto path_circle(std::vector<vector2<T>> &steps, const vector2<T> &center, const T radius,
-                                      const U num_segments)
+inline void path_circle(std::vector<vector2<T>> &steps, const vector2<T> &center, const T radius, const U num_segments)
 {
-    return path_circle(steps, circle{center, radius}, num_segments);
+    path_circle(steps, circle{center, radius}, num_segments);
 }
 
 template <std::floating_point T, std::integral U>
@@ -68,7 +67,7 @@ template <std::floating_point T, std::integral U>
 }
 
 template <std::floating_point T>
-[[nodiscard]] void path_rectangle(std::vector<vector2<T>> &steps, const rectangle<T> &rectangle)
+inline void path_rectangle(std::vector<vector2<T>> &steps, const rectangle<T> &rectangle)
 {
     steps.reserve(std::size(steps) + 4);
     steps.push_back(left_top(rectangle));
@@ -86,9 +85,9 @@ template <std::floating_point T>
 }
 
 template <std::floating_point T>
-[[nodiscard]] void path_rounded_rectangle(std::vector<vector2<T>> &steps, const rectangle<T> &rectangle,
-                                          const T left_top_radius, const T right_top_radius,
-                                          const T right_bottom_radius, const T left_bottom_radius)
+inline void path_rounded_rectangle(std::vector<vector2<T>> &steps, const rectangle<T> &rectangle,
+                                   const T left_top_radius, const T right_top_radius, const T right_bottom_radius,
+                                   const T left_bottom_radius)
 {
     if (approximately_zero(left_top_radius))
     {
