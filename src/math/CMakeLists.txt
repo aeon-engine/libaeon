@@ -37,6 +37,7 @@ set(SOURCES
     public/aeon/math/impl/vector3_operators_impl.h
     public/aeon/math/impl/vector4_impl.h
     public/aeon/math/impl/vector4_operators_impl.h
+    public/aeon/math/line_segment.h
     public/aeon/math/mat.h
     public/aeon/math/mat3.h
     public/aeon/math/mat3_stream.h

@@ -8,7 +8,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 inline auto operator<<(std::ostream &os, const range<T> &q) -> std::ostream &
 {
     return os << "range<" << typeid(T).name() << ">(" << q.begin << ", " << q.end << ")";

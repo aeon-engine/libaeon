@@ -33,7 +33,7 @@ class size2d;
 template <common::concepts::arithmetic_convertible T>
 class size3d;
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 class range;
 
 template <common::concepts::arithmetic_convertible T>

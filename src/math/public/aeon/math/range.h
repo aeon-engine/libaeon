@@ -15,7 +15,7 @@ namespace aeon::math
 /*!
  * Class that represents a range (begin-end).
  */
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 class range
 {
 public:
@@ -27,7 +27,12 @@ public:
     /*!
      * Create a range based on the given begin and end.
      */
-    constexpr range(const T begin, const T end) noexcept;
+    constexpr range(const T &begin, const T &end) noexcept;
+
+    /*!
+     * Create a range based on the given begin and end.
+     */
+    constexpr range(T &&begin, T &&end) noexcept;
 
     ~range() noexcept = default;
 
@@ -46,7 +51,7 @@ public:
  * \param[in] range - Range
  * \return Begin of a range
  */
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto begin(const range<T> &range) noexcept -> T;
 
 /*!
@@ -54,7 +59,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] range - Range
  * \return End of a range
  */
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto end(const range<T> &range) noexcept -> T;
 
 /*!
@@ -65,10 +70,10 @@ template <common::concepts::arithmetic_convertible T>
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T;
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 inline constexpr auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 inline constexpr auto operator!=(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::math

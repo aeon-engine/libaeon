@@ -5,27 +5,34 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 inline constexpr range<T>::range() noexcept
     : begin{}
     , end{}
 {
 }
 
-template <common::concepts::arithmetic_convertible T>
-inline constexpr range<T>::range(const T begin, const T end) noexcept
+template <typename T>
+inline constexpr range<T>::range(const T &begin, const T &end) noexcept
     : begin{begin}
     , end{end}
 {
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
+inline constexpr range<T>::range(T &&begin, T &&end) noexcept
+    : begin{std::move(begin)}
+    , end{std::move(end)}
+{
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto begin(const range<T> &range) noexcept -> T
 {
     return range.begin;
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto end(const range<T> &range) noexcept -> T
 {
     return range.end;
@@ -37,13 +44,13 @@ template <common::concepts::arithmetic_convertible T>
     return range.end - range.begin;
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 inline constexpr auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool
 {
     return begin(lhs) == begin(rhs) && end(lhs) == end(rhs);
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 inline constexpr auto operator!=(const range<T> &lhs, const range<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
