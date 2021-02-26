@@ -24,8 +24,20 @@ enum class texture_max_filter : GLenum
     linear = GL_LINEAR
 };
 
+enum class monochrome_type : GLenum
+{
+    red = GL_RED,
+    green = GL_GREEN,
+    blue = GL_BLUE,
+    alpha = GL_ALPHA,
+    luminance = GL_LUMINANCE,
+    intensity = GL_INTENSITY,
+    depth_component = GL_DEPTH_COMPONENT
+};
+
 [[nodiscard]] auto create_texture(const imaging::iimage &image,
                                   const texture_min_filter min_filter = texture_min_filter::linear,
-                                  const texture_max_filter max_filter = texture_max_filter::linear) -> GLuint;
+                                  const texture_max_filter max_filter = texture_max_filter::linear,
+                                  const monochrome_type monochrome_type = monochrome_type::red) -> GLuint;
 
 } // namespace aeon::gl_utils

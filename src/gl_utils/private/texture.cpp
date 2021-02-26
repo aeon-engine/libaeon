@@ -10,12 +10,12 @@ namespace aeon::gl_utils
 namespace internal
 {
 
-[[nodiscard]] auto convert_pixel_format(const imaging::iimage &image) -> GLenum
+[[nodiscard]] auto convert_pixel_format(const imaging::iimage &image, const monochrome_type monochrome_type) -> GLenum
 {
     switch (imaging::encoding(image))
     {
         case imaging::pixel_encoding::monochrome:
-            return GL_LUMINANCE;
+            return static_cast<GLenum>(monochrome_type);
         case imaging::pixel_encoding::rgb:
             return GL_RGB;
         case imaging::pixel_encoding::rgba:
@@ -59,7 +59,7 @@ namespace internal
 } // namespace internal
 
 auto create_texture(const imaging::iimage &image, const texture_min_filter min_filter,
-                    const texture_max_filter max_filter) -> GLuint
+                    const texture_max_filter max_filter, const monochrome_type monochrome_type) -> GLuint
 {
     GLuint handle = 0;
     aeon_check_gl_error(glGenTextures(1, &handle));
@@ -67,7 +67,7 @@ auto create_texture(const imaging::iimage &image, const texture_min_filter min_f
 
     const auto width = math::width(image);
     const auto height = math::height(image);
-    const auto pixel_format = internal::convert_pixel_format(image);
+    const auto pixel_format = internal::convert_pixel_format(image, monochrome_type);
     const auto type = internal::convert_type(image);
 
     aeon_check_gl_error(
