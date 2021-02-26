@@ -174,14 +174,14 @@ void window_win32::title(const std::u8string &str)
     SetWindowTextW(handle_, std::data(title));
 }
 
-auto window_win32::size() const noexcept -> math::size2d<std::int32_t>
+auto window_win32::dimensions() const noexcept -> math::size2d<std::int32_t>
 {
     RECT rect{};
     GetWindowRect(handle_, &rect);
     return math::size2d<std::int32_t>{rect.right - rect.left, rect.bottom - rect.top};
 }
 
-void window_win32::size(const math::size2d<std::int32_t> &size)
+void window_win32::dimensions(const math::size2d<std::int32_t> &size)
 {
     if (!SetWindowPos(handle_, nullptr, 0, 0, size.width, size.height, SWP_NOMOVE | SWP_NOZORDER))
         internal::throw_last_error();

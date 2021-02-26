@@ -30,8 +30,8 @@ public:
 
     void title(const std::u8string &str) final;
 
-    [[nodiscard]] auto size() const noexcept -> math::size2d<std::int32_t> final;
-    void size(const math::size2d<std::int32_t> &size) final;
+    [[nodiscard]] auto dimensions() const noexcept -> math::size2d<std::int32_t> final;
+    void dimensions(const math::size2d<std::int32_t> &size) final;
 
     void close() final;
 

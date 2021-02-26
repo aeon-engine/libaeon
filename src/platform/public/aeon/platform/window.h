@@ -30,8 +30,8 @@ public:
 
     virtual void title(const std::u8string &str) = 0;
 
-    [[nodiscard]] virtual auto size() const noexcept -> math::size2d<std::int32_t> = 0;
-    virtual void size(const math::size2d<std::int32_t> &size) = 0;
+    [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
+    virtual void dimensions(const math::size2d<std::int32_t> &size) = 0;
 
     virtual void close() = 0;
 
