@@ -13,7 +13,7 @@ auto create_buffer() -> GLuint
     return handle;
 }
 
-void set_buffer_data(const GLuint handle, const buffer_type type, const std::span<std::byte> &data,
+void set_buffer_data(const GLuint handle, const buffer_type type, const std::span<const std::byte> &data,
                      const buffer_usage usage)
 {
     aeon_check_gl_error(glBindBuffer(static_cast<GLenum>(type), handle));
@@ -26,7 +26,7 @@ void bind_buffer(const buffer_type type, const GLuint handle)
     aeon_check_gl_error(glBindBuffer(static_cast<GLenum>(type), handle));
 }
 
-auto create_buffer(const buffer_type type, const std::span<std::byte> &data, const buffer_usage usage) -> GLuint
+auto create_buffer(const buffer_type type, const std::span<const std::byte> &data, const buffer_usage usage) -> GLuint
 {
     const auto handle = create_buffer();
     set_buffer_data(handle, type, data, usage);

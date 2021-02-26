@@ -41,12 +41,12 @@ enum class buffer_usage : GLenum
 
 [[nodiscard]] auto create_buffer() -> GLuint;
 
-void set_buffer_data(const GLuint handle, const buffer_type type, const std::span<std::byte> &data,
+void set_buffer_data(const GLuint handle, const buffer_type type, const std::span<const std::byte> &data,
                      const buffer_usage usage);
 
 void bind_buffer(const buffer_type type, const GLuint handle);
 
-[[nodiscard]] auto create_buffer(const buffer_type type, const std::span<std::byte> &data, const buffer_usage usage)
-    -> GLuint;
+[[nodiscard]] auto create_buffer(const buffer_type type, const std::span<const std::byte> &data,
+                                 const buffer_usage usage) -> GLuint;
 
 } // namespace aeon::gl_utils
