@@ -170,6 +170,30 @@ inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+inline constexpr auto resized(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>
+{
+    return {left_top(rect), size};
+}
+
+template <common::concepts::arithmetic_convertible T>
+inline constexpr auto resized(const rectangle<T> &rect, const T width, const T height) noexcept -> rectangle<T>
+{
+    return resized(rect, size2d{width, height});
+}
+
+template <common::concepts::arithmetic_convertible T>
+inline constexpr void set_size(rectangle<T> &rect, const size2d<T> &size) noexcept
+{
+    rect = resized(rect, size);
+}
+
+template <common::concepts::arithmetic_convertible T>
+inline constexpr void set_size(rectangle<T> &rect, const T width, const T height) noexcept
+{
+    rect = resized(rect, width, height);
+}
+
+template <common::concepts::arithmetic_convertible T>
 inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexcept
 {
     rect = translated(rect, x, y);

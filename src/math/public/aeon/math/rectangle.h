@@ -212,6 +212,42 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
 
 /*!
+ * Set the size of a rectangle as seen from the left top.
+ * \param[in] rect - Rectangle
+ * \param[in] size - New size (right=left+width, bottom=top+height)
+ * \return The resized rectangle
+ */
+template <common::concepts::arithmetic_convertible T>
+inline constexpr auto resized(const rectangle<T> &rect, const size2d<T> &size) noexcept -> rectangle<T>;
+
+/*!
+ * Set the size of a rectangle as seen from the left top.
+ * \param[in] rect - Rectangle
+ * \param[in] width - New width (right=left+width)
+ * \param[in] height - New height (bottom=top+height)
+ * \return The resized rectangle
+ */
+template <common::concepts::arithmetic_convertible T>
+inline constexpr auto resized(const rectangle<T> &rect, const T width, const T height) noexcept -> rectangle<T>;
+
+/*!
+ * Set the size of a rectangle as seen from the left top.
+ * \param[in,out] rect - Rectangle
+ * \param[in] size - New size (right=left+width, bottom=top+height)
+ */
+template <common::concepts::arithmetic_convertible T>
+inline constexpr void set_size(rectangle<T> &rect, const size2d<T> &size) noexcept;
+
+/*!
+ * Set the size of a rectangle as seen from the left top.
+ * \param[in,out] rect - Rectangle
+ * \param[in] width - New width (right=left+width)
+ * \param[in] height - New height (bottom=top+height)
+ */
+template <common::concepts::arithmetic_convertible T>
+inline constexpr void set_size(rectangle<T> &rect, const T width, const T height) noexcept;
+
+/*!
  * Translate (move) an existing rectangle.
  * \param[in,out] rect - Rectangle
  * \param[in] x - Relative X coordinate
