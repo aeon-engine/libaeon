@@ -15,8 +15,7 @@ namespace aeon::imaging
 {
 
 /*!
- * An image view provides a way to access and modify image data.
- * An image_view does not own the data that it provides a view on.
+ * Base class for images.
  */
 class iimage : public math::mat_view
 {
