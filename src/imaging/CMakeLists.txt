@@ -28,6 +28,7 @@ set(SOURCES
     public/aeon/imaging/pixel_encoding.h
     public/aeon/imaging/pixel_encoding_traits.h
     public/aeon/imaging/pixel_math.h
+    public/aeon/imaging/utils/atlas.h
     public/aeon/imaging/utils/visibility.h
 )
 

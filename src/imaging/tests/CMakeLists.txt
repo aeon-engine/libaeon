@@ -7,6 +7,7 @@ add_unit_test_suite(
     TARGET test_libaeon_imaging
     SOURCES
         main.cpp
+        test_atlas.cpp
         test_blit.cpp
         test_imaging.cpp
         test_file_bmp.cpp
