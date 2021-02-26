@@ -128,7 +128,9 @@ inline void image::clear() noexcept
     data_ptr_ = nullptr;
     dimensions_ = {};
     stride_ = 0;
-    data_.clear();
+
+    // Force data deletion. Clear does not guarantee deallocation.
+    decltype(data_)().swap(data_);
 }
 
 inline void image::copy_from_pointer(const underlying_type *data)
