@@ -207,7 +207,7 @@ inline constexpr auto operator>(const vector3<T> &lhs, const vector3<T> &rhs) no
 
 /*!
  * Translate (move) an existing vector.
- * \param[in, out] lhs - Vector
+ * \param[in,out] lhs - Vector
  * \param[in] x - Relative X coordinate
  * \param[in] y - Relative Y coordinate
  * \param[in] z - Relative Z coordinate
@@ -217,7 +217,7 @@ inline constexpr void translate(vector3<T> &lhs, const T x, const T y, const T z
 
 /*!
  * Translate (move) an existing vector.
- * \param[in, out] lhs - Vector
+ * \param[in,out] lhs - Vector
  * \param[in] rhs - Relative X, Y and Z coordinates
  */
 template <common::concepts::arithmetic_convertible T>
@@ -288,7 +288,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Normalize a given directional vector (so that length = 1)
- * \param[in, out] vec - Vector
+ * \param[in,out] vec - Vector
  */
 template <common::concepts::arithmetic_convertible T>
 inline constexpr void normalize(vector3<T> &vec) noexcept;

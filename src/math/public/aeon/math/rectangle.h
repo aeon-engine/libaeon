@@ -207,7 +207,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Translate (move) an existing rectangle.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - Relative X coordinate
  * \param[in] y - Relative Y coordinate
  */
@@ -216,7 +216,7 @@ inline constexpr void translate(rectangle<T> &rect, const T x, const T y) noexce
 
 /*!
  * Translate (move) an existing rectangle.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - Relative X coordinate
  * \param[in] y - Relative Y coordinate
  */
@@ -225,7 +225,7 @@ inline constexpr void translate(rectangle<T> &rect, const U x, const U y) noexce
 
 /*!
  * Translate (move) an existing rectangle.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - Relative X and Y coordinates.
  */
 template <common::concepts::arithmetic_convertible T>
@@ -233,7 +233,7 @@ inline constexpr void translate(rectangle<T> &rect, const vector2<T> &vec) noexc
 
 /*!
  * Translate (move) an existing rectangle.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - Relative X and Y coordinates.
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
@@ -281,7 +281,7 @@ template <common::concepts::arithmetic_convertible T, common::concepts::arithmet
 
 /*!
  * Set the position of an existing rectangle.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - New X coordinate of the left-top.
  * \param[in] y - New Y coordinate of the left-top.
  */
@@ -290,7 +290,7 @@ inline constexpr void set_position(rectangle<T> &rect, const T x, const T y) noe
 
 /*!
  * Set the position of an existing rectangle.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - New X and Y coordinates of the left-top.
  */
 template <common::concepts::arithmetic_convertible T>
@@ -298,7 +298,7 @@ inline constexpr void set_position(rectangle<T> &rect, const vector2<T> &vec) no
 
 /*!
  * Set the position of an existing rectangle. The given coordinate
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - New X coordinate of an anchor point within the rectangle.
  * \param[in] y - New Y coordinate of an anchor point within the rectangle.
  * \param[in] anchor - Anchor point for the given position
@@ -308,7 +308,7 @@ inline constexpr void set_position(rectangle<T> &rect, const T x, const T y, con
 
 /*!
  * Set the position of an existing rectangle. The given coordinate
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - New X and Y coordinates of an anchor point within the rectangle.
  * \param[in] anchor - Anchor point for the given position
  */
@@ -407,7 +407,7 @@ template <common::concepts::arithmetic_convertible T, typename... U>
 
 /*!
  * Inflate (grow, add) a rectangle in all directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] val - Value to inflate with
  */
 template <common::concepts::arithmetic_convertible T>
@@ -424,7 +424,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] val - Value to scale with
  */
 template <common::concepts::arithmetic_convertible T>
@@ -432,7 +432,7 @@ inline constexpr void scale(rectangle<T> &rect, const T val) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] val - Value to scale with
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
@@ -440,7 +440,7 @@ inline constexpr void scale(rectangle<T> &rect, const U val) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  */
@@ -449,7 +449,7 @@ inline constexpr void scale(rectangle<T> &rect, const T x, const T y) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  */
@@ -458,7 +458,7 @@ inline constexpr void scale(rectangle<T> &rect, const U x, const U y) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T>
@@ -466,7 +466,7 @@ inline constexpr void scale(rectangle<T> &rect, const vector2<T> &vec) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
@@ -474,7 +474,7 @@ inline constexpr void scale(rectangle<T> &rect, const vector2<U> &vec) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T>
@@ -482,7 +482,7 @@ inline constexpr void scale(rectangle<T> &rect, const size2d<T> &size) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
@@ -490,7 +490,7 @@ inline constexpr void scale(rectangle<T> &rect, const size2d<U> &size) noexcept;
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] val - Value to scale with
  * \return Scaled rectangle based on given one.
  */
@@ -499,7 +499,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Scale (multiply) a rectangle in all directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] val - Value to scale with
  * \return Scaled rectangle based on given one.
  */
@@ -508,7 +508,7 @@ template <common::concepts::arithmetic_convertible T, common::concepts::arithmet
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  * \return Scaled rectangle based on given one.
@@ -518,7 +518,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  * \return Scaled rectangle based on given one.
@@ -528,7 +528,7 @@ template <common::concepts::arithmetic_convertible T, common::concepts::arithmet
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
@@ -537,7 +537,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] vec - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
@@ -546,7 +546,7 @@ template <common::concepts::arithmetic_convertible T, common::concepts::arithmet
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
@@ -555,7 +555,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Scale (multiply) a rectangle in all two directions by a given value to a new copy.
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  * \param[in] size - Horizontal and vertical scale value
  * \return Scaled rectangle based on given one.
  */
@@ -601,7 +601,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Normalize a rectangle (make sure that left < right and top < bottom)
- * \param[in, out] rect - Rectangle
+ * \param[in,out] rect - Rectangle
  */
 template <common::concepts::arithmetic_convertible T>
 inline constexpr void normalize(rectangle<T> &rect) noexcept;

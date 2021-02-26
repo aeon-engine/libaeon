@@ -161,7 +161,7 @@ template <common::concepts::arithmetic_convertible T, std::enable_if_t<std::is_f
 
 /*!
  * Change the position of the center of the given circle.
- * \param[in, out] c - Circle to move
+ * \param[in,out] c - Circle to move
  * \param[in] x - X position
  * \param[in] y - Y position
  */
@@ -170,7 +170,7 @@ inline constexpr void set_position(circle<T> &c, const T x, const T y) noexcept;
 
 /*!
  * Change the position of the center of the given circle.
- * \param[in, out] c - Circle to move
+ * \param[in,out] c - Circle to move
  * \param[in] vec - Position
  */
 template <common::concepts::arithmetic_convertible T>
@@ -195,7 +195,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Inflate a circle (add a value to the radius)
- * \param[in, out] c - Circle to inflate
+ * \param[in,out] c - Circle to inflate
  * \param[in] val - How much to inflate the radius by
  */
 template <common::concepts::arithmetic_convertible T>
@@ -211,7 +211,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Scale a circle (multiply the radius with a value)
- * \param[in, out] c - Circle to scale
+ * \param[in,out] c - Circle to scale
  * \param[in] val - How much to scale the radius by
  */
 template <common::concepts::arithmetic_convertible T>

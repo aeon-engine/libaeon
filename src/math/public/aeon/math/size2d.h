@@ -136,7 +136,7 @@ template <common::concepts::arithmetic_convertible T>
 
 /*!
  * Inflate (grow, add) a size in all directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] val - Value to inflate with
  */
 template <common::concepts::arithmetic_convertible T>
@@ -153,7 +153,7 @@ inline constexpr auto inflated(const size2d<T> &size, const T val) noexcept -> s
 
 /*!
  * Scale (multiply) a size in all directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] val - Value to scale with
  */
 template <common::concepts::arithmetic_convertible T>
@@ -161,7 +161,7 @@ inline constexpr void scale(size2d<T> &size, const T val) noexcept;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  */
@@ -170,7 +170,7 @@ inline constexpr void scale(size2d<T> &size, const T x, const T y) noexcept;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] vec - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T>
@@ -178,7 +178,7 @@ inline constexpr void scale(size2d<T> &size, const vector2<T> &vec) noexcept;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] val - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T>
@@ -223,7 +223,7 @@ inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexce
 
 /*!
  * Scale (multiply) a size in all directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] val - Value to scale with
  */
 template <common::concepts::arithmetic_convertible T, typename U>
@@ -231,7 +231,7 @@ inline constexpr void scale(size2d<T> &size, const U val) noexcept;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] x - Horizontal scale value
  * \param[in] y - Vertical scale value
  */
@@ -240,7 +240,7 @@ inline constexpr void scale(size2d<T> &size, const U x, const U y) noexcept;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] vec - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T, typename U>
@@ -248,7 +248,7 @@ inline constexpr void scale(size2d<T> &size, const vector2<U> &vec) noexcept;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value.
- * \param[in, out] size - Size2d
+ * \param[in,out] size - Size2d
  * \param[in] val - Horizontal and vertical scale value
  */
 template <common::concepts::arithmetic_convertible T, typename U>
