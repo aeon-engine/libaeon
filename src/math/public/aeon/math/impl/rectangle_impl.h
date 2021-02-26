@@ -70,6 +70,16 @@ inline constexpr rectangle<T>::rectangle(const vector2<T> position, const size2d
 }
 
 template <common::concepts::arithmetic_convertible T>
+template <common::concepts::arithmetic_convertible U>
+inline constexpr rectangle<T>::rectangle(const rectangle<U> &other) noexcept
+    : left{static_cast<T>(other.left)}
+    , top{static_cast<T>(other.top)}
+    , right{static_cast<T>(other.right)}
+    , bottom{static_cast<T>(other.bottom)}
+{
+}
+
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto left(const rectangle<T> &rect) noexcept -> T
 {
     return rect.left;

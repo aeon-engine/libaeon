@@ -70,6 +70,12 @@ public:
      */
     constexpr rectangle(const vector2<T> position, const size2d<T> size, const anchor_point anchor) noexcept;
 
+    /*!
+     * Convert a rectangle from another arithmetic type.
+     */
+    template <common::concepts::arithmetic_convertible U>
+    constexpr explicit rectangle(const rectangle<U> &other) noexcept;
+
     ~rectangle() noexcept = default;
 
     constexpr rectangle(const rectangle<T> &) noexcept = default;
