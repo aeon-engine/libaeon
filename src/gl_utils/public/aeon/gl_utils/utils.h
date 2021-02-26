@@ -14,12 +14,12 @@
 namespace aeon::gl_utils
 {
 
-inline void clear_color(const common::color3f color)
+inline void clear_color(const common::color_rgb_f color)
 {
     aeon_check_gl_error(glClearColor(color.r, color.g, color.b, 1.0f));
 }
 
-inline void clear_color(const common::color4f color)
+inline void clear_color(const common::color_rgba_f color)
 {
     aeon_check_gl_error(glClearColor(color.r, color.g, color.b, color.a));
 }
