@@ -143,7 +143,7 @@ face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &st
 
 face_wrapper::~face_wrapper() = default;
 
-[[nodiscard]] auto face_wrapper::get_char_index(const char32_t control_code) const -> unsigned
+[[nodiscard]] auto face_wrapper::get_char_index(const char32_t control_code) const -> unsigned int
 {
     return FT_Get_Char_Index(face_.get(), control_code);
 }
