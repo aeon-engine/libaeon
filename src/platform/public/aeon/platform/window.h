@@ -5,6 +5,7 @@
 #include <aeon/platform/native_handles.h>
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
+#include <aeon/math/rectangle.h>
 #include <string>
 #include <cstdint>
 
@@ -41,5 +42,20 @@ public:
 
     [[nodiscard]] virtual auto context() const noexcept -> const context & = 0;
 };
+
+[[nodiscard]] inline auto position(const window &window) noexcept
+{
+    return window.position();
+}
+
+[[nodiscard]] inline auto dimensions(const window &window) noexcept
+{
+    return window.dimensions();
+}
+
+[[nodiscard]] inline auto rectangle(const window &window) noexcept
+{
+    return math::rectangle{position(window), dimensions(window)};
+}
 
 } // namespace aeon::platform
