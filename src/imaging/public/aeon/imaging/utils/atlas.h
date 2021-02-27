@@ -5,7 +5,8 @@
 #include <aeon/imaging/image.h>
 #include <aeon/math/rectangle.h>
 #include <aeon/common/container.h>
-#include <span>
+#include <numeric>
+#include <tuple>
 #include <stdexcept>
 #include <vector>
 
@@ -16,6 +17,7 @@ namespace internal
 {
 
 [[nodiscard]] inline auto determine_atlas(const std::vector<image_view> &images,
+                                          const std::vector<std::size_t> &indices,
                                           std::vector<math::rectangle<image::dimensions_type>> &rectangles,
                                           const math::size2d<image::dimensions_type> minimum_distance,
                                           const math::size2d<image::dimensions_type> destination_dimensions) -> bool
@@ -23,8 +25,10 @@ namespace internal
     image::dimensions_type x_offset = 0;
     std::vector<image::dimensions_type> y_positions(math::width(destination_dimensions), 0);
 
-    for (const auto &img : images)
+    for (const auto index : indices)
     {
+        const auto &img = images[index];
+
         if (!math::contains(math::rectangle{0, 0, math::dimensions(img)},
                             math::rectangle{0, 0, destination_dimensions}))
             return false;
@@ -46,7 +50,7 @@ namespace internal
                             math::rectangle{0, 0, destination_dimensions}))
             return false;
 
-        rectangles.emplace_back(position, math::dimensions(img));
+        rectangles[index] = {position, math::dimensions(img)};
 
         for (auto i = 0; i < math::width(img) + math::width(minimum_distance); ++i)
         {
@@ -67,7 +71,7 @@ struct atlas_result
     std::vector<math::rectangle<image::dimensions_type>> positions;
 };
 
-[[nodiscard]] inline auto create_atlas(std::vector<image_view> images,
+[[nodiscard]] inline auto create_atlas(const std::vector<image_view> &images,
                                        const math::size2d<image::dimensions_type> minimum_distance = {1, 1},
                                        const math::size2d<image::dimensions_type> initial_dimensions = {128, 128})
     -> atlas_result
@@ -75,9 +79,12 @@ struct atlas_result
     if (std::empty(images))
         throw std::invalid_argument{"No images given"};
 
-    std::sort(std::begin(images), std::end(images), [](const auto lhs, const auto rhs) {
-        const auto lhs_dimensions = math::dimensions(lhs);
-        const auto rhs_dimensions = math::dimensions(rhs);
+    std::vector<std::size_t> indices(std::size(images));
+    std::iota(std::begin(indices), std::end(indices), 0);
+
+    std::ranges::sort(indices, [&images](const auto lhs, const auto rhs) {
+        const auto lhs_dimensions = math::dimensions(images[lhs]);
+        const auto rhs_dimensions = math::dimensions(images[rhs]);
 
         return std::tie(rhs_dimensions.height, lhs_dimensions.width) <
                std::tie(lhs_dimensions.height, rhs_dimensions.width);
@@ -87,14 +94,13 @@ struct atlas_result
     const auto encoding = imaging::encoding(images[0]);
 
     atlas_result result;
-    result.positions.reserve(std::size(images));
+    result.positions.resize(std::size(images));
 
     auto dimensions = initial_dimensions;
 
-    while (!internal::determine_atlas(images, result.positions, minimum_distance, dimensions))
+    while (!internal::determine_atlas(images, indices, result.positions, minimum_distance, dimensions))
     {
         dimensions *= 2;
-        result.positions.clear();
     }
 
     result.image = image{element_type, encoding, dimensions};
