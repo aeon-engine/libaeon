@@ -41,9 +41,9 @@ void free_freetype_face(FT_FaceRec_ *face)
     return length != 0;
 }
 
-[[nodiscard]] static auto points_to_pixels(const float points, const int dpi) noexcept -> int
+[[nodiscard]] static auto points_to_pixels(const float points, const int dpi) noexcept -> float
 {
-    return static_cast<int>((points / (points_per_inch / static_cast<float>(dpi))));
+    return (points / (points_per_inch / static_cast<float>(dpi)));
 }
 
 static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels)
@@ -96,7 +96,7 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
                                reinterpret_cast<std::byte *>(bitmap.buffer)};
 }
 
-[[nodiscard]] static auto load_glyph(const FT_Face face, const bool has_color_emoji, const int dimensions_px,
+[[nodiscard]] static auto load_glyph(const FT_Face face, const bool has_color_emoji, const float dimensions_px,
                                      const FT_UInt glyph_index) -> glyph
 {
     FT_Int32 flags = FT_LOAD_DEFAULT;
@@ -110,9 +110,9 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
     if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL) != 0)
         throw font_exception{};
 
-    const auto offset = math::vector2<int>{face->glyph->bitmap_left, -face->glyph->bitmap_top};
-    const auto advance = math::vector2<int>{face->glyph->advance.x, face->glyph->advance.y} / 64;
-    const auto dimensions = math::size2d<int>{face->glyph->metrics.width, face->glyph->metrics.height} / 64;
+    const auto offset = math::vector2<float>{face->glyph->bitmap_left, -face->glyph->bitmap_top};
+    const auto advance = math::vector2<float>{face->glyph->advance.x, face->glyph->advance.y} / 64.0f;
+    const auto dimensions = math::size2d<float>{face->glyph->metrics.width, face->glyph->metrics.height} / 64.0f;
 
     if (face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY || face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD ||
         face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD_V)
@@ -134,7 +134,7 @@ face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &st
     , face_{internal::create_freetype_face(library, face_data_, 0), internal::free_freetype_face}
     , has_color_emoji_{internal::has_color_emoji(face_.get())}
     , dimensions_px_{internal::points_to_pixels(points, dpi)}
-    , line_height_{face_->height / dpi}
+    , line_height_{static_cast<float>(face_->height) / static_cast<float>(dpi)}
 {
     if (!has_color_emoji_)
     {
@@ -142,7 +142,7 @@ face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &st
     }
     else
     {
-        internal::freetype_select_emoji_pixel_size(face_.get(), dimensions_px_);
+        internal::freetype_select_emoji_pixel_size(face_.get(), static_cast<int>(dimensions_px_));
     }
 }
 
@@ -172,7 +172,7 @@ auto face_wrapper::load_next_index(const char32_t control_code) const -> std::tu
     return internal::load_glyph(face_.get(), has_color_emoji_, dimensions_px_, glyph_index);
 }
 
-auto face_wrapper::line_height() const -> int
+auto face_wrapper::line_height() const -> float
 {
     return line_height_;
 }

@@ -69,9 +69,9 @@ auto face::load_next_glyph(const char32_t control_code) const -> std::tuple<char
     return faces_.at(0)->load_glyph(0);
 }
 
-auto face::line_height() const -> int
+auto face::line_height() const -> float
 {
-    int line_height = 0;
+    auto line_height = 0.0f;
 
     for (const auto &face : faces_)
     {

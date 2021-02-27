@@ -49,7 +49,7 @@ public:
     /*!
      * Get the default line height in pixels
      */
-    [[nodiscard]] auto line_height() const -> int;
+    [[nodiscard]] auto line_height() const -> float;
 
 private:
     face(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi);

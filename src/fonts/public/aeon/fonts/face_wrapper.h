@@ -59,14 +59,14 @@ public:
     /*!
      * Get the default line height in pixels
      */
-    [[nodiscard]] auto line_height() const -> int;
+    [[nodiscard]] auto line_height() const -> float;
 
 private:
     std::vector<char> face_data_;
     std::unique_ptr<FT_FaceRec_, decltype(&internal::free_freetype_face)> face_;
     bool has_color_emoji_;
-    int dimensions_px_;
-    int line_height_;
+    float dimensions_px_;
+    float line_height_;
 };
 
 } // namespace aeon::fonts

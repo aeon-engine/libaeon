@@ -77,16 +77,18 @@ static auto generate_text_image(const fonts::face &face, const std::u8string &st
         if (glyph.has_view())
         {
             if (glyph.pixel_type() == fonts::glyph_pixel_type::gray)
-                math::blit(imaging::convert::to_rgb_copy(glyph.view()), image, position + glyph.offset());
+                math::blit(imaging::convert::to_rgb_copy(glyph.view()), image,
+                           position + math::vector2<int>{glyph.offset()});
             else if (glyph.pixel_type() == fonts::glyph_pixel_type::color)
             {
                 const auto scaled_glyph = imaging::filters::resize_bilinear(
                     glyph.view(), math::size2d<imaging::image::dimensions_type>{glyph.dimensions()});
-                math::blit(imaging::convert::to_rgb_copy(scaled_glyph), image, position + glyph.offset());
+                math::blit(imaging::convert::to_rgb_copy(scaled_glyph), image,
+                           position + math::vector2<int>{glyph.offset()});
             }
         }
 
-        position.x += glyph.advance().x;
+        position.x += static_cast<int>(glyph.advance().x);
     }
 
     return image;

@@ -19,8 +19,8 @@ enum class glyph_pixel_type
 class [[nodiscard]] glyph final
 {
 public:
-    explicit glyph(imaging::image_view view, const math::size2d<int> &dimensions, const math::vector2<int> &offset,
-                   const math::vector2<int> &advance) noexcept
+    explicit glyph(imaging::image_view view, const math::size2d<float> &dimensions, const math::vector2<float> &offset,
+                   const math::vector2<float> &advance) noexcept
         : view_{std::move(view)}
         , dimensions_{dimensions}
         , offset_{offset}
@@ -29,12 +29,12 @@ public:
     {
     }
 
-    explicit glyph(imaging::image_view view, const int dimensions, const math::vector2<int> &offset,
-                   const math::vector2<int> &advance) noexcept
+    explicit glyph(imaging::image_view view, const float dimensions, const math::vector2<float> &offset,
+                   const math::vector2<float> &advance) noexcept
         : view_{std::move(view)}
         , dimensions_{dimensions, dimensions}
-        , offset_{offset * (static_cast<float>(dimensions) / static_cast<float>(math::width(view)))}
-        , advance_{advance * (static_cast<float>(dimensions) / static_cast<float>(math::width(view)))}
+        , offset_{offset * (dimensions / static_cast<float>(math::width(view)))}
+        , advance_{advance * (dimensions / static_cast<float>(math::width(view)))}
         , pixel_type_{glyph_pixel_type::color}
     {
     }
@@ -88,9 +88,9 @@ public:
 
 private:
     imaging::image_view view_;
-    math::size2d<int> dimensions_;
-    math::vector2<int> offset_;
-    math::vector2<int> advance_;
+    math::size2d<float> dimensions_;
+    math::vector2<float> offset_;
+    math::vector2<float> advance_;
     glyph_pixel_type pixel_type_;
 };
 
