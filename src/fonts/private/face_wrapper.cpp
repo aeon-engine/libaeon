@@ -130,6 +130,7 @@ face_wrapper::face_wrapper(FT_LibraryRec_ *library, streams::idynamic_stream &st
     , face_{internal::create_freetype_face(library, face_data_, 0), internal::free_freetype_face}
     , has_color_emoji_{internal::has_color_emoji(face_.get())}
     , dimensions_px_{internal::points_to_pixels(points, dpi)}
+    , line_height_{face_->height / dpi}
 {
     if (!has_color_emoji_)
     {
@@ -165,6 +166,11 @@ auto face_wrapper::load_next_index(const char32_t control_code) const -> std::tu
 [[nodiscard]] auto face_wrapper::load_glyph(const unsigned int glyph_index) const -> glyph
 {
     return internal::load_glyph(face_.get(), has_color_emoji_, dimensions_px_, glyph_index);
+}
+
+auto face_wrapper::line_height() const -> int
+{
+    return line_height_;
 }
 
 } // namespace aeon::fonts

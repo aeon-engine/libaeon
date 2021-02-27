@@ -69,4 +69,17 @@ auto face::load_next_glyph(const char32_t control_code) const -> std::tuple<char
     return faces_.at(0)->load_glyph(0);
 }
 
+auto face::line_height() const -> int
+{
+    int line_height = 0;
+
+    for (const auto &face : faces_)
+    {
+        if (face->line_height() > line_height)
+            line_height = face->line_height();
+    }
+
+    return line_height;
+}
+
 } // namespace aeon::fonts

@@ -46,6 +46,11 @@ public:
      */
     [[nodiscard]] auto load_glyph(const char32_t control_code) const -> glyph;
 
+    /*!
+     * Get the default line height in pixels
+     */
+    [[nodiscard]] auto line_height() const -> int;
+
 private:
     face(FT_LibraryRec_ *library, streams::idynamic_stream &stream, const float points, const int dpi);
     face(FT_LibraryRec_ *library, const std::vector<std::reference_wrapper<streams::idynamic_stream>> &streams,
