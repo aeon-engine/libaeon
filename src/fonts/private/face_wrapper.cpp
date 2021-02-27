@@ -73,7 +73,9 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
     if (!bitmap.buffer)
         return {};
 
-    aeon_assert(bitmap.pixel_mode == FT_PIXEL_MODE_GRAY, "Expected gray uint8 pixel format.");
+    aeon_assert(bitmap.pixel_mode == FT_PIXEL_MODE_GRAY || bitmap.pixel_mode == FT_PIXEL_MODE_LCD ||
+                    bitmap.pixel_mode == FT_PIXEL_MODE_LCD_V,
+                "Expected uint8 pixel format.");
 
     return imaging::image_view{common::element_type::u8_1, imaging::pixel_encoding::monochrome,
                                math::size2d<imaging::image_view::dimensions_type>{bitmap.width, bitmap.rows},
@@ -112,7 +114,8 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
     const auto advance = math::vector2<int>{face->glyph->advance.x, face->glyph->advance.y} / 64;
     const auto dimensions = math::size2d<int>{face->glyph->metrics.width, face->glyph->metrics.height} / 64;
 
-    if (face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY)
+    if (face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY || face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD ||
+        face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD_V)
     {
         return glyph{internal::create_image_view_uint8(face->glyph->bitmap), dimensions, offset, advance};
     }
