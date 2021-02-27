@@ -81,8 +81,7 @@ static auto generate_text_image(const fonts::face &face, const std::u8string &st
             else if (glyph.pixel_type() == fonts::glyph_pixel_type::color)
             {
                 const auto scaled_glyph = imaging::filters::resize_bilinear(
-                    glyph.view(),
-                    math::size2d<imaging::image::dimensions_type>{glyph.dimensions(), glyph.dimensions()});
+                    glyph.view(), math::size2d<imaging::image::dimensions_type>{glyph.dimensions()});
                 math::blit(imaging::convert::to_rgb_copy(scaled_glyph), image, position + glyph.offset());
             }
         }

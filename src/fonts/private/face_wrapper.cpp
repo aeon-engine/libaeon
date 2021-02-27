@@ -110,14 +110,15 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
 
     const auto offset = math::vector2<int>{face->glyph->bitmap_left, -face->glyph->bitmap_top};
     const auto advance = math::vector2<int>{face->glyph->advance.x, face->glyph->advance.y} / 64;
+    const auto dimensions = math::size2d<int>{face->glyph->metrics.width, face->glyph->metrics.height} / 64;
 
     if (face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY)
     {
-        return glyph{internal::create_image_view_uint8(face->glyph->bitmap), offset, advance};
+        return glyph{internal::create_image_view_uint8(face->glyph->bitmap), dimensions, offset, advance};
     }
     else if (face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_BGRA)
     {
-        return glyph{internal::create_image_view_bgra32(face->glyph->bitmap), offset, advance, dimensions_px};
+        return glyph{internal::create_image_view_bgra32(face->glyph->bitmap), dimensions_px, offset, advance};
     }
 
     throw font_exception{};

@@ -5,6 +5,7 @@
 #include <aeon/imaging/image.h>
 #include <aeon/imaging/pixel_encoding.h>
 #include <aeon/math/vector2.h>
+#include <aeon/math/size2d.h>
 
 namespace aeon::fonts
 {
@@ -18,23 +19,23 @@ enum class glyph_pixel_type
 class [[nodiscard]] glyph final
 {
 public:
-    explicit glyph(imaging::image_view view, const math::vector2<int> &offset,
+    explicit glyph(imaging::image_view view, const math::size2d<int> &dimensions, const math::vector2<int> &offset,
                    const math::vector2<int> &advance) noexcept
         : view_{std::move(view)}
+        , dimensions_{dimensions}
         , offset_{offset}
         , advance_{advance}
         , pixel_type_{glyph_pixel_type::gray}
-        , dimensions_{0}
     {
     }
 
-    explicit glyph(imaging::image_view view, const math::vector2<int> &offset, const math::vector2<int> &advance,
-                   const int dimensions) noexcept
+    explicit glyph(imaging::image_view view, const int dimensions, const math::vector2<int> &offset,
+                   const math::vector2<int> &advance) noexcept
         : view_{std::move(view)}
+        , dimensions_{dimensions, dimensions}
         , offset_{offset * (static_cast<float>(dimensions) / static_cast<float>(math::width(view)))}
         , advance_{advance * (static_cast<float>(dimensions) / static_cast<float>(math::width(view)))}
         , pixel_type_{glyph_pixel_type::color}
-        , dimensions_{dimensions}
     {
     }
 
@@ -56,6 +57,20 @@ public:
         return view_;
     }
 
+    /*!
+     * When using the LCD render mode, the actual dimensions of the glyph don't match those in the image.
+     *
+     * If the glyph is a color view (usually an emoji), it's likely to require scaling to be rendered correctly.
+     * Dimensions returns the calculated size in pixels that should be used when rendering this glyph based on
+     * the given dpi and point size.
+     *
+     * This value is 0 for normal vector based glyphs as they are already the correct size.
+     */
+    [[nodiscard]] auto dimensions() const noexcept
+    {
+        return dimensions_;
+    }
+
     [[nodiscard]] auto offset() const noexcept
     {
         return offset_;
@@ -71,24 +86,12 @@ public:
         return pixel_type_;
     }
 
-    /*!
-     * If the glyph is a color view (usually an emoji), it's likely to require scaling to be rendered correctly.
-     * Dimensions returns the calculated size in pixels that should be used when rendering this glyph based on
-     * the given dpi and point size.
-     *
-     * This value is 0 for normal vector based glyphs as they are already the correct size.
-     */
-    [[nodiscard]] auto dimensions() const noexcept
-    {
-        return dimensions_;
-    }
-
 private:
     imaging::image_view view_;
+    math::size2d<int> dimensions_;
     math::vector2<int> offset_;
     math::vector2<int> advance_;
     glyph_pixel_type pixel_type_;
-    int dimensions_;
 };
 
 } // namespace aeon::fonts
