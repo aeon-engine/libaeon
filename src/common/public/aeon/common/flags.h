@@ -158,6 +158,26 @@ public:
         return !value_;
     }
 
+    constexpr auto operator==(const flags<enum_type> f) const noexcept
+    {
+        return value_ == f.value_;
+    }
+
+    constexpr auto operator!=(const flags<enum_type> f) const noexcept
+    {
+        return value_ != f.value_;
+    }
+
+    constexpr auto operator==(const underlying_type mask) const noexcept
+    {
+        return value_ == mask;
+    }
+
+    constexpr auto operator!=(const underlying_type mask) const noexcept
+    {
+        return value_ != mask;
+    }
+
     [[nodiscard]] constexpr auto is_set(const enum_type f) const noexcept
     {
         const auto value = static_cast<underlying_type>(f);
