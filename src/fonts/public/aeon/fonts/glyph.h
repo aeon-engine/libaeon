@@ -3,7 +3,6 @@
 #pragma once
 
 #include <aeon/imaging/image.h>
-#include <aeon/imaging/pixel_encoding.h>
 #include <aeon/math/vector2.h>
 #include <aeon/math/size2d.h>
 
