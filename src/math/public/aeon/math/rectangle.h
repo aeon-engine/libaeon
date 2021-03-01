@@ -722,6 +722,8 @@ enum class rectangle_edge : std::uint32_t
     bottom = 0x08
 };
 
+aeon_declare_flag_operators(rectangle_edge);
+
 /*!
  * Get the edges that a given position might be colliding with given a certain tolerance
  * \param[in] rect - Rectangle
