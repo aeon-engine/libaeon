@@ -384,6 +384,12 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto floor(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::floor(vec.x), std::floor(vec.y), std::floor(vec.z), std::floor(vec.w)};
+}
+
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>
 {
     auto x = lhs.x;
@@ -404,6 +410,12 @@ template <common::concepts::arithmetic_convertible T>
         w = rhs.w;
 
     return {x, y, z, w};
+}
+
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto ceil(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::ceil(vec.x), std::ceil(vec.y), std::ceil(vec.z), std::ceil(vec.w)};
 }
 
 template <common::concepts::arithmetic_convertible T>

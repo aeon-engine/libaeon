@@ -438,6 +438,14 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto floor(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
 
 /*!
+ * Calculate floor values of a given vector
+ * \param[in] vec - Vector
+ * \return Floored values of a given vector
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto floor(const vector3<T> &vec) noexcept -> vector3<T>;
+
+/*!
  * Calculate ceil for 2 given vectors
  * \param[in] lhs - Vector
  * \param[in] rhs - Vector
@@ -445,6 +453,14 @@ template <common::concepts::arithmetic_convertible T>
  */
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> vector3<T>;
+
+/*!
+ * Calculate ceil values of a given vector
+ * \param[in] vec - Vector
+ * \return Ceiled values of a given vector
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto ceil(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
  * Get a pointer into the underlying data structure of a given vector.

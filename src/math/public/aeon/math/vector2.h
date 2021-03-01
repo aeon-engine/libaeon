@@ -421,6 +421,14 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto floor(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
 
 /*!
+ * Calculate floor values of a given vector
+ * \param[in] vec - Vector
+ * \return Floored values of a given vector
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto floor(const vector2<T> &vec) noexcept -> vector2<T>;
+
+/*!
  * Calculate ceil for 2 given vectors
  * \param[in] lhs - Vector
  * \param[in] rhs - Vector
@@ -428,6 +436,14 @@ template <common::concepts::arithmetic_convertible T>
  */
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector2<T> &lhs, const vector2<T> &rhs) noexcept -> vector2<T>;
+
+/*!
+ * Calculate ceil values of a given vector
+ * \param[in] vec - Vector
+ * \return Ceiled values of a given vector
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto ceil(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
  * Calculate the angle of the vector in radians
