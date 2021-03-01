@@ -587,6 +587,22 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto edge_collision(const rectangle<T> &rect, const vector2<T> &position,
+                                                   const T tolerance) noexcept -> common::flags<rectangle_edge>
+{
+    common::flags<rectangle_edge> edges;
+    edges.conditional_set(position.x >= left(rect) - tolerance && position.x <= left(rect) + tolerance,
+                          rectangle_edge::left);
+    edges.conditional_set(position.y >= top(rect) - tolerance && position.y <= top(rect) + tolerance,
+                          rectangle_edge::top);
+    edges.conditional_set(position.x >= right(rect) - tolerance && position.x <= right(rect) + tolerance,
+                          rectangle_edge::right);
+    edges.conditional_set(position.y >= bottom(rect) - tolerance && position.y <= bottom(rect) + tolerance,
+                          rectangle_edge::bottom);
+    return edges;
+}
+
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool
 {
     return left(lhs) == left(rhs) && top(lhs) == top(rhs) && right(lhs) == right(rhs) && bottom(lhs) == bottom(rhs);

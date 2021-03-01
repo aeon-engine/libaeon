@@ -8,7 +8,9 @@
 #pragma once
 
 #include <aeon/math/anchor_point.h>
+#include <aeon/math/math.h>
 #include <aeon/math/math_fwd.h>
+#include <aeon/common/flags.h>
 #include <tuple>
 
 namespace aeon::math
@@ -707,6 +709,31 @@ template <common::concepts::arithmetic_convertible T>
  */
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto round(const rectangle<T> &rect) noexcept -> rectangle<T>;
+
+/*!
+ * Bit flags representing each edge of a rectangle
+ */
+enum class rectangle_edge : std::uint32_t
+{
+    none = 0x00,
+    left = 0x01,
+    top = 0x02,
+    right = 0x04,
+    bottom = 0x08
+};
+
+/*!
+ * Get the edges that a given position might be colliding with given a certain tolerance
+ * \param[in] rect - Rectangle
+ * \param[in] position - A point to check the edge collision
+ * \return[in] tolerance - The maximum distance to edge for it to be considered a collision. Defaults to
+ *                         math::constants<T>::tolerance
+ * \return Rounded values of a given rectangle
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto edge_collision(const rectangle<T> &rect, const vector2<T> &position,
+                                                   const T tolerance = constants<T>::tolerance) noexcept
+    -> common::flags<rectangle_edge>;
 
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
