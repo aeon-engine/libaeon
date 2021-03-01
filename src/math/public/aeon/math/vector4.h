@@ -476,6 +476,14 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
+ * Calculate rounded values of a given vector
+ * \param[in] vec - Vector
+ * \return Rounded values of a given vector
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const vector4<T> &vec) noexcept -> vector4<T>;
+
+/*!
  * Get a pointer into the underlying data structure of a given vector.
  * The vector data layout is [X Y Z W]
  * \param[in] vec - Vector

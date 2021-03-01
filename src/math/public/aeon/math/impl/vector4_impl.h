@@ -419,6 +419,12 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const vector4<T> &vec) noexcept -> vector4<T>
+{
+    return {std::round(vec.x), std::round(vec.y), std::round(vec.z), std::round(vec.w)};
+}
+
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ptr(vector4<T> &vec) noexcept -> T *
 {
     return &vec.x;

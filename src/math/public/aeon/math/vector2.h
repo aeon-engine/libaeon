@@ -446,6 +446,14 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector2<T> &vec) noexcept -> vector2<T>;
 
 /*!
+ * Calculate rounded values of a given vector
+ * \param[in] vec - Vector
+ * \return Rounded values of a given vector
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const vector2<T> &vec) noexcept -> vector2<T>;
+
+/*!
  * Calculate the angle of the vector in radians
  * \param[in] vec - Vector
  * \return The angle of the vector in radians

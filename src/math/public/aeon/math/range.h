@@ -70,6 +70,14 @@ template <typename T>
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T;
 
+/*!
+ * Calculate rounded values of a given range
+ * \param[in] range - Range
+ * \return Rounded values of a given range
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const range<T> &range) noexcept -> math::range<T>;
+
 template <typename T>
 inline constexpr auto operator==(const range<T> &lhs, const range<T> &rhs) noexcept -> bool;
 

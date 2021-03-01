@@ -328,6 +328,14 @@ inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, con
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto ratio(const size2d<T> &val) noexcept -> float;
 
+/*!
+ * Calculate rounded values of a given size
+ * \param[in] val - Size2d
+ * \return Rounded values of a given size
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const size2d<T> &val) noexcept -> size2d<T>;
+
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool;
 

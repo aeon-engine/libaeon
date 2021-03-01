@@ -581,6 +581,12 @@ inline constexpr auto slice_vertical_absolute(const rectangle<T> &rect, const T 
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const rectangle<T> &rect) noexcept -> rectangle<T>
+{
+    return {std::round(left(rect)), std::round(top(rect)), std::round(right(rect)), std::round(bottom(rect))};
+}
+
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool
 {
     return left(lhs) == left(rhs) && top(lhs) == top(rhs) && right(lhs) == right(rhs) && bottom(lhs) == bottom(rhs);

@@ -295,6 +295,12 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const vector2<T> &vec) noexcept -> vector2<T>
+{
+    return {std::round(vec.x), std::round(vec.y)};
+}
+
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto angle(const vector2<T> &vec) -> T
 {
     return std::atan2(vec.y, vec.x);

@@ -700,6 +700,14 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto slice_vertical_absolute(const rectangle<T> &rect, const T value) noexcept
     -> std::tuple<rectangle<T>, rectangle<T>>;
 
+/*!
+ * Calculate rounded values of a given rectangle
+ * \param[in] rect - Rectangle
+ * \return Rounded values of a given rectangle
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const rectangle<T> &rect) noexcept -> rectangle<T>;
+
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const rectangle<T> &lhs, const rectangle<T> &rhs) noexcept -> bool;
 

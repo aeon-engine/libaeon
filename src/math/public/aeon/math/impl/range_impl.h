@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <cmath>
+
 namespace aeon::math
 {
 
@@ -42,6 +44,12 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T
 {
     return range.end - range.begin;
+}
+
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const range<T> &range) noexcept -> math::range<T>
+{
+    return {std::round(begin(range)), std::round(end(range))};
 }
 
 template <typename T>

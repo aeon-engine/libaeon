@@ -317,6 +317,14 @@ template <common::concepts::arithmetic_convertible T>
 inline constexpr auto clamp(const size3d<T> &val, const size3d<T> &min_size, const size3d<T> &max_size) noexcept
     -> size3d<T>;
 
+/*!
+ * Calculate rounded values of a given size
+ * \param[in] val - Size3d
+ * \return Rounded values of a given size
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const size3d<T> &val) noexcept -> size3d<T>;
+
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
 

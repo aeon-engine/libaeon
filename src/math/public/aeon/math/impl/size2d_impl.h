@@ -236,6 +236,12 @@ inline constexpr auto ratio(const size2d<T> &val) noexcept -> float
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const size2d<T> &val) noexcept -> size2d<T>
+{
+    return {std::round(width(val)), std::round(height(val))};
+}
+
+template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
     return width(lhs) == width(rhs) && height(lhs) == height(rhs);
