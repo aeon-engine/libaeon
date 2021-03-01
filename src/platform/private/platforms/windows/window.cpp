@@ -187,6 +187,13 @@ void window_win32::dimensions(const math::size2d<std::int32_t> &size)
         internal::throw_last_error();
 }
 
+auto window_win32::client_dimensions() const noexcept -> math::size2d<std::int32_t>
+{
+    RECT rect{};
+    GetClientRect(handle_, &rect);
+    return math::size2d<std::int32_t>{rect.right - rect.left, rect.bottom - rect.top};
+}
+
 void window_win32::close()
 {
     SendMessageW(handle_, WM_CLOSE, 0, 0);

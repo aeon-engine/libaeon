@@ -33,6 +33,8 @@ public:
     [[nodiscard]] auto dimensions() const noexcept -> math::size2d<std::int32_t> final;
     void dimensions(const math::size2d<std::int32_t> &size) final;
 
+    [[nodiscard]] auto client_dimensions() const noexcept -> math::size2d<std::int32_t> final;
+
     void close() final;
 
     [[nodiscard]] auto closed() const noexcept -> bool final;
