@@ -24,7 +24,7 @@ set(SOURCES
     public/aeon/imaging/image_view.h
     public/aeon/imaging/impl/image_impl.h
     public/aeon/imaging/impl/image_view_impl.h
-    public/aeon/imaging/impl/pixel_encoding_impl
+    public/aeon/imaging/impl/pixel_encoding_impl.h
     public/aeon/imaging/pixel_encoding.h
     public/aeon/imaging/pixel_encoding_traits.h
     public/aeon/imaging/pixel_math.h
