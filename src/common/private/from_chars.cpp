@@ -20,6 +20,7 @@ namespace aeon::common
 namespace internal
 {
 
+#if (!defined(AEON_COMPILER_HAS_FROM_CHARS_FLOAT))
 template <typename T, typename FuncT>
 auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&func) -> from_chars_result<char>
 {
@@ -31,7 +32,9 @@ auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&
 
     return {end, {}};
 }
+#endif
 
+#if (!defined(AEON_COMPILER_HAS_FROM_CHARS_INTEGER))
 template <typename T, typename FuncT>
 auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&func, const int base)
     -> from_chars_result<char>
@@ -47,6 +50,7 @@ auto from_chars_internal(const char *first, const char *last, T &value, FuncT &&
 
     return {end, {}};
 }
+#endif
 
 } // namespace internal
 
