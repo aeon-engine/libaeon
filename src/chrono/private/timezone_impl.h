@@ -64,7 +64,7 @@ public:
         UErrorCode error{};
         timezone_->getOffset(date, timezone == offset_timezone::local ? TRUE : FALSE, raw_offset, dst_offset, error);
 
-        if (error != U_ZERO_ERROR)
+        if (U_FAILURE(error))
             throw std::runtime_error{"Error in get_offset"};
 
         return {std::chrono::milliseconds{raw_offset}, std::chrono::milliseconds{dst_offset}};

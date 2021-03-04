@@ -96,12 +96,12 @@ auto timezone::enumerate() -> std::vector<std::string>
     std::vector<std::string> result;
     result.reserve(timezones->count(error));
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Error enumerating timezones."};
 
     while (const auto timezone = timezones->snext(error))
     {
-        if (error != U_ZERO_ERROR)
+        if (U_FAILURE(error))
             throw std::runtime_error{"Error enumerating timezones."};
 
         std::string value;

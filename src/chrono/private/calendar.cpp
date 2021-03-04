@@ -35,7 +35,7 @@ public:
         UErrorCode error{};
         complete(error);
 
-        if (error != U_ZERO_ERROR)
+        if (U_FAILURE(error))
             throw std::runtime_error{"Could not apply values."};
     }
 };
@@ -48,7 +48,7 @@ namespace internal
     UErrorCode error{};
     auto calendar = std::make_unique<gregorian_calendar_impl>(zone, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not create gregorian calendar."};
 
     calendar->clear();
@@ -61,7 +61,7 @@ namespace internal
     UErrorCode error{};
     const auto result = calendar.get(field, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not get calendar field."};
 
     return result;
@@ -82,12 +82,12 @@ calendar::calendar(const std::string &str)
 
     const icu::SimpleDateFormat fmt{internal::iso8601_format, error};
 
-    if (error != U_ZERO_ERROR && error != U_USING_FALLBACK_WARNING)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not construct date/time formatter."};
 
     calendar_ = std::make_unique<gregorian_calendar_impl>(error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not create gregorian calendar."};
 
     const auto ustr = icu::UnicodeString::fromUTF8(str);
@@ -153,7 +153,7 @@ auto calendar::operator==(const calendar &other) const -> bool
 
     const auto result = calendar_->equals(*other.calendar_, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not compare calendars."};
 
     return result;
@@ -169,7 +169,7 @@ auto calendar::operator<(const calendar &other) const -> bool
     UErrorCode error{};
     const auto result = calendar_->before(*other.calendar_, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not compare calendars."};
 
     return result == TRUE;
@@ -188,7 +188,7 @@ auto calendar::operator>(const calendar &other) const -> bool
     UErrorCode error{};
     const auto result = calendar_->after(*other.calendar_, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not compare calendars."};
 
     return result == TRUE;
@@ -227,7 +227,7 @@ void calendar::set(const std::chrono::system_clock::time_point utc_time)
     UErrorCode error{};
     calendar_->setTime(d, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not set date/time."};
 }
 
@@ -244,7 +244,7 @@ void calendar::add(const std::chrono::milliseconds time)
     UErrorCode error{};
     calendar_->add(UCAL_MILLISECOND, static_cast<std::int32_t>(time.count()), error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not add time."};
 }
 
@@ -253,7 +253,7 @@ auto calendar::get() const -> std::chrono::system_clock::time_point
     UErrorCode error{};
     const std::chrono::duration<double, std::chrono::milliseconds::period> period{calendar_->getTime(error)};
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not get date/time."};
 
     return std::chrono::system_clock::time_point{
@@ -285,7 +285,7 @@ auto calendar::get_year() const -> std::int32_t
     UErrorCode error{};
     const auto result = calendar_->get(UCAL_YEAR, error);
 
-    if (error != U_ZERO_ERROR)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not get year."};
 
     return result;
@@ -347,7 +347,7 @@ auto calendar::to_string() const -> std::string
 
     const icu::SimpleDateFormat fmt{internal::iso8601_format, error};
 
-    if (error != U_ZERO_ERROR && error != U_USING_FALLBACK_WARNING)
+    if (U_FAILURE(error))
         throw std::runtime_error{"Could not construct date/time formatter."};
 
     icu::UnicodeString str;
