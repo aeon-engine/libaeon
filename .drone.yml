@@ -26,7 +26,7 @@ steps:
   pull: never
   image: aeon/ubuntu_20_10_gcc11
   commands:
-  - cmake --build /tmp/build-volume -j4
+  - cmake --build /tmp/build-volume -j2
   volumes:
   - name: build-volume
     path: /tmp/build-volume
@@ -78,7 +78,7 @@ steps:
   pull: never
   image: aeon/ubuntu_20_10_clang12
   commands:
-  - cmake --build /tmp/build-volume -j4
+  - cmake --build /tmp/build-volume -j2
   volumes:
   - name: build-volume
     path: /tmp/build-volume
