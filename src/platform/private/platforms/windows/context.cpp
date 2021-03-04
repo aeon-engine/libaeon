@@ -43,7 +43,7 @@ namespace internal
 
 } // namespace internal
 
-AEON_PLATFORM_EXPORT [[nodiscard]] auto create_context() -> std::unique_ptr<context>
+[[nodiscard]] AEON_PLATFORM_EXPORT auto create_context() -> std::unique_ptr<context>
 {
     return std::make_unique<context_win32>();
 }

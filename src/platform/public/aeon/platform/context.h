@@ -35,6 +35,6 @@ public:
     [[nodiscard]] virtual auto modifier_keys_state() const noexcept -> modifier_keys_state = 0;
 };
 
-AEON_PLATFORM_EXPORT [[nodiscard]] auto create_context() -> std::unique_ptr<context>;
+[[nodiscard]] AEON_PLATFORM_EXPORT auto create_context() -> std::unique_ptr<context>;
 
 } // namespace aeon::platform
