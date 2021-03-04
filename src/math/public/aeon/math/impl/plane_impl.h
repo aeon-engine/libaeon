@@ -116,7 +116,7 @@ template <common::concepts::arithmetic_convertible T>
     if (approximately_zero(denominator))
         return std::nullopt;
 
-    const auto distance = (dot(normal(plane), origin(ray)) - distance(plane)) / denominator;
+    const auto distance = (dot(normal(plane), origin(ray)) - math::distance(plane)) / denominator;
 
     if (distance > constants<T>::tolerance)
         return std::nullopt;
