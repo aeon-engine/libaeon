@@ -163,6 +163,6 @@ TEST(test_fonts, test_load_glyphs_as_atlas)
 
     auto atlas = imaging::utils::create_atlas(glyphs);
 
-    const auto rgb_image = imaging::convert::to_rgb_copy(atlas.image);
+    const auto rgb_image = imaging::convert::to_rgb_copy(atlas.img);
     imaging::file::png::save(rgb_image, "font_atlas.png");
 }

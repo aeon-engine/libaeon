@@ -47,5 +47,5 @@ TEST(test_imaging, test_atlas)
         }
     }
 
-    imaging::file::png::save(result.image, "atlas.png");
+    imaging::file::png::save(result.img, "atlas.png");
 }

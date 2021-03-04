@@ -67,7 +67,7 @@ namespace internal
 
 struct atlas_result
 {
-    image image;
+    image img;
     std::vector<math::rectangle<image::dimensions_type>> positions;
 };
 
@@ -103,7 +103,7 @@ struct atlas_result
         dimensions *= 2;
     }
 
-    result.image = image{element_type, encoding, dimensions};
+    result.img = image{element_type, encoding, dimensions};
 
     for (auto i = 0ull; i < std::size(images); ++i)
     {
@@ -111,7 +111,7 @@ struct atlas_result
         if (element_type != math::element_type(source_image) || encoding != imaging::encoding(source_image))
             throw std::invalid_argument{"Image format mismatch."};
 
-        math::blit(source_image, result.image, math::left_top(result.positions[i]));
+        math::blit(source_image, result.img, math::left_top(result.positions[i]));
     }
 
     return result;
