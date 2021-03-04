@@ -71,10 +71,14 @@ struct integer_type_from_bits<64>
     using unsigned_t = std::uint64_t;
 };
 
-template <typename T>
-struct is_std_vector
+template <typename>
+struct is_std_vector : std::false_type
 {
-    static constexpr auto value = std::is_same_v<T, std::vector<typename T::value_type, typename T::allocator_type>>;
+};
+
+template <typename T, typename A>
+struct is_std_vector<std::vector<T, A>> : std::true_type
+{
 };
 
 /*!
