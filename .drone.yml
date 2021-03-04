@@ -57,7 +57,7 @@ type: docker
 platform:
   arch: amd64
   os: linux
-  abi: libcxx1
+  abi: CXXABI_1_3_12
 
 steps:
 - name: git
