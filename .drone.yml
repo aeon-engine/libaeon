@@ -51,6 +51,58 @@ node:
 ---
 
 kind: pipeline
+name: libaeon-build-clang12
+type: docker
+
+platform:
+  arch: amd64
+  os: linux
+  abi: libcxx1
+
+steps:
+- name: git
+  image: alpine/git
+  commands:
+  - git submodule update --init
+
+- name: cmake
+  pull: never
+  image: aeon/ubuntu_20_10_clang12
+  commands:
+  - cmake -S . -B /tmp/build-volume -G "Unix Makefiles"
+  volumes:
+  - name: build-volume
+    path: /tmp/build-volume
+
+- name: build
+  pull: never
+  image: aeon/ubuntu_20_10_clang12
+  commands:
+  - cmake --build /tmp/build-volume -j4
+  volumes:
+  - name: build-volume
+    path: /tmp/build-volume
+
+- name: test
+  pull: never
+  image: aeon/ubuntu_20_10_clang12
+  commands:
+  - cd /tmp/build-volume
+  - ctest --verbose
+  volumes:
+  - name: build-volume
+    path: /tmp/build-volume
+
+volumes:
+  - name: build-volume
+    temp: {}
+
+node:
+    platform: linux
+
+---
+
+kind: pipeline
 name: libaeon-build-vs2019
 type: exec
 
