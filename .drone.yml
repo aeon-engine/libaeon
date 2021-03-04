@@ -1,0 +1,84 @@
+kind: pipeline
+name: libaeon-build-gcc11
+type: docker
+
+platform:
+  arch: amd64
+  os: linux
+  abi: CXXABI_1_3_12
+
+steps:
+- name: git
+  image: alpine/git
+  commands:
+  - git submodule update --init
+
+- name: cmake
+  pull: never
+  image: aeon/ubuntu_20_10_gcc11
+  commands:
+  - cmake -S . -B /tmp/build-volume -G "Unix Makefiles"
+  volumes:
+  - name: build-volume
+    path: /tmp/build-volume
+
+- name: build
+  pull: never
+  image: aeon/ubuntu_20_10_gcc11
+  commands:
+  - cmake --build /tmp/build-volume -j4
+  volumes:
+  - name: build-volume
+    path: /tmp/build-volume
+
+- name: test
+  pull: never
+  image: aeon/ubuntu_20_10_gcc11
+  commands:
+  - cd /tmp/build-volume
+  - ctest --verbose
+  volumes:
+  - name: build-volume
+    path: /tmp/build-volume
+
+volumes:
+  - name: build-volume
+    temp: {}
+
+node:
+    platform: linux
+
+---
+
+kind: pipeline
+name: libaeon-build-vs2019
+type: exec
+
+platform:
+    arch: amd64
+    os: windows
+    abi: vc142
+
+steps:
+- name: git
+  commands:
+  - git submodule update --init
+
+- name: cmake
+  commands:
+  - New-Item -Name "build" -ItemType "directory"
+  - Set-Location "build"
+  - cmake --% .. -G "Visual Studio 16 2019" -T host=x64 -A x64 -DCMAKE_SYSTEM_VERSION=10.0 -DCMAKE_INSTALL_PREFIX=install -DAEON_EXTERNAL_DEPENDENCIES_DIR=C:/ExternalDependencies/
+
+- name: build
+  commands:
+  - Set-Location "build"
+  - cmake --% --build . --config Debug -- /m
+
+- name: test
+  commands:
+  - Set-Location "build"
+  - ctest --% -C Debug --verbose
+
+node:
+    platform: windows
