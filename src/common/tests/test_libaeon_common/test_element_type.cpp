@@ -214,7 +214,7 @@ TEST(test_element_type, test_element_type_ctor)
 {
     const common::element_type t{common::element_type::f32_4};
     EXPECT_EQ(common::element_type_name::f32, t.name);
-    EXPECT_EQ(4, t.count);
+    EXPECT_EQ(4ull, t.count);
     EXPECT_EQ(sizeof(float) * 4, t.size);
 }
 
@@ -222,7 +222,7 @@ TEST(test_element_type, test_element_type_assign)
 {
     const common::element_type t = common::element_type::f32_4;
     EXPECT_EQ(common::element_type_name::f32, t.name);
-    EXPECT_EQ(4, t.count);
+    EXPECT_EQ(4ull, t.count);
     EXPECT_EQ(sizeof(float) * 4, t.size);
 }
 
@@ -272,7 +272,7 @@ TEST(test_element_type, test_element_offset_of)
     const auto width = 4;
     const auto stride = t.stride * width;
 
-    EXPECT_EQ(0, common::offset_of(t, stride, 0, 0));
+    EXPECT_EQ(0ull, common::offset_of(t, stride, 0, 0));
     EXPECT_EQ(sizeof(float) * 4, common::offset_of(t, stride, 1, 0));
     EXPECT_EQ(sizeof(float) * 8, common::offset_of(t, stride, 2, 0));
     EXPECT_EQ(sizeof(float) * 12, common::offset_of(t, stride, 3, 0));
@@ -282,12 +282,12 @@ TEST(test_element_type, test_element_offset_of)
 TEST(test_element_type, test_element_offset_of_with_stride_element)
 {
     const common::element_type t{common::element_type::u8_3_stride_4};
-    const auto width = 4;
+    const auto width = 4ull;
     const auto stride = t.stride * width;
 
-    EXPECT_EQ(0, common::offset_of(t, stride, 0, 0));
-    EXPECT_EQ(4, common::offset_of(t, stride, 1, 0));
-    EXPECT_EQ(8, common::offset_of(t, stride, 2, 0));
-    EXPECT_EQ(12, common::offset_of(t, stride, 3, 0));
-    EXPECT_EQ(16, common::offset_of(t, stride, 0, 1));
+    EXPECT_EQ(0ull, common::offset_of(t, stride, 0, 0));
+    EXPECT_EQ(4ull, common::offset_of(t, stride, 1, 0));
+    EXPECT_EQ(8ull, common::offset_of(t, stride, 2, 0));
+    EXPECT_EQ(12ull, common::offset_of(t, stride, 3, 0));
+    EXPECT_EQ(16ull, common::offset_of(t, stride, 0, 1));
 }
