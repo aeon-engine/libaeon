@@ -5,6 +5,7 @@
 #include <aeon/common/preprocessor.h>
 #include <aeon/common/assert.h>
 #include <functional>
+#include <exception>
 
 namespace aeon::common
 {

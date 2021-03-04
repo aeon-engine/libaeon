@@ -6,6 +6,7 @@
 #include <string_view>
 #include <cassert>
 #include <type_traits>
+#include <exception>
 
 namespace aeon::common
 {
