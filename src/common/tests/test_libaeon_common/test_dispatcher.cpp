@@ -2,6 +2,7 @@
 
 #include <aeon/common/dispatcher.h>
 #include <gtest/gtest.h>
+#include <thread>
 
 using namespace aeon;
 
