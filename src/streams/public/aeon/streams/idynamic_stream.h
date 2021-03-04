@@ -13,7 +13,14 @@ class idynamic_stream
 {
 public:
     // The categories of a dynamic stream can not be known at compile time. Instead the check is done at runtime.
-    struct category : input, input_seekable, output, output_seekable, flushable, has_size, has_status, has_eof
+    struct category : input_tag,
+                      input_seekable_tag,
+                      output_tag,
+                      output_seekable_tag,
+                      flushable_tag,
+                      has_size_tag,
+                      has_status_tag,
+                      has_eof_tag
     {
     };
 

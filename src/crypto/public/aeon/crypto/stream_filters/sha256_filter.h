@@ -14,7 +14,7 @@ namespace aeon::crypto::stream_filters
 class sha256_filter : public streams::filter
 {
 public:
-    struct category : streams::output
+    struct category : streams::output_tag
     {
     };
 

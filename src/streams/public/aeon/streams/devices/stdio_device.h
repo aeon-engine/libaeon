@@ -32,7 +32,7 @@ enum class weight
 class stdio_device : public device
 {
 public:
-    struct category : input, output, has_eof, flushable
+    struct category : input_tag, output_tag, has_eof_tag, flushable_tag
     {
     };
 

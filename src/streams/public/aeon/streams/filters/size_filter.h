@@ -14,7 +14,7 @@ template <std::streamoff max_size = 0>
 class size_filter : public filter
 {
 public:
-    struct category : has_size
+    struct category : has_size_tag
     {
     };
 

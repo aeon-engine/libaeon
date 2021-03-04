@@ -18,7 +18,7 @@ template <memory_viewable T>
 class memory_view_device : public device
 {
 public:
-    struct category : input, input_seekable, output, output_seekable, has_eof, has_size
+    struct category : input_tag, input_seekable_tag, output_tag, output_seekable_tag, has_eof_tag, has_size_tag
     {
     };
 

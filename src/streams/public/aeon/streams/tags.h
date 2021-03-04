@@ -5,35 +5,35 @@
 namespace aeon::streams
 {
 
-struct input
+struct input_tag
 {
 };
 
-struct input_seekable
+struct input_seekable_tag
 {
 };
 
-struct output
+struct output_tag
 {
 };
 
-struct output_seekable
+struct output_seekable_tag
 {
 };
 
-struct has_eof
+struct has_eof_tag
 {
 };
 
-struct has_status
+struct has_status_tag
 {
 };
 
-struct has_size
+struct has_size_tag
 {
 };
 
-struct flushable
+struct flushable_tag
 {
 };
 

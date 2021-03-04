@@ -11,7 +11,7 @@ namespace aeon::streams
 class file_source_device : private internal::file_device_base
 {
 public:
-    struct category : input, input_seekable, flushable, has_size, has_status, has_eof
+    struct category : input_tag, input_seekable_tag, flushable_tag, has_size_tag, has_status_tag, has_eof_tag
     {
     };
 
@@ -42,7 +42,7 @@ public:
 class file_sink_device : private internal::file_device_base
 {
 public:
-    struct category : output, output_seekable, flushable, has_status
+    struct category : output_tag, output_seekable_tag, flushable_tag, has_status_tag
     {
     };
 
@@ -77,7 +77,14 @@ public:
 class file_device : private internal::file_device_base
 {
 public:
-    struct category : input, input_seekable, output, output_seekable, flushable, has_size, has_status, has_eof
+    struct category : input_tag,
+                      input_seekable_tag,
+                      output_tag,
+                      output_seekable_tag,
+                      flushable_tag,
+                      has_size_tag,
+                      has_status_tag,
+                      has_eof_tag
     {
     };
 

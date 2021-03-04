@@ -19,7 +19,7 @@ using namespace aeon;
 
 struct test_output_filter : streams::filter
 {
-    struct category : streams::output
+    struct category : streams::output_tag
     {
     };
 
@@ -41,7 +41,7 @@ struct test_output_filter : streams::filter
 
 struct test_output_filter2 : streams::filter
 {
-    struct category : streams::output, streams::input
+    struct category : streams::output_tag, streams::input_tag
     {
     };
 

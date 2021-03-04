@@ -16,7 +16,7 @@ template <int compress_buffer_size = 256>
 class zlib_compress_filter : public streams::filter
 {
 public:
-    struct category : streams::output
+    struct category : streams::output_tag
     {
     };
 
@@ -49,7 +49,7 @@ template <int decompress_buffer_size = 256>
 class zlib_decompress_filter : public streams::filter
 {
 public:
-    struct category : streams::input
+    struct category : streams::input_tag
     {
     };
 

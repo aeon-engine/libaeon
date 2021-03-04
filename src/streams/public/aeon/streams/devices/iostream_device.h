@@ -12,7 +12,7 @@ template <typename T>
 class iostream_source_device : internal::iostream_device_base<T>
 {
 public:
-    struct category : input, input_seekable, flushable, has_eof, has_status
+    struct category : input_tag, input_seekable_tag, flushable_tag, has_eof_tag, has_status_tag
     {
     };
 
@@ -47,7 +47,7 @@ template <typename T>
 class iostream_sink_device : internal::iostream_device_base<T>
 {
 public:
-    struct category : output, output_seekable, flushable, has_eof, has_status
+    struct category : output_tag, output_seekable_tag, flushable_tag, has_eof_tag, has_status_tag
     {
     };
 
@@ -82,7 +82,13 @@ template <typename T>
 class iostream_device : internal::iostream_device_base<T>
 {
 public:
-    struct category : input, input_seekable, output, output_seekable, flushable, has_eof, has_status
+    struct category : input_tag,
+                      input_seekable_tag,
+                      output_tag,
+                      output_seekable_tag,
+                      flushable_tag,
+                      has_eof_tag,
+                      has_status_tag
     {
     };
 

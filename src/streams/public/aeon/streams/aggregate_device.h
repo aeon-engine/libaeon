@@ -67,14 +67,15 @@ class aggregate_device : public device
     friend struct aggregate_device_filter;
 
 public:
-    struct category : common::type_traits::optional_base<has_any_eof_v<filter_t, device_t>, has_eof>,
-                      common::type_traits::optional_base<has_any_status_v<filter_t, device_t>, has_status>,
-                      common::type_traits::optional_base<has_any_size_v<filter_t, device_t>, has_size>,
-                      common::type_traits::optional_base<is_any_flushable_v<filter_t, device_t>, flushable>,
-                      common::type_traits::optional_base<is_any_input_v<filter_t, device_t>, input>,
-                      common::type_traits::optional_base<is_any_input_seekable_v<filter_t, device_t>, input_seekable>,
-                      common::type_traits::optional_base<is_any_output_v<filter_t, device_t>, output>,
-                      common::type_traits::optional_base<is_any_output_seekable_v<filter_t, device_t>, output_seekable>
+    struct category
+        : common::type_traits::optional_base<has_any_eof_v<filter_t, device_t>, has_eof_tag>,
+          common::type_traits::optional_base<has_any_status_v<filter_t, device_t>, has_status_tag>,
+          common::type_traits::optional_base<has_any_size_v<filter_t, device_t>, has_size_tag>,
+          common::type_traits::optional_base<is_any_flushable_v<filter_t, device_t>, flushable_tag>,
+          common::type_traits::optional_base<is_any_input_v<filter_t, device_t>, input_tag>,
+          common::type_traits::optional_base<is_any_input_seekable_v<filter_t, device_t>, input_seekable_tag>,
+          common::type_traits::optional_base<is_any_output_v<filter_t, device_t>, output_tag>,
+          common::type_traits::optional_base<is_any_output_seekable_v<filter_t, device_t>, output_seekable_tag>
     {
     };
 

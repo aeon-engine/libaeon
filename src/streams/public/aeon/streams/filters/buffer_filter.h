@@ -16,7 +16,7 @@ template <int buffer_size>
 class sink_buffer_filter : public filter
 {
 public:
-    struct category : output, output_seekable, flushable
+    struct category : output_tag, output_seekable_tag, flushable_tag
     {
     };
 

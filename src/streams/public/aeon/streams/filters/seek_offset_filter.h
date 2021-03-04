@@ -13,7 +13,7 @@ template <std::streamoff seek_offset = 0>
 class source_seek_offset_filter : public filter
 {
 public:
-    struct category : input_seekable
+    struct category : input_seekable_tag
     {
     };
 
@@ -43,7 +43,7 @@ template <std::streamoff seek_offset = 0>
 class sink_seek_offset_filter : public filter
 {
 public:
-    struct category : output_seekable
+    struct category : output_seekable_tag
     {
     };
 
@@ -73,7 +73,7 @@ template <std::streamoff seek_offset = 0>
 class seek_offset_filter : public source_seek_offset_filter<seek_offset>, public sink_seek_offset_filter<seek_offset>
 {
 public:
-    struct category : input_seekable, output_seekable
+    struct category : input_seekable_tag, output_seekable_tag
     {
     };
 
