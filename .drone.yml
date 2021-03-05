@@ -1,5 +1,5 @@
 kind: pipeline
-name: libaeon-build-gcc11
+name: ubuntu-gcc
 type: docker
 
 platform:
@@ -9,13 +9,14 @@ platform:
 
 steps:
 - name: git
-  image: alpine/git
+  pull: never
+  image: aeon_ci/ubuntu_gcc
   commands:
   - git submodule update --init
 
 - name: cmake
   pull: never
-  image: aeon/ubuntu_20_10_gcc11
+  image: aeon_ci/ubuntu_gcc
   commands:
   - cmake -S . -B /tmp/build-volume -G "Unix Makefiles"
   volumes:
@@ -24,7 +25,7 @@ steps:
 
 - name: build
   pull: never
-  image: aeon/ubuntu_20_10_gcc11
+  image: aeon_ci/ubuntu_gcc
   commands:
   - cmake --build /tmp/build-volume -j2
   volumes:
@@ -33,7 +34,7 @@ steps:
 
 - name: test
   pull: never
-  image: aeon/ubuntu_20_10_gcc11
+  image: aeon_ci/ubuntu_gcc
   commands:
   - cd /tmp/build-volume
   - ctest --verbose
@@ -51,7 +52,7 @@ node:
 ---
 
 kind: pipeline
-name: libaeon-build-clang12
+name: ubuntu-clang
 type: docker
 
 platform:
@@ -61,13 +62,14 @@ platform:
 
 steps:
 - name: git
-  image: alpine/git
+  pull: never
+  image: aeon_ci/ubuntu_clang
   commands:
   - git submodule update --init
 
 - name: cmake
   pull: never
-  image: aeon/ubuntu_20_10_clang12
+  image: aeon_ci/ubuntu_clang
   commands:
   - cmake -S . -B /tmp/build-volume -G "Unix Makefiles"
   volumes:
@@ -76,7 +78,7 @@ steps:
 
 - name: build
   pull: never
-  image: aeon/ubuntu_20_10_clang12
+  image: aeon_ci/ubuntu_clang
   commands:
   - cmake --build /tmp/build-volume -j2
   volumes:
@@ -85,7 +87,7 @@ steps:
 
 - name: test
   pull: never
-  image: aeon/ubuntu_20_10_clang12
+  image: aeon_ci/ubuntu_clang
   commands:
   - cd /tmp/build-volume
   - ctest --verbose
