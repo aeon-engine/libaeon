@@ -5,7 +5,7 @@ type: docker
 platform:
   arch: amd64
   os: linux
-  abi: CXXABI_1_3_12
+  abi: CXXABI_1.3.13
 
 steps:
 - name: git
@@ -57,7 +57,7 @@ type: docker
 platform:
   arch: amd64
   os: linux
-  abi: CXXABI_1_3_12
+  abi: CXXABI_1.3.13
 
 steps:
 - name: git
