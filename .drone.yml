@@ -8,6 +8,17 @@ platform:
   abi: CXXABI_1.3.13
 
 steps:
+- name: version_info
+  pull: never
+  image: aeon_ci/ubuntu_gcc
+  commands:
+  - cat /ubuntu_version
+  - cat /ubuntu_version_name
+  - cmake --version
+  - git --version
+  - $CC --version
+  - $CXX --version
+
 - name: git
   pull: never
   image: aeon_ci/ubuntu_gcc
@@ -61,6 +72,17 @@ platform:
   abi: CXXABI_1.3.13
 
 steps:
+- name: version_info
+  pull: never
+  image: aeon_ci/ubuntu_clang
+  commands:
+  - cat /ubuntu_version
+  - cat /ubuntu_version_name
+  - cmake --version
+  - git --version
+  - $CC --version
+  - $CXX --version
+
 - name: git
   pull: never
   image: aeon_ci/ubuntu_clang
@@ -114,6 +136,13 @@ platform:
     abi: vc142
 
 steps:
+- name: version_info
+  commands:
+  - Get-ComputerInfo | select windowsversion
+  - Get-ComputerInfo | select OsVersion
+  - cmake --version
+  - git --version
+
 - name: git
   commands:
   - git submodule update --init
