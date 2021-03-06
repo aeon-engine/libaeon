@@ -1,5 +1,5 @@
 kind: pipeline
-name: ubuntu-gcc
+name: x86_64_linux_gcc
 type: docker
 
 platform:
@@ -10,7 +10,7 @@ platform:
 steps:
 - name: version_info
   pull: never
-  image: aeon_ci/ubuntu_gcc
+  image: aeon_ci/x86_64_linux_gcc
   commands:
   - cat /ubuntu_version
   - cat /ubuntu_version_name
@@ -21,13 +21,13 @@ steps:
 
 - name: git
   pull: never
-  image: aeon_ci/ubuntu_gcc
+  image: aeon_ci/x86_64_linux_gcc
   commands:
   - git submodule update --init
 
 - name: cmake
   pull: never
-  image: aeon_ci/ubuntu_gcc
+  image: aeon_ci/x86_64_linux_gcc
   commands:
   - cmake -S . -B /tmp/build-volume -G "Unix Makefiles"
   volumes:
@@ -36,7 +36,7 @@ steps:
 
 - name: build
   pull: never
-  image: aeon_ci/ubuntu_gcc
+  image: aeon_ci/x86_64_linux_gcc
   commands:
   - cmake --build /tmp/build-volume -j2
   volumes:
@@ -45,7 +45,7 @@ steps:
 
 - name: test
   pull: never
-  image: aeon_ci/ubuntu_gcc
+  image: aeon_ci/x86_64_linux_gcc
   commands:
   - cd /tmp/build-volume
   - ctest --verbose
@@ -63,7 +63,7 @@ node:
 ---
 
 kind: pipeline
-name: ubuntu-clang
+name: x86_64_linux_clang
 type: docker
 
 platform:
@@ -74,7 +74,7 @@ platform:
 steps:
 - name: version_info
   pull: never
-  image: aeon_ci/ubuntu_clang
+  image: aeon_ci/x86_64_linux_clang
   commands:
   - cat /ubuntu_version
   - cat /ubuntu_version_name
@@ -85,13 +85,13 @@ steps:
 
 - name: git
   pull: never
-  image: aeon_ci/ubuntu_clang
+  image: aeon_ci/x86_64_linux_clang
   commands:
   - git submodule update --init
 
 - name: cmake
   pull: never
-  image: aeon_ci/ubuntu_clang
+  image: aeon_ci/x86_64_linux_clang
   commands:
   - cmake -S . -B /tmp/build-volume -G "Unix Makefiles"
   volumes:
@@ -100,7 +100,7 @@ steps:
 
 - name: build
   pull: never
-  image: aeon_ci/ubuntu_clang
+  image: aeon_ci/x86_64_linux_clang
   commands:
   - cmake --build /tmp/build-volume -j2
   volumes:
@@ -109,7 +109,7 @@ steps:
 
 - name: test
   pull: never
-  image: aeon_ci/ubuntu_clang
+  image: aeon_ci/x86_64_linux_clang
   commands:
   - cd /tmp/build-volume
   - ctest --verbose
