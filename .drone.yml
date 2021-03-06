@@ -127,7 +127,7 @@ node:
 ---
 
 kind: pipeline
-name: libaeon-build-vs2019
+name: x86_64_windows_vc142
 type: exec
 
 platform:
