@@ -10,14 +10,14 @@ namespace aeon::sockets
 line_protocol_socket::line_protocol_socket(asio::io_context &service)
     : tcp_socket(service)
     , circular_buffer_{streams::circular_buffer_filter{},
-                       streams::memory_device<std::vector<char>>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
+                       streams::memory_device<std::vector<char>>{tcp_socket_circular_buffer_size}}
 {
 }
 
 line_protocol_socket::line_protocol_socket(asio::ip::tcp::socket socket)
     : tcp_socket(std::move(socket))
     , circular_buffer_{streams::circular_buffer_filter{},
-                       streams::memory_device<std::vector<char>>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
+                       streams::memory_device<std::vector<char>>{tcp_socket_circular_buffer_size}}
 {
 }
 

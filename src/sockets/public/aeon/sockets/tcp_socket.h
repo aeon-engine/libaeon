@@ -62,7 +62,7 @@ private:
 
     asio::ip::tcp::socket socket_;
     asio::io_context::strand strand_;
-    std::array<std::uint8_t, AEON_TCP_SOCKET_MAX_BUFF_LEN> data_;
+    std::array<std::uint8_t, tcp_socket_max_buff_len> data_;
     std::queue<std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>>> send_data_queue_;
 };
 

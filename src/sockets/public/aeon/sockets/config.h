@@ -2,5 +2,10 @@
 
 #pragma once
 
-#define AEON_TCP_SOCKET_MAX_BUFF_LEN (2048)
-#define AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE (1024 * 1024)
+namespace aeon::sockets
+{
+
+static inline constexpr auto tcp_socket_max_buff_len = 2048;
+static inline constexpr auto tcp_socket_circular_buffer_size = 1024 * 1024;
+
+} // namespace aeon::sockets

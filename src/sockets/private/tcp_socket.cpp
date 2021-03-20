@@ -120,7 +120,7 @@ void tcp_socket::internal_handle_read()
 {
     auto self(shared_from_this());
 
-    socket_.async_read_some(asio::buffer(data_, AEON_TCP_SOCKET_MAX_BUFF_LEN),
+    socket_.async_read_some(asio::buffer(data_, tcp_socket_max_buff_len),
                             asio::bind_executor(strand_, [self](std::error_code ec, std::size_t length) {
                                 if (ec && ec != asio::error::eof)
                                     self->on_error(ec);

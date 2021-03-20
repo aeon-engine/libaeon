@@ -16,7 +16,7 @@ http_server_socket::http_server_socket(asio::ip::tcp::socket socket)
     , state_{http_state::server_read_method}
     , request_{http_method::invalid}
     , circular_buffer_{streams::circular_buffer_filter{},
-                       streams::memory_device<std::vector<char>>{AEON_TCP_SOCKET_CIRCULAR_BUFFER_SIZE}}
+                       streams::memory_device<std::vector<char>>{sockets::tcp_socket_circular_buffer_size}}
     , expected_content_length_{0}
 {
 }
