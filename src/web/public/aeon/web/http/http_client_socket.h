@@ -40,7 +40,7 @@ public:
     virtual void on_http_reply(reply &reply) = 0;
 
 private:
-    void on_data(const std::uint8_t *data, const std::size_t size) override;
+    void on_data(const std::span<const std::byte> &data) override;
 
     [[nodiscard]] auto __on_line(const std::string &line) -> bool;
 

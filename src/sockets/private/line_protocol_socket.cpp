@@ -23,9 +23,9 @@ line_protocol_socket::line_protocol_socket(asio::ip::tcp::socket socket)
 
 line_protocol_socket::~line_protocol_socket() = default;
 
-void line_protocol_socket::on_data(const std::uint8_t *data, const std::size_t size)
+void line_protocol_socket::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(data), size);
+    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
     streams::stream_reader reader(circular_buffer_);
 
     while (circular_buffer_.size() != 0)

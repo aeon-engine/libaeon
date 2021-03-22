@@ -6,7 +6,6 @@
 #include <aeon/sockets/config.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/string_stream.h>
-#include <aeon/streams/dynamic_stream.h>
 #include <aeon/common/string.h>
 #include <aeon/common/assert.h>
 
@@ -39,13 +38,12 @@ void http_client_socket::request_async(const std::string &host, const std::strin
     request << host;
     request << "\r\n\r\n";
 
-    auto stream = streams::make_dynamic_stream(streams::memory_device{request.release()});
-    send(stream);
+    send(request.release());
 }
 
-void http_client_socket::on_data(const std::uint8_t *data, const std::size_t size)
+void http_client_socket::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(data), size);
+    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
     streams::stream_reader reader(circular_buffer_);
 
     while (circular_buffer_.size() != 0)

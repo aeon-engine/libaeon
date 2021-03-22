@@ -48,17 +48,14 @@ void http_server_socket::respond(const std::string &content_type, std::vector<st
     sstream << std::to_string(std::size(data));
     sstream << "\r\n\r\n";
 
-    auto stream = streams::make_dynamic_stream(streams::memory_device{sstream.release()});
-    send(stream);
-
-    auto data_stream = streams::make_dynamic_stream(streams::memory_device{data});
-    send(data_stream);
+    send(sstream.release());
+    send(std::move(data));
     __reset_state();
 }
 
-void http_server_socket::on_data(const std::uint8_t *data, const std::size_t size)
+void http_server_socket::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(data), size);
+    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
     streams::stream_reader reader(circular_buffer_);
 
     while (circular_buffer_.size() != 0)

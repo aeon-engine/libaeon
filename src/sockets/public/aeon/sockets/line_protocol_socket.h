@@ -35,7 +35,7 @@ public:
     virtual void on_line(const std::string &line) = 0;
 
 private:
-    void on_data(const std::uint8_t *data, const std::size_t size) override;
+    void on_data(const std::span<const std::byte> &data) override;
 
     streams::aggregate_device<streams::circular_buffer_filter, streams::memory_device<std::vector<char>>>
         circular_buffer_;

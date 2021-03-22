@@ -3,15 +3,14 @@
 #pragma once
 
 #include <aeon/sockets/config.h>
-#include <aeon/streams/devices/memory_device.h>
-#include <aeon/streams/idynamic_stream.h>
+#include <aeon/common/unique_obj.h>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
 #include <asio/strand.hpp>
 #include <queue>
 #include <array>
 #include <memory>
-#include <cstdint>
+#include <span>
 
 namespace aeon::sockets
 {
@@ -45,12 +44,10 @@ public:
 
     virtual void on_connected();
     virtual void on_disconnected();
-    virtual void on_data(const std::uint8_t *data, const std::size_t size) = 0;
+    virtual void on_data(const std::span<const std::byte> &data) = 0;
     virtual void on_error(const std::error_code &ec);
 
-    void send(streams::idynamic_stream &stream);
-
-    void send(const std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>> &stream);
+    void send(std::vector<std::byte> data);
 
     void disconnect();
 
@@ -62,8 +59,8 @@ private:
 
     asio::ip::tcp::socket socket_;
     asio::io_context::strand strand_;
-    std::array<std::uint8_t, tcp_socket_max_buff_len> data_;
-    std::queue<std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>>> send_data_queue_;
+    std::array<std::byte, tcp_socket_max_buff_len> data_;
+    std::queue<common::unique_obj<std::vector<std::byte>>> send_data_queue_;
 };
 
 } // namespace aeon::sockets

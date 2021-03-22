@@ -3,7 +3,6 @@
 #include <aeon/sockets/tcp_socket.h>
 #include <aeon/streams/stream_reader.h>
 #include <asio/write.hpp>
-#include <asio/buffered_stream.hpp>
 #include <asio/connect.hpp>
 #include <asio/bind_executor.hpp>
 
@@ -11,18 +10,18 @@ namespace aeon::sockets
 {
 
 tcp_socket::tcp_socket(asio::io_context &context)
-    : socket_(context)
-    , strand_(context)
-    , data_()
-    , send_data_queue_()
+    : socket_{context}
+    , strand_{context}
+    , data_{}
+    , send_data_queue_{}
 {
 }
 
 tcp_socket::tcp_socket(asio::ip::tcp::socket socket)
-    : socket_(std::move(socket))
-    , strand_(static_cast<asio::io_context &>(socket.get_executor().context()))
-    , data_()
-    , send_data_queue_()
+    : socket_{std::move(socket)}
+    , strand_{static_cast<asio::io_context &>(socket.get_executor().context())}
+    , data_{}
+    , send_data_queue_{}
 {
 }
 
@@ -40,38 +39,24 @@ void tcp_socket::on_error([[maybe_unused]] const std::error_code &ec)
 {
 }
 
-void tcp_socket::send(streams::idynamic_stream &stream)
+void tcp_socket::send(std::vector<std::byte> data)
 {
-    streams::stream_reader reader(stream);
-
-    std::vector<std::uint8_t> vec;
-    reader.read_to_vector(vec);
-    const auto memorystream = std::make_shared<streams::memory_device<std::vector<std::uint8_t>>>(std::move(vec));
-    send(memorystream);
-}
-
-void tcp_socket::send(const std::shared_ptr<streams::memory_device<std::vector<std::uint8_t>>> &stream)
-{
-    if (stream->size() == 0)
+    if (std::empty(data))
         return;
 
     auto self(shared_from_this());
 
-    auto send_impl = [self, stream]() {
-        self->send_data_queue_.push(stream);
+    auto send_impl = [self, data = std::move(data)]() mutable {
+        self->send_data_queue_.push(std::move(data));
 
         if (self->send_data_queue_.size() == 1)
             self->internal_handle_write();
     };
 
     if (strand_.running_in_this_thread())
-    {
         send_impl();
-    }
     else
-    {
         asio::post(strand_, send_impl);
-    }
 }
 
 void tcp_socket::disconnect()
@@ -88,20 +73,16 @@ void tcp_socket::disconnect()
     };
 
     if (strand_.running_in_this_thread())
-    {
         disconnect_impl();
-    }
     else
-    {
         asio::post(strand_, disconnect_impl);
-    }
 }
 
 void tcp_socket::internal_connect(const asio::ip::basic_resolver_results<asio::ip::tcp> &endpoint)
 {
     auto self(shared_from_this());
 
-    asio::async_connect(socket_, endpoint, asio::bind_executor(strand_, [self](std::error_code ec, auto) {
+    asio::async_connect(socket_, endpoint, asio::bind_executor(strand_, [self](const std::error_code ec, auto) {
                             if (ec && ec != asio::error::eof)
                                 self->on_error(ec);
 
@@ -121,13 +102,13 @@ void tcp_socket::internal_handle_read()
     auto self(shared_from_this());
 
     socket_.async_read_some(asio::buffer(data_, tcp_socket_max_buff_len),
-                            asio::bind_executor(strand_, [self](std::error_code ec, std::size_t length) {
+                            asio::bind_executor(strand_, [self](const std::error_code ec, const std::size_t length) {
                                 if (ec && ec != asio::error::eof)
                                     self->on_error(ec);
 
                                 if (length > 0)
                                 {
-                                    self->on_data(self->data_.data(), length);
+                                    self->on_data({self->data_.data(), length});
 
                                     if (!ec && self->socket_.is_open())
                                         self->internal_handle_read();
@@ -148,11 +129,11 @@ void tcp_socket::internal_handle_write()
         if (self->send_data_queue_.empty())
             return;
 
-        const auto buffer = self->send_data_queue_.front();
+        const auto &buffer = self->send_data_queue_.front();
 
         asio::async_write(
-            self->socket_, asio::buffer(buffer->data(), buffer->size()),
-            asio::bind_executor(self->strand_, [self, buffer](std::error_code ec, std::size_t /*length*/) {
+            self->socket_, asio::buffer(reinterpret_cast<const std::uint8_t *>(std::data(*buffer)), std::size(*buffer)),
+            asio::bind_executor(self->strand_, [self](const std::error_code ec, const std::size_t /*length*/) {
                 if (ec && ec != asio::error::eof)
                     self->on_error(ec);
 
