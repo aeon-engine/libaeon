@@ -18,6 +18,8 @@ template <memory_viewable T>
 class memory_view_device : public device
 {
 public:
+    using value_type = typename T::value_type;
+
     struct category : input_tag, input_seekable_tag, output_tag, output_seekable_tag, has_eof_tag, has_size_tag
     {
     };
