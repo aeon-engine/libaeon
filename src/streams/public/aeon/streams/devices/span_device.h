@@ -16,6 +16,8 @@ template <typename T>
 class span_device : public device
 {
 public:
+    using value_type = T;
+
     struct category : input_tag, input_seekable_tag, output_tag, output_seekable_tag, has_eof_tag, has_size_tag
     {
     };
