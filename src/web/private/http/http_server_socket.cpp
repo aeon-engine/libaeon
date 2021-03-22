@@ -5,7 +5,8 @@
 #include <aeon/web/http/url_encoding.h>
 #include <aeon/sockets/config.h>
 #include <aeon/streams/stream_reader.h>
-#include <aeon/streams/make_string_stream.h>
+#include <aeon/streams/string_stream.h>
+#include <aeon/streams/dynamic_stream.h>
 #include <aeon/common/string.h>
 
 namespace aeon::web::http
@@ -25,26 +26,33 @@ http_server_socket::~http_server_socket() = default;
 
 void http_server_socket::respond(const std::string &content_type, const std::string &data, const status_code code)
 {
-    auto stream = streams::make_string_stream(data);
-    respond(content_type, stream, code);
+    streams::string_stream<std::vector<std::byte>> sstream{std::size(data)};
+    sstream << data;
+    respond(content_type, sstream.release(), code);
 }
 
-void http_server_socket::respond(const std::string &content_type, streams::idynamic_stream &data,
-                                 const status_code code)
+void http_server_socket::respond(const std::string &content_type, std::vector<std::byte> data, const status_code code)
 {
-    const auto headers = detail::http_version_string + " " + std::to_string(static_cast<int>(code)) + " " +
-                         status_code_to_string(code) +
-                         "\r\n"
-                         "Connection: keep-alive\r\n"
-                         "Content-type: " +
-                         content_type +
-                         "\r\n"
-                         "Content-Length: " +
-                         std::to_string(data.size()) + "\r\n\r\n";
+    streams::string_stream<std::vector<std::byte>> sstream{64};
+    sstream << detail::http_version_string;
+    sstream << ' ';
+    sstream << std::to_string(static_cast<int>(code));
+    sstream << ' ';
+    sstream << status_code_to_string(code);
+    sstream << "\r\n";
+    sstream << "Connection: keep-alive\r\n";
+    sstream << "Content-type: ";
+    sstream << content_type;
+    sstream << "\r\n";
+    sstream << "Content-Length: ";
+    sstream << std::to_string(std::size(data));
+    sstream << "\r\n\r\n";
 
-    auto stream = streams::make_string_stream(headers);
+    auto stream = streams::make_dynamic_stream(streams::memory_device{sstream.release()});
     send(stream);
-    send(data);
+
+    auto data_stream = streams::make_dynamic_stream(streams::memory_device{data});
+    send(data_stream);
     __reset_state();
 }
 

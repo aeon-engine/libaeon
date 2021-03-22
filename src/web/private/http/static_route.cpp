@@ -8,6 +8,7 @@
 #include <aeon/web/http/constants.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/stream_reader.h>
 #include <aeon/common/string.h>
 #include <cassert>
 
@@ -116,7 +117,8 @@ void static_route::reply_file(http_server_socket &source, routable_http_server_s
     const auto mime_type = session.find_mime_type_by_extension(extension);
 
     auto file_stream = streams::make_dynamic_stream(streams::file_source_device{file});
-    source.respond(mime_type, file_stream);
+    const streams::stream_reader reader{file_stream};
+    source.respond(mime_type, reader.read_to_vector<std::byte>());
 }
 
 void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] routable_http_server_session &session,

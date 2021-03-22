@@ -1,10 +1,10 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/ptree/serialization/serialization_ini.h>
+#include <aeon/streams/devices/memory_view_device.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/make_string_view_stream.h>
 #include <aeon/rdp/parser.h>
 #include <aeon/rdp/matchers.h>
 #include <aeon/rdp/scoped_state.h>
@@ -309,7 +309,7 @@ void to_ini(const property_tree &ptree, streams::idynamic_stream &stream)
 auto to_ini(const property_tree &ptree) -> std::string
 {
     std::string str;
-    auto stream = streams::make_string_view_stream(str);
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     to_ini(ptree, stream);
     return str;
 }
@@ -331,7 +331,7 @@ auto from_ini(streams::idynamic_stream &stream) -> property_tree
 
 auto from_ini(const std::string &str) -> property_tree
 {
-    auto stream = streams::make_string_view_stream(str);
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_ini(stream);
 }
 

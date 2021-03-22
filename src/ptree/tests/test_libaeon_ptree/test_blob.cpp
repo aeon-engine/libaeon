@@ -3,7 +3,6 @@
 #include <aeon/ptree/ptree.h>
 #include <aeon/ptree/serialization/serialization_abf.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/make_vector_view_stream.h>
 #include <aeon/streams/devices/memory_view_device.h>
 #include <gtest/gtest.h>
 
@@ -15,7 +14,8 @@ static const ptree::property_tree pt{{{"test", 3}, {"test2", 2.0}, {"data", blob
 TEST(test_ptree, json_serialize_deserialize_blob)
 {
     const auto abf = ptree::serialization::to_abf(pt);
-    auto device = streams::make_vector_view_stream(abf);
+
+    auto device = streams::make_dynamic_stream(streams::memory_view_device{abf});
     const auto pt2 = ptree::serialization::from_abf(device);
     EXPECT_EQ(pt, pt2);
 
@@ -28,7 +28,7 @@ TEST(test_ptree, json_serialize_deserialize_blob)
 TEST(test_ptree, json_serialize_deserialize_skip_blob)
 {
     const auto abf = ptree::serialization::to_abf(pt);
-    auto device = streams::make_vector_view_stream(abf);
+    auto device = streams::make_dynamic_stream(streams::memory_view_device{abf});
     const auto pt2 = ptree::serialization::from_abf(device, ptree::serialization::abf_deserialize_mode::skip_blobs);
     EXPECT_NE(pt, pt2);
 

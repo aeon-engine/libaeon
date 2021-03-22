@@ -5,8 +5,8 @@
 #include <aeon/web/http/constants.h>
 #include <aeon/sockets/config.h>
 #include <aeon/streams/stream_reader.h>
+#include <aeon/streams/string_stream.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/make_string_stream.h>
 #include <aeon/common/string.h>
 #include <aeon/common/assert.h>
 
@@ -29,9 +29,17 @@ void http_client_socket::request_async(const std::string &host, const std::strin
                                        [[maybe_unused]] const http_method method)
 {
     // TODO: Use the given method for the request, instead of just GET
-    const auto request =
-        "GET " + url_encode(uri) + " " + detail::http_version_string + "\r\n" + "Host: " + host + "\r\n\r\n";
-    auto stream = streams::make_string_stream(request);
+    streams::string_stream<std::vector<std::byte>> request{64};
+    request << "GET ";
+    request << url_encode(uri);
+    request << ' ';
+    request << detail::http_version_string;
+    request <<  "\r\n";
+    request << "Host: ";
+    request << host;
+    request << "\r\n\r\n";
+
+    auto stream = streams::make_dynamic_stream(streams::memory_device{request.release()});
     send(stream);
 }
 

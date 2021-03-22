@@ -3,7 +3,8 @@
 #include <aeon/file_container/container.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/streams/stream_reader.h>
-#include <aeon/streams/make_vector_view_stream.h>
+#include <aeon/streams/dynamic_stream.h>
+#include <aeon/streams/devices/memory_view_device.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -27,13 +28,13 @@ TEST(test_resource_file, stream_basic_read_write)
 
         writer << test_data;
 
-        auto output_stream = streams::make_vector_view_stream(data);
+        auto output_stream = streams::make_dynamic_stream(streams::memory_view_device{data});
         io.write(output_stream);
     }
 
     // Check reading only the header
     {
-        auto input_stream = streams::make_vector_view_stream(data);
+        auto input_stream = streams::make_dynamic_stream(streams::memory_view_device{data});
         file_container::container io{input_stream, file_container::read_items::header};
         EXPECT_EQ(expected_name, io.name());
         EXPECT_EQ(expected_uuid, io.id());
@@ -43,7 +44,7 @@ TEST(test_resource_file, stream_basic_read_write)
 
     // Check reading only the header and metadata
     {
-        auto input_stream = streams::make_vector_view_stream(data);
+        auto input_stream = streams::make_dynamic_stream(streams::memory_view_device{data});
         file_container::container io{input_stream,
                                      file_container::read_items::header | file_container::read_items::metadata};
         EXPECT_EQ(expected_name, io.name());
@@ -57,7 +58,7 @@ TEST(test_resource_file, stream_basic_read_write)
 
     // Read header and data, no metadata
     {
-        auto input_stream = streams::make_vector_view_stream(data);
+        auto input_stream = streams::make_dynamic_stream(streams::memory_view_device{data});
         file_container::container io{input_stream,
                                      file_container::read_items::header | file_container::read_items::data};
         EXPECT_EQ(expected_name, io.name());
@@ -74,7 +75,7 @@ TEST(test_resource_file, stream_basic_read_write)
 
     // Read all
     {
-        auto input_stream = streams::make_vector_view_stream(data);
+        auto input_stream = streams::make_dynamic_stream(streams::memory_view_device{data});
         file_container::container io{input_stream, file_container::read_items::all};
         EXPECT_EQ(expected_name, io.name());
         EXPECT_EQ(expected_uuid, io.id());

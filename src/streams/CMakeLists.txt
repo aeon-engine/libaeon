@@ -25,10 +25,6 @@ set(SOURCES
     public/aeon/streams/idynamic_stream.h
     public/aeon/streams/idynamic_stream_fwd.h
     public/aeon/streams/length_prefix_string.h
-    public/aeon/streams/make_string_stream.h
-    public/aeon/streams/make_string_view_stream.h
-    public/aeon/streams/make_vector_stream.h
-    public/aeon/streams/make_vector_view_stream.h
     public/aeon/streams/seek_direction.h
     public/aeon/streams/stream.h
     public/aeon/streams/stream_reader.h

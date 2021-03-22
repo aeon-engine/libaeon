@@ -47,7 +47,7 @@ public:
     auto operator=(const http_server_socket &) -> http_server_socket & = delete;
 
     void respond(const std::string &content_type, const std::string &data, const status_code code = status_code::ok);
-    void respond(const std::string &content_type, streams::idynamic_stream &data,
+    void respond(const std::string &content_type, std::vector<std::byte> data,
                  const status_code code = status_code::ok);
 
     void respond_default(const status_code code);

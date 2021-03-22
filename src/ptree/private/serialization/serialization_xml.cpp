@@ -1,9 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/ptree/serialization/serialization_xml.h>
+#include <aeon/streams/devices/memory_view_device.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/streams/make_string_view_stream.h>
 #include <aeon/rdp/matchers.h>
 #include <aeon/rdp/scoped_state.h>
 #include <aeon/rdp/parser.h>
@@ -272,7 +272,7 @@ auto from_xml(streams::idynamic_stream &stream, std::string attribute_placeholde
 
 auto from_xml(const std::string &str, std::string attribute_placeholder) -> property_tree
 {
-    auto stream = streams::make_string_view_stream(str);
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_xml(stream, std::move(attribute_placeholder));
 }
 
