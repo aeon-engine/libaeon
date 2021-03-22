@@ -64,7 +64,6 @@ set(SOURCES
     public/aeon/common/type_traits.h
     public/aeon/common/unordered_flatmap.h
     public/aeon/common/unordered_flatset.h
-    public/aeon/common/unused.h
     public/aeon/common/uuid.h
     public/aeon/common/version.h
 )
