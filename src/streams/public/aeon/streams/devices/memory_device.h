@@ -33,6 +33,8 @@ public:
 
     ~memory_device() = default;
 
+    void reserve(const std::size_t size);
+
 protected:
     T buffer_;
 };
@@ -130,6 +132,13 @@ inline auto memory_device<T>::operator=(const memory_device &other) -> memory_de
     }
 
     return *this;
+}
+
+template <memory_viewable T>
+inline void memory_device<T>::reserve(const std::size_t size)
+{
+    buffer_.reserve(static_cast<std::size_t>(size));
+    memory_view_device<T>::update_span();
 }
 
 } // namespace aeon::streams
