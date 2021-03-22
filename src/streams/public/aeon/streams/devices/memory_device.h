@@ -35,6 +35,11 @@ public:
 
     void reserve(const std::size_t size);
 
+    [[nodiscard]] auto release() noexcept -> T
+    {
+        return std::move(buffer_);
+    }
+
 protected:
     T buffer_;
 };
