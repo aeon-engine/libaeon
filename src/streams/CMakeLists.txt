@@ -34,6 +34,7 @@ set(SOURCES
     public/aeon/streams/stream_reader.h
     public/aeon/streams/stream_traits.h
     public/aeon/streams/stream_writer.h
+    public/aeon/streams/string_stream.h
     public/aeon/streams/tags.h
     public/aeon/streams/uuid_stream.h
     public/aeon/streams/varint.h
