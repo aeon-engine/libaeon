@@ -74,7 +74,8 @@ inline auto span_device<T>::write(const char *data, const std::streamsize size) 
     if (actual_size == 0)
         return 0;
 
-    std::copy(data, data + actual_size, span_.data() + write_idx_);
+    const auto *src_data = reinterpret_cast<const value_type *>(data);
+    std::copy(src_data, src_data + actual_size, span_.data() + write_idx_);
     write_idx_ += actual_size;
     return actual_size;
 }
@@ -87,7 +88,8 @@ inline auto span_device<T>::read(char *data, const std::streamsize size) noexcep
     if (actual_size == 0)
         return 0;
 
-    std::copy(span_.data() + read_idx_, span_.data() + read_idx_ + actual_size, data);
+    auto *dst_data = reinterpret_cast<value_type *>(data);
+    std::copy(span_.data() + read_idx_, span_.data() + read_idx_ + actual_size, dst_data);
     read_idx_ += actual_size;
     return actual_size;
 }
