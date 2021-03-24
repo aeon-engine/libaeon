@@ -8,5 +8,6 @@ namespace aeon::common::hexdump
 {
 
 void pretty_print(FILE *dest, const void *src, std::size_t len) noexcept;
+void cpp_array(FILE *dest, const char *const array_name, const void *src, std::size_t len) noexcept;
 
 } // namespace aeon::common::hexdump
