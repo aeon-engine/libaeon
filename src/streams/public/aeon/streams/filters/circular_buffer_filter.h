@@ -142,7 +142,9 @@ public:
         const auto source_size = source.size();
 
         tail_ += offset;
-        tail_ = tail_ % size_;
+
+        if (size_ > 0)
+            tail_ = tail_ % source_size;
 
         if (tail_ < 0)
             tail_ = source_size + tail_;
