@@ -16,7 +16,7 @@ void pretty_print(FILE *dest, const void *src, std::size_t len) noexcept
 
     auto i = 0_size_t;
     auto c = 0_size_t;
-    const auto *data = reinterpret_cast<const unsigned char *>(src);
+    const auto *data = static_cast<const unsigned char *>(src);
 
     for (; i < len;)
     {
