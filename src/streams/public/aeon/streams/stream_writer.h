@@ -32,6 +32,7 @@ public:
 
     ~stream_writer() = default;
 
+    void device(device_t &device) noexcept;
     [[nodiscard]] auto device() const noexcept -> device_t &;
 
     template <typename T>
@@ -56,6 +57,12 @@ inline stream_writer<device_t>::stream_writer(device_t &device) noexcept
 {
     if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
         aeon_assert(device_->is_output(), "Stream writer requires an output device.");
+}
+
+template <stream_writable device_t>
+inline void stream_writer<device_t>::device(device_t &device) noexcept
+{
+    device_ = &device;
 }
 
 template <stream_writable device_t>

@@ -35,6 +35,7 @@ public:
 
     ~stream_reader() = default;
 
+    void device(device_t &device) noexcept;
     [[nodiscard]] auto device() const noexcept -> device_t &;
 
     template <typename char_t>
@@ -77,6 +78,12 @@ inline stream_reader<device_t>::stream_reader(device_t &device) noexcept
 {
     if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
         aeon_assert(device_->is_input(), "Stream reader requires an input device.");
+}
+
+template <stream_readable device_t>
+inline void stream_reader<device_t>::device(device_t &device) noexcept
+{
+    device_ = &device;
 }
 
 template <stream_readable device_t>
