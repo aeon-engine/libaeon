@@ -9,7 +9,6 @@
 namespace aeon::web::http
 {
 
-using routable_http_server =
-    sockets::tcp_server<web::http::routable_http_server_socket, web::http::routable_http_server_session>;
+using routable_http_server = sockets::tcp_server<routable_http_server_socket, routable_http_server_session>;
 
 } // namespace aeon::web::http
