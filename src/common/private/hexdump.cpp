@@ -5,10 +5,10 @@
 #include <cstdint>
 #include <cctype>
 
-namespace aeon::common
+namespace aeon::common::hexdump
 {
 
-void hexdump(FILE *dest, const void *src, std::size_t len) noexcept
+void pretty_print(FILE *dest, const void *src, std::size_t len) noexcept
 {
     fputs("--------|------------------------------------------------|----------------|\n", dest);
     fputs(" offset |00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |0123456789ABCDEF|\n", dest);
@@ -53,4 +53,4 @@ void hexdump(FILE *dest, const void *src, std::size_t len) noexcept
     fputs("---------------------------------------------------------------------------\n", dest);
 }
 
-} // namespace aeon::common
+} // namespace aeon::common::hexdump

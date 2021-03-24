@@ -68,7 +68,7 @@ class test_server : public web::http::http_server_socket
             std::cout << "Received post data: " << request.get_content_length() << "\n";
             auto content = request.get_content();
 
-            common::hexdump(stdout, content.data(), content.size());
+            common::hexdump::pretty_print(stdout, content.data(), content.size());
         }
 
         respond("text/plain", "Hello!");

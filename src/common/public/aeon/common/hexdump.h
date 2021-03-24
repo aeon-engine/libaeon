@@ -4,9 +4,9 @@
 
 #include <cstdio>
 
-namespace aeon::common
+namespace aeon::common::hexdump
 {
 
-void hexdump(FILE *dest, const void *src, size_t len) noexcept;
+void pretty_print(FILE *dest, const void *src, std::size_t len) noexcept;
 
-} // namespace aeon::common
+} // namespace aeon::common::hexdump
