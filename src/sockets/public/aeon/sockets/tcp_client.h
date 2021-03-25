@@ -20,6 +20,12 @@ public:
     explicit tcp_client(asio::io_context &io_context, const std::string &host, const std::string &service);
     ~tcp_client() = default;
 
+    tcp_client(tcp_client &&) = delete;
+    auto operator=(tcp_client &&) -> tcp_client & = delete;
+
+    tcp_client(const tcp_client &) = delete;
+    auto operator=(const tcp_client &) -> tcp_client & = delete;
+
     auto operator->() const -> socket_handler_t *;
 
 protected:

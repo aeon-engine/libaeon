@@ -36,6 +36,12 @@ public:
                         const std::uint16_t port);
     ~tcp_server() = default;
 
+    tcp_server(tcp_server &&) = delete;
+    auto operator=(tcp_server &&) -> tcp_server & = delete;
+
+    tcp_server(const tcp_server &) = delete;
+    auto operator=(const tcp_server &) -> tcp_server & = delete;
+
     auto get_session() const -> session_t &;
 
 protected:
