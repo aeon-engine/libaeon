@@ -6,7 +6,6 @@
 #include <aeon/common/unique_obj.h>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
-#include <asio/strand.hpp>
 #include <queue>
 #include <array>
 #include <memory>
@@ -57,8 +56,8 @@ private:
     void internal_handle_read();
     void internal_handle_write();
 
+    asio::io_context &context_;
     asio::ip::tcp::socket socket_;
-    asio::io_context::strand strand_;
     std::array<std::byte, tcp_socket_max_buff_len> data_;
     std::queue<common::unique_obj<std::vector<std::byte>>> send_data_queue_;
 };
