@@ -55,7 +55,7 @@ protected:
 
 template <typename socket_t, typename session_t>
 inline tcp_server<socket_t, session_t>::tcp_server(asio::io_context &io_context, const std::uint16_t port)
-    : tcp_server(io_context, std::make_unique<session_t>(), port)
+    : tcp_server{io_context, std::make_unique<session_t>(), port}
 {
     start_async_accept();
 }
@@ -63,10 +63,10 @@ inline tcp_server<socket_t, session_t>::tcp_server(asio::io_context &io_context,
 template <typename socket_t, typename session_t>
 inline tcp_server<socket_t, session_t>::tcp_server(asio::io_context &io_context,
                                                    std::unique_ptr<session_t> session_handler, const std::uint16_t port)
-    : acceptor_(io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
-    , socket_(io_context)
-    , io_context_(io_context)
-    , session_handler_(std::move(session_handler))
+    : acceptor_{io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)}
+    , socket_{io_context}
+    , io_context_{io_context}
+    , session_handler_{std::move(session_handler)}
 {
     start_async_accept();
 }
