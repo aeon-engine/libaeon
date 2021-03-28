@@ -30,13 +30,13 @@ public:
      */
     explicit line_protocol_socket(asio::ip::tcp::socket socket);
 
-    virtual ~line_protocol_socket();
     line_protocol_socket(line_protocol_socket &&) = delete;
     auto operator=(line_protocol_socket &&) -> line_protocol_socket & = delete;
 
     line_protocol_socket(const line_protocol_socket &) = delete;
     auto operator=(const line_protocol_socket &) -> line_protocol_socket & = delete;
 
+    ~line_protocol_socket() override;
     virtual void on_line(const std::string &line) = 0;
 
 private:
