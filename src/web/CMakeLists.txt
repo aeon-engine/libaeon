@@ -79,3 +79,5 @@ install(
 if (AEON_ENABLE_TESTING)
     add_subdirectory(tests)
 endif ()
+
+add_subdirectory(testapps)

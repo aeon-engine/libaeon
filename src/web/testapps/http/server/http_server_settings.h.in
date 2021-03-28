@@ -1,0 +1,9 @@
+// Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
+
+#pragma once
+
+/*!
+ * NOTE: This is a generated file. Change the configuration through cmake.
+ */
+
+#cmakedefine AEON_HTTP_SERVER_WWWROOT_PATH "@AEON_HTTP_SERVER_WWWROOT_PATH@"
