@@ -33,7 +33,7 @@ void http_client_socket::request_async(const std::string &host, const std::strin
     request << url_encode(uri);
     request << ' ';
     request << detail::http_version_string;
-    request <<  "\r\n";
+    request << "\r\n";
     request << "Host: ";
     request << host;
     request << "\r\n\r\n";
