@@ -27,7 +27,6 @@ TEST(test_iterator, test_iterator_utf)
 TEST(test_iterator, test_iterator_utf8_character_str)
 {
     const auto utf8_str = u8"らき☆すた";
-    const auto utf16_str = unicode::utf8::to_utf16(utf8_str);
 
     unicode::utf_string_view utf8_view{utf8_str};
     for (auto itr = std::begin(utf8_view); itr != std::end(utf8_view); ++itr)
