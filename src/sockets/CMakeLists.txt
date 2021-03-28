@@ -6,6 +6,7 @@ set(SOURCES
     private/line_protocol_socket.cpp
     private/tcp_socket.cpp
     public/aeon/sockets/config.h
+    public/aeon/sockets/length_prefixed_binary_protocol_socket.h
     public/aeon/sockets/line_protocol_socket.h
     public/aeon/sockets/tcp_client.h
     public/aeon/sockets/tcp_server.h
@@ -49,3 +50,5 @@ install(
 if (AEON_ENABLE_TESTING)
     add_subdirectory(tests)
 endif ()
+
+add_subdirectory(testapps)
