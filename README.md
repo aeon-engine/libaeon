@@ -2,7 +2,7 @@ libAeon
 ==============
 
 [![Build Status](https://ci.aeons.dev/api/badges/aeon-engine-private/libaeon/status.svg)](https://git.aeons.dev/aeon-engine/libaeon)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4bf88c4e390b4413b604684990be9112)](https://www.codacy.com/app/robindegen/libaeon?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/00148aa1097f467b93ebcb4262a8fcf1)](https://www.codacy.com/gh/aeon-engine/libaeon/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/aeon-engine/libaeon/badge)](https://www.codefactor.io/repository/github/aeon-engine/libaeon)
 
 A general purpose C++20 support library.
