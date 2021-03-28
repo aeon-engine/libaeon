@@ -37,6 +37,8 @@ public:
     auto operator=(const line_protocol_socket &) -> line_protocol_socket & = delete;
 
     ~line_protocol_socket() override;
+
+protected:
     virtual void on_line(const std::string &line) = 0;
 
 private:
