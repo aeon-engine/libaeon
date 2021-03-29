@@ -29,7 +29,6 @@ set(SOURCES
     public/aeon/imaging/pixel_encoding_traits.h
     public/aeon/imaging/pixel_math.h
     public/aeon/imaging/utils/atlas.h
-    public/aeon/imaging/utils/visibility.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
