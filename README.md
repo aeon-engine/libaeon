@@ -11,7 +11,9 @@ How to build
 --------------
 ### Windows (Visual Studio 2019)
 
-libAeon is tested on the most recent versions of Visual Studio 2019. It is best to just install the latest stable version when building.
+libAeon is tested on the most recent version of Visual Studio 2019. It is best to just install the latest stable version when building.
+
+The minimum requirement currently is version 16.9.2.
 
 1.  Make sure you have cloned the submodules
 
@@ -25,7 +27,7 @@ libAeon is tested on the most recent versions of Visual Studio 2019. It is best 
 
 ### Linux
 
-libAeon requires GCC 10 or higher. Parts of the library may still work on GCC 9 (Untested).
+libAeon requires at least GCC 11 or LLVM Clang 12.
 
 1.  Make sure you have cloned the submodules
 
@@ -36,6 +38,7 @@ libAeon requires GCC 10 or higher. Parts of the library may still work on GCC 9 
     This will download all dependencies and generate a Makefile in the `build` subfolder.
 
 3.  Enter the `build` folder and run make
+
 
 ### Other platforms
 
@@ -74,7 +77,7 @@ style as established in the existing code. When in doubt, ask Robin Degen.
 
 In short:
 
--   Prefer C++20 standards above boost or any other library
+-   Prefer C++20 standards above any other library
 -   4 spaces, no tabs.
 -   No CamelCase. Variables and types must be named_like_this.
 -   120 character maximum line length.
