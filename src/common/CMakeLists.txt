@@ -40,6 +40,7 @@ set(SOURCES
     public/aeon/common/impl/string_impl.h
     public/aeon/common/impl/version_impl.h
     public/aeon/common/intrinsics.h
+    public/aeon/common/intrusive_ptr.h
     public/aeon/common/lexical_parse.h
     public/aeon/common/listener_subject.h
     public/aeon/common/literals.h
