@@ -211,7 +211,7 @@ template <common::concepts::arithmetic_convertible T>
  * \return The size of the rectangle (width, height)
  */
 template <common::concepts::arithmetic_convertible T>
-[[nodiscard]] inline constexpr auto size(const rectangle<T> &rect) noexcept -> size2d<T>;
+[[nodiscard]] inline constexpr auto dimensions(const rectangle<T> &rect) noexcept -> size2d<T>;
 
 /*!
  * Set the size of a rectangle as seen from the left top.
@@ -238,7 +238,7 @@ inline constexpr auto resized(const rectangle<T> &rect, const T width, const T h
  * \param[in] size - New size (right=left+width, bottom=top+height)
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr void set_size(rectangle<T> &rect, const size2d<T> &size) noexcept;
+inline constexpr void set_dimensions(rectangle<T> &rect, const size2d<T> &size) noexcept;
 
 /*!
  * Set the size of a rectangle as seen from the left top.
@@ -247,7 +247,7 @@ inline constexpr void set_size(rectangle<T> &rect, const size2d<T> &size) noexce
  * \param[in] height - New height (bottom=top+height)
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr void set_size(rectangle<T> &rect, const T width, const T height) noexcept;
+inline constexpr void set_dimensions(rectangle<T> &rect, const T width, const T height) noexcept;
 
 /*!
  * Translate (move) an existing rectangle.

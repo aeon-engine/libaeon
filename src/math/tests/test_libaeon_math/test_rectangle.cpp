@@ -19,7 +19,7 @@ TEST(test_rectangle, test_rectangle_default_int)
     EXPECT_EQ(math::height(rect), 0);
 
     EXPECT_TRUE(math::empty(rect));
-    EXPECT_EQ(math::size(rect), math::size2d<int>{});
+    EXPECT_EQ(math::dimensions(rect), math::size2d<int>{});
 }
 
 TEST(test_rectangle, test_rectangle_default_float)
@@ -35,7 +35,7 @@ TEST(test_rectangle, test_rectangle_default_float)
     EXPECT_EQ(math::height(rect), 0.0f);
 
     EXPECT_TRUE(math::empty(rect));
-    EXPECT_EQ(math::size(rect), math::size2d<float>{});
+    EXPECT_EQ(math::dimensions(rect), math::size2d<float>{});
 }
 
 TEST(test_rectangle, test_rectangle_width_height)
@@ -45,7 +45,7 @@ TEST(test_rectangle, test_rectangle_width_height)
     EXPECT_EQ(math::width(rect), 10);
     EXPECT_EQ(math::height(rect), 20);
 
-    EXPECT_EQ(math::size(rect), math::size2d(10, 20));
+    EXPECT_EQ(math::dimensions(rect), math::size2d(10, 20));
 }
 
 TEST(test_rectangle, test_rectangle_translate_positive)
@@ -61,7 +61,7 @@ TEST(test_rectangle, test_rectangle_translate_positive)
     EXPECT_EQ(math::width(new_rect), math::width(rect));
     EXPECT_EQ(math::height(new_rect), math::height(rect));
 
-    EXPECT_EQ(math::size(new_rect), math::size(rect));
+    EXPECT_EQ(math::dimensions(new_rect), math::dimensions(rect));
 }
 
 TEST(test_rectangle, test_rectangle_translate_positive_vector2)
@@ -79,7 +79,7 @@ TEST(test_rectangle, test_rectangle_translate_positive_vector2)
     EXPECT_EQ(math::width(new_rect), math::width(rect));
     EXPECT_EQ(math::height(new_rect), math::height(rect));
 
-    EXPECT_EQ(math::size(new_rect), math::size(rect));
+    EXPECT_EQ(math::dimensions(new_rect), math::dimensions(rect));
 }
 
 TEST(test_rectangle, test_rectangle_contains)

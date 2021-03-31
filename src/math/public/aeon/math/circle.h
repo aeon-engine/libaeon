@@ -92,12 +92,12 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto valid(const circle<T> &c) noexcept -> bool;
 
 /*!
- * Returns the size of a circle.
+ * Returns the dimensions of a circle.
  * \param[in] c - Circle
- * \return The size of a circle (from the left edge to the right, and top to bottom; or diameter).
+ * \return The dimensions of a circle (from the left edge to the right, and top to bottom; or diameter).
  */
 template <common::concepts::arithmetic_convertible T>
-[[nodiscard]] inline constexpr auto size(const circle<T> &c) noexcept -> size2d<T>;
+[[nodiscard]] inline constexpr auto dimensions(const circle<T> &c) noexcept -> size2d<T>;
 
 /*!
  * Returns the radius of a circle.

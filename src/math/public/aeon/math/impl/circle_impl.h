@@ -61,7 +61,7 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
-[[nodiscard]] inline constexpr auto size(const circle<T> &c) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto dimensions(const circle<T> &c) noexcept -> size2d<T>
 {
     const auto d = diameter(c);
     return {d, d};
