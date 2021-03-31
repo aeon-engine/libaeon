@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <atomic>
 
 namespace aeon::common::type_traits
 {
@@ -86,6 +87,22 @@ struct is_std_vector<std::vector<T, A>> : std::true_type
  */
 template <typename T>
 static constexpr auto is_std_vector_v = is_std_vector<T>::value;
+
+template <typename>
+struct is_atomic : std::false_type
+{
+};
+
+template <typename T>
+struct is_atomic<std::atomic<T>> : std::true_type
+{
+};
+
+/*!
+ * Check if a given type is an std::atomic
+ */
+template <typename T>
+static constexpr auto is_atomic_v = is_atomic<T>::value;
 
 /*!
  * Variadic version of is_same_v
