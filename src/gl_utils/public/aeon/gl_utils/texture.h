@@ -18,7 +18,7 @@ enum class texture_min_filter : GLenum
     linear_mipmap_linear = GL_LINEAR_MIPMAP_LINEAR
 };
 
-enum class texture_max_filter : GLenum
+enum class texture_mag_filter : GLenum
 {
     nearest = GL_NEAREST,
     linear = GL_LINEAR
@@ -37,7 +37,7 @@ enum class monochrome_type : GLenum
 
 [[nodiscard]] auto create_texture(const imaging::iimage &image,
                                   const texture_min_filter min_filter = texture_min_filter::linear,
-                                  const texture_max_filter max_filter = texture_max_filter::linear,
+                                  const texture_mag_filter max_filter = texture_mag_filter::linear,
                                   const monochrome_type monochrome_type = monochrome_type::red) -> GLuint;
 
 } // namespace aeon::gl_utils

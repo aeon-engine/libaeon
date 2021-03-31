@@ -59,7 +59,7 @@ namespace internal
 } // namespace internal
 
 auto create_texture(const imaging::iimage &image, const texture_min_filter min_filter,
-                    const texture_max_filter max_filter, const monochrome_type monochrome_type) -> GLuint
+                    const texture_mag_filter max_filter, const monochrome_type monochrome_type) -> GLuint
 {
     GLuint handle = 0;
     aeon_check_gl_error(glGenTextures(1, &handle));
