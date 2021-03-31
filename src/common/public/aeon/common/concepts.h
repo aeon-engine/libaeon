@@ -40,4 +40,11 @@ concept signed_enumerable = enumerable<T> &&std::is_signed_v<std::underlying_typ
 template <typename T>
 concept unsigned_enumerable = enumerable<T> &&std::is_unsigned_v<std::underlying_type_t<T>>;
 
+/*!
+ * The given type must be integral or std::atomic integral
+ */
+template <typename T>
+concept integral_or_atomic_integral = std::integral<T> ||
+                                      (type_traits::is_atomic_v<T> && std::integral<typename T::value_type>);
+
 } // namespace aeon::common::concepts
