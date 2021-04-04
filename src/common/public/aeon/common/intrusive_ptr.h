@@ -90,7 +90,7 @@ public:
     }
 
     intrusive_ptr(const intrusive_ptr<element_type> &other)
-        : ptr_{other.ptr_}
+        : ptr_{other.get()}
     {
         if (ptr_ != nullptr)
             ptr_->intrusive_ptr_add_ref();
@@ -103,7 +103,7 @@ public:
     }
 
     intrusive_ptr(intrusive_ptr<element_type> &&other) noexcept
-        : ptr_{other.ptr_}
+        : ptr_{other.get()}
     {
         other.ptr_ = nullptr;
     }
@@ -116,7 +116,7 @@ public:
 
     template <typename U, std::enable_if_t<!std::is_convertible_v<element_type, U>> * = nullptr>
     intrusive_ptr(const intrusive_ptr<U> &other)
-        : ptr_{other.ptr_}
+        : ptr_{other.get()}
     {
         if (ptr_ != nullptr)
             ptr_->intrusive_ptr_add_ref();
