@@ -138,12 +138,12 @@ public:
 
         draw_command_buffers_ = command_pool_.create_command_buffers(swapchain_.image_count());
 
-        prepareSynchronizationPrimitives();
+        prepare_synchronization_primitives();
 
         create_depth_stencil();
-        setupRenderPass();
-        setupFrameBuffer();
-        prepareUniformBuffers();
+        setup_render_pass();
+        setup_frame_buffer();
+        prepare_uniform_buffers();
 
         vert_shader_ = vulkan::shader_module{device_, "vert.spv"};
         frag_shader_ = vulkan::shader_module{device_, "frag.spv"};
@@ -282,7 +282,7 @@ private:
             {},      subresource_range};
     }
 
-    void prepareSynchronizationPrimitives()
+    void prepare_synchronization_primitives()
     {
         present_complete_semaphore_ = vulkan::semaphore{device_};
         render_complete_semaphore_ = vulkan::semaphore{device_};
@@ -292,7 +292,7 @@ private:
             wait_fence = vulkan::fence{device_, vulkan::fence_create_state::signaled};
     }
 
-    void setupRenderPass()
+    void setup_render_pass()
     {
         vulkan::render_pass_description description;
         description.add_attachment(swapchain_.format(), vulkan::image_layout::present_src_khr)
@@ -318,7 +318,7 @@ private:
         render_pass_ = vulkan::render_pass{device_, description};
     }
 
-    void prepareUniformBuffers()
+    void prepare_uniform_buffers()
     {
         uniform_buffer_ =
             vulkan::buffer{device_, sizeof(shader_uniform_buffers), vulkan::buffer_usage_flag::uniform_buffer,
@@ -327,10 +327,10 @@ private:
         uniform_descriptor_buffer_info_ =
             vulkan::descriptor_buffer_info{uniform_buffer_, sizeof(shader_uniform_buffers)};
 
-        updateUniformBuffers();
+        update_uniform_buffers();
     }
 
-    void updateUniformBuffers()
+    void update_uniform_buffers()
     {
         shader_uniform_buffers_.projectionMatrix =
             math::mat4::projection_fov(math::unitf<math::degree>{60.0f}, window_size, 1.0f, 256.0f);
@@ -395,7 +395,7 @@ private:
         pipeline_ = vulkan::pipeline{device_, description};
     }
 
-    void setupFrameBuffer()
+    void setup_frame_buffer()
     {
         framebuffers_ = vulkan::create_swap_chain_framebuffers(swapchain_, render_pass_, depth_stencil_image_view_);
     }
