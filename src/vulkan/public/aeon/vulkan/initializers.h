@@ -6,6 +6,7 @@
 #include <aeon/vulkan/enums.h>
 #include <aeon/vulkan/format.h>
 #include <aeon/vulkan/version.h>
+#include <aeon/vulkan/config.h>
 #include <aeon/common/flags.h>
 #include <vulkan/vulkan_core.h>
 #include <cstdint>
@@ -17,8 +18,8 @@ namespace aeon::vulkan::initializers
 
 [[nodiscard]] inline auto application_info(const char8_t *application_name,
                                            const common::version3<uint32_t> application_version,
-                                           const char8_t *engine_name, const common::version3<uint32_t> engine_version,
-                                           const std::uint32_t api_version = VK_API_VERSION_1_0) noexcept
+                                           const char8_t *engine_name,
+                                           const common::version3<uint32_t> engine_version) noexcept
 {
     VkApplicationInfo info{};
     info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -26,18 +27,16 @@ namespace aeon::vulkan::initializers
     info.applicationVersion = version::to_vulkan(application_version);
     info.pEngineName = reinterpret_cast<const char *>(engine_name);
     info.engineVersion = version::to_vulkan(engine_version);
-    info.apiVersion = api_version;
+    info.apiVersion = AEON_VULKAN_API_VERSION;
     return info;
 }
 
 [[nodiscard]] inline auto application_info(const std::u8string_view application_name,
                                            const common::version3<uint32_t> application_version,
                                            const std::u8string_view engine_name,
-                                           const common::version3<uint32_t> engine_version,
-                                           const std::uint32_t api_version = VK_API_VERSION_1_0) noexcept
+                                           const common::version3<uint32_t> engine_version) noexcept
 {
-    return application_info(std::data(application_name), application_version, std::data(engine_name), engine_version,
-                            api_version);
+    return application_info(std::data(application_name), application_version, std::data(engine_name), engine_version);
 }
 
 [[nodiscard]] inline auto instance_create_info(const VkApplicationInfo &application_info,
