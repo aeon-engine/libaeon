@@ -84,17 +84,24 @@ namespace internal
 
 physical_device::physical_device() noexcept
     : device_{nullptr}
+    , instance_{nullptr}
 {
 }
 
-physical_device::physical_device(const VkPhysicalDevice handle)
+physical_device::physical_device(const VkInstance instance, const VkPhysicalDevice handle)
     : device_{handle}
+    , instance_{instance}
 {
 }
 
 auto physical_device::handle() const noexcept -> VkPhysicalDevice
 {
     return device_;
+}
+
+auto physical_device::instance_handle() const noexcept -> VkInstance
+{
+    return instance_;
 }
 
 auto physical_device::properties() const noexcept -> VkPhysicalDeviceProperties

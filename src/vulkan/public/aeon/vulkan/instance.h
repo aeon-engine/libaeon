@@ -23,7 +23,6 @@ public:
     explicit instance(const application_info &info);
     explicit instance(const application_info &info, const std::vector<std::string> &required_layers,
                       const std::vector<std::string> &required_extensions);
-    explicit instance(const VkInstance instance) noexcept;
     ~instance();
 
     instance(const instance &) noexcept = delete;

@@ -83,14 +83,11 @@ instance::instance(const application_info &info)
 
 instance::instance(const application_info &info, const std::vector<std::string> &required_layers,
                    const std::vector<std::string> &required_extensions)
-    : instance{internal::create_instance(info, required_layers, required_extensions)}
-{
-}
-
-instance::instance(const VkInstance instance) noexcept
-    : instance_{instance}
-    , physical_devices_{
-          common::container::auto_transform<physical_device>(internal::enumerate_physical_devices(instance_))}
+    : instance_{internal::create_instance(info, required_layers, required_extensions)}
+    , physical_devices_{common::container::transform<physical_device>(internal::enumerate_physical_devices(instance_),
+                                                                      [this](const auto &device) {
+                                                                          return physical_device{instance_, device};
+                                                                      })}
 {
 }
 

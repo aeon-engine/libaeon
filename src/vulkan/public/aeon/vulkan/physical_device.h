@@ -21,7 +21,7 @@ class physical_device final
 {
 public:
     physical_device() noexcept;
-    explicit physical_device(const VkPhysicalDevice handle);
+    explicit physical_device(const VkInstance instance, const VkPhysicalDevice handle);
     ~physical_device() = default;
 
     physical_device(const physical_device &) = default;
@@ -31,6 +31,8 @@ public:
     auto operator=(physical_device &&) noexcept -> physical_device & = default;
 
     [[nodiscard]] auto handle() const noexcept -> VkPhysicalDevice;
+
+    [[nodiscard]] auto instance_handle() const noexcept -> VkInstance;
 
     [[nodiscard]] auto properties() const noexcept -> VkPhysicalDeviceProperties;
 
@@ -49,6 +51,7 @@ public:
 
 private:
     VkPhysicalDevice device_;
+    VkInstance instance_;
 };
 
 [[nodiscard]] inline auto handle(const physical_device &device) noexcept
