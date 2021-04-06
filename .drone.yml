@@ -161,7 +161,7 @@ steps:
 - name: test
   commands:
   - Set-Location "build"
-  - ctest --% -C Debug --verbose
+  - ctest --% -C Debug -LE vulkan --verbose
 
 node:
     platform: windows

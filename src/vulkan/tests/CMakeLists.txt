@@ -9,5 +9,6 @@ add_unit_test_suite(
         main.cpp
         test_instance.cpp
     LIBRARIES aeon_vulkan
+    LABELS vulkan
     FOLDER dep/libaeon/tests
 )
