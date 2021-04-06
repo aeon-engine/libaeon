@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/vulkan/vma/vma.h>
 #include <vulkan/vulkan_core.h>
 
 namespace aeon::vulkan
@@ -244,6 +245,16 @@ enum class logic_op
     or_inverted = VK_LOGIC_OP_OR_INVERTED,
     nand = VK_LOGIC_OP_NAND,
     set = VK_LOGIC_OP_SET
+};
+
+enum class memory_allocation_usage
+{
+    gpu_only = VMA_MEMORY_USAGE_GPU_ONLY,                         // Static buffers
+    cpu_only = VMA_MEMORY_USAGE_CPU_ONLY,                         // Staging buffers
+    cpu_to_gpu = VMA_MEMORY_USAGE_CPU_TO_GPU,                     // Dynamic/streaming data (do not use for staging!)
+    gpu_to_cpu = VMA_MEMORY_USAGE_GPU_TO_CPU,                     // Computation results etc
+    cpu_copy = VMA_MEMORY_USAGE_CPU_COPY,                         // Custom paging
+    gpu_lazily_allocated = VMA_MEMORY_USAGE_GPU_LAZILY_ALLOCATED, // Memory for transient attachment images
 };
 
 enum class physical_device_type

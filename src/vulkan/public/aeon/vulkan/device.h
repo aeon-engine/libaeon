@@ -4,6 +4,7 @@
 
 #include <aeon/vulkan/queue_indices.h>
 #include <aeon/vulkan/queue.h>
+#include <aeon/vulkan/vma/vma.h>
 #include <vulkan/vulkan_core.h>
 #include <vector>
 #include <string>
@@ -38,6 +39,8 @@ public:
     [[nodiscard]] auto present_queue() const noexcept -> const queue &;
     [[nodiscard]] auto transfer_queue() const noexcept -> const queue &;
 
+    [[nodiscard]] auto allocator_handle() const noexcept -> VmaAllocator;
+
     void wait_idle() const;
 
 private:
@@ -46,6 +49,7 @@ private:
     const vulkan::physical_device *physical_device_;
     queue_indices queue_indices_;
     VkDevice device_;
+    VmaAllocator allocator_;
     queue graphics_queue_;
     queue present_queue_;
     queue transfer_queue_;

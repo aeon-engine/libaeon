@@ -16,25 +16,27 @@ namespace aeon::vulkan
 enum class format;
 class device;
 
-class image final
+class image final : public device_memory
 {
 public:
     image() noexcept;
 
     explicit image(const vulkan::device &device, const image_type type, const math::size2d<std::uint32_t> size,
                    const format format, const common::flags<image_usage_flag> usage_flags,
-                   const sample_count samples = sample_count::count_1, const std::uint32_t mip_levels = 1,
-                   const std::uint32_t array_layers = 1, const image_tiling tiling = image_tiling::optimal,
+                   const memory_allocation_usage allocation_usage, const sample_count samples = sample_count::count_1,
+                   const std::uint32_t mip_levels = 1, const std::uint32_t array_layers = 1,
+                   const image_tiling tiling = image_tiling::optimal,
                    const common::flags<image_create_flag> create_flags = {});
 
     explicit image(const vulkan::device &device, const image_type type, const math::size3d<std::uint32_t> extent,
                    const format format, const common::flags<image_usage_flag> usage_flags,
-                   const sample_count samples = sample_count::count_1, const std::uint32_t mip_levels = 1,
-                   const std::uint32_t array_layers = 1, const image_tiling tiling = image_tiling::optimal,
+                   const memory_allocation_usage allocation_usage, const sample_count samples = sample_count::count_1,
+                   const std::uint32_t mip_levels = 1, const std::uint32_t array_layers = 1,
+                   const image_tiling tiling = image_tiling::optimal,
                    const common::flags<image_create_flag> create_flags = {});
 
     explicit image(const vulkan::device &device, const image_type type, const VkExtent3D extent, const VkFormat format,
-                   const common::flags<image_usage_flag> usage_flags,
+                   const common::flags<image_usage_flag> usage_flags, const memory_allocation_usage allocation_usage,
                    const sample_count samples = sample_count::count_1, const std::uint32_t mip_levels = 1,
                    const std::uint32_t array_layers = 1, const image_tiling tiling = image_tiling::optimal,
                    const common::flags<image_create_flag> create_flags = {});
@@ -47,23 +49,12 @@ public:
     image(image &&other) noexcept;
     auto operator=(image &&other) noexcept -> image &;
 
-    [[nodiscard]] auto device() const noexcept -> const device &;
-
     [[nodiscard]] auto handle() const noexcept -> VkImage;
-
-    [[nodiscard]] auto memory_requirements() const noexcept -> VkMemoryRequirements;
-    [[nodiscard]] auto required_size() const noexcept -> std::size_t;
-    [[nodiscard]] auto required_alignment() const noexcept -> std::size_t;
-    [[nodiscard]] auto required_memory_type_bits() const noexcept -> std::uint32_t;
-
-    void bind_memory(const device_memory &memory, const VkDeviceSize offset = 0) const;
 
 private:
     void destroy() const noexcept;
 
-    const vulkan::device *device_;
     VkImage handle_;
-    VkMemoryRequirements requirements_;
 };
 
 [[nodiscard]] inline auto handle(const image &img) noexcept

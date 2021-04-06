@@ -1,5 +1,9 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+handle_local_dependencies_file()
+
+add_subdirectory(vma)
+
 set(SOURCES
     private/buffer.cpp
     private/command_buffer.cpp
@@ -126,6 +130,7 @@ target_link_libraries(aeon_vulkan
     aeon_streams
     aeon_math
     aeon_platform
+    aeon_vulkan_vma
     LunarGVulkanSDK
 )
 

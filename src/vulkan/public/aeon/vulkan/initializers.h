@@ -62,27 +62,6 @@ namespace aeon::vulkan::initializers
     return info;
 }
 
-[[nodiscard]] inline auto buffer_create_info(const std::size_t size, const common::flags<buffer_usage_flag> usage_flags,
-                                             const buffer_sharing_mode sharing_mode,
-                                             const std::vector<std::uint32_t> &queue_family_indices) noexcept
-{
-    VkBufferCreateInfo info{};
-    info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    info.pNext = nullptr;
-    info.flags = 0;
-    info.size = static_cast<VkDeviceSize>(size);
-    info.usage = usage_flags;
-    info.sharingMode = static_cast<VkSharingMode>(sharing_mode);
-
-    if (!std::empty(queue_family_indices))
-    {
-        info.queueFamilyIndexCount = static_cast<std::uint32_t>(std::size(queue_family_indices));
-        info.pQueueFamilyIndices = std::data(queue_family_indices);
-    }
-
-    return info;
-}
-
 [[nodiscard]] inline auto command_pool_create_info(const std::uint32_t queue_family_index,
                                                    const common::flags<command_pool_create_flag> flags = {}) noexcept
 {

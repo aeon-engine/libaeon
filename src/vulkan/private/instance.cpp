@@ -1,7 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/vulkan/instance.h>
-#include <aeon/vulkan/version.h>
 #include <aeon/vulkan/initializers.h>
 #include <aeon/vulkan/checked_result.h>
 #include <aeon/common/container.h>

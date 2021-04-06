@@ -20,56 +20,55 @@ namespace internal
     return vkextent;
 }
 
-[[nodiscard]] auto create_image(const device &device, const image_type type, const VkExtent3D extent,
-                                const VkFormat format, const common::flags<image_usage_flag> usage_flags,
-                                const sample_count samples, const std::uint32_t mip_levels,
-                                const std::uint32_t array_layers, const image_tiling tiling,
-                                const common::flags<image_create_flag> create_flags)
+[[nodiscard]] auto create_image(VmaAllocation &out_allocation, const device &device, const image_type type,
+                                const VkExtent3D extent, const VkFormat format,
+                                const common::flags<image_usage_flag> usage_flags, const sample_count samples,
+                                const std::uint32_t mip_levels, const std::uint32_t array_layers,
+                                const image_tiling tiling, const common::flags<image_create_flag> create_flags,
+                                const memory_allocation_usage allocation_usage)
 {
     const auto info = initializers::image_create_info(type, extent, format, mip_levels, array_layers, samples, tiling,
                                                       usage_flags, create_flags);
 
-    VkImage image;
-    checked_result{vkCreateImage(handle(device), &info, nullptr, &image)};
-    return image;
-}
+    VmaAllocationCreateInfo alloc_info{};
+    alloc_info.usage = static_cast<VmaMemoryUsage>(allocation_usage);
 
-[[nodiscard]] auto get_image_memory_requirements(const VkDevice device, const VkImage image) noexcept
-{
-    VkMemoryRequirements requirements{};
-    vkGetImageMemoryRequirements(device, image, &requirements);
-    return requirements;
+    VkImage image;
+    vmaCreateImage(device.allocator_handle(), &info, &alloc_info, &image, &out_allocation, nullptr);
+    return image;
 }
 
 } // namespace internal
 
 image::image() noexcept
-    : device_{nullptr}
+    : device_memory{}
     , handle_{nullptr}
-    , requirements_{}
 {
 }
 
 image::image(const vulkan::device &device, const image_type type, const math::size2d<std::uint32_t> size,
-             const format format, const common::flags<image_usage_flag> usage_flags, const sample_count samples,
-             const std::uint32_t mip_levels, const std::uint32_t array_layers, const image_tiling tiling,
+             const format format, const common::flags<image_usage_flag> usage_flags,
+             const memory_allocation_usage allocation_usage, const sample_count samples, const std::uint32_t mip_levels,
+             const std::uint32_t array_layers, const image_tiling tiling,
              const common::flags<image_create_flag> create_flags)
-    : image{device,      type,         math::size3d<std::uint32_t>{size, 1},
-            format,      usage_flags,  samples,
-            mip_levels,  array_layers, tiling,
-            create_flags}
+    : image{device,  type,        math::size3d<std::uint32_t>{size, 1},
+            format,  usage_flags, allocation_usage,
+            samples, mip_levels,  array_layers,
+            tiling,  create_flags}
 {
 }
 
 image::image(const vulkan::device &device, const image_type type, const math::size3d<std::uint32_t> extent,
-             const format format, const common::flags<image_usage_flag> usage_flags, const sample_count samples,
-             const std::uint32_t mip_levels, const std::uint32_t array_layers, const image_tiling tiling,
+             const format format, const common::flags<image_usage_flag> usage_flags,
+             const memory_allocation_usage allocation_usage, const sample_count samples, const std::uint32_t mip_levels,
+             const std::uint32_t array_layers, const image_tiling tiling,
              const common::flags<image_create_flag> create_flags)
     : image{device,
             type,
             internal::to_extent3d(extent),
             static_cast<VkFormat>(format),
             usage_flags,
+            allocation_usage,
             samples,
             mip_levels,
             array_layers,
@@ -79,13 +78,12 @@ image::image(const vulkan::device &device, const image_type type, const math::si
 }
 
 image::image(const vulkan::device &device, const image_type type, const VkExtent3D extent, const VkFormat format,
-             const common::flags<image_usage_flag> usage_flags, const sample_count samples,
-             const std::uint32_t mip_levels, const std::uint32_t array_layers, const image_tiling tiling,
-             const common::flags<image_create_flag> create_flags)
-    : device_{&device}
-    , handle_{internal::create_image(device, type, extent, format, usage_flags, samples, mip_levels, array_layers,
-                                     tiling, create_flags)}
-    , requirements_{internal::get_image_memory_requirements(vulkan::handle(device), handle_)}
+             const common::flags<image_usage_flag> usage_flags, const memory_allocation_usage allocation_usage,
+             const sample_count samples, const std::uint32_t mip_levels, const std::uint32_t array_layers,
+             const image_tiling tiling, const common::flags<image_create_flag> create_flags)
+    : device_memory{device, 0}
+    , handle_{internal::create_image(allocation_, device, type, extent, format, usage_flags, samples, mip_levels,
+                                     array_layers, tiling, create_flags, allocation_usage)}
 {
 }
 
@@ -95,11 +93,11 @@ image::~image() noexcept
 }
 
 image::image(image &&other) noexcept
-    : device_{other.device_}
+    : device_memory{std::move(other)}
     , handle_{other.handle_}
-    , requirements_{other.requirements_}
 {
     other.handle_ = nullptr;
+    other.allocation_ = nullptr;
 }
 
 auto image::operator=(image &&other) noexcept -> image &
@@ -108,19 +106,16 @@ auto image::operator=(image &&other) noexcept -> image &
     {
         destroy();
 
+        allocation_ = other.allocation_;
         device_ = other.device_;
+        size_ = other.size_;
         handle_ = other.handle_;
-        requirements_ = other.requirements_;
 
         other.handle_ = nullptr;
+        other.allocation_ = nullptr;
     }
 
     return *this;
-}
-
-auto image::device() const noexcept -> const vulkan::device &
-{
-    return *device_;
 }
 
 auto image::handle() const noexcept -> VkImage
@@ -128,35 +123,10 @@ auto image::handle() const noexcept -> VkImage
     return handle_;
 }
 
-auto image::memory_requirements() const noexcept -> VkMemoryRequirements
-{
-    return requirements_;
-}
-
-auto image::required_size() const noexcept -> std::size_t
-{
-    return requirements_.size;
-}
-
-auto image::required_alignment() const noexcept -> std::size_t
-{
-    return requirements_.alignment;
-}
-
-auto image::required_memory_type_bits() const noexcept -> std::uint32_t
-{
-    return requirements_.memoryTypeBits;
-}
-
-void image::bind_memory(const device_memory &memory, const VkDeviceSize offset) const
-{
-    checked_result{vkBindImageMemory(vulkan::handle(device_), handle_, vulkan::handle(memory), offset)};
-}
-
 void image::destroy() const noexcept
 {
     if (handle_)
-        vkDestroyImage(vulkan::handle(device_), handle_, nullptr);
+        vmaDestroyImage(device_->allocator_handle(), handle_, allocation_);
 }
 
 } // namespace aeon::vulkan

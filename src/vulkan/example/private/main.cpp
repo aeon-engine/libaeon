@@ -19,7 +19,6 @@
 #include <aeon/vulkan/swap_chain.h>
 #include <aeon/vulkan/buffer.h>
 #include <aeon/vulkan/fence.h>
-#include <aeon/vulkan/device_memory.h>
 #include <aeon/vulkan/command_pool.h>
 #include <aeon/vulkan/command_buffer.h>
 #include <aeon/vulkan/queue.h>
@@ -226,38 +225,27 @@ private:
 
         // Stage vertex buffer
         const auto staging_vertex_buffer =
-            vulkan::buffer{device_, vertex_buffer_size, vulkan::buffer_usage_flag::transfer_src};
-
-        const auto vertex_staging_memory = vulkan::make_staging_memory(device_, staging_vertex_buffer);
-        staging_vertex_buffer.bind_memory(vertex_staging_memory);
-        vulkan::copy(vertex_staging_memory, vertex_buffer);
+            vulkan::buffer{device_, vertex_buffer_size, vulkan::buffer_usage_flag::transfer_src,
+                           vulkan::memory_allocation_usage::cpu_only};
+        vulkan::copy(staging_vertex_buffer, vertex_buffer);
 
         // Create real vertex buffer
         vertex_buffer_ =
             vulkan::buffer{device_, vertex_buffer_size,
-                           vulkan::buffer_usage_flag::vertex_buffer | vulkan::buffer_usage_flag::transfer_dst};
-        vertex_buffer_memory_ =
-            vulkan::device_memory{device_, vertex_buffer_.memory_requirements(), vulkan::memory_flag::device_local};
-
-        vertex_buffer_.bind_memory(vertex_buffer_memory_);
+                           vulkan::buffer_usage_flag::vertex_buffer | vulkan::buffer_usage_flag::transfer_dst,
+                           vulkan::memory_allocation_usage::gpu_only};
 
         // Stage index buffer
         const auto staging_index_buffer =
-            vulkan::buffer{device_, index_buffer_size, vulkan::buffer_usage_flag::transfer_src};
-
-        const auto index_buffer_staging_memory = vulkan::make_staging_memory(device_, staging_index_buffer);
-        staging_index_buffer.bind_memory(index_buffer_staging_memory);
-        vulkan::copy(index_buffer_staging_memory, index_buffer);
+            vulkan::buffer{device_, index_buffer_size, vulkan::buffer_usage_flag::transfer_src,
+                           vulkan::memory_allocation_usage::cpu_only};
+        vulkan::copy(staging_index_buffer, index_buffer);
 
         // Create real index buffer
         index_buffer_ =
             vulkan::buffer{device_, index_buffer_size,
-                           vulkan::buffer_usage_flag::index_buffer | vulkan::buffer_usage_flag::transfer_dst};
-
-        index_buffer_memory_ =
-            vulkan::device_memory{device_, index_buffer_.memory_requirements(), vulkan::memory_flag::device_local};
-
-        index_buffer_.bind_memory(index_buffer_memory_);
+                           vulkan::buffer_usage_flag::index_buffer | vulkan::buffer_usage_flag::transfer_dst,
+                           vulkan::memory_allocation_usage::gpu_only};
 
         // Copy data from staging buffers to the real buffers
         const auto command_buffer = command_pool_.create_command_buffer(vulkan::command_buffer_auto_begin::enabled);
@@ -272,12 +260,12 @@ private:
     void create_depth_stencil()
     {
         depth_stencil_format_ = vulkan::find_depth_stencil_format(physical_device_);
-        depth_stencil_image_ =
-            vulkan::image{device_, vulkan::image_type::image_2d, math::size2d<std::uint32_t>{window_size},
-                          depth_stencil_format_, vulkan::image_usage_flag::depth_stencil_attachment};
-        depth_stencil_memory_ = vulkan::device_memory{device_, depth_stencil_image_.memory_requirements(),
-                                                      vulkan::memory_flag::device_local};
-        depth_stencil_image_.bind_memory(depth_stencil_memory_);
+        depth_stencil_image_ = vulkan::image{device_,
+                                             vulkan::image_type::image_2d,
+                                             math::size2d<std::uint32_t>{window_size},
+                                             depth_stencil_format_,
+                                             vulkan::image_usage_flag::depth_stencil_attachment,
+                                             vulkan::memory_allocation_usage::gpu_only};
 
         VkImageSubresourceRange subresource_range{};
         subresource_range.baseMipLevel = 0;
@@ -333,11 +321,8 @@ private:
     void prepareUniformBuffers()
     {
         uniform_buffer_ =
-            vulkan::buffer{device_, sizeof(shader_uniform_buffers), vulkan::buffer_usage_flag::uniform_buffer};
-        uniform_buffer_memory_ =
-            vulkan::device_memory{device_, uniform_buffer_.memory_requirements(),
-                                  vulkan::memory_flag::host_visible | vulkan::memory_flag::host_coherent};
-        uniform_buffer_.bind_memory(uniform_buffer_memory_);
+            vulkan::buffer{device_, sizeof(shader_uniform_buffers), vulkan::buffer_usage_flag::uniform_buffer,
+                           vulkan::memory_allocation_usage::cpu_to_gpu};
 
         uniform_descriptor_buffer_info_ =
             vulkan::descriptor_buffer_info{uniform_buffer_, sizeof(shader_uniform_buffers)};
@@ -352,7 +337,7 @@ private:
         shader_uniform_buffers_.viewMatrix = math::mat4::translate(0.0f, 0.0f, -2.5f);
         shader_uniform_buffers_.modelMatrix = math::mat4::indentity();
 
-        vulkan::copy(uniform_buffer_memory_, reinterpret_cast<const std::byte *>(&shader_uniform_buffers_),
+        vulkan::copy(uniform_buffer_, reinterpret_cast<const std::byte *>(&shader_uniform_buffers_),
                      sizeof(shader_uniform_buffers));
     }
 
@@ -486,7 +471,6 @@ private:
 
     vulkan::format depth_stencil_format_;
     vulkan::image depth_stencil_image_;
-    vulkan::device_memory depth_stencil_memory_;
     vulkan::image_view depth_stencil_image_view_;
 
     vulkan::semaphore present_complete_semaphore_;
@@ -504,14 +488,10 @@ private:
     vulkan::pipeline pipeline_;
 
     vulkan::buffer uniform_buffer_;
-    vulkan::device_memory uniform_buffer_memory_;
     vulkan::descriptor_buffer_info uniform_descriptor_buffer_info_;
 
     vulkan::buffer vertex_buffer_;
-    vulkan::device_memory vertex_buffer_memory_;
-
     vulkan::buffer index_buffer_;
-    vulkan::device_memory index_buffer_memory_;
 
     vulkan::shader_module vert_shader_;
     vulkan::shader_module frag_shader_;

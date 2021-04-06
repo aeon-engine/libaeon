@@ -12,38 +12,35 @@ namespace aeon::vulkan
 namespace internal
 {
 
-[[nodiscard]] auto create_buffer(const VkDevice device, const std::size_t size,
-                                 const common::flags<buffer_usage_flag> usage_flags) -> VkBuffer
+[[nodiscard]] auto create_buffer(VmaAllocation &out_allocation, const vulkan::device &device, const std::size_t size,
+                                 const common::flags<buffer_usage_flag> usage_flags,
+                                 const memory_allocation_usage allocation_usage) -> VkBuffer
 {
-    const auto create_info = initializers::buffer_create_info(size, usage_flags, buffer_sharing_mode::exclusive, {});
+    VkBufferCreateInfo create_info{};
+    create_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+    create_info.size = size;
+    create_info.usage = static_cast<VkBufferUsageFlags>(usage_flags);
 
-    VkBuffer handle = nullptr;
-    checked_result{vkCreateBuffer(device, &create_info, nullptr, &handle)};
-    return handle;
-}
+    VmaAllocationCreateInfo alloc_info{};
+    alloc_info.usage = static_cast<VmaMemoryUsage>(allocation_usage);
 
-[[nodiscard]] auto get_buffer_memory_requirements(const VkDevice device, const VkBuffer buffer) noexcept
-{
-    VkMemoryRequirements requirements{};
-    vkGetBufferMemoryRequirements(device, buffer, &requirements);
-    return requirements;
+    VkBuffer buffer;
+    vmaCreateBuffer(device.allocator_handle(), &create_info, &alloc_info, &buffer, &out_allocation, nullptr);
+    return buffer;
 }
 
 } // namespace internal
 
 buffer::buffer() noexcept
-    : size_{0}
-    , device_{nullptr}
+    : device_memory{}
     , handle_{nullptr}
-    , requirements_{}
 {
 }
 
-buffer::buffer(const vulkan::device &device, const std::size_t size, const common::flags<buffer_usage_flag> usage_flags)
-    : size_{size}
-    , device_{&device}
-    , handle_{internal::create_buffer(vulkan::handle(device), size_, usage_flags)}
-    , requirements_{internal::get_buffer_memory_requirements(vulkan::handle(device), handle_)}
+buffer::buffer(const vulkan::device &device, const std::size_t size, const common::flags<buffer_usage_flag> usage_flags,
+               const memory_allocation_usage allocation_usage)
+    : device_memory{device, size}
+    , handle_{internal::create_buffer(allocation_, device, size, usage_flags, allocation_usage)}
 {
 }
 
@@ -53,12 +50,11 @@ buffer::~buffer() noexcept
 }
 
 buffer::buffer(buffer &&other) noexcept
-    : size_{other.size_}
-    , device_{other.device_}
+    : device_memory{std::move(other)}
     , handle_{other.handle_}
-    , requirements_{other.requirements_}
 {
     other.handle_ = nullptr;
+    other.allocation_ = nullptr;
 }
 
 auto buffer::operator=(buffer &&other) noexcept -> buffer &
@@ -67,25 +63,16 @@ auto buffer::operator=(buffer &&other) noexcept -> buffer &
     {
         destroy();
 
-        size_ = other.size_;
+        allocation_ = other.allocation_;
         device_ = other.device_;
+        size_ = other.size_;
         handle_ = other.handle_;
-        requirements_ = other.requirements_;
 
         other.handle_ = nullptr;
+        other.allocation_ = nullptr;
     }
 
     return *this;
-}
-
-auto buffer::device() const noexcept -> const vulkan::device &
-{
-    return *device_;
-}
-
-auto buffer::size() const noexcept -> std::size_t
-{
-    return size_;
 }
 
 auto buffer::handle() const noexcept -> VkBuffer
@@ -98,35 +85,10 @@ auto buffer::handle_ptr() const noexcept -> const VkBuffer *
     return &handle_;
 }
 
-auto buffer::memory_requirements() const noexcept -> VkMemoryRequirements
-{
-    return requirements_;
-}
-
-auto buffer::required_size() const noexcept -> std::size_t
-{
-    return requirements_.size;
-}
-
-auto buffer::required_alignment() const noexcept -> std::size_t
-{
-    return requirements_.alignment;
-}
-
-auto buffer::required_memory_type_bits() const noexcept -> std::uint32_t
-{
-    return requirements_.memoryTypeBits;
-}
-
-void buffer::bind_memory(const device_memory &memory, const VkDeviceSize offset) const
-{
-    checked_result{vkBindBufferMemory(vulkan::handle(device_), handle_, vulkan::handle(memory), offset)};
-}
-
 void buffer::destroy() const noexcept
 {
-    if (handle_)
-        vkDestroyBuffer(vulkan::handle(device_), handle_, nullptr);
+    if (handle_ && allocation_)
+        vmaDestroyBuffer(device_->allocator_handle(), handle_, allocation_);
 }
 
 } // namespace aeon::vulkan
