@@ -12,6 +12,7 @@ namespace aeon::vulkan
 class descriptor_pool;
 class descriptor_set_layout_ref;
 class descriptor_buffer_info;
+class descriptor_image_info;
 
 class descriptor_set
 {
@@ -37,6 +38,9 @@ public:
 
     void update(const descriptor_buffer_info description, const descriptor_type type,
                 const std::uint32_t destination_binding) const;
+
+    void update(const descriptor_image_info description, const std::uint32_t destination_binding,
+                const descriptor_type type = descriptor_type::combined_image_sampler) const;
 
 protected:
     void destroy() const noexcept;

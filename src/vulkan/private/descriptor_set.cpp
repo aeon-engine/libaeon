@@ -4,6 +4,7 @@
 #include <aeon/vulkan/descriptor_pool.h>
 #include <aeon/vulkan/descriptor_set_layout_ref.h>
 #include <aeon/vulkan/descriptor_buffer_info.h>
+#include <aeon/vulkan/descriptor_image_info.h>
 #include <aeon/vulkan/device.h>
 #include <aeon/vulkan/checked_result.h>
 
@@ -128,6 +129,21 @@ void descriptor_set::update(const descriptor_buffer_info description, const desc
     write_descriptor_set.descriptorCount = 1;
     write_descriptor_set.descriptorType = static_cast<VkDescriptorType>(type);
     write_descriptor_set.pBufferInfo = &description;
+    write_descriptor_set.dstBinding = destination_binding;
+
+    vkUpdateDescriptorSets(vulkan::handle(pool_->device()), 1, &write_descriptor_set, 0, nullptr);
+}
+
+void descriptor_set::update(const descriptor_image_info description, const std::uint32_t destination_binding,
+                            const descriptor_type type) const
+{
+    VkWriteDescriptorSet write_descriptor_set{};
+
+    write_descriptor_set.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write_descriptor_set.dstSet = handle_;
+    write_descriptor_set.descriptorCount = 1;
+    write_descriptor_set.descriptorType = static_cast<VkDescriptorType>(type);
+    write_descriptor_set.pImageInfo = &description;
     write_descriptor_set.dstBinding = destination_binding;
 
     vkUpdateDescriptorSets(vulkan::handle(pool_->device()), 1, &write_descriptor_set, 0, nullptr);

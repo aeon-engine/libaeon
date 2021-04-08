@@ -25,6 +25,7 @@
 #include <aeon/vulkan/checked_result.h>
 #include <aeon/vulkan/shader_module.h>
 #include <aeon/vulkan/image.h>
+#include <aeon/vulkan/sampler.h>
 #include <aeon/vulkan/render_pass.h>
 #include <aeon/vulkan/framebuffer.h>
 #include <aeon/vulkan/viewport.h>
@@ -38,12 +39,14 @@
 #include <aeon/vulkan/descriptor_pool.h>
 #include <aeon/vulkan/pipeline.h>
 #include <aeon/vulkan/descriptor_buffer_info.h>
+#include <aeon/vulkan/descriptor_image_info.h>
 #include <aeon/vulkan/descriptor_set.h>
 #include <aeon/vulkan/render_pass_begin_info.h>
 #include <aeon/math/mat4.h> // TODO: NEAR-FAR macro clashes with windows headers.
 #include <aeon/platform/context.h>
 #include <aeon/platform/window.h>
 #include <aeon/platform/window_create_info.h>
+#include <aeon/imaging/file/png_file.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/stream_writer.h>
 #include <iostream>
@@ -69,14 +72,17 @@ static constexpr auto enable_validation_layers = true;
 struct vertex
 {
     float position[3];
-    float color[3];
+    float uv[2];
+    float normal[3];
 };
 
 struct shader_uniform_buffers
 {
     math::mat4 projectionMatrix;
-    math::mat4 modelMatrix;
+    math::mat4 modelViewMatrix;
     math::mat4 viewMatrix;
+    math::vector4<float> viewPos;
+    float lodBias = 0.0f;
 };
 
 class vulkan_triangle_example
@@ -139,7 +145,7 @@ public:
         draw_command_buffers_ = command_pool_.create_command_buffers(swapchain_.image_count());
 
         prepare_synchronization_primitives();
-
+        load_texture();
         create_depth_stencil();
         setup_render_pass();
         setup_frame_buffer();
@@ -215,12 +221,15 @@ private:
 
     void upload_buffers()
     {
-        const std::vector<vertex> vertex_buffer = {{{1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-                                                   {{-1.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-                                                   {{0.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}};
+        const std::vector<vertex> vertex_buffer = {{{1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                                   {{-1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                                   {{-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                                   {{1.0f, -1.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}
+
+        };
         const auto vertex_buffer_size = static_cast<std::uint32_t>(vertex_buffer.size()) * sizeof(vertex);
 
-        const std::vector<std::uint32_t> index_buffer = {0, 1, 2};
+        const std::vector<std::uint32_t> index_buffer = {0, 1, 2, 2, 3, 0};
         const auto index_buffer_size = std::size(index_buffer) * sizeof(uint32_t);
 
         // Stage vertex buffer
@@ -255,6 +264,41 @@ private:
 
         command_buffer.end();
         command_buffer.flush(device_.transfer_queue());
+    }
+
+    void load_texture()
+    {
+        auto img = imaging::file::png::load("texture.png");
+
+        const auto image_staging_buffer = vulkan::buffer{device_, img.size(), vulkan::buffer_usage_flag::transfer_src,
+                                                         vulkan::memory_allocation_usage::cpu_only};
+        vulkan::copy(image_staging_buffer, img);
+
+        texture_image_ = vulkan::image{device_,
+                                       vulkan::image_type::image_2d,
+                                       math::size2d<std::uint32_t>{math::dimensions(img)},
+                                       vulkan::format::r8g8b8a8_srgb,
+                                       vulkan::image_usage_flag::sampled | vulkan::image_usage_flag::transfer_dst,
+                                       vulkan::memory_allocation_usage::gpu_only};
+
+        // Copy data from staging buffers to the real buffers
+        const auto command_buffer = command_pool_.create_command_buffer(vulkan::command_buffer_auto_begin::enabled);
+        command_buffer.copy_staging_buffer_to_image(image_staging_buffer, texture_image_,
+                                                    math::size2d<std::uint32_t>{math::dimensions(img)});
+        command_buffer.end();
+        command_buffer.flush(device_.transfer_queue());
+
+        VkImageSubresourceRange layout{};
+        layout.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        layout.baseMipLevel = 0;
+        layout.levelCount = 1;
+        layout.baseArrayLayer = 0;
+        layout.layerCount = 1;
+
+        texture_image_view_ = vulkan::image_view{device_, texture_image_, vulkan::image_view_type::image_view_2d,
+                                                 vulkan::format::r8g8b8a8_srgb, layout};
+
+        texture_sampler_ = vulkan::sampler{device_};
     }
 
     void create_depth_stencil()
@@ -324,9 +368,6 @@ private:
             vulkan::buffer{device_, sizeof(shader_uniform_buffers), vulkan::buffer_usage_flag::uniform_buffer,
                            vulkan::memory_allocation_usage::cpu_to_gpu};
 
-        uniform_descriptor_buffer_info_ =
-            vulkan::descriptor_buffer_info{uniform_buffer_, sizeof(shader_uniform_buffers)};
-
         update_uniform_buffers();
     }
 
@@ -334,8 +375,8 @@ private:
     {
         shader_uniform_buffers_.projectionMatrix =
             math::mat4::projection_fov(math::unitf<math::degree>{60.0f}, window_size, 1.0f, 256.0f);
-        shader_uniform_buffers_.viewMatrix = math::mat4::translate(0.0f, 0.0f, -2.5f);
-        shader_uniform_buffers_.modelMatrix = math::mat4::indentity();
+        shader_uniform_buffers_.modelViewMatrix = math::mat4::translate(0.0f, 0.0f, -2.5f);
+        shader_uniform_buffers_.viewPos = math::vector4<float>{0.0f, 0.0f, 0.0f};
 
         vulkan::copy(uniform_buffer_, reinterpret_cast<const std::byte *>(&shader_uniform_buffers_),
                      sizeof(shader_uniform_buffers));
@@ -348,6 +389,8 @@ private:
         // Binding 0: Uniform buffer (Vertex shader)
         set_layout_description.add_binding(vulkan::descriptor_type::uniform_buffer, vulkan::shader_stage_flag::vertex,
                                            0);
+        set_layout_description.add_binding(vulkan::descriptor_type::combined_image_sampler,
+                                           vulkan::shader_stage_flag::fragment, 1);
         descriptor_set_layout_ = vulkan::descriptor_set_layout{device_, set_layout_description};
 
         vulkan::pipeline_layout_description pipeline_layout_description;
@@ -387,7 +430,8 @@ private:
         description.vertex_input_state()
             .add_binding(0, sizeof(vertex))
             .add_attribute(0, 0, vulkan::format::r32g32b32_sfloat, offsetof(vertex, position))
-            .add_attribute(1, 0, vulkan::format::r32g32b32_sfloat, offsetof(vertex, color));
+            .add_attribute(1, 0, vulkan::format::r32g32_sfloat, offsetof(vertex, uv))
+            .add_attribute(2, 0, vulkan::format::r32g32b32_sfloat, offsetof(vertex, normal));
 
         description.add_shader_stage(vulkan::shader_stage::vertex, vert_shader_);
         description.add_shader_stage(vulkan::shader_stage::fragment, frag_shader_);
@@ -411,7 +455,12 @@ private:
     void setup_descriptor_set()
     {
         descriptor_set_ = vulkan::descriptor_set(descriptor_pool_, descriptor_set_layout_);
-        descriptor_set_.update(uniform_descriptor_buffer_info_, vulkan::descriptor_type::uniform_buffer, 0);
+
+        const auto buffer_info = vulkan::descriptor_buffer_info{uniform_buffer_, sizeof(shader_uniform_buffers)};
+        descriptor_set_.update(buffer_info, vulkan::descriptor_type::uniform_buffer, 0);
+
+        const auto image_info = vulkan::descriptor_image_info{texture_sampler_, texture_image_view_};
+        descriptor_set_.update(image_info, 1);
     }
 
     void build_command_buffers()
@@ -441,7 +490,7 @@ private:
 
             draw_command_buffers_[i].bind_index_buffer(index_buffer_);
 
-            const auto index_count = 3; // TODO
+            const auto index_count = 6; // TODO
             draw_command_buffers_[i].draw_indexed(index_count);
 
             draw_command_buffers_[i].end_render_pass();
@@ -469,6 +518,10 @@ private:
     std::vector<vulkan::command_buffer> draw_command_buffers_;
     std::vector<vulkan::fence> draw_wait_fences_;
 
+    vulkan::image texture_image_;
+    vulkan::image_view texture_image_view_;
+    vulkan::sampler texture_sampler_;
+
     vulkan::format depth_stencil_format_;
     vulkan::image depth_stencil_image_;
     vulkan::image_view depth_stencil_image_view_;
@@ -488,7 +541,6 @@ private:
     vulkan::pipeline pipeline_;
 
     vulkan::buffer uniform_buffer_;
-    vulkan::descriptor_buffer_info uniform_descriptor_buffer_info_;
 
     vulkan::buffer vertex_buffer_;
     vulkan::buffer index_buffer_;

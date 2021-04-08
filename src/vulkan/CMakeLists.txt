@@ -52,6 +52,7 @@ set(SOURCES
     public/aeon/vulkan/config.h
     public/aeon/vulkan/debug.h
     public/aeon/vulkan/descriptor_buffer_info.h
+    public/aeon/vulkan/descriptor_image_info.h
     public/aeon/vulkan/descriptor_pool.h
     public/aeon/vulkan/descriptor_pool_description.h
     public/aeon/vulkan/descriptor_set.h
@@ -133,6 +134,7 @@ target_link_libraries(aeon_vulkan
     aeon_streams
     aeon_math
     aeon_platform
+    aeon_imaging
     aeon_vulkan_vma
     LunarGVulkanSDK
 )

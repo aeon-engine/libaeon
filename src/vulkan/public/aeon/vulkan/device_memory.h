@@ -4,6 +4,7 @@
 
 #include <aeon/vulkan/flags.h>
 #include <aeon/vulkan/vma/vma.h>
+#include <aeon/imaging/iimage.h>
 #include <vulkan/vulkan_core.h>
 #include <span>
 #include <vector>
@@ -95,6 +96,11 @@ template <typename T>
 inline void copy(const device_memory &destination, const std::vector<T> &data)
 {
     copy(destination, std::span<const T>{data});
+}
+
+inline void copy(const device_memory &destination, const imaging::iimage &image)
+{
+    copy(destination, std::data(image), std::size(image));
 }
 
 } // namespace aeon::vulkan

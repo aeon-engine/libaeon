@@ -10,6 +10,7 @@
 #include <aeon/vulkan/render_pass_begin_info.h>
 #include <aeon/vulkan/queue.h>
 #include <aeon/vulkan/pipeline.h>
+#include <aeon/vulkan/image.h>
 #include <aeon/vulkan/viewport.h>
 #include <aeon/vulkan/device.h>
 #include <aeon/vulkan/initializers.h>
@@ -78,6 +79,51 @@ void command_buffer_ref::copy_buffer(const buffer &source, const VkDeviceSize so
     region.size = size;
 
     vkCmdCopyBuffer(buffer_, vulkan::handle(source), vulkan::handle(destination), 1, &region);
+}
+
+void command_buffer_ref::copy_staging_buffer_to_image(const buffer &source, const image &destination,
+                                                      const math::size2d<std::uint32_t> dimensions) const noexcept
+{
+    VkImageSubresourceRange subresource_range{};
+    subresource_range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    subresource_range.baseMipLevel = 0;
+    subresource_range.levelCount = 1;
+    subresource_range.layerCount = 1;
+
+    VkImageMemoryBarrier image_memory_barrier{};
+    image_memory_barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+    image_memory_barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    image_memory_barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    image_memory_barrier.image = vulkan::handle(destination);
+    image_memory_barrier.subresourceRange = subresource_range;
+    image_memory_barrier.srcAccessMask = 0;
+    image_memory_barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+    image_memory_barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    image_memory_barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+
+    vkCmdPipelineBarrier(buffer_, VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0, nullptr, 0, nullptr,
+                         1, &image_memory_barrier);
+
+    VkBufferImageCopy region{};
+    region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    region.imageSubresource.mipLevel = 0;
+    region.imageSubresource.baseArrayLayer = 0;
+    region.imageSubresource.layerCount = 1;
+    region.imageExtent.width = math::width(dimensions);
+    region.imageExtent.height = math::height(dimensions);
+    region.imageExtent.depth = 1;
+    region.bufferOffset = 0;
+
+    vkCmdCopyBufferToImage(buffer_, vulkan::handle(source), vulkan::handle(destination),
+                           VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+
+    image_memory_barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+    image_memory_barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+    image_memory_barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+    image_memory_barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+    vkCmdPipelineBarrier(buffer_, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr,
+                         0, nullptr, 1, &image_memory_barrier);
 }
 
 void command_buffer_ref::set_scissor(const math::rectangle<std::int32_t> rectangle) const noexcept

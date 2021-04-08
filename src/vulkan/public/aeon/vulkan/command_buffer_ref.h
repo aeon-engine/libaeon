@@ -18,6 +18,7 @@ class pipeline_layout;
 class queue;
 class render_pass_begin_info;
 class viewport;
+class image;
 
 class command_buffer_ref
 {
@@ -45,6 +46,9 @@ public:
 
     void copy_buffer(const buffer &source, const VkDeviceSize source_offset, const buffer &destination,
                      const VkDeviceSize destination_offset, const VkDeviceSize size) const;
+
+    void copy_staging_buffer_to_image(const buffer &source, const image &destination,
+                                      const math::size2d<std::uint32_t> dimensions) const noexcept;
 
     void set_scissor(const math::rectangle<std::int32_t> rectangle) const noexcept;
     void set_viewport(const viewport &viewport) const noexcept;
