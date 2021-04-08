@@ -144,12 +144,6 @@ namespace internal
     std::vector<image_view> image_views;
     image_views.reserve(std::size(images));
 
-    VkComponentMapping mapping{};
-    mapping.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-    mapping.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-    mapping.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-    mapping.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-
     VkImageSubresourceRange layout{};
     layout.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     layout.baseMipLevel = 0;
@@ -159,7 +153,7 @@ namespace internal
 
     for (const auto &image : images)
     {
-        image_views.emplace_back(device, image, image_view_type::image_view_2d, surface_format.format, mapping, layout);
+        image_views.emplace_back(device, image, image_view_type::image_view_2d, surface_format.format, layout);
     }
 
     return image_views;

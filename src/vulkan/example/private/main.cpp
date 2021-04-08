@@ -277,9 +277,9 @@ private:
         if (depth_stencil_format_ >= vulkan::format::d16_unorm_s8_uint)
             subresource_range.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 
-        depth_stencil_image_view_ = vulkan::image_view{
-            device_, depth_stencil_image_, vulkan::image_view_type::image_view_2d, depth_stencil_format_,
-            {},      subresource_range};
+        depth_stencil_image_view_ =
+            vulkan::image_view{device_, depth_stencil_image_, vulkan::image_view_type::image_view_2d,
+                               depth_stencil_format_, subresource_range};
     }
 
     void prepare_synchronization_primitives()

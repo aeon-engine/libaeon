@@ -31,28 +31,28 @@ image_view::image_view() noexcept
 }
 
 image_view::image_view(const device &device, const image &image, const image_view_type view_type, const VkFormat format,
-                       const VkComponentMapping components, const VkImageSubresourceRange subresource_range)
-    : image_view{device, vulkan::handle(image), view_type, format, components, subresource_range}
+                       const VkImageSubresourceRange subresource_range, const VkComponentMapping components)
+    : image_view{device, vulkan::handle(image), view_type, format, subresource_range, components}
 {
 }
 
 image_view::image_view(const device &device, const VkImage image, const image_view_type view_type,
-                       const VkFormat format, const VkComponentMapping components,
-                       const VkImageSubresourceRange subresource_range)
+                       const VkFormat format, const VkImageSubresourceRange subresource_range,
+                       const VkComponentMapping components)
     : image_view_ref{device,
                      internal::create_image_view(device, image, view_type, format, components, subresource_range)}
 {
 }
 
 image_view::image_view(const device &device, const image &image, const image_view_type view_type, const format format,
-                       const VkComponentMapping components, const VkImageSubresourceRange subresource_range)
-    : image_view{device, vulkan::handle(image), view_type, format, components, subresource_range}
+                       const VkImageSubresourceRange subresource_range, const VkComponentMapping components)
+    : image_view{device, vulkan::handle(image), view_type, format, subresource_range, components}
 {
 }
 
 image_view::image_view(const device &device, const VkImage image, const image_view_type view_type, const format format,
-                       const VkComponentMapping components, const VkImageSubresourceRange subresource_range)
-    : image_view{device, image, view_type, static_cast<VkFormat>(format), components, subresource_range}
+                       const VkImageSubresourceRange subresource_range, const VkComponentMapping components)
+    : image_view{device, image, view_type, static_cast<VkFormat>(format), subresource_range, components}
 {
 }
 

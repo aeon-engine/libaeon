@@ -13,20 +13,26 @@ namespace aeon::vulkan
 class image;
 class device;
 
+static constexpr auto default_component_mapping =
+    VkComponentMapping{VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY, VK_COMPONENT_SWIZZLE_IDENTITY,
+                       VK_COMPONENT_SWIZZLE_IDENTITY};
+
 class image_view final : public image_view_ref
 {
 public:
     image_view() noexcept;
     explicit image_view(const device &device, const image &image, const image_view_type view_type,
-                        const VkFormat format, const VkComponentMapping components,
-                        const VkImageSubresourceRange subresource_range);
+                        const VkFormat format, const VkImageSubresourceRange subresource_range,
+                        const VkComponentMapping components = default_component_mapping);
     explicit image_view(const device &device, const VkImage image, const image_view_type view_type,
-                        const VkFormat format, const VkComponentMapping components,
-                        const VkImageSubresourceRange subresource_range);
+                        const VkFormat format, const VkImageSubresourceRange subresource_range,
+                        const VkComponentMapping components = default_component_mapping);
     explicit image_view(const device &device, const image &image, const image_view_type view_type, const format format,
-                        const VkComponentMapping components, const VkImageSubresourceRange subresource_range);
+                        const VkImageSubresourceRange subresource_range,
+                        const VkComponentMapping components = default_component_mapping);
     explicit image_view(const device &device, const VkImage image, const image_view_type view_type, const format format,
-                        const VkComponentMapping components, const VkImageSubresourceRange subresource_range);
+                        const VkImageSubresourceRange subresource_range,
+                        const VkComponentMapping components = default_component_mapping);
     ~image_view();
 
     image_view(const image_view &) = delete;
