@@ -37,13 +37,14 @@ public:
     constexpr subpass_dependency(subpass_dependency &&) noexcept = default;
     constexpr auto operator=(subpass_dependency &&) noexcept -> subpass_dependency & = default;
 
-    constexpr auto source_subpass(const std::uint32_t subpass) -> subpass_dependency &;
-    constexpr auto destination_subpass(const std::uint32_t subpass) -> subpass_dependency &;
-    constexpr auto source_stage_mask(const common::flags<pipeline_stage_flag> mask) -> subpass_dependency &;
-    constexpr auto destination_stage_mask(const common::flags<pipeline_stage_flag> mask) -> subpass_dependency &;
-    constexpr auto source_access_mask(const common::flags<access_flag> mask) -> subpass_dependency &;
-    constexpr auto destination_access_mask(const common::flags<access_flag> mask) -> subpass_dependency &;
-    constexpr auto dependency_flags(const common::flags<dependency_flag> flags) -> subpass_dependency &;
+    constexpr auto source_subpass(const std::uint32_t subpass) noexcept -> subpass_dependency &;
+    constexpr auto destination_subpass(const std::uint32_t subpass) noexcept -> subpass_dependency &;
+    constexpr auto source_stage_mask(const common::flags<pipeline_stage_flag> mask) noexcept -> subpass_dependency &;
+    constexpr auto destination_stage_mask(const common::flags<pipeline_stage_flag> mask) noexcept
+        -> subpass_dependency &;
+    constexpr auto source_access_mask(const common::flags<access_flag> mask) noexcept -> subpass_dependency &;
+    constexpr auto destination_access_mask(const common::flags<access_flag> mask) noexcept -> subpass_dependency &;
+    constexpr auto dependency_flags(const common::flags<dependency_flag> flags) noexcept -> subpass_dependency &;
 };
 
 constexpr subpass_dependency::subpass_dependency() noexcept
@@ -85,46 +86,48 @@ constexpr subpass_dependency::subpass_dependency(const std::uint32_t source_subp
 {
 }
 
-constexpr auto subpass_dependency::source_subpass(const std::uint32_t subpass) -> subpass_dependency &
+constexpr auto subpass_dependency::source_subpass(const std::uint32_t subpass) noexcept -> subpass_dependency &
 {
     srcSubpass = subpass;
     return *this;
 }
 
-constexpr auto subpass_dependency::destination_subpass(const std::uint32_t subpass) -> subpass_dependency &
+constexpr auto subpass_dependency::destination_subpass(const std::uint32_t subpass) noexcept -> subpass_dependency &
 {
     dstSubpass = subpass;
     return *this;
 }
 
-constexpr auto subpass_dependency::source_stage_mask(const common::flags<pipeline_stage_flag> mask)
+constexpr auto subpass_dependency::source_stage_mask(const common::flags<pipeline_stage_flag> mask) noexcept
     -> subpass_dependency &
 {
     srcStageMask = mask;
     return *this;
 }
 
-constexpr auto subpass_dependency::destination_stage_mask(const common::flags<pipeline_stage_flag> mask)
+constexpr auto subpass_dependency::destination_stage_mask(const common::flags<pipeline_stage_flag> mask) noexcept
     -> subpass_dependency &
 {
     dstStageMask = mask;
     return *this;
 }
 
-constexpr auto subpass_dependency::source_access_mask(const common::flags<access_flag> mask) -> subpass_dependency &
+constexpr auto subpass_dependency::source_access_mask(const common::flags<access_flag> mask) noexcept
+    -> subpass_dependency &
 {
     srcAccessMask = mask;
     return *this;
 }
 
-constexpr auto subpass_dependency::destination_access_mask(const common::flags<access_flag> mask)
+constexpr auto subpass_dependency::destination_access_mask(const common::flags<access_flag> mask) noexcept
     -> subpass_dependency &
 {
     dstAccessMask = mask;
     return *this;
 }
 
-constexpr auto subpass_dependency::dependency_flags(const common::flags<dependency_flag> flags) -> subpass_dependency &
+constexpr auto subpass_dependency::dependency_flags(const common::flags<dependency_flag> flags) noexcept
+    -> subpass_dependency &
 {
     dependencyFlags = flags;
     return *this;
