@@ -21,6 +21,18 @@ enum class attachment_store_op
     dont_care = VK_ATTACHMENT_STORE_OP_DONT_CARE,
 };
 
+enum class border_color
+{
+    float_transparent_black = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK,
+    int_transparent_black = VK_BORDER_COLOR_INT_TRANSPARENT_BLACK,
+    float_opaque_black = VK_BORDER_COLOR_FLOAT_OPAQUE_BLACK,
+    int_opaque_black = VK_BORDER_COLOR_INT_OPAQUE_BLACK,
+    float_opaque_white = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE,
+    int_opaque_white = VK_BORDER_COLOR_INT_OPAQUE_WHITE,
+    float_custom_ext = VK_BORDER_COLOR_FLOAT_CUSTOM_EXT,
+    int_custom_ext = VK_BORDER_COLOR_INT_CUSTOM_EXT
+};
+
 enum class blend_factor
 {
     zero = VK_BLEND_FACTOR_ZERO,
@@ -174,6 +186,13 @@ enum class fence_create_state
     signaled = VK_FENCE_CREATE_SIGNALED_BIT
 };
 
+enum class filter
+{
+    nearest = VK_FILTER_NEAREST,
+    linear = VK_FILTER_LINEAR,
+    cubic_img = VK_FILTER_CUBIC_IMG,
+};
+
 enum class front_face
 {
     counter_clockwise = VK_FRONT_FACE_COUNTER_CLOCKWISE,
@@ -293,6 +312,21 @@ enum class primitive_topology
     triangle_list_with_adjacency = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_WITH_ADJACENCY,
     triangle_strip_with_adjacency = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY,
     patch_list = VK_PRIMITIVE_TOPOLOGY_PATCH_LIST,
+};
+
+enum class sampler_address_mode
+{
+    repeat = VK_SAMPLER_ADDRESS_MODE_REPEAT,
+    mirrored_repeat = VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT,
+    clamp_to_edge = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,
+    clamp_to_border = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER,
+    mirror_clamp_to_edge = VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE
+};
+
+enum class sampler_mipmap_mode
+{
+    nearest = VK_SAMPLER_MIPMAP_MODE_NEAREST,
+    linear = VK_SAMPLER_MIPMAP_MODE_LINEAR
 };
 
 enum class stencil_op

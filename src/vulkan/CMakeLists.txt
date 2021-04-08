@@ -33,6 +33,7 @@ set(SOURCES
     private/queue_indices.cpp
     private/render_pass.cpp
     private/render_pass_description.cpp
+    private/sampler.cpp
     private/semaphore.cpp
     private/semaphore_pool.cpp
     private/semaphore_ref.cpp
@@ -96,6 +97,8 @@ set(SOURCES
     public/aeon/vulkan/render_pass.h
     public/aeon/vulkan/render_pass_begin_info.h
     public/aeon/vulkan/render_pass_description.h
+    public/aeon/vulkan/sampler.h
+    public/aeon/vulkan/sampler_create_info.h
     public/aeon/vulkan/semaphore.h
     public/aeon/vulkan/semaphore_pool.h
     public/aeon/vulkan/semaphore_ref.h

@@ -235,6 +235,15 @@ aeon_declare_flag_operators(sample_count_flag);
 
 using sample_count = sample_count_flag;
 
+enum class sampler_create_flag : VkSamplerCreateFlags
+{
+    none = 0,
+    create_subsampled = VK_SAMPLER_CREATE_SUBSAMPLED_BIT_EXT,
+    create_subsampled_coarse_reconstruction = VK_SAMPLER_CREATE_SUBSAMPLED_COARSE_RECONSTRUCTION_BIT_EXT
+};
+
+aeon_declare_flag_operators(sampler_create_flag);
+
 enum class shader_stage_flag : VkShaderStageFlags
 {
     vertex = VK_SHADER_STAGE_VERTEX_BIT,
