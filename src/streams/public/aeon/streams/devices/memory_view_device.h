@@ -35,9 +35,9 @@ public:
 
     ~memory_view_device() = default;
 
-    auto write(const char *data, const std::streamsize size) noexcept -> std::streamsize;
+    auto write(const std::byte *data, const std::streamsize size) noexcept -> std::streamsize;
 
-    auto read(char *data, const std::streamsize size) noexcept -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size) noexcept -> std::streamsize;
 
     auto seekg(const std::streamoff offset, const seek_direction direction) noexcept -> bool;
 
@@ -91,7 +91,7 @@ inline memory_view_device<T>::memory_view_device() noexcept
 }
 
 template <memory_viewable T>
-inline auto memory_view_device<T>::write(const char *data, const std::streamsize size) noexcept -> std::streamsize
+inline auto memory_view_device<T>::write(const std::byte *data, const std::streamsize size) noexcept -> std::streamsize
 {
     const auto current_size = tellp();
     if (current_size + size > span_device_.size())
@@ -101,7 +101,7 @@ inline auto memory_view_device<T>::write(const char *data, const std::streamsize
 }
 
 template <memory_viewable T>
-inline auto memory_view_device<T>::read(char *data, const std::streamsize size) noexcept -> std::streamsize
+inline auto memory_view_device<T>::read(std::byte *data, const std::streamsize size) noexcept -> std::streamsize
 {
     return span_device_.read(data, size);
 }

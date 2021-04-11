@@ -105,7 +105,7 @@ inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) 
 
     std::streamsize peek_size = 0;
     char_t peek_data[read_block_size] = {};
-    while ((peek_size = device_->read(peek_data, read_block_size)) > 0)
+    while ((peek_size = device_->read(reinterpret_cast<std::byte *>(peek_data), read_block_size)) > 0)
     {
         // TODO: Replace strchr with something more modern.
         const char *line_end = std::strchr(peek_data, '\n');
@@ -184,7 +184,7 @@ inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec, const s
 
     vec.resize(size);
 
-    if (device_->read(reinterpret_cast<char *>(std::data(vec)), size) != size)
+    if (device_->read(reinterpret_cast<std::byte *>(std::data(vec)), size) != size)
         throw stream_exception{};
 }
 
@@ -234,7 +234,7 @@ template <stream_readable device_t>
 template <stream_readable device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
 inline auto &operator>>(stream_reader<device_t> &reader, T &val)
 {
-    if (reader.device().read(reinterpret_cast<char *>(&val), aeon_signed_sizeof(T)) != aeon_signed_sizeof(T))
+    if (reader.device().read(reinterpret_cast<std::byte *>(&val), aeon_signed_sizeof(T)) != aeon_signed_sizeof(T))
         throw stream_exception{};
 
     return reader;

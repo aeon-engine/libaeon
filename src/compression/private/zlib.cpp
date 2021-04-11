@@ -20,7 +20,7 @@ zlib_compress::zlib_compress(zlib_compress &&) noexcept = default;
 
 auto zlib_compress::operator=(zlib_compress &&) noexcept -> zlib_compress & = default;
 
-void zlib_compress::write(const char *data, const std::streamsize size, const write_callback &cb)
+void zlib_compress::write(const std::byte *data, const std::streamsize size, const write_callback &cb)
 {
     compress_->stream().avail_in = static_cast<uInt>(size);
     compress_->stream().next_in = reinterpret_cast<const unsigned char *>(data);
@@ -58,7 +58,7 @@ zlib_decompress::zlib_decompress(zlib_decompress &&) noexcept = default;
 
 auto zlib_decompress::operator=(zlib_decompress &&) noexcept -> zlib_decompress & = default;
 
-auto zlib_decompress::read(char *data, const std::streamsize size, const read_callback &cb) -> std::streamsize
+auto zlib_decompress::read(std::byte *data, const std::streamsize size, const read_callback &cb) -> std::streamsize
 {
     auto &zstream = decompress_->stream();
 

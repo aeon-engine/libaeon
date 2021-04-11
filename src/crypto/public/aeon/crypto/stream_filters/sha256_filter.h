@@ -32,7 +32,7 @@ public:
     ~sha256_filter() = default;
 
     template <typename sink_t>
-    auto write(sink_t &sink, const char *data, const std::streamsize size) -> std::streamsize
+    auto write(sink_t &sink, const std::byte *data, const std::streamsize size) -> std::streamsize
     {
         sha256_.write(data, size);
         return sink.write(data, size);

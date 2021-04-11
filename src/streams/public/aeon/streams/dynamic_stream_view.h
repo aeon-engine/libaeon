@@ -27,13 +27,13 @@ public:
     auto operator=(const dynamic_stream_view &) noexcept(std::is_nothrow_copy_assignable_v<device_t>)
         -> dynamic_stream_view & = delete;
 
-    auto read(char *data, const std::streamsize size) -> std::streamsize final;
+    auto read(std::byte *data, const std::streamsize size) -> std::streamsize final;
 
     auto seekg(const std::streamoff offset, const seek_direction direction) -> bool final;
 
     [[nodiscard]] auto tellg() -> std::streamoff final;
 
-    auto write(const char *data, const std::streamsize size) -> std::streamsize final;
+    auto write(const std::byte *data, const std::streamsize size) -> std::streamsize final;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) -> bool final;
 
@@ -82,7 +82,7 @@ inline dynamic_stream_view<device_t>::dynamic_stream_view(device_t &device)
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::read([[maybe_unused]] char *data,
+inline auto dynamic_stream_view<device_t>::read([[maybe_unused]] std::byte *data,
                                                 [[maybe_unused]] const std::streamsize size) -> std::streamsize
 {
     if constexpr (is_input_v<device_t>)
@@ -120,7 +120,7 @@ template <typename device_t>
 }
 
 template <typename device_t>
-inline auto dynamic_stream_view<device_t>::write([[maybe_unused]] const char *data,
+inline auto dynamic_stream_view<device_t>::write([[maybe_unused]] const std::byte *data,
                                                  [[maybe_unused]] const std::streamsize size) -> std::streamsize
 {
     if constexpr (is_output_v<device_t>)

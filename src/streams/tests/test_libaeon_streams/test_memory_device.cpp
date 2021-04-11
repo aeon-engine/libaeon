@@ -12,10 +12,12 @@ using namespace aeon;
 struct test_fixture_memory_device_default_data : public ::testing::Test
 {
     test_fixture_memory_device_default_data()
-        : fixture_data({{'A', 'B', 'C', 'D', 'E'}})
+        : fixture_data({{static_cast<std::byte>('A'), static_cast<std::byte>('B'), static_cast<std::byte>('C'),
+                         static_cast<std::byte>('D'), static_cast<std::byte>('E')}})
         , fixture_data_written(0)
     {
-        fixture_data_written = device.write(std::data(fixture_data), std::size(fixture_data));
+        fixture_data_written =
+            device.write(reinterpret_cast<const std::byte *>(std::data(fixture_data)), std::size(fixture_data));
     }
 
     void SetUp() override
@@ -25,15 +27,15 @@ struct test_fixture_memory_device_default_data : public ::testing::Test
         ASSERT_LE(fixture_data_written, device.size());
     }
 
-    streams::memory_device<std::vector<char>> device;
-    std::array<char, 5> fixture_data;
+    streams::memory_device<std::vector<std::byte>> device;
+    std::array<std::byte, 5> fixture_data;
     std::streamoff fixture_data_written;
 };
 
 TEST_F(test_fixture_memory_device_default_data, test_memory_device_write)
 {
     char data[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L'};
-    const auto data_written = device.write(data, sizeof(data));
+    const auto data_written = device.write(reinterpret_cast<const std::byte *>(data), sizeof(data));
 
     ASSERT_EQ(aeon_signed_sizeof(data), data_written);
     ASSERT_EQ(fixture_data_written + aeon_signed_sizeof(data), device.tellp());
@@ -42,7 +44,7 @@ TEST_F(test_fixture_memory_device_default_data, test_memory_device_write)
 
 TEST_F(test_fixture_memory_device_default_data, test_memory_device_write_read)
 {
-    std::vector<char> readbackdata;
+    std::vector<std::byte> readbackdata;
     readbackdata.resize(fixture_data_written);
 
     const auto data_read = device.read(std::data(readbackdata), std::size(readbackdata));

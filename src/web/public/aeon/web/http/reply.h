@@ -35,7 +35,7 @@ public:
 
 private:
     void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data);
+    void append_raw_content_data(const std::vector<std::byte> &data);
 
     status_code status_;
     std::vector<std::string> raw_headers_;

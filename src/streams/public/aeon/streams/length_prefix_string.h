@@ -41,7 +41,8 @@ inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_str
 
     writer << static_cast<T>(string_length);
 
-    if (writer.device().write(value.string.c_str(), string_length) != static_cast<std::streamsize>(string_length))
+    if (writer.device().write(reinterpret_cast<const std::byte *>(value.string.c_str()), string_length) !=
+        static_cast<std::streamsize>(string_length))
         throw stream_exception{};
 
     return writer;
@@ -54,7 +55,8 @@ inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_str
 
     writer << varint{string_length};
 
-    if (writer.device().write(value.string.c_str(), string_length) != static_cast<std::streamsize>(string_length))
+    if (writer.device().write(reinterpret_cast<const std::byte *>(value.string.c_str()), string_length) !=
+        static_cast<std::streamsize>(string_length))
         throw stream_exception{};
 
     return writer;
@@ -67,7 +69,8 @@ inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<T>
     reader >> length;
     value.string.resize(length);
 
-    if (reader.device().read(std::data(value.string), length) != static_cast<std::streamoff>(length))
+    if (reader.device().read(reinterpret_cast<std::byte *>(std::data(value.string)), length) !=
+        static_cast<std::streamoff>(length))
         throw stream_exception{};
 
     return reader;
@@ -80,7 +83,8 @@ inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<va
     reader >> varint{length};
     value.string.resize(length);
 
-    if (reader.device().read(std::data(value.string), length) != static_cast<std::streamoff>(length))
+    if (reader.device().read(reinterpret_cast<std::byte *>(std::data(value.string)), length) !=
+        static_cast<std::streamoff>(length))
         throw stream_exception{};
 
     return reader;

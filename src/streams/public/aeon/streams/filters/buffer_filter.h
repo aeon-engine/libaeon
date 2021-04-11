@@ -34,7 +34,7 @@ public:
     ~sink_buffer_filter() = default;
 
     template <typename sink_t>
-    auto write(sink_t &sink, const char *data, const std::streamsize size) -> std::streamsize
+    auto write(sink_t &sink, const std::byte *data, const std::streamsize size) -> std::streamsize
     {
         auto size_remaining = size;
         auto data_offset = data;
@@ -88,7 +88,7 @@ private:
         offset_ = 0;
     }
 
-    std::array<char, buffer_size> buffer_;
+    std::array<std::byte, buffer_size> buffer_;
     std::streamoff offset_;
 };
 

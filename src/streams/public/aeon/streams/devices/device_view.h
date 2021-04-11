@@ -28,13 +28,13 @@ public:
 
     ~device_view() = default;
 
-    auto read(char *data, const std::streamsize size) -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size) -> std::streamsize;
 
     auto seekg(const std::streamoff offset, const seek_direction direction) -> bool;
 
     [[nodiscard]] auto tellg() -> std::streamoff;
 
-    auto write(const char *data, const std::streamsize size) -> std::streamsize;
+    auto write(const std::byte *data, const std::streamsize size) -> std::streamsize;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) -> bool;
 
@@ -67,14 +67,14 @@ inline device_view<T>::device_view(const T &device) noexcept
 }
 
 template <typename T>
-inline auto device_view<T>::write(const char *data, const std::streamsize size) -> std::streamsize
+inline auto device_view<T>::write(const std::byte *data, const std::streamsize size) -> std::streamsize
 {
     static_assert(is_output_v<T>, "Device does not support 'write'");
     return device_->write(data, size);
 }
 
 template <typename T>
-inline auto device_view<T>::read(char *data, const std::streamsize size) -> std::streamsize
+inline auto device_view<T>::read(std::byte *data, const std::streamsize size) -> std::streamsize
 {
     static_assert(is_input_v<T>, "Device does not support 'read'");
     return device_->read(data, size);

@@ -11,7 +11,7 @@ using namespace aeon;
 TEST(test_streams, test_streams_dynamic_stream_create)
 {
     auto dynamic_device = streams::make_dynamic_stream(streams::memory_device<std::vector<char>>{});
-    dynamic_device.write("12345", 5);
+    dynamic_device.write(reinterpret_cast<const std::byte *>("12345"), 5);
 
     EXPECT_TRUE(dynamic_device.is_input());
     EXPECT_TRUE(dynamic_device.is_input_seekable());
@@ -21,7 +21,7 @@ TEST(test_streams, test_streams_dynamic_stream_create)
     EXPECT_TRUE(dynamic_device.has_eof());
     EXPECT_FALSE(dynamic_device.is_flushable());
 
-    std::array<char, 5> read;
+    std::array<std::byte, 5> read;
     ASSERT_EQ(5, dynamic_device.read(std::data(read), std::ssize(read)));
     EXPECT_EQ(0, std::memcmp("12345", std::data(read), std::ssize(read)));
 }
@@ -29,7 +29,7 @@ TEST(test_streams, test_streams_dynamic_stream_create)
 TEST(test_streams, test_streams_dynamic_stream_create_ptr)
 {
     auto dynamic_device = streams::make_dynamic_stream_ptr(streams::memory_device<std::vector<char>>{});
-    dynamic_device->write("12345", 5);
+    dynamic_device->write(reinterpret_cast<const std::byte *>("12345"), 5);
 
     EXPECT_TRUE(dynamic_device->is_input());
     EXPECT_TRUE(dynamic_device->is_input_seekable());
@@ -39,7 +39,7 @@ TEST(test_streams, test_streams_dynamic_stream_create_ptr)
     EXPECT_TRUE(dynamic_device->has_eof());
     EXPECT_FALSE(dynamic_device->is_flushable());
 
-    std::array<char, 5> read;
+    std::array<std::byte, 5> read;
     ASSERT_EQ(5, dynamic_device->read(std::data(read), std::ssize(read)));
     EXPECT_EQ(0, std::memcmp("12345", std::data(read), std::ssize(read)));
 }

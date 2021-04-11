@@ -54,7 +54,7 @@ public:
 
 private:
     void append_raw_http_header_line(const std::string &header_line);
-    void append_raw_content_data(const std::vector<std::uint8_t> &data) const;
+    void append_raw_content_data(const std::vector<std::byte> &data) const;
     void set_content_type(const std::string &content_type);
 
     http_method method_;

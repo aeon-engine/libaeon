@@ -59,7 +59,7 @@ struct bitmap_info_header
 {
     detail::bitmap_file_header header{};
 
-    if (stream.read(reinterpret_cast<char *>(&header), aeon_signed_sizeof(detail::bitmap_file_header)) !=
+    if (stream.read(reinterpret_cast<std::byte *>(&header), aeon_signed_sizeof(detail::bitmap_file_header)) !=
         aeon_signed_sizeof(detail::bitmap_file_header))
         throw load_exception{};
 
@@ -68,7 +68,7 @@ struct bitmap_info_header
 
     detail::bitmap_info_header info_header{};
 
-    if (stream.read(reinterpret_cast<char *>(&info_header), aeon_signed_sizeof(detail::bitmap_info_header)) !=
+    if (stream.read(reinterpret_cast<std::byte *>(&info_header), aeon_signed_sizeof(detail::bitmap_info_header)) !=
         aeon_signed_sizeof(detail::bitmap_info_header))
         throw load_exception{};
 
@@ -77,7 +77,7 @@ struct bitmap_info_header
 
     std::vector<std::byte> pixel_data(info_header.size_image);
 
-    if (stream.read(reinterpret_cast<char *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
+    if (stream.read(reinterpret_cast<std::byte *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
         throw load_exception{};
 
     auto img = image{common::element_type::u8_3,

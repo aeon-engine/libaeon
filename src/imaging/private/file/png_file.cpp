@@ -27,7 +27,7 @@ void png_read_callback(png_structp png_ptr, png_bytep output_ptr, png_size_t out
         throw load_exception();
 
     // Read the data
-    if (stream->read(reinterpret_cast<char *>(output_ptr), static_cast<size_t>(output_size)) !=
+    if (stream->read(reinterpret_cast<std::byte *>(output_ptr), static_cast<size_t>(output_size)) !=
         static_cast<std::streamoff>(output_size))
         throw load_exception();
 }
@@ -35,7 +35,7 @@ void png_read_callback(png_structp png_ptr, png_bytep output_ptr, png_size_t out
 void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
 {
     auto *stream = static_cast<streams::idynamic_stream *>(png_get_io_ptr(png_ptr));
-    stream->write(reinterpret_cast<char *>(data), length);
+    stream->write(reinterpret_cast<std::byte *>(data), length);
 }
 
 [[nodiscard]] inline auto convert_encoding_to_color_type(const pixel_encoding encoding)
@@ -78,7 +78,7 @@ void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
     // Read the header
     auto png_header = std::array<png_byte, PNG_HEADER_SIGNATURE_SIZE>();
 
-    if (stream.read(reinterpret_cast<char *>(png_header.data()), PNG_HEADER_SIGNATURE_SIZE) !=
+    if (stream.read(reinterpret_cast<std::byte *>(png_header.data()), PNG_HEADER_SIGNATURE_SIZE) !=
         PNG_HEADER_SIGNATURE_SIZE)
         throw load_exception{};
 

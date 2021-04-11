@@ -79,7 +79,7 @@ inline void stream_writer<device_t>::vector_write(const std::vector<T> &vec) con
 
     const auto size = static_cast<std::streamsize>(std::size(vec));
 
-    if (device_->write(reinterpret_cast<const char *>(std::data(vec)), size) != size)
+    if (device_->write(reinterpret_cast<const std::byte *>(std::data(vec)), size) != size)
         throw stream_exception{};
 }
 
@@ -89,14 +89,15 @@ inline void stream_writer<device_t>::array_write(const std::array<T, size> &arr)
 {
     static_assert(sizeof(T) == 1, "Given template argument size must be 1 byte.");
 
-    if (device_->write(reinterpret_cast<const char *>(std::data(arr)), size) != size)
+    if (device_->write(reinterpret_cast<const std::byte *>(std::data(arr)), size) != size)
         throw stream_exception{};
 }
 
 template <stream_writable device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
 inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
 {
-    if (writer.device().write(reinterpret_cast<const char *>(&val), aeon_signed_sizeof(T)) != aeon_signed_sizeof(T))
+    if (writer.device().write(reinterpret_cast<const std::byte *>(&val), aeon_signed_sizeof(T)) !=
+        aeon_signed_sizeof(T))
         throw stream_exception{};
 
     return writer;
@@ -107,7 +108,7 @@ inline auto &operator<<(stream_writer<device_t> &writer, const std::string_view 
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
 
-    if (writer.device().write(std::data(val), size) != size)
+    if (writer.device().write(reinterpret_cast<const std::byte *>(std::data(val)), size) != size)
         throw stream_exception{};
 
     return writer;
@@ -118,7 +119,7 @@ inline auto &operator<<(stream_writer<device_t> &writer, const std::u8string_vie
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
 
-    if (writer.device().write(reinterpret_cast<const char *>(std::data(val)), size) !=
+    if (writer.device().write(reinterpret_cast<const std::byte *>(std::data(val)), size) !=
         static_cast<std::streamsize>(size))
         throw stream_exception{};
 

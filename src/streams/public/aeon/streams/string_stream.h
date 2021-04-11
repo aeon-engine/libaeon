@@ -43,7 +43,7 @@ public:
     {
         const auto size = static_cast<std::streamsize>(std::size(val));
 
-        if (device_.write(std::data(val), size) != size)
+        if (device_.write(reinterpret_cast<const std::byte *>(std::data(val)), size) != size)
             throw stream_exception{};
     }
 
@@ -57,7 +57,7 @@ public:
     {
         const auto size = static_cast<std::streamsize>(std::size(val));
 
-        if (device_.write(reinterpret_cast<const char *>(std::data(val)), size) != size)
+        if (device_.write(reinterpret_cast<const std::byte *>(std::data(val)), size) != size)
             throw stream_exception{};
     }
 
@@ -69,7 +69,7 @@ public:
 
     void append(const char &val)
     {
-        if (device_.write(&val, sizeof(char)) != sizeof(char))
+        if (device_.write(reinterpret_cast<const std::byte *>(&val), sizeof(char)) != sizeof(char))
             throw stream_exception{};
     }
 
@@ -81,7 +81,7 @@ public:
 
     void append(const char8_t &val)
     {
-        if (device_.write(reinterpret_cast<const char *>(&val), sizeof(char8_t)) != sizeof(char8_t))
+        if (device_.write(reinterpret_cast<const std::byte *>(&val), sizeof(char8_t)) != sizeof(char8_t))
             throw stream_exception{};
     }
 

@@ -25,6 +25,7 @@ public:
     sha256(sha256 &&) noexcept = default;
     auto operator=(sha256 &&) noexcept -> sha256 & = default;
 
+    void write(const std::byte *data, const std::streamsize size) noexcept;
     void write(const char *data, const std::streamsize size) noexcept;
     void write(const std::string_view str) noexcept;
 

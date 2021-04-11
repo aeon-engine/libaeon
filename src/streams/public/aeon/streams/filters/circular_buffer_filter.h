@@ -38,7 +38,7 @@ public:
     ~circular_buffer_filter() = default;
 
     template <typename sink_t>
-    auto write(sink_t &sink, const char *data, const std::streamsize size) -> std::streamsize
+    auto write(sink_t &sink, const std::byte *data, const std::streamsize size) -> std::streamsize
     {
         static_assert(has_size_v<sink_t>, "Circular buffer requires stream with size.");
 
@@ -86,7 +86,7 @@ public:
     }
 
     template <typename source_t>
-    auto read(source_t &source, char *data, const std::streamsize size) -> std::streamsize
+    auto read(source_t &source, std::byte *data, const std::streamsize size) -> std::streamsize
     {
         static_assert(has_size_v<source_t>, "Circular buffer requires stream with size.");
 

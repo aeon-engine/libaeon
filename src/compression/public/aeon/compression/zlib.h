@@ -26,7 +26,7 @@ enum class zlib_compression_mode : int
 class zlib_compress final
 {
 public:
-    using write_callback = std::function<std::streamsize(const char *, const std::streamsize)>;
+    using write_callback = std::function<std::streamsize(const std::byte *, const std::streamsize)>;
 
     explicit zlib_compress(const zlib_compression_mode mode, const int buffer_size = 256);
     ~zlib_compress();
@@ -37,17 +37,17 @@ public:
     zlib_compress(const zlib_compress &) noexcept = delete;
     auto operator=(const zlib_compress &) noexcept -> zlib_compress & = delete;
 
-    void write(const char *data, const std::streamsize size, const write_callback &cb);
+    void write(const std::byte *data, const std::streamsize size, const write_callback &cb);
 
 private:
     std::unique_ptr<internal::zlib_compress> compress_;
-    std::vector<char> buffer_;
+    std::vector<std::byte> buffer_;
 };
 
 class zlib_decompress final
 {
 public:
-    using read_callback = std::function<std::streamsize(char *, const std::streamsize)>;
+    using read_callback = std::function<std::streamsize(std::byte *, const std::streamsize)>;
 
     explicit zlib_decompress(const int buffer_size = 256);
     ~zlib_decompress();
@@ -58,11 +58,11 @@ public:
     zlib_decompress(const zlib_decompress &) noexcept = delete;
     auto operator=(const zlib_decompress &) noexcept -> zlib_decompress & = delete;
 
-    auto read(char *data, const std::streamsize size, const read_callback &cb) -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size, const read_callback &cb) -> std::streamsize;
 
 private:
     std::unique_ptr<internal::zlib_decompress> decompress_;
-    std::vector<char> buffer_;
+    std::vector<std::byte> buffer_;
 };
 
 } // namespace aeon::compression

@@ -34,10 +34,10 @@ public:
     ~zlib_compress_filter() = default;
 
     template <typename sink_t>
-    auto write(sink_t &sink, const char *data, const std::streamsize size) -> std::streamsize
+    auto write(sink_t &sink, const std::byte *data, const std::streamsize size) -> std::streamsize
     {
         compress_.write(data, size,
-                        [&sink](const char *data, const std::streamsize size) { return sink.write(data, size); });
+                        [&sink](const std::byte *data, const std::streamsize size) { return sink.write(data, size); });
         return size;
     }
 
@@ -67,10 +67,10 @@ public:
     ~zlib_decompress_filter() = default;
 
     template <typename source_t>
-    auto read(source_t &source, char *data, const std::streamsize size) -> std::streamsize
+    auto read(source_t &source, std::byte *data, const std::streamsize size) -> std::streamsize
     {
-        return decompress_.read(data, size,
-                                [&source](char *data, const std::streamsize size) { return source.read(data, size); });
+        return decompress_.read(
+            data, size, [&source](std::byte *data, const std::streamsize size) { return source.read(data, size); });
     }
 
 private:

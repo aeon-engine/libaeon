@@ -25,7 +25,7 @@ line_protocol_socket::~line_protocol_socket() = default;
 
 void line_protocol_socket::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
+    circular_buffer_.write(std::data(data), std::size(data));
     streams::stream_reader reader(circular_buffer_);
 
     while (circular_buffer_.size() != 0)

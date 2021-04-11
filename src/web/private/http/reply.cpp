@@ -37,7 +37,7 @@ void reply::append_raw_http_header_line(const std::string &header_line)
     raw_headers_.push_back(header_line);
 }
 
-void reply::append_raw_content_data(const std::vector<std::uint8_t> &data)
+void reply::append_raw_content_data(const std::vector<std::byte> &data)
 {
     streams::stream_writer writer{content_};
     writer.vector_write(data);

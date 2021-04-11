@@ -32,13 +32,13 @@ public:
     idynamic_stream(const idynamic_stream &) noexcept = delete;
     auto operator=(const idynamic_stream &) noexcept -> idynamic_stream & = delete;
 
-    virtual auto read(char *data, const std::streamsize size) -> std::streamsize = 0;
+    virtual auto read(std::byte *data, const std::streamsize size) -> std::streamsize = 0;
 
     virtual auto seekg(const std::streamoff offset, const seek_direction direction) -> bool = 0;
 
     [[nodiscard]] virtual auto tellg() -> std::streamoff = 0;
 
-    virtual auto write(const char *data, const std::streamsize size) -> std::streamsize = 0;
+    virtual auto write(const std::byte *data, const std::streamsize size) -> std::streamsize = 0;
 
     virtual auto seekp(const std::streamoff offset, const seek_direction direction) -> bool = 0;
 

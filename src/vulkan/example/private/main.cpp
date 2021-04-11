@@ -66,6 +66,7 @@ static constexpr auto enable_validation_layers = true;
     platform::window_create_info info;
     info.title = window_title;
     info.size = window_size;
+    info.resizable = true;
     return context.create_window(info);
 }
 

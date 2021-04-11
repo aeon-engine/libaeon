@@ -95,13 +95,13 @@ public:
         std::is_nothrow_copy_assignable_v<filter_t> &&std::is_nothrow_copy_assignable_v<device_t>)
         -> aggregate_device & = default;
 
-    auto read(char *data, const std::streamsize size) -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size) -> std::streamsize;
 
     auto seekg(const std::streamoff offset, const seek_direction direction) -> bool;
 
     [[nodiscard]] auto tellg() -> std::streamoff;
 
-    auto write(const char *data, const std::streamsize size) -> std::streamsize;
+    auto write(const std::byte *data, const std::streamsize size) -> std::streamsize;
 
     auto seekp(const std::streamoff offset, const seek_direction direction) -> bool;
 
@@ -188,7 +188,7 @@ inline aggregate_device<filter_t, device_t>::aggregate_device(filter_t &&filter,
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::read(char *data, const std::streamsize size) -> std::streamsize
+inline auto aggregate_device<filter_t, device_t>::read(std::byte *data, const std::streamsize size) -> std::streamsize
 {
     static_assert(is_any_input_v<filter_t, device_t>, "Device does not support 'read'");
 
@@ -222,7 +222,8 @@ template <typename filter_t, typename device_t>
 }
 
 template <typename filter_t, typename device_t>
-inline auto aggregate_device<filter_t, device_t>::write(const char *data, const std::streamsize size) -> std::streamsize
+inline auto aggregate_device<filter_t, device_t>::write(const std::byte *data, const std::streamsize size)
+    -> std::streamsize
 {
     static_assert(is_any_output_v<filter_t, device_t>, "Device does not support 'write'");
 

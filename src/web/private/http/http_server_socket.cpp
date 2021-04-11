@@ -55,14 +55,14 @@ void http_server_socket::respond(const std::string &content_type, std::vector<st
 
 void http_server_socket::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
+    circular_buffer_.write(std::data(data), std::size(data));
     streams::stream_reader reader(circular_buffer_);
 
     while (circular_buffer_.size() != 0)
     {
         if (state_ == http_state::server_read_body)
         {
-            std::vector<std::uint8_t> vec;
+            std::vector<std::byte> vec;
             reader.read_to_vector(vec);
             request_.append_raw_content_data(vec);
 

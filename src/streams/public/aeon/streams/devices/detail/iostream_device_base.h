@@ -39,9 +39,9 @@ public:
     iostream_device_base(const iostream_device_base &) noexcept = default;
     auto operator=(const iostream_device_base &) noexcept -> iostream_device_base & = default;
 
-    auto write(const char *data, const std::streamsize size) const -> std::streamsize;
+    auto write(const std::byte *data, const std::streamsize size) const -> std::streamsize;
 
-    auto read(char *data, const std::streamsize size) const -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size) const -> std::streamsize;
 
     auto seekg(const std::streamoff offset, const seek_direction direction) const -> bool;
 
@@ -77,9 +77,9 @@ inline iostream_device_base<T>::iostream_device_base(T &stream) noexcept
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::write(const char *data, const std::streamsize size) const -> std::streamsize
+inline auto iostream_device_base<T>::write(const std::byte *data, const std::streamsize size) const -> std::streamsize
 {
-    stream_->write(data, size);
+    stream_->write(reinterpret_cast<const char *>(data), size);
 
     if (stream_->fail())
         return 0;
@@ -88,9 +88,9 @@ inline auto iostream_device_base<T>::write(const char *data, const std::streamsi
 }
 
 template <typename T>
-inline auto iostream_device_base<T>::read(char *data, const std::streamsize size) const -> std::streamsize
+inline auto iostream_device_base<T>::read(std::byte *data, const std::streamsize size) const -> std::streamsize
 {
-    if (stream_->read(data, size))
+    if (stream_->read(reinterpret_cast<char *>(data), size))
         return size;
 
     return static_cast<std::size_t>(stream_->gcount());

@@ -26,7 +26,7 @@ TEST(test_uuid_stream, test_read_from_stream)
     auto uuid = common::uuid::generate();
 
     streams::memory_device<std::vector<char>> memstream;
-    memstream.write(reinterpret_cast<const char *>(uuid.data.data()), uuid.size());
+    memstream.write(reinterpret_cast<const std::byte *>(uuid.data.data()), uuid.size());
 
     streams::stream_reader reader(memstream);
 

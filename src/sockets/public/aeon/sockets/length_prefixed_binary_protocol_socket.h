@@ -131,7 +131,7 @@ void length_prefixed_binary_protocol_socket<length_t>::send_frame(length_prefixe
 template <std::unsigned_integral length_t>
 inline void length_prefixed_binary_protocol_socket<length_t>::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
+    circular_buffer_.write(std::data(data), std::size(data));
     streams::stream_reader reader{circular_buffer_};
 
     while (true)

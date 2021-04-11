@@ -24,7 +24,7 @@ static void test_decompress_data(const std::vector<char> &buffer, const int read
 
     do
     {
-        result = decompress_pipeline.read(std::data(read_data), std::size(read_data));
+        result = decompress_pipeline.read(reinterpret_cast<std::byte *>(std::data(read_data)), std::size(read_data));
         ASSERT_EQ(read_data.substr(0, result), expected.substr(offset, result));
         offset += result;
 

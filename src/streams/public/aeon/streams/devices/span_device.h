@@ -32,9 +32,9 @@ public:
 
     ~span_device() = default;
 
-    auto write(const char *data, const std::streamsize size) noexcept -> std::streamsize;
+    auto write(const std::byte *data, const std::streamsize size) noexcept -> std::streamsize;
 
-    auto read(char *data, const std::streamsize size) noexcept -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size) noexcept -> std::streamsize;
 
     auto seekg(const std::streamoff offset, const seek_direction direction) noexcept -> bool;
 
@@ -67,7 +67,7 @@ inline span_device<T>::span_device(std::span<T> span) noexcept
 }
 
 template <typename T>
-inline auto span_device<T>::write(const char *data, const std::streamsize size) noexcept -> std::streamsize
+inline auto span_device<T>::write(const std::byte *data, const std::streamsize size) noexcept -> std::streamsize
 {
     const auto actual_size = std::min(size, static_cast<std::streamsize>(std::size(span_) - write_idx_));
 
@@ -81,7 +81,7 @@ inline auto span_device<T>::write(const char *data, const std::streamsize size) 
 }
 
 template <typename T>
-inline auto span_device<T>::read(char *data, const std::streamsize size) noexcept -> std::streamsize
+inline auto span_device<T>::read(std::byte *data, const std::streamsize size) noexcept -> std::streamsize
 {
     const auto actual_size = std::min(size, static_cast<std::streamsize>(std::size(span_) - read_idx_));
 

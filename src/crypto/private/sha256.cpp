@@ -54,6 +54,11 @@ sha256::sha256() noexcept
 {
 }
 
+void sha256::write(const std::byte *data, const std::streamsize size) noexcept
+{
+    write(reinterpret_cast<const char *>(data), size);
+}
+
 void sha256::write(const char *data, const std::streamsize size) noexcept
 {
     const auto tmp_len = block_size - size_;

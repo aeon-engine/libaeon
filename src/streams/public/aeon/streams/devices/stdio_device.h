@@ -46,9 +46,9 @@ public:
 
     ~stdio_device() = default;
 
-    auto write(const char *data, const std::streamsize size) const noexcept -> std::streamsize;
+    auto write(const std::byte *data, const std::streamsize size) const noexcept -> std::streamsize;
 
-    auto read(char *data, const std::streamsize size) const noexcept -> std::streamsize;
+    auto read(std::byte *data, const std::streamsize size) const noexcept -> std::streamsize;
 
     [[nodiscard]] auto eof() const noexcept -> bool;
 
@@ -65,12 +65,12 @@ protected:
 #endif
 };
 
-inline auto stdio_device::write(const char *data, const std::streamsize size) const noexcept -> std::streamsize
+inline auto stdio_device::write(const std::byte *data, const std::streamsize size) const noexcept -> std::streamsize
 {
     return static_cast<std::size_t>(fwrite(data, 1, size, stdout));
 }
 
-inline auto stdio_device::read(char *data, const std::streamsize size) const noexcept -> std::streamsize
+inline auto stdio_device::read(std::byte *data, const std::streamsize size) const noexcept -> std::streamsize
 {
     return static_cast<std::size_t>(fread(data, 1, size, stdin));
 }

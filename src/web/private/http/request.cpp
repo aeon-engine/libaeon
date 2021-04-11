@@ -55,9 +55,9 @@ void request::append_raw_http_header_line(const std::string &header_line)
     raw_headers_.push_back(header_line);
 }
 
-void request::append_raw_content_data(const std::vector<std::uint8_t> &data) const
+void request::append_raw_content_data(const std::vector<std::byte> &data) const
 {
-    content_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
+    content_.write(std::data(data), std::size(data));
 }
 
 void request::set_content_type(const std::string &content_type)

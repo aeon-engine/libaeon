@@ -43,14 +43,14 @@ void http_client_socket::request_async(const std::string &host, const std::strin
 
 void http_client_socket::on_data(const std::span<const std::byte> &data)
 {
-    circular_buffer_.write(reinterpret_cast<const char *>(std::data(data)), std::size(data));
+    circular_buffer_.write(std::data(data), std::size(data));
     streams::stream_reader reader(circular_buffer_);
 
     while (circular_buffer_.size() != 0)
     {
         if (state_ == http_state::client_read_body)
         {
-            std::vector<std::uint8_t> vec;
+            std::vector<std::byte> vec;
             reader.read_to_vector(vec);
             reply_.append_raw_content_data(vec);
 
