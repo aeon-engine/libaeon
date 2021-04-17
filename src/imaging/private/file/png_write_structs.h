@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/imaging/file/png_structs.h>
+#include "png_structs.h"
 
 namespace aeon::imaging::file::png::detail
 {

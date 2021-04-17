@@ -1,12 +1,12 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/imaging/file/png_file.h>
-#include <aeon/imaging/file/png_read_structs.h>
-#include <aeon/imaging/file/png_write_structs.h>
-#include <aeon/imaging/file/png_structs.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/common/compilers.h>
+#include "png_read_structs.h"
+#include "png_write_structs.h"
+#include "png_structs.h"
 #include <png.h>
 #include <array>
 

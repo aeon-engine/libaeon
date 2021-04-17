@@ -7,6 +7,10 @@ set(SOURCES
     private/file/bmp_file.cpp
     private/file/jpg_file.cpp
     private/file/png_file.cpp
+    private/file/png_read_structs.h
+    private/file/png_structs.h
+    private/file/png_write_structs.h
+    private/file/tjhandle_wrapper.h
     public/aeon/imaging/converters/convert_encoding.h
     public/aeon/imaging/converters/convert_pixel.h
     public/aeon/imaging/converters/stride.h
@@ -14,10 +18,6 @@ set(SOURCES
     public/aeon/imaging/file/bmp_file.h
     public/aeon/imaging/file/jpg_file.h
     public/aeon/imaging/file/png_file.h
-    public/aeon/imaging/file/png_read_structs.h
-    public/aeon/imaging/file/png_structs.h
-    public/aeon/imaging/file/png_write_structs.h
-    public/aeon/imaging/file/tjhandle_wrapper.h
     public/aeon/imaging/filters/resize.h
     public/aeon/imaging/iimage.h
     public/aeon/imaging/image.h

@@ -1,12 +1,12 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/imaging/file/jpg_file.h>
-#include <aeon/imaging/file/tjhandle_wrapper.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/common/assert.h>
+#include "tjhandle_wrapper.h"
 #include <turbojpeg.h>
 
 namespace aeon::imaging::file::jpg
