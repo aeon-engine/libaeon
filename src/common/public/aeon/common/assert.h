@@ -21,4 +21,5 @@
 #define aeon_assert_array_bounds(val, index)                                                                           \
     aeon_assert((index < (aeon_array_length(val))), "Array index " #index " is out of bounds for " #val)
 #define aeon_assert_size_bounds(val, index)                                                                            \
-    aeon_assert((index < (std::size(val))), "Array index " #index " is out of bounds for " #val)
+    aeon_assert((static_cast<std::size_t>(index) < (std::size(val))),                                                  \
+                "Array index " #index " is out of bounds for " #val)
