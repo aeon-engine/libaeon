@@ -47,6 +47,7 @@ set(SOURCES
     public/aeon/common/memory.h
     public/aeon/common/parallelizer.h
     public/aeon/common/parameters.h
+    public/aeon/common/path.h
     public/aeon/common/platform.h
     public/aeon/common/preprocessor.h
     public/aeon/common/scope_guard.h
