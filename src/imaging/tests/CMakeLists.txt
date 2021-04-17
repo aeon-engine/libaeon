@@ -9,12 +9,13 @@ add_unit_test_suite(
         main.cpp
         test_atlas.cpp
         test_blit.cpp
-        test_imaging.cpp
+        test_file.cpp
         test_file_bmp.cpp
-        test_file_png.cpp
         test_file_jpg.cpp
+        test_file_png.cpp
         test_fill.cpp
         test_generators.cpp
+        test_imaging.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_imaging aeon_testing

@@ -5,6 +5,7 @@ handle_local_dependencies_file()
 set(SOURCES
     private/converters/convert_encoding.cpp
     private/file/bmp_file.cpp
+    private/file/file.cpp
     private/file/jpg_file.cpp
     private/file/png_file.cpp
     private/file/png_read_structs.h
@@ -16,6 +17,7 @@ set(SOURCES
     public/aeon/imaging/converters/stride.h
     public/aeon/imaging/exceptions.h
     public/aeon/imaging/file/bmp_file.h
+    public/aeon/imaging/file/file.h
     public/aeon/imaging/file/jpg_file.h
     public/aeon/imaging/file/png_file.h
     public/aeon/imaging/filters/resize.h
