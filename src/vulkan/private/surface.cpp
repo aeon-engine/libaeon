@@ -15,6 +15,8 @@
 #include <vulkan/vulkan_xlib.h>
 #endif
 
+#include <aeon/platform/native_handles.h>
+
 namespace aeon::vulkan
 {
 

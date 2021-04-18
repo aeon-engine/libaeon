@@ -6,6 +6,7 @@
 #include "context.h"
 #include <aeon/platform/window_create_info.h>
 #include <aeon/platform/window_events.h>
+#include <aeon/platform/native_handles.h>
 #include <windowsx.h>
 #include <iostream>
 

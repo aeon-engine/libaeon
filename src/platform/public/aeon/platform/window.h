@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <aeon/platform/native_handles.h>
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
 #include <aeon/math/rectangle.h>
@@ -13,6 +12,7 @@ namespace aeon::platform
 {
 
 class context;
+struct native_handles;
 
 class window
 {

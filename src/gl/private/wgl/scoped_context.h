@@ -9,6 +9,7 @@
 #include <aeon/gl/opengl_context_create_info.h>
 #include <aeon/gl/exception.h>
 #include <aeon/platform/window.h>
+#include <aeon/platform/native_handles.h>
 
 namespace aeon::gl
 {

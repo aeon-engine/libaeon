@@ -10,6 +10,7 @@
 #define VK_USE_PLATFORM_XLIB_KHR
 #endif
 
+#include <aeon/math/mat4.h> // TODO: NEAR-FAR macro clashes with windows headers.
 #include <aeon/vulkan/application_info.h>
 #include <aeon/vulkan/instance.h>
 #include <aeon/vulkan/debug.h>
@@ -42,7 +43,6 @@
 #include <aeon/vulkan/descriptor_image_info.h>
 #include <aeon/vulkan/descriptor_set.h>
 #include <aeon/vulkan/render_pass_begin_info.h>
-#include <aeon/math/mat4.h> // TODO: NEAR-FAR macro clashes with windows headers.
 #include <aeon/platform/context.h>
 #include <aeon/platform/window.h>
 #include <aeon/platform/window_create_info.h>
