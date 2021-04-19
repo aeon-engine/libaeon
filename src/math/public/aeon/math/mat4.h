@@ -285,64 +285,64 @@ public:
         -> mat4;
 
     /*!
-     * Create a projection (perspective) matrix based on given values.
+     * Create a perspective matrix based on given values.
      * \param[in] fov_y - Horizontal field of view in radians
      * \param[in] aspect_ratio - Aspect ratio
      * \param[in] near_value - Near clip plane
      * \param[in] far_value - Far clip plane
-     * \return A projection (perspective) matrix.
+     * \return A perspective matrix.
      */
-    [[nodiscard]] static auto projection(const unitf<radian> fov_y, const float aspect_ratio, const float near_value,
-                                         const float far_value) noexcept -> mat4;
+    [[nodiscard]] static auto perspective(const unitf<radian> fov_y, const float aspect_ratio, const float near_value,
+                                          const float far_value) noexcept -> mat4;
 
     /*!
-     * Create a projection (perspective) matrix based on given values.
+     * Create a perspective matrix based on given values.
      * \param[in] fov_y - Horizontal field of view in radians
      * \param[in] aspect_ratio - Aspect ratio
      * \param[in] near_value - Near clip plane
      * \param[in] far_value - Far clip plane
-     * \return A projection (perspective) matrix.
+     * \return A perspective matrix.
      */
     template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
-    [[nodiscard]] static auto projection(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
-                                         const U near_value, const U far_value) noexcept -> mat4;
+    [[nodiscard]] static auto perspective(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
+                                          const U near_value, const U far_value) noexcept -> mat4;
 
     /*!
-     * Create a projection (perspective) matrix based on given values.
+     * Create a perspective matrix based on given values.
      * \param[in] fov - Full field of view in radians
      * \param[in] width - Width of the view
      * \param[in] height - Height of the view
      * \param[in] near_value - Near clip plane
      * \param[in] far_value - Far clip plane
-     * \return A projection (perspective) matrix.
+     * \return A perspective matrix.
      */
-    [[nodiscard]] static auto projection_fov(const unitf<radian> fov, const float width, const float height,
-                                             const float near_value, const float far_value) noexcept -> mat4;
+    [[nodiscard]] static auto perspective_fov(const unitf<radian> fov, const float width, const float height,
+                                              const float near_value, const float far_value) noexcept -> mat4;
 
     /*!
-     * Create a projection (perspective) matrix based on given values.
+     * Create a perspective matrix based on given values.
      * \param[in] fov - Full field of view in radians
      * \param[in] width - Width of the view
      * \param[in] height - Height of the view
      * \param[in] near_value - Near clip plane
      * \param[in] far_value - Far clip plane
-     * \return A projection (perspective) matrix.
+     * \return A perspective matrix.
      */
     template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
-    [[nodiscard]] static auto projection_fov(const unit_base<radian, void, U> fov, const T width, const T height,
-                                             const U near_value, const U far_value) noexcept -> mat4;
+    [[nodiscard]] static auto perspective_fov(const unit_base<radian, void, U> fov, const T width, const T height,
+                                              const U near_value, const U far_value) noexcept -> mat4;
 
     /*!
-     * Create a projection (perspective) matrix based on given values.
+     * Create a perspective matrix based on given values.
      * \param[in] fov - Full field of view in radians
      * \param[in] size - Size of the view
      * \param[in] near_value - Near clip plane
      * \param[in] far_value - Far clip plane
-     * \return A projection (perspective) matrix.
+     * \return A perspective matrix.
      */
     template <common::concepts::arithmetic_convertible T>
-    [[nodiscard]] static auto projection_fov(const unitf<radian> fov, const size2d<T> size, const float near_value,
-                                             const float far_value) noexcept -> mat4;
+    [[nodiscard]] static auto perspective_fov(const unitf<radian> fov, const size2d<T> size, const float near_value,
+                                              const float far_value) noexcept -> mat4;
 
     /*!
      * Get a pointer to the raw matrix data buffer

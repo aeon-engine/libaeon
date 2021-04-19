@@ -375,7 +375,7 @@ private:
     void update_uniform_buffers()
     {
         shader_uniform_buffers_.projectionMatrix =
-            math::mat4::projection_fov(math::unitf<math::degree>{60.0f}, window_size, 1.0f, 256.0f);
+            math::mat4::perspective_fov(math::unitf<math::degree>{60.0f}, window_size, 1.0f, 256.0f);
         shader_uniform_buffers_.modelViewMatrix = math::mat4::translate(0.0f, 0.0f, -2.5f);
         shader_uniform_buffers_.viewPos = math::vector4<float>{0.0f, 0.0f, 0.0f};
 
