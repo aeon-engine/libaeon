@@ -26,7 +26,7 @@ inline constexpr auto operator+(const T lhs, const vector4<T> &rhs) noexcept -> 
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator-(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>
 {
-    return {lhs.x - rhs.x, lhs.y - rhs.y, lhs.z, rhs.z, lhs.w - rhs.w};
+    return {lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w};
 }
 
 template <common::concepts::arithmetic_convertible T>
