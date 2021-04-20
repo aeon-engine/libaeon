@@ -18,8 +18,14 @@ inline constexpr mat4::mat4(const float m00, const float m01, const float m02, c
                             const float m11, const float m12, const float m13, const float m20, const float m21,
                             const float m22, const float m23, const float m30, const float m31, const float m32,
                             const float m33) noexcept
-    : column{vector4{m00, m10, m20, m30}, vector4{m01, m11, m21, m31}, vector4{m02, m12, m22, m32},
-             vector4{m03, m13, m23, m33}}
+    : column{vector4{m00, m01, m02, m03}, vector4{m10, m11, m12, m13}, vector4{m20, m21, m22, m23},
+             vector4{m30, m31, m32, m33}}
+{
+}
+
+constexpr mat4::mat4(const vector4<float> &row1, const vector4<float> &row2, const vector4<float> &row3,
+                     const vector4<float> &row4) noexcept
+    : column{row1, row2, row3, row4}
 {
 }
 
@@ -116,10 +122,10 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::translate(const vector3<float> &vec) noexcept -> mat4
 {
     // clang-format off
-    return {1.0f, 0.0f, 0.0f, vec.x,
-            0.0f, 1.0f, 0.0f, vec.y,
-            0.0f, 0.0f, 1.0f, vec.z,
-            0.0f, 0.0f, 0.0f, 1.0f};
+    return {1.0f,  0.0f,  0.0f,  0.0f,
+            0.0f,  1.0f,  0.0f,  0.0f,
+            0.0f,  0.0f,  1.0f,  0.0f,
+            vec.x, vec.y, vec.z, 1.0f};
     // clang-format on
 }
 
@@ -146,28 +152,14 @@ template <common::concepts::arithmetic_convertible T>
     const auto c = std::cos(angle);
     const auto s = std::sin(angle);
     const auto axis = normalized(vec);
+    const auto tmp = (1.0f - c) * axis;
 
     // clang-format off
     return {
-        c + (1.0f - c) * axis.x * axis.x,
-        (1.0f - c) * axis.x * axis.y + s * axis.z,
-        (1.0f - c) * axis.x * axis.z - s * axis.y,
-        0.0f,
-
-        (1.0f - c) * axis.y * axis.x - s * axis.z,
-        c + (1.0f - c) * axis.y * axis.y,
-        (1.0f - c) * axis.y * axis.z + s * axis.x,
-        0.0f,
-
-        (1.0f - c) * axis.z * axis.x + s * axis.y,
-        (1.0f - c) * axis.z * axis.y - s * axis.x,
-        c + (1.0f - c) * axis.z * axis.z,
-        0.0f,
-
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f
+        c + tmp.x * axis.x,          tmp.x * axis.y + s * axis.z, tmp.x * axis.z - s * axis.y, 0.0f,
+        tmp.y * axis.x - s * axis.z,          c + tmp.y * axis.y, tmp.y * axis.z + s * axis.x, 0.0f,
+        tmp.z * axis.x + s * axis.y, tmp.z * axis.y - s * axis.x, c + tmp.z * axis.z,          0.0f,
+        0.0f,                  0.0f,                        0.0f,                              1.0f
     };
     // clang-format on
 }
@@ -183,25 +175,10 @@ template <common::concepts::arithmetic_convertible T>
 {
     // clang-format off
     return {
-        2.0f / (right - left),
-        0.0f,
-        0.0f,
-        -(right + left) / (right - left),
-
-        0.0f,
-        2.0f / (top - bottom),
-        0.0f,
-        -(top + bottom) / (top - bottom),
-
-        0.0f,
-        0.0f,
-        -1.0f,
-        0.0f,
-
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f
+        2.0f / (right - left),      0.0f,                                   0.0f, 0.0f,
+        0.0f,                       2.0f / (top - bottom),                  0.0f, 0.0f,
+        0.0f,                       0.0f,                                  -1.0f, 0.0f,
+        -(right + left) / (right - left), -(top + bottom) / (top - bottom), 0.0f, 1.0f
     };
     // clang-format on
 }
@@ -210,27 +187,14 @@ template <common::concepts::arithmetic_convertible T>
                                                 const float top, const float near_value, const float far_value) noexcept
     -> mat4
 {
+    const auto far_minus_near = far_value - near_value;
+
     // clang-format off
     return {
-        2.0f / (right - left),
-        0.0f,
-        0.0f,
-        -(right + left) / (right - left),
-
-        0.0f,
-        2.0f / (top - bottom),
-        0.0f,
-        -(top + bottom) / (top - bottom),
-
-        0.0f,
-        0.0f,
-        -2.0f / (far_value - near_value),
-        -(far_value + near_value) / (far_value - near_value),
-
-        0.0f,
-        0.0f,
-        0.0f,
-        1.0f
+        2.0f / (right - left),      0.0f,                             0.0f,                                             0.0f,
+        0.0f,                       2.0f / (top - bottom),            0.0f,                                             0.0f,
+        0.0f,                       0.0f,            2.0f / far_minus_near,                                             0.0f,
+        -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far_value + near_value) / far_minus_near, 1.0f,
     };
     // clang-format on
 }
@@ -271,25 +235,10 @@ template <common::concepts::arithmetic_convertible T, common::concepts::arithmet
 
     // clang-format off
     return {
-        1.0f / (aspect_ratio * tan_half_fov_y),
-        0.0f,
-        0.0f,
-        0.0f,
-
-        0.0f,
-        1.0f / tan_half_fov_y,
-        0.0f,
-        0.0f,
-
-        0.0f,
-        0.0f,
-        -(far_value + near_value) / (far_value - near_value),
-        -(2.0f * far_value * near_value) / (far_value - near_value),
-
-        0.0f,
-        0.0f,
-        -1.0f,
-        0.0f
+        1.0f / (aspect_ratio * tan_half_fov_y),                      0.0f, 0.0f,  0.0f,
+        0.0f,                                       1.0f / tan_half_fov_y, 0.0f,  0.0f,
+        0.0f, 0.0f,        -(far_value + near_value) / (far_value - near_value), -1.0f,
+        0.0f, 0.0f, -(2.0f * far_value * near_value) / (far_value - near_value),  0.0f,
     };
     // clang-format on
 }
@@ -307,28 +256,14 @@ template <common::concepts::arithmetic_convertible T, common::concepts::arithmet
 {
     const auto h = std::cos(0.5f * fov) / std::sin(0.5f * fov);
     const auto w = h * height / width;
+    const auto far_minus_near = far_value - near_value;
 
     // clang-format off
     return {
-        w,
-        0.0f,
-        0.0f,
-        0.0f,
-
-        0.0f,
-        h,
-        0.0f,
-        0.0f,
-
-        0.0f,
-        0.0f,
-        -(far_value + near_value) / (far_value - near_value),
-        -1.0f,
-
-        0.0f,
-        0.0f,
-        -(2.0f * far_value * near_value) / (far_value - near_value),
-        0.0f
+        w,    0.0f,                                         0.0f,         0.0f,
+        0.0f,    h,                                         0.0f,         0.0f,
+        0.0f, 0.0f, -(far_value + near_value) / (far_minus_near),        -1.0f,
+        0.0f, 0.0f, -(2.0f * far_value * near_value) / (far_minus_near),  0.0f
     };
     // clang-format on
 }
@@ -363,27 +298,27 @@ template <common::concepts::arithmetic_convertible T>
 {
     // clang-format off
     const auto a = mat3{
-        mat[1][1], mat[2][1], mat[3][1],
-        mat[1][2], mat[2][2], mat[3][2],
-        mat[1][3], mat[2][3], mat[3][3],
+        mat[1][1], mat[1][2], mat[1][3],
+        mat[2][1], mat[2][2], mat[2][3],
+        mat[3][1], mat[3][2], mat[3][3],
     };
 
     const auto b = mat3{
-        mat[0][1], mat[2][1], mat[3][1],
-        mat[0][2], mat[2][2], mat[3][2],
-        mat[0][3], mat[2][3], mat[3][3],
+        mat[0][1], mat[0][2], mat[0][3],
+        mat[2][1], mat[2][2], mat[2][3],
+        mat[3][1], mat[3][2], mat[3][3],
     };
 
     const auto c = mat3{
-        mat[0][1], mat[1][1], mat[3][1],
-        mat[0][2], mat[1][2], mat[3][2],
-        mat[0][3], mat[1][3], mat[3][3],
+        mat[0][1], mat[0][2], mat[0][3],
+        mat[1][1], mat[1][2], mat[1][3],
+        mat[3][1], mat[3][2], mat[3][3],
     };
 
     const auto d = mat3{
-        mat[0][1], mat[1][1], mat[2][1],
-        mat[0][2], mat[1][2], mat[2][2],
-        mat[0][3], mat[1][3], mat[2][3],
+        mat[0][1], mat[0][2], mat[0][3],
+        mat[1][1], mat[1][2], mat[1][3],
+        mat[2][1], mat[2][2], mat[2][3],
     };
     // clang-format on
 
@@ -443,10 +378,10 @@ template <common::concepts::arithmetic_convertible T>
 
     // clang-format off
     return {
-        d00, d01, d02, d03,
-        d10, d11, d12, d13,
-        d20, d21, d22, d23,
-        d30, d31, d32, d33
+        d00, d10, d20, d30,
+        d01, d11, d21, d31,
+        d02, d12, d22, d32,
+        d03, d13, d23, d33
     };
     // clang-format on
 }

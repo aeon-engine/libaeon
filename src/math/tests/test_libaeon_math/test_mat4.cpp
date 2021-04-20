@@ -78,11 +78,11 @@ TEST(test_mat4, test_mat4_at)
 
 TEST(test_mat4, test_mat4_decompose)
 {
-    const auto expected_translation = math::vector3<float>{10.0f, 20.0f, 30.0f};
+    const auto expected_translation = math::vector3<float>{10.0f, 200.0f, -3000.0f};
 
-    auto matrix = math::mat4::indentity();
-    matrix *= math::mat4::rotate(math::unitf<math::degree>{90.0f}, {1.0f, 0.0f, 0.0f});
-    matrix *= math::mat4::translate(expected_translation);
+    const auto rotation_matrix = math::mat4::rotate(math::unitf<math::degree>{65.0f}, {1.0f, 0.0f, 0.0f});
+    const auto translation_matrix = math::mat4::translate(expected_translation);
+    const auto matrix =  translation_matrix * rotation_matrix;
 
     math::vector3<float> translation;
     math::vector3<float> scale;

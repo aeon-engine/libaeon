@@ -15,7 +15,12 @@ inline constexpr mat3::mat3() noexcept = default;
 
 inline constexpr mat3::mat3(const float m00, const float m01, const float m02, const float m10, const float m11,
                             const float m12, const float m20, const float m21, const float m22) noexcept
-    : column{vector3{m00, m10, m20}, vector3{m01, m11, m21}, vector3{m02, m12, m22}}
+    : column{vector3{m00, m01, m02}, vector3{m10, m11, m12}, vector3{m20, m21, m22}}
+{
+}
+
+constexpr mat3::mat3(const vector3<float> &r1, const vector3<float> &r2, const vector3<float> &r3) noexcept
+    : column{r1, r2, r3}
 {
 }
 
@@ -117,9 +122,9 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat3::translate(const vector2<float> &vec) noexcept -> mat3
 {
     // clang-format off
-    return {1.0f, 0.0f, vec.x,
-            0.0f, 1.0f, vec.y,
-            0.0f, 0.0f, 1.0f};
+    return {1.0f,  0.0f,  0.0f,
+            0.0f,  1.0f,  0.0f,
+            vec.x, vec.y, 1.0f};
     // clang-format on
 }
 
@@ -142,8 +147,8 @@ template <common::concepts::arithmetic_convertible T>
 
     // clang-format off
     return {
-        c,    -s,   0.0f,
-        s,    c,    0.0f,
+        c,    s,    0.0f,
+       -s,    c,    0.0f,
         0.0f, 0.0f, 1.0f
     };
     // clang-format on

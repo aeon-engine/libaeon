@@ -19,25 +19,26 @@ namespace detail
 {
     // clang-format off
     return {
-        (lhs[0][0] * rhs[0][0]) + (lhs[0][1] * rhs[1][0]) + (lhs[0][2] * rhs[2][0]) + (lhs[0][3] * rhs[3][0]),
-        (lhs[1][0] * rhs[0][0]) + (lhs[1][1] * rhs[1][0]) + (lhs[1][2] * rhs[2][0]) + (lhs[1][3] * rhs[3][0]),
-        (lhs[2][0] * rhs[0][0]) + (lhs[2][1] * rhs[1][0]) + (lhs[2][2] * rhs[2][0]) + (lhs[2][3] * rhs[3][0]),
-        (lhs[3][0] * rhs[0][0]) + (lhs[3][1] * rhs[1][0]) + (lhs[3][2] * rhs[2][0]) + (lhs[3][3] * rhs[3][0]),
+        (rhs[0][0] * lhs[0][0]) + (rhs[0][1] * lhs[1][0]) + (rhs[0][2] * lhs[2][0]) + (rhs[0][3] * lhs[3][0]),
+        (rhs[0][0] * lhs[0][1]) + (rhs[0][1] * lhs[1][1]) + (rhs[0][2] * lhs[2][1]) + (rhs[0][3] * lhs[3][1]),
+        (rhs[0][0] * lhs[0][2]) + (rhs[0][1] * lhs[1][2]) + (rhs[0][2] * lhs[2][2]) + (rhs[0][3] * lhs[3][2]),
+        (rhs[0][0] * lhs[0][3]) + (rhs[0][1] * lhs[1][3]) + (rhs[0][2] * lhs[2][3]) + (rhs[0][3] * lhs[3][3]),
 
-        (lhs[0][0] * rhs[0][1]) + (lhs[0][1] * rhs[1][1]) + (lhs[0][2] * rhs[2][1]) + (lhs[0][3] * rhs[3][1]),
-        (lhs[1][0] * rhs[0][1]) + (lhs[1][1] * rhs[1][1]) + (lhs[1][2] * rhs[2][1]) + (lhs[1][3] * rhs[3][1]),
-        (lhs[2][0] * rhs[0][1]) + (lhs[2][1] * rhs[1][1]) + (lhs[2][2] * rhs[2][1]) + (lhs[2][3] * rhs[3][1]),
-        (lhs[3][0] * rhs[0][1]) + (lhs[3][1] * rhs[1][1]) + (lhs[3][2] * rhs[2][1]) + (lhs[3][3] * rhs[3][1]),
+        (rhs[1][0] * lhs[0][0]) + (rhs[1][1] * lhs[1][0]) + (rhs[1][2] * lhs[2][0]) + (rhs[1][3] * lhs[3][0]),
+        (rhs[1][0] * lhs[0][1]) + (rhs[1][1] * lhs[1][1]) + (rhs[1][2] * lhs[2][1]) + (rhs[1][3] * lhs[3][1]),
+        (rhs[1][0] * lhs[0][2]) + (rhs[1][1] * lhs[1][2]) + (rhs[1][2] * lhs[2][2]) + (rhs[1][3] * lhs[3][2]),
+        (rhs[1][0] * lhs[0][3]) + (rhs[1][1] * lhs[1][3]) + (rhs[1][2] * lhs[2][3]) + (rhs[1][3] * lhs[3][3]),
 
-        (lhs[0][0] * rhs[0][2]) + (lhs[0][1] * rhs[1][2]) + (lhs[0][2] * rhs[2][2]) + (lhs[0][3] * rhs[3][2]),
-        (lhs[1][0] * rhs[0][2]) + (lhs[1][1] * rhs[1][2]) + (lhs[1][2] * rhs[2][2]) + (lhs[1][3] * rhs[3][2]),
-        (lhs[2][0] * rhs[0][2]) + (lhs[2][1] * rhs[1][2]) + (lhs[2][2] * rhs[2][2]) + (lhs[2][3] * rhs[3][2]),
-        (lhs[3][0] * rhs[0][2]) + (lhs[3][1] * rhs[1][2]) + (lhs[3][2] * rhs[2][2]) + (lhs[3][3] * rhs[3][2]),
+        (rhs[2][0] * lhs[0][0]) + (rhs[2][1] * lhs[1][0]) + (rhs[2][2] * lhs[2][0]) + (rhs[2][3] * lhs[3][0]),
+        (rhs[2][0] * lhs[0][1]) + (rhs[2][1] * lhs[1][1]) + (rhs[2][2] * lhs[2][1]) + (rhs[2][3] * lhs[3][1]),
+        (rhs[2][0] * lhs[0][2]) + (rhs[2][1] * lhs[1][2]) + (rhs[2][2] * lhs[2][2]) + (rhs[2][3] * lhs[3][2]),
+        (rhs[2][0] * lhs[0][3]) + (rhs[2][1] * lhs[1][3]) + (rhs[2][2] * lhs[2][3]) + (rhs[2][3] * lhs[3][3]),
 
-        (lhs[0][0] * rhs[0][3]) + (lhs[0][1] * rhs[1][3]) + (lhs[0][2] * rhs[2][3]) + (lhs[0][3] * rhs[3][3]),
-        (lhs[1][0] * rhs[0][3]) + (lhs[1][1] * rhs[1][3]) + (lhs[1][2] * rhs[2][3]) + (lhs[1][3] * rhs[3][3]),
-        (lhs[2][0] * rhs[0][3]) + (lhs[2][1] * rhs[1][3]) + (lhs[2][2] * rhs[2][3]) + (lhs[2][3] * rhs[3][3]),
-        (lhs[3][0] * rhs[0][3]) + (lhs[3][1] * rhs[1][3]) + (lhs[3][2] * rhs[2][3]) + (lhs[3][3] * rhs[3][3])};
+        (rhs[3][0] * lhs[0][0]) + (rhs[3][1] * lhs[1][0]) + (rhs[3][2] * lhs[2][0]) + (rhs[3][3] * lhs[3][0]),
+        (rhs[3][0] * lhs[0][1]) + (rhs[3][1] * lhs[1][1]) + (rhs[3][2] * lhs[2][1]) + (rhs[3][3] * lhs[3][1]),
+        (rhs[3][0] * lhs[0][2]) + (rhs[3][1] * lhs[1][2]) + (rhs[3][2] * lhs[2][2]) + (rhs[3][3] * lhs[3][2]),
+        (rhs[3][0] * lhs[0][3]) + (rhs[3][1] * lhs[1][3]) + (rhs[3][2] * lhs[2][3]) + (rhs[3][3] * lhs[3][3])
+    };
     // clang-format on
 }
 
@@ -47,12 +48,12 @@ inline void mat4_mul_column_sse(mat4 const &lhs, mat4 const &rhs, mat4 &out, con
     const auto lhs_ptr = ptr(lhs);
     const auto rhs_ptr = ptr(rhs);
 
-    const auto rhs_col0 = _mm_load_ps(&rhs_ptr[4 * 0]);
-    const auto rhs_col1 = _mm_load_ps(&rhs_ptr[4 * 1]);
-    const auto rhs_col2 = _mm_load_ps(&rhs_ptr[4 * 2]);
-    const auto rhs_col3 = _mm_load_ps(&rhs_ptr[4 * 3]);
+    const auto rhs_col0 = _mm_load_ps(&lhs_ptr[4 * 0]);
+    const auto rhs_col1 = _mm_load_ps(&lhs_ptr[4 * 1]);
+    const auto rhs_col2 = _mm_load_ps(&lhs_ptr[4 * 2]);
+    const auto rhs_col3 = _mm_load_ps(&lhs_ptr[4 * 3]);
 
-    const auto val = _mm_load_ps(&lhs_ptr[4 * column]);
+    const auto val = _mm_load_ps(&rhs_ptr[4 * column]);
     const auto e0 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(0, 0, 0, 0));
     const auto e1 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(1, 1, 1, 1));
     const auto e2 = _mm_shuffle_ps(val, val, _MM_SHUFFLE(2, 2, 2, 2));

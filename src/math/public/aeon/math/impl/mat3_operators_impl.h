@@ -18,31 +18,31 @@ namespace detail
 {
     // clang-format off
     return {
-        lhs[0][0] * rhs[0][0] + lhs[0][1] * rhs[1][0] + lhs[0][2] * rhs[2][0],
-        lhs[1][0] * rhs[0][0] + lhs[1][1] * rhs[1][0] + lhs[1][2] * rhs[2][0],
-        lhs[2][0] * rhs[0][0] + lhs[2][1] * rhs[1][0] + lhs[2][2] * rhs[2][0],
+        rhs[0][0] * lhs[0][0] + rhs[0][1] * lhs[1][0] + rhs[0][2] * lhs[2][0],
+        rhs[0][0] * lhs[0][1] + rhs[0][1] * lhs[1][1] + rhs[0][2] * lhs[2][1],
+        rhs[0][0] * lhs[0][2] + rhs[0][1] * lhs[1][2] + rhs[0][2] * lhs[2][2],
 
-        lhs[0][0] * rhs[0][1] + lhs[0][1] * rhs[1][1] + lhs[0][2] * rhs[2][1],
-        lhs[1][0] * rhs[0][1] + lhs[1][1] * rhs[1][1] + lhs[1][2] * rhs[2][1],
-        lhs[2][0] * rhs[0][1] + lhs[2][1] * rhs[1][1] + lhs[2][2] * rhs[2][1],
+        rhs[1][0] * lhs[0][0] + rhs[1][1] * lhs[1][0] + rhs[1][2] * lhs[2][0],
+        rhs[1][0] * lhs[0][1] + rhs[1][1] * lhs[1][1] + rhs[1][2] * lhs[2][1],
+        rhs[1][0] * lhs[0][2] + rhs[1][1] * lhs[1][2] + rhs[1][2] * lhs[2][2],
 
-        lhs[0][0] * rhs[0][2] + lhs[0][1] * rhs[1][2] + lhs[0][2] * rhs[2][2],
-        lhs[1][0] * rhs[0][2] + lhs[1][1] * rhs[1][2] + lhs[1][2] * rhs[2][2],
-        lhs[2][0] * rhs[0][2] + lhs[2][1] * rhs[1][2] + lhs[2][2] * rhs[2][2]};
+        rhs[2][0] * lhs[0][0] + rhs[2][1] * lhs[1][0] + rhs[2][2] * lhs[2][0],
+        rhs[2][0] * lhs[0][1] + rhs[2][1] * lhs[1][1] + rhs[2][2] * lhs[2][1],
+        rhs[2][0] * lhs[0][2] + rhs[2][1] * lhs[1][2] + rhs[2][2] * lhs[2][2]};
     // clang-format on
 }
 
 #if (!defined(AEON_DISABLE_SSE))
 [[nodiscard]] inline auto mat3_mul_sse(const mat3 &lhs, const mat3 &rhs) noexcept -> mat3
 {
-    const auto rhs_col0 = aeon_mm_load_ps96(ptr(rhs[0]));
-    const auto rhs_col1 = aeon_mm_load_ps96(ptr(rhs[1]));
-    const auto rhs_col2 = aeon_mm_load_ps96(ptr(rhs[2]));
+    const auto rhs_col0 = aeon_mm_load_ps96(ptr(lhs[0]));
+    const auto rhs_col1 = aeon_mm_load_ps96(ptr(lhs[1]));
+    const auto rhs_col2 = aeon_mm_load_ps96(ptr(lhs[2]));
 
     mat3 out;
 
     {
-        const auto lhs_col = aeon_mm_load_ps96(ptr(lhs[0]));
+        const auto lhs_col = aeon_mm_load_ps96(ptr(rhs[0]));
 
         const auto e0 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(0, 0, 0, 0));
         const auto e1 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(1, 1, 1, 1));
@@ -59,7 +59,7 @@ namespace detail
     }
 
     {
-        const auto lhs_col = aeon_mm_load_ps96(ptr(lhs[1]));
+        const auto lhs_col = aeon_mm_load_ps96(ptr(rhs[1]));
 
         const auto e0 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(0, 0, 0, 0));
         const auto e1 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(1, 1, 1, 1));
@@ -76,7 +76,7 @@ namespace detail
     }
 
     {
-        const auto lhs_col = aeon_mm_load_ps96(ptr(lhs[2]));
+        const auto lhs_col = aeon_mm_load_ps96(ptr(rhs[2]));
 
         const auto e0 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(0, 0, 0, 0));
         const auto e1 = _mm_shuffle_ps(lhs_col, lhs_col, _MM_SHUFFLE(1, 1, 1, 1));
