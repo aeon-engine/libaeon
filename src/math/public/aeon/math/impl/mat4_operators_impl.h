@@ -17,29 +17,22 @@ namespace detail
 
 [[nodiscard]] inline auto mat4_mul(const mat4 &lhs, const mat4 &rhs) noexcept -> mat4
 {
-    // clang-format off
+    const auto lhs_col0 = lhs[0];
+    const auto lhs_col1 = lhs[1];
+    const auto lhs_col2 = lhs[2];
+    const auto lhs_col3 = lhs[3];
+
+    const auto rhs_col0 = rhs[0];
+    const auto rhs_col1 = rhs[1];
+    const auto rhs_col2 = rhs[2];
+    const auto rhs_col3 = rhs[3];
+
     return {
-        (rhs[0][0] * lhs[0][0]) + (rhs[0][1] * lhs[1][0]) + (rhs[0][2] * lhs[2][0]) + (rhs[0][3] * lhs[3][0]),
-        (rhs[0][0] * lhs[0][1]) + (rhs[0][1] * lhs[1][1]) + (rhs[0][2] * lhs[2][1]) + (rhs[0][3] * lhs[3][1]),
-        (rhs[0][0] * lhs[0][2]) + (rhs[0][1] * lhs[1][2]) + (rhs[0][2] * lhs[2][2]) + (rhs[0][3] * lhs[3][2]),
-        (rhs[0][0] * lhs[0][3]) + (rhs[0][1] * lhs[1][3]) + (rhs[0][2] * lhs[2][3]) + (rhs[0][3] * lhs[3][3]),
-
-        (rhs[1][0] * lhs[0][0]) + (rhs[1][1] * lhs[1][0]) + (rhs[1][2] * lhs[2][0]) + (rhs[1][3] * lhs[3][0]),
-        (rhs[1][0] * lhs[0][1]) + (rhs[1][1] * lhs[1][1]) + (rhs[1][2] * lhs[2][1]) + (rhs[1][3] * lhs[3][1]),
-        (rhs[1][0] * lhs[0][2]) + (rhs[1][1] * lhs[1][2]) + (rhs[1][2] * lhs[2][2]) + (rhs[1][3] * lhs[3][2]),
-        (rhs[1][0] * lhs[0][3]) + (rhs[1][1] * lhs[1][3]) + (rhs[1][2] * lhs[2][3]) + (rhs[1][3] * lhs[3][3]),
-
-        (rhs[2][0] * lhs[0][0]) + (rhs[2][1] * lhs[1][0]) + (rhs[2][2] * lhs[2][0]) + (rhs[2][3] * lhs[3][0]),
-        (rhs[2][0] * lhs[0][1]) + (rhs[2][1] * lhs[1][1]) + (rhs[2][2] * lhs[2][1]) + (rhs[2][3] * lhs[3][1]),
-        (rhs[2][0] * lhs[0][2]) + (rhs[2][1] * lhs[1][2]) + (rhs[2][2] * lhs[2][2]) + (rhs[2][3] * lhs[3][2]),
-        (rhs[2][0] * lhs[0][3]) + (rhs[2][1] * lhs[1][3]) + (rhs[2][2] * lhs[2][3]) + (rhs[2][3] * lhs[3][3]),
-
-        (rhs[3][0] * lhs[0][0]) + (rhs[3][1] * lhs[1][0]) + (rhs[3][2] * lhs[2][0]) + (rhs[3][3] * lhs[3][0]),
-        (rhs[3][0] * lhs[0][1]) + (rhs[3][1] * lhs[1][1]) + (rhs[3][2] * lhs[2][1]) + (rhs[3][3] * lhs[3][1]),
-        (rhs[3][0] * lhs[0][2]) + (rhs[3][1] * lhs[1][2]) + (rhs[3][2] * lhs[2][2]) + (rhs[3][3] * lhs[3][2]),
-        (rhs[3][0] * lhs[0][3]) + (rhs[3][1] * lhs[1][3]) + (rhs[3][2] * lhs[2][3]) + (rhs[3][3] * lhs[3][3])
+        {lhs_col0 * rhs_col0.x + lhs_col1 * rhs_col0.y + lhs_col2 * rhs_col0.z + lhs_col3 * rhs_col0.w},
+        {lhs_col0 * rhs_col1.x + lhs_col1 * rhs_col1.y + lhs_col2 * rhs_col1.z + lhs_col3 * rhs_col1.w},
+        {lhs_col0 * rhs_col2.x + lhs_col1 * rhs_col2.y + lhs_col2 * rhs_col2.z + lhs_col3 * rhs_col2.w},
+        {lhs_col0 * rhs_col3.x + lhs_col1 * rhs_col3.y + lhs_col2 * rhs_col3.z + lhs_col3 * rhs_col3.w},
     };
-    // clang-format on
 }
 
 #if (!defined(AEON_DISABLE_SSE))
