@@ -286,6 +286,7 @@ template <clipping_space clipping_space, common::concepts::arithmetic_convertibl
                                        static_cast<float>(near_value), static_cast<float>(far_value));
 }
 
+template <clipping_space clipping_space>
 [[nodiscard]] inline auto mat4::perspective_fov(const unitf<radian> fov, const float width, const float height,
                                                 const float near_value, const float far_value) noexcept -> mat4
 {
@@ -293,30 +294,47 @@ template <clipping_space clipping_space, common::concepts::arithmetic_convertibl
     const auto w = h * height / width;
     const auto far_minus_near = far_value - near_value;
 
-    // clang-format off
-    return {
-        w,    0.0f,                                         0.0f,         0.0f,
-        0.0f,    h,                                         0.0f,         0.0f,
-        0.0f, 0.0f, -(far_value + near_value) / (far_minus_near),        -1.0f,
-        0.0f, 0.0f, -(2.0f * far_value * near_value) / (far_minus_near),  0.0f
-    };
-    // clang-format on
+    if constexpr (clipping_space == clipping_space::minus_one_to_one)
+    {
+        // clang-format off
+        return {
+            w,    0.0f,                                                0.0f,  0.0f,
+            0.0f,    h,                                                0.0f,  0.0f,
+            0.0f, 0.0f,        -(far_value + near_value) / (far_minus_near), -1.0f,
+            0.0f, 0.0f, -(2.0f * far_value * near_value) / (far_minus_near),  0.0f
+        };
+        // clang-format on
+    }
+    else
+    {
+        // clang-format off
+        return {
+            w,    0.0f,                                         0.0f,  0.0f,
+            0.0f,    h,                                         0.0f,  0.0f,
+            0.0f, 0.0f,         far_value / (near_value - far_value), -1.0f,
+            0.0f, 0.0f, -(far_value * near_value) / (far_minus_near),  0.0f
+        };
+        // clang-format on
+    }
 }
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline auto mat4::perspective_fov(const unit_base<radian, void, U> fov, const T width, const T height,
                                                 const U near_value, const U far_value) noexcept -> mat4
 {
-    return perspective_fov(static_cast<float>(fov), static_cast<float>(width), static_cast<float>(height),
-                           static_cast<float>(near_value), static_cast<float>(far_value));
+    return perspective_fov<clipping_space>(static_cast<float>(fov), static_cast<float>(width),
+                                           static_cast<float>(height), static_cast<float>(near_value),
+                                           static_cast<float>(far_value));
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline auto mat4::perspective_fov(const unitf<radian> fov, const size2d<T> size, const float near_value,
                                                 const float far_value) noexcept -> mat4
 {
-    return perspective_fov(static_cast<float>(fov), static_cast<float>(width(size)), static_cast<float>(height(size)),
-                           static_cast<float>(near_value), static_cast<float>(far_value));
+    return perspective_fov<clipping_space>(static_cast<float>(fov), static_cast<float>(width(size)),
+                                           static_cast<float>(height(size)), static_cast<float>(near_value),
+                                           static_cast<float>(far_value));
 }
 
 [[nodiscard]] inline auto mat4::data() noexcept -> std::byte *
