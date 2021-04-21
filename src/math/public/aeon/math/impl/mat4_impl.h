@@ -183,20 +183,35 @@ template <common::concepts::arithmetic_convertible T>
     // clang-format on
 }
 
+template <clipping_space clipping_space>
 [[nodiscard]] inline constexpr auto mat4::ortho(const float left, const float right, const float bottom,
                                                 const float top, const float near_value, const float far_value) noexcept
     -> mat4
 {
     const auto far_minus_near = far_value - near_value;
 
-    // clang-format off
-    return {
-        2.0f / (right - left),      0.0f,                             0.0f,                                             0.0f,
-        0.0f,                       2.0f / (top - bottom),            0.0f,                                             0.0f,
-        0.0f,                       0.0f,            2.0f / far_minus_near,                                             0.0f,
-        -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far_value + near_value) / far_minus_near, 1.0f,
-    };
-    // clang-format on
+    if constexpr (clipping_space == clipping_space::minus_one_to_one)
+    {
+        // clang-format off
+        return {
+            2.0f / (right - left),      0.0f,                             0.0f,                                             0.0f,
+            0.0f,                       2.0f / (top - bottom),            0.0f,                                             0.0f,
+            0.0f,                       0.0f,           -2.0f / far_minus_near,                                             0.0f,
+            -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far_value + near_value) / far_minus_near, 1.0f,
+        };
+        // clang-format on
+    }
+    else
+    {
+        // clang-format off
+        return {
+            2.0f / (right - left),      0.0f,                             0.0f,                               0.0f,
+            0.0f,                       2.0f / (top - bottom),            0.0f,                               0.0f,
+            0.0f,                       0.0f,           -1.0f / far_minus_near,                               0.0f,
+            -(right + left) / (right - left), -(top + bottom) / (top - bottom), -near_value / far_minus_near, 1.0f,
+        };
+        // clang-format on
+    }
 }
 
 template <common::concepts::arithmetic_convertible T>
@@ -207,12 +222,14 @@ template <common::concepts::arithmetic_convertible T>
                        static_cast<float>(top));
 }
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto mat4::ortho(const T left, const T right, const T bottom, const T top,
                                                 const U near_value, const U far_value) noexcept -> mat4
 {
-    return mat4::ortho(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
-                       static_cast<float>(top), static_cast<float>(near_value), static_cast<float>(far_value));
+    return mat4::ortho<clipping_space>(static_cast<float>(left), static_cast<float>(right), static_cast<float>(bottom),
+                                       static_cast<float>(top), static_cast<float>(near_value),
+                                       static_cast<float>(far_value));
 }
 
 template <common::concepts::arithmetic_convertible T>
@@ -221,11 +238,12 @@ template <common::concepts::arithmetic_convertible T>
     return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect));
 }
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto mat4::ortho(const rectangle<T> &rect, const U near_value,
                                                 const U far_value) noexcept -> mat4
 {
-    return mat4::ortho(left(rect), right(rect), bottom(rect), top(rect), near_value, far_value);
+    return mat4::ortho<clipping_space>(left(rect), right(rect), bottom(rect), top(rect), near_value, far_value);
 }
 
 [[nodiscard]] inline auto mat4::perspective(const unitf<radian> fov_y, const float aspect_ratio, const float near_value,

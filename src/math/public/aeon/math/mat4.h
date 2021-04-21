@@ -10,6 +10,7 @@
 #include <aeon/math/math_fwd.h>
 #include <aeon/math/vector4.h>
 #include <aeon/math/units.h>
+#include <aeon/math/clipping_space.h>
 #include <aeon/common/concepts.h>
 #include <array>
 
@@ -241,6 +242,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
+    template <clipping_space clipping_space = clipping_space::minus_one_to_one>
     [[nodiscard]] static constexpr auto ortho(const float left, const float right, const float bottom, const float top,
                                               const float near_value, const float far_value) noexcept -> mat4;
 
@@ -266,7 +268,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
+              common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
     [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top,
                                               const U near_value, const U far_value) noexcept -> mat4;
 
@@ -285,7 +288,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
+              common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
     [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect, const U near_value, const U far_value) noexcept
         -> mat4;
 

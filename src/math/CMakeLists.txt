@@ -6,6 +6,7 @@ set(SOURCES
     public/aeon/math/anchor_point.h
     public/aeon/math/circle.h
     public/aeon/math/circle_stream.h
+    public/aeon/math/clipping_space.h
     public/aeon/math/hash.h
     public/aeon/math/imat.h
     public/aeon/math/impl/circle_impl.h
