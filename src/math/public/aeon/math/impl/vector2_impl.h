@@ -149,7 +149,7 @@ inline constexpr void normalize(vector2<T> &vec) noexcept
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto normalized(const vector2<T> &vec) noexcept -> vector2<T>
 {
-    auto l = length(vec);
+    const auto l = length(vec);
 
     if (l > constants<T>::tolerance)
         return vec / l;
