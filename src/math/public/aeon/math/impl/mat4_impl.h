@@ -246,27 +246,44 @@ template <clipping_space clipping_space, common::concepts::arithmetic_convertibl
     return mat4::ortho<clipping_space>(left(rect), right(rect), bottom(rect), top(rect), near_value, far_value);
 }
 
+template <clipping_space clipping_space>
 [[nodiscard]] inline auto mat4::perspective(const unitf<radian> fov_y, const float aspect_ratio, const float near_value,
                                             const float far_value) noexcept -> mat4
 {
     const auto tan_half_fov_y = std::tan(0.5f * fov_y);
+    const auto far_minus_near = far_value - near_value;
 
-    // clang-format off
-    return {
-        1.0f / (aspect_ratio * tan_half_fov_y),                      0.0f, 0.0f,  0.0f,
-        0.0f,                                       1.0f / tan_half_fov_y, 0.0f,  0.0f,
-        0.0f, 0.0f,        -(far_value + near_value) / (far_value - near_value), -1.0f,
-        0.0f, 0.0f, -(2.0f * far_value * near_value) / (far_value - near_value),  0.0f,
-    };
-    // clang-format on
+    if constexpr (clipping_space == clipping_space::minus_one_to_one)
+    {
+        // clang-format off
+        return {
+            1.0f / (aspect_ratio * tan_half_fov_y),                      0.0f, 0.0f,  0.0f,
+            0.0f,                                       1.0f / tan_half_fov_y, 0.0f,  0.0f,
+            0.0f, 0.0f,                -(far_value + near_value) / (far_minus_near), -1.0f,
+            0.0f, 0.0f,         -(2.0f * far_value * near_value) / (far_minus_near),  0.0f,
+        };
+        // clang-format on
+    }
+    else
+    {
+        // clang-format off
+        return {
+            1.0f / (aspect_ratio * tan_half_fov_y),       0.0f, 0.0f,  0.0f,
+            0.0f,                        1.0f / tan_half_fov_y, 0.0f,  0.0f,
+            0.0f, 0.0f,         far_value / (near_value - far_value), -1.0f,
+            0.0f, 0.0f, -(far_value * near_value) / (far_minus_near),  0.0f,
+        };
+        // clang-format on
+    }
 }
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline auto mat4::perspective(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
                                             const U near_value, const U far_value) noexcept -> mat4
 {
-    return perspective(static_cast<float>(fov_y), static_cast<float>(aspect_ratio), static_cast<float>(near_value),
-                       static_cast<float>(far_value));
+    return perspective<clipping_space>(static_cast<float>(fov_y), static_cast<float>(aspect_ratio),
+                                       static_cast<float>(near_value), static_cast<float>(far_value));
 }
 
 [[nodiscard]] inline auto mat4::perspective_fov(const unitf<radian> fov, const float width, const float height,
