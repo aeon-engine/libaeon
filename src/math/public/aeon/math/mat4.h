@@ -242,7 +242,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one>
+    template <clipping_space clipping_space = default_clipping_space>
     [[nodiscard]] static constexpr auto ortho(const float left, const float right, const float bottom, const float top,
                                               const float near_value, const float far_value) noexcept -> mat4;
 
@@ -268,8 +268,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
-              common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
+              common::concepts::arithmetic_convertible U>
     [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top,
                                               const U near_value, const U far_value) noexcept -> mat4;
 
@@ -288,8 +288,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
-              common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
+              common::concepts::arithmetic_convertible U>
     [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect, const U near_value, const U far_value) noexcept
         -> mat4;
 
@@ -301,7 +301,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one>
+    template <clipping_space clipping_space = default_clipping_space>
     [[nodiscard]] static auto perspective(const unitf<radian> fov_y, const float aspect_ratio, const float near_value,
                                           const float far_value) noexcept -> mat4;
 
@@ -313,8 +313,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
-              common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
+              common::concepts::arithmetic_convertible U>
     [[nodiscard]] static auto perspective(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
                                           const U near_value, const U far_value) noexcept -> mat4;
 
@@ -327,7 +327,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one>
+    template <clipping_space clipping_space = default_clipping_space>
     [[nodiscard]] static auto perspective_fov(const unitf<radian> fov, const float width, const float height,
                                               const float near_value, const float far_value) noexcept -> mat4;
 
@@ -340,8 +340,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
-              common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
+              common::concepts::arithmetic_convertible U>
     [[nodiscard]] static auto perspective_fov(const unit_base<radian, void, U> fov, const T width, const T height,
                                               const U near_value, const U far_value) noexcept -> mat4;
 
@@ -353,8 +353,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = clipping_space::minus_one_to_one,
-              common::concepts::arithmetic_convertible T>
+    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T>
     [[nodiscard]] static auto perspective_fov(const unitf<radian> fov, const size2d<T> size, const float near_value,
                                               const float far_value) noexcept -> mat4;
 

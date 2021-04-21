@@ -7,8 +7,10 @@ namespace aeon::math
 
 enum class clipping_space
 {
-    zero_to_one,     // DirectX
+    zero_to_one,     // DirectX, Vulkan
     minus_one_to_one // OpenGL
 };
+
+constexpr auto default_clipping_space = clipping_space::zero_to_one;
 
 } // namespace aeon::math
