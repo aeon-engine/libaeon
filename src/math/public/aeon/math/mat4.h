@@ -35,15 +35,15 @@ public:
     /*!
      * Create a matrix based on the given values. Values are in column-major order
      */
-    constexpr mat4(const float m00, const float m01, const float m02, const float m03, const float m10, const float m11,
-                   const float m12, const float m13, const float m20, const float m21, const float m22, const float m23,
-                   const float m30, const float m31, const float m32, const float m33) noexcept;
+    constexpr mat4(const float m00, const float m10, const float m20, const float m30, const float m01, const float m11,
+                   const float m21, const float m31, const float m02, const float m12, const float m22, const float m32,
+                   const float m03, const float m13, const float m23, const float m33) noexcept;
 
     /*!
      * Create a matrix based on the given values. Values are in column-major order
      */
-    constexpr mat4(const vector4<float> &r1, const vector4<float> &r2, const vector4<float> &r3,
-                   const vector4<float> &r4) noexcept;
+    constexpr mat4(const vector4<float> &c1, const vector4<float> &c2, const vector4<float> &c3,
+                   const vector4<float> &c4) noexcept;
 
     ~mat4() noexcept = default;
 

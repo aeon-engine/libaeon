@@ -32,13 +32,13 @@ public:
     /*!
      * Create a matrix based on the given values. Values are in column-major order
      */
-    constexpr mat3(const float m00, const float m01, const float m02, const float m10, const float m11, const float m12,
-                   const float m20, const float m21, const float m22) noexcept;
+    constexpr mat3(const float m00, const float m10, const float m20, const float m01, const float m11, const float m21,
+                   const float m02, const float m12, const float m22) noexcept;
 
     /*!
      * Create a matrix based on the given values. Values are in column-major order
      */
-    constexpr mat3(const vector3<float> &r1, const vector3<float> &r2, const vector3<float> &r3) noexcept;
+    constexpr mat3(const vector3<float> &c1, const vector3<float> &c2, const vector3<float> &c3) noexcept;
 
     ~mat3() noexcept = default;
 

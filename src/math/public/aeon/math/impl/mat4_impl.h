@@ -14,18 +14,18 @@ namespace aeon::math
 
 inline constexpr mat4::mat4() noexcept = default;
 
-inline constexpr mat4::mat4(const float m00, const float m01, const float m02, const float m03, const float m10,
-                            const float m11, const float m12, const float m13, const float m20, const float m21,
-                            const float m22, const float m23, const float m30, const float m31, const float m32,
+inline constexpr mat4::mat4(const float m00, const float m10, const float m20, const float m30, const float m01,
+                            const float m11, const float m21, const float m31, const float m02, const float m12,
+                            const float m22, const float m32, const float m03, const float m13, const float m23,
                             const float m33) noexcept
-    : column{vector4{m00, m01, m02, m03}, vector4{m10, m11, m12, m13}, vector4{m20, m21, m22, m23},
-             vector4{m30, m31, m32, m33}}
+    : column{vector4{m00, m10, m20, m30}, vector4{m01, m11, m21, m31}, vector4{m02, m12, m22, m32},
+             vector4{m03, m13, m23, m33}}
 {
 }
 
-constexpr mat4::mat4(const vector4<float> &row1, const vector4<float> &row2, const vector4<float> &row3,
-                     const vector4<float> &row4) noexcept
-    : column{row1, row2, row3, row4}
+constexpr mat4::mat4(const vector4<float> &c1, const vector4<float> &c2, const vector4<float> &c3,
+                     const vector4<float> &c4) noexcept
+    : column{c1, c2, c3, c4}
 {
 }
 
@@ -154,14 +154,19 @@ template <common::concepts::arithmetic_convertible T>
     const auto axis = normalized(vec);
     const auto tmp = (1.0f - c) * axis;
 
-    // clang-format off
-    return {
-        c + tmp.x * axis.x,          tmp.x * axis.y + s * axis.z, tmp.x * axis.z - s * axis.y, 0.0f,
-        tmp.y * axis.x - s * axis.z,          c + tmp.y * axis.y, tmp.y * axis.z + s * axis.x, 0.0f,
-        tmp.z * axis.x + s * axis.y, tmp.z * axis.y - s * axis.x, c + tmp.z * axis.z,          0.0f,
-        0.0f,                  0.0f,                        0.0f,                              1.0f
-    };
-    // clang-format on
+    auto result = indentity();
+    result[0][0] = c + tmp.x * axis.x;
+    result[0][1] = tmp.x * axis.y + s * axis.z;
+    result[0][2] = tmp.x * axis.z - s * axis.y;
+
+    result[1][0] = tmp.y * axis.x - s * axis.z;
+    result[1][1] = c + tmp.y * axis.y;
+    result[1][2] = tmp.y * axis.z + s * axis.x;
+
+    result[2][0] = tmp.z * axis.x + s * axis.y;
+    result[2][1] = tmp.z * axis.y - s * axis.x;
+    result[2][2] = c + tmp.z * axis.z;
+    return result;
 }
 
 template <common::concepts::arithmetic_convertible T>
@@ -173,14 +178,13 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::ortho(const float left, const float right, const float bottom,
                                                 const float top) noexcept -> mat4
 {
-    // clang-format off
-    return {
-        2.0f / (right - left),      0.0f,                                   0.0f, 0.0f,
-        0.0f,                       2.0f / (top - bottom),                  0.0f, 0.0f,
-        0.0f,                       0.0f,                                  -1.0f, 0.0f,
-        -(right + left) / (right - left), -(top + bottom) / (top - bottom), 0.0f, 1.0f
-    };
-    // clang-format on
+    auto result = indentity();
+    result[0][0] = 2.0f / (right - left);
+    result[1][1] = 2.0f / (top - bottom);
+    result[2][2] = -1.0;
+    result[3][0] = -(right + left) / (right - left);
+    result[3][1] = -(top + bottom) / (top - bottom);
+    return result;
 }
 
 template <clipping_space clipping_space>
@@ -190,28 +194,28 @@ template <clipping_space clipping_space>
 {
     const auto far_minus_near = far_value - near_value;
 
+    auto result = indentity();
+
     if constexpr (clipping_space == clipping_space::minus_one_to_one)
     {
-        // clang-format off
-        return {
-            2.0f / (right - left),      0.0f,                             0.0f,                                             0.0f,
-            0.0f,                       2.0f / (top - bottom),            0.0f,                                             0.0f,
-            0.0f,                       0.0f,           -2.0f / far_minus_near,                                             0.0f,
-            -(right + left) / (right - left), -(top + bottom) / (top - bottom), -(far_value + near_value) / far_minus_near, 1.0f,
-        };
-        // clang-format on
+        result[0][0] = 2.0f / (right - left);
+        result[1][1] = 2.0f / (top - bottom);
+        result[2][2] = -2.0f / far_minus_near;
+        result[3][0] = -(right + left) / (right - left);
+        result[3][1] = -(top + bottom) / (top - bottom);
+        result[3][2] = -(far_value + near_value) / far_minus_near;
     }
     else
     {
-        // clang-format off
-        return {
-            2.0f / (right - left),      0.0f,                             0.0f,                               0.0f,
-            0.0f,                       2.0f / (top - bottom),            0.0f,                               0.0f,
-            0.0f,                       0.0f,           -1.0f / far_minus_near,                               0.0f,
-            -(right + left) / (right - left), -(top + bottom) / (top - bottom), -near_value / far_minus_near, 1.0f,
-        };
-        // clang-format on
+        result[0][0] = 2.0f / (right - left);
+        result[1][1] = 2.0f / (top - bottom);
+        result[2][2] = -1.0f / far_minus_near;
+        result[3][0] = -(right + left) / (right - left);
+        result[3][1] = -(top + bottom) / (top - bottom);
+        result[3][2] = -near_value / far_minus_near;
     }
+
+    return result;
 }
 
 template <common::concepts::arithmetic_convertible T>
@@ -253,28 +257,26 @@ template <clipping_space clipping_space>
     const auto tan_half_fov_y = std::tan(0.5f * fov_y);
     const auto far_minus_near = far_value - near_value;
 
+    mat4 result;
+
     if constexpr (clipping_space == clipping_space::minus_one_to_one)
     {
-        // clang-format off
-        return {
-            1.0f / (aspect_ratio * tan_half_fov_y),                      0.0f, 0.0f,  0.0f,
-            0.0f,                                       1.0f / tan_half_fov_y, 0.0f,  0.0f,
-            0.0f, 0.0f,                -(far_value + near_value) / (far_minus_near), -1.0f,
-            0.0f, 0.0f,         -(2.0f * far_value * near_value) / (far_minus_near),  0.0f,
-        };
-        // clang-format on
+        result[0][0] = 1.0f / (aspect_ratio * tan_half_fov_y);
+        result[1][1] = 1.0f / tan_half_fov_y;
+        result[2][2] = -(far_value + near_value) / far_minus_near;
+        result[2][3] = -1.0f;
+        result[3][2] = -(2.0f * far_value * near_value) / far_minus_near;
     }
     else
     {
-        // clang-format off
-        return {
-            1.0f / (aspect_ratio * tan_half_fov_y),       0.0f, 0.0f,  0.0f,
-            0.0f,                        1.0f / tan_half_fov_y, 0.0f,  0.0f,
-            0.0f, 0.0f,         far_value / (near_value - far_value), -1.0f,
-            0.0f, 0.0f, -(far_value * near_value) / (far_minus_near),  0.0f,
-        };
-        // clang-format on
+        result[0][0] = 1.0f / (aspect_ratio * tan_half_fov_y);
+        result[1][1] = 1.0f / (tan_half_fov_y);
+        result[2][2] = far_value / (near_value - far_value);
+        result[2][3] = -1.0f;
+        result[3][2] = -(far_value * near_value) / far_minus_near;
     }
+
+    return result;
 }
 
 template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
@@ -294,28 +296,26 @@ template <clipping_space clipping_space>
     const auto w = h * height / width;
     const auto far_minus_near = far_value - near_value;
 
+    mat4 result;
+
     if constexpr (clipping_space == clipping_space::minus_one_to_one)
     {
-        // clang-format off
-        return {
-            w,    0.0f,                                                0.0f,  0.0f,
-            0.0f,    h,                                                0.0f,  0.0f,
-            0.0f, 0.0f,        -(far_value + near_value) / (far_minus_near), -1.0f,
-            0.0f, 0.0f, -(2.0f * far_value * near_value) / (far_minus_near),  0.0f
-        };
-        // clang-format on
+        result[0][0] = w;
+        result[1][1] = h;
+        result[2][2] = -(far_value + near_value) / far_minus_near;
+        result[2][3] = -1.0f;
+        result[3][2] = -(2.0f * far_value * near_value) / far_minus_near;
     }
     else
     {
-        // clang-format off
-        return {
-            w,    0.0f,                                         0.0f,  0.0f,
-            0.0f,    h,                                         0.0f,  0.0f,
-            0.0f, 0.0f,         far_value / (near_value - far_value), -1.0f,
-            0.0f, 0.0f, -(far_value * near_value) / (far_minus_near),  0.0f
-        };
-        // clang-format on
+        result[0][0] = w;
+        result[1][1] = h;
+        result[2][2] = far_value / (near_value - far_value);
+        result[2][3] = -1.0f;
+        result[3][2] = -(far_value * near_value) / far_minus_near;
     }
+
+    return result;
 }
 
 template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
