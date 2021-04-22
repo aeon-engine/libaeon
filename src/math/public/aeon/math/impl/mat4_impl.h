@@ -320,7 +320,7 @@ template <clipping_space clipping_space>
     {
         result[0][0] = 1.0f / (aspect_ratio * tan_half_fov_y);
         result[1][1] = 1.0f / (tan_half_fov_y);
-        result[2][2] = far_value / (near_value - far_value);
+        result[2][2] = -far_value / (near_value - far_value);
         result[2][3] = 1.0f;
         result[3][2] = -(far_value * near_value) / far_minus_near;
     }
