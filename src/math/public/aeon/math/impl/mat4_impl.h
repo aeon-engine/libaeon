@@ -188,6 +188,37 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <clipping_space clipping_space>
+[[nodiscard]] inline constexpr auto mat4::ortho_lh(const float left, const float right, const float bottom,
+                                                   const float top, const float near_value,
+                                                   const float far_value) noexcept -> mat4
+{
+    const auto far_minus_near = far_value - near_value;
+
+    auto result = indentity();
+
+    if constexpr (clipping_space == clipping_space::minus_one_to_one)
+    {
+        result[0][0] = 2.0f / (right - left);
+        result[1][1] = 2.0f / (top - bottom);
+        result[2][2] = 2.0f / far_minus_near;
+        result[3][0] = -(right + left) / (right - left);
+        result[3][1] = -(top + bottom) / (top - bottom);
+        result[3][2] = -(far_value + near_value) / far_minus_near;
+    }
+    else
+    {
+        result[0][0] = 2.0f / (right - left);
+        result[1][1] = 2.0f / (top - bottom);
+        result[2][2] = 1.0f / far_minus_near;
+        result[3][0] = -(right + left) / (right - left);
+        result[3][1] = -(top + bottom) / (top - bottom);
+        result[3][2] = -near_value / far_minus_near;
+    }
+
+    return result;
+}
+
+template <clipping_space clipping_space>
 [[nodiscard]] inline constexpr auto mat4::ortho_rh(const float left, const float right, const float bottom,
                                                    const float top, const float near_value,
                                                    const float far_value) noexcept -> mat4
@@ -228,6 +259,16 @@ template <common::concepts::arithmetic_convertible T>
 
 template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
           common::concepts::arithmetic_convertible U>
+[[nodiscard]] inline constexpr auto mat4::ortho_lh(const T left, const T right, const T bottom, const T top,
+                                                   const U near_value, const U far_value) noexcept -> mat4
+{
+    return mat4::ortho_lh<clipping_space>(static_cast<float>(left), static_cast<float>(right),
+                                          static_cast<float>(bottom), static_cast<float>(top),
+                                          static_cast<float>(near_value), static_cast<float>(far_value));
+}
+
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto mat4::ortho_rh(const T left, const T right, const T bottom, const T top,
                                                    const U near_value, const U far_value) noexcept -> mat4
 {
@@ -244,10 +285,47 @@ template <common::concepts::arithmetic_convertible T>
 
 template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
           common::concepts::arithmetic_convertible U>
+[[nodiscard]] inline constexpr auto mat4::ortho_lh(const rectangle<T> &rect, const U near_value,
+                                                   const U far_value) noexcept -> mat4
+{
+    return mat4::ortho_lh<clipping_space>(left(rect), right(rect), bottom(rect), top(rect), near_value, far_value);
+}
+
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline constexpr auto mat4::ortho_rh(const rectangle<T> &rect, const U near_value,
                                                    const U far_value) noexcept -> mat4
 {
     return mat4::ortho_rh<clipping_space>(left(rect), right(rect), bottom(rect), top(rect), near_value, far_value);
+}
+
+template <clipping_space clipping_space>
+[[nodiscard]] inline auto mat4::perspective_lh(const unitf<radian> fov_y, const float aspect_ratio,
+                                               const float near_value, const float far_value) noexcept -> mat4
+{
+    const auto tan_half_fov_y = std::tan(0.5f * fov_y);
+    const auto far_minus_near = far_value - near_value;
+
+    mat4 result;
+
+    if constexpr (clipping_space == clipping_space::minus_one_to_one)
+    {
+        result[0][0] = 1.0f / (aspect_ratio * tan_half_fov_y);
+        result[1][1] = 1.0f / tan_half_fov_y;
+        result[2][2] = (far_value + near_value) / far_minus_near;
+        result[2][3] = 1.0f;
+        result[3][2] = -(2.0f * far_value * near_value) / far_minus_near;
+    }
+    else
+    {
+        result[0][0] = 1.0f / (aspect_ratio * tan_half_fov_y);
+        result[1][1] = 1.0f / (tan_half_fov_y);
+        result[2][2] = far_value / (near_value - far_value);
+        result[2][3] = 1.0f;
+        result[3][2] = -(far_value * near_value) / far_minus_near;
+    }
+
+    return result;
 }
 
 template <clipping_space clipping_space>
@@ -281,11 +359,50 @@ template <clipping_space clipping_space>
 
 template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
           common::concepts::arithmetic_convertible U>
+[[nodiscard]] inline auto mat4::perspective_lh(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
+                                               const U near_value, const U far_value) noexcept -> mat4
+{
+    return perspective_lh<clipping_space>(static_cast<float>(fov_y), static_cast<float>(aspect_ratio),
+                                          static_cast<float>(near_value), static_cast<float>(far_value));
+}
+
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline auto mat4::perspective_rh(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
                                                const U near_value, const U far_value) noexcept -> mat4
 {
     return perspective_rh<clipping_space>(static_cast<float>(fov_y), static_cast<float>(aspect_ratio),
                                           static_cast<float>(near_value), static_cast<float>(far_value));
+}
+
+template <clipping_space clipping_space>
+[[nodiscard]] inline auto mat4::perspective_fov_lh(const unitf<radian> fov, const float width, const float height,
+                                                   const float near_value, const float far_value) noexcept -> mat4
+{
+    const auto h = std::cos(0.5f * fov) / std::sin(0.5f * fov);
+    const auto w = h * height / width;
+    const auto far_minus_near = far_value - near_value;
+
+    mat4 result;
+
+    if constexpr (clipping_space == clipping_space::minus_one_to_one)
+    {
+        result[0][0] = w;
+        result[1][1] = h;
+        result[2][2] = (far_value + near_value) / far_minus_near;
+        result[2][3] = 1.0f;
+        result[3][2] = -(2.0f * far_value * near_value) / far_minus_near;
+    }
+    else
+    {
+        result[0][0] = w;
+        result[1][1] = h;
+        result[2][2] = far_value / (near_value - far_value);
+        result[2][3] = 1.0f;
+        result[3][2] = -(far_value * near_value) / far_minus_near;
+    }
+
+    return result;
 }
 
 template <clipping_space clipping_space>
@@ -320,11 +437,30 @@ template <clipping_space clipping_space>
 
 template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
           common::concepts::arithmetic_convertible U>
+[[nodiscard]] inline auto mat4::perspective_fov_lh(const unit_base<radian, void, U> fov, const T width, const T height,
+                                                   const U near_value, const U far_value) noexcept -> mat4
+{
+    return perspective_fov_lh<clipping_space>(static_cast<float>(fov), static_cast<float>(width),
+                                              static_cast<float>(height), static_cast<float>(near_value),
+                                              static_cast<float>(far_value));
+}
+
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T,
+          common::concepts::arithmetic_convertible U>
 [[nodiscard]] inline auto mat4::perspective_fov_rh(const unit_base<radian, void, U> fov, const T width, const T height,
                                                    const U near_value, const U far_value) noexcept -> mat4
 {
     return perspective_fov_rh<clipping_space>(static_cast<float>(fov), static_cast<float>(width),
                                               static_cast<float>(height), static_cast<float>(near_value),
+                                              static_cast<float>(far_value));
+}
+
+template <clipping_space clipping_space, common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline auto mat4::perspective_fov_lh(const unitf<radian> fov, const size2d<T> size,
+                                                   const float near_value, const float far_value) noexcept -> mat4
+{
+    return perspective_fov_lh<clipping_space>(static_cast<float>(fov), static_cast<float>(width(size)),
+                                              static_cast<float>(height(size)), static_cast<float>(near_value),
                                               static_cast<float>(far_value));
 }
 
