@@ -575,6 +575,18 @@ template <clipping_space clipping_space, common::concepts::arithmetic_convertibl
     // clang-format on
 }
 
+[[nodiscard]] inline constexpr auto transpose(const mat4 &mat) noexcept -> mat4
+{
+    const auto c1 = mat[0];
+    const auto c2 = mat[1];
+    const auto c3 = mat[2];
+    const auto c4 = mat[3];
+
+    return {
+        c1.x, c2.x, c3.x, c4.x, c1.y, c2.y, c3.y, c4.y, c1.z, c2.z, c3.z, c4.z, c1.w, c2.w, c3.w, c4.w,
+    };
+}
+
 [[nodiscard]] inline constexpr auto is_affine(const mat4 &mat) noexcept -> bool
 {
     return (mat[0][3] == 0.0f) && (mat[1][3] == 0.0f) && (mat[2][3] == 0.0f) && (mat[3][3] == 1.0f);

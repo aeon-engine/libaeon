@@ -508,6 +508,13 @@ inline constexpr auto operator!=(const mat4 &lhs, const mat4 &rhs) noexcept -> b
 [[nodiscard]] inline constexpr auto inverse(const mat4 &mat) noexcept -> mat4;
 
 /*!
+ * Transpose the matrix (convert column major to row major)
+ * \param[in] mat - Matrix
+ * \return Transposed matrix
+ */
+[[nodiscard]] inline constexpr auto transpose(const mat4 &mat) noexcept -> mat4;
+
+/*!
  * Check if a given matrix is affine.
  * A matrix is affine if the 4th row is equal to [0 0 0 1] and thus has no projective coefficients.
  * \param[in] mat - Matrix
