@@ -69,7 +69,7 @@ public:
 
     [[nodiscard]] auto size() const noexcept -> std::size_t;
 
-    [[nodiscard]] static auto generate() -> uuid;
+    [[nodiscard]] static auto generate() noexcept -> uuid;
 
     [[nodiscard]] static auto nil() noexcept -> uuid;
 

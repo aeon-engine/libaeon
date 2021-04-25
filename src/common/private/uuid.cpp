@@ -197,7 +197,7 @@ auto uuid::u8str() const -> std::u8string
     return data.size();
 }
 
-[[nodiscard]] auto uuid::generate() -> uuid
+[[nodiscard]] auto uuid::generate() noexcept -> uuid
 {
     std::random_device r;
     std::default_random_engine e1(r());
