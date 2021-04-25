@@ -88,7 +88,7 @@ template <typename T>
 uuid::uuid() noexcept
     : data{}
 {
-    std::fill(data.begin(), data.end(), 0_uint8_t);
+    std::ranges::fill(data, 0_uint8_t);
 }
 
 uuid::uuid(data_type data) noexcept
@@ -327,6 +327,11 @@ auto uuid::try_parse(const std::string_view &str) noexcept -> std::optional<uuid
     }
 
     return uuid{data};
+}
+
+uuid::operator bool() const noexcept
+{
+    return !is_nil();
 }
 
 bool operator==(uuid const &lhs, uuid const &rhs) noexcept

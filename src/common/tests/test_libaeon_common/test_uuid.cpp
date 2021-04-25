@@ -15,12 +15,15 @@ TEST(test_uuid, test_uuid_is_nil)
 {
     common::uuid uuid;
     ASSERT_TRUE(uuid.is_nil());
+    ASSERT_TRUE(uuid == false);
 
     uuid.data[0] = 1;
     ASSERT_FALSE(uuid.is_nil());
+    ASSERT_FALSE(uuid == false);
 
     uuid.data[0] = 0;
     ASSERT_TRUE(uuid.is_nil());
+    ASSERT_TRUE(uuid == false);
 }
 
 TEST(test_uuid, test_uuid_create_nil_is_nil)
@@ -29,6 +32,9 @@ TEST(test_uuid, test_uuid_create_nil_is_nil)
     common::uuid uuid2;
     ASSERT_TRUE(uuid.is_nil());
     ASSERT_EQ(uuid, uuid2);
+
+    ASSERT_TRUE(uuid == false);
+    ASSERT_FALSE(uuid != false);
 }
 
 TEST(test_uuid, test_uuid_random)

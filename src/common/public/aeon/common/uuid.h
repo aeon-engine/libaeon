@@ -76,6 +76,8 @@ public:
     [[nodiscard]] static auto parse(const std::string_view &str) -> uuid;
     [[nodiscard]] static auto try_parse(const std::string_view &str) noexcept -> std::optional<uuid>;
 
+    [[nodiscard]] operator bool() const noexcept;
+
     data_type data;
 };
 
