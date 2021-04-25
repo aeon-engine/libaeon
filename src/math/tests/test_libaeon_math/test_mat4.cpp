@@ -82,7 +82,7 @@ TEST(test_mat4, test_mat4_decompose)
 
     const auto rotation_matrix = math::mat4::rotate(math::unitf<math::degree>{65.0f}, {1.0f, 0.0f, 0.0f});
     const auto translation_matrix = math::mat4::translate(expected_translation);
-    const auto matrix =  translation_matrix * rotation_matrix;
+    const auto matrix = translation_matrix * rotation_matrix;
 
     math::vector3<float> translation;
     math::vector3<float> scale;
