@@ -34,9 +34,11 @@ set(SOURCES
     public/aeon/common/fmtflags.h
     public/aeon/common/fourcc.h
     public/aeon/common/from_chars.h
+    public/aeon/common/general_tree.h
     public/aeon/common/hash.h
     public/aeon/common/hexdump.h
     public/aeon/common/impl/color_impl.h
+    public/aeon/common/impl/general_tree_impl.h
     public/aeon/common/impl/string_impl.h
     public/aeon/common/impl/version_impl.h
     public/aeon/common/intrinsics.h

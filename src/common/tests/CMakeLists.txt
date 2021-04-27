@@ -17,6 +17,7 @@ add_unit_test_suite(
         test_endianness.cpp
         test_flags.cpp
         test_from_chars.cpp
+        test_general_tree.cpp
         test_hash.cpp
         test_intrusive_ptr.cpp
         test_lexical_parse.cpp
