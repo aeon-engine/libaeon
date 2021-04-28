@@ -33,7 +33,10 @@ converting_variant::converting_variant(const enum type t) noexcept
 {
 }
 
-auto converting_variant::type() const noexcept -> enum type { return static_cast<enum type>(type_); }
+auto converting_variant::type() const noexcept -> enum type
+{
+    return static_cast<enum type>(type_);
+}
 
 auto converting_variant::is_user_type() const noexcept -> bool
 {
