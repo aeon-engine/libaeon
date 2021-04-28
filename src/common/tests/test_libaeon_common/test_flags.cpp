@@ -12,7 +12,7 @@ enum class test_flags : std::uint64_t
     flag_5 = 0x10
 };
 
-aeon_declare_flag_operators(test_flags);
+aeon_declare_flag_operators(test_flags)
 
 enum class test_flags2 : std::uint8_t
 {
@@ -23,7 +23,7 @@ enum class test_flags2 : std::uint8_t
     flag_5 = 0x10
 };
 
-aeon_declare_flag_operators(test_flags2);
+aeon_declare_flag_operators(test_flags2)
 
 TEST(test_flags, test_flags_create)
 {

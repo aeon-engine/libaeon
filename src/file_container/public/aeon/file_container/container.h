@@ -23,7 +23,7 @@ enum class read_items : std::uint32_t
     all = 0xff
 };
 
-aeon_declare_flag_operators(read_items);
+aeon_declare_flag_operators(read_items)
 
 class container final
 {

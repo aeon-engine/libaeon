@@ -137,6 +137,7 @@ Standard:        Latest
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
+  - aeon_declare_flag_operators
 TabWidth:        4
 UseCRLF:         false
 UseTab:          Never

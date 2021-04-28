@@ -16,7 +16,7 @@ enum class field_flag : std::uint32_t
     is_static = 0x02,
 };
 
-aeon_declare_flag_operators(field_flag);
+aeon_declare_flag_operators(field_flag)
 
 class ast_field final : public ast_entity
 {

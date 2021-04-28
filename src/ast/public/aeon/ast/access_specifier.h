@@ -16,6 +16,6 @@ enum class access_specifier : std::uint32_t
     private_t = 0x08,
 };
 
-aeon_declare_flag_operators(access_specifier);
+aeon_declare_flag_operators(access_specifier)
 
 } // namespace aeon::ast

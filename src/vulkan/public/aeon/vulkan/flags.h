@@ -31,7 +31,7 @@ enum class access_flag : VkAccessFlags
     color_attachment_read_noncoherent_ext = VK_ACCESS_COLOR_ATTACHMENT_READ_NONCOHERENT_BIT_EXT,
 };
 
-aeon_declare_flag_operators(access_flag);
+aeon_declare_flag_operators(access_flag)
 
 enum class attachment_description_flag : VkAttachmentDescriptionFlags
 {
@@ -39,7 +39,7 @@ enum class attachment_description_flag : VkAttachmentDescriptionFlags
     may_alias = VK_ATTACHMENT_DESCRIPTION_MAY_ALIAS_BIT
 };
 
-aeon_declare_flag_operators(attachment_description_flag);
+aeon_declare_flag_operators(attachment_description_flag)
 
 enum class buffer_usage_flag : VkBufferUsageFlags
 {
@@ -54,7 +54,7 @@ enum class buffer_usage_flag : VkBufferUsageFlags
     indirect_buffer = VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT,
 };
 
-aeon_declare_flag_operators(buffer_usage_flag);
+aeon_declare_flag_operators(buffer_usage_flag)
 
 enum class command_pool_create_flag : VkCommandPoolCreateFlags
 {
@@ -63,7 +63,7 @@ enum class command_pool_create_flag : VkCommandPoolCreateFlags
     created_protected = VK_COMMAND_POOL_CREATE_PROTECTED_BIT
 };
 
-aeon_declare_flag_operators(command_pool_create_flag);
+aeon_declare_flag_operators(command_pool_create_flag)
 
 enum class command_buffer_usage_flag : VkCommandBufferUsageFlags
 {
@@ -73,7 +73,7 @@ enum class command_buffer_usage_flag : VkCommandBufferUsageFlags
     simultaneous_use = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
 };
 
-aeon_declare_flag_operators(command_buffer_usage_flag);
+aeon_declare_flag_operators(command_buffer_usage_flag)
 
 enum class color_component_flag : VkColorComponentFlags
 {
@@ -84,7 +84,7 @@ enum class color_component_flag : VkColorComponentFlags
     all = red | green | blue | alpha
 };
 
-aeon_declare_flag_operators(color_component_flag);
+aeon_declare_flag_operators(color_component_flag)
 
 enum class dependency_flag : VkDependencyFlags
 {
@@ -93,7 +93,7 @@ enum class dependency_flag : VkDependencyFlags
     view_local = VK_DEPENDENCY_VIEW_LOCAL_BIT
 };
 
-aeon_declare_flag_operators(dependency_flag);
+aeon_declare_flag_operators(dependency_flag)
 
 enum class descriptor_pool_create_flag : VkDescriptorPoolCreateFlags
 {
@@ -101,7 +101,7 @@ enum class descriptor_pool_create_flag : VkDescriptorPoolCreateFlags
     free_descriptor_set = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT,
 };
 
-aeon_declare_flag_operators(descriptor_pool_create_flag);
+aeon_declare_flag_operators(descriptor_pool_create_flag)
 
 enum class descriptor_set_layout_create_flag : VkDescriptorSetLayoutCreateFlags
 {
@@ -109,14 +109,14 @@ enum class descriptor_set_layout_create_flag : VkDescriptorSetLayoutCreateFlags
     create_push_descriptor = VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR
 };
 
-aeon_declare_flag_operators(descriptor_set_layout_create_flag);
+aeon_declare_flag_operators(descriptor_set_layout_create_flag)
 
 enum class framebuffer_create_flag : VkFramebufferCreateFlags
 {
     none = 0,
 };
 
-aeon_declare_flag_operators(framebuffer_create_flag);
+aeon_declare_flag_operators(framebuffer_create_flag)
 
 enum class message_severity : VkDebugUtilsMessageSeverityFlagsEXT
 {
@@ -128,7 +128,7 @@ enum class message_severity : VkDebugUtilsMessageSeverityFlagsEXT
     important = warning | error
 };
 
-aeon_declare_flag_operators(message_severity);
+aeon_declare_flag_operators(message_severity)
 
 enum class message_type : VkDebugUtilsMessageTypeFlagsEXT
 {
@@ -138,7 +138,7 @@ enum class message_type : VkDebugUtilsMessageTypeFlagsEXT
     all = general | validation | performance
 };
 
-aeon_declare_flag_operators(message_type);
+aeon_declare_flag_operators(message_type)
 
 enum class image_create_flag : VkImageCreateFlags
 {
@@ -157,7 +157,7 @@ enum class image_create_flag : VkImageCreateFlags
     sample_locations_compatible_depth_ext = VK_IMAGE_CREATE_SAMPLE_LOCATIONS_COMPATIBLE_DEPTH_BIT_EXT,
 };
 
-aeon_declare_flag_operators(image_create_flag);
+aeon_declare_flag_operators(image_create_flag)
 
 enum class image_usage_flag : VkImageUsageFlags
 {
@@ -171,7 +171,7 @@ enum class image_usage_flag : VkImageUsageFlags
     input_attachment = VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT,
 };
 
-aeon_declare_flag_operators(image_usage_flag);
+aeon_declare_flag_operators(image_usage_flag)
 
 enum class memory_flag : VkMemoryPropertyFlags
 {
@@ -183,7 +183,7 @@ enum class memory_flag : VkMemoryPropertyFlags
     property_protected = VK_MEMORY_PROPERTY_PROTECTED_BIT
 };
 
-aeon_declare_flag_operators(memory_flag);
+aeon_declare_flag_operators(memory_flag)
 
 enum class pipeline_create_flag : VkPipelineCreateFlags
 {
@@ -194,7 +194,7 @@ enum class pipeline_create_flag : VkPipelineCreateFlags
     view_index_from_device_index = VK_PIPELINE_CREATE_VIEW_INDEX_FROM_DEVICE_INDEX_BIT,
 };
 
-aeon_declare_flag_operators(pipeline_create_flag);
+aeon_declare_flag_operators(pipeline_create_flag)
 
 enum class pipeline_stage_flag : VkPipelineStageFlags
 {
@@ -218,7 +218,7 @@ enum class pipeline_stage_flag : VkPipelineStageFlags
     all_commands = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
 };
 
-aeon_declare_flag_operators(pipeline_stage_flag);
+aeon_declare_flag_operators(pipeline_stage_flag)
 
 enum class sample_count_flag : VkSampleCountFlags
 {
@@ -231,7 +231,7 @@ enum class sample_count_flag : VkSampleCountFlags
     count_64 = VK_SAMPLE_COUNT_64_BIT
 };
 
-aeon_declare_flag_operators(sample_count_flag);
+aeon_declare_flag_operators(sample_count_flag)
 
 using sample_count = sample_count_flag;
 
@@ -242,7 +242,7 @@ enum class sampler_create_flag : VkSamplerCreateFlags
     create_subsampled_coarse_reconstruction = VK_SAMPLER_CREATE_SUBSAMPLED_COARSE_RECONSTRUCTION_BIT_EXT
 };
 
-aeon_declare_flag_operators(sampler_create_flag);
+aeon_declare_flag_operators(sampler_create_flag)
 
 enum class shader_stage_flag : VkShaderStageFlags
 {
@@ -258,7 +258,7 @@ enum class shader_stage_flag : VkShaderStageFlags
 
 using shader_stage = shader_stage_flag;
 
-aeon_declare_flag_operators(shader_stage_flag);
+aeon_declare_flag_operators(shader_stage_flag)
 
 enum class subpass_description_flag : VkSubpassDescriptionFlags
 {
@@ -266,6 +266,6 @@ enum class subpass_description_flag : VkSubpassDescriptionFlags
     per_view_position_x_only_nvx = VK_SUBPASS_DESCRIPTION_PER_VIEW_POSITION_X_ONLY_BIT_NVX,
 };
 
-aeon_declare_flag_operators(subpass_description_flag);
+aeon_declare_flag_operators(subpass_description_flag)
 
 } // namespace aeon::vulkan

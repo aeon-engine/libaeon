@@ -19,7 +19,7 @@ enum class method_flag : std::uint32_t
     is_virtual = 0x10
 };
 
-aeon_declare_flag_operators(method_flag);
+aeon_declare_flag_operators(method_flag)
 
 class ast_method final : public ast_function
 {

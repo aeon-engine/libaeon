@@ -25,7 +25,7 @@ enum class file_flag : std::uint32_t
     truncate = 0x04
 };
 
-aeon_declare_flag_operators(file_flag);
+aeon_declare_flag_operators(file_flag)
 
 namespace internal
 {
