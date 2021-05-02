@@ -23,6 +23,7 @@ add_unit_test_suite(
         test_lexical_parse.cpp
         test_literals.cpp
         test_path.cpp
+        test_pmr.cpp
         test_scope_guard.cpp
         test_signals.cpp
         test_singleton.cpp
