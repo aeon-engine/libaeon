@@ -21,3 +21,9 @@
 #define AEON_PACK_STRUCT_PUSH(nnn)
 #define AEON_PACK_STRUCT_POP(nnn) __attribute__((aligned(nnn), packed))
 #endif
+
+#if (defined(AEON_PLATFORM_OS_WINDOWS) && !defined(__clang__))
+#define AEON_FORCE_INLINE __forceinline
+#else
+#define AEON_FORCE_INLINE
+#endif
