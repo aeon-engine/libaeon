@@ -133,6 +133,9 @@ private:
     std::size_t index_;
 };
 
+/*!
+ * A general tree implemented as left-child right-sibling (LCRS).
+ */
 template <typename T>
 class general_tree final
 {
