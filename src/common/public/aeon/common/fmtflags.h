@@ -24,6 +24,7 @@ public:
 
     scoped_fmtflags(const scoped_fmtflags &) = delete;
     auto operator=(const scoped_fmtflags &) -> scoped_fmtflags & = delete;
+
     scoped_fmtflags(scoped_fmtflags &&) noexcept = delete;
     auto operator=(scoped_fmtflags &&) noexcept -> scoped_fmtflags & = delete;
 

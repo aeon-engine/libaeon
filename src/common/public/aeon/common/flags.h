@@ -20,26 +20,32 @@ public:
         : value{static_cast<underlying_type>(ai)}
     {
     }
+
     constexpr flag(const std::uint16_t ai) noexcept
         : value{static_cast<underlying_type>(ai)}
     {
     }
+
     constexpr flag(const std::int32_t ai) noexcept
         : value{static_cast<underlying_type>(ai)}
     {
     }
+
     constexpr flag(const std::uint32_t ai) noexcept
         : value{static_cast<underlying_type>(ai)}
     {
     }
+
     constexpr flag(const std::int64_t ai) noexcept
         : value{static_cast<underlying_type>(ai)}
     {
     }
+
     constexpr flag(const std::uint64_t ai) noexcept
         : value{static_cast<underlying_type>(ai)}
     {
     }
+
     constexpr operator underlying_type() const noexcept
     {
         return value;
@@ -72,6 +78,7 @@ public:
 
     constexpr flags(const flags<enum_type> &) noexcept = default;
     constexpr auto operator=(const flags<enum_type> &) noexcept -> flags<enum_type> & = default;
+
     constexpr flags(flags<enum_type> &&) noexcept = default;
     constexpr auto operator=(flags<enum_type> &&) noexcept -> flags<enum_type> & = default;
 
