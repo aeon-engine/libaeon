@@ -22,6 +22,7 @@ add_unit_test_suite(
         test_rectangle.cpp
         test_size2d.cpp
         test_size3d.cpp
+        test_swizzle.cpp
         test_units.cpp
         test_vector2.cpp
         test_vector3.cpp

@@ -63,6 +63,8 @@ set(SOURCES
     public/aeon/math/size2d_stream.h
     public/aeon/math/size3d.h
     public/aeon/math/size3d_stream.h
+    public/aeon/math/swizzle_component.h
+    public/aeon/math/swizzle_vector.h
     public/aeon/math/units.h
     public/aeon/math/units_literals.h
     public/aeon/math/vector2.h
