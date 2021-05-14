@@ -66,6 +66,50 @@ public:
     explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
                       const stride_type stride, underlying_type *data) noexcept;
 
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] dimensions - The width and height of the matrix.
+     * \param[in] data - Raw matrix data
+     * \param[in] size - The size of the data (usually this is stride * height, but not always)
+     */
+    explicit mat_view(const common::element_type type, const size2d<dimensions_type> dimensions, underlying_type *data,
+                      const size_type size) noexcept;
+
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] width - The width of the matrix.
+     * \param[in] height - The height of the matrix.
+     * \param[in] data - Raw matrix data
+     * \param[in] size - The size of the data (usually this is stride * height, but not always)
+     */
+    explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                      underlying_type *data, const size_type size) noexcept;
+
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] dimensions - The width and height of the matrix.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Raw matrix data
+     * \param[in] size - The size of the data (usually this is stride * height, but not always)
+     */
+    explicit mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
+                      const stride_type stride, underlying_type *data, const size_type size) noexcept;
+
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
+     * \param[in] width - The width of the matrix.
+     * \param[in] height - The height of the matrix.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Raw matrix data
+     * \param[in] size - The size of the data (usually this is stride * height, but not always)
+     */
+    explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                      const stride_type stride, underlying_type *data, const size_type size) noexcept;
+
     ~mat_view() noexcept = default;
 
     mat_view(const mat_view &) noexcept = default;
@@ -127,6 +171,7 @@ protected:
     underlying_type *data_ptr_;
     size2d<dimensions_type> dimensions_;
     stride_type stride_;
+    size_type size_;
 };
 
 /*!

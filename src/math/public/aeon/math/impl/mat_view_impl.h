@@ -15,6 +15,7 @@ inline mat_view::mat_view() noexcept
     , data_ptr_{nullptr}
     , dimensions_{}
     , stride_{0}
+    , size_{0}
 {
 }
 
@@ -32,16 +33,41 @@ inline mat_view::mat_view(const common::element_type type, const dimensions_type
 
 inline mat_view::mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
                           const stride_type stride, underlying_type *data) noexcept
-    : type_{type}
-    , data_ptr_{data}
-    , dimensions_{dimensions}
-    , stride_{stride}
+    : mat_view{type, dimensions, stride, data, stride * math::height(dimensions)}
 {
 }
 
 inline mat_view::mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
                           const stride_type stride, underlying_type *data) noexcept
     : mat_view{type, size2d{width, height}, stride, data}
+{
+}
+
+inline mat_view::mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
+                          underlying_type *data, const size_type size) noexcept
+    : mat_view{type, dimensions, math::width(dimensions) * type.size, data, size}
+{
+}
+
+inline mat_view::mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                          underlying_type *data, const size_type size) noexcept
+    : mat_view{type, size2d{width, height}, data, size}
+{
+}
+
+inline mat_view::mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
+                          const stride_type stride, underlying_type *data, const size_type size) noexcept
+    : type_{type}
+    , data_ptr_{data}
+    , dimensions_{dimensions}
+    , stride_{stride}
+    , size_{size}
+{
+}
+
+inline mat_view::mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+                          const stride_type stride, underlying_type *data, const size_type size) noexcept
+    : mat_view{type, size2d{width, height}, stride, data, size}
 {
 }
 
@@ -72,7 +98,7 @@ inline mat_view::mat_view(const common::element_type type, const dimensions_type
 
 [[nodiscard]] inline auto mat_view::size() const noexcept -> size_type
 {
-    return static_cast<size_type>(stride_ * height());
+    return size_;
 }
 
 [[nodiscard]] inline auto mat_view::data() noexcept -> underlying_type *
