@@ -30,6 +30,6 @@ public:
         -> std::unique_ptr<opengl_context> = 0;
 };
 
-AEON_GL_EXPORT [[nodiscard]] auto create_opengl(platform::context &context) -> std::unique_ptr<opengl>;
+[[nodiscard]] AEON_GL_EXPORT auto create_opengl(platform::context &context) -> std::unique_ptr<opengl>;
 
 } // namespace aeon::gl
