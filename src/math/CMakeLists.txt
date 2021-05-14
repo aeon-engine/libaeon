@@ -8,9 +8,7 @@ set(SOURCES
     public/aeon/math/circle_stream.h
     public/aeon/math/clipping_space.h
     public/aeon/math/hash.h
-    public/aeon/math/imat.h
     public/aeon/math/impl/circle_impl.h
-    public/aeon/math/impl/imat_impl.h
     public/aeon/math/impl/mat3_impl.h
     public/aeon/math/impl/mat3_operators_impl.h
     public/aeon/math/impl/mat4_impl.h

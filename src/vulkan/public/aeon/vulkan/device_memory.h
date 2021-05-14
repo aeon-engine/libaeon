@@ -4,7 +4,7 @@
 
 #include <aeon/vulkan/flags.h>
 #include <aeon/vulkan/vma/vma.h>
-#include <aeon/imaging/iimage.h>
+#include <aeon/imaging/image_view.h>
 #include <vulkan/vulkan_core.h>
 #include <span>
 #include <vector>
@@ -98,7 +98,7 @@ inline void copy(const device_memory &destination, const std::vector<T> &data)
     copy(destination, std::span<const T>{data});
 }
 
-inline void copy(const device_memory &destination, const imaging::iimage &image)
+inline void copy(const device_memory &destination, const imaging::image_view &image)
 {
     copy(destination, std::data(image), std::size(image));
 }

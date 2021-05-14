@@ -21,8 +21,8 @@ class save_exception : public imaging_exception
 [[nodiscard]] auto load(const std::filesystem::path &path) -> image;
 [[nodiscard]] auto load(streams::idynamic_stream &stream) -> image;
 
-void save(const iimage &image, streams::idynamic_stream &stream);
+void save(const image_view &image, streams::idynamic_stream &stream);
 
-void save(const iimage &image, const std::filesystem::path &path);
+void save(const image_view &image, const std::filesystem::path &path);
 
 } // namespace aeon::imaging::file::png

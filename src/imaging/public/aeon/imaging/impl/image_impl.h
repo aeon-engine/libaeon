@@ -109,7 +109,7 @@ inline image::image(const common::element_type type, const pixel_encoding encodi
     copy_from_pointer(data);
 }
 
-inline image::image(const iimage &view)
+inline image::image(const image_view &view)
     : image_view{math::element_type(view), imaging::encoding(view), math::dimensions(view), math::stride(view), nullptr}
     , data_{}
 {

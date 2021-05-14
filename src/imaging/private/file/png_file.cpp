@@ -162,7 +162,7 @@ void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
     }
 }
 
-void save(const iimage &image, streams::idynamic_stream &stream)
+void save(const image_view &image, streams::idynamic_stream &stream)
 {
     // Check our stream
     if (!stream.good())
@@ -205,7 +205,7 @@ void save(const iimage &image, streams::idynamic_stream &stream)
         stream.flush();
 }
 
-void save(const iimage &image, const std::filesystem::path &path)
+void save(const image_view &image, const std::filesystem::path &path)
 {
     auto stream = streams::make_dynamic_stream(streams::file_sink_device{path});
     save(image, stream);

@@ -142,7 +142,7 @@ public:
     explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
                  const stride_type stride, const underlying_type *data);
 
-    ~mat() noexcept override = default;
+    ~mat() noexcept = default;
 
     mat(const mat &) = delete;
     auto operator=(const mat &) -> mat & = delete;
@@ -150,8 +150,8 @@ public:
     mat(mat &&) noexcept = default;
     auto operator=(mat &&) noexcept -> mat & = default;
 
-    explicit mat(const imat &other);
-    auto operator=(const imat &other) -> mat &;
+    explicit mat(const mat_view &other);
+    auto operator=(const mat_view &other) -> mat &;
 
     /*!
      * Make a copy of the matrix. In order to avoid performance issues, the class is made

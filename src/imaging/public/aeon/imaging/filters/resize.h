@@ -13,7 +13,7 @@ namespace detail
 template <typename T>
 struct resize_bilinear_impl
 {
-    static auto process(const iimage &img, const common::element_type element_type,
+    static auto process(const image_view &img, const common::element_type element_type,
                         const math::size2d<image::dimensions_type> size) -> image
     {
         const auto source_stride = math::stride(img);
@@ -56,7 +56,8 @@ struct resize_bilinear_impl
 
 } // namespace detail
 
-[[nodiscard]] inline auto resize_bilinear(const iimage &img, const math::size2d<image::dimensions_type> size) -> image
+[[nodiscard]] inline auto resize_bilinear(const image_view &img, const math::size2d<image::dimensions_type> size)
+    -> image
 {
     const auto element_type = math::element_type(img);
     const auto encoding = imaging::encoding(img);

@@ -3,7 +3,8 @@
 #pragma once
 
 #include <aeon/math/math_fwd.h>
-#include <aeon/math/imat.h>
+#include <aeon/math/size2d.h>
+#include <aeon/common/element_type.h>
 
 namespace aeon::math
 {
@@ -12,13 +13,13 @@ namespace aeon::math
  * Class that represents a matrix of dynamic size that does not own the data
  * Unlike mat3 and mat4, data is laid out in row order
  */
-class mat_view : public imat
+class mat_view
 {
 public:
-    using underlying_type = imat::underlying_type;
-    using dimensions_type = imat::dimensions_type;
-    using size_type = imat::size_type;
-    using stride_type = imat::stride_type;
+    using underlying_type = std::byte;
+    using dimensions_type = std::int32_t;
+    using size_type = std::size_t;
+    using stride_type = std::size_t;
 
     /*!
      * Create an empty matrix.
@@ -65,7 +66,7 @@ public:
     explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
                       const stride_type stride, underlying_type *data) noexcept;
 
-    ~mat_view() noexcept override = default;
+    ~mat_view() noexcept = default;
 
     mat_view(const mat_view &) noexcept = default;
     auto operator=(const mat_view &) noexcept -> mat_view & = default;
@@ -73,14 +74,14 @@ public:
     mat_view(mat_view &&) noexcept = default;
     auto operator=(mat_view &&) noexcept -> mat_view & = default;
 
-    [[nodiscard]] auto element_type() const noexcept -> common::element_type override;
-    [[nodiscard]] auto width() const noexcept -> dimensions_type override;
-    [[nodiscard]] auto height() const noexcept -> dimensions_type override;
-    [[nodiscard]] auto dimensions() const noexcept -> size2d<dimensions_type> override;
-    [[nodiscard]] auto stride() const noexcept -> stride_type override;
-    [[nodiscard]] auto size() const noexcept -> size_type override;
-    [[nodiscard]] auto data() noexcept -> underlying_type * override;
-    [[nodiscard]] auto data() const noexcept -> const underlying_type * override;
+    [[nodiscard]] auto element_type() const noexcept -> common::element_type;
+    [[nodiscard]] auto width() const noexcept -> dimensions_type;
+    [[nodiscard]] auto height() const noexcept -> dimensions_type;
+    [[nodiscard]] auto dimensions() const noexcept -> size2d<dimensions_type>;
+    [[nodiscard]] auto stride() const noexcept -> stride_type;
+    [[nodiscard]] auto size() const noexcept -> size_type;
+    [[nodiscard]] auto data() noexcept -> underlying_type *;
+    [[nodiscard]] auto data() const noexcept -> const underlying_type *;
 
 protected:
     common::element_type type_;
@@ -88,6 +89,223 @@ protected:
     size2d<dimensions_type> dimensions_;
     stride_type stride_;
 };
+
+/*!
+ * Compare two matrices. The comparison should only really be used for (unit)testing as it is very slow.
+ * Also note that components are compared on byte level which may yield unexpected results for floating point
+ * components.
+ */
+[[nodiscard]] inline auto operator==(const mat_view &lhs, const mat_view &rhs) noexcept -> bool;
+
+/*!
+ * Compare two matrices. The comparison should only really be used for (unit)testing as it is very slow.
+ * Also note that components are compared on byte level which may yield unexpected results for floating point
+ * components.
+ */
+[[nodiscard]] inline auto operator!=(const mat_view &lhs, const mat_view &rhs) noexcept -> bool;
+
+/*!
+ * Get the element type of the matrix.
+ * \param[in] m - A matrix
+ * \return The element type of the matrix
+ */
+[[nodiscard]] inline auto element_type(const mat_view &m) noexcept -> common::element_type;
+
+/*!
+ * Get the width of the given matrix.
+ * \param[in] m - A matrix
+ * \return The width of the matrix.
+ */
+[[nodiscard]] inline auto width(const mat_view &m) noexcept -> mat_view::dimensions_type;
+
+/*!
+ * Get the height of the given matrix.
+ * \param[in] m - A matrix
+ * \return The height of the matrix.
+ */
+[[nodiscard]] inline auto height(const mat_view &m) noexcept -> mat_view::dimensions_type;
+
+/*!
+ * Get the dimensions of the given matrix (width, height).
+ * \param[in] m - A matrix
+ * \return The dimensions of the matrix.
+ */
+[[nodiscard]] inline auto dimensions(const mat_view &m) noexcept -> size2d<mat_view::dimensions_type>;
+
+/*!
+ * Get the stride of the given matrix.
+ * The stride is the amount of bytes between 2 lines/rows.
+ * \param[in] m - A matrix
+ * \return The stride of the matrix.
+ */
+[[nodiscard]] inline auto stride(const mat_view &m) noexcept -> mat_view::stride_type;
+
+/*!
+ * Returns true if the data described by the given matrix is laid out in memory in a
+ * continuous fashion
+ * (ie. stride = element_type.size * width)
+ * \param[in] m - A mat
+ * \return True if the matrix's data is continuous.
+ */
+[[nodiscard]] inline auto continuous(const mat_view &m) noexcept -> bool;
+
+/*!
+ * Returns true if the given coordinate falls within the dimensions of the given matrix.
+ * \param[in] m - A matrix
+ * \param[in] coord - A coordinate (X, Y)
+ * \return True if the coordinate is within the dimensions of the matrix.
+ */
+[[nodiscard]] inline auto contains(const mat_view &m, const vector2<typename mat_view::dimensions_type> coord) noexcept
+    -> bool;
+
+/*!
+ * Get the full size in bytes of the data described by the matrix in memory (stride * height).
+ * \param[in] m - A matrix
+ * \return The size in bytes.
+ */
+[[nodiscard]] inline auto size(const mat_view &m) noexcept -> mat_view::size_type;
+
+/*!
+ * Returns true if the matrix is null. A matrix is null when
+ * all it's internal values (width, height, stride) are set to 0.
+ * \param[in] m - A matrix
+ * \return Returns true if the matrix  is null.
+ */
+[[nodiscard]] inline auto null(const mat_view &m) noexcept -> bool;
+
+/*!
+ * Returns true if the matrix is valid. A matrix is valid when it is not null.
+ * \see null(const mat_view &m)
+ * \param[in] m - A matrix
+ * \return Returns true if the matrix is valid.
+ */
+[[nodiscard]] inline auto valid(const mat_view &m) noexcept -> bool;
+
+/*!
+ * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
+ * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] coord - The coordinates to get the pointer to
+ * \return The pointer to where the element data begins
+ */
+[[nodiscard]] inline auto at(mat_view &m, const vector2<mat_view::dimensions_type> coord) noexcept
+    -> mat_view::underlying_type *;
+
+/*!
+ * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
+ * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] coord - The coordinates to get the pointer to
+ * \return The pointer to where the element data begins
+ */
+[[nodiscard]] inline auto at(const mat_view &m, const vector2<mat_view::dimensions_type> coord) noexcept
+    -> const mat_view::underlying_type *;
+
+/*!
+ * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
+ * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * calculate the offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] coord - The coordinates to get the pointer to
+ * \return The typed pointer to where the element data begins
+ */
+template <typename T>
+[[nodiscard]] inline auto at(mat_view &m, const vector2<mat_view::dimensions_type> coord) noexcept -> T *;
+
+/*!
+ * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
+ * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * calculate the offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] coord - The coordinates to get the pointer to
+ * \return The typed pointer to where the element data begins
+ */
+template <typename T>
+[[nodiscard]] inline auto at(const mat_view &m, const vector2<mat_view::dimensions_type> coord) noexcept -> const T *;
+
+/*!
+ * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
+ * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] x - The X coordinate to get the pointer to
+ * \param[in] y - The Y coordinate to get the pointer to
+ * \return The pointer to where the element data begins
+ */
+[[nodiscard]] inline auto at(mat_view &m, const mat_view::dimensions_type x, const mat_view::dimensions_type y) noexcept
+    -> mat_view::underlying_type *;
+
+/*!
+ * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
+ * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] x - The X coordinate to get the pointer to
+ * \param[in] y - The Y coordinate to get the pointer to
+ * \return The pointer to where the element data begins
+ */
+[[nodiscard]] inline auto at(const mat_view &m, const mat_view::dimensions_type x,
+                             const mat_view::dimensions_type y) noexcept -> const mat_view::underlying_type *;
+
+/*!
+ * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
+ * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * calculate the offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] x - The X coordinate to get the pointer to
+ * \param[in] y - The Y coordinate to get the pointer to
+ * \return The typed pointer to where the element data begins
+ */
+template <typename T>
+[[nodiscard]] inline auto at(mat_view &m, const mat_view::dimensions_type x, const mat_view::dimensions_type y) noexcept
+    -> T *;
+
+/*!
+ * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
+ * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * calculate the offset on the raw data.
+ * \see common::offset_of()
+ * \param[in] m - A matrix
+ * \param[in] x - The X coordinate to get the pointer to
+ * \param[in] y - The Y coordinate to get the pointer to
+ * \return The typed pointer to where the element data begins
+ */
+template <typename T>
+[[nodiscard]] inline auto at(const mat_view &m, const mat_view::dimensions_type x,
+                             const mat_view::dimensions_type y) noexcept -> const T *;
+
+/*!
+ * Fill the given matrix with a value. The given type must match the element_type, otherwise it will trigger undefined
+ * behavior.
+ */
+template <typename T>
+inline void fill(mat_view &m, const T value) noexcept;
+
+/*!
+ * Fill a part of the given matrix with a value. The given type must match the element_type, otherwise it will trigger
+ * undefined behavior.
+ */
+template <typename T>
+inline void fill(mat_view &m, const math::rectangle<mat_view::dimensions_type> rect, const T value) noexcept;
+
+/*!
+ * Blit the contents of one matrix into another
+ */
+inline void blit(const mat_view &src, mat_view &dst, const vector2<mat_view::dimensions_type> pos) noexcept;
+
+/*!
+ * Invert the given matrix vertically (flip upside-down)
+ */
+inline void invert_vertically(mat_view &m);
 
 /*!
  * Create a new view on an existing view based on a given rectangle. This will essentially

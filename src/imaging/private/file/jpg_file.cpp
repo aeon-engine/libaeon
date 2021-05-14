@@ -68,7 +68,7 @@ namespace detail
     return loaded_image;
 }
 
-void save(const iimage &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream)
+void save(const image_view &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream)
 {
     aeon_assert_value_in_range(quality, 1, 100);
 
@@ -93,7 +93,7 @@ void save(const iimage &image, const subsample_mode subsample, int quality, stre
         stream.flush();
 }
 
-void save(const iimage &image, const subsample_mode subsample, int quality, const std::filesystem::path &path)
+void save(const image_view &image, const subsample_mode subsample, int quality, const std::filesystem::path &path)
 {
     auto stream = streams::make_dynamic_stream(streams::file_sink_device{path});
     save(image, subsample, quality, stream);

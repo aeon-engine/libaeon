@@ -31,8 +31,8 @@ enum class subsample_mode
     subsample_grayscale
 };
 
-void save(const iimage &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream);
+void save(const image_view &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream);
 
-void save(const iimage &image, const subsample_mode subsample, int quality, const std::filesystem::path &path);
+void save(const image_view &image, const subsample_mode subsample, int quality, const std::filesystem::path &path);
 
 } // namespace aeon::imaging::file::jpg

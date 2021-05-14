@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/imaging/iimage.h>
+#include <aeon/imaging/image_view.h>
 #include <aeon/gl/aeon_opengl.h>
 
 namespace aeon::gl_utils
@@ -35,7 +35,7 @@ enum class monochrome_type : GLenum
     depth_component = GL_DEPTH_COMPONENT
 };
 
-[[nodiscard]] auto create_texture(const imaging::iimage &image,
+[[nodiscard]] auto create_texture(const imaging::image_view &image,
                                   const texture_min_filter min_filter = texture_min_filter::linear,
                                   const texture_mag_filter max_filter = texture_mag_filter::linear,
                                   const monochrome_type monochrome_type = monochrome_type::red) -> GLuint;

@@ -210,7 +210,7 @@ static const int simplex[64][4] = {
            (hiBound + loBound) / 2.0f;
 }
 
-void scaled_octave_noise(imat &matrix, const float octaves, const float persistence, const float scale)
+void scaled_octave_noise(mat_view &matrix, const float octaves, const float persistence, const float scale)
 {
     const auto width = math::width(matrix);
     const auto height = math::height(matrix);

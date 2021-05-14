@@ -7,7 +7,7 @@
 namespace aeon::imaging::convert
 {
 
-[[nodiscard]] inline auto remove_stride(const iimage &img) -> image
+[[nodiscard]] inline auto remove_stride(const image_view &img) -> image
 {
     const auto element_type = math::element_type(img);
     image new_image{element_type, imaging::encoding(img), math::dimensions(img)};

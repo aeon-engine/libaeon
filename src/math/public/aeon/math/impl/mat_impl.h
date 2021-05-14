@@ -104,14 +104,14 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
     copy_from_pointer(data);
 }
 
-inline mat::mat(const imat &other)
+inline mat::mat(const mat_view &other)
     : mat_view{math::element_type(other), math::dimensions(other), math::stride(other), nullptr}
     , data_{}
 {
     copy_from_pointer(std::data(other));
 }
 
-inline auto mat::operator=(const imat &other) -> mat &
+inline auto mat::operator=(const mat_view &other) -> mat &
 {
     if (this != &other) [[likely]]
     {

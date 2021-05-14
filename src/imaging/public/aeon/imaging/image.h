@@ -170,11 +170,11 @@ public:
                    const dimensions_type height, const stride_type stride, const underlying_type *data);
 
     /*!
-     * Make a copy of the given iimage.
+     * Make a copy of the given image_view.
      */
-    explicit image(const iimage &view);
+    explicit image(const image_view &view);
 
-    ~image() override = default;
+    ~image() = default;
 
     image(const image &) = delete;
     auto operator=(const image &) -> image & = delete;

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include <aeon/imaging/iimage.h>
 #include <aeon/imaging/pixel_encoding.h>
+#include <aeon/math/mat_view.h>
 #include <aeon/math/rectangle.h>
 
 namespace aeon::imaging
@@ -19,13 +19,13 @@ namespace aeon::imaging
  * An image view provides a way to access and modify image data.
  * An image_view does not own the data that it provides a view on.
  */
-class image_view : public iimage
+class image_view : public math::mat_view
 {
 public:
-    using underlying_type = iimage::underlying_type;
-    using dimensions_type = iimage::dimensions_type;
-    using size_type = iimage::size_type;
-    using stride_type = iimage::stride_type;
+    using underlying_type = mat_view::underlying_type;
+    using dimensions_type = mat_view::dimensions_type;
+    using size_type = mat_view::size_type;
+    using stride_type = mat_view::stride_type;
 
     /*!
      * Create an empty image_view.
@@ -77,7 +77,7 @@ public:
     explicit image_view(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
                         const dimensions_type height, const stride_type stride, underlying_type *data) noexcept;
 
-    ~image_view() override = default;
+    ~image_view() = default;
 
     image_view(const image_view &) = default;
     auto operator=(const image_view &) -> image_view & = default;
@@ -85,12 +85,22 @@ public:
     image_view(image_view &&) noexcept = default;
     auto operator=(image_view &&) noexcept -> image_view & = default;
 
-    void encoding(const pixel_encoding encoding) noexcept final;
-    [[nodiscard]] auto encoding() const noexcept -> pixel_encoding final;
+    void encoding(const pixel_encoding encoding) noexcept;
+    [[nodiscard]] auto encoding() const noexcept -> pixel_encoding;
 
 protected:
     pixel_encoding encoding_;
 };
+
+/*!
+ * Get the encoding of the given image.
+ * \param[in] image - A dynamic image
+ * \return The encoding of the image.
+ */
+[[nodiscard]] inline auto encoding(const image_view &image) noexcept -> pixel_encoding
+{
+    return image.encoding();
+}
 
 /*!
  * Create a new view on an existing view based on a given rectangle. This will essentially
@@ -100,7 +110,7 @@ protected:
  * \param[in] rect - A rectangle to 'crop' the view.
  * \return Returns A new view
  */
-[[nodiscard]] inline auto make_view(iimage &view, const math::rectangle<int> &rect) noexcept -> image_view;
+[[nodiscard]] inline auto make_view(image_view &view, const math::rectangle<int> &rect) noexcept -> image_view;
 
 } // namespace aeon::imaging
 

@@ -10,7 +10,8 @@ namespace aeon::gl_utils
 namespace internal
 {
 
-[[nodiscard]] auto convert_pixel_format(const imaging::iimage &image, const monochrome_type monochrome_type) -> GLenum
+[[nodiscard]] auto convert_pixel_format(const imaging::image_view &image, const monochrome_type monochrome_type)
+    -> GLenum
 {
     switch (imaging::encoding(image))
     {
@@ -30,7 +31,7 @@ namespace internal
     }
 }
 
-[[nodiscard]] auto convert_type(const imaging::iimage &image) -> GLenum
+[[nodiscard]] auto convert_type(const imaging::image_view &image) -> GLenum
 {
     const auto element_type = math::element_type(image);
 
@@ -58,7 +59,7 @@ namespace internal
 
 } // namespace internal
 
-auto create_texture(const imaging::iimage &image, const texture_min_filter min_filter,
+auto create_texture(const imaging::image_view &image, const texture_min_filter min_filter,
                     const texture_mag_filter max_filter, const monochrome_type monochrome_type) -> GLuint
 {
     GLuint handle = 0;
