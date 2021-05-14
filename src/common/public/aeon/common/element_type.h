@@ -47,14 +47,14 @@ create_data_type_trait(std::int64_t, element_type_name::s64);
 create_data_type_trait(float, element_type_name::f32);
 create_data_type_trait(double, element_type_name::f64);
 
-template <typename T, std::size_t count_t, std::size_t stride_t = sizeof(T) * count_t>
+template <typename T, std::size_t count_t, std::size_t stride_t = sizeof(T) * count_t,
+          std::size_t component_size_t = sizeof(T), std::size_t full_size_t = sizeof(T) * count_t>
 struct element_type_info
 {
-    static_assert(count_t > 0ull, "element_count_t must be > 0");
     static constexpr auto name = element_type_name_trait<T>::name;
-    static constexpr auto component_size = sizeof(T);
+    static constexpr auto component_size = component_size_t;
     static constexpr auto count = count_t;
-    static constexpr auto size = sizeof(T) * count_t;
+    static constexpr auto size = full_size_t;
     static constexpr auto stride = stride_t;
 };
 
@@ -99,9 +99,18 @@ struct element_type final
         return *this;
     }
 
+    /*!
+     * The data is either compressed, or laid out in a way that a typical element size and stride don't make sense.
+     */
+    [[nodiscard]] auto is_undefined() const noexcept
+    {
+        return name == element_type_name::undefined && component_size == 0 && count == 0 && size == 0 && stride == 0;
+    }
+
     [[nodiscard]] auto valid() const noexcept
     {
-        return name != element_type_name::undefined && component_size > 0 && count > 0 && size > 0 && stride > 0;
+        return (name != element_type_name::undefined && component_size > 0 && count > 0 && size > 0 && stride > 0) ||
+               is_undefined();
     }
 
     /*!
@@ -118,6 +127,11 @@ struct element_type final
     std::size_t count;
     std::size_t size;
     std::size_t stride;
+
+    static constexpr auto undefined =
+        element_type_info<std::uint8_t, 0ull, 0ull, 0ull,
+                          0ull>{}; // The data is either compressed, or laid out in a way that a
+                                   // typical element size and stride don't make sense.
 
     static constexpr auto u8_1 = element_type_info<std::uint8_t, 1ull>{}; // 1 element of uint8_t
     static constexpr auto u8_2 = element_type_info<std::uint8_t, 2ull>{}; // 2 elements of uint8_t
