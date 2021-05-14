@@ -85,7 +85,15 @@ public:
     image_view(image_view &&) noexcept = default;
     auto operator=(image_view &&) noexcept -> image_view & = default;
 
+    /*!
+     * Set the encoding of the image.
+     */
     void encoding(const pixel_encoding encoding) noexcept;
+
+    /*!
+     * Get the encoding of the image.
+     * \return The encoding of the image.
+     */
     [[nodiscard]] auto encoding() const noexcept -> pixel_encoding;
 
 protected:
