@@ -74,13 +74,52 @@ public:
     mat_view(mat_view &&) noexcept = default;
     auto operator=(mat_view &&) noexcept -> mat_view & = default;
 
+    /*!
+     * Get the element type of the matrix.
+     * \return The element type of the matrix
+     */
     [[nodiscard]] auto element_type() const noexcept -> common::element_type;
+
+    /*!
+     * Get the width of the matrix.
+     * \return The width of the matrix.
+     */
     [[nodiscard]] auto width() const noexcept -> dimensions_type;
+
+    /*!
+     * Get the height of the matrix.
+     * \return The height of the matrix.
+     */
     [[nodiscard]] auto height() const noexcept -> dimensions_type;
+
+    /*!
+     * Get the size of the matrix (width, height).
+     * \return The size of the matrix.
+     */
     [[nodiscard]] auto dimensions() const noexcept -> size2d<dimensions_type>;
+
+    /*!
+     * Get the stride of the matrix. The stride is the amount of bytes between 2 lines/rows.
+     * \return The stride of the matrix.
+     */
     [[nodiscard]] auto stride() const noexcept -> stride_type;
+
+    /*!
+     * Get the size of the data. Usually this is based on the stride and height.
+     * \return The size of the data in bytes (unsigned)
+     */
     [[nodiscard]] auto size() const noexcept -> size_type;
+
+    /*!
+     * Get a pointer to the raw matrix data buffer
+     * \return Pointer to raw data.
+     */
     [[nodiscard]] auto data() noexcept -> underlying_type *;
+
+    /*!
+     * Get a pointer to the raw matrix data buffer
+     * \return Pointer to raw data.
+     */
     [[nodiscard]] auto data() const noexcept -> const underlying_type *;
 
 protected:
