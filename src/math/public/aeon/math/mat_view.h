@@ -4,6 +4,7 @@
 
 #include <aeon/math/math_fwd.h>
 #include <aeon/math/size2d.h>
+#include <aeon/math/swizzle_component.h>
 #include <aeon/common/element_type.h>
 
 namespace aeon::math
@@ -414,6 +415,14 @@ inline void invert_vertically(mat_view &m);
  * \return Returns A new view
  */
 [[nodiscard]] inline auto make_view(mat4 &mat) noexcept -> mat_view;
+
+/*!
+ * Swizzle elements of all components in a mat_view. This can for example be used for rgb->bgr conversion
+ * if the mat_view is an image.
+ * \param[in] view - A mat view to be swizzled
+ */
+template <swizzle_component... components>
+inline void swizzle(mat_view &view) noexcept;
 
 } // namespace aeon::math
 

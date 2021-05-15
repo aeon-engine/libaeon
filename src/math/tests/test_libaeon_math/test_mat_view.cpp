@@ -153,3 +153,67 @@ TEST(test_mat_view, test_equals2)
     EXPECT_TRUE(mat == mat2);
     EXPECT_FALSE(mat != mat2);
 }
+
+TEST(test_mat_view, test_swizzle_2)
+{
+    std::array<std::uint32_t, 2> original_data{10, 20};
+
+    auto data = original_data;
+    math::mat_view mat{
+        common::element_type::u32_2, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+
+    math::swizzle<math::swizzle_r, math::swizzle_g>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 2>{10, 20}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_g, math::swizzle_r>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 2>{20, 10}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_r, math::swizzle_r>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 2>{10, 10}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_g, math::swizzle_g>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 2>{20, 20}));
+}
+
+TEST(test_mat_view, test_swizzle_3)
+{
+    std::array<std::uint32_t, 3> original_data{10, 20, 30};
+
+    auto data = original_data;
+    math::mat_view mat{
+        common::element_type::u32_3, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+
+    math::swizzle<math::swizzle_r, math::swizzle_g, math::swizzle_b>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{10, 20, 30}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_b, math::swizzle_g, math::swizzle_r>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{30, 20, 10}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_b, math::swizzle_r, math::swizzle_g>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{30, 10, 20}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_b, math::swizzle_b, math::swizzle_g>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{30, 30, 20}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_r, math::swizzle_r, math::swizzle_g>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{10, 10, 20}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_r, math::swizzle_r, math::swizzle_r>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{10, 10, 10}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_g, math::swizzle_g, math::swizzle_g>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{20, 20, 20}));
+
+    data = original_data;
+    math::swizzle<math::swizzle_b, math::swizzle_b, math::swizzle_b>(mat);
+    EXPECT_EQ(data, (std::array<std::uint32_t, 3>{30, 30, 30}));
+}

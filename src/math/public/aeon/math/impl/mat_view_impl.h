@@ -353,6 +353,7 @@ inline void invert_vertically(mat_view &m)
 
 [[nodiscard]] inline auto make_view(mat_view &view, const rectangle<int> &rect) noexcept -> mat_view
 {
+    aeon_assert(!view.element_type().is_undefined(), "View has an undefined data layout.");
     aeon_assert(math::contains(rect, rectangle<int>{0, 0, dimensions(view)}),
                 "View rectangle does not fit within matrix.");
     return mat_view{element_type(view), width(rect), height(rect), stride(view), at(view, left(rect), top(rect))};
@@ -366,6 +367,89 @@ inline void invert_vertically(mat_view &m)
 [[nodiscard]] inline auto make_view(mat4 &mat) noexcept -> mat_view
 {
     return mat_view{common::element_type::f32_1, 4, 4, std::data(mat)};
+}
+
+namespace internal
+{
+
+template <typename T, swizzle_component component>
+inline void swizzle_apply(const T *src, T *dst, const std::size_t index) noexcept
+{
+    if constexpr (component == swizzle_component::x)
+        dst[index] = src[0];
+    else if constexpr (component == swizzle_component::y)
+        dst[index] = src[1];
+    else if constexpr (component == swizzle_component::z)
+        dst[index] = src[2];
+    else if constexpr (component == swizzle_component::w)
+        dst[index] = src[3];
+}
+
+template <typename T, swizzle_component... components>
+inline void swizzle(mat_view &view) noexcept
+{
+    constexpr auto component_count = sizeof...(components);
+
+    auto data = reinterpret_cast<T *>(view.data());
+
+    const auto size = area(view.dimensions()) * component_count;
+    for (auto i = 0u; i < size; i += component_count)
+    {
+        std::array<T, component_count> components_data;
+        std::copy_n(&data[i], component_count, std::data(components_data));
+
+        std::size_t index = 0;
+        (swizzle_apply<T, components>(std::data(components_data), &data[i], index++), ...);
+    }
+}
+
+} // namespace internal
+
+template <swizzle_component... components>
+inline void swizzle(mat_view &view) noexcept
+{
+    // Currently strides are not supported. They may be in the future.
+    if (!view.element_type().continuous() || !math::continuous(view))
+        std::abort();
+
+    if (view.element_type().count != sizeof...(components) || view.element_type().is_undefined())
+        std::abort();
+
+    switch (view.element_type().name)
+    {
+        case common::element_type_name::u8:
+            internal::swizzle<std::uint8_t, components...>(view);
+            break;
+        case common::element_type_name::s8:
+            internal::swizzle<std::int8_t, components...>(view);
+            break;
+        case common::element_type_name::u16:
+            internal::swizzle<std::uint16_t, components...>(view);
+            break;
+        case common::element_type_name::s16:
+            internal::swizzle<std::int16_t, components...>(view);
+            break;
+        case common::element_type_name::u32:
+            internal::swizzle<std::uint32_t, components...>(view);
+            break;
+        case common::element_type_name::s32:
+            internal::swizzle<std::int32_t, components...>(view);
+            break;
+        case common::element_type_name::u64:
+            internal::swizzle<std::uint64_t, components...>(view);
+            break;
+        case common::element_type_name::s64:
+            internal::swizzle<std::int64_t, components...>(view);
+            break;
+        case common::element_type_name::f32:
+            internal::swizzle<float, components...>(view);
+            break;
+        case common::element_type_name::f64:
+            internal::swizzle<double, components...>(view);
+            break;
+        default:
+            std::abort();
+    }
 }
 
 } // namespace aeon::math
