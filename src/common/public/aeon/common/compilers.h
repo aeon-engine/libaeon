@@ -25,5 +25,5 @@
 #if (defined(AEON_PLATFORM_OS_WINDOWS) && !defined(__clang__))
 #define AEON_FORCE_INLINE __forceinline
 #else
-#define AEON_FORCE_INLINE
+#define AEON_FORCE_INLINE inline
 #endif
