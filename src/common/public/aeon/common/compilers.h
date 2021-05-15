@@ -27,3 +27,9 @@
 #else
 #define AEON_FORCE_INLINE inline
 #endif
+
+#if (defined(AEON_PLATFORM_OS_WINDOWS) && !defined(__clang__))
+#define AEON_RESTRICT __restrict
+#else
+#define AEON_RESTRICT __restrict__
+#endif
