@@ -148,4 +148,87 @@ inline void mat::copy_from_pointer(const underlying_type *data)
     std::copy_n(data, size, std::begin(data_));
 }
 
+namespace internal
+{
+
+template <typename T, swizzle_component... components>
+inline void swizzle_copy(const mat_view &src, mat &dst) noexcept
+{
+    constexpr auto component_count = sizeof...(components);
+    const auto source_component_count = src.element_type().count;
+
+    auto src_data = reinterpret_cast<const T *>(src.data());
+    auto dst_data = reinterpret_cast<T *>(dst.data());
+
+    // const auto size = area(view.dimensions()) * component_count;
+    const auto area = math::area(src.dimensions());
+
+    for (auto i = 0; i < area; ++i)
+    {
+        std::size_t index = 0;
+        (swizzle_apply<T, components>(src_data, dst_data, index++), ...);
+
+        src_data += source_component_count;
+        dst_data += component_count;
+    }
+}
+
+} // namespace internal
+
+template <swizzle_component... components>
+[[nodiscard]] inline auto swizzle_copy(const mat_view &view) noexcept -> mat
+{
+    // Currently strides are not supported. They may be in the future.
+    if (!view.element_type().continuous() || !math::continuous(view))
+        std::abort();
+
+    if (view.element_type().is_undefined())
+        std::abort();
+
+    auto new_element_type = view.element_type();
+    new_element_type.count = sizeof...(components);
+    new_element_type.size = new_element_type.component_size * new_element_type.count;
+    new_element_type.stride = new_element_type.size;
+
+    mat new_mat{new_element_type, dimensions(view)};
+
+    switch (view.element_type().name)
+    {
+        case common::element_type_name::u8:
+            internal::swizzle_copy<std::uint8_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::s8:
+            internal::swizzle_copy<std::int8_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::u16:
+            internal::swizzle_copy<std::uint16_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::s16:
+            internal::swizzle_copy<std::int16_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::u32:
+            internal::swizzle_copy<std::uint32_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::s32:
+            internal::swizzle_copy<std::int32_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::u64:
+            internal::swizzle_copy<std::uint64_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::s64:
+            internal::swizzle_copy<std::int64_t, components...>(view, new_mat);
+            break;
+        case common::element_type_name::f32:
+            internal::swizzle_copy<float, components...>(view, new_mat);
+            break;
+        case common::element_type_name::f64:
+            internal::swizzle_copy<double, components...>(view, new_mat);
+            break;
+        default:
+            std::abort();
+    }
+
+    return new_mat;
+}
+
 } // namespace aeon::math

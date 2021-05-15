@@ -40,3 +40,21 @@ TEST(test_mat, test_clone)
     EXPECT_TRUE(mat == mat2);
     EXPECT_FALSE(mat != mat2);
 }
+
+TEST(test_mat, test_swizzle_copy_3)
+{
+    std::array<std::uint32_t, 1> data{10};
+
+    math::mat_view mat{
+        common::element_type::u32_1, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+
+    const auto mat_result = math::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(mat);
+    EXPECT_EQ(common::element_type::u32_3, mat_result.element_type());
+    EXPECT_EQ(1, mat_result.width());
+    EXPECT_EQ(1, mat_result.height());
+
+    const auto result_data = math::at<std::uint32_t>(mat_result, math::vector2{0, 0});
+    EXPECT_EQ(data[0], result_data[0]);
+    EXPECT_EQ(data[0], result_data[1]);
+    EXPECT_EQ(data[0], result_data[2]);
+}

@@ -424,6 +424,12 @@ inline void invert_vertically(mat_view &m);
 template <swizzle_component... components>
 inline void swizzle(mat_view &view) noexcept;
 
+namespace internal
+{
+template <typename T, swizzle_component component>
+void swizzle_apply(const T *src, T *dst, const std::size_t index) noexcept;
+} // namespace internal
+
 } // namespace aeon::math
 
 #include <aeon/math/impl/mat_view_impl.h>

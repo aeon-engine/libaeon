@@ -171,6 +171,14 @@ protected:
     std::vector<underlying_type> data_;
 };
 
+/*!
+ * Swizzle elements of all components in a mat_view. This can for example be used for grayscale->rgb conversion
+ * if the mat_view is an image. The amount of components supplied determines the components of the output matrix.
+ * \param[in] view - A mat view to be swizzled
+ */
+template <swizzle_component... components>
+[[nodiscard]] inline auto swizzle_copy(const mat_view &view) noexcept -> mat;
+
 } // namespace aeon::math
 
 #include <aeon/math/impl/mat_impl.h>
