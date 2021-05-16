@@ -17,6 +17,7 @@
 
 #include <aeon/math/simplex_noise.h>
 #include <stdexcept>
+#include <limits>
 #include <cmath>
 
 namespace aeon::math::simplex_noise
@@ -210,15 +211,40 @@ static const int simplex[64][4] = {
            (hiBound + loBound) / 2.0f;
 }
 
-void scaled_octave_noise(mat_view &matrix, const float octaves, const float persistence, const float scale)
+template <typename T>
+struct convert_noise_scale
+{
+    [[nodiscard]] static auto convert(const float value) -> T
+    {
+        return static_cast<T>(value * static_cast<float>(std::numeric_limits<T>::max()));
+    }
+};
+
+template <>
+struct convert_noise_scale<float>
+{
+    [[nodiscard]] static auto convert(const float value) -> float
+    {
+        return value;
+    }
+};
+
+template <>
+struct convert_noise_scale<double>
+{
+    [[nodiscard]] static auto convert(const float value) -> double
+    {
+        return static_cast<double>(value);
+    }
+};
+
+template <typename T>
+void scaled_octave_noise_impl(mat_view &matrix, const float octaves, const float persistence, const float scale)
 {
     const auto width = math::width(matrix);
     const auto height = math::height(matrix);
     const auto stride = math::stride(matrix);
     const auto element_type = math::element_type(matrix);
-
-    if (element_type != common::element_type::f32_1 && element_type != common::element_type::f32_1_stride_8)
-        throw std::runtime_error{"Matrix must be element_type::f32_1 or common::element_type::f32_1_stride_8"};
 
     auto *const data = std::data(matrix);
 
@@ -226,10 +252,50 @@ void scaled_octave_noise(mat_view &matrix, const float octaves, const float pers
     {
         for (auto x = 0; x < width; ++x)
         {
-            auto *float_data = reinterpret_cast<float *>(data + common::offset_of(element_type, stride, x, y));
-            *float_data = scaled_octave_noise_2d(octaves, persistence, scale, 0.0f, 1.0f, static_cast<float>(x),
-                                                 static_cast<float>(y));
+            auto *pixel_data = reinterpret_cast<T *>(data + common::offset_of(element_type, stride, x, y));
+            *pixel_data = convert_noise_scale<T>::convert(scaled_octave_noise_2d(
+                octaves, persistence, scale, 0.0f, 1.0f, static_cast<float>(x), static_cast<float>(y)));
         }
+    }
+}
+
+void scaled_octave_noise(mat_view &matrix, const float octaves, const float persistence, const float scale)
+{
+    switch (math::element_type(matrix).name)
+    {
+        case common::element_type_name::u8:
+            scaled_octave_noise_impl<std::uint8_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::s8:
+            scaled_octave_noise_impl<std::int8_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::u16:
+            scaled_octave_noise_impl<std::uint16_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::s16:
+            scaled_octave_noise_impl<std::int16_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::u32:
+            scaled_octave_noise_impl<std::uint32_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::s32:
+            scaled_octave_noise_impl<std::int32_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::u64:
+            scaled_octave_noise_impl<std::uint64_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::s64:
+            scaled_octave_noise_impl<std::int64_t>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::f32:
+            scaled_octave_noise_impl<float>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::f64:
+            scaled_octave_noise_impl<double>(matrix, octaves, persistence, scale);
+            break;
+        case common::element_type_name::undefined:
+        default:
+            throw std::runtime_error{"Given matrix is unsupported."};
     }
 }
 
