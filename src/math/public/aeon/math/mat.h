@@ -171,6 +171,12 @@ protected:
     std::vector<underlying_type> data_;
 };
 
+namespace internal
+{
+template <typename T, swizzle_component... components>
+inline void swizzle_copy(const mat_view &src, mat &dst) noexcept;
+} // namespace internal
+
 /*!
  * Swizzle elements of all components in a mat_view. This can for example be used for grayscale->rgb conversion
  * if the mat_view is an image. The amount of components supplied determines the components of the output matrix.

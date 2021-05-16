@@ -201,6 +201,24 @@ private:
     std::vector<std::byte> data_;
 };
 
+/*!
+ * Swizzle elements of all components in an image_view. This can for example be used for grayscale->rgb conversion.
+ * The amount of components supplied determines the components of the output image. The encoding is kept.
+ * \param[in] view - An image view to be swizzled
+
+ */
+template <math::swizzle_component... components>
+[[nodiscard]] inline auto swizzle_copy(const image_view &view) noexcept -> image;
+
+/*!
+ * Swizzle elements of all components in an image_view. This can for example be used for grayscale->rgb conversion.
+ * The amount of components supplied determines the components of the output image.
+ * \param[in] view - An image view to be swizzled
+ * \param[in] encoding - The new encoding of the output image
+ */
+template <math::swizzle_component... components>
+[[nodiscard]] inline auto swizzle_copy(const image_view &view, const pixel_encoding encoding) noexcept -> image;
+
 } // namespace aeon::imaging
 
 #include <aeon/imaging/impl/image_impl.h>

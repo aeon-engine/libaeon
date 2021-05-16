@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <aeon/math/mat.h>
+
 namespace aeon::imaging
 {
 
@@ -139,6 +141,68 @@ inline void image::copy_from_pointer(const underlying_type *data)
     data_.resize(size);
     mat_view::data_ptr_ = std::data(data_);
     std::copy_n(data, size, std::begin(data_));
+}
+
+template <math::swizzle_component... components>
+[[nodiscard]] inline auto swizzle_copy(const image_view &view) noexcept -> image
+{
+    return swizzle_copy(view, encoding(view));
+}
+
+template <math::swizzle_component... components>
+[[nodiscard]] inline auto swizzle_copy(const image_view &view, const pixel_encoding encoding) noexcept -> image
+{
+    // Currently strides are not supported. They may be in the future.
+    if (!view.element_type().continuous() || !math::continuous(view))
+        std::abort();
+
+    if (view.element_type().is_undefined())
+        std::abort();
+
+    auto new_element_type = view.element_type();
+    new_element_type.count = sizeof...(components);
+    new_element_type.size = new_element_type.component_size * new_element_type.count;
+    new_element_type.stride = new_element_type.size;
+
+    image new_image{new_element_type, encoding, dimensions(view)};
+
+    switch (view.element_type().name)
+    {
+        case common::element_type_name::u8:
+            math::internal::swizzle_copy<std::uint8_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::s8:
+            math::internal::swizzle_copy<std::int8_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::u16:
+            math::internal::swizzle_copy<std::uint16_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::s16:
+            math::internal::swizzle_copy<std::int16_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::u32:
+            math::internal::swizzle_copy<std::uint32_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::s32:
+            math::internal::swizzle_copy<std::int32_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::u64:
+            math::internal::swizzle_copy<std::uint64_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::s64:
+            math::internal::swizzle_copy<std::int64_t, components...>(view, new_image);
+            break;
+        case common::element_type_name::f32:
+            math::internal::swizzle_copy<float, components...>(view, new_image);
+            break;
+        case common::element_type_name::f64:
+            math::internal::swizzle_copy<double, components...>(view, new_image);
+            break;
+        default:
+            std::abort();
+    }
+
+    return new_image;
 }
 
 } // namespace aeon::imaging
