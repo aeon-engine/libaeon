@@ -6,6 +6,7 @@
 #include <aeon/math/rectangle.h>
 #include <aeon/math/mat3.h>
 #include <aeon/common/assert.h>
+#include <limits>
 
 namespace aeon::math
 {
@@ -383,6 +384,16 @@ inline void swizzle_apply(const T *src, T *dst, const std::size_t index) noexcep
         dst[index] = src[2];
     else if constexpr (component == swizzle_component::w)
         dst[index] = src[3];
+    else if constexpr (component == swizzle_component::one)
+        dst[index] = T(1);
+    else if constexpr (component == swizzle_component::minus_one)
+        dst[index] = T(-1);
+    else if constexpr (component == swizzle_component::zero)
+        dst[index] = T(0);
+    else if constexpr (component == swizzle_component::min)
+        dst[index] = std::numeric_limits<T>::min();
+    else if constexpr (component == swizzle_component::max)
+        dst[index] = std::numeric_limits<T>::max();
 }
 
 template <typename T, swizzle_component... components>

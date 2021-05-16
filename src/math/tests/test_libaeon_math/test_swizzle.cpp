@@ -16,6 +16,15 @@ TEST(test_swizzle, test_swizzle_single_vector2)
     EXPECT_EQ(20, (math::swizzle<math::swizzle_g>(vec)));
 }
 
+TEST(test_swizzle, test_swizzle_single_change_vector2)
+{
+    math::vector2 vec{10, 20};
+
+    EXPECT_EQ(1, (math::swizzle<math::swizzle_one>(vec)));
+    EXPECT_EQ(0, (math::swizzle<math::swizzle_zero>(vec)));
+    EXPECT_EQ(-1, (math::swizzle<math::swizzle_minus_one>(vec)));
+}
+
 TEST(test_swizzle, test_swizzle_single_vector3)
 {
     math::vector3 vec{10, 20, 30};
@@ -28,6 +37,15 @@ TEST(test_swizzle, test_swizzle_single_vector3)
 
     EXPECT_EQ(30, (math::swizzle<math::swizzle_z>(vec)));
     EXPECT_EQ(30, (math::swizzle<math::swizzle_b>(vec)));
+}
+
+TEST(test_swizzle, test_swizzle_single_change_vector3)
+{
+    math::vector3 vec{10, 20, 30};
+
+    EXPECT_EQ(1, (math::swizzle<math::swizzle_one>(vec)));
+    EXPECT_EQ(0, (math::swizzle<math::swizzle_zero>(vec)));
+    EXPECT_EQ(-1, (math::swizzle<math::swizzle_minus_one>(vec)));
 }
 
 TEST(test_swizzle, test_swizzle_single_vector4)
@@ -47,6 +65,15 @@ TEST(test_swizzle, test_swizzle_single_vector4)
     EXPECT_EQ(40, (math::swizzle<math::swizzle_a>(vec)));
 }
 
+TEST(test_swizzle, test_swizzle_single_change_vector4)
+{
+    math::vector4 vec{10, 20, 30, 40};
+
+    EXPECT_EQ(1, (math::swizzle<math::swizzle_one>(vec)));
+    EXPECT_EQ(0, (math::swizzle<math::swizzle_zero>(vec)));
+    EXPECT_EQ(-1, (math::swizzle<math::swizzle_minus_one>(vec)));
+}
+
 TEST(test_swizzle, test_swizzle_vector2)
 {
     math::vector2 vec{10, 20};
@@ -56,6 +83,11 @@ TEST(test_swizzle, test_swizzle_vector2)
 
     EXPECT_EQ((math::vector2{10, 20}), (math::swizzle<math::swizzle_r, math::swizzle_g>(vec)));
     EXPECT_EQ((math::vector2{20, 10}), (math::swizzle<math::swizzle_g, math::swizzle_r>(vec)));
+
+    EXPECT_EQ((math::vector2{10, 1}), (math::swizzle<math::swizzle_r, math::swizzle_one>(vec)));
+    EXPECT_EQ((math::vector2{0, 10}), (math::swizzle<math::swizzle_zero, math::swizzle_r>(vec)));
+    EXPECT_EQ((math::vector2{-1, 10}), (math::swizzle<math::swizzle_minus_one, math::swizzle_r>(vec)));
+    EXPECT_EQ((math::vector2{10, -1}), (math::swizzle<math::swizzle_r, math::swizzle_minus_one>(vec)));
 }
 
 TEST(test_swizzle, test_swizzle_vector3_to_vector2)
@@ -85,6 +117,11 @@ TEST(test_swizzle, test_swizzle_vector3_to_vector2)
     EXPECT_EQ((math::vector2{10, 10}), (math::swizzle<math::swizzle_r, math::swizzle_r>(vec)));
     EXPECT_EQ((math::vector2{20, 20}), (math::swizzle<math::swizzle_g, math::swizzle_g>(vec)));
     EXPECT_EQ((math::vector2{30, 30}), (math::swizzle<math::swizzle_b, math::swizzle_b>(vec)));
+
+    EXPECT_EQ((math::vector2{10, 1}), (math::swizzle<math::swizzle_r, math::swizzle_one>(vec)));
+    EXPECT_EQ((math::vector2{-1, 20}), (math::swizzle<math::swizzle_minus_one, math::swizzle_g>(vec)));
+    EXPECT_EQ((math::vector2{0, 30}), (math::swizzle<math::swizzle_zero, math::swizzle_b>(vec)));
+    EXPECT_EQ((math::vector2{10, 0}), (math::swizzle<math::swizzle_r, math::swizzle_zero>(vec)));
 }
 
 TEST(test_swizzle, test_swizzle_vector3)
@@ -98,6 +135,11 @@ TEST(test_swizzle, test_swizzle_vector3)
     EXPECT_EQ((math::vector3{10, 20, 30}), (math::swizzle<math::swizzle_r, math::swizzle_g, math::swizzle_b>(vec)));
     EXPECT_EQ((math::vector3{20, 30, 10}), (math::swizzle<math::swizzle_g, math::swizzle_b, math::swizzle_r>(vec)));
     EXPECT_EQ((math::vector3{10, 30, 20}), (math::swizzle<math::swizzle_r, math::swizzle_b, math::swizzle_g>(vec)));
+
+    EXPECT_EQ((math::vector3{10, 1, 30}), (math::swizzle<math::swizzle_r, math::swizzle_one, math::swizzle_b>(vec)));
+    EXPECT_EQ((math::vector3{0, 30, -1}),
+              (math::swizzle<math::swizzle_zero, math::swizzle_b, math::swizzle_minus_one>(vec)));
+    EXPECT_EQ((math::vector3{1, 1, 20}), (math::swizzle<math::swizzle_one, math::swizzle_one, math::swizzle_g>(vec)));
 }
 
 TEST(test_swizzle, test_swizzle_vector4_to_vector2)
@@ -194,4 +236,11 @@ TEST(test_swizzle, test_swizzle_vector4)
               (math::swizzle<math::swizzle_a, math::swizzle_g, math::swizzle_b, math::swizzle_r>(vec)));
     EXPECT_EQ((math::vector4{40, 10, 30, 20}),
               (math::swizzle<math::swizzle_a, math::swizzle_r, math::swizzle_b, math::swizzle_g>(vec)));
+
+    EXPECT_EQ((math::vector4{0, 10, 1, 30}),
+              (math::swizzle<math::swizzle_zero, math::swizzle_r, math::swizzle_one, math::swizzle_b>(vec)));
+    EXPECT_EQ((math::vector4{40, -1, 30, 1}),
+              (math::swizzle<math::swizzle_a, math::swizzle_minus_one, math::swizzle_b, math::swizzle_one>(vec)));
+    EXPECT_EQ((math::vector4{0, 10, 30, 0}),
+              (math::swizzle<math::swizzle_zero, math::swizzle_r, math::swizzle_b, math::swizzle_zero>(vec)));
 }

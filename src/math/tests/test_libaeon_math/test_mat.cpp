@@ -58,3 +58,23 @@ TEST(test_mat, test_swizzle_copy_3)
     EXPECT_EQ(data[0], result_data[1]);
     EXPECT_EQ(data[0], result_data[2]);
 }
+
+TEST(test_mat, test_swizzle_change)
+{
+    std::array<std::uint32_t, 1> data{10};
+
+    math::mat_view mat{
+        common::element_type::u32_1, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+
+    auto mat_result = math::swizzle_copy<math::swizzle_x, math::swizzle_one, math::swizzle_zero>(mat);
+    auto result_data = math::at<std::uint32_t>(mat_result, math::vector2{0, 0});
+    EXPECT_EQ(data[0], result_data[0]);
+    EXPECT_EQ(1u, result_data[1]);
+    EXPECT_EQ(0u, result_data[2]);
+
+    mat_result = math::swizzle_copy<math::swizzle_max, math::swizzle_min, math::swizzle_x>(mat);
+    result_data = math::at<std::uint32_t>(mat_result, math::vector2{0, 0});
+    EXPECT_EQ(0xffffffffu, result_data[0]);
+    EXPECT_EQ(0u, result_data[1]);
+    EXPECT_EQ(data[0], result_data[2]);
+}

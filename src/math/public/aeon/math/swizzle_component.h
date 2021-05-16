@@ -14,7 +14,12 @@ enum class swizzle_component
     r = x,
     g = y,
     b = z,
-    a = w
+    a = w,
+    one,
+    minus_one,
+    zero,
+    min,
+    max,
 };
 
 static constexpr auto swizzle_x = swizzle_component::x;
@@ -26,5 +31,11 @@ static constexpr auto swizzle_r = swizzle_component::r;
 static constexpr auto swizzle_g = swizzle_component::g;
 static constexpr auto swizzle_b = swizzle_component::b;
 static constexpr auto swizzle_a = swizzle_component::a;
+
+static constexpr auto swizzle_one = swizzle_component::one;
+static constexpr auto swizzle_minus_one = swizzle_component::minus_one;
+static constexpr auto swizzle_zero = swizzle_component::zero;
+static constexpr auto swizzle_min = swizzle_component::min;
+static constexpr auto swizzle_max = swizzle_component::max;
 
 } // namespace aeon::math
