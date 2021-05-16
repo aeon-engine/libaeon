@@ -5,7 +5,6 @@
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/imaging/file/png_file.h>
-#include <aeon/imaging/converters/convert_encoding.h>
 #include <aeon/imaging/filters/resize.h>
 #include <aeon/imaging/utils/atlas.h>
 #include <aeon/common/preprocessor.h>
@@ -33,7 +32,8 @@ TEST(test_fonts, test_load_glyph)
     ASSERT_FALSE(math::null(glyph.view()));
     ASSERT_EQ(glyph.pixel_type(), fonts::glyph_pixel_type::gray);
 
-    const auto rgb_image = imaging::convert::to_rgb_copy(glyph.view());
+    const auto rgb_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(
+        glyph.view(), imaging::pixel_encoding::rgb);
     imaging::file::png::save(rgb_image, "test_fonts_a.png");
 }
 
@@ -48,7 +48,8 @@ TEST(test_fonts, test_load_rgb_glyph)
     ASSERT_FALSE(math::null(glyph.view()));
     ASSERT_EQ(glyph.pixel_type(), fonts::glyph_pixel_type::color);
 
-    const auto rgb_image = imaging::convert::to_rgb_copy(glyph.view());
+    const auto rgb_image = imaging::swizzle_copy<math::swizzle_b, math::swizzle_g, math::swizzle_r>(
+        glyph.view(), imaging::pixel_encoding::rgb);
     imaging::file::png::save(rgb_image, "test_fonts_emoji.png");
 }
 
@@ -77,14 +78,16 @@ static auto generate_text_image(const fonts::face &face, const std::u8string &st
         if (glyph.has_view())
         {
             if (glyph.pixel_type() == fonts::glyph_pixel_type::gray)
-                math::blit(imaging::convert::to_rgb_copy(glyph.view()), image,
-                           position + math::vector2<int>{glyph.offset()});
+                math::blit(imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(
+                               glyph.view(), imaging::pixel_encoding::rgb),
+                           image, position + math::vector2<int>{glyph.offset()});
             else if (glyph.pixel_type() == fonts::glyph_pixel_type::color)
             {
                 const auto scaled_glyph = imaging::filters::resize_bilinear(
                     glyph.view(), math::size2d<imaging::image::dimensions_type>{glyph.dimensions()});
-                math::blit(imaging::convert::to_rgb_copy(scaled_glyph), image,
-                           position + math::vector2<int>{glyph.offset()});
+                math::blit(imaging::swizzle_copy<math::swizzle_b, math::swizzle_g, math::swizzle_r>(
+                               scaled_glyph, imaging::pixel_encoding::rgb),
+                           image, position + math::vector2<int>{glyph.offset()});
             }
         }
 
@@ -110,8 +113,7 @@ TEST(test_fonts, test_load_text_string)
     streams::stream_reader reader{text_file};
     const auto image = generate_text_image(face, reader.read_to_u8string());
 
-    const auto rgb_image = imaging::convert::to_rgb_copy(image);
-    imaging::file::png::save(rgb_image, "test_fonts_text.png");
+    imaging::file::png::save(image, "test_fonts_text.png");
 }
 
 TEST(test_fonts, test_load_text_string_blit_emoji)
@@ -124,14 +126,17 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
     const auto face = mgr.load_face(font_file, 40.0f);
     const auto str = aeon_text("Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor "
                                "incididunt ut\nlabore et dolore magna aliqua.");
-    auto text_image = imaging::convert::to_rgba_copy(generate_text_image(face, str));
+    auto text_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r, math::swizzle_max>(
+        generate_text_image(face, str), imaging::pixel_encoding::rgba);
 
     // Generate color emoji
     auto font_file2 =
         streams::make_dynamic_stream(streams::file_source_device{AEON_FONTS_UNITTEST_DATA_PATH "NotoColorEmoji.ttf"});
     const auto face2 = mgr.load_face(font_file2, 16.0f);
     const auto glyph = face2.load_glyph(0x1F600); // "Grinning Face"
-    const auto emoji_image = imaging::convert::to_rgba_copy(glyph.view());
+    const auto emoji_image =
+        imaging::swizzle_copy<math::swizzle_b, math::swizzle_g, math::swizzle_r, math::swizzle_max>(
+            glyph.view(), imaging::pixel_encoding::rgba);
 
     // Blit them together
     math::blit(emoji_image, text_image, {100, 100});
@@ -163,6 +168,7 @@ TEST(test_fonts, test_load_glyphs_as_atlas)
 
     auto atlas = imaging::utils::create_atlas(glyphs);
 
-    const auto rgb_image = imaging::convert::to_rgb_copy(atlas.img);
+    const auto rgb_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(
+        atlas.img, imaging::pixel_encoding::rgb);
     imaging::file::png::save(rgb_image, "font_atlas.png");
 }

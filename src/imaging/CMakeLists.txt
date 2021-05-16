@@ -3,7 +3,6 @@
 handle_local_dependencies_file()
 
 set(SOURCES
-    private/converters/convert_encoding.cpp
     private/file/bmp_file.cpp
     private/file/file.cpp
     private/file/jpg_file.cpp
@@ -12,7 +11,6 @@ set(SOURCES
     private/file/png_structs.h
     private/file/png_write_structs.h
     private/file/tjhandle_wrapper.h
-    public/aeon/imaging/converters/convert_encoding.h
     public/aeon/imaging/converters/convert_pixel.h
     public/aeon/imaging/converters/stride.h
     public/aeon/imaging/exceptions.h

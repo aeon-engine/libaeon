@@ -173,8 +173,8 @@ protected:
 
 namespace internal
 {
-template <typename T, swizzle_component... components>
-inline void swizzle_copy(const mat_view &src, mat &dst) noexcept;
+template <typename T, typename MatType_T, swizzle_component... components>
+inline void swizzle_copy(const mat_view &src, MatType_T &dst) noexcept;
 } // namespace internal
 
 /*!

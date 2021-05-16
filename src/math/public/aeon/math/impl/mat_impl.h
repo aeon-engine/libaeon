@@ -151,8 +151,8 @@ inline void mat::copy_from_pointer(const underlying_type *data)
 namespace internal
 {
 
-template <typename T, swizzle_component... components>
-inline void swizzle_copy(const mat_view &src, mat &dst) noexcept
+template <typename T, typename MatType_T, swizzle_component... components>
+inline void swizzle_copy(const mat_view &src, MatType_T &dst) noexcept
 {
     constexpr auto component_count = sizeof...(components);
     const auto source_component_count = src.element_type().count;
@@ -195,34 +195,34 @@ template <swizzle_component... components>
     switch (view.element_type().name)
     {
         case common::element_type_name::u8:
-            internal::swizzle_copy<std::uint8_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::uint8_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::s8:
-            internal::swizzle_copy<std::int8_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::int8_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::u16:
-            internal::swizzle_copy<std::uint16_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::uint16_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::s16:
-            internal::swizzle_copy<std::int16_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::int16_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::u32:
-            internal::swizzle_copy<std::uint32_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::uint32_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::s32:
-            internal::swizzle_copy<std::int32_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::int32_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::u64:
-            internal::swizzle_copy<std::uint64_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::uint64_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::s64:
-            internal::swizzle_copy<std::int64_t, components...>(view, new_mat);
+            internal::swizzle_copy<std::int64_t, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::f32:
-            internal::swizzle_copy<float, components...>(view, new_mat);
+            internal::swizzle_copy<float, mat, components...>(view, new_mat);
             break;
         case common::element_type_name::f64:
-            internal::swizzle_copy<double, components...>(view, new_mat);
+            internal::swizzle_copy<double, mat, components...>(view, new_mat);
             break;
         default:
             std::abort();

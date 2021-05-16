@@ -169,34 +169,34 @@ template <math::swizzle_component... components>
     switch (view.element_type().name)
     {
         case common::element_type_name::u8:
-            math::internal::swizzle_copy<std::uint8_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::uint8_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::s8:
-            math::internal::swizzle_copy<std::int8_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::int8_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::u16:
-            math::internal::swizzle_copy<std::uint16_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::uint16_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::s16:
-            math::internal::swizzle_copy<std::int16_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::int16_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::u32:
-            math::internal::swizzle_copy<std::uint32_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::uint32_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::s32:
-            math::internal::swizzle_copy<std::int32_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::int32_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::u64:
-            math::internal::swizzle_copy<std::uint64_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::uint64_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::s64:
-            math::internal::swizzle_copy<std::int64_t, components...>(view, new_image);
+            math::internal::swizzle_copy<std::int64_t, image, components...>(view, new_image);
             break;
         case common::element_type_name::f32:
-            math::internal::swizzle_copy<float, components...>(view, new_image);
+            math::internal::swizzle_copy<float, image, components...>(view, new_image);
             break;
         case common::element_type_name::f64:
-            math::internal::swizzle_copy<double, components...>(view, new_image);
+            math::internal::swizzle_copy<double, image, components...>(view, new_image);
             break;
         default:
             std::abort();
