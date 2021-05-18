@@ -182,6 +182,136 @@ public:
                    const dimensions_type height, const stride_type stride, const underlying_type *data);
 
     /*!
+     * Create an image with the given dimensions
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the image.
+     */
+    explicit image(const imaging::format format, const math::size2d<dimensions_type> dimensions) noexcept;
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     */
+    explicit image(const imaging::format format, const dimensions_type width, const dimensions_type height) noexcept;
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     */
+    explicit image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                   const stride_type stride) noexcept;
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     */
+    explicit image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                   const stride_type stride) noexcept;
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                   std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                   std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
+     *                   stride.
+     */
+    explicit image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                   const stride_type stride, std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
+     *                   stride.
+     */
+    explicit image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                   const stride_type stride, std::vector<underlying_type> data) noexcept;
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                   const underlying_type *data);
+
+    /*!
+     * Create an image with the given dimensions
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     */
+    explicit image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                   const underlying_type *data);
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions and
+     *                   stride.
+     */
+    explicit image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                   const stride_type stride, const underlying_type *data);
+
+    /*!
+     * Create an image with the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the image.
+     * \param[in] height - The height of the image.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
+     *                   stride.
+     */
+    explicit image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                   const stride_type stride, const underlying_type *data);
+
+    /*!
      * Make a copy of the given image_view.
      */
     explicit image(const image_view &view);

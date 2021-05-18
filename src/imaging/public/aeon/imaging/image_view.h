@@ -81,6 +81,50 @@ public:
     explicit image_view(const common::element_type type, const imaging::format format, const dimensions_type width,
                         const dimensions_type height, const stride_type stride, underlying_type *data) noexcept;
 
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the matrix.
+     * \param[in] data - Raw matrix data
+     */
+    explicit image_view(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                        underlying_type *data) noexcept;
+
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the matrix.
+     * \param[in] height - The height of the matrix.
+     * \param[in] data - Raw matrix data
+     */
+    explicit image_view(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                        underlying_type *data) noexcept;
+
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] dimensions - The width and height of the matrix.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Raw matrix data
+     */
+    explicit image_view(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                        const stride_type stride, underlying_type *data) noexcept;
+
+    /*!
+     * Create a view based on the given dimensions and data pointer.
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb). The element type is deducted from the given format.
+     * \param[in] width - The width of the matrix.
+     * \param[in] height - The height of the matrix.
+     * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
+     * \param[in] data - Raw matrix data
+     */
+    explicit image_view(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                        const stride_type stride, underlying_type *data) noexcept;
+
     ~image_view() = default;
 
     image_view(const image_view &) = default;

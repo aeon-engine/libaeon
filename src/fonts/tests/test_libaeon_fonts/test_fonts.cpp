@@ -55,7 +55,7 @@ TEST(test_fonts, test_load_rgb_glyph)
 
 static auto generate_text_image(const fonts::face &face, const std::u8string &str) -> imaging::image
 {
-    imaging::image image{common::element_type::u8_3, imaging::format::r8g8b8_uint, 1024, 256};
+    imaging::image image{imaging::format::r8g8b8_uint, 1024, 256};
 
     math::vector2<int> position{30, 60};
 

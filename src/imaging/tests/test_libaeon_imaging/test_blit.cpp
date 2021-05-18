@@ -11,7 +11,7 @@ TEST(test_imaging, test_blit)
     auto image = imaging::file::png::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.png");
     ASSERT_EQ(imaging::pixel_format(image), imaging::format::r8g8b8a8_uint);
 
-    auto dst = imaging::image{math::element_type(image), imaging::format::r8g8b8a8_uint, 256, 256};
+    auto dst = imaging::image{imaging::pixel_format(image), 256, 256};
 
     auto view1 = imaging::make_view(image, {0, 0, 64, 64});
     math::blit(view1, dst, {10, 10});

@@ -168,13 +168,13 @@ void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
     switch (color_type)
     {
         case PNG_COLOR_TYPE_RGB:
-            return image{common::element_type::u8_3, format::r8g8b8_uint, width, height, std::move(bitmap_buffer)};
+            return image{format::r8g8b8_uint, width, height, std::move(bitmap_buffer)};
         case PNG_COLOR_TYPE_RGB_ALPHA:
-            return image{common::element_type::u8_4, format::r8g8b8a8_uint, width, height, std::move(bitmap_buffer)};
+            return image{format::r8g8b8a8_uint, width, height, std::move(bitmap_buffer)};
         case PNG_COLOR_TYPE_GRAY:
-            return image{common::element_type::u8_1, format::r8_uint, width, height, std::move(bitmap_buffer)};
+            return image{format::r8_uint, width, height, std::move(bitmap_buffer)};
         case PNG_COLOR_TYPE_GRAY_ALPHA:
-            return image{common::element_type::u8_2, format::r8g8_uint, width, height, std::move(bitmap_buffer)};
+            return image{format::r8g8_uint, width, height, std::move(bitmap_buffer)};
         default:
             throw load_exception{};
     }

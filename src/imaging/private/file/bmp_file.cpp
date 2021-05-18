@@ -80,11 +80,7 @@ struct bitmap_info_header
     if (stream.read(reinterpret_cast<std::byte *>(pixel_data.data()), info_header.size_image) != info_header.size_image)
         throw load_exception{};
 
-    auto img = image{common::element_type::u8_3,
-                     format::b8g8r8_uint,
-                     info_header.width,
-                     info_header.height,
-                     detail::calculate_stride(info_header),
+    auto img = image{format::b8g8r8_uint, info_header.width, info_header.height, detail::calculate_stride(info_header),
                      std::move(pixel_data)};
 
     math::invert_vertically(img);

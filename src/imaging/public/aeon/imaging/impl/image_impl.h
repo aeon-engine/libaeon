@@ -119,6 +119,76 @@ inline image::image(const image_view &view)
     copy_from_pointer(std::data(view));
 }
 
+inline image::image(const imaging::format format, const math::size2d<dimensions_type> dimensions) noexcept
+    : image{to_element_type(format), format, dimensions}
+{
+}
+
+inline image::image(const imaging::format format, const dimensions_type width, const dimensions_type height) noexcept
+    : image{to_element_type(format), format, width, height}
+{
+}
+
+inline image::image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                    const stride_type stride) noexcept
+    : image{to_element_type(format), format, dimensions, stride}
+{
+}
+
+inline image::image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                    const stride_type stride) noexcept
+    : image{to_element_type(format), format, width, height, stride}
+{
+}
+
+inline image::image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                    std::vector<underlying_type> data) noexcept
+    : image{to_element_type(format), format, dimensions, data}
+{
+}
+
+inline image::image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                    std::vector<underlying_type> data) noexcept
+    : image{to_element_type(format), format, width, height, data}
+{
+}
+
+inline image::image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                    const stride_type stride, std::vector<underlying_type> data) noexcept
+    : image{to_element_type(format), format, dimensions, stride, data}
+{
+}
+
+inline image::image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                    const stride_type stride, std::vector<underlying_type> data) noexcept
+    : image{to_element_type(format), format, width, height, stride, data}
+{
+}
+
+inline image::image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                    const underlying_type *data)
+    : image{to_element_type(format), format, dimensions, data}
+{
+}
+
+inline image::image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                    const underlying_type *data)
+    : image{to_element_type(format), format, width, height, data}
+{
+}
+
+inline image::image(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                    const stride_type stride, const underlying_type *data)
+    : image{to_element_type(format), format, dimensions, stride, data}
+{
+}
+
+inline image::image(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                    const stride_type stride, const underlying_type *data)
+    : image{to_element_type(format), format, width, height, stride, data}
+{
+}
+
 inline auto image::clone() const -> image
 {
     return image{type_, format_, dimensions_, stride_, data_};

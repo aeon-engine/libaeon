@@ -41,6 +41,30 @@ inline image_view::image_view(const common::element_type type, const imaging::fo
 {
 }
 
+inline image_view::image_view(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                              underlying_type *data) noexcept
+    : image_view{to_element_type(format), format, dimensions, data}
+{
+}
+
+inline image_view::image_view(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                              underlying_type *data) noexcept
+    : image_view{to_element_type(format), format, width, height, data}
+{
+}
+
+inline image_view::image_view(const imaging::format format, const math::size2d<dimensions_type> dimensions,
+                              const stride_type stride, underlying_type *data) noexcept
+    : image_view{to_element_type(format), format, dimensions, stride, data}
+{
+}
+
+inline image_view::image_view(const imaging::format format, const dimensions_type width, const dimensions_type height,
+                              const stride_type stride, underlying_type *data) noexcept
+    : image_view{to_element_type(format), format, width, height, stride, data}
+{
+}
+
 inline void image_view::format(const imaging::format format) noexcept
 {
     format_ = format;
