@@ -69,28 +69,22 @@ struct element_type final
     {
     }
 
-    template <typename T, std::size_t count_t, std::size_t size_t>
-    constexpr element_type(element_type_info<T, count_t, size_t> info) noexcept
+    template <typename T, std::size_t count_t, std::size_t stride_t, std::size_t component_size_t,
+              std::size_t full_size_t>
+    constexpr element_type(element_type_info<T, count_t, stride_t, component_size_t, full_size_t> info) noexcept
         : name{info.name}
         , component_size{info.component_size}
         , count{info.count}
         , size{info.size}
         , stride{info.stride}
     {
-        static_assert(count_t > 0, "element_count_t must be > 0");
-        static_assert(info.component_size > 0, "component_size must be > 0");
-        static_assert(info.size > 0, "size must be > 0");
-        static_assert(info.stride > 0, "stride must be > 0");
     }
 
-    template <typename T, std::size_t count_t, std::size_t size_t>
-    constexpr auto operator=(element_type_info<T, count_t, size_t> info) noexcept -> element_type &
+    template <typename T, std::size_t count_t, std::size_t stride_t, std::size_t component_size_t,
+              std::size_t full_size_t>
+    constexpr auto operator=(element_type_info<T, count_t, stride_t, component_size_t, full_size_t> info) noexcept
+        -> element_type &
     {
-        static_assert(count_t > 0, "element_count_t must be > 0");
-        static_assert(info.component_size > 0, "component_size must be > 0");
-        static_assert(info.size > 0, "size must be > 0");
-        static_assert(info.stride > 0, "stride must be > 0");
-
         name = info.name;
         component_size = info.component_size;
         count = info.count;
