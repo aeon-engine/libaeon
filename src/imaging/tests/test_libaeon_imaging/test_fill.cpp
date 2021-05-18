@@ -8,7 +8,7 @@ using namespace aeon;
 
 TEST(test_imaging, test_fill)
 {
-    imaging::image image{common::element_type::u8_3, imaging::pixel_encoding::rgb, 256, 256};
+    imaging::image image{common::element_type::u8_3, imaging::format::r8g8b8_uint, 256, 256};
     auto view1 = imaging::make_view(image, {0, 0, 64, 64});
     math::fill(view1, imaging::rgb24{255, 0, 0});
 
@@ -23,7 +23,7 @@ TEST(test_imaging, test_fill)
 
 TEST(test_imaging, test_fill_rect)
 {
-    imaging::image image{common::element_type::u8_3, imaging::pixel_encoding::rgb, 256, 256};
+    imaging::image image{common::element_type::u8_3, imaging::format::r8g8b8_uint, 256, 256};
 
     math::fill(image, {0, 0, 64, 64}, imaging::rgb24{255, 0, 0});
     math::fill(image, {200, 200, 220, 255}, imaging::rgb24{0, 255, 0});

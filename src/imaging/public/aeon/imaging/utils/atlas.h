@@ -91,7 +91,7 @@ struct atlas_result
     });
 
     const auto element_type = math::element_type(images[0]);
-    const auto encoding = imaging::encoding(images[0]);
+    const auto format = imaging::pixel_format(images[0]);
 
     atlas_result result;
     result.positions.resize(std::size(images));
@@ -103,12 +103,12 @@ struct atlas_result
         dimensions *= 2;
     }
 
-    result.img = image{element_type, encoding, dimensions};
+    result.img = image{element_type, format, dimensions};
 
     for (auto i = 0ull; i < std::size(images); ++i)
     {
         const auto &source_image = images[i];
-        if (element_type != math::element_type(source_image) || encoding != imaging::encoding(source_image))
+        if (element_type != math::element_type(source_image) || format != imaging::pixel_format(source_image))
             throw std::invalid_argument{"Image format mismatch."};
 
         math::blit(source_image, result.img, math::left_top(result.positions[i]));

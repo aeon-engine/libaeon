@@ -7,56 +7,56 @@ namespace aeon::imaging
 
 inline image_view::image_view() noexcept
     : mat_view{}
-    , encoding_{pixel_encoding::undefined}
+    , format_{imaging::format::undefined}
 {
 }
 
-inline image_view::image_view(const common::element_type type, const pixel_encoding encoding,
+inline image_view::image_view(const common::element_type type, const imaging::format format,
                               const math::size2d<dimensions_type> dimensions, underlying_type *data) noexcept
     : mat_view{type, dimensions, data}
-    , encoding_{encoding}
+    , format_{format}
 {
 }
 
-inline image_view::image_view(const common::element_type type, const pixel_encoding encoding,
+inline image_view::image_view(const common::element_type type, const imaging::format format,
                               const dimensions_type width, const dimensions_type height, underlying_type *data) noexcept
     : mat_view{type, width, height, data}
-    , encoding_{encoding}
+    , format_{format}
 {
 }
 
-inline image_view::image_view(const common::element_type type, const pixel_encoding encoding,
+inline image_view::image_view(const common::element_type type, const imaging::format format,
                               const math::size2d<dimensions_type> dimensions, const stride_type stride,
                               underlying_type *data) noexcept
     : mat_view{type, dimensions, stride, data}
-    , encoding_{encoding}
+    , format_{format}
 {
 }
 
-inline image_view::image_view(const common::element_type type, const pixel_encoding encoding,
+inline image_view::image_view(const common::element_type type, const imaging::format format,
                               const dimensions_type width, const dimensions_type height, const stride_type stride,
                               underlying_type *data) noexcept
     : mat_view{type, width, height, stride, data}
-    , encoding_{encoding}
+    , format_{format}
 {
 }
 
-inline void image_view::encoding(const pixel_encoding encoding) noexcept
+inline void image_view::format(const imaging::format format) noexcept
 {
-    encoding_ = encoding;
+    format_ = format;
 }
 
-inline auto image_view::encoding() const noexcept -> pixel_encoding
+inline auto image_view::format() const noexcept -> imaging::format
 {
-    return encoding_;
+    return format_;
 }
 
 [[nodiscard]] inline auto make_view(image_view &view, const math::rectangle<int> &rect) noexcept -> image_view
 {
     aeon_assert(math::contains(rect, math::rectangle<int>{0, 0, dimensions(view)}),
                 "View rectangle does not fit within image.");
-    return image_view{element_type(view), encoding(view), width(rect),
-                      height(rect),       stride(view),   math::at(view, left(rect), top(rect))};
+    return image_view{element_type(view), pixel_format(view), width(rect),
+                      height(rect),       stride(view),       math::at(view, left(rect), top(rect))};
 }
 
 } // namespace aeon::imaging

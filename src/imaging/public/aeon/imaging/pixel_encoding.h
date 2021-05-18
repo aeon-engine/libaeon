@@ -50,16 +50,6 @@ struct bgra32
 
 static_assert(sizeof(bgra32) == 4, "Alignment problem: bgra32 must be 4 bytes in size.");
 
-enum class pixel_encoding
-{
-    monochrome,
-    rgb,
-    rgba,
-    bgr,
-    bgra,
-    undefined
-};
-
 inline auto operator*(const rgb24 lhs, const float rhs) noexcept -> rgb24;
 inline auto operator*=(rgb24 &lhs, const float rhs) noexcept -> rgb24;
 inline auto operator*(const rgb24 lhs, const rgb24 rhs) noexcept -> rgb24;

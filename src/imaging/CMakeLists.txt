@@ -19,13 +19,13 @@ set(SOURCES
     public/aeon/imaging/file/jpg_file.h
     public/aeon/imaging/file/png_file.h
     public/aeon/imaging/filters/resize.h
+    public/aeon/imaging/format.h
     public/aeon/imaging/image.h
     public/aeon/imaging/image_view.h
     public/aeon/imaging/impl/image_impl.h
     public/aeon/imaging/impl/image_view_impl.h
     public/aeon/imaging/impl/pixel_encoding_impl.h
     public/aeon/imaging/pixel_encoding.h
-    public/aeon/imaging/pixel_encoding_traits.h
     public/aeon/imaging/pixel_math.h
     public/aeon/imaging/utils/atlas.h
 )

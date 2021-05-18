@@ -26,7 +26,7 @@ TEST(test_imaging, test_atlas)
     for (auto i = 0; i < image_count; ++i)
     {
         const math::size2d<imaging::image::dimensions_type> size{size_dist(gen), size_dist(gen)};
-        imaging::image image{common::element_type::u8_3, imaging::pixel_encoding::rgb, size};
+        imaging::image image{common::element_type::u8_3, imaging::format::r8g8b8_uint, size};
         math::fill(image, imaging::rgb24{static_cast<std::uint8_t>(pixel_dist(gen)),
                                          static_cast<std::uint8_t>(pixel_dist(gen)),
                                          static_cast<std::uint8_t>(pixel_dist(gen))});

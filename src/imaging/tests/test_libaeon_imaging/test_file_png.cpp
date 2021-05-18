@@ -16,7 +16,7 @@ TEST(test_imaging, test_load_and_save_png)
 TEST(test_imaging, test_load_and_save_png_make_view_crop)
 {
     auto image = imaging::file::png::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.png");
-    ASSERT_EQ(imaging::encoding(image), imaging::pixel_encoding::rgba);
+    ASSERT_EQ(imaging::pixel_format(image), imaging::format::r8g8b8a8_uint);
     const auto view = imaging::make_view(image, {70, 50, 70 + 32, 50 + 50});
     imaging::file::png::save(view, "test_load_and_save_png_cropped.png");
 }
@@ -24,7 +24,7 @@ TEST(test_imaging, test_load_and_save_png_make_view_crop)
 TEST(test_imaging, test_load_and_save_png_make_view_crop_scale)
 {
     auto image = imaging::file::png::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.png");
-    ASSERT_EQ(imaging::encoding(image), imaging::pixel_encoding::rgba);
+    ASSERT_EQ(imaging::pixel_format(image), imaging::format::r8g8b8a8_uint);
     const auto view = imaging::make_view(image, {70, 50, 70 + 32, 50 + 50});
 
     const auto scaled_dynamic_image = imaging::filters::resize_bilinear(view, {64, 64});

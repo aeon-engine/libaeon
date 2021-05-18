@@ -9,10 +9,10 @@ using namespace aeon;
 
 TEST(test_imaging, test_image_generator_simplex_noise)
 {
-    imaging::image image{common::element_type::u8_1, imaging::pixel_encoding::monochrome, 128, 128};
+    imaging::image image{common::element_type::u8_1, imaging::format::r8_uint, 128, 128};
     math::simplex_noise::scaled_octave_noise(image, 4.0f, 0.2f, 0.05f);
     const auto rgb_image =
-        imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(image, imaging::pixel_encoding::rgb);
+        imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(image, imaging::format::r8g8b8_uint);
 
     imaging::file::png::save(rgb_image, "test_image_generator_simplex_noise.png");
 }

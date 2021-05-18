@@ -17,7 +17,7 @@ struct resize_bilinear_impl
                         const math::size2d<image::dimensions_type> size) -> image
     {
         const auto source_stride = math::stride(img);
-        image new_image{element_type, encoding(img), size};
+        image new_image{element_type, pixel_format(img), size};
         const auto dest_stride = math::stride(new_image);
 
         const auto *const src = std::data(img);
@@ -60,20 +60,20 @@ struct resize_bilinear_impl
     -> image
 {
     const auto element_type = math::element_type(img);
-    const auto encoding = imaging::encoding(img);
+    const auto format = pixel_format(img);
 
     if (element_type == common::element_type::u8_3 || element_type == common::element_type::u8_3_stride_4)
     {
-        if (encoding == pixel_encoding::rgb)
+        if (format == format::r8g8b8_uint)
             return detail::resize_bilinear_impl<rgb24>::process(img, element_type, size);
-        else if (encoding == pixel_encoding::bgr)
+        else if (format == format::b8g8r8_uint)
             return detail::resize_bilinear_impl<bgr24>::process(img, element_type, size);
     }
     else if (element_type == common::element_type::u8_4)
     {
-        if (encoding == pixel_encoding::rgba)
+        if (format == format::r8g8b8a8_uint)
             return detail::resize_bilinear_impl<rgba32>::process(img, element_type, size);
-        else if (encoding == pixel_encoding::bgra)
+        else if (format == format::b8g8r8a8_uint)
             return detail::resize_bilinear_impl<bgra32>::process(img, element_type, size);
     }
     else if (element_type == common::element_type::f32_1 || element_type == common::element_type::f32_1_stride_8)

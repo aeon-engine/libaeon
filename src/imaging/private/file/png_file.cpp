@@ -38,19 +38,33 @@ void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
     stream->write(reinterpret_cast<std::byte *>(data), length);
 }
 
-[[nodiscard]] inline auto convert_encoding_to_color_type(const pixel_encoding encoding)
+[[nodiscard]] inline auto convert_encoding_to_color_type(const format format)
 {
-    switch (encoding)
+    switch (format)
     {
-        case pixel_encoding::monochrome:
+        case format::r8_uint:
             return PNG_COLOR_TYPE_GRAY;
-        case pixel_encoding::rgb:
+        case format::r8g8b8_uint:
             return PNG_COLOR_TYPE_RGB;
-        case pixel_encoding::rgba:
+        case format::r8g8b8a8_uint:
             return PNG_COLOR_TYPE_RGB_ALPHA;
-        case pixel_encoding::bgr:
-        case pixel_encoding::bgra:
-        case pixel_encoding::undefined:
+        case format::r8g8_uint:
+            return PNG_COLOR_TYPE_GRAY_ALPHA;
+        case format::undefined:
+        case format::b8g8r8_uint:
+        case format::b8g8r8a8_uint:
+        case format::bc1_rgb_srgb_block:
+        case format::bc1_rgba_srgb_block:
+        case format::bc2_srgb_block:
+        case format::bc3_srgb_block:
+        case format::r32_float:
+        case format::r32_uint:
+        case format::r32g32_float:
+        case format::r32g32_uint:
+        case format::r32g32b32_float:
+        case format::r32g32b32_uint:
+        case format::r32g32b32a32_float:
+        case format::r32g32b32a32_uint:
         default:
             throw save_exception{};
     }
@@ -154,9 +168,13 @@ void png_write_callback(png_structp png_ptr, png_bytep data, png_size_t length)
     switch (color_type)
     {
         case PNG_COLOR_TYPE_RGB:
-            return image{common::element_type::u8_3, pixel_encoding::rgb, width, height, std::move(bitmap_buffer)};
+            return image{common::element_type::u8_3, format::r8g8b8_uint, width, height, std::move(bitmap_buffer)};
         case PNG_COLOR_TYPE_RGB_ALPHA:
-            return image{common::element_type::u8_4, pixel_encoding::rgba, width, height, std::move(bitmap_buffer)};
+            return image{common::element_type::u8_4, format::r8g8b8a8_uint, width, height, std::move(bitmap_buffer)};
+        case PNG_COLOR_TYPE_GRAY:
+            return image{common::element_type::u8_1, format::r8_uint, width, height, std::move(bitmap_buffer)};
+        case PNG_COLOR_TYPE_GRAY_ALPHA:
+            return image{common::element_type::u8_2, format::r8g8_uint, width, height, std::move(bitmap_buffer)};
         default:
             throw load_exception{};
     }
@@ -176,7 +194,7 @@ void save(const image_view &image, streams::idynamic_stream &stream)
         throw save_exception{};
     AEON_IGNORE_VS_WARNING_POP()
 
-    const auto color_type = detail::convert_encoding_to_color_type(encoding(image));
+    const auto color_type = detail::convert_encoding_to_color_type(pixel_format(image));
     const auto width = static_cast<png_uint_32>(math::width(image));
     const auto height = static_cast<png_uint_32>(math::height(image));
     const auto bit_depth = static_cast<int>(math::element_type(image).component_size * 8);

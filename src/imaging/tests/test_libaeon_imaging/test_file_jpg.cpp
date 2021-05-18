@@ -22,7 +22,7 @@ TEST(test_imaging, test_save_jpg)
 TEST(test_imaging, test_load_and_save_jpg_make_view_crop)
 {
     auto image = imaging::file::jpg::load(AEON_IMAGING_UNITTEST_DATA_PATH "felix.jpg");
-    ASSERT_EQ(imaging::encoding(image), imaging::pixel_encoding::rgb);
+    ASSERT_EQ(imaging::pixel_format(image), imaging::format::r8g8b8_uint);
 
     const auto view = imaging::make_view(image, {400, 300, 450 + 200, 300 + 130});
     imaging::file::jpg::save(view, imaging::file::jpg::subsample_mode::subsample_440, 60, "test_save_jpg_cropped.jpg");

@@ -58,7 +58,7 @@ namespace detail
     if (tjDecompressHeader(wrapper.handle(), std::data(data), data_size, &width, &height) != 0)
         throw load_exception{};
 
-    image loaded_image{common::element_type::u8_3, pixel_encoding::rgb, width, height};
+    image loaded_image{common::element_type::u8_3, format::r8g8b8_uint, width, height};
 
     if (tjDecompress2(wrapper.handle(), std::data(data), data_size,
                       reinterpret_cast<unsigned char *>(std::data(loaded_image)), width, 0, height, TJPF_RGB,

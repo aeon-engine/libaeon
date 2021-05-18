@@ -81,7 +81,7 @@ struct bitmap_info_header
         throw load_exception{};
 
     auto img = image{common::element_type::u8_3,
-                     pixel_encoding::bgr,
+                     format::b8g8r8_uint,
                      info_header.width,
                      info_header.height,
                      detail::calculate_stride(info_header),

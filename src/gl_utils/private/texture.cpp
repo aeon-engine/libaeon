@@ -13,19 +13,34 @@ namespace internal
 [[nodiscard]] auto convert_pixel_format(const imaging::image_view &image, const monochrome_type monochrome_type)
     -> GLenum
 {
-    switch (imaging::encoding(image))
+    switch (imaging::pixel_format(image))
     {
-        case imaging::pixel_encoding::monochrome:
-            return static_cast<GLenum>(monochrome_type);
-        case imaging::pixel_encoding::rgb:
-            return GL_RGB;
-        case imaging::pixel_encoding::rgba:
-            return GL_RGBA;
-        case imaging::pixel_encoding::bgr:
+
+        case imaging::format::b8g8r8_uint:
             return GL_BGR;
-        case imaging::pixel_encoding::bgra:
+        case imaging::format::b8g8r8a8_uint:
             return GL_BGRA;
-        case imaging::pixel_encoding::undefined:
+        case imaging::format::r32_float:
+        case imaging::format::r32_uint:
+        case imaging::format::r8_uint:
+            return static_cast<GLenum>(monochrome_type);
+        case imaging::format::r32g32_float:
+        case imaging::format::r32g32_uint:
+        case imaging::format::r8g8_uint:
+            return GL_RG;
+        case imaging::format::r32g32b32_float:
+        case imaging::format::r32g32b32_uint:
+        case imaging::format::r8g8b8_uint:
+            return GL_RGB;
+        case imaging::format::r32g32b32a32_float:
+        case imaging::format::r32g32b32a32_uint:
+        case imaging::format::r8g8b8a8_uint:
+            return GL_RGBA;
+        case imaging::format::bc1_rgb_srgb_block:
+        case imaging::format::bc1_rgba_srgb_block:
+        case imaging::format::bc2_srgb_block:
+        case imaging::format::bc3_srgb_block:
+        case imaging::format::undefined:
         default:
             throw gl::gl_exception{u8"Invalid or unsupported pixel format."};
     }

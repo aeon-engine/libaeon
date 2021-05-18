@@ -33,7 +33,7 @@ TEST(test_fonts, test_load_glyph)
     ASSERT_EQ(glyph.pixel_type(), fonts::glyph_pixel_type::gray);
 
     const auto rgb_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(
-        glyph.view(), imaging::pixel_encoding::rgb);
+        glyph.view(), imaging::format::r8g8b8_uint);
     imaging::file::png::save(rgb_image, "test_fonts_a.png");
 }
 
@@ -49,13 +49,13 @@ TEST(test_fonts, test_load_rgb_glyph)
     ASSERT_EQ(glyph.pixel_type(), fonts::glyph_pixel_type::color);
 
     const auto rgb_image = imaging::swizzle_copy<math::swizzle_b, math::swizzle_g, math::swizzle_r>(
-        glyph.view(), imaging::pixel_encoding::rgb);
+        glyph.view(), imaging::format::r8g8b8_uint);
     imaging::file::png::save(rgb_image, "test_fonts_emoji.png");
 }
 
 static auto generate_text_image(const fonts::face &face, const std::u8string &str) -> imaging::image
 {
-    imaging::image image{common::element_type::u8_3, imaging::pixel_encoding::rgb, 1024, 256};
+    imaging::image image{common::element_type::u8_3, imaging::format::r8g8b8_uint, 1024, 256};
 
     math::vector2<int> position{30, 60};
 
@@ -79,14 +79,14 @@ static auto generate_text_image(const fonts::face &face, const std::u8string &st
         {
             if (glyph.pixel_type() == fonts::glyph_pixel_type::gray)
                 math::blit(imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(
-                               glyph.view(), imaging::pixel_encoding::rgb),
+                               glyph.view(), imaging::format::r8g8b8_uint),
                            image, position + math::vector2<int>{glyph.offset()});
             else if (glyph.pixel_type() == fonts::glyph_pixel_type::color)
             {
                 const auto scaled_glyph = imaging::filters::resize_bilinear(
                     glyph.view(), math::size2d<imaging::image::dimensions_type>{glyph.dimensions()});
                 math::blit(imaging::swizzle_copy<math::swizzle_b, math::swizzle_g, math::swizzle_r>(
-                               scaled_glyph, imaging::pixel_encoding::rgb),
+                               scaled_glyph, imaging::format::r8g8b8_uint),
                            image, position + math::vector2<int>{glyph.offset()});
             }
         }
@@ -127,7 +127,7 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
     const auto str = aeon_text("Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor "
                                "incididunt ut\nlabore et dolore magna aliqua.");
     auto text_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r, math::swizzle_max>(
-        generate_text_image(face, str), imaging::pixel_encoding::rgba);
+        generate_text_image(face, str), imaging::format::r8g8b8a8_uint);
 
     // Generate color emoji
     auto font_file2 =
@@ -136,7 +136,7 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
     const auto glyph = face2.load_glyph(0x1F600); // "Grinning Face"
     const auto emoji_image =
         imaging::swizzle_copy<math::swizzle_b, math::swizzle_g, math::swizzle_r, math::swizzle_max>(
-            glyph.view(), imaging::pixel_encoding::rgba);
+            glyph.view(), imaging::format::r8g8b8a8_uint);
 
     // Blit them together
     math::blit(emoji_image, text_image, {100, 100});
@@ -169,6 +169,6 @@ TEST(test_fonts, test_load_glyphs_as_atlas)
     auto atlas = imaging::utils::create_atlas(glyphs);
 
     const auto rgb_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(
-        atlas.img, imaging::pixel_encoding::rgb);
+        atlas.img, imaging::format::r8g8b8_uint);
     imaging::file::png::save(rgb_image, "font_atlas.png");
 }

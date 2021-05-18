@@ -38,135 +38,147 @@ public:
     /*!
      * Create an image with the given dimensions
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding,
+    explicit image(const common::element_type type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions) noexcept;
 
     /*!
      * Create an image with the given dimensions
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height) noexcept;
 
     /*!
      * Create an image with the given dimensions and data pointer.
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding,
+    explicit image(const common::element_type type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const stride_type stride) noexcept;
 
     /*!
      * Create an image with the given dimensions and data pointer.
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const stride_type stride) noexcept;
 
     /*!
      * Create an image with the given dimensions
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding,
+    explicit image(const common::element_type type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, std::vector<underlying_type> data) noexcept;
 
     /*!
      * Create an image with the given dimensions
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, std::vector<underlying_type> data) noexcept;
 
     /*!
      * Create an image with the given dimensions and data pointer.
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
-     * stride.
+     *                   stride.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding,
+    explicit image(const common::element_type type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const stride_type stride,
                    std::vector<underlying_type> data) noexcept;
 
     /*!
      * Create an image with the given dimensions and data pointer.
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
-     * stride.
+     *                   stride.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const stride_type stride, std::vector<underlying_type> data) noexcept;
 
     /*!
      * Create an image with the given dimensions
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding,
+    explicit image(const common::element_type type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const underlying_type *data);
 
     /*!
      * Create an image with the given dimensions
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const underlying_type *data);
 
     /*!
      * Create an image with the given dimensions and data pointer.
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
-     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
-     * stride.
+     * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions and
+     *                   stride.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding,
+    explicit image(const common::element_type type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const stride_type stride,
                    const underlying_type *data);
 
     /*!
      * Create an image with the given dimensions and data pointer.
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
-     * \param[in] encoding - How the data should be logically interpreted (for example monochrome, rgb or rgba)
+     * \param[in] format - How the data should be logically interpreted (for example r32_float, r8g8b8a8_unorm or
+     *                     b8g8r8a8_unorm_srgb)
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
-     * stride.
+     *                   stride.
      */
-    explicit image(const common::element_type type, const pixel_encoding encoding, const dimensions_type width,
+    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const stride_type stride, const underlying_type *data);
 
     /*!
@@ -214,10 +226,10 @@ template <math::swizzle_component... components>
  * Swizzle elements of all components in an image_view. This can for example be used for grayscale->rgb conversion.
  * The amount of components supplied determines the components of the output image.
  * \param[in] view - An image view to be swizzled
- * \param[in] encoding - The new encoding of the output image
+ * \param[in] format - The new pixel format of the output image
  */
 template <math::swizzle_component... components>
-[[nodiscard]] inline auto swizzle_copy(const image_view &view, const pixel_encoding encoding) noexcept -> image;
+[[nodiscard]] inline auto swizzle_copy(const image_view &view, const format format) noexcept -> image;
 
 } // namespace aeon::imaging
 
