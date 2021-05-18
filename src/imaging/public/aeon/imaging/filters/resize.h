@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/imaging/image.h>
+#include <aeon/imaging/pixel_encoding.h>
 
 namespace aeon::imaging::filters
 {

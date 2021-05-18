@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include <aeon/imaging/pixel_encoding.h>
 #include <aeon/imaging/format.h>
 #include <aeon/math/mat_view.h>
 #include <aeon/math/rectangle.h>
