@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 add_subdirectory(vma)
 
 set(SOURCES

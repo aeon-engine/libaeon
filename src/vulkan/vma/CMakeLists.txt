@@ -18,6 +18,7 @@ if (MSVC)
         PRIVATE
             /wd4100
             /wd4127
+            /wd4189
             /wd4324
     )
 endif ()
@@ -34,7 +35,7 @@ target_include_directories(aeon_vulkan_vma
 
 target_link_libraries(aeon_vulkan_vma
     LunarGVulkanSDK
-    VulkanMemoryAllocator::VulkanMemoryAllocator
+    CONAN_PKG::vulkan-memory-allocator
 )
 
 set_target_properties(aeon_vulkan_vma PROPERTIES

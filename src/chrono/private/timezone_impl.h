@@ -40,12 +40,12 @@ public:
 
     [[nodiscard]] auto has_same_rules(const timezone_impl &tz) const noexcept -> bool
     {
-        return timezone_->hasSameRules(*tz.timezone_) == TRUE;
+        return timezone_->hasSameRules(*tz.timezone_) == 1;
     }
 
     [[nodiscard]] auto uses_dst() const noexcept -> bool
     {
-        return timezone_->useDaylightTime() == TRUE;
+        return timezone_->useDaylightTime() == 1;
     }
 
     [[nodiscard]] auto get_dst_savings() const -> std::chrono::milliseconds
@@ -62,7 +62,7 @@ public:
         std::int32_t raw_offset{};
         std::int32_t dst_offset{};
         UErrorCode error{};
-        timezone_->getOffset(date, timezone == offset_timezone::local ? TRUE : FALSE, raw_offset, dst_offset, error);
+        timezone_->getOffset(date, timezone == offset_timezone::local ? 1 : 0, raw_offset, dst_offset, error);
 
         if (U_FAILURE(error))
             throw std::runtime_error{"Error in get_offset"};

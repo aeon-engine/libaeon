@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 set(SOURCES
     private/ctypes.cpp
     private/encoding.cpp
@@ -38,7 +36,7 @@ target_include_directories(aeon_unicode
 
 target_link_libraries(aeon_unicode
     aeon_common
-    ICU::uc
+    CONAN_PKG::icu
 )
 
 install(

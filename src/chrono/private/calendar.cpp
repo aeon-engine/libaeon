@@ -172,7 +172,7 @@ auto calendar::operator<(const calendar &other) const -> bool
     if (U_FAILURE(error))
         throw std::runtime_error{"Could not compare calendars."};
 
-    return result == TRUE;
+    return result == 1;
 }
 
 auto calendar::operator<=(const calendar &other) const -> bool
@@ -191,7 +191,7 @@ auto calendar::operator>(const calendar &other) const -> bool
     if (U_FAILURE(error))
         throw std::runtime_error{"Could not compare calendars."};
 
-    return result == TRUE;
+    return result == 1;
 }
 
 auto calendar::operator>=(const calendar &other) const -> bool

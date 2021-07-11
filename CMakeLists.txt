@@ -8,6 +8,7 @@ else ()
     project(libAeon)
 endif ()
 
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 set(CMAKE_DEBUG_POSTFIX _d)
 
 # Create compile_commands.json when possible, which can be used for
@@ -21,14 +22,22 @@ if (AEON_ENABLE_TESTING)
     enable_testing()
 endif ()
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
 
-include(Dependencies)
-handle_local_dependencies_file()
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
 include(CompilerFlags)
 
 set(CMAKE_CXX_STANDARD 20)
+
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
+    include(conanbuildinfo_multi)
+else ()
+    include(conanbuildinfo)
+endif ()
+
+conan_basic_setup(TARGETS)
 
 ################################################################################
 
@@ -50,6 +59,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries if possible" ON)
 include(ComponentUtils)
 enable_component(ast)
 enable_component(chrono)
+enable_component(clang)
 enable_component(common)
 enable_component(compression)
 enable_component(crypto)
@@ -61,7 +71,6 @@ enable_component(math)
 enable_component(midi)
 
 if (WIN32)
-    enable_component(clang)
     enable_component(platform)
     enable_component(gl)
     enable_component(gl_utils)

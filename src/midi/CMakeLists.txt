@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 set(SOURCES
     private/midi_device.cpp
     private/midi_file_reader.cpp
@@ -37,7 +35,7 @@ target_include_directories(aeon_midi
 target_link_libraries(aeon_midi
     aeon_common
     aeon_streams
-    RTMidi::RTMidi
+    CONAN_PKG::rtmidi
 )
 
 install(

@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 set(SOURCES
     private/http/http_client_socket.cpp
     private/http/http_jsonrpc_route.cpp

@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 set(SOURCES
     private/calendar.cpp
     private/timezone.cpp
@@ -28,9 +26,7 @@ target_include_directories(aeon_chrono
 
 target_link_libraries(aeon_chrono
     aeon_common
-    ICU::tu
-    ICU::uc
-    ICU::i18n
+    CONAN_PKG::icu
 )
 
 install(

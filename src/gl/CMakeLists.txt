@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 include(GenerateExportHeader)
 
 add_subdirectory(generator)
@@ -49,12 +47,12 @@ target_include_directories(aeon_gl
         public
         ${CMAKE_CURRENT_BINARY_DIR}/public
         ${CMAKE_CURRENT_BINARY_DIR}/generator/public
-        ${OPENGL_REGISTRY_INCLUDE_PATH}
 )
 
 target_link_libraries(aeon_gl
     aeon_common
     aeon_platform
+    CONAN_PKG::opengl-registry
 )
 
 install(

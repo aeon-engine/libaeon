@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 set(SOURCES
     private/file/bmp_file.cpp
     private/file/file.cpp
@@ -50,8 +48,8 @@ target_link_libraries(aeon_imaging
     aeon_common
     aeon_math
     aeon_streams
-    PNG::PNG
-    JPEG::JPEGTURBO
+    CONAN_PKG::libpng
+    CONAN_PKG::libjpeg-turbo
 )
 
 install(

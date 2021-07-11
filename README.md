@@ -9,6 +9,12 @@ A general purpose C++20 support library.
 
 How to build
 --------------
+### Conan
+You must first install Conan. libAeon will pull in packages from both conan center and a private repository.
+
+The following remote must be added:
+https://artifactory.aeons.dev/artifactory/api/conan/aeon
+
 ### Windows (Visual Studio 2019)
 
 libAeon is tested on the most recent version of Visual Studio 2019. It is best to just install the latest stable version when building.

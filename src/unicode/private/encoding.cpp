@@ -28,11 +28,11 @@ void append(const char32_t from, std::u8string &to)
 {
     std::array<std::uint8_t, 4> data;
     auto data_offset = 0u;
-    UBool error = FALSE;
+    UBool error = 0;
 
     U8_APPEND(std::data(data), data_offset, std::size(data), from, error);
 
-    if (error == TRUE)
+    if (error == 1)
         throw unicode_conversion_exception{};
 
     to.append(std::begin(data), std::begin(data) + data_offset);
@@ -67,11 +67,11 @@ void append(const char32_t from, std::u16string &to)
 {
     std::array<char16_t, 2> data;
     auto data_offset = 0u;
-    UBool error = FALSE;
+    UBool error = 0;
 
     U16_APPEND(std::data(data), data_offset, std::size(data), from, error);
 
-    if (error == TRUE)
+    if (error == 1)
         throw unicode_conversion_exception{};
 
     to.append(std::begin(data), std::begin(data) + data_offset);

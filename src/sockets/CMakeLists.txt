@@ -1,7 +1,5 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-handle_local_dependencies_file()
-
 set(SOURCES
     private/line_protocol_socket.cpp
     private/tcp_socket.cpp
@@ -32,7 +30,16 @@ target_include_directories(aeon_sockets
 target_link_libraries(aeon_sockets
     aeon_common
     aeon_streams
-    Asio::Asio
+    CONAN_PKG::asio
+)
+
+target_compile_definitions(aeon_sockets
+    PUBLIC
+        ASIO_NO_DEPRECATED
+        ASIO_STANDALONE
+        ASIO_HEADER_ONLY
+        # ASIO uses deprecated windows api calls which raise a warning when targetting Windows 10
+        _WINSOCK_DEPRECATED_NO_WARNINGS
 )
 
 install(
