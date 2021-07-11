@@ -33,3 +33,9 @@
 #else
 #define AEON_RESTRICT __restrict__
 #endif
+
+#if (!defined(NDEBUG))
+#define AEON_DEBUG
+#else
+#undef AEON_DEBUG
+#endif

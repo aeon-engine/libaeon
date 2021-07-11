@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/plugins/plugin_loader.h>
+#include <aeon/common/compilers.h>
 #include <itestplugin1.h>
 
 #include <gtest/gtest.h>
@@ -8,7 +9,7 @@
 
 using namespace aeon;
 
-#ifdef _DEBUG
+#ifdef AEON_DEBUG
 static constexpr auto plugin_name = "testplugin1_d";
 #else
 static constexpr auto plugin_name = "testplugin1";
