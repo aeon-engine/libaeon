@@ -32,8 +32,10 @@ include(CompilerFlags)
 set(CMAKE_CXX_STANDARD 20)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
+    message("Using multi-target conan configuration.")
     include(conanbuildinfo_multi)
 else ()
+    message("Using single target conan configuration.")
     include(conanbuildinfo)
 endif ()
 
