@@ -60,6 +60,7 @@ set(SOURCES
     public/aeon/common/signed_sizeof.h
     public/aeon/common/singleton.h
     public/aeon/common/string.h
+    public/aeon/common/string_concepts.h
     public/aeon/common/string_table.h
     public/aeon/common/string_traits.h
     public/aeon/common/tempfile.h
