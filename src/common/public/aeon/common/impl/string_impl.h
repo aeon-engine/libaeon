@@ -13,7 +13,7 @@ template <concepts::string_view_like T, concepts::string_view_like U>
 [[nodiscard]] inline auto iequals(const T &str1, const U &str2) noexcept -> bool
 {
     const auto str1_view = basic_string_view_type<T>{str1};
-    const auto str2_view = basic_string_view_type<T>{str2};
+    const auto str2_view = basic_string_view_type<U>{str2};
 
     return std::equal(std::cbegin(str1_view), std::cend(str1_view), std::cbegin(str2_view), std::cend(str2_view),
                       [](const auto a, const auto b) { return std::tolower(a) == std::tolower(b); });
