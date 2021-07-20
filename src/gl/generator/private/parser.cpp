@@ -86,8 +86,8 @@ void parser::parse_type_definitions()
                 code_line += tc.value() + " ";
         }
 
-        common::string::replace<char>(code_line, "&lt;", "<");
-        common::string::replace<char>(code_line, "&gt;", ">");
+        common::string::replace(code_line, "&lt;", "<");
+        common::string::replace(code_line, "&gt;", ">");
 
         if (!std::empty(code_line))
             definition_.add_additional_code(common::string::trimmed(code_line));

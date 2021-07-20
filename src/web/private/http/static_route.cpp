@@ -17,7 +17,7 @@ namespace aeon::web::http
 
 auto detail::to_url_path(const std::string &path) -> std::string
 {
-    return common::string::replace_copy<char>(path, "\\", "/");
+    return common::string::replace_copy(path, "\\", "/");
 }
 
 auto detail::is_image_extension(const std::string &extension) -> bool

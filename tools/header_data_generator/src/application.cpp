@@ -36,8 +36,8 @@ constexpr auto max_hex_bytes_per_line = 16;
 {
     auto filename = path.filename().string();
     common::string::trim(filename);
-    common::string::replace<char>(filename, " ", "-");
-    common::string::replace<char>(filename, ".", "_");
+    common::string::replace(filename, " ", "-");
+    common::string::replace(filename, ".", "_");
     common::string::to_lower(filename);
     return filename;
 }

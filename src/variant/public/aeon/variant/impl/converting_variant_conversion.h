@@ -24,10 +24,10 @@ struct converting_variant_conversion<std::string, bool>
 {
     [[nodiscard]] static auto convert([[maybe_unused]] const std::string &from) -> bool
     {
-        if (common::string::iequals<char>(from, "true") || from == "1")
+        if (common::string::iequals(from, "true") || from == "1")
             return true;
 
-        if (common::string::iequals<char>(from, "false") || from == "0")
+        if (common::string::iequals(from, "false") || from == "0")
             return false;
 
         throw std::bad_cast{};

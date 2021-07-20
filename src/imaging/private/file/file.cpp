@@ -17,15 +17,15 @@ namespace aeon::imaging::file
     const auto extension = path.extension().string();
 
     // The checks here are sorted by expected usage frequency
-    if (common::string::iequals<char>(extension, ".png"))
+    if (common::string::iequals(extension, ".png"))
     {
         return png::load(path);
     }
-    else if (common::string::iequals<char>(extension, ".jpg") || common::string::iequals<char>(extension, ".jpeg"))
+    else if (common::string::iequals(extension, ".jpg") || common::string::iequals(extension, ".jpeg"))
     {
         return jpg::load(path);
     }
-    else if (common::string::iequals<char>(extension, ".bmp"))
+    else if (common::string::iequals(extension, ".bmp"))
     {
         return bmp::load(path);
     }

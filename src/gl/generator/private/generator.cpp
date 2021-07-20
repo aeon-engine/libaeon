@@ -120,7 +120,7 @@ void generator::generate_header_function_definitions(streams::idynamic_stream &o
         for (auto i = 0ull; i < std::size(arguments); ++i)
         {
             // Hack Workaround: If the type contains [], it has to be placed after the name.
-            if (common::string::contains<char>(arguments[i].type, '['))
+            if (common::string::contains(arguments[i].type, '['))
             {
                 const auto split = common::string::split(arguments[i].type, '[');
                 writer << split[0] << " " << arguments[i].name << '[' << split[1];

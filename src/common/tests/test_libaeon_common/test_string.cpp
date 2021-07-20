@@ -167,32 +167,32 @@ TEST(test_string, test_string_trimsv4)
 
 TEST(test_string, test_string_ltrimmed)
 {
-    EXPECT_EQ("value", common::string::ltrimmed<char>("   value"));
+    EXPECT_EQ("value", common::string::ltrimmed("   value"));
 }
 
 TEST(test_string, test_string_ltrimmedsv)
 {
-    EXPECT_EQ("value", common::string::ltrimmedsv<char>("   value"));
+    EXPECT_EQ("value", common::string::ltrimmedsv("   value"));
 }
 
 TEST(test_string, test_string_rtrimmed)
 {
-    EXPECT_EQ("value", common::string::rtrimmed<char>("value   "));
+    EXPECT_EQ("value", common::string::rtrimmed("value   "));
 }
 
 TEST(test_string, test_string_rtrimmedsv)
 {
-    EXPECT_EQ("value", common::string::rtrimmedsv<char>("value   "));
+    EXPECT_EQ("value", common::string::rtrimmedsv("value   "));
 }
 
 TEST(test_string, test_string_trimmed)
 {
-    EXPECT_EQ("value", common::string::trimmed<char>("   value   "));
+    EXPECT_EQ("value", common::string::trimmed("   value   "));
 }
 
 TEST(test_string, test_string_trimmedsv)
 {
-    EXPECT_EQ("value", common::string::trimmedsv<char>("   value   "));
+    EXPECT_EQ("value", common::string::trimmedsv("   value   "));
 }
 
 TEST(test_string, test_string_trim_tabs)
@@ -220,21 +220,21 @@ TEST(test_string, test_string_trim_mixed)
 TEST(test_string, test_string_split_empty)
 {
     std::string str = "";
-    auto result = common::string::split<char>(str, ' ');
+    auto result = common::string::split(str, ' ');
     ASSERT_TRUE(result.empty());
 }
 
 TEST(test_string, test_string_splitsv_empty)
 {
     std::string str = "";
-    auto result = common::string::splitsv<char>(str, ' ');
+    auto result = common::string::splitsv(str, ' ');
     ASSERT_TRUE(result.empty());
 }
 
 TEST(test_string, test_string_split)
 {
     std::string str = "one two three";
-    auto result = common::string::split<char>(str, ' ');
+    auto result = common::string::split(str, ' ');
     ASSERT_EQ(3u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("two", result[1]);
@@ -244,7 +244,7 @@ TEST(test_string, test_string_split)
 TEST(test_string, test_string_splitsv)
 {
     std::string str = "one two three";
-    auto result = common::string::splitsv<char>(str, ' ');
+    auto result = common::string::splitsv(str, ' ');
     ASSERT_EQ(3u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("two", result[1]);
@@ -265,7 +265,7 @@ TEST(test_string, test_string_split_double_space)
 TEST(test_string, test_string_splitsv_double_space)
 {
     std::string str = "one  two three";
-    auto result = common::string::splitsv<char>(str, ' ');
+    auto result = common::string::splitsv(str, ' ');
     ASSERT_EQ(4u, std::size(result));
     EXPECT_EQ("one", result[0]);
     EXPECT_EQ("", result[1]);
@@ -284,34 +284,34 @@ TEST(test_string, test_string_split_one_token)
 TEST(test_string, test_string_splitsv_one_token)
 {
     std::string str = "one";
-    const auto result = common::string::splitsv<char>(str, ' ');
+    const auto result = common::string::splitsv(str, ' ');
     ASSERT_EQ(1u, std::size(result));
     EXPECT_EQ("one", result[0]);
 }
 
 TEST(test_string, test_string_left)
 {
-    EXPECT_EQ("one", common::string::left<char>("one two three", 3));
+    EXPECT_EQ("one", common::string::left("one two three", 3));
 }
 
 TEST(test_string, test_string_leftsv)
 {
-    EXPECT_EQ("one", common::string::leftsv<char>("one two three", 3));
+    EXPECT_EQ("one", common::string::leftsv("one two three", 3));
 }
 
 TEST(test_string, test_string_right)
 {
-    EXPECT_EQ("ree", common::string::right<char>("one two three", 3));
+    EXPECT_EQ("ree", common::string::right("one two three", 3));
 }
 
 TEST(test_string, test_string_rightsv)
 {
-    EXPECT_EQ("ree", common::string::rightsv<char>("one two three", 3));
+    EXPECT_EQ("ree", common::string::rightsv("one two three", 3));
 }
 
 TEST(test_string, test_utility_strip_left)
 {
-    EXPECT_EQ("two three", common::string::stripped_left<char>("one two three", 4));
+    EXPECT_EQ("two three", common::string::stripped_left("one two three", 4));
 
     std::string str = "one two three";
     common::string::strip_left(str, 4);
@@ -320,7 +320,7 @@ TEST(test_string, test_utility_strip_left)
 
 TEST(test_string, test_utility_strip_leftsv)
 {
-    EXPECT_EQ("two three", common::string::stripped_leftsv<char>("one two three", 4));
+    EXPECT_EQ("two three", common::string::stripped_leftsv("one two three", 4));
 
     const std::string str = "one two three";
     std::string_view view = str;
@@ -330,7 +330,7 @@ TEST(test_string, test_utility_strip_leftsv)
 
 TEST(test_string, test_utility_strip_right)
 {
-    EXPECT_EQ("one two ", common::string::stripped_right<char>("one two three", 5));
+    EXPECT_EQ("one two ", common::string::stripped_right("one two three", 5));
 
     std::string str = "one two three";
     common::string::strip_right(str, 5);
@@ -339,7 +339,7 @@ TEST(test_string, test_utility_strip_right)
 
 TEST(test_string, test_utility_strip_rightsv)
 {
-    EXPECT_EQ("one two ", common::string::stripped_rightsv<char>("one two three", 5));
+    EXPECT_EQ("one two ", common::string::stripped_rightsv("one two three", 5));
 
     const std::string str = "one two three";
     std::string_view view = str;
@@ -349,10 +349,10 @@ TEST(test_string, test_utility_strip_rightsv)
 
 TEST(test_string, test_utility_strip_both)
 {
-    EXPECT_EQ("test", common::string::stripped_both<char>("test", 0));
-    EXPECT_EQ("test", common::string::stripped_both<char>("'test'", 1));
-    EXPECT_EQ("ABC", common::string::stripped_both<char>("123ABC123", 3));
-    EXPECT_EQ("", common::string::stripped_both<char>("''", 1));
+    EXPECT_EQ("test", common::string::stripped_both("test", 0));
+    EXPECT_EQ("test", common::string::stripped_both("'test'", 1));
+    EXPECT_EQ("ABC", common::string::stripped_both("123ABC123", 3));
+    EXPECT_EQ("", common::string::stripped_both("''", 1));
 
     std::string test = "test";
     common::string::strip_both(test, 0);
@@ -373,10 +373,10 @@ TEST(test_string, test_utility_strip_both)
 
 TEST(test_string, test_utility_strip_bothsv)
 {
-    EXPECT_EQ("test", common::string::stripped_bothsv<char>("test", 0));
-    EXPECT_EQ("test", common::string::stripped_bothsv<char>("'test'", 1));
-    EXPECT_EQ("ABC", common::string::stripped_bothsv<char>("123ABC123", 3));
-    EXPECT_EQ("", common::string::stripped_bothsv<char>("''", 1));
+    EXPECT_EQ("test", common::string::stripped_bothsv("test", 0));
+    EXPECT_EQ("test", common::string::stripped_bothsv("'test'", 1));
+    EXPECT_EQ("ABC", common::string::stripped_bothsv("123ABC123", 3));
+    EXPECT_EQ("", common::string::stripped_bothsv("''", 1));
 
     const std::string test = "test";
     std::string_view view = test;
@@ -401,8 +401,8 @@ TEST(test_string, test_utility_strip_bothsv)
 
 TEST(test_string, test_utility_char_strip_left)
 {
-    EXPECT_EQ("two three", common::string::char_stripped_left<char>("--two three", '-'));
-    EXPECT_EQ("--two three", common::string::char_stripped_left<char>("--two three", '+'));
+    EXPECT_EQ("two three", common::string::char_stripped_left("--two three", '-'));
+    EXPECT_EQ("--two three", common::string::char_stripped_left("--two three", '+'));
 
     std::string str = "--two three";
     common::string::char_strip_left(str, '-');
@@ -411,8 +411,8 @@ TEST(test_string, test_utility_char_strip_left)
 
 TEST(test_string, test_utility_char_strip_leftsv)
 {
-    EXPECT_EQ("two three--", common::string::char_stripped_leftsv<char>("--two three--", '-'));
-    EXPECT_EQ("--two three--", common::string::char_stripped_leftsv<char>("--two three--", '+'));
+    EXPECT_EQ("two three--", common::string::char_stripped_leftsv("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_leftsv("--two three--", '+'));
 
     std::string_view str = "--two three--";
     common::string::char_strip_leftsv(str, '-');
@@ -421,8 +421,8 @@ TEST(test_string, test_utility_char_strip_leftsv)
 
 TEST(test_string, test_utility_char_strip_right)
 {
-    EXPECT_EQ("--two three", common::string::char_stripped_right<char>("--two three--", '-'));
-    EXPECT_EQ("--two three--", common::string::char_stripped_right<char>("--two three--", '+'));
+    EXPECT_EQ("--two three", common::string::char_stripped_right("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_right("--two three--", '+'));
 
     std::string str = "--two three--";
     common::string::char_strip_right(str, '-');
@@ -431,8 +431,8 @@ TEST(test_string, test_utility_char_strip_right)
 
 TEST(test_string, test_utility_char_strip_rightsv)
 {
-    EXPECT_EQ("--two three", common::string::char_stripped_rightsv<char>("--two three--", '-'));
-    EXPECT_EQ("--two three--", common::string::char_stripped_rightsv<char>("--two three--", '+'));
+    EXPECT_EQ("--two three", common::string::char_stripped_rightsv("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_rightsv("--two three--", '+'));
 
     std::string_view str = "--two three--";
     common::string::char_strip_rightsv(str, '-');
@@ -441,8 +441,8 @@ TEST(test_string, test_utility_char_strip_rightsv)
 
 TEST(test_string, test_utility_char_strip_both)
 {
-    EXPECT_EQ("two three", common::string::char_stripped_both<char>("--two three--", '-'));
-    EXPECT_EQ("--two three--", common::string::char_stripped_both<char>("--two three--", '+'));
+    EXPECT_EQ("two three", common::string::char_stripped_both("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_both("--two three--", '+'));
 
     std::string str = "--two three--";
     common::string::char_strip_both(str, '-');
@@ -451,8 +451,8 @@ TEST(test_string, test_utility_char_strip_both)
 
 TEST(test_string, test_utility_char_strip_bothsv)
 {
-    EXPECT_EQ("two three", common::string::char_stripped_bothsv<char>("--two three--", '-'));
-    EXPECT_EQ("--two three--", common::string::char_stripped_bothsv<char>("--two three--", '+'));
+    EXPECT_EQ("two three", common::string::char_stripped_bothsv("--two three--", '-'));
+    EXPECT_EQ("--two three--", common::string::char_stripped_bothsv("--two three--", '+'));
 
     std::string_view str = "--two three--";
     common::string::char_strip_bothsv(str, '-');
@@ -461,8 +461,8 @@ TEST(test_string, test_utility_char_strip_bothsv)
 
 TEST(test_string, test_string_to_lower)
 {
-    EXPECT_EQ("test", common::string::to_lower_copy<char>("TeSt"));
-    EXPECT_EQ("this is a test.", common::string::to_lower_copy<char>("THIS iS a TeSt."));
+    EXPECT_EQ("test", common::string::to_lower_copy("TeSt"));
+    EXPECT_EQ("this is a test.", common::string::to_lower_copy("THIS iS a TeSt."));
 
     std::string test = "TeSt";
     common::string::to_lower(test);
@@ -475,8 +475,8 @@ TEST(test_string, test_string_to_lower)
 
 TEST(test_string, test_string_to_upper)
 {
-    EXPECT_EQ("TEST", common::string::to_upper_copy<char>("TeSt"));
-    EXPECT_EQ("THIS IS A TEST.", common::string::to_upper_copy<char>("THiS iS a TeSt."));
+    EXPECT_EQ("TEST", common::string::to_upper_copy("TeSt"));
+    EXPECT_EQ("THIS IS A TEST.", common::string::to_upper_copy("THiS iS a TeSt."));
 
     std::string test = "TeSt";
     common::string::to_upper(test);
@@ -489,62 +489,32 @@ TEST(test_string, test_string_to_upper)
 
 TEST(test_string, test_string_begins_with)
 {
-    EXPECT_TRUE(common::string::begins_with<char>("", ""));
-    EXPECT_TRUE(common::string::begins_with<char>("This is a test", "T"));
-    EXPECT_TRUE(common::string::begins_with<char>("This is a test", "Th"));
-    EXPECT_TRUE(common::string::begins_with<char>("This is a test", "This"));
-    EXPECT_TRUE(common::string::begins_with<char>("1234 blah", "123"));
+    EXPECT_TRUE(common::string::begins_with("", ""));
+    EXPECT_TRUE(common::string::begins_with("This is a test", "T"));
+    EXPECT_TRUE(common::string::begins_with("This is a test", "Th"));
+    EXPECT_TRUE(common::string::begins_with("This is a test", "This"));
+    EXPECT_TRUE(common::string::begins_with("1234 blah", "123"));
 
-    EXPECT_FALSE(common::string::begins_with<char>("This is a test", "test"));
-    EXPECT_FALSE(common::string::begins_with<char>("This is a test", "this"));
-    EXPECT_FALSE(common::string::begins_with<char>("This is a test", "his"));
-    EXPECT_FALSE(common::string::begins_with<char>("1234 blah", "blah"));
-    EXPECT_FALSE(common::string::begins_with<char>("", "Blah"));
-}
-
-TEST(test_string, test_string_begins_withsv)
-{
-    EXPECT_TRUE(common::string::begins_withsv<char>("", ""));
-    EXPECT_TRUE(common::string::begins_withsv<char>("This is a test", "T"));
-    EXPECT_TRUE(common::string::begins_withsv<char>("This is a test", "Th"));
-    EXPECT_TRUE(common::string::begins_withsv<char>("This is a test", "This"));
-    EXPECT_TRUE(common::string::begins_withsv<char>("1234 blah", "123"));
-
-    EXPECT_FALSE(common::string::begins_withsv<char>("This is a test", "test"));
-    EXPECT_FALSE(common::string::begins_withsv<char>("This is a test", "this"));
-    EXPECT_FALSE(common::string::begins_withsv<char>("This is a test", "his"));
-    EXPECT_FALSE(common::string::begins_withsv<char>("1234 blah", "blah"));
-    EXPECT_FALSE(common::string::begins_withsv<char>("", "Blah"));
+    EXPECT_FALSE(common::string::begins_with("This is a test", "test"));
+    EXPECT_FALSE(common::string::begins_with("This is a test", "this"));
+    EXPECT_FALSE(common::string::begins_with("This is a test", "his"));
+    EXPECT_FALSE(common::string::begins_with("1234 blah", "blah"));
+    EXPECT_FALSE(common::string::begins_with("", "Blah"));
 }
 
 TEST(test_string, test_string_ends_with)
 {
-    EXPECT_TRUE(common::string::ends_with<char>("", ""));
-    EXPECT_TRUE(common::string::ends_with<char>("This is a test", "t"));
-    EXPECT_TRUE(common::string::ends_with<char>("This is a test", "est"));
-    EXPECT_TRUE(common::string::ends_with<char>("This is a test", "test"));
-    EXPECT_TRUE(common::string::ends_with<char>("1234 blah", " blah"));
+    EXPECT_TRUE(common::string::ends_with("", ""));
+    EXPECT_TRUE(common::string::ends_with("This is a test", "t"));
+    EXPECT_TRUE(common::string::ends_with("This is a test", "est"));
+    EXPECT_TRUE(common::string::ends_with("This is a test", "test"));
+    EXPECT_TRUE(common::string::ends_with("1234 blah", " blah"));
 
-    EXPECT_FALSE(common::string::ends_with<char>("This is a test", "This"));
-    EXPECT_FALSE(common::string::ends_with<char>("This is a test", "is"));
-    EXPECT_FALSE(common::string::ends_with<char>("This is a test", "Test"));
-    EXPECT_FALSE(common::string::ends_with<char>("1234 blah", "1234"));
-    EXPECT_FALSE(common::string::ends_with<char>("", "Blah"));
-}
-
-TEST(test_string, test_string_ends_withsv)
-{
-    EXPECT_TRUE(common::string::ends_withsv<char>("", ""));
-    EXPECT_TRUE(common::string::ends_withsv<char>("This is a test", "t"));
-    EXPECT_TRUE(common::string::ends_withsv<char>("This is a test", "est"));
-    EXPECT_TRUE(common::string::ends_withsv<char>("This is a test", "test"));
-    EXPECT_TRUE(common::string::ends_withsv<char>("1234 blah", " blah"));
-
-    EXPECT_FALSE(common::string::ends_withsv<char>("This is a test", "This"));
-    EXPECT_FALSE(common::string::ends_withsv<char>("This is a test", "is"));
-    EXPECT_FALSE(common::string::ends_withsv<char>("This is a test", "Test"));
-    EXPECT_FALSE(common::string::ends_withsv<char>("1234 blah", "1234"));
-    EXPECT_FALSE(common::string::ends_withsv<char>("", "Blah"));
+    EXPECT_FALSE(common::string::ends_with("This is a test", "This"));
+    EXPECT_FALSE(common::string::ends_with("This is a test", "is"));
+    EXPECT_FALSE(common::string::ends_with("This is a test", "Test"));
+    EXPECT_FALSE(common::string::ends_with("1234 blah", "1234"));
+    EXPECT_FALSE(common::string::ends_with("", "Blah"));
 }
 
 TEST(test_string, test_make_string_view)
@@ -560,4 +530,21 @@ TEST(test_string, test_make_string_view_empty)
     const auto expected_view = common::string::make_string_view(std::begin(expected), std::end(expected));
     EXPECT_TRUE(expected_view.empty());
     EXPECT_EQ(expected, expected_view);
+}
+
+TEST(test_string, test_iequals)
+{
+    EXPECT_TRUE(common::string::iequals("Test", "test"));
+    EXPECT_TRUE(common::string::iequals("Test", "TeSt"));
+    EXPECT_TRUE(common::string::iequals("Test", "TESt"));
+    EXPECT_TRUE(common::string::iequals("Test", "TEST"));
+    EXPECT_TRUE(common::string::iequals(std::string{"Test"}, "TEST"));
+    EXPECT_TRUE(common::string::iequals(std::string_view{"Test"}, "TEST"));
+
+    EXPECT_FALSE(common::string::iequals("Test", "test2"));
+    EXPECT_FALSE(common::string::iequals("Test", "TeSt2"));
+    EXPECT_FALSE(common::string::iequals("Test", "TESt2"));
+    EXPECT_FALSE(common::string::iequals("Test", "TEST2"));
+    EXPECT_FALSE(common::string::iequals(std::string{"Test"}, "TEST2"));
+    EXPECT_FALSE(common::string::iequals(std::string_view{"Test"}, "TEST2"));
 }
