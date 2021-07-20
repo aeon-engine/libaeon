@@ -68,7 +68,6 @@ enable_component(fonts)
 enable_component(imaging)
 enable_component(logger)
 enable_component(math)
-enable_component(midi)
 
 if (WIN32)
     enable_component(platform)

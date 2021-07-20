@@ -29,7 +29,6 @@ class LibAeonConan(ConanFile):
         'with_imaging': [True, False],
         'with_logger': [True, False],
         'with_math': [True, False],
-        'with_midi': [True, False],
         'with_mono': [True, False],
         'with_platform': [True, False],
         'with_plugins': [True, False],
@@ -64,7 +63,6 @@ class LibAeonConan(ConanFile):
         'with_imaging': True,
         'with_logger': True,
         'with_math': True,
-        'with_midi': True,
         'with_mono': False,
         'with_platform': True,
         'with_plugins': True,
@@ -132,9 +130,6 @@ class LibAeonConan(ConanFile):
             self.requires('libpng/1.6.37@aeon/stable')
             self.requires('libjpeg-turbo/2.1.0@aeon/stable')
 
-        if self.options.get_safe('with_midi', True):
-            self.requires('rtmidi/4.0.0@aeon/stable')
-
         if self.options.get_safe('with_sockets', True):
             self.requires('asio/1.18.2@aeon/stable')
 
@@ -173,7 +168,6 @@ class LibAeonConan(ConanFile):
         cmake.definitions['AEON_COMPONENT_IMAGING'] = self.options.get_safe('with_imaging', default=False)
         cmake.definitions['AEON_COMPONENT_LOGGER'] = self.options.get_safe('with_logger', default=False)
         cmake.definitions['AEON_COMPONENT_MATH'] = self.options.get_safe('with_math', default=False)
-        cmake.definitions['AEON_COMPONENT_MIDI'] = self.options.get_safe('with_midi', default=False)
         cmake.definitions['AEON_COMPONENT_MONO'] = self.options.get_safe('with_mono', default=False)
         cmake.definitions['AEON_COMPONENT_PLATFORM'] = self.options.get_safe('with_platform', default=False)
         cmake.definitions['AEON_COMPONENT_PLUGINS'] = self.options.get_safe('with_plugins', default=False)
