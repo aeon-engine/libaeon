@@ -82,13 +82,15 @@ struct atlas_result
     std::vector<std::size_t> indices(std::size(images));
     std::iota(std::begin(indices), std::end(indices), 0);
 
-    std::ranges::sort(indices, [&images](const auto lhs, const auto rhs) {
-        const auto lhs_dimensions = math::dimensions(images[lhs]);
-        const auto rhs_dimensions = math::dimensions(images[rhs]);
+    std::ranges::sort(indices,
+                      [&images](const auto lhs, const auto rhs)
+                      {
+                          const auto lhs_dimensions = math::dimensions(images[lhs]);
+                          const auto rhs_dimensions = math::dimensions(images[rhs]);
 
-        return std::tie(rhs_dimensions.height, lhs_dimensions.width) <
-               std::tie(lhs_dimensions.height, rhs_dimensions.width);
-    });
+                          return std::tie(rhs_dimensions.height, lhs_dimensions.width) <
+                                 std::tie(lhs_dimensions.height, rhs_dimensions.width);
+                      });
 
     const auto element_type = math::element_type(images[0]);
     const auto format = imaging::pixel_format(images[0]);

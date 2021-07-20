@@ -15,7 +15,7 @@ class config_file_exception : public std::exception
 
 template <typename T>
 concept config_file_value = std::is_same_v<T, bool> || std::is_integral_v<T> || std::is_floating_point_v<T> ||
-                            std::is_same_v<T, std::string> || std::is_same_v<T, common::uuid>;
+    std::is_same_v<T, std::string> || std::is_same_v<T, common::uuid>;
 
 /*!
  * Wrapper for reading and writing config file settings, for example for use in

@@ -86,17 +86,19 @@ public:
         std::promise<void> promise;
         auto future = promise.get_future();
 
-        post([job = std::move(job), &promise]() {
-            try
+        post(
+            [job = std::move(job), &promise]()
             {
-                job();
-                promise.set_value();
-            }
-            catch (...)
-            {
-                promise.set_exception(std::current_exception());
-            }
-        });
+                try
+                {
+                    job();
+                    promise.set_value();
+                }
+                catch (...)
+                {
+                    promise.set_exception(std::current_exception());
+                }
+            });
 
         return future.get();
     }
@@ -107,16 +109,18 @@ public:
         std::promise<T> promise;
         auto future = promise.get_future();
 
-        post([job = std::move(job), &promise]() {
-            try
+        post(
+            [job = std::move(job), &promise]()
             {
-                promise.set_value(job());
-            }
-            catch (...)
-            {
-                promise.set_exception(std::current_exception());
-            }
-        });
+                try
+                {
+                    promise.set_value(job());
+                }
+                catch (...)
+                {
+                    promise.set_exception(std::current_exception());
+                }
+            });
 
         return future.get();
     }

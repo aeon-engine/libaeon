@@ -229,21 +229,25 @@ TEST(test_rdp, test_offset_match_pred_indexed)
     rdp::parser parser{"1a2b3c4d"};
     EXPECT_EQ(0u, rdp::offset(parser));
     EXPECT_TRUE(parser
-                    .match_indexed([](const auto c, const auto i) {
-                        if (i % 2 == 0)
-                            return std::isalpha(c) != 0;
+                    .match_indexed(
+                        [](const auto c, const auto i)
+                        {
+                            if (i % 2 == 0)
+                                return std::isalpha(c) != 0;
 
-                        return std::isdigit(c) != 0;
-                    })
+                            return std::isdigit(c) != 0;
+                        })
                     .is_unmatched());
 
     EXPECT_EQ("1a2b3c4d", parser
-                              .match_indexed([](const auto c, const auto i) {
-                                  if (i % 2 == 0)
-                                      return std::isdigit(c) != 0;
+                              .match_indexed(
+                                  [](const auto c, const auto i)
+                                  {
+                                      if (i % 2 == 0)
+                                          return std::isdigit(c) != 0;
 
-                                  return std::isalpha(c) != 0;
-                              })
+                                      return std::isalpha(c) != 0;
+                                  })
                               .value());
 }
 

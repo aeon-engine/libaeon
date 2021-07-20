@@ -22,10 +22,12 @@ TEST(test_container, test_transform_string_to_char_ptr)
 TEST(test_container, test_adjacent_execute)
 {
     std::array data{1, 2, 3, 4, 5, 6, 7, 8};
-    common::container::adjacent_execute(std::begin(data), std::end(data), [](const auto first, const auto second) {
-        EXPECT_EQ(1, second - first);
-        return true;
-    });
+    common::container::adjacent_execute(std::begin(data), std::end(data),
+                                        [](const auto first, const auto second)
+                                        {
+                                            EXPECT_EQ(1, second - first);
+                                            return true;
+                                        });
 }
 
 TEST(test_container, test_contains_int)

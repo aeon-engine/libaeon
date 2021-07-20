@@ -87,14 +87,16 @@ auto wgl::create_context(const platform::window &window, const opengl_context_cr
 
 void wgl::initialize_wgl_procs()
 {
-    internal::initialize_wgl_impl([this](const char *name) {
-        auto *const result = gdi_dll_handle_.get_proc_address(name);
+    internal::initialize_wgl_impl(
+        [this](const char *name)
+        {
+            auto *const result = gdi_dll_handle_.get_proc_address(name);
 
-        if (result)
-            return result;
+            if (result)
+                return result;
 
-        return opengl_dll_handle_.get_proc_address(name);
-    });
+            return opengl_dll_handle_.get_proc_address(name);
+        });
 }
 
 void wgl::initialize_gl_procs()
@@ -107,7 +109,8 @@ void wgl::initialize_gl_procs()
     const opengl_context_create_info context_info;
     scoped_context context{*temp_window, context_info};
 
-    auto get_proc_address = [this](const char *name) {
+    auto get_proc_address = [this](const char *name)
+    {
         auto *result = static_cast<void *>(wglGetProcAddress(name));
 
         if (result)

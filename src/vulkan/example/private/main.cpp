@@ -120,9 +120,8 @@ public:
         {
             debug_ = std::make_unique<vulkan::debug>(
                 instance_,
-                [this](auto &&message_severity, auto &&message_type, auto &&callback_data) {
-                    debug_callback(message_severity, message_type, callback_data);
-                },
+                [this](auto &&message_severity, auto &&message_type, auto &&callback_data)
+                { debug_callback(message_severity, message_type, callback_data); },
                 vulkan::message_severity::important, vulkan::message_type::all);
         }
 

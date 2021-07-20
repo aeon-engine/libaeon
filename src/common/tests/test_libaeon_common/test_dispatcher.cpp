@@ -13,16 +13,20 @@ TEST(test_dispatcher, test_dispatcher_basic_run)
     std::thread t([&]() { dispatcher.run(); });
 
     bool called1 = false;
-    dispatcher.post([&called1]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        called1 = true;
-    });
+    dispatcher.post(
+        [&called1]()
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            called1 = true;
+        });
 
     bool called2 = false;
-    dispatcher.post([&called2]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        called2 = true;
-    });
+    dispatcher.post(
+        [&called2]()
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            called2 = true;
+        });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     dispatcher.stop();
@@ -40,10 +44,12 @@ TEST(test_dispatcher, test_dispatcher_call_void)
     std::thread t([&]() { dispatcher.run(); });
 
     bool called = false;
-    dispatcher.call([&called]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        called = true;
-    });
+    dispatcher.call(
+        [&called]()
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            called = true;
+        });
 
     EXPECT_TRUE(called);
 
@@ -58,10 +64,12 @@ TEST(test_dispatcher, test_dispatcher_call_int)
     std::thread t([&]() { dispatcher.run(); });
 
     auto called = false;
-    const auto value = dispatcher.call<int>([&called]() {
-        called = true;
-        return 1337;
-    });
+    const auto value = dispatcher.call<int>(
+        [&called]()
+        {
+            called = true;
+            return 1337;
+        });
 
     EXPECT_TRUE(called);
     EXPECT_EQ(1337, value);

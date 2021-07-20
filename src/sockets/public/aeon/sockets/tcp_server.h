@@ -74,20 +74,23 @@ inline tcp_server<socket_t, session_t>::tcp_server(asio::io_context &io_context,
 template <typename socket_t, typename session_t>
 inline void tcp_server<socket_t, session_t>::start_async_accept()
 {
-    acceptor_.async_accept(socket_, [this](std::error_code ec) {
-        if (!ec)
+    acceptor_.async_accept(
+        socket_,
+        [this](std::error_code ec)
         {
-            if constexpr (std::is_same<session_t, default_session>::value)
+            if (!ec)
             {
-                std::make_shared<socket_t>(std::move(socket_))->internal_socket_start();
+                if constexpr (std::is_same<session_t, default_session>::value)
+                {
+                    std::make_shared<socket_t>(std::move(socket_))->internal_socket_start();
+                }
+                else
+                {
+                    std::make_shared<socket_t>(std::move(socket_), *session_handler_)->internal_socket_start();
+                }
             }
-            else
-            {
-                std::make_shared<socket_t>(std::move(socket_), *session_handler_)->internal_socket_start();
-            }
-        }
-        start_async_accept();
-    });
+            start_async_accept();
+        });
 }
 
 template <typename socket_t, typename session_t>

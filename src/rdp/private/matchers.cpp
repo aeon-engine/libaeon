@@ -88,12 +88,14 @@ auto match_digit(parser &parser) noexcept -> parse_result<std::string_view>
 
 auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_view>
 {
-    return parser.match_indexed([](const auto c, const auto i) {
-        if (i == 0 && c == '-') [[unlikely]]
-            return true;
+    return parser.match_indexed(
+        [](const auto c, const auto i)
+        {
+            if (i == 0 && c == '-') [[unlikely]]
+                return true;
 
-        return std::isdigit(c) != 0;
-    });
+            return std::isdigit(c) != 0;
+        });
 }
 
 auto match_alnum(parser &parser) noexcept -> parse_result<std::string_view>

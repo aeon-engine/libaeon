@@ -51,54 +51,56 @@ void multithreaded_sink_backend::handle_background_thread_()
 {
     running_ = true;
 
-    thread_ = std::thread([this]() {
-        while (running_)
+    thread_ = std::thread(
+        [this]()
         {
-            std::unique_lock lock(signal_mutex_);
-            cv_.wait(lock);
-
-            if (!running_)
-                break;
-
-            // Move the message queue into a new copy and empty the real queue
-            queue_mutex_.lock();
-            log_message_queue log_queue = std::move(log_queue_);
-            log_queue_ = log_message_queue();
-            queue_mutex_.unlock();
-
-            bool reprocess_queue = true;
-
-            while (reprocess_queue)
+            while (running_)
             {
-                // Copy the sinks
-                sink_mutex_.lock();
-                sink_set sinks = sinks_;
-                sink_mutex_.unlock();
+                std::unique_lock lock(signal_mutex_);
+                cv_.wait(lock);
 
-                // Handle all messages
-                for (auto &msg : log_queue)
-                {
-                    for (auto &sink : sinks)
-                    {
-                        sink->log(msg.message, msg.module, msg.level);
-                    }
-                }
+                if (!running_)
+                    break;
 
+                // Move the message queue into a new copy and empty the real queue
                 queue_mutex_.lock();
-                if (!log_queue_.empty())
-                {
-                    log_queue = std::move(log_queue_);
-                    log_queue_ = log_message_queue();
-                    reprocess_queue = true;
-                }
-                else
-                {
-                    reprocess_queue = false;
-                }
+                log_message_queue log_queue = std::move(log_queue_);
+                log_queue_ = log_message_queue();
                 queue_mutex_.unlock();
+
+                bool reprocess_queue = true;
+
+                while (reprocess_queue)
+                {
+                    // Copy the sinks
+                    sink_mutex_.lock();
+                    sink_set sinks = sinks_;
+                    sink_mutex_.unlock();
+
+                    // Handle all messages
+                    for (auto &msg : log_queue)
+                    {
+                        for (auto &sink : sinks)
+                        {
+                            sink->log(msg.message, msg.module, msg.level);
+                        }
+                    }
+
+                    queue_mutex_.lock();
+                    if (!log_queue_.empty())
+                    {
+                        log_queue = std::move(log_queue_);
+                        log_queue_ = log_message_queue();
+                        reprocess_queue = true;
+                    }
+                    else
+                    {
+                        reprocess_queue = false;
+                    }
+                    queue_mutex_.unlock();
+                }
             }
-        }
-    });
+        });
 }
 
 void multithreaded_sink_backend::log(const std::string &message, const std::string &module, const log_level level)

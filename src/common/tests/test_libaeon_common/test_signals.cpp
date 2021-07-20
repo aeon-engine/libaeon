@@ -65,11 +65,13 @@ TEST(test_signals, test_signals_connect_one_and_call_parameters)
     bool signal_called = false;
     int value1 = 0;
     int value2 = 0;
-    auto connection = signal.connect([&signal_called, &value1, &value2](int val1, int val2) {
-        signal_called = true;
-        value1 = val1;
-        value2 = val2;
-    });
+    auto connection = signal.connect(
+        [&signal_called, &value1, &value2](int val1, int val2)
+        {
+            signal_called = true;
+            value1 = val1;
+            value2 = val2;
+        });
 
     signal(42, 1337);
 
@@ -152,7 +154,8 @@ TEST(test_signals, test_signals_mt_sync_execution)
     auto connection = signal.connect([&index, &destination] { destination[index++]++; });
 
     std::vector<std::thread> threads;
-    auto thread_func = [&signal] {
+    auto thread_func = [&signal]
+    {
         for (int i = 0; i < 100; ++i)
         {
             signal();

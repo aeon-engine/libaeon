@@ -223,8 +223,8 @@ public:
     void disconnect(const int handle)
     {
         std::lock_guard<mutex_type> guard(lock_);
-        connections_.remove_if(
-            [&handle](const signal_connection<Args...> &other) { return other.get_handle() == handle; });
+        connections_.remove_if([&handle](const signal_connection<Args...> &other)
+                               { return other.get_handle() == handle; });
     }
 
     void operator()(Args... args)

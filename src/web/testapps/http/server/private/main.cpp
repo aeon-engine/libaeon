@@ -15,7 +15,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     web::http::routable_http_server handler{service, 8080};
 
     auto route = std::make_unique<web::http::http_jsonrpc_route>("/api");
-    route->register_method({"subtract", [](const auto &params) {
+    route->register_method({"subtract", [](const auto &params)
+                            {
                                 return web::jsonrpc::result{
                                     ptree::property_tree{params.object_value().at("a").integer_value() -
                                                          params.object_value().at("b").integer_value()}};
