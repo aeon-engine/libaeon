@@ -18,6 +18,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(AEON_ENABLE_TESTING "Enable testing." ON)
 
 if (AEON_ENABLE_TESTING)
+    set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
     include(CTest)
     enable_testing()
 endif ()
