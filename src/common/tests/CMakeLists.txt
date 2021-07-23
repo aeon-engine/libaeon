@@ -32,6 +32,7 @@ add_unit_test_suite(
         test_stringtraits.cpp
         test_tribool.cpp
         test_type_traits.cpp
+        test_u8stream.cpp
         test_unique_obj.cpp
         test_unordered_flatmap.cpp
         test_unordered_flatset.cpp
