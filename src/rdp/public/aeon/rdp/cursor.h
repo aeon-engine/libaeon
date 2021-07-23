@@ -52,3 +52,5 @@ void print_parse_error(const cursor &cursor, const std::string_view message);
 void print_parse_error(const cursor &cursor, const std::string_view message, std::ostream &stream);
 
 } // namespace aeon::rdp
+
+#include <aeon/rdp/impl/cursor_impl.h>

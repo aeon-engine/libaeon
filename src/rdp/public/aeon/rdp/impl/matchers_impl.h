@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-#include <aeon/rdp/matchers.h>
+#pragma once
+
 #include <aeon/rdp/scoped_state.h>
 #include <aeon/common/from_chars.h>
 
@@ -11,7 +12,7 @@
 namespace aeon::rdp
 {
 
-auto check_whitespace(parser &parser) noexcept -> bool
+inline auto check_whitespace(parser &parser) noexcept -> bool
 {
     if (eof(parser)) [[unlikely]]
         return false;
@@ -24,7 +25,7 @@ auto check_whitespace(parser &parser) noexcept -> bool
     return true;
 }
 
-auto check_newline(parser &parser) noexcept -> bool
+inline auto check_newline(parser &parser) noexcept -> bool
 {
     if (eof(parser)) [[unlikely]]
         return false;
@@ -43,25 +44,25 @@ auto check_newline(parser &parser) noexcept -> bool
     return true;
 }
 
-void skip_whitespace(parser &parser) noexcept
+inline void skip_whitespace(parser &parser) noexcept
 {
     while (!eof(parser) && (current(parser) == ' ' || current(parser) == '\t'))
         parser.advance();
 }
 
-void skip_whitespace_and_newline(parser &parser) noexcept
+inline void skip_whitespace_and_newline(parser &parser) noexcept
 {
     while (!eof(parser) &&
            (current(parser) == ' ' || current(parser) == '\t' || current(parser) == '\r' || current(parser) == '\n'))
         parser.advance();
 }
 
-void skip_until_newline(parser &parser) noexcept
+inline void skip_until_newline(parser &parser) noexcept
 {
     parser.skip_until('\n');
 }
 
-void skip_byte_order_marker(parser &parser) noexcept
+inline void skip_byte_order_marker(parser &parser) noexcept
 {
     scoped_state state{parser};
 
@@ -76,17 +77,17 @@ void skip_byte_order_marker(parser &parser) noexcept
     state.accept();
 }
 
-auto match_alpha(parser &parser) noexcept -> parse_result<std::string_view>
+inline auto match_alpha(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isalpha(c) != 0; });
 }
 
-auto match_digit(parser &parser) noexcept -> parse_result<std::string_view>
+inline auto match_digit(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isdigit(c) != 0; });
 }
 
-auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_view>
+inline auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match_indexed(
         [](const auto c, const auto i)
@@ -98,23 +99,23 @@ auto match_signed_digit(parser &parser) noexcept -> parse_result<std::string_vie
         });
 }
 
-auto match_alnum(parser &parser) noexcept -> parse_result<std::string_view>
+inline auto match_alnum(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isalnum(c) != 0; });
 }
 
-auto match_binary(parser &parser) noexcept -> parse_result<std::string_view>
+inline auto match_binary(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return c == '0' || c == '1'; });
 }
 
-auto match_hexadecimal(parser &parser) noexcept -> parse_result<std::string_view>
+inline auto match_hexadecimal(parser &parser) noexcept -> parse_result<std::string_view>
 {
     return parser.match([](const auto c) { return std::isxdigit(c) != 0; });
 }
 
 template <typename T>
-auto parse_decimal(parser &parser) noexcept -> parse_result<T>
+inline auto parse_decimal(parser &parser) noexcept -> parse_result<T>
 {
     scoped_state state{parser};
 
@@ -138,17 +139,17 @@ auto parse_decimal(parser &parser) noexcept -> parse_result<T>
     return matched{value};
 }
 
-auto parse_decimal_signed(parser &parser) noexcept -> parse_result<std::int64_t>
+inline auto parse_decimal_signed(parser &parser) noexcept -> parse_result<std::int64_t>
 {
     return parse_decimal<std::int64_t>(parser);
 }
 
-auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64_t>
+inline auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
     return parse_decimal<std::uint64_t>(parser);
 }
 
-auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
+inline auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
 {
     scoped_state state{parser};
 
@@ -167,7 +168,7 @@ auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
     return matched{value};
 }
 
-auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
+inline auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
     scoped_state state{parser};
 
@@ -186,7 +187,7 @@ auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
     return matched{value};
 }
 
-auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>
+inline auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>
 {
     if (!parser.check(prefix))
         return unmatched{};
@@ -194,7 +195,7 @@ auto parse_binary(parser &parser, const std::string_view prefix) noexcept -> par
     return parse_binary(parser);
 }
 
-auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
+inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
     scoped_state state{parser};
 
@@ -213,7 +214,7 @@ auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
     return matched{value};
 }
 
-auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>
+inline auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -> parse_result<std::uint64_t>
 {
     if (!parser.check(prefix))
         return unmatched{};
@@ -221,7 +222,7 @@ auto parse_hexadecimal(parser &parser, const std::string_view prefix) noexcept -
     return parse_hexadecimal(parser);
 }
 
-auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
+inline auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
 {
     if (const auto result = parser.match_regex("[t][r][u][e]", std::regex_constants::icase); result.result())
         return matched{true};
@@ -232,7 +233,7 @@ auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
     return unmatched{};
 }
 
-auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>
+inline auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>
 {
     scoped_state state{parser};
 

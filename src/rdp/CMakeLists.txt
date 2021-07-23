@@ -1,10 +1,9 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 set(SOURCES
-    private/cursor.cpp
-    private/matchers.cpp
-    private/parser.cpp
     public/aeon/rdp/cursor.h
+    public/aeon/rdp/impl/cursor_impl.h
+    public/aeon/rdp/impl/matchers_impl.h
     public/aeon/rdp/impl/parse_result_impl.h
     public/aeon/rdp/impl/parser_impl.h
     public/aeon/rdp/matchers.h
@@ -15,7 +14,7 @@ set(SOURCES
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
-add_library(aeon_rdp STATIC
+add_library(aeon_rdp INTERFACE
     ${SOURCES}
 )
 
@@ -25,25 +24,18 @@ set_target_properties(aeon_rdp PROPERTIES
 )
 
 target_include_directories(aeon_rdp
-    PUBLIC
+    INTERFACE
         public
 )
 
 target_link_libraries(aeon_rdp
-    PUBLIC
+    INTERFACE
         aeon_common
 )
 
 install(
     DIRECTORY public/aeon
     DESTINATION include
-)
-
-install(
-    TARGETS aeon_rdp
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
 )
 
 if (AEON_ENABLE_TESTING)
