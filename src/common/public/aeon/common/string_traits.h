@@ -80,6 +80,7 @@ struct string_type_traits<std::basic_string<T>>
     using basic_string_view_type = std::basic_string_view<T>;
     using char_type = T;
     using size_type = typename std::basic_string<T>::size_type;
+    using difference_type = typename std::basic_string<T>::difference_type;
 };
 
 template <typename T>
@@ -89,6 +90,7 @@ struct string_type_traits<std::basic_string_view<T>>
     using basic_string_view_type = std::basic_string_view<T>;
     using char_type = T;
     using size_type = typename std::basic_string_view<T>::size_type;
+    using difference_type = typename std::basic_string_view<T>::difference_type;
 };
 
 template <>
@@ -98,6 +100,7 @@ struct string_type_traits<char>
     using basic_string_view_type = std::basic_string_view<char>;
     using char_type = char;
     using size_type = std::basic_string<char>::size_type;
+    using difference_type = std::basic_string<char>::difference_type;
 };
 
 template <>
@@ -107,6 +110,7 @@ struct string_type_traits<wchar_t>
     using basic_string_view_type = std::basic_string_view<wchar_t>;
     using char_type = wchar_t;
     using size_type = std::basic_string<wchar_t>::size_type;
+    using difference_type = std::basic_string<wchar_t>::difference_type;
 };
 
 template <>
@@ -116,6 +120,7 @@ struct string_type_traits<char8_t>
     using basic_string_view_type = std::basic_string_view<char8_t>;
     using char_type = char8_t;
     using size_type = std::basic_string<char8_t>::size_type;
+    using difference_type = std::basic_string<char8_t>::difference_type;
 };
 
 template <>
@@ -125,6 +130,7 @@ struct string_type_traits<char16_t>
     using basic_string_view_type = std::basic_string_view<char16_t>;
     using char_type = char16_t;
     using size_type = std::basic_string<char16_t>::size_type;
+    using difference_type = std::basic_string<char16_t>::difference_type;
 };
 
 template <>
@@ -134,6 +140,7 @@ struct string_type_traits<char32_t>
     using basic_string_view_type = std::basic_string_view<char32_t>;
     using char_type = char32_t;
     using size_type = std::basic_string<char32_t>::size_type;
+    using difference_type = std::basic_string<char32_t>::difference_type;
 };
 
 template <int size>
@@ -143,6 +150,7 @@ struct string_type_traits<char[size]>
     using basic_string_view_type = std::basic_string_view<char>;
     using char_type = char;
     using size_type = std::basic_string<char>::size_type;
+    using difference_type = std::basic_string<char>::difference_type;
 };
 
 template <int size>
@@ -152,6 +160,7 @@ struct string_type_traits<wchar_t[size]>
     using basic_string_view_type = std::basic_string_view<wchar_t>;
     using char_type = wchar_t;
     using size_type = std::basic_string<wchar_t>::size_type;
+    using difference_type = std::basic_string<wchar_t>::difference_type;
 };
 
 template <int size>
@@ -161,6 +170,7 @@ struct string_type_traits<char8_t[size]>
     using basic_string_view_type = std::basic_string_view<char8_t>;
     using char_type = char8_t;
     using size_type = std::basic_string<char8_t>::size_type;
+    using difference_type = std::basic_string<char8_t>::difference_type;
 };
 
 template <int size>
@@ -170,6 +180,7 @@ struct string_type_traits<char16_t[size]>
     using basic_string_view_type = std::basic_string_view<char16_t>;
     using char_type = char16_t;
     using size_type = std::basic_string<char16_t>::size_type;
+    using difference_type = std::basic_string<char16_t>::difference_type;
 };
 
 template <int size>
@@ -179,6 +190,7 @@ struct string_type_traits<char32_t[size]>
     using basic_string_view_type = std::basic_string_view<char32_t>;
     using char_type = char32_t;
     using size_type = std::basic_string<char32_t>::size_type;
+    using difference_type = std::basic_string<char32_t>::difference_type;
 };
 
 /*!
@@ -229,5 +241,17 @@ using char_type = typename string_type_traits<std::remove_pointer_t<std::decay_t
  */
 template <typename T>
 using size_type = typename string_type_traits<std::remove_pointer_t<std::decay_t<T>>>::size_type;
+
+/*!
+ * Determine the difference type for a given string-like (typically std::ptrdiff).
+ * For example:
+ * const char * -> std::string::difference_type
+ * const wchar_t * -> std::wstring::difference_type
+ * char[5] -> std::string::difference_type
+ * std::string -> std::string::difference_type
+ * std::string_view -> std::string_view::difference_type
+ */
+template <typename T>
+using difference_type = typename string_type_traits<std::remove_pointer_t<std::decay_t<T>>>::difference_type;
 
 } // namespace aeon::common::string
