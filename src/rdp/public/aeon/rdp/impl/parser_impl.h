@@ -9,30 +9,44 @@
 namespace aeon::rdp
 {
 
-inline parser::parser(const std::string_view v)
-    : parser{v, {}}
+template <common::concepts::string_view_like T>
+inline parser<T>::parser(const T &v)
+    : view_{string_view_type{v}}
+    , current_{std::begin(view_)}
+    , filename_{}
 {
+    aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
 }
 
-inline parser::parser(const std::string_view v, const std::string_view filename)
-    : view_{v}
+template <common::concepts::string_view_like T>
+inline parser<T>::parser(const T &v, const std::u8string_view filename)
+    : view_{string_view_type{v}}
     , current_{std::begin(view_)}
     , filename_{filename}
 {
     aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
 }
 
-[[nodiscard]] inline auto parser::eof() const noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::eof() const noexcept -> bool
 {
     return current_ == std::end(view_);
 }
 
-[[nodiscard]] inline auto parser::bof() const noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::bof() const noexcept -> bool
 {
     return current_ == std::begin(view_);
 }
 
-inline auto parser::advance() noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::str() const noexcept -> const string_view_type &
+{
+    return view_;
+}
+
+template <common::concepts::string_view_like T>
+inline auto parser<T>::advance() noexcept -> bool
 {
     if (eof()) [[unlikely]]
         return false;
@@ -41,7 +55,8 @@ inline auto parser::advance() noexcept -> bool
     return true;
 }
 
-inline auto parser::advance(const std::size_t count) noexcept -> bool
+template <common::concepts::string_view_like T>
+inline auto parser<T>::advance(const size_type count) noexcept -> bool
 {
     scoped_state state{*this};
 
@@ -55,12 +70,14 @@ inline auto parser::advance(const std::size_t count) noexcept -> bool
     return true;
 }
 
-inline void parser::advance_to_end() noexcept
+template <common::concepts::string_view_like T>
+inline void parser<T>::advance_to_end() noexcept
 {
     current_ = std::end(view_);
 }
 
-inline auto parser::reverse() noexcept -> bool
+template <common::concepts::string_view_like T>
+inline auto parser<T>::reverse() noexcept -> bool
 {
     if (bof()) [[unlikely]]
         return false;
@@ -69,32 +86,44 @@ inline auto parser::reverse() noexcept -> bool
     return true;
 }
 
-[[nodiscard]] inline auto parser::current() const noexcept -> char
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::current() const noexcept -> char_type
 {
     return *current_;
 }
 
-[[nodiscard]] inline auto parser::operator*() const noexcept -> char
+template <common::concepts::string_view_like T>
+auto parser<T>::current_iterator() const noexcept -> iterator
+{
+    return current_;
+}
+
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::operator*() const noexcept -> char_type
 {
     return current();
 }
 
-[[nodiscard]] inline auto parser::offset() const noexcept -> std::size_t
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::offset() const noexcept -> size_type
 {
     return std::distance(std::begin(view_), current_);
 }
 
-inline auto parser::size() const noexcept -> std::size_t
+template <common::concepts::string_view_like T>
+inline auto parser<T>::size() const noexcept -> size_type
 {
     return std::size(view_);
 }
 
-inline auto parser::remaining_size() const noexcept -> std::size_t
+template <common::concepts::string_view_like T>
+inline auto parser<T>::remaining_size() const noexcept -> size_type
 {
     return std::distance(current_, std::end(view_));
 }
 
-[[nodiscard]] inline auto parser::cursor() const noexcept -> rdp::cursor
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::cursor() const noexcept -> rdp::cursor<T>
 {
     // Find beginning of the line
     auto line_begin = current_;
@@ -132,16 +161,18 @@ inline auto parser::remaining_size() const noexcept -> std::size_t
     const auto line_number = std::count(std::begin(view_), current_, '\n');
     const auto column = std::distance(line_begin, current_);
 
-    return rdp::cursor{filename(), line, line_number, column};
+    return rdp::cursor<T>{filename(), line, line_number, column};
 }
 
-[[nodiscard]] inline auto parser::filename() const noexcept -> std::string_view
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::filename() const noexcept -> std::u8string_view
 {
     return filename_;
 }
 
-[[nodiscard]] inline auto parser::get_range(const std::size_t begin, const std::size_t end) const noexcept
-    -> parse_result<std::string_view>
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::get_range(const size_type begin, const size_type end) const noexcept
+    -> parse_result<T, string_view_type>
 {
     if (end <= begin)
         return parse_error{*this, "End <= Begin."};
@@ -152,7 +183,8 @@ inline auto parser::remaining_size() const noexcept -> std::size_t
     return matched{view_.substr(begin, end - begin)};
 }
 
-inline auto parser::peek(const std::string_view str) noexcept -> bool
+template <common::concepts::string_view_like T>
+inline auto parser<T>::peek(const string_view_type str) noexcept -> bool
 {
     if (eof()) [[unlikely]]
         return false;
@@ -171,7 +203,8 @@ inline auto parser::peek(const std::string_view str) noexcept -> bool
     return true;
 }
 
-[[nodiscard]] inline auto parser::check(const char c) noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::check(const char_type c) noexcept -> bool
 {
     if (eof()) [[unlikely]]
         return false;
@@ -184,7 +217,8 @@ inline auto parser::peek(const std::string_view str) noexcept -> bool
     return true;
 }
 
-[[nodiscard]] inline auto parser::check(const std::string_view str) noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::check(const string_view_type str) noexcept -> bool
 {
     if (!peek(str))
         return false;
@@ -194,7 +228,8 @@ inline auto parser::peek(const std::string_view str) noexcept -> bool
     return true;
 }
 
-inline auto parser::check(const std::initializer_list<char> c) noexcept -> bool
+template <common::concepts::string_view_like T>
+inline auto parser<T>::check(const std::initializer_list<char_type> c) noexcept -> bool
 {
     if (eof()) [[unlikely]]
         return false;
@@ -207,58 +242,44 @@ inline auto parser::check(const std::initializer_list<char> c) noexcept -> bool
     return true;
 }
 
-inline void parser::skip(const char c) noexcept
+template <common::concepts::string_view_like T>
+inline void parser<T>::skip(const char_type c) noexcept
 {
     while (!eof() && (current() == c))
         advance();
 }
 
-inline void parser::skip(const std::initializer_list<char> c) noexcept
+template <common::concepts::string_view_like T>
+inline void parser<T>::skip(const std::initializer_list<char_type> c) noexcept
 {
     while (!eof() && common::container::contains(std::begin(c), std::end(c), current()))
         advance();
 }
 
-inline void parser::skip_until(const char c) noexcept
+template <common::concepts::string_view_like T>
+inline void parser<T>::skip_until(const char_type c) noexcept
 {
     while (!eof() && current() != c)
         advance();
 }
 
-inline void parser::skip_until(const std::initializer_list<char> c) noexcept
+template <common::concepts::string_view_like T>
+inline void parser<T>::skip_until(const std::initializer_list<char_type> c) noexcept
 {
     while (!eof() && !common::container::contains(std::begin(c), std::end(c), current()))
         advance();
 }
 
-inline auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>
+template <common::concepts::string_view_like T>
+inline auto parser<T>::match_each(const std::initializer_list<char_type> c) noexcept
+    -> parse_result<T, string_view_type>
 {
-    return match([&c](const char ch) { return common::container::contains(std::begin(c), std::end(c), ch); });
+    return match([&c](const auto ch) { return common::container::contains(std::begin(c), std::end(c), ch); });
 }
 
-[[nodiscard]] inline auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
-    -> parse_result<std::string_view>
-{
-    if (eof()) [[unlikely]]
-        return unmatched{};
-
-    const std::regex r{std::data(regex), flags};
-    std::match_results<std::string_view::const_iterator> match;
-
-    if (!std::regex_search(current_, std::end(view_), match, r,
-                           std::regex_constants::match_not_null | std::regex_constants::match_continuous))
-        return unmatched{};
-
-    aeon_assert(!match.empty(), "Bug: expected at least 1 match result.");
-
-    const auto result = common::string::make_string_view(match.begin()->first, match.begin()->second);
-    current_ = match.begin()->second;
-
-    return matched{result};
-}
-
-[[nodiscard]] inline auto parser::match_until(const char c, const eof_mode mode) noexcept
-    -> parse_result<std::string_view>
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::match_until(const char_type c, const eof_mode mode) noexcept
+    -> parse_result<T, string_view_type>
 {
     auto itr = current_;
 
@@ -280,13 +301,15 @@ inline auto parser::match_each(const std::initializer_list<char> c) noexcept -> 
     return matched{result};
 }
 
-[[nodiscard]] inline auto parser::match_until(const std::string_view str) noexcept -> parse_result<std::string_view>
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto parser<T>::match_until(const string_view_type str) noexcept
+    -> parse_result<T, string_view_type>
 {
     auto itr = current_;
 
     while (itr + std::size(str) <= std::cend(view_))
     {
-        if (str == std::string_view{&*itr, std::size(str)})
+        if (str == string_view_type{&*itr, std::size(str)})
         {
             const auto result = common::string::make_string_view(current_, itr);
             current_ = itr;
@@ -299,8 +322,9 @@ inline auto parser::match_each(const std::initializer_list<char> c) noexcept -> 
     return unmatched{};
 }
 
-inline auto parser::match_until(const std::initializer_list<char> c, const eof_mode mode) noexcept
-    -> parse_result<std::string_view>
+template <common::concepts::string_view_like T>
+inline auto parser<T>::match_until(const std::initializer_list<char_type> c, const eof_mode mode) noexcept
+    -> parse_result<T, string_view_type>
 {
     auto itr = current_;
 
@@ -322,16 +346,18 @@ inline auto parser::match_until(const std::initializer_list<char> c, const eof_m
     return matched{result};
 }
 
-template <typename iterator_t>
-inline parser::parser(iterator_t begin, iterator_t end)
+template <common::concepts::string_view_like T>
+template <std::contiguous_iterator iterator_t>
+inline parser<T>::parser(iterator_t begin, iterator_t end)
     : view_{common::string::make_string_view(begin, end)}
     , current_{std::begin(view_)}
 {
     aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
 }
 
+template <common::concepts::string_view_like T>
 template <typename matcher_t>
-inline auto parser::match(matcher_t pred) noexcept -> parse_result<std::string_view>
+inline auto parser<T>::match(matcher_t pred) noexcept -> parse_result<T, string_view_type>
 {
     if (eof()) [[unlikely]]
         return unmatched{};
@@ -349,8 +375,9 @@ inline auto parser::match(matcher_t pred) noexcept -> parse_result<std::string_v
     return matched{result};
 }
 
+template <common::concepts::string_view_like T>
 template <typename matcher_t>
-inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<std::string_view>
+inline auto parser<T>::match_indexed(matcher_t pred) noexcept -> parse_result<T, string_view_type>
 {
     if (eof()) [[unlikely]]
         return unmatched{};
@@ -368,27 +395,32 @@ inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<std::
     return matched{result};
 }
 
-[[nodiscard]] inline auto eof(const parser &parser) noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto eof(const rdp::parser<T> &parser) noexcept -> bool
 {
     return parser.eof();
 }
 
-[[nodiscard]] inline auto bof(const parser &parser) noexcept -> bool
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto bof(const rdp::parser<T> &parser) noexcept -> bool
 {
     return parser.bof();
 }
 
-[[nodiscard]] inline auto current(const parser &parser) noexcept -> char
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto current(const rdp::parser<T> &parser) noexcept -> typename rdp::parser<T>::char_type
 {
     return parser.current();
 }
 
-[[nodiscard]] inline auto offset(const parser &parser) noexcept -> std::size_t
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto offset(const rdp::parser<T> &parser) noexcept -> typename rdp::parser<T>::size_type
 {
     return parser.offset();
 }
 
-[[nodiscard]] inline auto filename(const parser &parser) noexcept -> std::string_view
+template <common::concepts::string_view_like T>
+[[nodiscard]] inline auto filename(const rdp::parser<T> &parser) noexcept -> std::u8string_view
 {
     return parser.filename();
 }

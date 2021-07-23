@@ -114,7 +114,7 @@ public:
 
             if (const auto header_result = match_header(); header_result.is_error())
             {
-                rdp::print_parse_error(header_result.error());
+                rdp::print_parse_error<std::string_view>(header_result.error());
                 throw ptree_serialization_exception{};
             }
             else if (header_result.result())
@@ -124,7 +124,7 @@ public:
 
             if (const auto key_value_result = match_key_value_pair(); key_value_result.is_error())
             {
-                rdp::print_parse_error(key_value_result.error());
+                rdp::print_parse_error<std::string_view>(key_value_result.error());
                 throw ptree_serialization_exception{};
             }
             else if (key_value_result.result())
@@ -132,7 +132,7 @@ public:
                 continue;
             }
 
-            rdp::print_parse_error(parser_.cursor(), "Syntax error.");
+            rdp::print_parse_error(parser_.cursor(), u8"Syntax error.");
             throw ptree_serialization_exception{};
         }
 
@@ -140,7 +140,7 @@ public:
     }
 
 private:
-    auto check_comment() -> rdp::parse_result<bool>
+    auto check_comment() -> rdp::parse_result<std::string_view, bool>
     {
         rdp::scoped_state state{parser_};
 
@@ -155,12 +155,12 @@ private:
         return rdp::matched{};
     }
 
-    auto match_key_name() -> rdp::parse_result<std::string_view>
+    auto match_key_name() -> rdp::parse_result<std::string_view, std::string_view>
     {
-        return parser_.match_regex("[a-zA-Z_][a-zA-Z0-9\\-_]*");
+        return match_regex(parser_, "[a-zA-Z_][a-zA-Z0-9\\-_]*");
     }
 
-    auto match_string() -> rdp::parse_result<std::string_view>
+    auto match_string() -> rdp::parse_result<std::string_view, std::string_view>
     {
         rdp::scoped_state state{parser_};
 
@@ -171,13 +171,13 @@ private:
         const auto quote_result = parser_.check('"');
 
         if (!string_value || !quote_result)
-            return rdp::parse_error{parser_, "Expected: '\"'"};
+            return rdp::parse_error{parser_, u8"Expected: '\"'"};
 
         state.accept();
         return string_value;
     }
 
-    auto match_value() -> rdp::parse_result<property_tree>
+    auto match_value() -> rdp::parse_result<std::string_view, property_tree>
     {
         if (const auto double_result = rdp::parse_floating_point(parser_); double_result.result())
             return rdp::matched{property_tree{double_result.value()}};
@@ -204,10 +204,10 @@ private:
         else if (string_result.is_error())
             return string_result.error();
 
-        return rdp::parse_error{parser_, "Unknown value type."};
+        return rdp::parse_error{parser_, u8"Unknown value type."};
     }
 
-    auto match_header() -> rdp::parse_result<bool>
+    auto match_header() -> rdp::parse_result<std::string_view, bool>
     {
         rdp::scoped_state state{parser_};
 
@@ -217,13 +217,13 @@ private:
         const auto header_name_result = match_key_name();
 
         if (!header_name_result)
-            return rdp::parse_error{parser_, "Expected a valid header name after '['"};
+            return rdp::parse_error{parser_, u8"Expected a valid header name after '['"};
 
         if (!parser_.check(']'))
-            return rdp::parse_error{parser_, "Expected: ']'"};
+            return rdp::parse_error{parser_, u8"Expected: ']'"};
 
         if (!check_comment() && !rdp::check_newline(parser_))
-            return rdp::parse_error{parser_, "Expected newline."};
+            return rdp::parse_error{parser_, u8"Expected newline."};
 
         auto result = headers_.insert(std::string{header_name_result.value()}, object{});
         current_header_ = &(result->second.object_value());
@@ -233,7 +233,7 @@ private:
         return rdp::matched{};
     }
 
-    auto match_key_value_pair() -> rdp::parse_result<bool>
+    auto match_key_value_pair() -> rdp::parse_result<std::string_view, bool>
     {
         rdp::scoped_state state{parser_};
 
@@ -245,7 +245,7 @@ private:
         rdp::skip_whitespace(parser_);
 
         if (!parser_.check('='))
-            return rdp::parse_error{parser_, "Expected: '='"};
+            return rdp::parse_error{parser_, u8"Expected: '='"};
 
         rdp::skip_whitespace(parser_);
 
@@ -257,10 +257,10 @@ private:
         rdp::skip_whitespace(parser_);
 
         if (!check_comment() && !rdp::check_newline(parser_))
-            return rdp::parse_error{parser_, "Expected newline"};
+            return rdp::parse_error{parser_, u8"Expected newline"};
 
         if (!current_header_)
-            return rdp::parse_error{parser_, "Expected header"};
+            return rdp::parse_error{parser_, u8"Expected header"};
 
         current_header_->push_back(std::string{key_name_result.value()}, value_result.value());
 
@@ -268,7 +268,7 @@ private:
         return rdp::matched{};
     }
 
-    rdp::parser parser_;
+    rdp::parser<std::string_view> parser_;
 
     object headers_;
     object *current_header_;

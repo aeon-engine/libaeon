@@ -8,10 +8,11 @@
 namespace aeon::rdp
 {
 
+template <common::concepts::string_view_like T>
 class scoped_state final
 {
 public:
-    explicit scoped_state(parser &parser) noexcept
+    explicit scoped_state(parser<T> &parser) noexcept
         : parser_{parser}
         , prev_{parser.current_}
         , restore_{true}
@@ -24,11 +25,11 @@ public:
             parser_.current_ = prev_;
     }
 
-    scoped_state(const scoped_state &) noexcept = delete;
-    auto operator=(const scoped_state &) noexcept -> scoped_state & = delete;
+    scoped_state(const scoped_state<T> &) noexcept = delete;
+    auto operator=(const scoped_state<T> &) noexcept -> scoped_state<T> & = delete;
 
-    scoped_state(scoped_state &&) noexcept = delete;
-    auto operator=(scoped_state &&) noexcept -> scoped_state & = delete;
+    scoped_state(scoped_state<T> &&) noexcept = delete;
+    auto operator=(scoped_state<T> &&) noexcept -> scoped_state<T> & = delete;
 
     void accept() noexcept
     {
@@ -36,8 +37,8 @@ public:
     }
 
 private:
-    parser &parser_;
-    std::string_view::const_iterator prev_;
+    parser<T> &parser_;
+    typename parser<T>::iterator prev_;
     bool restore_;
 };
 

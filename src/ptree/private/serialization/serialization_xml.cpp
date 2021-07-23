@@ -64,40 +64,40 @@ private:
         std::string_view value;
     };
 
-    [[nodiscard]] auto parse_attribute_and_value() -> rdp::parse_result<attribute>
+    [[nodiscard]] auto parse_attribute_and_value() -> rdp::parse_result<std::string_view, attribute>
     {
         rdp::skip_whitespace(parser_);
 
         const auto attribute_name_result = rdp::match_alnum(parser_);
 
         if (!attribute_name_result)
-            return rdp::parse_error{parser_, "Expected attribute name."};
+            return rdp::parse_error{parser_, u8"Expected attribute name."};
 
         rdp::skip_whitespace(parser_);
 
         if (!parser_.check('='))
-            return rdp::parse_error{parser_, "Expected '='."};
+            return rdp::parse_error{parser_, u8"Expected '='."};
 
         rdp::skip_whitespace(parser_);
 
         if (!parser_.check('"'))
-            return rdp::parse_error{parser_, "Expected '\"'."};
+            return rdp::parse_error{parser_, u8"Expected '\"'."};
 
         const auto attribute_value_result = parser_.match_until('"');
 
         if (!attribute_value_result)
-            return rdp::parse_error{parser_, "Expected value closed by '\"'."};
+            return rdp::parse_error{parser_, u8"Expected value closed by '\"'."};
 
         if (!parser_.check('"'))
-            return rdp::parse_error{parser_, "Expected value closed by '\"'."};
+            return rdp::parse_error{parser_, u8"Expected value closed by '\"'."};
 
         return rdp::matched{attribute{attribute_name_result.value(), attribute_value_result.value()}};
     }
 
-    [[nodiscard]] auto parse_header() -> rdp::parse_result<property_tree>
+    [[nodiscard]] auto parse_header() -> rdp::parse_result<std::string_view, property_tree>
     {
         if (!rdp::check_whitespace(parser_))
-            return rdp::parse_error{parser_, "Expected whitespace after <?xml."};
+            return rdp::parse_error{parser_, u8"Expected whitespace after <?xml."};
 
         object obj;
 
@@ -114,7 +114,7 @@ private:
         return rdp::matched{property_tree{object{{"?xml", std::move(obj)}}}};
     }
 
-    [[nodiscard]] auto parse_element() -> rdp::parse_result<property_tree>
+    [[nodiscard]] auto parse_element() -> rdp::parse_result<std::string_view, property_tree>
     {
         rdp::skip_whitespace_and_newline(parser_);
 
@@ -122,7 +122,7 @@ private:
             [](const auto c) { return std::isalnum(c) != 0 || c == '_' || c == '-' || c == '.' || c == ':'; });
 
         if (!element_name)
-            return rdp::parse_error{parser_, "Expected element name."};
+            return rdp::parse_error{parser_, u8"Expected element name."};
 
         rdp::skip_whitespace(parser_);
 
@@ -148,7 +148,7 @@ private:
             const auto result = parse_attribute_and_value();
 
             if (!result)
-                return rdp::parse_error{parser_, "Expected attribute or />."};
+                return rdp::parse_error{parser_, u8"Expected attribute or />."};
 
             attributes.emplace(std::string{result.value().name}, std::string{result.value().value});
         }
@@ -166,7 +166,7 @@ private:
         return rdp::matched{property_tree{object{{std::string{element_name.value()}, std::move(children)}}}};
     }
 
-    [[nodiscard]] auto parse_cdata() -> rdp::parse_result<property_tree>
+    [[nodiscard]] auto parse_cdata() -> rdp::parse_result<std::string_view, property_tree>
     {
         rdp::skip_whitespace_and_newline(parser_);
         const auto result = parser_.match_until(cdata_end);
@@ -175,12 +175,12 @@ private:
             return result.error();
 
         if (!parser_.check(cdata_end))
-            return rdp::parse_error{parser_, "Expected ]]>."};
+            return rdp::parse_error{parser_, u8"Expected ]]>."};
 
         return rdp::matched{property_tree{std::string{result.value()}}};
     }
 
-    [[nodiscard]] auto parse_nodes(const std::string &parent_node) -> rdp::parse_result<array>
+    [[nodiscard]] auto parse_nodes(const std::string &parent_node) -> rdp::parse_result<std::string_view, array>
     {
         array nodes;
 
@@ -209,7 +209,7 @@ private:
         return rdp::matched{std::move(nodes)};
     }
 
-    [[nodiscard]] auto parse_node() -> rdp::parse_result<property_tree>
+    [[nodiscard]] auto parse_node() -> rdp::parse_result<std::string_view, property_tree>
     {
         if (parser_.check(cdata_begin))
         {
@@ -218,10 +218,10 @@ private:
         else if (parser_.check(comment_begin))
         {
             if (!parser_.match_until(comment_end))
-                return rdp::parse_error{parser_, "Unmatched comment section."};
+                return rdp::parse_error{parser_, u8"Unmatched comment section."};
 
             if (!parser_.check(comment_end))
-                return rdp::parse_error{parser_, "Unmatched comment section."};
+                return rdp::parse_error{parser_, u8"Unmatched comment section."};
         }
         else if (parser_.check(header_begin))
         {
@@ -229,7 +229,7 @@ private:
         }
         else if (parser_.check(dtd_begin))
         {
-            return rdp::parse_error{parser_, "DTD is not yet unsupported."};
+            return rdp::parse_error{parser_, u8"DTD is not yet unsupported."};
         }
         else if (parser_.check(element_begin))
         {
@@ -239,7 +239,7 @@ private:
         const auto text_result = parser_.match_until('<', rdp::eof_mode::match);
 
         if (!text_result)
-            return rdp::parse_error{parser_, "Could not parse XML file."};
+            return rdp::parse_error{parser_, u8"Could not parse XML file."};
 
         const auto value = common::string::trimmedsv(text_result.value());
 
@@ -249,7 +249,7 @@ private:
         return rdp::matched{property_tree{std::string{value}}};
     }
 
-    rdp::parser parser_;
+    rdp::parser<std::string_view> parser_;
     std::string attribute_placeholder_;
 };
 

@@ -23,152 +23,157 @@ inline matched<T>::matched(T value) noexcept(std::is_nothrow_move_constructible_
 }
 
 template <typename T>
-inline auto matched<T>::value() noexcept -> T &
+inline auto matched<T>::value() noexcept -> result_type &
 {
     return value_;
 }
 
 template <typename T>
-inline auto matched<T>::value() const noexcept -> const T &
+inline auto matched<T>::value() const noexcept -> const result_type &
 {
     return value_;
 }
 
-inline parse_error::parse_error(const parser &parser, std::string message) noexcept
+template <common::concepts::string_view_like T>
+inline parse_error<T>::parse_error(const parser<T> &parser, std::u8string message) noexcept
     : cursor_(parser.cursor())
     , message_(std::move(message))
 {
 }
 
-inline auto parse_error::cursor() const noexcept -> const rdp::cursor &
+template <common::concepts::string_view_like T>
+inline auto parse_error<T>::cursor() const noexcept -> const rdp::cursor<T> &
 {
     return cursor_;
 }
 
-inline auto parse_error::message() const noexcept -> const std::string &
+template <common::concepts::string_view_like T>
+inline auto parse_error<T>::message() const noexcept -> const std::u8string &
 {
     return message_;
 }
 
-template <typename T>
-inline parse_result<T>::parse_result() noexcept
+template <common::concepts::string_view_like T, typename ResultT>
+inline parse_result<T, ResultT>::parse_result() noexcept
     : result_{unmatched{}}
 {
 }
 
-template <typename T>
-inline parse_result<T>::parse_result(unmatched result) noexcept
+template <common::concepts::string_view_like T, typename ResultT>
+inline parse_result<T, ResultT>::parse_result(unmatched result) noexcept
     : result_{std::move(result)}
 {
 }
 
-template <typename T>
-inline parse_result<T>::parse_result(matched<T> result) noexcept
+template <common::concepts::string_view_like T, typename ResultT>
+inline parse_result<T, ResultT>::parse_result(matched<ResultT> result) noexcept
     : result_{std::move(result)}
 {
 }
 
-template <typename T>
-inline parse_result<T>::parse_result(parse_error error)
+template <common::concepts::string_view_like T, typename ResultT>
+inline parse_result<T, ResultT>::parse_result(parse_error<T> error)
     : result_{std::move(error)}
 {
 }
 
-template <typename T>
-inline auto parse_result<T>::result() const noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::result() const noexcept -> bool
 {
     return result_.index() == 0;
 }
 
-template <typename T>
-inline parse_result<T>::operator bool() const noexcept
+template <common::concepts::string_view_like T, typename ResultT>
+inline parse_result<T, ResultT>::operator bool() const noexcept
 {
     return result();
 }
 
-template <typename T>
-inline auto parse_result<T>::value() noexcept -> T &
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::value() noexcept -> result_type &
 {
     aeon_assert(result(), "value should only be called if result() returns true.");
-    return std::get<matched<T>>(result_).value();
+    return std::get<matched<result_type>>(result_).value();
 }
 
-template <typename T>
-inline auto parse_result<T>::value() const noexcept -> const T &
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::value() const noexcept -> const result_type &
 {
     aeon_assert(result(), "value should only be called if result() returns true.");
-    return std::get<matched<T>>(result_).value();
+    return std::get<matched<result_type>>(result_).value();
 }
 
-template <typename T>
-inline auto parse_result<T>::operator*() noexcept -> T &
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::operator*() noexcept -> result_type &
 {
     return value();
 }
 
-template <typename T>
-inline auto parse_result<T>::operator*() const noexcept -> const T &
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::operator*() const noexcept -> const result_type &
 {
     return value();
 }
 
-template <typename T>
-inline auto parse_result<T>::is_error() const noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::is_error() const noexcept -> bool
 {
     return result_.index() == 2;
 }
 
-template <typename T>
-inline auto parse_result<T>::error() const noexcept -> const parse_error &
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::error() const noexcept -> const parse_error<T> &
 {
     aeon_assert(is_error(), "error should only be called if is_error() returns true.");
-    return std::get<parse_error>(result_);
+    return std::get<parse_error<T>>(result_);
 }
 
-template <typename T>
-inline auto parse_result<T>::is_unmatched() const noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto parse_result<T, ResultT>::is_unmatched() const noexcept -> bool
 {
     return result_.index() == 1;
 }
 
-inline void print_parse_error(const parse_error &error)
+template <common::concepts::string_view_like T>
+inline void print_parse_error(const parse_error<T> &error)
 {
-    print_parse_error(error.cursor(), error.message());
+    print_parse_error<T>(error.cursor(), error.message());
 }
 
-inline void print_parse_error(const parse_error &error, std::ostream &stream)
+template <common::concepts::string_view_like T>
+inline void print_parse_error(const parse_error<T> &error, std::ostream &stream)
 {
-    print_parse_error(error.cursor(), error.message(), stream);
+    print_parse_error<T>(error.cursor(), error.message(), stream);
 }
 
-template <typename T>
-void print_parse_error(const parse_result<T> &result)
-{
-    aeon_assert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
-    print_parse_error(result.error());
-}
-
-template <typename T>
-void print_parse_error(const parse_result<T> &result, std::ostream &stream)
+template <common::concepts::string_view_like T, typename ResultT>
+void print_parse_error(const parse_result<T, ResultT> &result)
 {
     aeon_assert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
-    print_parse_error(result.error(), stream);
+    print_parse_error<T>(result.error());
 }
 
-template <typename T>
-inline auto operator==(const parse_result<T> &lhs, const unmatched) noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+void print_parse_error(const parse_result<T, ResultT> &result, std::ostream &stream)
+{
+    aeon_assert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
+    print_parse_error<T>(result.error(), stream);
+}
+
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto operator==(const parse_result<T, ResultT> &lhs, const unmatched) noexcept -> bool
 {
     return lhs.is_unmatched();
 }
 
-template <typename T>
-inline auto operator==(const unmatched, const parse_result<T> &rhs) noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto operator==(const unmatched, const parse_result<T, ResultT> &rhs) noexcept -> bool
 {
     return rhs.is_unmatched();
 }
 
-template <typename T>
-inline auto operator==(const parse_result<T> &lhs, const T &rhs) noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto operator==(const parse_result<T, ResultT> &lhs, const ResultT &rhs) noexcept -> bool
 {
     if (!lhs.result())
         return false;
@@ -176,8 +181,8 @@ inline auto operator==(const parse_result<T> &lhs, const T &rhs) noexcept -> boo
     return lhs.value() == rhs;
 }
 
-template <typename T>
-inline auto operator==(const T &lhs, const parse_result<T> &rhs) noexcept -> bool
+template <common::concepts::string_view_like T, typename ResultT>
+inline auto operator==(const ResultT &lhs, const parse_result<T, ResultT> &rhs) noexcept -> bool
 {
     if (!rhs.result())
         return false;
