@@ -80,7 +80,7 @@ struct converting_variant_enum_traits<bool>
 };
 
 template <>
-struct converting_variant_enum_traits<std::string>
+struct converting_variant_enum_traits<std::u8string>
 {
     static constexpr auto type = converting_variant::type::string;
 };
@@ -158,9 +158,9 @@ struct converting_variant_object_traits<double>
 };
 
 template <>
-struct converting_variant_object_traits<std::string>
+struct converting_variant_object_traits<std::u8string>
 {
-    using type = std::string;
+    using type = std::u8string;
 };
 
 template <>

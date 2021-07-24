@@ -19,20 +19,20 @@ reply::reply(const status_code status)
 {
 }
 
-auto reply::get_content() -> std::vector<std::uint8_t>
+auto reply::get_content() -> std::vector<std::byte>
 {
     streams::stream_reader reader{content_};
-    std::vector<std::uint8_t> vec;
+    std::vector<std::byte> vec;
     reader.read_to_vector(vec);
     return vec;
 }
 
-auto reply::get_raw_headers() const -> const std::vector<std::string> &
+auto reply::get_raw_headers() const -> const std::vector<std::u8string> &
 {
     return raw_headers_;
 }
 
-void reply::append_raw_http_header_line(const std::string &header_line)
+void reply::append_raw_http_header_line(const std::u8string &header_line)
 {
     raw_headers_.push_back(header_line);
 }

@@ -11,6 +11,7 @@
 namespace aeon::common::string
 {
 
+// TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
 auto char_to_hex(const char c) -> std::string
 {
     std::ostringstream ss;
@@ -18,6 +19,7 @@ auto char_to_hex(const char c) -> std::string
     return ss.str();
 }
 
+// TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
 auto hex_to_char(const std::string &str) -> char
 {
     if (str.empty())

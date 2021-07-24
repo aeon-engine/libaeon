@@ -17,7 +17,7 @@ TEST(test_converting_variant, default_create)
 
 TEST(test_converting_variant, create_with_string)
 {
-    std::string test = "Hello";
+    std::u8string test = u8"Hello";
     variant::converting_variant v{std::move(test)};
     EXPECT_FALSE(v.is_null());
     EXPECT_EQ(0, v.user_index());
@@ -27,7 +27,7 @@ TEST(test_converting_variant, create_with_string)
 
 TEST(test_converting_variant, create_with_const_char)
 {
-    const auto test = "Hello";
+    const auto test = u8"Hello";
     variant::converting_variant v{test};
     EXPECT_FALSE(v.is_null());
     EXPECT_EQ(0, v.user_index());
@@ -74,28 +74,28 @@ TEST(test_converting_variant, convert_float_to_int32)
 
 TEST(test_converting_variant, convert_string_to_int32)
 {
-    variant::converting_variant v{std::string{"1234"}};
+    variant::converting_variant v{std::u8string{u8"1234"}};
     EXPECT_EQ(1234, v.get_value<std::int32_t>());
 }
 
 TEST(test_converting_variant, convert_string_to_float)
 {
-    variant::converting_variant v{std::string{"1234.567"}};
+    variant::converting_variant v{std::u8string{u8"1234.567"}};
     EXPECT_FLOAT_EQ(1234.567f, v.get_value<float>());
 }
 
 TEST(test_converting_variant, convert_string_to_bool)
 {
-    variant::converting_variant v{std::string{"true"}};
+    variant::converting_variant v{std::u8string{u8"true"}};
     EXPECT_TRUE(v.get_value<bool>());
-    variant::converting_variant v2{std::string{"false"}};
+    variant::converting_variant v2{std::u8string{u8"false"}};
     EXPECT_FALSE(v2.get_value<bool>());
 }
 
 TEST(test_converting_variant, convert_float_to_string_to_int_to_bool)
 {
     variant::converting_variant v{1.0f};
-    v.convert_value<std::string>();
+    v.convert_value<std::u8string>();
     v.convert_value<int>();
     v.convert_value<bool>();
     EXPECT_TRUE(v.get_value<bool>());
@@ -103,31 +103,31 @@ TEST(test_converting_variant, convert_float_to_string_to_int_to_bool)
 
 TEST(test_converting_variant, convert_string_to_int8)
 {
-    variant::converting_variant v{std::string{"-50"}};
+    variant::converting_variant v{std::u8string{u8"-50"}};
     EXPECT_EQ(-50, v.get_value<std::int8_t>());
 }
 
 TEST(test_converting_variant, convert_int8_to_string)
 {
     variant::converting_variant v{std::int8_t{-50}};
-    EXPECT_EQ("-50", v.get_value<std::string>());
+    EXPECT_EQ(u8"-50", v.get_value<std::u8string>());
 }
 
 TEST(test_converting_variant, convert_string_to_int16)
 {
-    variant::converting_variant v{std::string{"-500"}};
+    variant::converting_variant v{std::u8string{u8"-500"}};
     EXPECT_EQ(-500, v.get_value<std::int16_t>());
 }
 
 TEST(test_converting_variant, convert_string_to_uint8)
 {
-    variant::converting_variant v{std::string{"128"}};
+    variant::converting_variant v{std::u8string{u8"128"}};
     EXPECT_EQ(128, v.get_value<std::uint8_t>());
 }
 
 TEST(test_converting_variant, convert_string_to_uint16)
 {
-    variant::converting_variant v{std::string{"65535"}};
+    variant::converting_variant v{std::u8string{u8"65535"}};
     EXPECT_EQ(65535, v.get_value<std::uint16_t>());
 }
 
@@ -140,9 +140,11 @@ struct custom_user_type
     {
     }
 
-    operator std::string() const
+    operator std::u8string() const
     {
-        return std::string{"The value is: "} + std::to_string(value);
+        // TODO: Fix when to_string supports utf8.
+        const auto str = std::to_string(value);
+        return std::u8string{u8"The value is: "} + std::u8string{std::begin(str), std::end(str)};
     }
 };
 
@@ -157,7 +159,7 @@ TEST(test_converting_variant, convert_with_custom_type)
 {
     custom_user_type t{5};
     variant::converting_variant v{t};
-    EXPECT_EQ("The value is: 5", (v.get_value<custom_user_type, std::string>()));
+    EXPECT_EQ(u8"The value is: 5", (v.get_value<custom_user_type, std::u8string>()));
 }
 
 TEST(test_converting_variant, convert_with_custom_type_with_convert_value)
@@ -165,9 +167,9 @@ TEST(test_converting_variant, convert_with_custom_type_with_convert_value)
     custom_user_type t{5};
     variant::converting_variant v{t};
     EXPECT_TRUE(v.is_user_type());
-    v.convert_value<custom_user_type, std::string>();
+    v.convert_value<custom_user_type, std::u8string>();
     EXPECT_FALSE(v.is_user_type());
-    EXPECT_EQ("The value is: 5", (v.get_value<std::string>()));
+    EXPECT_EQ(u8"The value is: 5", (v.get_value<std::u8string>()));
 }
 
 TEST(test_converting_variant, convert_to_custom_type)
@@ -190,7 +192,7 @@ TEST(test_converting_variant, datetime_variant)
     variant::converting_variant v{std::chrono::system_clock::now()};
     EXPECT_FALSE(v.is_user_type());
     EXPECT_EQ(variant::converting_variant::type::calendar, v.type());
-    ASSERT_NO_THROW(v.convert_value<std::string>());
+    ASSERT_NO_THROW(v.convert_value<std::u8string>());
     EXPECT_EQ(variant::converting_variant::type::string, v.type());
 }
 
@@ -199,13 +201,13 @@ TEST(test_converting_variant, datetime_variant_to_string_is_iso8601)
     variant::converting_variant v{chrono::calendar{chrono::timezone::create("Etc/GMT+2"), 2015, 1, 7, 12, 32, 21}};
     EXPECT_FALSE(v.is_user_type());
     EXPECT_EQ(variant::converting_variant::type::calendar, v.type());
-    ASSERT_NO_THROW(v.convert_value<std::string>());
-    EXPECT_EQ(v.get_value<std::string>(), "2015-01-07T12:32:21.000-02:00");
+    ASSERT_NO_THROW(v.convert_value<std::u8string>());
+    EXPECT_EQ(v.get_value<std::u8string>(), u8"2015-01-07T12:32:21.000-02:00");
 }
 
 TEST(test_converting_variant, iso8601_string_to_datetime)
 {
-    variant::converting_variant v{"2015-01-07T12:32:21.000-02:00"};
+    variant::converting_variant v{u8"2015-01-07T12:32:21.000-02:00"};
     EXPECT_FALSE(v.is_user_type());
     EXPECT_EQ(variant::converting_variant::type::string, v.type());
     ASSERT_NO_THROW(v.convert_value<chrono::calendar>());

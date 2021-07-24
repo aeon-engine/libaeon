@@ -12,7 +12,7 @@ namespace aeon::reflection
 class field_info final
 {
 public:
-    field_info(const std::string_view name, const std::string_view type, const std::ptrdiff_t offset)
+    field_info(const std::u8string_view name, const std::u8string_view type, const std::ptrdiff_t offset)
         : name_{name}
         , type_{type}
         , offset_{offset}
@@ -55,8 +55,8 @@ public:
     }
 
 private:
-    std::string_view name_;
-    std::string_view type_;
+    std::u8string_view name_;
+    std::u8string_view type_;
     std::ptrdiff_t offset_;
 };
 

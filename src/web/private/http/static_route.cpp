@@ -15,24 +15,24 @@
 namespace aeon::web::http
 {
 
-auto detail::to_url_path(const std::string &path) -> std::string
+auto detail::to_url_path(const std::u8string &path) -> std::u8string
 {
-    return common::string::replace_copy(path, "\\", "/");
+    return common::string::replace_copy(path, u8"\\", u8"/");
 }
 
-auto detail::is_image_extension(const std::string &extension) -> bool
+auto detail::is_image_extension(const std::u8string &extension) -> bool
 {
     const auto extension_lower = common::string::to_lower_copy(extension);
-    return extension_lower == ".jpg" || extension_lower == ".jpeg" || extension_lower == ".png" ||
-           extension_lower == ".gif";
+    return extension_lower == u8".jpg" || extension_lower == u8".jpeg" || extension_lower == u8".png" ||
+           extension_lower == u8".gif";
 }
 
-static_route::static_route(std::string mount_point, const std::filesystem::path &base_path)
+static_route::static_route(std::u8string mount_point, const std::filesystem::path &base_path)
     : static_route(std::move(mount_point), base_path, static_route_settings{})
 {
 }
 
-static_route::static_route(std::string mount_point, const std::filesystem::path &base_path,
+static_route::static_route(std::u8string mount_point, const std::filesystem::path &base_path,
                            static_route_settings settings)
     : route{std::move(mount_point)}
     , base_path_{std::filesystem::canonical(base_path)}
@@ -109,10 +109,10 @@ auto static_route::get_path_for_default_files(const std::filesystem::path &path)
 void static_route::reply_file(http_server_socket &source, routable_http_server_session &session,
                               const std::filesystem::path &file) const
 {
-    auto extension = file.extension().string();
+    auto extension = file.extension().u8string();
 
     if (extension.empty())
-        extension = file.stem().string();
+        extension = file.stem().u8string();
 
     const auto mime_type = session.find_mime_type_by_extension(extension);
 
@@ -127,13 +127,13 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
     const auto header_name = get_current_directory_header_name(path);
     const auto entries = get_directory_listing_entries(path);
 
-    std::string reply = "<h1>";
+    std::u8string reply = u8"<h1>";
     reply += header_name;
-    reply += "</h1><hr><pre>";
+    reply += u8"</h1><hr><pre>";
 
     if (path != base_path_)
     {
-        reply += generate_hyperlink_html("../", "../");
+        reply += generate_hyperlink_html(u8"../", u8"../");
         reply += '\n';
     }
 
@@ -149,9 +149,9 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
         auto image_per_line_count = 0;
         for (const auto &entry : entries)
         {
-            std::string thumbnail_html = "<img src=\"";
+            std::u8string thumbnail_html = u8"<img src=\"";
             thumbnail_html += entry.display_name;
-            thumbnail_html += R"(" width="128" style="margin:10px">)";
+            thumbnail_html += u8R"(" width="128" style="margin:10px">)";
 
             reply += generate_hyperlink_html(thumbnail_html, entry.display_name);
 
@@ -171,14 +171,14 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
         }
     }
 
-    reply += "</pre><hr>";
+    reply += u8"</pre><hr>";
 
-    source.respond("text/html", reply);
+    source.respond(u8"text/html", reply);
 }
 
-auto static_route::get_current_directory_header_name(const std::filesystem::path &path) const -> std::string
+auto static_route::get_current_directory_header_name(const std::filesystem::path &path) const -> std::u8string
 {
-    return path.stem().string();
+    return path.stem().u8string();
 }
 
 auto static_route::get_directory_listing_entries(const std::filesystem::path &path) const
@@ -191,7 +191,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
 
         if (std::filesystem::is_regular_file(file_entry))
         {
-            const auto filename = file_entry.path().filename().string();
+            const auto filename = file_entry.path().filename().u8string();
 
             if (is_hidden_file(filename))
                 continue;
@@ -202,7 +202,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
         else if (std::filesystem::is_directory(file_entry))
         {
             entry.is_directory = true;
-            entry.display_name = file_entry.path().filename().string() + "/";
+            entry.display_name = file_entry.path().filename().u8string() + u8"/";
         }
         else // If it's not a regular file or folder... carry on.
         {
@@ -221,7 +221,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
 
     for (const auto &entry : entries)
     {
-        if (!detail::is_image_extension(std::filesystem::path{entry.display_name}.extension().string()))
+        if (!detail::is_image_extension(std::filesystem::path{entry.display_name}.extension().u8string()))
         {
             is_image_folder = false;
             break;
@@ -231,7 +231,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
     return is_image_folder;
 }
 
-auto static_route::is_hidden_file(const std::string &filename) const -> bool
+auto static_route::is_hidden_file(const std::u8string &filename) const -> bool
 {
     const auto filename_str = common::string::to_lower_copy(filename);
 
@@ -244,13 +244,14 @@ auto static_route::is_hidden_file(const std::string &filename) const -> bool
     return false;
 }
 
-auto static_route::generate_hyperlink_html(const std::string &name, const std::string &destination) const -> std::string
+auto static_route::generate_hyperlink_html(const std::u8string &name, const std::u8string &destination) const
+    -> std::u8string
 {
-    std::string reply = "<a href=\"";
+    std::u8string reply = u8"<a href=\"";
     reply += url_encode(destination);
-    reply += "\">";
+    reply += u8"\">";
     reply += name;
-    reply += "</a>";
+    reply += u8"</a>";
     return reply;
 }
 

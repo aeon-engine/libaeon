@@ -6,12 +6,12 @@
 namespace aeon::web::http::detail
 {
 
-auto validate_http_version_string(const std::string &version_string) noexcept -> bool
+auto validate_http_version_string(const std::u8string &version_string) noexcept -> bool
 {
     return version_string == http_version_string;
 }
 
-auto validate_uri(const std::string &uri) noexcept -> bool
+auto validate_uri(const std::u8string &uri) noexcept -> bool
 {
     for (const auto c : uri)
     {

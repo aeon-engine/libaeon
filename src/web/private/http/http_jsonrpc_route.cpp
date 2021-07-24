@@ -10,21 +10,22 @@
 namespace aeon::web::http
 {
 
-static const auto json_rpc_content_type = "application/json";
+static const auto json_rpc_content_type = u8"application/json";
 
-http_jsonrpc_route::http_jsonrpc_route(const std::string &mount_point)
+http_jsonrpc_route::http_jsonrpc_route(const std::u8string &mount_point)
     : http_jsonrpc_route{mount_point, std::make_unique<jsonrpc::server>()}
 {
 }
 
-http_jsonrpc_route::http_jsonrpc_route(const std::string &mount_point, std::unique_ptr<jsonrpc::server> json_rpc_server)
+http_jsonrpc_route::http_jsonrpc_route(const std::u8string &mount_point,
+                                       std::unique_ptr<jsonrpc::server> json_rpc_server)
     : route{mount_point}
     , rpc_server_{std::move(json_rpc_server)}
     , rpc_server_ref_{*rpc_server_}
 {
 }
 
-http_jsonrpc_route::http_jsonrpc_route(const std::string &mount_point, jsonrpc::server &json_rpc_server)
+http_jsonrpc_route::http_jsonrpc_route(const std::u8string &mount_point, jsonrpc::server &json_rpc_server)
     : route{mount_point}
     , rpc_server_{}
     , rpc_server_ref_{json_rpc_server}
@@ -53,15 +54,15 @@ auto http_jsonrpc_route::validate_request(http_server_socket &source, const requ
     if (!request.has_content())
     {
         const auto response = ptree::serialization::to_json(
-            jsonrpc::respond(jsonrpc::result{jsonrpc::json_rpc_error::parse_error, "No content"}));
+            jsonrpc::respond(jsonrpc::result{jsonrpc::json_rpc_error::parse_error, u8"No content"}));
         source.respond(json_rpc_content_type, response);
         return false;
     }
 
     if (request.get_content_type() != json_rpc_content_type)
     {
-        const auto response = ptree::serialization::to_json(jsonrpc::respond(
-            jsonrpc::result{jsonrpc::json_rpc_error::parse_error, "Invalid content type. Expected application/json."}));
+        const auto response = ptree::serialization::to_json(jsonrpc::respond(jsonrpc::result{
+            jsonrpc::json_rpc_error::parse_error, u8"Invalid content type. Expected application/json."}));
         source.respond(json_rpc_content_type, response);
         return false;
     }

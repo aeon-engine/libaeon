@@ -7,11 +7,11 @@
 
 using namespace aeon;
 
-static const ptree::property_tree test_class_pt{{{"base_integer_value", 42},
-                                                 {"integer_value", 3},
-                                                 {"double_value", 2.0},
-                                                 {"string_value", "Hello"},
-                                                 {"blob_value", ptree::blob{0x10, 0x20, 0x30}}}};
+static const ptree::property_tree test_class_pt{{{u8"base_integer_value", 42},
+                                                 {u8"integer_value", 3},
+                                                 {u8"double_value", 2.0},
+                                                 {u8"string_value", u8"Hello"},
+                                                 {u8"blob_value", ptree::blob{0x10, 0x20, 0x30}}}};
 
 class test_class_base : public reflection::reflection_object
 {

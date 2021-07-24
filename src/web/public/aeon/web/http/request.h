@@ -17,7 +17,7 @@ class request
 
 public:
     explicit request(const http_method method);
-    explicit request(const std::string &method, std::string uri);
+    explicit request(const std::u8string &method, std::u8string uri);
 
     auto get_method() const noexcept
     {
@@ -29,7 +29,7 @@ public:
         return uri_;
     }
 
-    void set_uri(const std::string &uri)
+    void set_uri(const std::u8string &uri)
     {
         uri_ = uri;
     }
@@ -46,25 +46,25 @@ public:
 
     auto get_content() const -> std::vector<std::uint8_t>;
 
-    auto get_content_string() const -> std::string;
+    auto get_content_string() const -> std::u8string;
 
-    auto get_content_type() const -> std::string;
+    auto get_content_type() const -> std::u8string;
 
-    auto get_raw_headers() const -> const std::vector<std::string> &;
+    auto get_raw_headers() const -> const std::vector<std::u8string> &;
 
 private:
-    void append_raw_http_header_line(const std::string &header_line);
+    void append_raw_http_header_line(const std::u8string &header_line);
     void append_raw_content_data(const std::vector<std::byte> &data) const;
-    void set_content_type(const std::string &content_type);
+    void set_content_type(const std::u8string &content_type);
 
     http_method method_;
-    std::string uri_;
-    std::vector<std::string> raw_headers_;
+    std::u8string uri_;
+    std::vector<std::u8string> raw_headers_;
 
-    std::string content_type_;
+    std::u8string content_type_;
     mutable streams::memory_device<std::vector<char>> content_;
 };
 
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>;
+auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> std::map<std::u8string, std::u8string>;
 
 } // namespace aeon::web::http

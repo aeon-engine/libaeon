@@ -23,7 +23,7 @@ namespace internal
 static void to_json(const std::monostate, streams::idynamic_stream &);
 static void to_json(const array &arr, streams::idynamic_stream &stream);
 static void to_json(const object &obj, streams::idynamic_stream &stream);
-static void to_json(const std::string &obj_str, streams::idynamic_stream &stream);
+static void to_json(const std::u8string &obj_str, streams::idynamic_stream &stream);
 static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_json(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_json(const double val, streams::idynamic_stream &stream);
@@ -85,10 +85,10 @@ static void to_json(const object &obj, streams::idynamic_stream &stream)
 
 static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream)
 {
-    to_json(uuid.str(), stream);
+    to_json(uuid.u8str(), stream);
 }
 
-static void to_json(const std::string &obj_str, streams::idynamic_stream &stream)
+static void to_json(const std::u8string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << '"';
@@ -153,11 +153,7 @@ public:
             return parse_null();
 
         if (token == '"')
-        {
-            // TODO: Add utf-8 support to ptree
-            const auto str = parse_string();
-            return std::string{std::cbegin(str), std::cend(str)};
-        }
+            return parse_string();
 
         if (token == '{')
             return parse_object();
@@ -204,7 +200,7 @@ private:
         auto token = next_token();
 
         if (token == '}')
-            return data;
+            return std::move(data);
 
         while (true)
         {
@@ -218,8 +214,7 @@ private:
             if (token != ':')
                 throw ptree_serialization_exception{};
 
-            std::string key_str{std::cbegin(key), std::cend(key)};
-            data.emplace(std::move(key_str), parse());
+            data.emplace(std::move(key), parse());
 
             token = next_token();
             if (token == '}')
@@ -230,7 +225,7 @@ private:
 
             token = next_token();
         }
-        return data;
+        return std::move(data);
     }
 
     [[nodiscard]] auto parse_array() -> property_tree
@@ -239,7 +234,7 @@ private:
         auto token = next_token();
 
         if (token == ']')
-            return data;
+            return std::move(data);
 
         while (true)
         {
@@ -257,7 +252,7 @@ private:
             next_token();
         }
 
-        return data;
+        return std::move(data);
     }
 
     [[nodiscard]] auto parse_number() -> property_tree
@@ -372,9 +367,9 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
     internal::to_json(ptree, stream);
 }
 
-[[nodiscard]] auto to_json(const property_tree &ptree) -> std::string
+[[nodiscard]] auto to_json(const property_tree &ptree) -> std::u8string
 {
-    std::string str;
+    std::u8string str;
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     to_json(ptree, stream);
     return str;
@@ -395,7 +390,7 @@ void from_json(streams::idynamic_stream &stream, property_tree &ptree)
     return pt;
 }
 
-[[nodiscard]] auto from_json(const std::string &str) -> property_tree
+[[nodiscard]] auto from_json(const std::u8string &str) -> property_tree
 {
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_json(stream);

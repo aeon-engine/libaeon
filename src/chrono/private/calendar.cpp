@@ -74,7 +74,7 @@ calendar::calendar()
 {
 }
 
-calendar::calendar(const std::string &str)
+calendar::calendar(const std::u8string &str)
     : timezone_{}
     , calendar_{}
 {
@@ -90,7 +90,7 @@ calendar::calendar(const std::string &str)
     if (U_FAILURE(error))
         throw std::runtime_error{"Could not create gregorian calendar."};
 
-    const auto ustr = icu::UnicodeString::fromUTF8(str);
+    const auto ustr = icu::UnicodeString::fromUTF8(reinterpret_cast<const char *>(std::data(str)));
     icu::ParsePosition position{};
     fmt.parse(ustr, *calendar_, position);
 

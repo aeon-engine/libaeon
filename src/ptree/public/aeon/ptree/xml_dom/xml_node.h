@@ -41,14 +41,14 @@ public:
 
     [[nodiscard]] auto has_name() const noexcept -> bool;
 
-    [[nodiscard]] auto name() const -> const std::string &;
+    [[nodiscard]] auto name() const -> const std::u8string &;
 
     [[nodiscard]] auto has_value() const noexcept -> bool;
 
-    template <typename T = std::string>
+    template <typename T = std::u8string>
     [[nodiscard]] auto value() const
     {
-        if constexpr (std::is_same_v<T, std::string>)
+        if constexpr (std::is_same_v<T, std::u8string>)
         {
             return value_impl();
         }
@@ -61,28 +61,28 @@ public:
 
     [[nodiscard]] auto children() const -> std::vector<xml_node>;
 
-    [[nodiscard]] auto children(const std::string_view child_name) const -> std::vector<xml_node>;
+    [[nodiscard]] auto children(const std::u8string_view child_name) const -> std::vector<xml_node>;
 
     [[nodiscard]] auto child() const noexcept -> xml_node;
 
-    [[nodiscard]] auto child(const std::string_view child_name) const noexcept -> xml_node;
+    [[nodiscard]] auto child(const std::u8string_view child_name) const noexcept -> xml_node;
 
-    [[nodiscard]] auto operator[](const std::string_view child_name) const noexcept -> xml_node;
+    [[nodiscard]] auto operator[](const std::u8string_view child_name) const noexcept -> xml_node;
 
-    [[nodiscard]] auto attributes() const -> std::map<std::string, variant::converting_variant>;
+    [[nodiscard]] auto attributes() const -> std::map<std::u8string, variant::converting_variant>;
 
 protected:
     explicit xml_node(const xml_document &document) noexcept;
     explicit xml_node(const xml_document &document, const property_tree &pt, const xml_node_type type) noexcept;
-    explicit xml_node(const xml_document &document, const property_tree &pt, const std::string &name,
+    explicit xml_node(const xml_document &document, const property_tree &pt, const std::u8string &name,
                       const xml_node_type type) noexcept;
 
-    [[nodiscard]] auto value_impl() const -> const std::string &;
+    [[nodiscard]] auto value_impl() const -> const std::u8string &;
 
 private:
     const xml_document *document_;
     const property_tree *pt_;
-    const std::string *name_;
+    const std::u8string *name_;
     xml_node_type type_;
 };
 

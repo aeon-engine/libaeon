@@ -43,7 +43,7 @@ public:
     template <typename T, std::enable_if_t<!std::is_same_v<converting_variant, T>, int> = 0>
     converting_variant(const T &value, const int user_index = 0);
 
-    converting_variant(const char *const str);
+    converting_variant(const char8_t *const str);
 
     /*!
      * Assumes a gmt/utc timezone. If another timezone is required, construct the variant with an explicit calendar
@@ -116,7 +116,7 @@ private:
     [[nodiscard]] auto get_user_value_internal() const -> to_t;
 
     std::variant<std::monostate, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t, std::uint32_t,
-                 std::int64_t, std::uint64_t, float, double, std::string, chrono::calendar, std::any, bool>
+                 std::int64_t, std::uint64_t, float, double, std::u8string, chrono::calendar, std::any, bool>
         data_;
 
     std::uint32_t type_ : 8;

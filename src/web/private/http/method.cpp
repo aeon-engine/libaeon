@@ -8,19 +8,19 @@ namespace aeon::web::http
 
 struct method_string_lookup_t
 {
-    std::string str;
+    std::u8string str;
     http_method method = http_method::invalid;
 };
 
-static const method_string_lookup_t method_string_lookup[] = {{"GET", http_method::get},
-                                                              {"HEAD", http_method::head},
-                                                              {"POST", http_method::post},
-                                                              {"PUT", http_method::put},
-                                                              {"DELETE", http_method::delete_method},
-                                                              {"OPTIONS", http_method::options},
-                                                              {"PATCH", http_method::patch}};
+static const method_string_lookup_t method_string_lookup[] = {{u8"GET", http_method::get},
+                                                              {u8"HEAD", http_method::head},
+                                                              {u8"POST", http_method::post},
+                                                              {u8"PUT", http_method::put},
+                                                              {u8"DELETE", http_method::delete_method},
+                                                              {u8"OPTIONS", http_method::options},
+                                                              {u8"PATCH", http_method::patch}};
 
-auto string_to_method(const std::string_view &str) noexcept -> http_method
+auto string_to_method(const std::u8string_view &str) noexcept -> http_method
 {
     for (const auto &method_string : method_string_lookup)
     {

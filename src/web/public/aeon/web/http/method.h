@@ -19,6 +19,6 @@ enum class http_method
     patch
 };
 
-auto string_to_method(const std::string_view &str) noexcept -> http_method;
+auto string_to_method(const std::u8string_view &str) noexcept -> http_method;
 
 } // namespace aeon::web::http

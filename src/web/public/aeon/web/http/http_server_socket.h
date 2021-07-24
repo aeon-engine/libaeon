@@ -16,8 +16,8 @@ namespace aeon::web::http
 
 namespace detail
 {
-auto validate_http_version_string(const std::string &version_string) -> bool;
-auto validate_uri(const std::string &uri) -> bool;
+auto validate_http_version_string(const std::u8string &version_string) -> bool;
+auto validate_uri(const std::u8string &uri) -> bool;
 } // namespace detail
 
 class http_server_session;
@@ -46,8 +46,9 @@ public:
     http_server_socket(const http_server_socket &) = delete;
     auto operator=(const http_server_socket &) -> http_server_socket & = delete;
 
-    void respond(const std::string &content_type, const std::string &data, const status_code code = status_code::ok);
-    void respond(const std::string &content_type, std::vector<std::byte> data,
+    void respond(const std::u8string &content_type, const std::u8string &data,
+                 const status_code code = status_code::ok);
+    void respond(const std::u8string &content_type, std::vector<std::byte> data,
                  const status_code code = status_code::ok);
 
     void respond_default(const status_code code);
@@ -57,15 +58,15 @@ public:
 private:
     void on_data(const std::span<const std::byte> &data) override;
 
-    auto __on_line(const std::string &line) -> status_code;
+    auto __on_line(const std::u8string &line) -> status_code;
 
     auto __parse_expected_content_length_and_type() -> status_code;
 
     auto __enter_parse_body_state() -> status_code;
     void __enter_reply_state();
 
-    auto __handle_read_method_state(const std::string &line) -> status_code;
-    auto __handle_read_headers_state(const std::string &line) -> status_code;
+    auto __handle_read_method_state(const std::u8string &line) -> status_code;
+    auto __handle_read_headers_state(const std::u8string &line) -> status_code;
 
     void __reset_state();
 

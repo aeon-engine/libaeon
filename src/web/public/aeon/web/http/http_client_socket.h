@@ -35,19 +35,20 @@ public:
     http_client_socket(const http_client_socket &) = delete;
     auto operator=(const http_client_socket &) -> http_client_socket & = delete;
 
-    void request_async(const std::string &host, const std::string &uri, const http_method method = http_method::get);
+    void request_async(const std::u8string &host, const std::u8string &uri,
+                       const http_method method = http_method::get);
 
     virtual void on_http_reply(reply &reply) = 0;
 
 private:
     void on_data(const std::span<const std::byte> &data) override;
 
-    [[nodiscard]] auto __on_line(const std::string &line) -> bool;
+    [[nodiscard]] auto __on_line(const std::u8string &line) -> bool;
 
     [[nodiscard]] auto __parse_expected_content_length() -> bool;
 
-    [[nodiscard]] auto __handle_read_status_state(const std::string &line) -> bool;
-    [[nodiscard]] auto __handle_read_headers_state(const std::string &line) -> bool;
+    [[nodiscard]] auto __handle_read_status_state(const std::u8string &line) -> bool;
+    [[nodiscard]] auto __handle_read_headers_state(const std::u8string &line) -> bool;
 
     http_state state_;
     reply reply_;

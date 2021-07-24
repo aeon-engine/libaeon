@@ -16,7 +16,7 @@ TEST(test_ptree_config_file, has_header)
     ptree::property_tree pt;
     ptree::config_file config{pt};
 
-    EXPECT_FALSE(config.has_header("test"));
+    EXPECT_FALSE(config.has_header(u8"test"));
 }
 
 TEST(test_ptree_config_file, from_ini_file)
@@ -28,50 +28,50 @@ TEST(test_ptree_config_file, from_ini_file)
 
     ptree::config_file config{result};
 
-    EXPECT_TRUE(config.has_header("header1"));
-    EXPECT_FALSE(config.has_header("header2"));
-    EXPECT_TRUE(config.has_header("another_header"));
-    EXPECT_FALSE(config.has_header("anotherheader"));
+    EXPECT_TRUE(config.has_header(u8"header1"));
+    EXPECT_FALSE(config.has_header(u8"header2"));
+    EXPECT_TRUE(config.has_header(u8"another_header"));
+    EXPECT_FALSE(config.has_header(u8"anotherheader"));
 
-    EXPECT_TRUE(config.has_entry("header1", "value"));
-    EXPECT_FALSE(config.has_entry("header2", "value"));
-    EXPECT_FALSE(config.has_entry("header1", "value5"));
+    EXPECT_TRUE(config.has_entry(u8"header1", u8"value"));
+    EXPECT_FALSE(config.has_entry(u8"header2", u8"value"));
+    EXPECT_FALSE(config.has_entry(u8"header1", u8"value5"));
 
-    EXPECT_TRUE(config.has_entry("another_header", "val"));
-    EXPECT_FALSE(config.has_entry("another_header", "value"));
+    EXPECT_TRUE(config.has_entry(u8"another_header", u8"val"));
+    EXPECT_FALSE(config.has_entry(u8"another_header", u8"value"));
 
-    EXPECT_EQ(42, config.get<std::int64_t>("header1", "value"));
-    EXPECT_EQ(false, config.get<bool>("header1", "another_value"));
-    EXPECT_EQ(true, config.get<bool>("header1", "another_bool"));
-    EXPECT_EQ("This is a string", config.get<std::string>("header1", "string"));
-    EXPECT_EQ(1.0, config.get<double>("header1", "value2"));
-    EXPECT_EQ(42e-1, config.get<double>("header1", "value3"));
-    EXPECT_EQ(-10, config.get<std::int64_t>("header1", "value4"));
+    EXPECT_EQ(42, config.get<std::int64_t>(u8"header1", u8"value"));
+    EXPECT_EQ(false, config.get<bool>(u8"header1", u8"another_value"));
+    EXPECT_EQ(true, config.get<bool>(u8"header1", u8"another_bool"));
+    EXPECT_EQ(u8"This is a string", config.get<std::u8string>(u8"header1", u8"string"));
+    EXPECT_EQ(1.0, config.get<double>(u8"header1", u8"value2"));
+    EXPECT_EQ(42e-1, config.get<double>(u8"header1", u8"value3"));
+    EXPECT_EQ(-10, config.get<std::int64_t>(u8"header1", u8"value4"));
 
-    EXPECT_EQ(1337, config.get<std::int64_t>("another_header", "val"));
+    EXPECT_EQ(1337, config.get<std::int64_t>(u8"another_header", u8"val"));
     EXPECT_EQ(common::uuid::parse("f976d1e3-0f0d-4c9c-b7c5-2e31eb4bae89"),
-              config.get<common::uuid>("another_header", "uuid_value"));
+              config.get<common::uuid>(u8"another_header", u8"uuid_value"));
 
-    EXPECT_EQ(std::nullopt, config.get<bool>("header1", "value"));
-    EXPECT_EQ(42.0, config.get<double>("header1", "value"));
-    EXPECT_EQ(std::nullopt, config.get<std::string>("header1", "value"));
+    EXPECT_EQ(std::nullopt, config.get<bool>(u8"header1", u8"value"));
+    EXPECT_EQ(42.0, config.get<double>(u8"header1", u8"value"));
+    EXPECT_EQ(std::nullopt, config.get<std::u8string>(u8"header1", u8"value"));
 
-    EXPECT_EQ(42, config.get<std::int64_t>("header1", "value", 1337));
-    EXPECT_EQ(1337, config.get<std::int64_t>("header2", "value", 1337));
-    EXPECT_EQ(1337, config.get<std::int64_t>("header2", "value"));
+    EXPECT_EQ(42, config.get<std::int64_t>(u8"header1", u8"value", 1337));
+    EXPECT_EQ(1337, config.get<std::int64_t>(u8"header2", u8"value", 1337));
+    EXPECT_EQ(1337, config.get<std::int64_t>(u8"header2", u8"value"));
 
-    config.set("header1", "value", 84);
-    EXPECT_EQ(84, config.get<std::int64_t>("header1", "value"));
+    config.set(u8"header1", u8"value", 84);
+    EXPECT_EQ(84, config.get<std::int64_t>(u8"header1", u8"value"));
 
-    config.set("header1", "value5", 9876);
-    EXPECT_EQ(9876, config.get<std::int64_t>("header1", "value5"));
+    config.set(u8"header1", u8"value5", 9876);
+    EXPECT_EQ(9876, config.get<std::int64_t>(u8"header1", u8"value5"));
 
-    config.set("a_completely_new_header", "new_value", 12131415);
-    EXPECT_EQ(12131415, config.get<std::int64_t>("a_completely_new_header", "new_value"));
+    config.set(u8"a_completely_new_header", u8"new_value", 12131415);
+    EXPECT_EQ(12131415, config.get<std::int64_t>(u8"a_completely_new_header", u8"new_value"));
 
-    config.set("header1", "value", "Change the type!"s);
-    EXPECT_EQ(std::nullopt, config.get<std::int64_t>("header1", "value"));
-    EXPECT_EQ("Change the type!", config.get<std::string>("header1", "value"));
+    config.set(u8"header1", u8"value", u8"Change the type!"s);
+    EXPECT_EQ(std::nullopt, config.get<std::int64_t>(u8"header1", u8"value"));
+    EXPECT_EQ(u8"Change the type!", config.get<std::u8string>(u8"header1", u8"value"));
 }
 
 TEST(test_ptree_config_file, from_scratch)
@@ -79,7 +79,7 @@ TEST(test_ptree_config_file, from_scratch)
     ptree::property_tree pt;
     ptree::config_file config{pt};
 
-    EXPECT_EQ(std::nullopt, config.get<std::int64_t>("header", "value"));
-    config.set("header", "value", 1337);
-    EXPECT_EQ(1337, config.get<std::int64_t>("header", "value"));
+    EXPECT_EQ(std::nullopt, config.get<std::int64_t>(u8"header", u8"value"));
+    config.set(u8"header", u8"value", 1337);
+    EXPECT_EQ(1337, config.get<std::int64_t>(u8"header", u8"value"));
 }

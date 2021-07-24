@@ -7,7 +7,7 @@
 namespace aeon::web::http
 {
 
-auto url_encode(const std::string &str) -> std::string;
-auto url_decode(const std::string &str) -> std::string;
+auto url_encode(const std::u8string &str) -> std::u8string;
+auto url_decode(const std::u8string &str) -> std::u8string;
 
 } // namespace aeon::web::http

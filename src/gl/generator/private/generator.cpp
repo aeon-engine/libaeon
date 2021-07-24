@@ -5,6 +5,7 @@
 #include <aeon/streams/stream_writer.h>
 #include <aeon/common/string.h>
 #include <aeon/common/timer.h>
+#include <aeon/common/u8_stream.h>
 #include "generator.h"
 
 namespace aeon::gl::generator
@@ -13,9 +14,9 @@ namespace aeon::gl::generator
 namespace detail
 {
 
-[[nodiscard]] auto generate_proc_name(const std::string &name)
+[[nodiscard]] auto generate_proc_name(const std::u8string &name)
 {
-    return "PFN" + common::string::to_upper_copy(name) + "PROC";
+    return u8"PFN" + common::string::to_upper_copy(name) + u8"PROC";
 }
 
 } // namespace detail
@@ -112,7 +113,7 @@ void generator::generate_header_function_definitions(streams::idynamic_stream &o
     for (const auto &function : definition_.functions())
     {
         const auto proc_name = detail::generate_proc_name(function.name());
-        const auto aeon_name = "aeon_" + function.name();
+        const auto aeon_name = u8"aeon_" + function.name();
 
         writer << "using " << proc_name << " = " << function.return_type() << "(KHRONOS_APIENTRY)(";
 
@@ -151,7 +152,7 @@ void generator::generate_inline_header_function_definitions(streams::idynamic_st
     for (const auto &function : definition_.functions())
     {
         const auto proc_name = detail::generate_proc_name(function.name());
-        const auto aeon_name = "aeon_" + function.name();
+        const auto aeon_name = u8"aeon_" + function.name();
         writer << proc_name << " *" << aeon_name << ";\n";
     }
 
@@ -171,7 +172,7 @@ void generator::generate_inline_header_initialize_impl(streams::idynamic_stream 
     for (const auto &function : definition_.functions())
     {
         const auto proc_name = detail::generate_proc_name(function.name());
-        const auto aeon_name = "aeon_" + function.name();
+        const auto aeon_name = u8"aeon_" + function.name();
         writer << "    " << aeon_name << " = (" << proc_name << "*) get_proc_address(\"" << function.name() << "\");\n";
     }
 

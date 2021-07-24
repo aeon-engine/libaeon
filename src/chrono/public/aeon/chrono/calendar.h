@@ -36,7 +36,7 @@ public:
     /*!
      * Create a calendar from an ISO 8601 formatted string
      */
-    explicit calendar(const std::string &str);
+    explicit calendar(const std::u8string &str);
 
     /*!
      * Create a calendar with a given timezone with the current time

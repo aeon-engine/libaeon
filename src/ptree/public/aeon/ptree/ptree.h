@@ -15,14 +15,14 @@ namespace aeon::ptree
 
 class property_tree;
 using array = std::vector<property_tree>;
-using object = common::unordered_flatmap<std::string, property_tree>;
+using object = common::unordered_flatmap<std::u8string, property_tree>;
 using blob = std::vector<std::uint8_t>;
 
 class property_tree
 {
 public:
     using variant_type =
-        std::variant<std::monostate, array, object, common::uuid, std::string, std::int64_t, double, blob, bool>;
+        std::variant<std::monostate, array, object, common::uuid, std::u8string, std::int64_t, double, blob, bool>;
 
     property_tree();
     property_tree(std::nullptr_t);
@@ -34,9 +34,9 @@ public:
     property_tree(const object &value);
     property_tree(object &&value);
     property_tree(const bool value);
-    property_tree(const char *const value);
-    property_tree(const std::string &value);
-    property_tree(std::string &&value);
+    property_tree(const char8_t *const value);
+    property_tree(const std::u8string &value);
+    property_tree(std::u8string &&value);
     property_tree(const common::uuid &uuid);
     property_tree(common::uuid &&uuid);
     property_tree(const blob &data);
@@ -73,7 +73,7 @@ public:
     [[nodiscard]] auto object_value() const -> const object &;
 
     [[nodiscard]] auto uuid_value() const -> const common::uuid &;
-    [[nodiscard]] auto string_value() const -> const std::string &;
+    [[nodiscard]] auto string_value() const -> const std::u8string &;
     [[nodiscard]] auto integer_value() const -> std::int64_t;
     [[nodiscard]] auto double_value() const -> double;
     [[nodiscard]] auto bool_value() const -> bool;
@@ -95,9 +95,9 @@ public:
     auto operator=(array &&value) -> property_tree &;
     auto operator=(const object &value) -> property_tree &;
     auto operator=(object &&value) -> property_tree &;
-    auto operator=(const char *const value) -> property_tree &;
-    auto operator=(const std::string &value) -> property_tree &;
-    auto operator=(std::string &&value) -> property_tree &;
+    auto operator=(const char8_t *const value) -> property_tree &;
+    auto operator=(const std::u8string &value) -> property_tree &;
+    auto operator=(std::u8string &&value) -> property_tree &;
     auto operator=(const common::uuid &value) -> property_tree &;
     auto operator=(common::uuid &&value) -> property_tree &;
     auto operator=(const blob &value) -> property_tree &;
@@ -140,15 +140,15 @@ auto operator!=(const property_tree &lhs, const object &rhs) -> bool;
 auto operator==(const object &lhs, const property_tree &rhs) -> bool;
 auto operator!=(const object &lhs, const property_tree &rhs) -> bool;
 
-auto operator==(const property_tree &lhs, const char *const rhs) -> bool;
-auto operator!=(const property_tree &lhs, const char *const rhs) -> bool;
-auto operator==(const char *const lhs, const property_tree &rhs) -> bool;
-auto operator!=(const char *const lhs, const property_tree &rhs) -> bool;
+auto operator==(const property_tree &lhs, const char8_t *const rhs) -> bool;
+auto operator!=(const property_tree &lhs, const char8_t *const rhs) -> bool;
+auto operator==(const char8_t *const lhs, const property_tree &rhs) -> bool;
+auto operator!=(const char8_t *const lhs, const property_tree &rhs) -> bool;
 
-auto operator==(const property_tree &lhs, const std::string &rhs) -> bool;
-auto operator!=(const property_tree &lhs, const std::string &rhs) -> bool;
-auto operator==(const std::string &lhs, const property_tree &rhs) -> bool;
-auto operator!=(const std::string &lhs, const property_tree &rhs) -> bool;
+auto operator==(const property_tree &lhs, const std::u8string &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const std::u8string &rhs) -> bool;
+auto operator==(const std::u8string &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const std::u8string &lhs, const property_tree &rhs) -> bool;
 
 auto operator==(const property_tree &lhs, const common::uuid &rhs) -> bool;
 auto operator!=(const property_tree &lhs, const common::uuid &rhs) -> bool;

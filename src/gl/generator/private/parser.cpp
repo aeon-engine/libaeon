@@ -26,14 +26,14 @@ namespace detail
     return result;
 }
 
-[[nodiscard]] auto get_attribute_string(const std::map<std::string, variant::converting_variant> &attributes,
-                                        const std::string &key) -> std::string
+[[nodiscard]] auto get_attribute_string(const std::map<std::u8string, variant::converting_variant> &attributes,
+                                        const std::u8string &key) -> std::u8string
 {
     const auto result = attributes.find(key);
     if (result == std::end(attributes))
-        return "";
+        return u8"";
 
-    return result->second.get_value<std::string>();
+    return result->second.get_value<std::u8string>();
 }
 
 } // namespace detail
@@ -41,7 +41,7 @@ namespace detail
 parser::parser(const std::filesystem::path &path)
     : ptree_{detail::load_registry(path)}
     , document_{ptree_}
-    , definition_{path.stem().string()}
+    , definition_{path.stem().u8string()}
 {
     common::timer timer;
 
@@ -69,25 +69,25 @@ auto parser::definition() const -> const opengl_definition &
 
 void parser::parse_type_definitions()
 {
-    const auto types_nodes = document_.child("registry").child("types").children();
+    const auto types_nodes = document_.child(u8"registry").child(u8"types").children();
 
     for (const auto &t : types_nodes)
     {
         const auto type_children = t.children();
 
-        std::string code_line;
+        std::u8string code_line;
 
         for (const auto &tc : type_children)
         {
-            if (tc.has_name() && tc.name() == "name")
-                code_line += tc.child().value() + " ";
+            if (tc.has_name() && tc.name() == u8"name")
+                code_line += tc.child().value() + u8" ";
 
             if (tc.has_value())
-                code_line += tc.value() + " ";
+                code_line += tc.value() + u8" ";
         }
 
-        common::string::replace(code_line, "&lt;", "<");
-        common::string::replace(code_line, "&gt;", ">");
+        common::string::replace(code_line, u8"&lt;", u8"<");
+        common::string::replace(code_line, u8"&gt;", u8">");
 
         if (!std::empty(code_line))
             definition_.add_additional_code(common::string::trimmed(code_line));
@@ -96,24 +96,24 @@ void parser::parse_type_definitions()
 
 void parser::parse_enum_definitions()
 {
-    const auto enums_nodes = document_.child("registry").children("enums");
+    const auto enums_nodes = document_.child(u8"registry").children(u8"enums");
 
     for (const auto &e : enums_nodes)
     {
         const auto e_children = e.children();
         for (const auto &ec : e_children)
         {
-            if (ec.has_name() && ec.name() == "unused")
+            if (ec.has_name() && ec.name() == u8"unused")
                 continue;
 
             const auto attributes = ec.attributes();
-            const auto api = detail::get_attribute_string(attributes, "api");
+            const auto api = detail::get_attribute_string(attributes, u8"api");
 
-            if (api == "gles2")
+            if (api == u8"gles2")
                 continue;
 
-            auto name = detail::get_attribute_string(attributes, "name");
-            auto value = detail::get_attribute_string(attributes, "value");
+            auto name = detail::get_attribute_string(attributes, u8"name");
+            auto value = detail::get_attribute_string(attributes, u8"value");
 
             definition_.add_enum_value(std::move(name), std::move(value));
         }
@@ -122,50 +122,50 @@ void parser::parse_enum_definitions()
 
 void parser::parse_function_definitions()
 {
-    const auto function_nodes = document_.child("registry").child("commands").children();
+    const auto function_nodes = document_.child(u8"registry").child(u8"commands").children();
 
     for (const auto &command_node : function_nodes)
     {
-        const auto proto_node = command_node.child("proto").children();
+        const auto proto_node = command_node.child(u8"proto").children();
 
-        std::string return_type;
-        std::string name;
+        std::u8string return_type;
+        std::u8string name;
 
         for (const auto &tc : proto_node)
         {
             if (std::empty(name))
             {
                 if (tc.has_value())
-                    return_type += tc.value() + " ";
+                    return_type += tc.value() + u8" ";
             }
 
             if (tc.has_name())
             {
-                if (tc.name() == "ptype")
-                    return_type += tc.child().value() + " ";
-                else if (tc.name() == "name")
+                if (tc.name() == u8"ptype")
+                    return_type += tc.child().value() + u8" ";
+                else if (tc.name() == u8"name")
                     name = tc.child().value();
             }
         }
 
         opengl_function function{common::string::trimmed(name), common::string::trimmed(return_type)};
 
-        const auto params_nodes = command_node.children("param");
+        const auto params_nodes = command_node.children(u8"param");
         for (const auto &pc : params_nodes)
         {
-            std::string param_name;
-            std::string type_definition;
+            std::u8string param_name;
+            std::u8string type_definition;
             for (const auto &pv : pc.children())
             {
                 if (pv.has_value())
-                    type_definition += pv.value() + " ";
+                    type_definition += pv.value() + u8" ";
 
                 if (pv.has_name())
                 {
-                    if (pv.name() == "name")
+                    if (pv.name() == u8"name")
                         param_name = pv.child().value();
                     else
-                        type_definition += pv.child().value() + " ";
+                        type_definition += pv.child().value() + u8" ";
                 }
             }
 

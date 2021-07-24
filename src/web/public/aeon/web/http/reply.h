@@ -29,17 +29,17 @@ public:
         return content_.size();
     }
 
-    [[nodiscard]] auto get_content() -> std::vector<std::uint8_t>;
+    [[nodiscard]] auto get_content() -> std::vector<std::byte>;
 
-    [[nodiscard]] auto get_raw_headers() const -> const std::vector<std::string> &;
+    [[nodiscard]] auto get_raw_headers() const -> const std::vector<std::u8string> &;
 
 private:
-    void append_raw_http_header_line(const std::string &header_line);
+    void append_raw_http_header_line(const std::u8string &header_line);
     void append_raw_content_data(const std::vector<std::byte> &data);
 
     status_code status_;
-    std::vector<std::string> raw_headers_;
-    streams::memory_device<std::vector<char>> content_;
+    std::vector<std::u8string> raw_headers_;
+    streams::memory_device<std::vector<std::byte>> content_;
 };
 
 } // namespace aeon::web::http

@@ -131,13 +131,13 @@ void test_prefixed_varint_string(const std::string &str)
     ASSERT_EQ(0u, std::size(device));
 
     std::string val = str;
-    writer << streams::length_prefix_string<streams::varint>{val};
+    writer << streams::length_prefix_string<std::string, streams::varint>{val};
     ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + 1, device.tellp());
 
     streams::stream_reader reader{device};
 
     std::string val2;
-    reader >> streams::length_prefix_string<streams::varint>{val2};
+    reader >> streams::length_prefix_string<std::string, streams::varint>{val2};
 
     EXPECT_EQ(val, val2);
 }

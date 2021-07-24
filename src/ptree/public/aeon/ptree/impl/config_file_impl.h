@@ -10,7 +10,7 @@ namespace aeon::ptree
 namespace internal
 {
 
-inline auto get_header_object(const property_tree &pt, const std::string &header) noexcept
+inline auto get_header_object(const property_tree &pt, const std::u8string &header) noexcept
     -> std::optional<const object *>
 {
     if (!pt.is_object())
@@ -30,7 +30,7 @@ inline auto get_header_object(const property_tree &pt, const std::string &header
     return &header_pt.object_value();
 }
 
-inline auto get_entry(const property_tree &pt, const std::string &header, const std::string &key) noexcept
+inline auto get_entry(const property_tree &pt, const std::u8string &header, const std::u8string &key) noexcept
     -> std::optional<const ptree::property_tree *>
 {
     const auto header_obj_ptr = get_header_object(pt, header);
@@ -54,12 +54,12 @@ inline config_file::config_file(property_tree &pt)
 {
 }
 
-inline auto config_file::has_header(const std::string &header) const noexcept -> bool
+inline auto config_file::has_header(const std::u8string &header) const noexcept -> bool
 {
     return pt_->contains(header);
 }
 
-inline auto config_file::has_entry(const std::string &header, const std::string &key) const noexcept -> bool
+inline auto config_file::has_entry(const std::u8string &header, const std::u8string &key) const noexcept -> bool
 {
     const auto header_object_ptr = internal::get_header_object(*pt_, header);
 
@@ -70,7 +70,7 @@ inline auto config_file::has_entry(const std::string &header, const std::string 
 }
 
 template <config_file_value T>
-inline auto config_file::get(const std::string &header, const std::string &key) const noexcept -> std::optional<T>
+inline auto config_file::get(const std::u8string &header, const std::u8string &key) const noexcept -> std::optional<T>
 {
     const auto key_object_ptr = internal::get_entry(*pt_, header, key);
 
@@ -103,7 +103,7 @@ inline auto config_file::get(const std::string &header, const std::string &key) 
 
         return static_cast<T>(key_object.double_value());
     }
-    else if constexpr (std::is_same_v<T, std::string>)
+    else if constexpr (std::is_same_v<T, std::u8string>)
     {
         if (!key_object.is_string())
             return std::nullopt;
@@ -120,7 +120,7 @@ inline auto config_file::get(const std::string &header, const std::string &key) 
 }
 
 template <config_file_value T>
-inline auto config_file::get(const std::string &header, const std::string &key, const T &default_val) -> T
+inline auto config_file::get(const std::u8string &header, const std::u8string &key, const T &default_val) -> T
 {
     const auto result = get<T>(header, key);
 
@@ -134,7 +134,7 @@ inline auto config_file::get(const std::string &header, const std::string &key, 
 }
 
 template <config_file_value T>
-inline void config_file::set(const std::string &header, const std::string &key, const T &val)
+inline void config_file::set(const std::u8string &header, const std::u8string &key, const T &val)
 {
     if (pt_->is_null())
         *pt_ = object{};

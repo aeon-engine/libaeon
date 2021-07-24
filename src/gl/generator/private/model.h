@@ -10,20 +10,20 @@ namespace aeon::gl::generator
 
 struct opengl_enum_value final
 {
-    std::string name;
-    std::string value;
+    std::u8string name;
+    std::u8string value;
 };
 
 struct opengl_function_argument final
 {
-    std::string name;
-    std::string type;
+    std::u8string name;
+    std::u8string type;
 };
 
 class opengl_function final
 {
 public:
-    explicit opengl_function(std::string name, std::string return_type)
+    explicit opengl_function(std::u8string name, std::u8string return_type)
         : name_{std::move(name)}
         , return_type_{std::move(return_type)}
     {
@@ -47,7 +47,7 @@ public:
         return return_type_;
     }
 
-    void add_argument(std::string name, std::string type)
+    void add_argument(std::u8string name, std::u8string type)
     {
         arguments_.emplace_back(std::move(name), std::move(type));
     }
@@ -58,15 +58,15 @@ public:
     }
 
 private:
-    std::string name_;
-    std::string return_type_;
+    std::u8string name_;
+    std::u8string return_type_;
     std::vector<opengl_function_argument> arguments_;
 };
 
 class opengl_definition final
 {
 public:
-    explicit opengl_definition(std::string definition_name)
+    explicit opengl_definition(std::u8string definition_name)
         : definition_name_{std::move(definition_name)}
     {
     }
@@ -84,7 +84,7 @@ public:
         return definition_name_;
     }
 
-    void add_additional_code(std::string header)
+    void add_additional_code(std::u8string header)
     {
         additional_code_.push_back(std::move(header));
     }
@@ -94,7 +94,7 @@ public:
         return additional_code_;
     }
 
-    void add_enum_value(std::string name, std::string value)
+    void add_enum_value(std::u8string name, std::u8string value)
     {
         enum_values_.emplace_back(std::move(name), std::move(value));
     }
@@ -115,14 +115,14 @@ public:
     }
 
 private:
-    std::string definition_name_;
+    std::u8string definition_name_;
 
     /*!
      * The XML contains "types", but these essentially contain entire lines of code and even includes and ifdefs.
      * It would have been nice if it only cleanly contained types and their names, but it's simply a mess.
      * For now they are simply parsed as additional lines of code that are added to the generated header directly.
      */
-    std::vector<std::string> additional_code_;
+    std::vector<std::u8string> additional_code_;
     std::vector<opengl_enum_value> enum_values_;
     std::vector<opengl_function> functions_;
 };

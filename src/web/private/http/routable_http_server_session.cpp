@@ -20,18 +20,18 @@ void routable_http_server_session::add_route(std::unique_ptr<route> route)
     routes_.insert({mountpoint, std::move(route)});
 }
 
-void routable_http_server_session::remove_route(const std::string &mountpoint)
+void routable_http_server_session::remove_route(const std::u8string &mountpoint)
 {
     routes_.erase(mountpoint);
 }
 
-auto routable_http_server_session::find_best_match_route(const std::string &path, std::string &route_path) const
+auto routable_http_server_session::find_best_match_route(const std::u8string &path, std::u8string &route_path) const
     -> route *
 {
     auto actual_path = path;
 
     if (path[0] != '/')
-        actual_path = "/" + path;
+        actual_path = u8"/" + path;
 
     auto best_match_length = 0_size_t;
     route *best_match_route = nullptr;

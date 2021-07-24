@@ -13,8 +13,8 @@ namespace aeon::web::http
 
 namespace detail
 {
-auto to_url_path(const std::string &path) -> std::string;
-auto is_image_extension(const std::string &extension) -> bool;
+auto to_url_path(const std::u8string &path) -> std::u8string;
+auto is_image_extension(const std::u8string &extension) -> bool;
 } // namespace detail
 
 struct static_route_settings final
@@ -30,7 +30,7 @@ struct static_route_settings final
 
     // Default files that should be displayed when a directory is requested
     // For example: index.html, index.htm
-    std::vector<std::string> default_files = detail::default_files;
+    std::vector<std::u8string> default_files = detail::default_files;
 
     // Enable directory listing.
     bool enable_listing = true;
@@ -40,14 +40,14 @@ struct static_route_settings final
     bool detect_image_folder = false;
 
     // Files that should not be displayed when listing a directory.
-    std::vector<std::string> hidden_files = detail::hidden_files;
+    std::vector<std::u8string> hidden_files = detail::hidden_files;
 };
 
 class static_route final : public route
 {
 public:
-    explicit static_route(std::string mount_point, const std::filesystem::path &base_path);
-    explicit static_route(std::string mount_point, const std::filesystem::path &base_path,
+    explicit static_route(std::u8string mount_point, const std::filesystem::path &base_path);
+    explicit static_route(std::u8string mount_point, const std::filesystem::path &base_path,
                           static_route_settings settings);
 
     ~static_route() final;
@@ -61,7 +61,7 @@ public:
 private:
     struct directory_listing_entry
     {
-        std::string display_name;
+        std::u8string display_name;
         bool is_directory = false;
     };
 
@@ -75,13 +75,13 @@ private:
     void reply_folder(http_server_socket &source, routable_http_server_session &session,
                       const std::filesystem::path &path) const;
 
-    [[nodiscard]] auto get_current_directory_header_name(const std::filesystem::path &path) const -> std::string;
+    [[nodiscard]] auto get_current_directory_header_name(const std::filesystem::path &path) const -> std::u8string;
     [[nodiscard]] auto get_directory_listing_entries(const std::filesystem::path &path) const
         -> std::vector<directory_listing_entry>;
     [[nodiscard]] auto is_image_folder(const std::vector<directory_listing_entry> &entries) const -> bool;
-    [[nodiscard]] auto is_hidden_file(const std::string &filename) const -> bool;
-    [[nodiscard]] auto generate_hyperlink_html(const std::string &name, const std::string &destination) const
-        -> std::string;
+    [[nodiscard]] auto is_hidden_file(const std::u8string &filename) const -> bool;
+    [[nodiscard]] auto generate_hyperlink_html(const std::u8string &name, const std::u8string &destination) const
+        -> std::u8string;
 
     std::filesystem::path base_path_;
     static_route_settings settings_;

@@ -28,10 +28,10 @@ private:
 };
 
 void from_xml(streams::idynamic_stream &stream, property_tree &ptree,
-              std::string attribute_placeholder = xml_dom::attribute_placeholder_name);
-auto from_xml(streams::idynamic_stream &stream, std::string attribute_placeholder = xml_dom::attribute_placeholder_name)
-    -> property_tree;
-auto from_xml(const std::string &str, std::string attribute_placeholder = xml_dom::attribute_placeholder_name)
+              std::u8string attribute_placeholder = xml_dom::attribute_placeholder_name);
+auto from_xml(streams::idynamic_stream &stream,
+              std::u8string attribute_placeholder = xml_dom::attribute_placeholder_name) -> property_tree;
+auto from_xml(const std::string &str, std::u8string attribute_placeholder = xml_dom::attribute_placeholder_name)
     -> property_tree;
 
 } // namespace aeon::ptree::serialization

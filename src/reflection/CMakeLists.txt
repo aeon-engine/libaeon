@@ -29,6 +29,11 @@ target_include_directories(aeon_reflection
         private
 )
 
+target_link_libraries(aeon_reflection
+    PRIVATE
+        aeon_common
+)
+
 install(
     DIRECTORY public/aeon
     DESTINATION include

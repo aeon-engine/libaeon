@@ -29,8 +29,8 @@ class container final
 {
 public:
     explicit container(streams::idynamic_stream &stream, const common::flags<read_items> items = read_items::all);
-    explicit container(std::string name) noexcept;
-    explicit container(std::string name, common::uuid id) noexcept;
+    explicit container(std::u8string name) noexcept;
+    explicit container(std::u8string name, common::uuid id) noexcept;
     ~container();
 
     container(container &&) = delete;
@@ -39,8 +39,8 @@ public:
     container(const container &) = delete;
     auto operator=(const container &) -> container & = delete;
 
-    void name(std::string name) noexcept;
-    [[nodiscard]] auto name() const noexcept -> const std::string &;
+    void name(std::u8string name) noexcept;
+    [[nodiscard]] auto name() const noexcept -> const std::u8string &;
 
     void id(common::uuid id) noexcept;
     [[nodiscard]] auto id() const noexcept -> const common::uuid &;
@@ -54,7 +54,7 @@ public:
     void write(streams::idynamic_stream &stream) const;
 
 private:
-    std::string name_;
+    std::u8string name_;
     common::uuid id_;
     std::vector<std::uint8_t> data_;
     ptree::property_tree metadata_;

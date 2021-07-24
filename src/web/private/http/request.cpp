@@ -16,7 +16,7 @@ request::request(const http_method method)
 {
 }
 
-request::request(const std::string &method, std::string uri)
+request::request(const std::u8string &method, std::u8string uri)
     : method_{string_to_method(method)}
     , uri_{std::move(uri)}
     , raw_headers_{}
@@ -33,24 +33,24 @@ auto request::get_content() const -> std::vector<std::uint8_t>
     return vec;
 }
 
-auto request::get_content_string() const -> std::string
+auto request::get_content_string() const -> std::u8string
 {
     streams::stream_reader reader{content_};
-    const auto data = reader.read_to_string();
+    const auto data = reader.read_to_u8string();
     return data;
 }
 
-auto request::get_content_type() const -> std::string
+auto request::get_content_type() const -> std::u8string
 {
     return content_type_;
 }
 
-auto request::get_raw_headers() const -> const std::vector<std::string> &
+auto request::get_raw_headers() const -> const std::vector<std::u8string> &
 {
     return raw_headers_;
 }
 
-void request::append_raw_http_header_line(const std::string &header_line)
+void request::append_raw_http_header_line(const std::u8string &header_line)
 {
     raw_headers_.push_back(header_line);
 }
@@ -60,14 +60,14 @@ void request::append_raw_content_data(const std::vector<std::byte> &data) const
     content_.write(std::data(data), std::size(data));
 }
 
-void request::set_content_type(const std::string &content_type)
+void request::set_content_type(const std::u8string &content_type)
 {
     content_type_ = content_type;
 }
 
-auto parse_raw_http_headers(const std::vector<std::string> &raw_headers) -> std::map<std::string, std::string>
+auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> std::map<std::u8string, std::u8string>
 {
-    std::map<std::string, std::string> headers;
+    std::map<std::u8string, std::u8string> headers;
 
     for (const auto &header_line : raw_headers)
     {

@@ -57,17 +57,17 @@ inline property_tree::property_tree(const bool value)
 {
 }
 
-inline property_tree::property_tree(const char *const value)
-    : value_{std::string{value}}
+inline property_tree::property_tree(const char8_t *const value)
+    : value_{std::u8string{value}}
 {
 }
 
-inline property_tree::property_tree(const std::string &value)
+inline property_tree::property_tree(const std::u8string &value)
     : value_{value}
 {
 }
 
-inline property_tree::property_tree(std::string &&value)
+inline property_tree::property_tree(std::u8string &&value)
     : value_{std::move(value)}
 {
 }
@@ -115,7 +115,7 @@ template <typename T>
 
 [[nodiscard]] inline auto property_tree::is_string() const noexcept
 {
-    return is_type<std::string>();
+    return is_type<std::u8string>();
 }
 
 [[nodiscard]] inline auto property_tree::is_uuid() const noexcept
@@ -183,10 +183,10 @@ template <typename T>
     return std::get<common::uuid>(value());
 }
 
-[[nodiscard]] inline auto property_tree::string_value() const -> const std::string &
+[[nodiscard]] inline auto property_tree::string_value() const -> const std::u8string &
 {
     aeon_assert(is_string(), "Value is not a string.");
-    return std::get<std::string>(value());
+    return std::get<std::u8string>(value());
 }
 
 [[nodiscard]] inline auto property_tree::integer_value() const -> std::int64_t
@@ -295,19 +295,19 @@ inline auto property_tree::operator=(object &&value) -> property_tree &
     return *this;
 }
 
-inline auto property_tree::operator=(const char *const value) -> property_tree &
+inline auto property_tree::operator=(const char8_t *const value) -> property_tree &
 {
-    value_ = std::string{value};
+    value_ = std::u8string{value};
     return *this;
 }
 
-inline auto property_tree::operator=(const std::string &value) -> property_tree &
+inline auto property_tree::operator=(const std::u8string &value) -> property_tree &
 {
     value_ = value;
     return *this;
 }
 
-inline auto property_tree::operator=(std::string &&value) -> property_tree &
+inline auto property_tree::operator=(std::u8string &&value) -> property_tree &
 {
     value_ = std::move(value);
     return *this;
@@ -482,7 +482,7 @@ inline auto operator!=(const object &lhs, const property_tree &rhs) -> bool
     return rhs != lhs;
 }
 
-inline auto operator==(const property_tree &lhs, const char *const rhs) -> bool
+inline auto operator==(const property_tree &lhs, const char8_t *const rhs) -> bool
 {
     if (!lhs.is_string())
         return false;
@@ -490,22 +490,22 @@ inline auto operator==(const property_tree &lhs, const char *const rhs) -> bool
     return lhs.string_value() == rhs;
 }
 
-inline auto operator!=(const property_tree &lhs, const char *const rhs) -> bool
+inline auto operator!=(const property_tree &lhs, const char8_t *const rhs) -> bool
 {
     return !(lhs == rhs);
 }
 
-inline auto operator==(const char *const lhs, const property_tree &rhs) -> bool
+inline auto operator==(const char8_t *const lhs, const property_tree &rhs) -> bool
 {
     return rhs == lhs;
 }
 
-inline auto operator!=(const char *const lhs, const property_tree &rhs) -> bool
+inline auto operator!=(const char8_t *const lhs, const property_tree &rhs) -> bool
 {
     return rhs != lhs;
 }
 
-inline auto operator==(const property_tree &lhs, const std::string &rhs) -> bool
+inline auto operator==(const property_tree &lhs, const std::u8string &rhs) -> bool
 {
     if (!lhs.is_string())
         return false;
@@ -513,17 +513,17 @@ inline auto operator==(const property_tree &lhs, const std::string &rhs) -> bool
     return lhs.string_value() == rhs;
 }
 
-inline auto operator!=(const property_tree &lhs, const std::string &rhs) -> bool
+inline auto operator!=(const property_tree &lhs, const std::u8string &rhs) -> bool
 {
     return !(lhs == rhs);
 }
 
-inline auto operator==(const std::string &lhs, const property_tree &rhs) -> bool
+inline auto operator==(const std::u8string &lhs, const property_tree &rhs) -> bool
 {
     return rhs == lhs;
 }
 
-inline auto operator!=(const std::string &lhs, const property_tree &rhs) -> bool
+inline auto operator!=(const std::u8string &lhs, const property_tree &rhs) -> bool
 {
     return rhs != lhs;
 }

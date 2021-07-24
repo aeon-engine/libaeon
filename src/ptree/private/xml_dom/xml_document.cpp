@@ -5,7 +5,7 @@
 namespace aeon::ptree::xml_dom
 {
 
-xml_document::xml_document(const property_tree &pt, std::string attribute_placeholder) noexcept
+xml_document::xml_document(const property_tree &pt, std::u8string attribute_placeholder) noexcept
     : xml_node{*this, pt, xml_node_type::document}
     , attribute_placeholder_{std::move(attribute_placeholder)}
 {

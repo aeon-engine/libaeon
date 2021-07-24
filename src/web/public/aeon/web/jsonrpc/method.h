@@ -15,7 +15,7 @@ class method
 public:
     using signature = std::function<result(const ptree::property_tree &)>;
 
-    method(std::string name, signature func);
+    method(std::u8string name, signature func);
     ~method() = default;
 
     method(method &&) noexcept = default;
@@ -24,11 +24,11 @@ public:
     method(const method &) = default;
     auto operator=(const method &) -> method & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const std::string &;
+    [[nodiscard]] auto name() const noexcept -> const std::u8string &;
     auto operator()(const ptree::property_tree &params) const -> result;
 
 private:
-    std::string name_;
+    std::u8string name_;
     signature func_;
 };
 

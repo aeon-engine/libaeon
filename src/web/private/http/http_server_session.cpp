@@ -16,12 +16,12 @@ http_server_session::http_server_session()
 
 http_server_session::~http_server_session() = default;
 
-void http_server_session::register_mine_type(const std::string &extension, const std::string &mime_type)
+void http_server_session::register_mine_type(const std::u8string &extension, const std::u8string &mime_type)
 {
     mime_types_.emplace(extension, mime_type);
 }
 
-auto http_server_session::find_mime_type_by_extension(const std::string &extension) const -> std::string
+auto http_server_session::find_mime_type_by_extension(const std::u8string &extension) const -> std::u8string
 {
     const auto result = mime_types_.find(extension);
 
@@ -31,131 +31,131 @@ auto http_server_session::find_mime_type_by_extension(const std::string &extensi
     return detail::default_file_mime_type;
 }
 
-auto http_server_session::find_extension_by_mime_type(const std::string &mime_type) const -> std::string
+auto http_server_session::find_extension_by_mime_type(const std::u8string &mime_type) const -> std::u8string
 {
     const auto result = common::container::find_in_map_by_value(mime_types_, mime_type);
 
     if (result != mime_types_.end())
         return result->second;
 
-    return "";
+    return u8"";
 }
 
-void http_server_session::set_default_mime_type(const std::string &mime_type)
+void http_server_session::set_default_mime_type(const std::u8string &mime_type)
 {
     default_mime_type_ = mime_type;
 }
 
-auto http_server_session::get_default_mime_type() const noexcept -> const std::string &
+auto http_server_session::get_default_mime_type() const noexcept -> const std::u8string &
 {
     return default_mime_type_;
 }
 
 void http_server_session::register_mime_types()
 {
-    mime_types_.emplace(".7z", "application/x-7z-compressed");
-    mime_types_.emplace(".aac", "audio/aac");
-    mime_types_.emplace(".asm", "text/plain");
-    mime_types_.emplace(".avi", "video/x-msvideo");
-    mime_types_.emplace(".bin", "application/octet-stream");
-    mime_types_.emplace(".bmp", "image/bmp");
-    mime_types_.emplace(".bz", "application/x-bzip");
-    mime_types_.emplace(".bz2", "application/x-bzip2");
-    mime_types_.emplace(".c", "text/plain");
-    mime_types_.emplace(".cc", "text/plain");
-    mime_types_.emplace(".cmake", "text/plain");
-    mime_types_.emplace(".com", "application/octet-stream");
-    mime_types_.emplace(".cpp", "text/plain");
-    mime_types_.emplace(".cs", "text/plain");
-    mime_types_.emplace(".css", "text/css");
-    mime_types_.emplace(".cxx", "text/plain");
-    mime_types_.emplace(".dll", "application/octet-stream");
-    mime_types_.emplace(".doc", "application/msword");
-    mime_types_.emplace(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-    mime_types_.emplace(".dot", "application/msword");
-    mime_types_.emplace(".dylib", "application/octet-stream");
-    mime_types_.emplace(".epub", "application/epub+zip");
-    mime_types_.emplace(".exe", "application/octet-stream");
-    mime_types_.emplace(".f", "text/plain");
-    mime_types_.emplace(".f77", "text/plain");
-    mime_types_.emplace(".f90", "text/plain");
-    mime_types_.emplace(".gif", "image/gif");
-    mime_types_.emplace(".glsl", "text/plain");
-    mime_types_.emplace(".gz", "application/x-gzip");
-    mime_types_.emplace(".gzip", "application/x-gzip");
-    mime_types_.emplace(".h", "text/plain");
-    mime_types_.emplace(".hh", "text/plain");
-    mime_types_.emplace(".hpp", "text/plain");
-    mime_types_.emplace(".htm", "text/html");
-    mime_types_.emplace(".html", "text/html");
-    mime_types_.emplace(".htmls", "text/html");
-    mime_types_.emplace(".ico", "image/x-icon");
-    mime_types_.emplace(".ini", "text/plain");
-    mime_types_.emplace(".jar", "application/java-archive");
-    mime_types_.emplace(".java", "text/plain");
-    mime_types_.emplace(".jfif", "image/jpeg");
-    mime_types_.emplace(".jpe", "image/jpeg");
-    mime_types_.emplace(".jpeg", "image/jpeg");
-    mime_types_.emplace(".jpg", "image/jpeg");
-    mime_types_.emplace(".js", "application/x-javascript");
-    mime_types_.emplace(".json", "application/json");
-    mime_types_.emplace(".kar", "audio/midi");
-    mime_types_.emplace(".latex", "application/x-latex");
-    mime_types_.emplace(".lib", "application/octet-stream");
-    mime_types_.emplace(".m", "text/plain");
-    mime_types_.emplace(".m1v", "video/mpeg");
-    mime_types_.emplace(".m2a", "audio/mpeg");
-    mime_types_.emplace(".m2v", "audio/mpeg");
-    mime_types_.emplace(".m3u", "audio/x-mpequrl");
-    mime_types_.emplace(".mid", "audio/midi");
-    mime_types_.emplace(".midi", "audio/midi");
-    mime_types_.emplace(".mime", "www/mime");
-    mime_types_.emplace(".mm", "application/base64");
-    mime_types_.emplace(".mod", "audio/mod");
-    mime_types_.emplace(".mov", "video/quicktime");
-    mime_types_.emplace(".mp2", "video/mpeg");
-    mime_types_.emplace(".mp3", "audio/mpeg");
-    mime_types_.emplace(".mpa", "audio/mpeg");
-    mime_types_.emplace(".mpeg", "video/mpeg");
-    mime_types_.emplace(".mpga", "audio/mpeg");
-    mime_types_.emplace(".mpjg", "video/x-motion-jpeg");
-    mime_types_.emplace(".o", "application/octet-stream");
-    mime_types_.emplace(".ogg", "audio/ogg");
-    mime_types_.emplace(".p", "text/plain");
-    mime_types_.emplace(".pdf", "application/pdf");
-    mime_types_.emplace(".pl", "text/plain");
-    mime_types_.emplace(".png", "image/png");
-    mime_types_.emplace(".ppt", "application/vnd.ms-powerpoint");
-    mime_types_.emplace(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
-    mime_types_.emplace(".py", "text/plain");
-    mime_types_.emplace(".rar", "application/x-rar-compressed");
-    mime_types_.emplace(".rmi", "audio/midi");
-    mime_types_.emplace(".rt", "text/richtext");
-    mime_types_.emplace(".rtf", "application/rtf");
-    mime_types_.emplace(".rtf", "text/richtext");
-    mime_types_.emplace(".s", "text/plain");
-    mime_types_.emplace(".s3m", "audio/s3m");
-    mime_types_.emplace(".sh", "application/x-sh");
-    mime_types_.emplace(".so", "application/octet-stream");
-    mime_types_.emplace(".svg", "image/svg+xml");
-    mime_types_.emplace(".swf", "application/x-shockwave-flash");
-    mime_types_.emplace(".text", "text/plain");
-    mime_types_.emplace(".tif", "image/tiff");
-    mime_types_.emplace(".tiff", "image/tiff");
-    mime_types_.emplace(".ttf", "font/ttf");
-    mime_types_.emplace(".txt", "text/plain");
-    mime_types_.emplace(".wav", "audio/wave");
-    mime_types_.emplace(".weba", "audio/webm");
-    mime_types_.emplace(".webm", "video/webm");
-    mime_types_.emplace(".webp", "image/webp");
-    mime_types_.emplace(".xhtml", "application/xhtml+xml");
-    mime_types_.emplace(".xls", "application/vnd.ms-excel");
-    mime_types_.emplace(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-    mime_types_.emplace(".xml", "application/xml");
-    mime_types_.emplace(".z", "application/x-compressed");
-    mime_types_.emplace(".zip", "application/zip");
+    mime_types_.emplace(u8".7z", u8"application/x-7z-compressed");
+    mime_types_.emplace(u8".aac", u8"audio/aac");
+    mime_types_.emplace(u8".asm", u8"text/plain");
+    mime_types_.emplace(u8".avi", u8"video/x-msvideo");
+    mime_types_.emplace(u8".bin", u8"application/octet-stream");
+    mime_types_.emplace(u8".bmp", u8"image/bmp");
+    mime_types_.emplace(u8".bz", u8"application/x-bzip");
+    mime_types_.emplace(u8".bz2", u8"application/x-bzip2");
+    mime_types_.emplace(u8".c", u8"text/plain");
+    mime_types_.emplace(u8".cc", u8"text/plain");
+    mime_types_.emplace(u8".cmake", u8"text/plain");
+    mime_types_.emplace(u8".com", u8"application/octet-stream");
+    mime_types_.emplace(u8".cpp", u8"text/plain");
+    mime_types_.emplace(u8".cs", u8"text/plain");
+    mime_types_.emplace(u8".css", u8"text/css");
+    mime_types_.emplace(u8".cxx", u8"text/plain");
+    mime_types_.emplace(u8".dll", u8"application/octet-stream");
+    mime_types_.emplace(u8".doc", u8"application/msword");
+    mime_types_.emplace(u8".docx", u8"application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    mime_types_.emplace(u8".dot", u8"application/msword");
+    mime_types_.emplace(u8".dylib", u8"application/octet-stream");
+    mime_types_.emplace(u8".epub", u8"application/epub+zip");
+    mime_types_.emplace(u8".exe", u8"application/octet-stream");
+    mime_types_.emplace(u8".f", u8"text/plain");
+    mime_types_.emplace(u8".f77", u8"text/plain");
+    mime_types_.emplace(u8".f90", u8"text/plain");
+    mime_types_.emplace(u8".gif", u8"image/gif");
+    mime_types_.emplace(u8".glsl", u8"text/plain");
+    mime_types_.emplace(u8".gz", u8"application/x-gzip");
+    mime_types_.emplace(u8".gzip", u8"application/x-gzip");
+    mime_types_.emplace(u8".h", u8"text/plain");
+    mime_types_.emplace(u8".hh", u8"text/plain");
+    mime_types_.emplace(u8".hpp", u8"text/plain");
+    mime_types_.emplace(u8".htm", u8"text/html");
+    mime_types_.emplace(u8".html", u8"text/html");
+    mime_types_.emplace(u8".htmls", u8"text/html");
+    mime_types_.emplace(u8".ico", u8"image/x-icon");
+    mime_types_.emplace(u8".ini", u8"text/plain");
+    mime_types_.emplace(u8".jar", u8"application/java-archive");
+    mime_types_.emplace(u8".java", u8"text/plain");
+    mime_types_.emplace(u8".jfif", u8"image/jpeg");
+    mime_types_.emplace(u8".jpe", u8"image/jpeg");
+    mime_types_.emplace(u8".jpeg", u8"image/jpeg");
+    mime_types_.emplace(u8".jpg", u8"image/jpeg");
+    mime_types_.emplace(u8".js", u8"application/x-javascript");
+    mime_types_.emplace(u8".json", u8"application/json");
+    mime_types_.emplace(u8".kar", u8"audio/midi");
+    mime_types_.emplace(u8".latex", u8"application/x-latex");
+    mime_types_.emplace(u8".lib", u8"application/octet-stream");
+    mime_types_.emplace(u8".m", u8"text/plain");
+    mime_types_.emplace(u8".m1v", u8"video/mpeg");
+    mime_types_.emplace(u8".m2a", u8"audio/mpeg");
+    mime_types_.emplace(u8".m2v", u8"audio/mpeg");
+    mime_types_.emplace(u8".m3u", u8"audio/x-mpequrl");
+    mime_types_.emplace(u8".mid", u8"audio/midi");
+    mime_types_.emplace(u8".midi", u8"audio/midi");
+    mime_types_.emplace(u8".mime", u8"www/mime");
+    mime_types_.emplace(u8".mm", u8"application/base64");
+    mime_types_.emplace(u8".mod", u8"audio/mod");
+    mime_types_.emplace(u8".mov", u8"video/quicktime");
+    mime_types_.emplace(u8".mp2", u8"video/mpeg");
+    mime_types_.emplace(u8".mp3", u8"audio/mpeg");
+    mime_types_.emplace(u8".mpa", u8"audio/mpeg");
+    mime_types_.emplace(u8".mpeg", u8"video/mpeg");
+    mime_types_.emplace(u8".mpga", u8"audio/mpeg");
+    mime_types_.emplace(u8".mpjg", u8"video/x-motion-jpeg");
+    mime_types_.emplace(u8".o", u8"application/octet-stream");
+    mime_types_.emplace(u8".ogg", u8"audio/ogg");
+    mime_types_.emplace(u8".p", u8"text/plain");
+    mime_types_.emplace(u8".pdf", u8"application/pdf");
+    mime_types_.emplace(u8".pl", u8"text/plain");
+    mime_types_.emplace(u8".png", u8"image/png");
+    mime_types_.emplace(u8".ppt", u8"application/vnd.ms-powerpoint");
+    mime_types_.emplace(u8".pptx", u8"application/vnd.openxmlformats-officedocument.presentationml.presentation");
+    mime_types_.emplace(u8".py", u8"text/plain");
+    mime_types_.emplace(u8".rar", u8"application/x-rar-compressed");
+    mime_types_.emplace(u8".rmi", u8"audio/midi");
+    mime_types_.emplace(u8".rt", u8"text/richtext");
+    mime_types_.emplace(u8".rtf", u8"application/rtf");
+    mime_types_.emplace(u8".rtf", u8"text/richtext");
+    mime_types_.emplace(u8".s", u8"text/plain");
+    mime_types_.emplace(u8".s3m", u8"audio/s3m");
+    mime_types_.emplace(u8".sh", u8"application/x-sh");
+    mime_types_.emplace(u8".so", u8"application/octet-stream");
+    mime_types_.emplace(u8".svg", u8"image/svg+xml");
+    mime_types_.emplace(u8".swf", u8"application/x-shockwave-flash");
+    mime_types_.emplace(u8".text", u8"text/plain");
+    mime_types_.emplace(u8".tif", u8"image/tiff");
+    mime_types_.emplace(u8".tiff", u8"image/tiff");
+    mime_types_.emplace(u8".ttf", u8"font/ttf");
+    mime_types_.emplace(u8".txt", u8"text/plain");
+    mime_types_.emplace(u8".wav", u8"audio/wave");
+    mime_types_.emplace(u8".weba", u8"audio/webm");
+    mime_types_.emplace(u8".webm", u8"video/webm");
+    mime_types_.emplace(u8".webp", u8"image/webp");
+    mime_types_.emplace(u8".xhtml", u8"application/xhtml+xml");
+    mime_types_.emplace(u8".xls", u8"application/vnd.ms-excel");
+    mime_types_.emplace(u8".xlsx", u8"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    mime_types_.emplace(u8".xml", u8"application/xml");
+    mime_types_.emplace(u8".z", u8"application/x-compressed");
+    mime_types_.emplace(u8".zip", u8"application/zip");
 
-    mime_types_.emplace("Makefile", "text/plain");
+    mime_types_.emplace(u8"Makefile", u8"text/plain");
 }
 
 } // namespace aeon::web::http

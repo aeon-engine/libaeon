@@ -24,32 +24,32 @@ public:
      * Register a mime type to a file extension. If the extension already had a
      * mime type, it will be overwritten.
      */
-    void register_mine_type(const std::string &extension, const std::string &mime_type);
+    void register_mine_type(const std::u8string &extension, const std::u8string &mime_type);
 
     /*!
      * Attempt to find a suitable mime type for a given file extension.
      * Returns the default mime type if this could not be found.
      */
-    [[nodiscard]] auto find_mime_type_by_extension(const std::string &extension) const -> std::string;
+    [[nodiscard]] auto find_mime_type_by_extension(const std::u8string &extension) const -> std::u8string;
 
     /*!
      * Attempt to find a suitable file extension for a mime type. Returns an empty
      * string if this could not be found. Since this method is used considerably less
      * than finding a mime type by extension, it's performance will be relatively bad.
      */
-    [[nodiscard]] auto find_extension_by_mime_type(const std::string &mime_type) const -> std::string;
+    [[nodiscard]] auto find_extension_by_mime_type(const std::u8string &mime_type) const -> std::u8string;
 
     /*!
      * Set the default mime type. This is the mime type that will be used if the
      * file extension is not registered, and thus unknown.
      */
-    void set_default_mime_type(const std::string &mime_type);
+    void set_default_mime_type(const std::u8string &mime_type);
 
     /*!
      * Get the default mime type. This is the mime type that will be used if the
      * file extension is not registered, and thus unknown.
      */
-    [[nodiscard]] auto get_default_mime_type() const noexcept -> const std::string &;
+    [[nodiscard]] auto get_default_mime_type() const noexcept -> const std::u8string &;
 
 private:
     /*!
@@ -57,8 +57,8 @@ private:
      */
     void register_mime_types();
 
-    std::map<std::string, std::string> mime_types_;
-    std::string default_mime_type_;
+    std::map<std::u8string, std::u8string> mime_types_;
+    std::u8string default_mime_type_;
 };
 
 } // namespace aeon::web::http

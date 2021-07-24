@@ -20,7 +20,7 @@ namespace internal
 static void to_string(const std::monostate, streams::idynamic_stream &);
 static void to_string(const array &arr, streams::idynamic_stream &);
 static void to_string(const object &obj, streams::idynamic_stream &);
-static void to_string(const std::string &obj_str, streams::idynamic_stream &stream);
+static void to_string(const std::u8string &obj_str, streams::idynamic_stream &stream);
 static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_string(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_string(const double val, streams::idynamic_stream &stream);
@@ -54,7 +54,7 @@ static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream
     writer << uuid.str();
 }
 
-static void to_string(const std::string &obj_str, streams::idynamic_stream &stream)
+static void to_string(const std::u8string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << '"';
@@ -200,7 +200,10 @@ private:
             return uuid_result.error();
 
         if (const auto string_result = match_string(); string_result.result())
-            return rdp::matched{property_tree{std::string{string_result.value()}}};
+        {
+            std::u8string string_value{std::cbegin(string_result.value()), std::end(string_result.value())};
+            return rdp::matched{property_tree{std::move(string_value)}};
+        }
         else if (string_result.is_error())
             return string_result.error();
 
@@ -225,7 +228,8 @@ private:
         if (!check_comment() && !rdp::check_newline(parser_))
             return rdp::parse_error{parser_, u8"Expected newline."};
 
-        auto result = headers_.insert(std::string{header_name_result.value()}, object{});
+        std::u8string string_value{std::cbegin(header_name_result.value()), std::end(header_name_result.value())};
+        auto result = headers_.insert(std::move(string_value), object{});
         current_header_ = &(result->second.object_value());
 
         state.accept();
@@ -262,7 +266,8 @@ private:
         if (!current_header_)
             return rdp::parse_error{parser_, u8"Expected header"};
 
-        current_header_->push_back(std::string{key_name_result.value()}, value_result.value());
+        std::u8string string_value{std::cbegin(key_name_result.value()), std::end(key_name_result.value())};
+        current_header_->push_back(std::move(string_value), value_result.value());
 
         state.accept();
         return rdp::matched{};

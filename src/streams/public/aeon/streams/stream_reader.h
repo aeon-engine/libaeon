@@ -107,8 +107,8 @@ inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) 
     char_t peek_data[read_block_size] = {};
     while ((peek_size = device_->read(reinterpret_cast<std::byte *>(peek_data), read_block_size)) > 0)
     {
-        // TODO: Replace strchr with something more modern.
-        const char *line_end = std::strchr(peek_data, '\n');
+        // TODO: Replace strchr with something more modern. This should also fix the reinterpret cast
+        const char *line_end = std::strchr(reinterpret_cast<const char *>(peek_data), '\n');
 
         if (!line_end)
         {
@@ -116,7 +116,8 @@ inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) 
         }
         else
         {
-            const auto temp_size = line_end - peek_data;
+            // TODO: Fix when strchr is fixed.
+            const auto temp_size = line_end - reinterpret_cast<const char *>(peek_data);
             line.append(peek_data, temp_size);
 
             const auto jump_back = (static_cast<std::ptrdiff_t>(peek_size) - temp_size) - 1;

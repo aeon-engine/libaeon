@@ -4,6 +4,7 @@
 
 #include <aeon/reflection/reflection_info.h>
 #include <aeon/reflection/reflection_object.h>
+#include <aeon/common/preprocessor.h>
 
 #define AEON_REFLECTION_BEGIN(classname)                                                                               \
     class reflection_info_impl final : public aeon::reflection::reflection_info                                        \
@@ -33,7 +34,7 @@
 // clang-format off
 #define AEON_REFLECTION_FIELD(type, name)                                                                              \
                 {                                                                                                      \
-                    (#name), (#type),                                                                                  \
+                    (aeon_concatenate(u8, #name)), (aeon_concatenate(u8, #type)),                                      \
                     reinterpret_cast<std::ptrdiff_t>(                                                                  \
                     &reinterpret_cast<std::uint8_t const &>((static_cast<reflection_class_type *>(nullptr)->name)))    \
                 },

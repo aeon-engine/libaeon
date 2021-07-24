@@ -9,7 +9,7 @@ reflection_info::reflection_info() noexcept = default;
 
 reflection_info::~reflection_info() = default;
 
-auto reflection_info::get_field_type(const char *const name) const -> std::string_view
+auto reflection_info::get_field_type(const char8_t *const name) const -> std::u8string_view
 {
     const auto &field_info = get_field_info();
     for (const auto &field : field_info)

@@ -11,17 +11,17 @@ using namespace aeon;
 
 TEST(test_resource_file, stream_basic_read_write)
 {
-    const auto expected_name = "ThisIsAName";
+    const auto expected_name = u8"ThisIsAName";
     const auto expected_uuid = common::uuid::generate();
 
     std::vector<std::uint8_t> data;
 
-    std::string test_data = "This is test data.";
+    std::u8string test_data = u8"This is test data.";
 
     {
         file_container::container io{expected_name, expected_uuid};
-        io.metadata()["test_metadata"] = 1337;
-        io.metadata()["another_metadata"] = "This is a string.";
+        io.metadata()[u8"test_metadata"] = 1337;
+        io.metadata()[u8"another_metadata"] = u8"This is a string.";
 
         auto stream = io.stream();
         streams::stream_writer writer{stream};
@@ -52,8 +52,8 @@ TEST(test_resource_file, stream_basic_read_write)
         EXPECT_EQ(0, io.stream().size());
         EXPECT_FALSE(io.metadata().is_null());
 
-        EXPECT_EQ(1337, io.metadata().at("test_metadata"));
-        EXPECT_EQ("This is a string.", io.metadata().at("another_metadata"));
+        EXPECT_EQ(1337, io.metadata().at(u8"test_metadata"));
+        EXPECT_EQ(u8"This is a string.", io.metadata().at(u8"another_metadata"));
     }
 
     // Read header and data, no metadata
@@ -68,7 +68,7 @@ TEST(test_resource_file, stream_basic_read_write)
 
         auto stream = io.stream();
         streams::stream_reader reader{stream};
-        EXPECT_EQ(test_data, reader.read_to_string());
+        EXPECT_EQ(test_data, reader.read_to_u8string());
 
         EXPECT_TRUE(io.metadata().is_null());
     }
@@ -83,11 +83,11 @@ TEST(test_resource_file, stream_basic_read_write)
 
         auto stream = io.stream();
         streams::stream_reader reader{stream};
-        EXPECT_EQ(test_data, reader.read_to_string());
+        EXPECT_EQ(test_data, reader.read_to_u8string());
 
         EXPECT_FALSE(io.metadata().is_null());
 
-        EXPECT_EQ(1337, io.metadata().at("test_metadata"));
-        EXPECT_EQ("This is a string.", io.metadata().at("another_metadata"));
+        EXPECT_EQ(1337, io.metadata().at(u8"test_metadata"));
+        EXPECT_EQ(u8"This is a string.", io.metadata().at(u8"another_metadata"));
     }
 }

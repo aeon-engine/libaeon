@@ -14,26 +14,26 @@ namespace aeon::ptree::serialization
 namespace internal
 {
 
-static constexpr auto cdata_begin = "<![CDATA[";
-static constexpr auto cdata_end = "]]>";
+static constexpr auto cdata_begin = u8"<![CDATA[";
+static constexpr auto cdata_end = u8"]]>";
 
-static constexpr auto comment_begin = "<!--";
-static constexpr auto comment_end = "-->";
+static constexpr auto comment_begin = u8"<!--";
+static constexpr auto comment_end = u8"-->";
 
-static constexpr auto header_begin = "<?xml";
-static constexpr auto header_end = "?>";
+static constexpr auto header_begin = u8"<?xml";
+static constexpr auto header_end = u8"?>";
 
-static constexpr auto dtd_begin = "<!";
+static constexpr auto dtd_begin = u8"<!";
 
-static constexpr auto element_begin = '<';
-static constexpr auto element_end = '>';
-static constexpr auto element_self_closing_end = "/>";
-static constexpr auto element_closing_begin = "</";
+static constexpr auto element_begin = u8'<';
+static constexpr auto element_end = u8'>';
+static constexpr auto element_self_closing_end = u8"/>";
+static constexpr auto element_closing_begin = u8"</";
 
 class xml_parser final
 {
 public:
-    explicit xml_parser(const std::string_view &view, std::string attribute_placeholder)
+    explicit xml_parser(const std::u8string_view &view, std::u8string attribute_placeholder)
         : parser_{view}
         , attribute_placeholder_{std::move(attribute_placeholder)}
     {
@@ -46,7 +46,7 @@ public:
 
         rdp::skip_byte_order_marker(parser_);
 
-        auto arr = parse_nodes("");
+        auto arr = parse_nodes(u8"");
 
         if (arr.is_error())
         {
@@ -60,11 +60,11 @@ public:
 private:
     struct attribute final
     {
-        std::string_view name;
-        std::string_view value;
+        std::u8string_view name;
+        std::u8string_view value;
     };
 
-    [[nodiscard]] auto parse_attribute_and_value() -> rdp::parse_result<std::string_view, attribute>
+    [[nodiscard]] auto parse_attribute_and_value() -> rdp::parse_result<std::u8string_view, attribute>
     {
         rdp::skip_whitespace(parser_);
 
@@ -94,7 +94,7 @@ private:
         return rdp::matched{attribute{attribute_name_result.value(), attribute_value_result.value()}};
     }
 
-    [[nodiscard]] auto parse_header() -> rdp::parse_result<std::string_view, property_tree>
+    [[nodiscard]] auto parse_header() -> rdp::parse_result<std::u8string_view, property_tree>
     {
         if (!rdp::check_whitespace(parser_))
             return rdp::parse_error{parser_, u8"Expected whitespace after <?xml."};
@@ -108,18 +108,18 @@ private:
             if (!result)
                 return result.error();
 
-            obj.emplace(std::string{result.value().name}, std::string{result.value().value});
+            obj.emplace(std::u8string{result.value().name}, std::u8string{result.value().value});
         }
 
-        return rdp::matched{property_tree{object{{"?xml", std::move(obj)}}}};
+        return rdp::matched{property_tree{object{{u8"?xml", std::move(obj)}}}};
     }
 
-    [[nodiscard]] auto parse_element() -> rdp::parse_result<std::string_view, property_tree>
+    [[nodiscard]] auto parse_element() -> rdp::parse_result<std::u8string_view, property_tree>
     {
         rdp::skip_whitespace_and_newline(parser_);
 
         const auto element_name = parser_.match(
-            [](const auto c) { return std::isalnum(c) != 0 || c == '_' || c == '-' || c == '.' || c == ':'; });
+            [](const auto c) { return std::isalnum(c) != 0 || c == u8'_' || c == u8'-' || c == u8'.' || c == u8':'; });
 
         if (!element_name)
             return rdp::parse_error{parser_, u8"Expected element name."};
@@ -135,10 +135,10 @@ private:
             if (parser_.check(element_self_closing_end))
             {
                 if (std::empty(attributes))
-                    return rdp::matched{property_tree{object{{std::string{element_name.value()}, array{{}}}}}};
+                    return rdp::matched{property_tree{object{{std::u8string{element_name.value()}, array{{}}}}}};
                 else
                     return rdp::matched{
-                        property_tree{object{{std::string{element_name.value()},
+                        property_tree{object{{std::u8string{element_name.value()},
                                               array{{object{{attribute_placeholder_, std::move(attributes)}}}}}}}};
             }
 
@@ -150,10 +150,10 @@ private:
             if (!result)
                 return rdp::parse_error{parser_, u8"Expected attribute or />."};
 
-            attributes.emplace(std::string{result.value().name}, std::string{result.value().value});
+            attributes.emplace(std::u8string{result.value().name}, std::u8string{result.value().value});
         }
 
-        auto children_result = parse_nodes(std::string{element_name.value()});
+        auto children_result = parse_nodes(std::u8string{element_name.value()});
 
         if (children_result.is_error())
             return children_result.error();
@@ -163,10 +163,10 @@ private:
         if (!std::empty(attributes))
             children.push_back(object{{attribute_placeholder_, std::move(attributes)}});
 
-        return rdp::matched{property_tree{object{{std::string{element_name.value()}, std::move(children)}}}};
+        return rdp::matched{property_tree{object{{std::u8string{element_name.value()}, std::move(children)}}}};
     }
 
-    [[nodiscard]] auto parse_cdata() -> rdp::parse_result<std::string_view, property_tree>
+    [[nodiscard]] auto parse_cdata() -> rdp::parse_result<std::u8string_view, property_tree>
     {
         rdp::skip_whitespace_and_newline(parser_);
         const auto result = parser_.match_until(cdata_end);
@@ -177,14 +177,15 @@ private:
         if (!parser_.check(cdata_end))
             return rdp::parse_error{parser_, u8"Expected ]]>."};
 
-        return rdp::matched{property_tree{std::string{result.value()}}};
+        return rdp::matched{property_tree{std::u8string{result.value()}}};
     }
 
-    [[nodiscard]] auto parse_nodes(const std::string &parent_node) -> rdp::parse_result<std::string_view, array>
+    [[nodiscard]] auto parse_nodes(const std::u8string &parent_node) -> rdp::parse_result<std::u8string_view, array>
     {
         array nodes;
 
-        const auto parent_closing_node = std::string{element_closing_begin} + parent_node + std::string{element_end};
+        const auto parent_closing_node =
+            std::u8string{element_closing_begin} + parent_node + std::u8string{element_end};
 
         while (!rdp::eof(parser_))
         {
@@ -209,7 +210,7 @@ private:
         return rdp::matched{std::move(nodes)};
     }
 
-    [[nodiscard]] auto parse_node() -> rdp::parse_result<std::string_view, property_tree>
+    [[nodiscard]] auto parse_node() -> rdp::parse_result<std::u8string_view, property_tree>
     {
         if (parser_.check(cdata_begin))
         {
@@ -246,31 +247,31 @@ private:
         if (std::empty(value))
             return rdp::unmatched{};
 
-        return rdp::matched{property_tree{std::string{value}}};
+        return rdp::matched{property_tree{std::u8string{value}}};
     }
 
-    rdp::parser<std::string_view> parser_;
-    std::string attribute_placeholder_;
+    rdp::parser<std::u8string_view> parser_;
+    std::u8string attribute_placeholder_;
 };
 
 } // namespace internal
 
-void from_xml(streams::idynamic_stream &stream, property_tree &ptree, std::string attribute_placeholder)
+void from_xml(streams::idynamic_stream &stream, property_tree &ptree, std::u8string attribute_placeholder)
 {
     streams::stream_reader reader{stream};
-    const auto str = reader.read_to_string();
+    const auto str = reader.read_to_u8string();
     internal::xml_parser parser{str, std::move(attribute_placeholder)};
     parser.parse(ptree);
 }
 
-auto from_xml(streams::idynamic_stream &stream, std::string attribute_placeholder) -> property_tree
+auto from_xml(streams::idynamic_stream &stream, std::u8string attribute_placeholder) -> property_tree
 {
     property_tree pt;
     from_xml(stream, pt, std::move(attribute_placeholder));
     return pt;
 }
 
-auto from_xml(const std::string &str, std::string attribute_placeholder) -> property_tree
+auto from_xml(const std::string &str, std::u8string attribute_placeholder) -> property_tree
 {
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_xml(stream, std::move(attribute_placeholder));

@@ -199,18 +199,18 @@ TEST(test_chrono, test_calendar_sorting)
 TEST(test_chrono, test_to_iso8601_string)
 {
     const chrono::calendar c{chrono::timezone::gmt(), 1987, 9, 8, 13, 37};
-    EXPECT_EQ("1987-09-08T13:37:00.000Z", c.to_string());
+    EXPECT_EQ(u8"1987-09-08T13:37:00.000Z", c.to_string());
 
     const chrono::calendar c2{chrono::timezone::create("Etc/GMT+2"), 1987, 9, 8, 13, 37};
-    EXPECT_EQ("1987-09-08T13:37:00.000-02:00", c2.to_string());
+    EXPECT_EQ(u8"1987-09-08T13:37:00.000-02:00", c2.to_string());
 
     const chrono::calendar c3{chrono::timezone::create("Etc/GMT-2"), 1987, 9, 8, 13, 37};
-    EXPECT_EQ("1987-09-08T13:37:00.000+02:00", c3.to_string());
+    EXPECT_EQ(u8"1987-09-08T13:37:00.000+02:00", c3.to_string());
 }
 
 TEST(test_chrono, test_from_iso8601_string)
 {
-    const chrono::calendar c{"1987-09-08T13:37:00.000Z"};
+    const chrono::calendar c{u8"1987-09-08T13:37:00.000Z"};
     EXPECT_EQ(1987, c.get_year());
     EXPECT_EQ(9, c.get_month());
     EXPECT_EQ(8, c.get_date());
@@ -218,7 +218,7 @@ TEST(test_chrono, test_from_iso8601_string)
     EXPECT_EQ(37, c.get_minute());
     EXPECT_EQ("Etc/GMT", c.get_timezone().id());
 
-    const chrono::calendar c2{"1987-09-08T13:37:00.000-02:00"};
+    const chrono::calendar c2{u8"1987-09-08T13:37:00.000-02:00"};
     EXPECT_EQ(1987, c2.get_year());
     EXPECT_EQ(9, c2.get_month());
     EXPECT_EQ(8, c2.get_date());
@@ -226,7 +226,7 @@ TEST(test_chrono, test_from_iso8601_string)
     EXPECT_EQ(37, c2.get_minute());
     EXPECT_EQ("GMT-02:00", c2.get_timezone().id());
 
-    const chrono::calendar c3{"1987-09-08T13:37:00.000+02:00"};
+    const chrono::calendar c3{u8"1987-09-08T13:37:00.000+02:00"};
     EXPECT_EQ(1987, c3.get_year());
     EXPECT_EQ(9, c3.get_month());
     EXPECT_EQ(8, c3.get_date());
@@ -242,5 +242,5 @@ TEST(test_chrono, test_from_iso8601_string)
     const chrono::calendar c7{c6.to_string()};
     EXPECT_EQ(c6, c7);
 
-    EXPECT_ANY_THROW(chrono::calendar{"blah blah blah"});
+    EXPECT_ANY_THROW(chrono::calendar{u8"blah blah blah"});
 }
