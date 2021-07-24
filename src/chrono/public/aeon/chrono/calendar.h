@@ -192,7 +192,7 @@ public:
     /*!
      * Format the date/time as an ISO 8601 string
      */
-    [[nodiscard]] auto to_string() const -> std::string;
+    [[nodiscard]] auto to_string() const -> std::u8string;
 
 private:
     timezone timezone_;

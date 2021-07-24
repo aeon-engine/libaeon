@@ -341,7 +341,7 @@ auto calendar::get_dst_offset() const -> std::int32_t
     return internal::get_calendar_field(*calendar_, UCAL_DST_OFFSET);
 }
 
-auto calendar::to_string() const -> std::string
+auto calendar::to_string() const -> std::u8string
 {
     UErrorCode error{};
 
@@ -356,7 +356,10 @@ auto calendar::to_string() const -> std::string
 
     std::string std_str;
     str.toUTF8String(std_str);
-    return std_str;
+
+    // TODO: Fix this once toUTF8String supports std::u8string.
+    std::u8string u8std_str{std::cbegin(std_str), std::cend(std_str)};
+    return u8std_str;
 }
 
 } // namespace aeon::chrono
