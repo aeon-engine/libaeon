@@ -14,7 +14,8 @@ enum class cpp_standard
 {
     cpp17,
     cpp2a,
-    latest = cpp2a
+    cpp20,
+    latest = cpp20
 };
 
 class parser_settings final

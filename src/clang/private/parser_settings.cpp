@@ -20,6 +20,9 @@ parser_settings::parser_settings(const cpp_standard standard)
         case cpp_standard::cpp2a:
             args_.emplace_back("-std=c++2a");
             break;
+        case cpp_standard::cpp20:
+            args_.emplace_back("-std=c++20");
+            break;
     }
 
     add_define("__AEON_REFLECTION__");
