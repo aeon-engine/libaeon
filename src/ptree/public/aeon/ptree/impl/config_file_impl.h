@@ -117,6 +117,10 @@ inline auto config_file::get(const std::u8string &header, const std::u8string &k
 
         return key_object.uuid_value();
     }
+    else
+    {
+        std::abort(); // This is a bug.
+    }
 }
 
 template <config_file_value T>
