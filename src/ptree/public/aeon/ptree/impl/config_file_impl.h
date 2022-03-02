@@ -3,6 +3,7 @@
 #pragma once
 
 #include <type_traits>
+#include <stdexcept>
 
 namespace aeon::ptree
 {
@@ -135,6 +136,17 @@ inline auto config_file::get(const std::u8string &header, const std::u8string &k
     }
 
     return *result;
+}
+
+template <config_file_value T>
+inline auto config_file::get_or_except(const std::u8string &header, const std::u8string &key) const -> T
+{
+    auto result = get<T>(header, key);
+
+    if (!result)
+        throw std::invalid_argument{"Config file header and/or key not found."};
+
+    return result.value();
 }
 
 template <config_file_value T>

@@ -80,6 +80,15 @@ public:
     [[nodiscard]] auto get(const std::u8string &header, const std::u8string &key, const T &default_val) -> T;
 
     /*!
+     * Get a value, or throw an exception if it does not exist
+     * \param header The header of the key
+     * \param key The entry key
+     * \return Either the value of the entry of key, or throws std::invalid_argument
+     */
+    template <config_file_value T>
+    [[nodiscard]] auto get_or_except(const std::u8string &header, const std::u8string &key) const -> T;
+
+    /*!
      * Set a value
      * \param header The header of the key
      * \param key The entry key
