@@ -28,7 +28,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
 
 include(CompilerFlags)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
     message("Using multi-target conan configuration.")
