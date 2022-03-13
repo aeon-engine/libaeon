@@ -46,7 +46,6 @@ set(SOURCES
     public/aeon/common/lexical_parse.h
     public/aeon/common/listener_subject.h
     public/aeon/common/literals.h
-    public/aeon/common/make_tuple.h
     public/aeon/common/memory.h
     public/aeon/common/parallelizer.h
     public/aeon/common/parameters.h
@@ -69,6 +68,7 @@ set(SOURCES
     public/aeon/common/term_colors.h
     public/aeon/common/timer.h
     public/aeon/common/tribool.h
+    public/aeon/common/tuple.h
     public/aeon/common/type_traits.h
     public/aeon/common/u8_stream.h
     public/aeon/common/unique_obj.h
