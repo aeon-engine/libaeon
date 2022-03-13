@@ -48,6 +48,16 @@ concept integral_or_atomic_integral = std::integral<T> ||
     (type_traits::is_atomic_v<T> &&std::integral<typename T::value_type>);
 
 /*!
+ * Helper struct to be used with brace_constructible. Can use used to check if a given type is brace constructible with
+ * a certain amount of types; but the type itself doesn't matter.
+ */
+struct any_convertible
+{
+    template <class T>
+    constexpr operator T();
+};
+
+/*!
  * The given type T must be brace constructible with the given argument types
  */
 template <typename T, typename... args_t>
