@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 
 namespace aeon::rdp
 {

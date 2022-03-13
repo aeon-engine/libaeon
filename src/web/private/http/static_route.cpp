@@ -9,7 +9,7 @@
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/stream_reader.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <cassert>
 
 namespace aeon::web::http
@@ -17,12 +17,12 @@ namespace aeon::web::http
 
 auto detail::to_url_path(const std::u8string &path) -> std::u8string
 {
-    return common::string::replace_copy(path, u8"\\", u8"/");
+    return common::string_utils::replace_copy(path, u8"\\", u8"/");
 }
 
 auto detail::is_image_extension(const std::u8string &extension) -> bool
 {
-    const auto extension_lower = common::string::to_lower_copy(extension);
+    const auto extension_lower = common::string_utils::to_lower_copy(extension);
     return extension_lower == u8".jpg" || extension_lower == u8".jpeg" || extension_lower == u8".png" ||
            extension_lower == u8".gif";
 }
@@ -63,7 +63,7 @@ void static_route::on_http_request(http_server_socket &source, routable_http_ser
 
     // If the full path does not contain the base path, then it's trying to
     // access outside of base path (higher directories). Denied.
-    if (!common::string::begins_with(full_path.u8string(), base_path_.u8string()))
+    if (!common::string_utils::begins_with(full_path.u8string(), base_path_.u8string()))
     {
         source.respond_default(status_code::forbidden);
         return;
@@ -233,7 +233,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
 
 auto static_route::is_hidden_file(const std::u8string &filename) const -> bool
 {
-    const auto filename_str = common::string::to_lower_copy(filename);
+    const auto filename_str = common::string_utils::to_lower_copy(filename);
 
     for (const auto &hidden_file : settings_.hidden_files)
     {

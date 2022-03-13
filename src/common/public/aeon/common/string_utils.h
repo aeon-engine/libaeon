@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <iomanip>
 
-namespace aeon::common::string
+namespace aeon::common::string_utils
 {
 
 /*!
@@ -432,6 +432,6 @@ template <typename iterator_t>
                                     std::max(std::distance(begin, end), typename result_type::difference_type{}))};
 }
 
-} // namespace aeon::common::string
+} // namespace aeon::common::string_utils
 
 #include <aeon/common/impl/string_impl.h>

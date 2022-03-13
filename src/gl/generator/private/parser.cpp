@@ -86,11 +86,11 @@ void parser::parse_type_definitions()
                 code_line += tc.value() + u8" ";
         }
 
-        common::string::replace(code_line, u8"&lt;", u8"<");
-        common::string::replace(code_line, u8"&gt;", u8">");
+        common::string_utils::replace(code_line, u8"&lt;", u8"<");
+        common::string_utils::replace(code_line, u8"&gt;", u8">");
 
         if (!std::empty(code_line))
-            definition_.add_additional_code(common::string::trimmed(code_line));
+            definition_.add_additional_code(common::string_utils::trimmed(code_line));
     }
 }
 
@@ -148,7 +148,7 @@ void parser::parse_function_definitions()
             }
         }
 
-        opengl_function function{common::string::trimmed(name), common::string::trimmed(return_type)};
+        opengl_function function{common::string_utils::trimmed(name), common::string_utils::trimmed(return_type)};
 
         const auto params_nodes = command_node.children(u8"param");
         for (const auto &pc : params_nodes)
@@ -169,7 +169,8 @@ void parser::parse_function_definitions()
                 }
             }
 
-            function.add_argument(common::string::trimmed(param_name), common::string::trimmed(type_definition));
+            function.add_argument(common::string_utils::trimmed(param_name),
+                                  common::string_utils::trimmed(type_definition));
         }
 
         definition_.add_function(std::move(function));

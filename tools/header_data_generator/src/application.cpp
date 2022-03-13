@@ -5,7 +5,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/stream_writer.h>
 #include <aeon/common/commandline_parser.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <filesystem>
 #include <iostream>
 
@@ -35,10 +35,10 @@ constexpr auto max_hex_bytes_per_line = 16;
 [[nodiscard]] auto generate_variable_name(const std::filesystem::path &path)
 {
     auto filename = path.filename().string();
-    common::string::trim(filename);
-    common::string::replace(filename, " ", "-");
-    common::string::replace(filename, ".", "_");
-    common::string::to_lower(filename);
+    common::string_utils::trim(filename);
+    common::string_utils::replace(filename, " ", "-");
+    common::string_utils::replace(filename, ".", "_");
+    common::string_utils::to_lower(filename);
     return filename;
 }
 
@@ -81,7 +81,7 @@ void generate(const std::filesystem::path &source, const std::filesystem::path &
     auto hex_bytes_per_line = 0;
     for (const auto b : data)
     {
-        dst_writer << "0x" << common::string::uint8_to_hex_string(b) << ", ";
+        dst_writer << "0x" << common::string_utils::uint8_to_hex_string(b) << ", ";
 
         if (++hex_bytes_per_line >= max_hex_bytes_per_line)
         {

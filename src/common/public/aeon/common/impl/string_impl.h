@@ -6,7 +6,7 @@
 #include <array>
 #include <locale>
 
-namespace aeon::common::string
+namespace aeon::common::string_utils
 {
 
 template <concepts::string_view_like T, concepts::string_view_like U>
@@ -465,4 +465,4 @@ template <concepts::string_view_like T>
     return hex_lookup[value];
 }
 
-} // namespace aeon::common::string
+} // namespace aeon::common::string_utils

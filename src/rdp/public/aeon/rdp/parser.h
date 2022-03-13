@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <initializer_list>
 #include <regex>
 
@@ -40,11 +40,11 @@ class parser
     friend class scoped_state;
 
 public:
-    using string_view_type = common::string::basic_string_view_type<T>;
-    using char_type = common::string::char_type<T>;
-    using size_type = common::string::size_type<T>;
-    using difference_type = common::string::difference_type<T>;
-    using iterator = typename common::string::basic_string_view_type<T>::const_iterator;
+    using string_view_type = common::string_utils::basic_string_view_type<T>;
+    using char_type = common::string_utils::char_type<T>;
+    using size_type = common::string_utils::size_type<T>;
+    using difference_type = common::string_utils::difference_type<T>;
+    using iterator = typename common::string_utils::basic_string_view_type<T>::const_iterator;
 
     explicit parser(const T &v);
     explicit parser(const T &v, const std::u8string_view filename);

@@ -6,7 +6,7 @@
 #include <aeon/sockets/config.h>
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/string_stream.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <aeon/common/u8_stream.h>
 #include <aeon/common/assert.h>
 
@@ -121,7 +121,7 @@ auto http_client_socket::__parse_expected_content_length() -> bool
 
 auto http_client_socket::__handle_read_status_state(const std::u8string &line) -> bool
 {
-    auto status_line_split = common::string::split(line, ' ');
+    auto status_line_split = common::string_utils::split(line, ' ');
 
     // The line looks like this: "HTTP/1.1 200 Ok"
     // We only need to parse the version string and the status code.

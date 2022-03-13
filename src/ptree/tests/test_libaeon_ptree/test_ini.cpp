@@ -5,7 +5,7 @@
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/stream_reader.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <gtest/gtest.h>
 
 #include <ptree_unittest_data.h>
@@ -32,7 +32,7 @@ TEST(test_ptree, serialize_ini)
 
     // Strip all \r's to workaround git's auto line-endings on windows
     auto expected = reader.read_to_string();
-    common::string::replace(expected, "\r", "");
+    common::string_utils::replace(expected, "\r", "");
 
     EXPECT_EQ(expected, str);
 }

@@ -242,7 +242,7 @@ private:
         if (!text_result)
             return rdp::parse_error{parser_, u8"Could not parse XML file."};
 
-        const auto value = common::string::trimmedsv(text_result.value());
+        const auto value = common::string_utils::trimmedsv(text_result.value());
 
         if (std::empty(value))
             return rdp::unmatched{};

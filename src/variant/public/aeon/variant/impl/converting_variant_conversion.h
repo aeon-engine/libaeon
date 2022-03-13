@@ -4,7 +4,7 @@
 
 #include <aeon/common/from_chars.h>
 #include <aeon/common/type_traits.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <cstdint>
 
 namespace aeon::variant
@@ -24,10 +24,10 @@ struct converting_variant_conversion<std::u8string, bool>
 {
     [[nodiscard]] static auto convert([[maybe_unused]] const std::u8string &from) -> bool
     {
-        if (common::string::iequals(from, u8"true") || from == u8"1")
+        if (common::string_utils::iequals(from, u8"true") || from == u8"1")
             return true;
 
-        if (common::string::iequals(from, u8"false") || from == u8"0")
+        if (common::string_utils::iequals(from, u8"false") || from == u8"0")
             return false;
 
         throw std::bad_cast{};

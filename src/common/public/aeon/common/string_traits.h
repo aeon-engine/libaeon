@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace aeon::common::string
+namespace aeon::common::string_utils
 {
 
 template <typename T>
@@ -254,4 +254,4 @@ using size_type = typename string_type_traits<std::remove_pointer_t<std::decay_t
 template <typename T>
 using difference_type = typename string_type_traits<std::remove_pointer_t<std::decay_t<T>>>::difference_type;
 
-} // namespace aeon::common::string
+} // namespace aeon::common::string_utils

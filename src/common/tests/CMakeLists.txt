@@ -27,9 +27,9 @@ add_unit_test_suite(
         test_scope_guard.cpp
         test_signals.cpp
         test_singleton.cpp
-        test_string.cpp
         test_string_literal.cpp
         test_string_table.cpp
+        test_string_utils.cpp
         test_stringtraits.cpp
         test_tribool.cpp
         test_type_traits.cpp

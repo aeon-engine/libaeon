@@ -7,7 +7,7 @@
 #include <aeon/streams/stream_reader.h>
 #include <aeon/streams/string_stream.h>
 #include <aeon/streams/dynamic_stream.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 
 namespace aeon::web::http
 {
@@ -158,7 +158,7 @@ void http_server_socket::__enter_reply_state()
 
 auto http_server_socket::__handle_read_method_state(const std::u8string &line) -> status_code
 {
-    auto method_line_split = common::string::split(line, ' ');
+    auto method_line_split = common::string_utils::split(line, ' ');
 
     if (method_line_split.size() != 3)
         return status_code::bad_request;

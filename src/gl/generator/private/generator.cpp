@@ -3,7 +3,7 @@
 #include <aeon/streams/dynamic_stream.h>
 #include <aeon/streams/devices/file_device.h>
 #include <aeon/streams/stream_writer.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <aeon/common/timer.h>
 #include <aeon/common/u8_stream.h>
 #include "generator.h"
@@ -16,7 +16,7 @@ namespace detail
 
 [[nodiscard]] auto generate_proc_name(const std::u8string &name)
 {
-    return u8"PFN" + common::string::to_upper_copy(name) + u8"PROC";
+    return u8"PFN" + common::string_utils::to_upper_copy(name) + u8"PROC";
 }
 
 } // namespace detail
@@ -121,9 +121,9 @@ void generator::generate_header_function_definitions(streams::idynamic_stream &o
         for (auto i = 0ull; i < std::size(arguments); ++i)
         {
             // Hack Workaround: If the type contains [], it has to be placed after the name.
-            if (common::string::contains(arguments[i].type, '['))
+            if (common::string_utils::contains(arguments[i].type, '['))
             {
-                const auto split = common::string::split(arguments[i].type, '[');
+                const auto split = common::string_utils::split(arguments[i].type, '[');
                 writer << split[0] << " " << arguments[i].name << '[' << split[1];
             }
             else

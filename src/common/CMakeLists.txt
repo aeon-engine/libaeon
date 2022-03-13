@@ -7,7 +7,7 @@ set(SOURCES
     private/from_chars.cpp
     private/hexdump.cpp
     private/lexical_parse.cpp
-    private/string.cpp
+    private/string_utils.cpp
     private/uuid.cpp
     public/aeon/common/assert.h
     public/aeon/common/base64.h
@@ -59,11 +59,11 @@ set(SOURCES
     public/aeon/common/signals.h
     public/aeon/common/signed_sizeof.h
     public/aeon/common/singleton.h
-    public/aeon/common/string.h
     public/aeon/common/string_concepts.h
     public/aeon/common/string_literal.h
     public/aeon/common/string_table.h
     public/aeon/common/string_traits.h
+    public/aeon/common/string_utils.h
     public/aeon/common/tempfile.h
     public/aeon/common/term_colors.h
     public/aeon/common/timer.h

@@ -1,7 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
 #include <aeon/web/http/url_encoding.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <aeon/common/literals.h>
 
 namespace aeon::web::http
@@ -21,7 +21,7 @@ auto url_encode(const std::u8string &str) -> std::u8string
         }
         else
         {
-            const auto hex_str = common::string::char_to_hex(t);
+            const auto hex_str = common::string_utils::char_to_hex(t);
 
             // TODO: Fix when char_to_hex supports utf8.
             out += std::u8string_view{reinterpret_cast<const char8_t *>(std::data(hex_str)), std::size(hex_str)};
@@ -42,7 +42,7 @@ auto url_decode(const std::u8string &str) -> std::u8string
         {
             // TODO: Fix when hex_to_char supports utf8.
             const auto u8_str = str.substr(i + 1, 2);
-            out += common::string::hex_to_char(std::string{std::begin(u8_str), std::end(u8_str)});
+            out += common::string_utils::hex_to_char(std::string{std::begin(u8_str), std::end(u8_str)});
             i += 2;
         }
         else

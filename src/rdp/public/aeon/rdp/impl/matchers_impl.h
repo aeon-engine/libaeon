@@ -29,7 +29,7 @@ inline auto match_regex(parser<T> &parser, const typename rdp::parser<T>::string
 
     aeon_assert(!match.empty(), "Bug: expected at least 1 match result.");
 
-    const auto result = common::string::make_string_view(match.begin()->first, match.begin()->second);
+    const auto result = common::string_utils::make_string_view(match.begin()->first, match.begin()->second);
 
     parser.advance(std::size(result));
 

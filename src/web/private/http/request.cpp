@@ -2,7 +2,7 @@
 
 #include <aeon/web/http/request.h>
 #include <aeon/streams/stream_reader.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 
 namespace aeon::web::http
 {
@@ -79,7 +79,7 @@ auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> st
         if (header_name_end + 2 >= header_line.size())
             return {};
 
-        const auto header_name = common::string::to_lower_copy(header_line.substr(0, header_name_end));
+        const auto header_name = common::string_utils::to_lower_copy(header_line.substr(0, header_name_end));
         const auto header_value = header_line.substr(header_name_end + 2);
 
         headers.insert({header_name, header_value});

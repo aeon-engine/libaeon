@@ -1,5 +1,5 @@
 #include <aeon/common/commandline_parser.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <aeon/common/fmtflags.h>
 #include <iostream>
 
@@ -71,11 +71,11 @@ auto commandline_parser::parse(const std::vector<std::string_view> &args) const 
     {
         if (is_option(*itr))
         {
-            options.insert(string::char_stripped_leftsv(*itr, '-'));
+            options.insert(string_utils::char_stripped_leftsv(*itr, '-'));
         }
         else if (is_argument(*itr))
         {
-            const auto arg_name = string::char_stripped_leftsv(*itr, '-');
+            const auto arg_name = string_utils::char_stripped_leftsv(*itr, '-');
             ++itr;
 
             if (itr == std::end(args))

@@ -1,6 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 #include <sstream>
 #include <algorithm>
 #include <functional>
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace aeon::common::string
+namespace aeon::common::string_utils
 {
 
 // TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
@@ -36,4 +36,4 @@ auto hex_to_char(const std::string &str) -> char
     return static_cast<char>(c & 0xff);
 }
 
-} // namespace aeon::common::string
+} // namespace aeon::common::string_utils

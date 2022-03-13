@@ -4,7 +4,7 @@
 
 #include <aeon/rdp/parse_result.h>
 #include <aeon/rdp/scoped_state.h>
-#include <aeon/common/string.h>
+#include <aeon/common/string_utils.h>
 
 namespace aeon::rdp
 {
@@ -157,7 +157,7 @@ template <common::concepts::string_view_like T>
             --line_end;
     }
 
-    const auto line = common::string::make_string_view(line_begin, line_end);
+    const auto line = common::string_utils::make_string_view(line_begin, line_end);
     const auto line_number = std::count(std::begin(view_), current_, '\n');
     const auto column = std::distance(line_begin, current_);
 
@@ -296,7 +296,7 @@ template <common::concepts::string_view_like T>
         }
     } while (*itr != c);
 
-    const auto result = common::string::make_string_view(current_, itr);
+    const auto result = common::string_utils::make_string_view(current_, itr);
     current_ = itr;
     return matched{result};
 }
@@ -311,7 +311,7 @@ template <common::concepts::string_view_like T>
     {
         if (str == string_view_type{&*itr, std::size(str)})
         {
-            const auto result = common::string::make_string_view(current_, itr);
+            const auto result = common::string_utils::make_string_view(current_, itr);
             current_ = itr;
             return matched{result};
         }
@@ -341,7 +341,7 @@ inline auto parser<T>::match_until(const std::initializer_list<char_type> c, con
         }
     } while (!common::container::contains(std::begin(c), std::end(c), *itr));
 
-    const auto result = common::string::make_string_view(current_, itr);
+    const auto result = common::string_utils::make_string_view(current_, itr);
     current_ = itr;
     return matched{result};
 }
@@ -349,7 +349,7 @@ inline auto parser<T>::match_until(const std::initializer_list<char_type> c, con
 template <common::concepts::string_view_like T>
 template <std::contiguous_iterator iterator_t>
 inline parser<T>::parser(iterator_t begin, iterator_t end)
-    : view_{common::string::make_string_view(begin, end)}
+    : view_{common::string_utils::make_string_view(begin, end)}
     , current_{std::begin(view_)}
 {
     aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
@@ -370,7 +370,7 @@ inline auto parser<T>::match(matcher_t pred) noexcept -> parse_result<T, string_
     if (itr == current_)
         return unmatched{};
 
-    const auto result = common::string::make_string_view(current_, itr);
+    const auto result = common::string_utils::make_string_view(current_, itr);
     current_ = itr;
     return matched{result};
 }
@@ -390,7 +390,7 @@ inline auto parser<T>::match_indexed(matcher_t pred) noexcept -> parse_result<T,
     if (itr == current_)
         return unmatched{};
 
-    const auto result = common::string::make_string_view(current_, itr);
+    const auto result = common::string_utils::make_string_view(current_, itr);
     current_ = itr;
     return matched{result};
 }
