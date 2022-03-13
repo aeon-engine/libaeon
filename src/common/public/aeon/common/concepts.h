@@ -47,4 +47,19 @@ template <typename T>
 concept integral_or_atomic_integral = std::integral<T> ||
     (type_traits::is_atomic_v<T> &&std::integral<typename T::value_type>);
 
+/*!
+ * The given type T must be brace constructible with the given argument types
+ */
+template <typename T, typename... args_t>
+concept brace_constructible = requires
+{
+    T{std::declval<args_t>()...};
+};
+
+/*!
+ * The given type T must be brace constructible with the given argument types
+ */
+template <brace_constructible T, typename... args_t>
+inline constexpr bool is_brace_constructible_v = brace_constructible<T, args_t...>;
+
 } // namespace aeon::common::concepts
