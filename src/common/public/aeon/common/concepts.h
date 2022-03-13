@@ -5,6 +5,7 @@
 #include <aeon/common/type_traits.h>
 #include <concepts>
 #include <type_traits>
+#include <tuple>
 
 namespace aeon::common::concepts
 {
