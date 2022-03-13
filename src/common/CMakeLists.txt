@@ -46,6 +46,7 @@ set(SOURCES
     public/aeon/common/lexical_parse.h
     public/aeon/common/listener_subject.h
     public/aeon/common/literals.h
+    public/aeon/common/make_tuple.h
     public/aeon/common/memory.h
     public/aeon/common/parallelizer.h
     public/aeon/common/parameters.h
