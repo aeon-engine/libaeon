@@ -72,4 +72,35 @@ concept brace_constructible = requires
 template <brace_constructible T, typename... args_t>
 inline constexpr bool is_brace_constructible_v = brace_constructible<T, args_t...>;
 
+/*!
+ * Check if an index is valid for the given tuple.
+ */
+template <typename T, std::size_t N>
+constexpr bool is_tuple_element = requires(T t)
+{
+    typename std::tuple_element_t<N - 1, std::remove_const_t<T>>;
+    {
+        get<N - 1>(t)
+        } -> std::convertible_to<std::tuple_element_t<N - 1, T> &>;
+}
+&&is_tuple_element<T, N - 1>;
+
+/*!
+ * Check if an index is valid for the given tuple.
+ */
+template <typename T>
+constexpr bool is_tuple_element<T, 0> = true;
+
+/*!
+ * The given type T must be a tuple-like type. A type is tuple-like when the tuple functions apply to it: std::get,
+ * std::tuple_element and std::tuple_size.
+ */
+template <typename T>
+concept tuple_like = !std::is_reference_v<T> && requires
+{
+    typename std::tuple_size<T>::type;
+    std::same_as<decltype(std::tuple_size_v<T>), size_t>;
+}
+&&is_tuple_element<T, std::tuple_size_v<T>>;
+
 } // namespace aeon::common::concepts
