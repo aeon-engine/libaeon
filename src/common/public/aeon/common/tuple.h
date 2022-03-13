@@ -205,4 +205,13 @@ auto make_tuple(T &&object) noexcept
     }
 }
 
+/*!
+ * Like std::visit, but for all values in a tuple.
+ */
+template <typename callable_t, concepts::tuple_like T>
+inline void tuple_visit(callable_t &&callable, const T &tuple)
+{
+    std::apply([&callable](const auto &...args) { ((callable(args)), ...); }, tuple);
+}
+
 } // namespace aeon::common
