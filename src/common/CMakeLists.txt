@@ -9,6 +9,8 @@ set(SOURCES
     private/lexical_parse.cpp
     private/string_utils.cpp
     private/uuid.cpp
+    public/aeon/common/allocators/ansi_allocator.h
+    public/aeon/common/allocators/concept.h
     public/aeon/common/assert.h
     public/aeon/common/base64.h
     public/aeon/common/bits.h
@@ -21,6 +23,7 @@ set(SOURCES
     public/aeon/common/compilers.h
     public/aeon/common/concepts.h
     public/aeon/common/container.h
+    public/aeon/common/containers/buffer.h
     public/aeon/common/delay.h
     public/aeon/common/deprecated.h
     public/aeon/common/dispatcher.h
@@ -59,6 +62,7 @@ set(SOURCES
     public/aeon/common/signals.h
     public/aeon/common/signed_sizeof.h
     public/aeon/common/singleton.h
+    public/aeon/common/string.h
     public/aeon/common/string_concepts.h
     public/aeon/common/string_literal.h
     public/aeon/common/string_table.h
@@ -77,6 +81,12 @@ set(SOURCES
     public/aeon/common/uuid.h
     public/aeon/common/version.h
 )
+
+if (WIN32)
+    list(APPEND SOURCES
+        public/aeon/common/allocators/windows_heap_allocator.h
+    )
+endif ()
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
@@ -125,4 +135,8 @@ install(
 
 if (AEON_ENABLE_TESTING)
     add_subdirectory(tests)
+endif ()
+
+if (AEON_ENABLE_BENCHMARK)
+    add_subdirectory(benchmarks)
 endif ()
