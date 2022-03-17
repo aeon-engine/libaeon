@@ -24,6 +24,7 @@ set(SOURCES
     public/aeon/common/concepts.h
     public/aeon/common/container.h
     public/aeon/common/containers/buffer.h
+    public/aeon/common/containers/string.h
     public/aeon/common/delay.h
     public/aeon/common/deprecated.h
     public/aeon/common/dispatcher.h
@@ -62,7 +63,6 @@ set(SOURCES
     public/aeon/common/signals.h
     public/aeon/common/signed_sizeof.h
     public/aeon/common/singleton.h
-    public/aeon/common/string.h
     public/aeon/common/string_concepts.h
     public/aeon/common/string_literal.h
     public/aeon/common/string_table.h
