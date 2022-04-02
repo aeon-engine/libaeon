@@ -136,7 +136,3 @@ install(
 if (AEON_ENABLE_TESTING)
     add_subdirectory(tests)
 endif ()
-
-if (AEON_ENABLE_BENCHMARK)
-    add_subdirectory(benchmarks)
-endif ()
