@@ -66,7 +66,7 @@ public:
         pair_.capacity = 0;
 
         resize(other.capacity());
-        std::copy_n(std::data(other), other.capacity(), pair_.data);
+        std::copy_n(other.data(), other.capacity(), pair_.data);
     }
 
     auto operator=(const buffer<T, AllocatorT> &other) -> buffer<T, AllocatorT> &
@@ -74,7 +74,7 @@ public:
         reset();
 
         resize(other.capacity());
-        std::copy_n(std::data(other), other.capacity(), pair_.data);
+        std::copy_n(other.data(), other.capacity(), pair_.data);
 
         return *this;
     }
