@@ -100,7 +100,7 @@ template <typename T>
 concept tuple_like = !std::is_reference_v<T> && requires
 {
     typename std::tuple_size<T>::type;
-    std::same_as<decltype(std::tuple_size_v<T>), size_t>;
+    requires std::same_as<decltype(std::tuple_size_v<T>), size_t>;
 }
 &&is_tuple_element<T, std::tuple_size_v<T>>;
 
