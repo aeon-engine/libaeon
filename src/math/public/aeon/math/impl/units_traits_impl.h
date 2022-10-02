@@ -105,18 +105,12 @@ inline constexpr auto is_base_type_v = is_base_type<T>::value;
  * Check if a given unit type has a multiplier conversion value.
  */
 template <typename T>
-concept unit_with_multiplier = requires(T)
-{
-    T::multiplier;
-};
+concept unit_with_multiplier = requires(T) { T::multiplier; };
 
 /*!
  * Check if a given unit type has an offset conversion value.
  */
 template <typename T>
-concept unit_with_offset = requires(T)
-{
-    T::offset;
-};
+concept unit_with_offset = requires(T) { T::offset; };
 
 } // namespace aeon::math

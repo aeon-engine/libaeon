@@ -230,7 +230,7 @@ public:
 };
 
 #define aeon_declare_flag_operators(f)                                                                                 \
-    inline constexpr auto operator|(const f lhs, const f rhs) noexcept->aeon::common::flags<f>                         \
+    inline constexpr auto operator|(const f lhs, const f rhs) noexcept -> aeon::common::flags<f>                       \
     {                                                                                                                  \
         return aeon::common::flags<f>(lhs) | rhs;                                                                      \
     }
