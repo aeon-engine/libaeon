@@ -1,9 +1,0 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
-
-#pragma once
-
-/*!
- * NOTE: This is a generated file. Change the configuration through cmake.
- */
-
-#cmakedefine AEON_ENABLE_GL_ERROR_CHECKS "@AEON_ENABLE_GL_ERROR_CHECKS@"

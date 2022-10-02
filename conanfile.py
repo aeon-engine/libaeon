@@ -24,8 +24,6 @@ class LibAeonConan(ConanFile):
         'with_crypto': [True, False],
         'with_file_container': [True, False],
         'with_fonts': [True, False],
-        'with_gl': [True, False],
-        'with_gl_utils': [True, False],
         'with_imaging': [True, False],
         'with_logger': [True, False],
         'with_math': [True, False],
@@ -58,8 +56,6 @@ class LibAeonConan(ConanFile):
         'with_crypto': True,
         'with_file_container': True,
         'with_fonts': True,
-        'with_gl': True,
-        'with_gl_utils': True,
         'with_imaging': True,
         'with_logger': True,
         'with_math': True,
@@ -101,8 +97,6 @@ class LibAeonConan(ConanFile):
 
         if self.settings.os != 'Windows':
             del self.options.with_platform
-            del self.options.with_gl
-            del self.options.with_gl_utils
 
     def requirements(self):
         if self.options.get_safe('enable_unittests', True):
@@ -122,9 +116,6 @@ class LibAeonConan(ConanFile):
 
         if self.options.get_safe('with_fonts', True):
             self.requires('freetype/2.12.1@aeon/stable')
-
-        if self.options.get_safe('with_gl', True):
-            self.requires('opengl-registry/1.0@aeon/stable')
 
         if self.options.get_safe('with_imaging', True):
             self.requires('libpng/1.6.38@aeon/stable')
@@ -163,8 +154,6 @@ class LibAeonConan(ConanFile):
         cmake.definitions['AEON_COMPONENT_CRYPTO'] = self.options.get_safe('with_crypto', default=False)
         cmake.definitions['AEON_COMPONENT_FILE_CONTAINER'] = self.options.get_safe('with_file_container', default=False)
         cmake.definitions['AEON_COMPONENT_FONTS'] = self.options.get_safe('with_fonts', default=False)
-        cmake.definitions['AEON_COMPONENT_GL'] = self.options.get_safe('with_gl', default=False)
-        cmake.definitions['AEON_COMPONENT_GL_UTILS'] = self.options.get_safe('with_gl_utils', default=False)
         cmake.definitions['AEON_COMPONENT_IMAGING'] = self.options.get_safe('with_imaging', default=False)
         cmake.definitions['AEON_COMPONENT_LOGGER'] = self.options.get_safe('with_logger', default=False)
         cmake.definitions['AEON_COMPONENT_MATH'] = self.options.get_safe('with_math', default=False)

@@ -67,8 +67,6 @@ enable_component(math)
 
 if (WIN32)
     enable_component(platform)
-    enable_component(gl)
-    enable_component(gl_utils)
 endif ()
 
 enable_component(plugins)
