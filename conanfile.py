@@ -106,35 +106,35 @@ class LibAeonConan(ConanFile):
 
     def requirements(self):
         if self.options.get_safe('enable_unittests', True):
-            self.requires('gtest/1.11.0@aeon/stable')
+            self.requires('gtest/1.12.1@aeon/stable')
 
         if self.options.get_safe('enable_benchmarks', True):
-            self.requires('benchmark/1.5.5@aeon/stable')
+            self.requires('benchmark/1.7.0@aeon/stable')
 
         if self.options.get_safe('with_chrono', True) or self.options.get_safe('with_unicode', True):
-            self.requires('icu/69.1@aeon/stable')
+            self.requires('icu/71.1@aeon/stable')
 
         if self.options.get_safe('with_clang', True):
-            self.requires('libclang/12.0.1@aeon/stable')
+            self.requires('libclang/12.0.1.1@aeon/stable')
 
         if self.options.get_safe('with_compression', True):
-            self.requires('zlib/1.2.11@aeon/stable')
+            self.requires('zlib/1.2.12@aeon/stable')
 
         if self.options.get_safe('with_fonts', True):
-            self.requires('freetype/2.10.4@aeon/stable')
+            self.requires('freetype/2.12.1@aeon/stable')
 
         if self.options.get_safe('with_gl', True):
             self.requires('opengl-registry/1.0@aeon/stable')
 
         if self.options.get_safe('with_imaging', True):
-            self.requires('libpng/1.6.37@aeon/stable')
-            self.requires('libjpeg-turbo/2.1.0@aeon/stable')
+            self.requires('libpng/1.6.38@aeon/stable')
+            self.requires('libjpeg-turbo/2.1.4@aeon/stable')
 
         if self.options.get_safe('with_sockets', True):
-            self.requires('asio/1.18.2@aeon/stable')
+            self.requires('asio/1.24.0@aeon/stable')
 
         if self.options.get_safe('with_vulkan', True):
-            self.requires('vulkan-memory-allocator/2.3.0.201@aeon/stable')
+            self.requires('vulkan-memory-allocator/3.0.1@aeon/stable')
 
     def imports(self):
         if self.settings.compiler.value == 'Visual Studio':
