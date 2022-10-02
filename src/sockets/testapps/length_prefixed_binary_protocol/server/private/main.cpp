@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/sockets/length_prefixed_binary_protocol_socket.h>
 #include <aeon/sockets/tcp_server.h>

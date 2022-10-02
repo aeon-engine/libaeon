@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/unicode/utf16_iterator.h>
 #include <unicode/utf8.h>

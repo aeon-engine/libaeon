@@ -1,4 +1,4 @@
-# Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
+# Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 option(AEON_ENABLE_GL_ERROR_CHECKS "Enable OpenGL call error checking through glGetError" ON)
 configure_file(gl_utils_settings.h.in public/aeon/gl_utils/gl_utils_settings.h @ONLY)

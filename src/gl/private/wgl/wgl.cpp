@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
