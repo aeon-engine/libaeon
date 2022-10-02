@@ -1,7 +1,6 @@
 libAeon
 ==============
 
-[![Build Status](https://ci.aeons.dev/api/badges/aeon-engine-private/libaeon/status.svg?ref=refs/heads/master)](https://git.aeons.dev/aeon-engine/libaeon)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/00148aa1097f467b93ebcb4262a8fcf1)](https://www.codacy.com/gh/aeon-engine/libaeon/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/aeon-engine/libaeon/badge)](https://www.codefactor.io/repository/github/aeon-engine/libaeon)
 
