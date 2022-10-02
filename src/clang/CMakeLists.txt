@@ -1,5 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(libclang CONFIG)
+
 set(SOURCES
     private/ast_entity_visitor.cpp
     private/ast_parser.cpp
@@ -38,7 +40,7 @@ target_link_libraries(aeon_clang
     aeon_common
     aeon_streams
     aeon_reflection
-    CONAN_PKG::libclang
+    libclang::libclang
 )
 
 install(

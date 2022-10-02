@@ -1,5 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(vulkan-memory-allocator CONFIG)
+
 include(GenerateExportHeader)
 
 set(SOURCES
@@ -35,7 +37,7 @@ target_include_directories(aeon_vulkan_vma
 
 target_link_libraries(aeon_vulkan_vma
     LunarGVulkanSDK
-    CONAN_PKG::vulkan-memory-allocator
+    vulkan-memory-allocator::vulkan-memory-allocator
 )
 
 set_target_properties(aeon_vulkan_vma PROPERTIES

@@ -1,5 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(ZLIB CONFIG)
+
 set(SOURCES
     private/zlib.cpp
     private/zlib_raii_wrappers.h
@@ -26,7 +28,7 @@ target_include_directories(aeon_compression
 target_link_libraries(aeon_compression
     aeon_common
     aeon_streams
-    CONAN_PKG::zlib
+    ZLIB::ZLIB
 )
 
 install(

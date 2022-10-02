@@ -1,5 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(freetype CONFIG)
+
 set(SOURCES
     private/face.cpp
     private/face_wrapper.cpp
@@ -32,7 +34,7 @@ target_link_libraries(aeon_fonts
     aeon_common
     aeon_imaging
     aeon_streams
-    CONAN_PKG::freetype
+    Freetype::Freetype
 )
 
 install(

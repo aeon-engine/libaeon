@@ -1,6 +1,6 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.24)
 
 if (DEFINED ENV{LIBAEON_PROJECT_NAME})
     project($ENV{LIBAEON_PROJECT_NAME})
@@ -24,6 +24,8 @@ conan_install()
 option(AEON_ENABLE_TESTING "Enable testing." ON)
 
 if (AEON_ENABLE_TESTING)
+    find_package(GTest CONFIG)
+
     set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
     include(CTest)
     enable_testing()
@@ -32,16 +34,6 @@ endif ()
 include(CompilerFlags)
 
 set(CMAKE_CXX_STANDARD 23)
-
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
-    message("Using multi-target conan configuration.")
-    include(conanbuildinfo_multi)
-else ()
-    message("Using single target conan configuration.")
-    include(conanbuildinfo)
-endif ()
-
-conan_basic_setup(TARGETS)
 
 ################################################################################
 
@@ -111,6 +103,7 @@ endif ()
 option(AEON_ENABLE_BENCHMARK "Enable google benchmarking tests." ON)
 
 if (AEON_ENABLE_BENCHMARK)
+    find_package(benchmark CONFIG)
     message(STATUS "Building libAeon with Google Benchmark support.")
 endif ()
 

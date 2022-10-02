@@ -1,5 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(ICU CONFIG)
+
 set(SOURCES
     private/ctypes.cpp
     private/encoding.cpp
@@ -36,7 +38,7 @@ target_include_directories(aeon_unicode
 
 target_link_libraries(aeon_unicode
     aeon_common
-    CONAN_PKG::icu
+    ICU::uc
 )
 
 install(

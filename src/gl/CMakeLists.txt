@@ -1,5 +1,7 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(opengl-registry CONFIG)
+
 include(GenerateExportHeader)
 
 add_subdirectory(generator)
@@ -52,7 +54,7 @@ target_include_directories(aeon_gl
 target_link_libraries(aeon_gl
     aeon_common
     aeon_platform
-    CONAN_PKG::opengl-registry
+    opengl-registry::opengl-registry
 )
 
 install(

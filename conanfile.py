@@ -10,7 +10,7 @@ class LibAeonConan(ConanFile):
     homepage = 'https://git.aeons.dev/aeon-engine/libaeon'
     url = 'https://git.aeons.dev/aeon-engine/libaeon'
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake", "cmake_multi"
+    generators = "cmake_find_package_multi"
     options = {
         'shared': [True, False],
         'fPIC': [True, False],

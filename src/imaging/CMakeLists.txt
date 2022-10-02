@@ -1,5 +1,8 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2021 Robin Degen
 
+find_package(PNG CONFIG)
+find_package(libjpeg-turbo CONFIG)
+
 set(SOURCES
     private/file/bmp_file.cpp
     private/file/file.cpp
@@ -48,8 +51,8 @@ target_link_libraries(aeon_imaging
     aeon_common
     aeon_math
     aeon_streams
-    CONAN_PKG::libpng
-    CONAN_PKG::libjpeg-turbo
+    PNG::PNG
+    libjpeg-turbo::libjpeg-turbo
 )
 
 install(
