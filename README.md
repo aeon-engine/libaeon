@@ -15,11 +15,9 @@ You must first install Conan. libAeon will pull in packages from both conan cent
 The following remote must be added:
 https://artifactory.aeons.dev/artifactory/api/conan/aeon
 
-### Windows (Visual Studio 2019)
+### Windows (Visual Studio 2022)
 
-libAeon is tested on the most recent version of Visual Studio 2019. It is best to just install the latest stable version when building.
-
-The minimum requirement currently is version 16.9.2.
+libAeon is tested on the most recent version of Visual Studio 2022. It is best to just install the latest stable version when building.
 
 1.  Make sure you have cloned the submodules
 
@@ -27,13 +25,13 @@ The minimum requirement currently is version 16.9.2.
 
 2.  Run `bootstrap.cmd`
 
-    This will download all dependencies and generate the Visual Studio solution and project files in the `vs_build` subfolder.
+    This will download all dependencies and generate the Visual Studio solution and project files in the `build` subfolder.
 
 3.  Load the solution in Visual Studio and build
 
 ### Linux
 
-libAeon requires at least GCC 11 or LLVM Clang 12.
+libAeon requires at least GCC 12
 
 1.  Make sure you have cloned the submodules
 
