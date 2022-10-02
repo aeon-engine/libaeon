@@ -15,6 +15,12 @@ set(CMAKE_DEBUG_POSTFIX _d)
 # analysis tools.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
+set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
+
+include(Conan)
+conan_install()
+
 option(AEON_ENABLE_TESTING "Enable testing." ON)
 
 if (AEON_ENABLE_TESTING)
@@ -22,9 +28,6 @@ if (AEON_ENABLE_TESTING)
     include(CTest)
     enable_testing()
 endif ()
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
 
 include(CompilerFlags)
 
