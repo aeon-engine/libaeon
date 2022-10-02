@@ -1,0 +1,35 @@
+name: Linux x86_64 GCC 12
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: aeonengine/linux_x86_64:gcc12
+
+    steps:
+      - name: Conan profile
+        run: |
+            conan profile new default --detect
+            conan profile update settings.compiler.libcxx=libstdc++11 default
+            conan profile update settings.compiler.cppstd=20 default
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Conan remote
+        run: conan config install remotes.txt
+
+      - name: Cmake
+        run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build
