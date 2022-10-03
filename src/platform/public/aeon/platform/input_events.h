@@ -2,6 +2,10 @@
 
 #pragma once
 
+#include <aeon/platform/keyboard_key.h>
+#include <aeon/platform/keyboard_key_state.h>
+#include <aeon/platform/mouse_button_state.h>
+#include <aeon/platform/mouse_button.h>
 #include <aeon/math/vector2.h>
 #include <cstdint>
 
@@ -9,16 +13,6 @@ namespace aeon::platform
 {
 
 class context;
-
-enum class mouse_button
-{
-    left,
-    right,
-    middle,
-    button4,
-    button5,
-    unknown
-};
 
 class input_events
 {
@@ -32,30 +26,22 @@ public:
     input_events(input_events &&) noexcept = default;
     auto operator=(input_events &&) noexcept -> input_events & = default;
 
-    virtual void on_key_down([[maybe_unused]] const context &context, [[maybe_unused]] const std::uint32_t key_code,
-                             [[maybe_unused]] const std::uint32_t character_code, [[maybe_unused]] const bool repeated)
-    {
-    }
-
-    virtual void on_key_up([[maybe_unused]] const context &context, [[maybe_unused]] const std::uint32_t key_code,
-                           [[maybe_unused]] const std::uint32_t character_code, [[maybe_unused]] const bool repeated)
+    virtual void on_key([[maybe_unused]] const context &context, [[maybe_unused]] const keyboard_key key,
+                        [[maybe_unused]] const std::uint32_t scan_code, [[maybe_unused]] const keyboard_key_state state)
     {
     }
 
     virtual void on_mouse_move([[maybe_unused]] const context &context,
-                               [[maybe_unused]] const math::vector2<std::int32_t> position)
+                               [[maybe_unused]] const math::vector2<double> position)
     {
     }
 
-    virtual void on_mouse_down([[maybe_unused]] const context &context, [[maybe_unused]] const mouse_button button)
+    virtual void on_mouse_button([[maybe_unused]] const context &context, [[maybe_unused]] const mouse_button button,
+                                 [[maybe_unused]] const mouse_button_state state)
     {
     }
 
-    virtual void on_mouse_up([[maybe_unused]] const context &context, [[maybe_unused]] const mouse_button button)
-    {
-    }
-
-    virtual void on_mouse_scroll([[maybe_unused]] const context &context, [[maybe_unused]] const std::int32_t delta)
+    virtual void on_mouse_scroll([[maybe_unused]] const context &context, [[maybe_unused]] const double delta)
     {
     }
 };

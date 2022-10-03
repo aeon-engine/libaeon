@@ -95,9 +95,6 @@ class LibAeonConan(ConanFile):
         if self.settings.os == 'Windows':
             del self.options.fPIC
 
-        if self.settings.os != 'Windows':
-            del self.options.with_platform
-
     def requirements(self):
         if self.options.get_safe('enable_unittests', True):
             self.requires('gtest/1.12.1@aeon/stable')
@@ -120,6 +117,12 @@ class LibAeonConan(ConanFile):
         if self.options.get_safe('with_imaging', True):
             self.requires('libpng/1.6.38@aeon/stable')
             self.requires('libjpeg-turbo/2.1.4@aeon/stable')
+
+        if self.options.get_safe('with_platform', True):
+            if self.settings.os in ["Linux", "FreeBSD"]:
+                self.requires("xorg/system@aeon/stable")
+
+            self.requires('glfw/3.3.8@aeon/stable')
 
         if self.options.get_safe('with_sockets', True):
             self.requires('asio/1.24.0@aeon/stable')

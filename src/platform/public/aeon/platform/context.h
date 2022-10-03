@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <aeon/platform/modifier_keys_state.h>
 #include <aeon/platform/platform_export.h>
 #include <memory>
 
@@ -31,8 +30,6 @@ public:
     virtual void attach_input_listener(input_events &events) = 0;
     virtual void detach_input_listener(input_events &events) = 0;
     virtual void detach_all_input_listeners() = 0;
-
-    [[nodiscard]] virtual auto modifier_keys_state() const noexcept -> modifier_keys_state = 0;
 };
 
 [[nodiscard]] AEON_PLATFORM_EXPORT auto create_context() -> std::unique_ptr<context>;

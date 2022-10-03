@@ -24,7 +24,6 @@ public:
     void attach_input_listener(input_events &events) override;
     void detach_input_listener(input_events &events) override;
     void detach_all_input_listeners() override;
-    [[nodiscard]] auto modifier_keys_state() const noexcept -> platform::modifier_keys_state override;
 
 protected:
     [[nodiscard]] auto &input_listeners() noexcept
@@ -36,8 +35,6 @@ protected:
     {
         return input_listeners_;
     }
-
-    internal::modifier_keys_state_data key_states_;
 
 private:
     common::listener_subject<input_events> input_listeners_;

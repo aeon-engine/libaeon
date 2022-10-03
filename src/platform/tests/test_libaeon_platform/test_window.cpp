@@ -58,44 +58,44 @@ public:
     test_input_events(test_input_events &&) noexcept = default;
     auto operator=(test_input_events &&) noexcept -> test_input_events & = default;
 
-    void on_key_down([[maybe_unused]] const platform::context &context, const std::uint32_t key_code,
-                     const std::uint32_t character_code, const bool repeated) final
+    void on_key([[maybe_unused]] const platform::context &context, const platform::keyboard_key key,
+                const std::uint32_t scan_code, const platform::keyboard_key_state state) final
     {
-        std::cout << "KEY DOWN: keycode: " << key_code << " charcode: " << character_code << " repeated: " << repeated
-                  << '\n';
-        std::cout << context.modifier_keys_state().caps_lock_enabled() << ' '
-                  << context.modifier_keys_state().num_lock_enabled() << '\n';
-    }
-
-    void on_key_up([[maybe_unused]] const platform::context &context, const std::uint32_t key_code,
-                   const std::uint32_t character_code, const bool repeated) final
-    {
-        std::cout << "KEY UP:   keycode: " << key_code << " charcode: " << character_code << " repeated: " << repeated
-                  << '\n';
-        std::cout << context.modifier_keys_state().caps_lock_enabled() << ' '
-                  << context.modifier_keys_state().num_lock_enabled() << '\n';
+        switch (state)
+        {
+            case platform::keyboard_key_state::released:
+                std::cout << "[key released] keycode: " << static_cast<int>(key) << " scan code: " << scan_code << '\n';
+                break;
+            case platform::keyboard_key_state::pressed:
+                std::cout << "[key pressed] keycode: " << static_cast<int>(key) << " scan code: " << scan_code << '\n';
+                break;
+            case platform::keyboard_key_state::repeated:
+                std::cout << "[key repeated] keycode: " << static_cast<int>(key) << " scan code: " << scan_code << '\n';
+                break;
+        }
     }
 
     void on_mouse_move([[maybe_unused]] const platform::context &context,
-                       [[maybe_unused]] const math::vector2<std::int32_t> position) final
+                       [[maybe_unused]] const math::vector2<double> position) final
     {
         std::cout << "Mouse Move: " << position << '\n';
     }
 
-    void on_mouse_down([[maybe_unused]] const platform::context &context,
-                       [[maybe_unused]] const platform::mouse_button button) final
+    void on_mouse_button([[maybe_unused]] const platform::context &context, const platform::mouse_button button,
+                         const platform::mouse_button_state state) final
     {
-        std::cout << "Mouse Down: " << static_cast<int>(button) << '\n';
+        switch (state)
+        {
+            case platform::mouse_button_state::released:
+                std::cout << "[mouse released]: " << static_cast<int>(button) << '\n';
+                break;
+            case platform::mouse_button_state::pressed:
+                std::cout << "[mouse pressed]: " << static_cast<int>(button) << '\n';
+                break;
+        }
     }
 
-    void on_mouse_up([[maybe_unused]] const platform::context &context,
-                     [[maybe_unused]] const platform::mouse_button button) final
-    {
-        std::cout << "Mouse Up: " << static_cast<int>(button) << '\n';
-    }
-
-    void on_mouse_scroll([[maybe_unused]] const platform::context &context,
-                         [[maybe_unused]] const std::int32_t delta) final
+    void on_mouse_scroll([[maybe_unused]] const platform::context &context, [[maybe_unused]] const double delta) final
     {
         std::cout << "Scroll: " << delta << '\n';
     }

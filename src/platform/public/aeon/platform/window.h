@@ -34,8 +34,6 @@ public:
     [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
     virtual void dimensions(const math::size2d<std::int32_t> &size) = 0;
 
-    [[nodiscard]] virtual auto client_dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
-
     virtual void close() = 0;
 
     [[nodiscard]] virtual auto closed() const noexcept -> bool = 0;
@@ -53,11 +51,6 @@ public:
 [[nodiscard]] inline auto dimensions(const window &window) noexcept
 {
     return window.dimensions();
-}
-
-[[nodiscard]] inline auto client_dimensions(const window &window) noexcept
-{
-    return window.client_dimensions();
 }
 
 [[nodiscard]] inline auto rectangle(const window &window) noexcept

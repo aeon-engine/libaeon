@@ -64,11 +64,7 @@ enable_component(fonts)
 enable_component(imaging)
 enable_component(logger)
 enable_component(math)
-
-if (WIN32)
-    enable_component(platform)
-endif ()
-
+enable_component(platform)
 enable_component(plugins)
 enable_component(ptree)
 enable_component(rdp)
