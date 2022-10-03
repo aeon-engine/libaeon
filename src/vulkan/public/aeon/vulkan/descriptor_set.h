@@ -4,6 +4,7 @@
 
 #include <aeon/vulkan/enums.h>
 #include <vulkan/vulkan_core.h>
+#include <cstdint>
 #include <vector>
 
 namespace aeon::vulkan
