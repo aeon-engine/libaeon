@@ -14,7 +14,7 @@ class descriptor_pool_description final : public VkDescriptorPoolCreateInfo
 {
 public:
     explicit descriptor_pool_description(
-        const common::flags<descriptor_pool_create_flag> flags = descriptor_pool_create_flag::none,
+        const common::flags<descriptor_pool_create_flag> flags = descriptor_pool_create_flag::free_descriptor_set,
         const std::uint32_t max_sets = 1) noexcept;
     ~descriptor_pool_description() noexcept = default;
 
