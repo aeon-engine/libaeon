@@ -465,8 +465,6 @@ private:
 
     void build_command_buffers()
     {
-        std::cout << "buildCommandBuffers\n";
-
         vulkan::render_pass_begin_info render_pass_info{render_pass_, framebuffers_[0], vulkan::rectangle{window_size}};
         render_pass_info.add_clear_color(0.0f, 0.0f, 0.2f, 1.0f).add_clear_depth_stencil(1.0f, 0);
 
