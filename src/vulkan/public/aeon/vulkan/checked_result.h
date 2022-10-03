@@ -83,7 +83,7 @@ public:
     static constexpr auto error_check_enabled = false;
 #endif
 
-    explicit checked_result(const VkResult result) noexcept(!error_check_enabled)
+    explicit checked_result([[maybe_unused]] const VkResult result) noexcept(!error_check_enabled)
     {
 #if (defined(AEON_VULKAN_ENABLE_ERROR_CHECKING))
         if (result != VK_SUCCESS)
