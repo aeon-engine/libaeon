@@ -85,11 +85,9 @@ if (MONO_FOUND)
 endif ()
 
 # If the LunarG Vulkan SDK is found on the system; attempt to build the vulkan subsystem
-if (WIN32)
-    find_package(LunarGVulkanSDK)
-    if (VULKAN_FOUND)
-        enable_component(vulkan)
-    endif ()
+find_package(LunarGVulkanSDK)
+if (VULKAN_FOUND)
+    enable_component(vulkan)
 endif ()
 
 ################################################################################
