@@ -39,6 +39,7 @@ public:
     [[nodiscard]] auto memory_properties() const noexcept -> VkPhysicalDeviceMemoryProperties;
 
     [[nodiscard]] auto features() const noexcept -> VkPhysicalDeviceFeatures;
+    [[nodiscard]] auto features2() const noexcept -> VkPhysicalDeviceFeatures2;
 
     [[nodiscard]] auto extensions() const -> std::vector<extension>;
 

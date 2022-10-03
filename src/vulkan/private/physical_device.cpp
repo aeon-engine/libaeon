@@ -33,6 +33,13 @@ namespace internal
     return features;
 }
 
+[[nodiscard]] auto get_physical_device_features2(const VkPhysicalDevice handle) noexcept
+{
+    VkPhysicalDeviceFeatures2 features{};
+    vkGetPhysicalDeviceFeatures2(handle, &features);
+    return features;
+}
+
 [[nodiscard]] auto enumerate_device_extension_properties(const VkPhysicalDevice handle)
 {
     std::uint32_t count = 0;
@@ -120,6 +127,12 @@ auto physical_device::features() const noexcept -> VkPhysicalDeviceFeatures
 {
     aeon_assert(device_, "Device is null.");
     return internal::get_physical_device_features(device_);
+}
+
+auto physical_device::features2() const noexcept -> VkPhysicalDeviceFeatures2
+{
+    aeon_assert(device_, "Device is null.");
+    return internal::get_physical_device_features2(device_);
 }
 
 auto physical_device::extensions() const -> std::vector<extension>
