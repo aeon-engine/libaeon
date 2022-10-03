@@ -169,11 +169,11 @@ void device::wait_idle() const
 
 void device::destroy() const noexcept
 {
-    if (device_)
-        vkDestroyDevice(device_, nullptr);
-
     if (allocator_)
         vmaDestroyAllocator(allocator_);
+
+    if (device_)
+        vkDestroyDevice(device_, nullptr);
 }
 
 } // namespace aeon::vulkan
