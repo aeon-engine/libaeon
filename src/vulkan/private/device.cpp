@@ -18,22 +18,71 @@ namespace internal
 
 [[nodiscard]] auto create_device(const physical_device &device, const std::vector<std::string> &enabled_layers,
                                  const std::vector<std::string> &required_extensions,
-                                 const VkPhysicalDeviceFeatures &required_features, const queue_indices &indices)
+                                 [[maybe_unused]] const VkPhysicalDeviceFeatures &required_features,
+                                 const queue_indices &indices)
 {
     const auto available_extensions = device.extensions();
-    const auto required_extensions_str =
+    auto required_extensions_str =
         common::container::transform<const char *>(required_extensions, [](const auto &str) { return str.c_str(); });
 
     // TODO: Check extension availability.
     (void)available_extensions;
+
+    if constexpr (AEON_VULKAN_API_VERSION < VK_API_VERSION_1_2)
+    {
+        required_extensions_str.push_back(VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME);
+    }
+
+    // TODO:
+    // From: https://gpuopen-librariesandsdks.github.io/VulkanMemoryAllocator/html/enabling_buffer_device_address.html)
+    // vkGetPhysicalDeviceFeatures2 for the physical device instead of old vkGetPhysicalDeviceFeatures. Attach
+    // additional structure VkPhysicalDeviceBufferDeviceAddressFeatures* to VkPhysicalDeviceFeatures2::pNext to be
+    // returned. Check if the device feature is really supported - check if
+    // VkPhysicalDeviceBufferDeviceAddressFeatures::bufferDeviceAddress is true.
 
     const auto enabled_layers_str =
         common::container::transform<const char *>(enabled_layers, [](const auto &str) { return str.c_str(); });
 
     auto priority = 0.0f;
     const auto queue_create_info_collection = indices.get_queue_create_info_collection(priority);
-    const auto create_info = initializers::device_create_info(enabled_layers_str, required_extensions_str,
-                                                              queue_create_info_collection, required_features);
+
+    VkDeviceCreateInfo create_info{};
+    create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    create_info.flags = 0;
+
+    if (!std::empty(queue_create_info_collection))
+    {
+        create_info.queueCreateInfoCount = static_cast<std::uint32_t>(std::size(queue_create_info_collection));
+        create_info.pQueueCreateInfos = std::data(queue_create_info_collection);
+    }
+
+    if (!std::empty(enabled_layers_str))
+    {
+        create_info.enabledLayerCount = static_cast<std::uint32_t>(std::size(enabled_layers_str));
+        create_info.ppEnabledLayerNames = std::data(enabled_layers_str);
+    }
+
+    if (!std::empty(required_extensions_str))
+    {
+        create_info.enabledExtensionCount = static_cast<std::uint32_t>(std::size(required_extensions_str));
+        create_info.ppEnabledExtensionNames = std::data(required_extensions_str);
+    }
+
+    // TODO: check if device features 2 is supported
+    // info.pEnabledFeatures = &required_features;
+
+    VkPhysicalDeviceFeatures2 features2{};
+    features2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+
+    VkPhysicalDeviceBufferDeviceAddressFeatures device_address_features{};
+    device_address_features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES;
+    device_address_features.pNext = nullptr;
+    device_address_features.bufferDeviceAddress = VK_TRUE;
+    device_address_features.bufferDeviceAddressCaptureReplay = VK_FALSE;
+    device_address_features.bufferDeviceAddressMultiDevice = VK_FALSE;
+
+    create_info.pNext = &features2;
+    features2.pNext = &device_address_features;
 
     VkDevice handle = nullptr;
     checked_result{vkCreateDevice(vulkan::handle(device), &create_info, nullptr, &handle)};

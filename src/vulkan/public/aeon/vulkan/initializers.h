@@ -117,39 +117,6 @@ namespace aeon::vulkan::initializers
     return info;
 }
 
-[[nodiscard]] inline auto device_create_info(const std::vector<const char *> &enabled_layers,
-                                             const std::vector<const char *> &required_extensions,
-                                             const std::vector<VkDeviceQueueCreateInfo> &queue_create_info_collection,
-                                             const VkPhysicalDeviceFeatures &required_features) noexcept
-{
-    VkDeviceCreateInfo info{};
-    info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-    info.pNext = nullptr;
-    info.flags = 0;
-
-    if (!std::empty(queue_create_info_collection))
-    {
-        info.queueCreateInfoCount = static_cast<std::uint32_t>(std::size(queue_create_info_collection));
-        info.pQueueCreateInfos = std::data(queue_create_info_collection);
-    }
-
-    if (!std::empty(enabled_layers))
-    {
-        info.enabledLayerCount = static_cast<std::uint32_t>(std::size(enabled_layers));
-        info.ppEnabledLayerNames = std::data(enabled_layers);
-    }
-
-    if (!std::empty(required_extensions))
-    {
-        info.enabledExtensionCount = static_cast<std::uint32_t>(std::size(required_extensions));
-        info.ppEnabledExtensionNames = std::data(required_extensions);
-    }
-
-    info.pEnabledFeatures = &required_features;
-
-    return info;
-}
-
 [[nodiscard]] inline auto device_queue_create_info(const std::uint32_t queue_family_index, float &priority) noexcept
 {
     VkDeviceQueueCreateInfo info{};
