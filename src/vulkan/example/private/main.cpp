@@ -268,6 +268,7 @@ private:
 
     void load_texture()
     {
+        // Note: It is assumed that the image is R8G8B8A8. Loading another format will fail the staging buffer copy
         auto img = imaging::file::png::load("texture.png");
 
         const auto image_staging_buffer = vulkan::buffer{device_, img.size(), vulkan::buffer_usage_flag::transfer_src,
