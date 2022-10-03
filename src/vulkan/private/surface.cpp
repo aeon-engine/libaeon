@@ -12,6 +12,7 @@
 #include <libloaderapi.h>
 #elif (AEON_PLATFORM_OS_LINUX)
 #include <X11/X.h>
+#include <X11/Xlib.h>
 #include <vulkan/vulkan_xlib.h>
 #endif
 
@@ -30,8 +31,8 @@ namespace internal
 
     VkWin32SurfaceCreateInfoKHR info{};
     info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-    info.hwnd = static_cast<HWND>(handles.hwnd);
-    info.hinstance = handles.hinstance;
+    info.hwnd = handles.hwnd;
+    info.hinstance = GetModuleHandle(nullptr);
 
     VkSurfaceKHR surface = nullptr;
     checked_result{vkCreateWin32SurfaceKHR(handle(instance), &info, nullptr, &surface)};
@@ -46,7 +47,7 @@ namespace internal
     VkXlibSurfaceCreateInfoKHR info{};
     info.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
     info.window = handles.window;
-    info.dpy = handles.xdisplay;
+    info.dpy = handles.display;
 
     VkSurfaceKHR surface = nullptr;
     checked_result{vkCreateXlibSurfaceKHR(handle(instance), &info, nullptr, &surface)};
