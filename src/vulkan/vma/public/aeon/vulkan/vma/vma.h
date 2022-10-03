@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/vulkan/vma/vulkan_vma_export.h>
+#include <aeon/common/platform.h>
 
 #ifdef VMA_CALL_PRE
 #undef VMA_CALL_PRE
@@ -12,6 +13,9 @@
 #ifdef VMA_CALL_POST
 #undef VMA_CALL_POST
 #endif
+
+#if (AEON_PLATFORM_OS_WINDOWS)
 #define VMA_CALL_POST __cdecl
+#endif
 
 #include <vk_mem_alloc.h>
