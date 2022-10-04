@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/platform/window_iconification_state.h>
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
 #include <cstdint>
@@ -35,6 +36,11 @@ public:
 
     virtual void on_window_focus_changed([[maybe_unused]] const context &context,
                                          [[maybe_unused]] const bool focus) noexcept
+    {
+    }
+
+    virtual void on_window_iconification_changed([[maybe_unused]] const context &context,
+                                                 [[maybe_unused]] const window_iconification_state state) noexcept
     {
     }
 

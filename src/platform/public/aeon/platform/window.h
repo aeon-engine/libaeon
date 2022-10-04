@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/platform/window_iconification_state.h>
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
 #include <aeon/math/rectangle.h>
@@ -34,6 +35,8 @@ public:
 
     [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
     virtual void dimensions(const math::size2d<std::int32_t> &size) = 0;
+
+    [[nodiscard]] virtual auto iconification_state() const noexcept -> window_iconification_state = 0;
 
     virtual void close() = 0;
 

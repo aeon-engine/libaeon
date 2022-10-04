@@ -32,6 +32,8 @@ public:
     [[nodiscard]] auto dimensions() const noexcept -> math::size2d<std::int32_t> final;
     void dimensions(const math::size2d<std::int32_t> &size) final;
 
+    [[nodiscard]] auto iconification_state() const noexcept -> window_iconification_state final;
+
     void close() final;
 
     [[nodiscard]] auto closed() const noexcept -> bool final;

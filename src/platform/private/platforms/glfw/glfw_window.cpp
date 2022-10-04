@@ -364,6 +364,15 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                                                                      w->context_, focused == GLFW_TRUE);
                                });
 
+    glfwSetWindowIconifyCallback(
+        window_,
+        [](GLFWwindow *window, const int iconified)
+        {
+            const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+            const auto state = iconified ? window_iconification_state::minimized : window_iconification_state::normal;
+            w->window_listeners().invoke_each(&window_events::on_window_iconification_changed, w->context_, state);
+        });
+
     glfwSetWindowCloseCallback(window_,
                                [](GLFWwindow *window)
                                {
@@ -435,6 +444,14 @@ auto glfw_window::dimensions() const noexcept -> math::size2d<std::int32_t>
 void glfw_window::dimensions(const math::size2d<std::int32_t> &size)
 {
     glfwSetWindowSize(window_, size.width, size.height);
+}
+
+auto glfw_window::iconification_state() const noexcept -> window_iconification_state
+{
+    if (glfwGetWindowAttrib(window_, GLFW_ICONIFIED))
+        return window_iconification_state::minimized;
+
+    return window_iconification_state::normal;
 }
 
 void glfw_window::close()

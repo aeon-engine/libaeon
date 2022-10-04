@@ -35,6 +35,13 @@ public:
         std::cout << "Resize: " << size << std::endl;
     }
 
+    void on_window_iconification_changed([[maybe_unused]] const platform::context &context,
+                                         [[maybe_unused]] const platform::window_iconification_state state) noexcept
+    {
+        std::cout << "Iconify event: "
+                  << (state == platform::window_iconification_state::normal ? "Normal" : "Minimized") << std::endl;
+    }
+
     void on_window_focus_changed([[maybe_unused]] const platform::context &context, const bool focus) noexcept final
     {
         std::cout << "Focus: " << focus << std::endl;

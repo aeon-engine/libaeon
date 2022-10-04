@@ -27,6 +27,7 @@ set(SOURCES
     public/aeon/platform/window.h
     public/aeon/platform/window_create_info.h
     public/aeon/platform/window_events.h
+    public/aeon/platform/window_iconification_state.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
