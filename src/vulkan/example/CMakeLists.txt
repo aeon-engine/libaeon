@@ -15,6 +15,7 @@ add_executable(aeon_vulkan_example
 set_target_properties(aeon_vulkan_example PROPERTIES
     FOLDER dep/libaeon
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$(Configuration)"
 )
 
 target_include_directories(aeon_vulkan_example
