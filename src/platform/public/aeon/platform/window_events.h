@@ -34,6 +34,11 @@ public:
     {
     }
 
+    virtual void on_window_framebuffer_size_changed([[maybe_unused]] const context &context,
+                                                    [[maybe_unused]] const math::size2d<std::int32_t> &size) noexcept
+    {
+    }
+
     virtual void on_window_focus_changed([[maybe_unused]] const context &context,
                                          [[maybe_unused]] const bool focus) noexcept
     {

@@ -356,6 +356,15 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                                                                     math::size2d{width, height});
                               });
 
+    glfwSetFramebufferSizeCallback(
+        window_,
+        [](GLFWwindow *window, const int width, const int height)
+        {
+            const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+            w->window_listeners().invoke_each(&window_events::on_window_framebuffer_size_changed, w->context_,
+                                              math::size2d{width, height});
+        });
+
     glfwSetWindowFocusCallback(window_,
                                [](GLFWwindow *window, const int focused)
                                {
@@ -444,6 +453,13 @@ auto glfw_window::dimensions() const noexcept -> math::size2d<std::int32_t>
 void glfw_window::dimensions(const math::size2d<std::int32_t> &size)
 {
     glfwSetWindowSize(window_, size.width, size.height);
+}
+
+auto glfw_window::framebuffer_dimensions() const noexcept -> math::size2d<std::int32_t>
+{
+    math::size2d<int> dimensions;
+    glfwGetFramebufferSize(window_, &dimensions.width, &dimensions.height);
+    return math::size2d<std::int32_t>{dimensions};
 }
 
 auto glfw_window::iconification_state() const noexcept -> window_iconification_state

@@ -36,6 +36,8 @@ public:
     [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
     virtual void dimensions(const math::size2d<std::int32_t> &size) = 0;
 
+    [[nodiscard]] virtual auto framebuffer_dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
+
     [[nodiscard]] virtual auto iconification_state() const noexcept -> window_iconification_state = 0;
 
     virtual void set_visible(const bool visible) const noexcept = 0;

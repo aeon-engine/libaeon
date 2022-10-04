@@ -35,6 +35,12 @@ public:
         std::cout << "Resize: " << size << std::endl;
     }
 
+    void on_window_framebuffer_size_changed([[maybe_unused]] const platform::context &context,
+                                            const math::size2d<std::int32_t> &size) noexcept final
+    {
+        std::cout << "Framebuffer resize: " << size << std::endl;
+    }
+
     void on_window_iconification_changed([[maybe_unused]] const platform::context &context,
                                          [[maybe_unused]] const platform::window_iconification_state state) noexcept
     {
