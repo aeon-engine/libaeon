@@ -443,23 +443,23 @@ void glfw_window::title(const std::u8string &str)
     glfwSetWindowTitle(window_, reinterpret_cast<const char *>(str.c_str()));
 }
 
-auto glfw_window::dimensions() const noexcept -> math::size2d<std::int32_t>
+auto glfw_window::dimensions() const noexcept -> math::size2d<std::uint32_t>
 {
     math::size2d<int> dimensions;
     glfwGetWindowSize(window_, &dimensions.width, &dimensions.height);
-    return math::size2d<std::int32_t>{dimensions};
+    return math::size2d<std::uint32_t>{dimensions};
 }
 
-void glfw_window::dimensions(const math::size2d<std::int32_t> &size)
+void glfw_window::dimensions(const math::size2d<std::uint32_t> &size)
 {
     glfwSetWindowSize(window_, size.width, size.height);
 }
 
-auto glfw_window::framebuffer_dimensions() const noexcept -> math::size2d<std::int32_t>
+auto glfw_window::framebuffer_dimensions() const noexcept -> math::size2d<std::uint32_t>
 {
     math::size2d<int> dimensions;
     glfwGetFramebufferSize(window_, &dimensions.width, &dimensions.height);
-    return math::size2d<std::int32_t>{dimensions};
+    return math::size2d<std::uint32_t>{dimensions};
 }
 
 auto glfw_window::iconification_state() const noexcept -> window_iconification_state

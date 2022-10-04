@@ -29,10 +29,10 @@ public:
 
     void title(const std::u8string &str) final;
 
-    [[nodiscard]] auto dimensions() const noexcept -> math::size2d<std::int32_t> final;
-    void dimensions(const math::size2d<std::int32_t> &size) final;
+    [[nodiscard]] auto dimensions() const noexcept -> math::size2d<std::uint32_t> final;
+    void dimensions(const math::size2d<std::uint32_t> &size) final;
 
-    [[nodiscard]] auto framebuffer_dimensions() const noexcept -> math::size2d<std::int32_t> final;
+    [[nodiscard]] auto framebuffer_dimensions() const noexcept -> math::size2d<std::uint32_t> final;
 
     [[nodiscard]] auto iconification_state() const noexcept -> window_iconification_state final;
 

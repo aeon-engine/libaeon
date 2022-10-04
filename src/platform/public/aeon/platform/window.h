@@ -33,10 +33,10 @@ public:
 
     virtual void title(const std::u8string &str) = 0;
 
-    [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
-    virtual void dimensions(const math::size2d<std::int32_t> &size) = 0;
+    [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::uint32_t> = 0;
+    virtual void dimensions(const math::size2d<std::uint32_t> &size) = 0;
 
-    [[nodiscard]] virtual auto framebuffer_dimensions() const noexcept -> math::size2d<std::int32_t> = 0;
+    [[nodiscard]] virtual auto framebuffer_dimensions() const noexcept -> math::size2d<std::uint32_t> = 0;
 
     [[nodiscard]] virtual auto iconification_state() const noexcept -> window_iconification_state = 0;
 
@@ -47,7 +47,7 @@ public:
 
     [[nodiscard]] virtual auto closed() const noexcept -> bool = 0;
 
-    [[nodiscard]] virtual auto native_handles() const noexcept -> platform::native_handles = 0;
+    [[nodiscard]] virtual auto native_handles() const noexcept -> native_handles = 0;
 
     [[nodiscard]] virtual auto context() const noexcept -> const context & = 0;
 
@@ -68,7 +68,7 @@ public:
 
 [[nodiscard]] inline auto rectangle(const window &window) noexcept
 {
-    return math::rectangle{position(window), dimensions(window)};
+    return math::rectangle{position(window), math::size2d<std::int32_t>{dimensions(window)}};
 }
 
 } // namespace aeon::platform
