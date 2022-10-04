@@ -7,7 +7,7 @@
 #include <aeon/math/vector2_stream.h>
 #include <aeon/math/size2d_stream.h>
 #include <aeon/platform/context.h>
-#include <gtest/gtest.h>
+#include <iostream>
 
 using namespace aeon;
 
@@ -108,8 +108,7 @@ public:
     }
 };
 
-// This isn't an actual unit test. It's used for internal manual testing.
-TEST(test_platform, DISABLED_test_create_window)
+int main()
 {
     platform::window_create_info info;
     info.title = u8"I like Π, and らき☆すた, Raki☆Suta";
@@ -128,4 +127,6 @@ TEST(test_platform, DISABLED_test_create_window)
     {
         context->poll_events();
     }
+
+    return 0;
 }
