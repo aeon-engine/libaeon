@@ -32,8 +32,6 @@ struct window_create_info final
 
     std::uint32_t resizable : 1 = true;
     std::uint32_t visible : 1 = true;
-
-    window_events *events = nullptr;
 };
 
 } // namespace aeon::platform

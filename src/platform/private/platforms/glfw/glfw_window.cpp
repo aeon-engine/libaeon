@@ -3,7 +3,6 @@
 #include "glfw_window.h"
 #include "glfw_exception.h"
 #include "glfw_init.h"
-#include <aeon/platform/window_events.h>
 #include <aeon/platform/native_handles.h>
 
 #if (AEON_PLATFORM_OS_WINDOWS)
@@ -324,7 +323,6 @@ static auto convert_button_state(const int state) noexcept -> mouse_button_state
 glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
     : context_{context}
     , window_{}
-    , events_{info.events}
 {
     glfw::initialize();
 
@@ -345,34 +343,33 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
     glfwSetWindowPosCallback(window_,
                              [](GLFWwindow *window, const int xpos, const int ypos)
                              {
-                                 if (const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
-                                     w->events_)
-                                     w->events_->on_window_position_changed(w->context_, {xpos, ypos});
+                                 const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                 w->window_listeners().invoke_each(&window_events::on_window_position_changed,
+                                                                   w->context_, math::vector2{xpos, ypos});
                              });
 
     glfwSetWindowSizeCallback(window_,
                               [](GLFWwindow *window, const int width, const int height)
                               {
-                                  if (const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
-                                      w->events_)
-                                      w->events_->on_window_size_changed(w->context_, {width, height});
+                                  const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                  w->window_listeners().invoke_each(&window_events::on_window_size_changed, w->context_,
+                                                                    math::size2d{width, height});
                               });
 
-    glfwSetWindowFocusCallback(
-        window_,
-        [](GLFWwindow *window, const int focused)
-        {
-            if (const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window)); w->events_)
-                w->events_->on_window_focus_changed(w->context_, focused == GLFW_TRUE);
-        });
+    glfwSetWindowFocusCallback(window_,
+                               [](GLFWwindow *window, const int focused)
+                               {
+                                   const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                   w->window_listeners().invoke_each(&window_events::on_window_focus_changed,
+                                                                     w->context_, focused == GLFW_TRUE);
+                               });
 
-    glfwSetWindowCloseCallback(
-        window_,
-        [](GLFWwindow *window)
-        {
-            if (const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window)); w->events_)
-                w->events_->on_window_closed(w->context_);
-        });
+    glfwSetWindowCloseCallback(window_,
+                               [](GLFWwindow *window)
+                               {
+                                   const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                   w->window_listeners().invoke_each(&window_events::on_window_closed, w->context_);
+                               });
 
     glfwSetKeyCallback(
         window_,

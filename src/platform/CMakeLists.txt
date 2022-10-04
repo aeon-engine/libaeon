@@ -7,6 +7,8 @@ include(GenerateExportHeader)
 set(SOURCES
     private/base_context.cpp
     private/base_context.h
+    private/base_window.cpp
+    private/base_window.h
     private/platforms/glfw/glfw_context.cpp
     private/platforms/glfw/glfw_context.h
     private/platforms/glfw/glfw_exception.h

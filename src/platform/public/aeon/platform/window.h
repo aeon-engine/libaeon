@@ -12,6 +12,7 @@ namespace aeon::platform
 {
 
 class context;
+class window_events;
 struct native_handles;
 
 class window
@@ -41,6 +42,10 @@ public:
     [[nodiscard]] virtual auto native_handles() const noexcept -> platform::native_handles = 0;
 
     [[nodiscard]] virtual auto context() const noexcept -> const context & = 0;
+
+    virtual void attach_window_listener(window_events &events) = 0;
+    virtual void detach_window_listener(window_events &events) = 0;
+    virtual void detach_all_window_listeners() = 0;
 };
 
 [[nodiscard]] inline auto position(const window &window) noexcept

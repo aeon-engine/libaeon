@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/platform/window.h>
 #include <aeon/platform/window_create_info.h>
 #include <aeon/platform/context.h>
+#include "base_window.h"
 #include "glfw_scoped_window.h"
 #include "glfw_context.h"
 #include <GLFW/glfw3.h>
@@ -12,7 +12,7 @@
 namespace aeon::platform
 {
 
-class glfw_window final : public window
+class glfw_window final : public base_window
 {
 public:
     explicit glfw_window(const window_create_info &info, glfw_context &context);
@@ -40,15 +40,9 @@ public:
 
     [[nodiscard]] auto context() const noexcept -> const platform::context & final;
 
-    [[nodiscard]] auto events() const noexcept
-    {
-        return events_;
-    }
-
 private:
     glfw_context &context_;
     scoped_glfw_window window_;
-    window_events *events_;
 };
 
 } // namespace aeon::platform

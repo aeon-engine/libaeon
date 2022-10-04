@@ -112,8 +112,9 @@ TEST(test_platform, DISABLED_test_create_window)
     context->attach_input_listener(input_events);
 
     test_window_events window_events;
-    info.events = &window_events;
+
     const auto window = context->create_window(info);
+    window->attach_window_listener(window_events);
 
     [[maybe_unused]] auto count = 0;
     while (!window->closed())
