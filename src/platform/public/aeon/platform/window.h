@@ -38,6 +38,9 @@ public:
 
     [[nodiscard]] virtual auto iconification_state() const noexcept -> window_iconification_state = 0;
 
+    virtual void set_visible(const bool visible) const noexcept = 0;
+    [[nodiscard]] virtual auto is_visible() const noexcept -> bool = 0;
+
     virtual void close() = 0;
 
     [[nodiscard]] virtual auto closed() const noexcept -> bool = 0;

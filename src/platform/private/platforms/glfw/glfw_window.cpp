@@ -454,6 +454,19 @@ auto glfw_window::iconification_state() const noexcept -> window_iconification_s
     return window_iconification_state::normal;
 }
 
+void glfw_window::set_visible(const bool visible) const noexcept
+{
+    if (visible)
+        glfwShowWindow(window_);
+    else
+        glfwHideWindow(window_);
+}
+
+auto glfw_window::is_visible() const noexcept -> bool
+{
+    return glfwGetWindowAttrib(window_, GLFW_VISIBLE) == GLFW_TRUE;
+}
+
 void glfw_window::close()
 {
     window_.destroy();

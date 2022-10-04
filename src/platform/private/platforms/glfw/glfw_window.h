@@ -34,6 +34,9 @@ public:
 
     [[nodiscard]] auto iconification_state() const noexcept -> window_iconification_state final;
 
+    void set_visible(const bool visible) const noexcept final;
+    [[nodiscard]] auto is_visible() const noexcept -> bool final;
+
     void close() final;
 
     [[nodiscard]] auto closed() const noexcept -> bool final;
