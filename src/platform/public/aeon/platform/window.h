@@ -16,6 +16,18 @@ class context;
 class window_events;
 struct native_handles;
 
+struct window_state_flags
+{
+    std::uint32_t position_changed : 1 = false;
+    std::uint32_t dimensions_changed : 1 = false;
+    std::uint32_t framebuffer_dimensions_changed : 1 = false;
+    std::uint32_t focus_changed : 1 = false;
+    std::uint32_t visibility_changed : 1 = false;
+    std::uint32_t iconification_state_changed : 1 = false;
+};
+
+static_assert(sizeof(window_state_flags) == sizeof(std::uint32_t));
+
 class window
 {
 public:
@@ -27,6 +39,9 @@ public:
 
     window(window &&) noexcept = delete;
     auto operator=(window &&) noexcept -> window & = delete;
+
+    [[nodiscard]] virtual auto state_flags() const noexcept -> window_state_flags = 0;
+    virtual void reset_state_flags() noexcept = 0;
 
     [[nodiscard]] virtual auto position() const noexcept -> math::vector2<std::int32_t> = 0;
     virtual void position(const math::vector2<std::int32_t> &pos) = 0;

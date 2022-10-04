@@ -24,6 +24,9 @@ public:
     glfw_window(glfw_window &&) noexcept = delete;
     auto operator=(glfw_window &&) noexcept -> glfw_window & = delete;
 
+    [[nodiscard]] auto state_flags() const noexcept -> window_state_flags final;
+    void reset_state_flags() noexcept final;
+
     [[nodiscard]] auto position() const noexcept -> math::vector2<std::int32_t> final;
     void position(const math::vector2<std::int32_t> &pos) final;
 
@@ -50,6 +53,7 @@ public:
 private:
     glfw_context &context_;
     scoped_glfw_window window_;
+    window_state_flags flags_;
 };
 
 } // namespace aeon::platform

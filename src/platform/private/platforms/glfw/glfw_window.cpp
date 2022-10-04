@@ -323,6 +323,7 @@ static auto convert_button_state(const int state) noexcept -> mouse_button_state
 glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
     : context_{context}
     , window_{}
+    , flags_{}
 {
     glfw::initialize();
 
@@ -343,7 +344,8 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
     glfwSetWindowPosCallback(window_,
                              [](GLFWwindow *window, const int xpos, const int ypos)
                              {
-                                 const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                 const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
+                                 w->flags_.position_changed = true;
                                  w->window_listeners().invoke_each(&window_events::on_window_position_changed,
                                                                    w->context_, math::vector2{xpos, ypos});
                              });
@@ -351,24 +353,27 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
     glfwSetWindowSizeCallback(window_,
                               [](GLFWwindow *window, const int width, const int height)
                               {
-                                  const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                  const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
+                                  w->flags_.dimensions_changed = true;
                                   w->window_listeners().invoke_each(&window_events::on_window_size_changed, w->context_,
                                                                     math::size2d{width, height});
                               });
 
-    glfwSetFramebufferSizeCallback(
-        window_,
-        [](GLFWwindow *window, const int width, const int height)
-        {
-            const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
-            w->window_listeners().invoke_each(&window_events::on_window_framebuffer_size_changed, w->context_,
-                                              math::size2d{width, height});
-        });
+    glfwSetFramebufferSizeCallback(window_,
+                                   [](GLFWwindow *window, const int width, const int height)
+                                   {
+                                       const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
+                                       w->flags_.framebuffer_dimensions_changed = true;
+                                       w->window_listeners().invoke_each(
+                                           &window_events::on_window_framebuffer_size_changed, w->context_,
+                                           math::size2d{width, height});
+                                   });
 
     glfwSetWindowFocusCallback(window_,
                                [](GLFWwindow *window, const int focused)
                                {
-                                   const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+                                   const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
+                                   w->flags_.focus_changed = true;
                                    w->window_listeners().invoke_each(&window_events::on_window_focus_changed,
                                                                      w->context_, focused == GLFW_TRUE);
                                });
@@ -377,7 +382,8 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
         window_,
         [](GLFWwindow *window, const int iconified)
         {
-            const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
+            const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
+            w->flags_.iconification_state_changed = true;
             const auto state = iconified ? window_iconification_state::minimized : window_iconification_state::normal;
             w->window_listeners().invoke_each(&window_events::on_window_iconification_changed, w->context_, state);
         });
@@ -425,6 +431,16 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
 }
 
 glfw_window::~glfw_window() = default;
+
+auto glfw_window::state_flags() const noexcept -> window_state_flags
+{
+    return flags_;
+}
+
+void glfw_window::reset_state_flags() noexcept
+{
+    flags_ = {};
+}
 
 auto glfw_window::position() const noexcept -> math::vector2<std::int32_t>
 {
