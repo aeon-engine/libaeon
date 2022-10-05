@@ -224,9 +224,7 @@ private:
         const std::vector<vertex> vertex_buffer = {{{1.0f, 1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
                                                    {{-1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
                                                    {{-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-                                                   {{1.0f, -1.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}
-
-        };
+                                                   {{1.0f, -1.0f, 0.0f}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}};
         const auto vertex_buffer_size = static_cast<std::uint32_t>(vertex_buffer.size()) * sizeof(vertex);
 
         const std::vector<std::uint32_t> index_buffer = {0, 1, 2, 2, 3, 0};
