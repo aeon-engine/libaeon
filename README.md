@@ -43,7 +43,6 @@ libAeon requires at least GCC 12
 
 3.  Enter the `build` folder and run make
 
-
 ### Other platforms
 
 libAeon has also been successfully tested on other platforms like BSD and macOS. As long as you use a recent compiler this should work.
