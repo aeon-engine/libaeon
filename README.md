@@ -1,6 +1,7 @@
 libAeon
 ==============
 
+[![Linux x86_64 GCC 12](https://github.com/aeon-engine/libaeon/actions/workflows/linux_x86_64_gcc12.yml/badge.svg?branch=master)](https://github.com/aeon-engine/libaeon/actions/workflows/linux_x86_64_gcc12.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/00148aa1097f467b93ebcb4262a8fcf1)](https://www.codacy.com/gh/aeon-engine/libaeon/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/aeon-engine/libaeon/badge)](https://www.codefactor.io/repository/github/aeon-engine/libaeon)
 
