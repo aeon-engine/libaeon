@@ -148,7 +148,7 @@ class LibAeonConan(ConanFile):
 
         cmake.definitions['AEON_ENABLE_TESTING'] = self.options.enable_unittests
         cmake.definitions['AEON_ENABLE_BENCHMARK'] = self.options.enable_benchmarks
-        
+
         cmake.definitions['AEON_COMPONENT_AST'] = self.options.get_safe('with_ast', default=False)
         cmake.definitions['AEON_COMPONENT_CHRONO'] = self.options.get_safe('with_chrono', default=False)
         cmake.definitions['AEON_COMPONENT_CLANG'] = self.options.get_safe('with_clang', default=False)
