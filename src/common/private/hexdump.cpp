@@ -55,7 +55,7 @@ void pretty_print(FILE *dest, const void *src, const std::size_t len) noexcept
 
 void cpp_array(FILE *dest, const char *const array_name, const void *src, const std::size_t len) noexcept
 {
-    fprintf(dest, "std::array<char, %llu> %s = {\n", len, array_name);
+    fprintf(dest, "std::array<char, %lu> %s = {\n", static_cast<unsigned long>(len), array_name);
 
     const auto *data = static_cast<const unsigned char *>(src);
 
