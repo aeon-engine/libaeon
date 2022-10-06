@@ -18,8 +18,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
 set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
-include(Conan)
-conan_install()
+option(AEON_ENABLE_CONAN_INTEGRATION "Enable automatic installation of Conan packages as part of the CMake configure step." ON)
+
+if (AEON_ENABLE_CONAN_INTEGRATION)
+    include(Conan)
+    conan_install()
+endif ()
 
 option(AEON_ENABLE_TESTING "Enable testing." ON)
 
