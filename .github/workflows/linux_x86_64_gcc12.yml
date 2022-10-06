@@ -12,12 +12,6 @@ jobs:
       image: aeonengine/linux_x86_64:gcc12
 
     steps:
-      - name: Conan profile
-        run: |
-            conan profile new default --detect
-            conan profile update settings.compiler.libcxx=libstdc++11 default
-            conan profile update settings.compiler.cppstd=20 default
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -25,8 +19,11 @@ jobs:
       - name: Conan remote
         run: conan config install remotes.txt
 
+      - name: Conan install
+        run: conan install . -if build -pr ./conan/profiles/linux_gcc12_x64 -s build_type=Debug
+
       - name: Cmake
-        run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug
+        run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug -DAEON_ENABLE_CONAN_INTEGRATION=0
 
       - name: Build
         run: cmake --build build
