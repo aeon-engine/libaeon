@@ -106,7 +106,7 @@ class LibAeonConan(ConanFile):
             self.requires('icu/71.1@aeon/stable')
 
         if self.options.get_safe('with_clang', True):
-            self.requires('libclang/12.0.1.1@aeon/stable')
+            self.requires('libclang/12.0.1.2@aeon/stable')
 
         if self.options.get_safe('with_compression', True):
             self.requires('zlib/1.2.12@aeon/stable')
