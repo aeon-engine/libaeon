@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/containers/string.h>
 #include <stdexcept>
-#include <string_view>
 #include <variant>
 #include <cstdint>
 
@@ -110,16 +110,7 @@ private:
  *
  * Will throw an exception if no number could be parsed.
  */
-auto number(const std::string_view &str) -> lexical_parse_result;
-
-/*!
- * Convert a decimal number string to a double or int64. The resulting value depends on the parsed string.
- * For example 123 will be parsed to int64, while 1.23 will be parsed to a double.
- * Scientific notation in the form of 3e2 or 3E2 is also supported and will be parsed to a double.
- *
- * Will throw an exception if no number could be parsed.
- */
-auto number(const std::u8string_view &str) -> lexical_parse_result;
+auto number(const containers::string_view &str) -> lexical_parse_result;
 
 /*!
  * Extract a possible number string from a given longer string. The string is split where the first character
@@ -132,19 +123,6 @@ auto number(const std::u8string_view &str) -> lexical_parse_result;
  *     "1234.123abc" will return "1234.123"
  *     "1234,12" will return "1234"
  */
-auto extract_number_string(const std::string_view &str) noexcept -> std::string_view;
-
-/*!
- * Extract a possible number string from a given longer string. The string is split where the first character
- * does not equal 0-9, e, E or .
- *
- * This function can be used as a pre-sanitization for the number function.
- *
- * Examples:
- *     "1234abc" will return "1234"
- *     "1234.123abc" will return "1234.123"
- *     "1234,12" will return "1234"
- */
-auto extract_number_string(const std::u8string_view &str) noexcept -> std::u8string_view;
+auto extract_number_string(const containers::string_view &str) noexcept -> containers::string_view;
 
 } // namespace aeon::common::lexical_parse
