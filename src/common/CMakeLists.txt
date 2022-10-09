@@ -24,10 +24,6 @@ set(SOURCES
     public/aeon/common/concepts.h
     public/aeon/common/container.h
     public/aeon/common/containers/buffer.h
-    public/aeon/common/containers/impl/string_impl.h
-    public/aeon/common/containers/impl/string_view_impl.h
-    public/aeon/common/containers/string.h
-    public/aeon/common/containers/string_view.h
     public/aeon/common/delay.h
     public/aeon/common/deprecated.h
     public/aeon/common/dispatcher.h
@@ -46,7 +42,9 @@ set(SOURCES
     public/aeon/common/hexdump.h
     public/aeon/common/impl/color_impl.h
     public/aeon/common/impl/general_tree_impl.h
+    public/aeon/common/impl/string_impl.h
     public/aeon/common/impl/string_utils_impl.h
+    public/aeon/common/impl/string_view_impl.h
     public/aeon/common/impl/version_impl.h
     public/aeon/common/intrinsics.h
     public/aeon/common/intrusive_ptr.h
@@ -66,11 +64,13 @@ set(SOURCES
     public/aeon/common/signals.h
     public/aeon/common/signed_sizeof.h
     public/aeon/common/singleton.h
+    public/aeon/common/string.h
     public/aeon/common/string_concepts.h
     public/aeon/common/string_literal.h
     public/aeon/common/string_table.h
     public/aeon/common/string_traits.h
     public/aeon/common/string_utils.h
+    public/aeon/common/string_view.h
     public/aeon/common/tempfile.h
     public/aeon/common/term_colors.h
     public/aeon/common/timer.h

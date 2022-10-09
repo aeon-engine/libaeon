@@ -74,7 +74,7 @@ calendar::calendar()
 {
 }
 
-calendar::calendar(const common::containers::string &str)
+calendar::calendar(const common::string &str)
     : timezone_{}
     , calendar_{}
 {
@@ -346,7 +346,7 @@ auto calendar::get_dst_offset() const -> std::int32_t
     return internal::get_calendar_field(*calendar_, UCAL_DST_OFFSET);
 }
 
-auto calendar::to_string() const -> common::containers::string
+auto calendar::to_string() const -> common::string
 {
     UErrorCode error{};
 

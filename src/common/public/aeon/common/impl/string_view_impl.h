@@ -2,9 +2,7 @@
 
 #pragma once
 
-#include <string_view>
-
-namespace aeon::common::containers
+namespace aeon::common
 {
 
 inline constexpr string_view::string_view() noexcept
@@ -534,6 +532,4 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
     return str_.find_last_not_of(static_cast<const char>(c), pos);
 }
 
-} // namespace aeon::common::containers
-
-#include <aeon/common/containers/impl/string_impl.h>
+} // namespace aeon::common

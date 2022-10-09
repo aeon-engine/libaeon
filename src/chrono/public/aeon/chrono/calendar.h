@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/containers/string.h>
+#include <aeon/common/string.h>
 #include <aeon/chrono/timezone.h>
 #include <chrono>
 #include <cstdint>
@@ -37,7 +37,7 @@ public:
     /*!
      * Create a calendar from an ISO 8601 formatted string
      */
-    explicit calendar(const common::containers::string &str);
+    explicit calendar(const common::string &str);
 
     /*!
      * Create a calendar with a given timezone with the current time
@@ -198,7 +198,7 @@ public:
     /*!
      * Format the date/time as an ISO 8601 string
      */
-    [[nodiscard]] auto to_string() const -> common::containers::string;
+    [[nodiscard]] auto to_string() const -> common::string;
 
 private:
     timezone timezone_;

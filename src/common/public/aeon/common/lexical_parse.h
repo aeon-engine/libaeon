@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <aeon/common/containers/string.h>
+#include <aeon/common/string.h>
 #include <stdexcept>
 #include <variant>
 #include <cstdint>
@@ -110,7 +110,7 @@ private:
  *
  * Will throw an exception if no number could be parsed.
  */
-auto number(const containers::string_view &str) -> lexical_parse_result;
+auto number(const string_view &str) -> lexical_parse_result;
 
 /*!
  * Extract a possible number string from a given longer string. The string is split where the first character
@@ -123,6 +123,6 @@ auto number(const containers::string_view &str) -> lexical_parse_result;
  *     "1234.123abc" will return "1234.123"
  *     "1234,12" will return "1234"
  */
-auto extract_number_string(const containers::string_view &str) noexcept -> containers::string_view;
+auto extract_number_string(const string_view &str) noexcept -> string_view;
 
 } // namespace aeon::common::lexical_parse

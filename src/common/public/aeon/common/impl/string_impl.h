@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <aeon/common/containers/string_view.h>
+#include <aeon/common/string_view.h>
 
-namespace aeon::common::containers
+namespace aeon::common
 {
 
 inline constexpr string::string() noexcept
@@ -884,4 +884,4 @@ inline auto operator+(const char8_t *const lhs, const string_view &rhs) -> strin
     return reinterpret_cast<const char *const>(lhs) + rhs.as_std_string_view();
 }
 
-} // namespace aeon::common::containers
+} // namespace aeon::common

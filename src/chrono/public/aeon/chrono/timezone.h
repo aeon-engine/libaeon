@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/chrono/offset.h>
-#include <aeon/common/containers/string.h>
+#include <aeon/common/string.h>
 #include <memory>
 #include <vector>
 #include <chrono>
@@ -33,7 +33,7 @@ public:
      * Get the unix tz name (IANA Olson)
      * For example: "Europe/Amsterdam" or "America/New_York"
      */
-    [[nodiscard]] auto id() const -> common::containers::string;
+    [[nodiscard]] auto id() const -> common::string;
 
     /*!
      * Returns true if the current timezone uses daylight saving time
@@ -79,7 +79,7 @@ public:
      */
     [[nodiscard]] static auto local_time() -> timezone;
 
-    [[nodiscard]] static auto enumerate() -> std::vector<common::containers::string>;
+    [[nodiscard]] static auto enumerate() -> std::vector<common::string>;
 
 private:
     timezone();

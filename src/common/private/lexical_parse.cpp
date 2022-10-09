@@ -10,7 +10,7 @@ namespace aeon::common::lexical_parse
 namespace internal
 {
 
-static auto is_possibly_double(const containers::string_view &str) noexcept
+static auto is_possibly_double(const string_view &str) noexcept
 {
     for (const auto c : str)
     {
@@ -23,7 +23,7 @@ static auto is_possibly_double(const containers::string_view &str) noexcept
 
 } // namespace internal
 
-auto number(const containers::string_view &str) -> lexical_parse_result
+auto number(const string_view &str) -> lexical_parse_result
 {
     if (internal::is_possibly_double(str))
     {
@@ -45,7 +45,7 @@ auto number(const containers::string_view &str) -> lexical_parse_result
     return {value, static_cast<std::size_t>(ptr - std::data(str))};
 }
 
-auto extract_number_string(const containers::string_view &str) noexcept -> containers::string_view
+auto extract_number_string(const string_view &str) noexcept -> string_view
 {
     std::size_t end_offset = 0;
     for (const auto c : str)
