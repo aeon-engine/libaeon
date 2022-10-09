@@ -122,7 +122,7 @@ struct converting_variant_conversion<chrono::calendar, std::u8string>
 {
     [[nodiscard]] static auto convert([[maybe_unused]] const chrono::calendar &from) -> std::u8string
     {
-        return from.to_string();
+        return std::u8string{from.to_string().as_std_u8string_view()};
     }
 };
 

@@ -74,7 +74,7 @@ calendar::calendar()
 {
 }
 
-calendar::calendar(const std::u8string &str)
+calendar::calendar(const common::containers::string &str)
     : timezone_{}
     , calendar_{}
 {
@@ -90,7 +90,7 @@ calendar::calendar(const std::u8string &str)
     if (U_FAILURE(error))
         throw std::runtime_error{"Could not create gregorian calendar."};
 
-    const auto ustr = icu::UnicodeString::fromUTF8(reinterpret_cast<const char *>(std::data(str)));
+    const auto ustr = icu::UnicodeString::fromUTF8(std::data(str));
     icu::ParsePosition position{};
     fmt.parse(ustr, *calendar_, position);
 
@@ -346,7 +346,7 @@ auto calendar::get_dst_offset() const -> std::int32_t
     return internal::get_calendar_field(*calendar_, UCAL_DST_OFFSET);
 }
 
-auto calendar::to_string() const -> std::u8string
+auto calendar::to_string() const -> common::containers::string
 {
     UErrorCode error{};
 
@@ -361,10 +361,7 @@ auto calendar::to_string() const -> std::u8string
 
     std::string std_str;
     str.toUTF8String(std_str);
-
-    // TODO: Fix this once toUTF8String supports std::u8string.
-    std::u8string u8std_str{std::cbegin(std_str), std::cend(std_str)};
-    return u8std_str;
+    return std_str;
 }
 
 } // namespace aeon::chrono
