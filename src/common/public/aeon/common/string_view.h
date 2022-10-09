@@ -248,6 +248,10 @@ public:
 
     [[nodiscard]] constexpr auto find_last_not_of(const char8_t c, const size_type pos = 0) const -> size_type;
 
+    constexpr void remove_prefix(const size_type n);
+
+    constexpr void remove_suffix(const size_type n);
+
 private:
     std::string_view str_;
 };

@@ -534,4 +534,14 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
     return str_.find_last_not_of(static_cast<const char>(c), pos);
 }
 
+constexpr void string_view::remove_prefix(const size_type n)
+{
+    str_.remove_prefix(n);
+}
+
+constexpr void string_view::remove_suffix(const size_type n)
+{
+    str_.remove_suffix(n);
+}
+
 } // namespace aeon::common
