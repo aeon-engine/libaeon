@@ -466,6 +466,36 @@ inline constexpr void string::clear()
     return str_.cend();
 }
 
+[[nodiscard]] inline constexpr auto string::rbegin() noexcept -> reverse_iterator
+{
+    return str_.rbegin();
+}
+
+[[nodiscard]] inline constexpr auto string::rbegin() const noexcept -> const_reverse_iterator
+{
+    return str_.rbegin();
+}
+
+[[nodiscard]] inline constexpr auto string::crbegin() const noexcept -> const_reverse_iterator
+{
+    return str_.crbegin();
+}
+
+[[nodiscard]] inline constexpr auto string::rend() noexcept -> reverse_iterator
+{
+    return str_.rend();
+}
+
+[[nodiscard]] inline constexpr auto string::rend() const noexcept -> const_reverse_iterator
+{
+    return str_.rend();
+}
+
+[[nodiscard]] inline constexpr auto string::crend() const noexcept -> const_reverse_iterator
+{
+    return str_.crend();
+}
+
 [[nodiscard]] inline constexpr auto string::starts_with(const std::string_view &str) const noexcept -> bool
 {
     return str_.starts_with(str);

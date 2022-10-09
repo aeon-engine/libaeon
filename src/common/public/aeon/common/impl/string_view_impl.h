@@ -241,6 +241,36 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
     return str_.cend();
 }
 
+[[nodiscard]] inline constexpr auto string_view::rbegin() noexcept -> reverse_iterator
+{
+    return str_.rbegin();
+}
+
+[[nodiscard]] inline constexpr auto string_view::rbegin() const noexcept -> const_reverse_iterator
+{
+    return str_.rbegin();
+}
+
+[[nodiscard]] inline constexpr auto string_view::crbegin() const noexcept -> const_reverse_iterator
+{
+    return str_.crbegin();
+}
+
+[[nodiscard]] inline constexpr auto string_view::rend() noexcept -> reverse_iterator
+{
+    return str_.rend();
+}
+
+[[nodiscard]] inline constexpr auto string_view::rend() const noexcept -> const_reverse_iterator
+{
+    return str_.rend();
+}
+
+[[nodiscard]] inline constexpr auto string_view::crend() const noexcept -> const_reverse_iterator
+{
+    return str_.crend();
+}
+
 [[nodiscard]] inline constexpr auto string_view::starts_with(const std::string_view &str) const noexcept -> bool
 {
     return str_.starts_with(str);

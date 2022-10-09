@@ -135,6 +135,18 @@ public:
 
     [[nodiscard]] constexpr auto cend() const noexcept -> const_iterator;
 
+    [[nodiscard]] constexpr auto rbegin() noexcept -> reverse_iterator;
+
+    [[nodiscard]] constexpr auto rbegin() const noexcept -> const_reverse_iterator;
+
+    [[nodiscard]] constexpr auto crbegin() const noexcept -> const_reverse_iterator;
+
+    [[nodiscard]] constexpr auto rend() noexcept -> reverse_iterator;
+
+    [[nodiscard]] constexpr auto rend() const noexcept -> const_reverse_iterator;
+
+    [[nodiscard]] constexpr auto crend() const noexcept -> const_reverse_iterator;
+
     [[nodiscard]] constexpr auto starts_with(const std::string_view &str) const noexcept -> bool;
 
     [[nodiscard]] auto starts_with(const std::u8string_view &str) const noexcept -> bool;
