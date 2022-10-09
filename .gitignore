@@ -33,3 +33,5 @@ cmake-build-*/
 
 *.tmp
 *.TMP
+
+*.pyc
