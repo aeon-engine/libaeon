@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
+
 namespace aeon::common
 {
 
