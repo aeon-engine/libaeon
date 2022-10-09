@@ -36,7 +36,7 @@ auto timezone::operator!=(const timezone &other) const -> bool
     return !(*this == other);
 }
 
-auto timezone::id() const -> std::string
+auto timezone::id() const -> common::containers::string
 {
     assert(timezone_);
     return timezone_->id();
@@ -87,13 +87,13 @@ auto timezone::local_time() -> timezone
     return timezone{std::make_unique<timezone_impl>(icu::TimeZone::createDefault())};
 }
 
-auto timezone::enumerate() -> std::vector<std::string>
+auto timezone::enumerate() -> std::vector<common::containers::string>
 {
     std::unique_ptr<icu::StringEnumeration> timezones{icu::TimeZone::createEnumeration()};
 
     UErrorCode error = U_ZERO_ERROR;
 
-    std::vector<std::string> result;
+    std::vector<common::containers::string> result;
     result.reserve(timezones->count(error));
 
     if (U_FAILURE(error))
@@ -106,7 +106,7 @@ auto timezone::enumerate() -> std::vector<std::string>
 
         std::string value;
         timezone->toUTF8String(value);
-        result.push_back(std::move(value));
+        result.emplace_back(std::move(value));
     }
 
     return result;

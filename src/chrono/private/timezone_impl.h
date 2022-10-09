@@ -3,9 +3,9 @@
 #pragma once
 
 #include <aeon/chrono/offset.h>
+#include <aeon/common/containers/string.h>
 #include <unicode/timezone.h>
 #include <chrono>
-#include <string>
 #include <memory>
 #include <stdexcept>
 
@@ -28,7 +28,7 @@ public:
     timezone_impl(timezone_impl &&) noexcept = delete;
     auto operator=(timezone_impl &&) noexcept -> timezone_impl & = delete;
 
-    [[nodiscard]] auto id() const -> std::string
+    [[nodiscard]] auto id() const -> common::containers::string
     {
         icu::UnicodeString id;
         timezone_->getID(id);
