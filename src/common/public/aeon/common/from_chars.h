@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/string_view.h>
 #include <system_error>
-#include <string_view>
 #include <cstdint>
 
 namespace aeon::common
@@ -43,25 +43,13 @@ auto from_chars(const char8_t *first, const char8_t *last, double &value) -> fro
 auto from_chars(const char8_t *first, const char8_t *last, long double &value) -> from_chars_result<char8_t>;
 
 template <typename T>
-inline auto from_chars(const std::string_view str, T &value) -> from_chars_result<char>
+inline auto from_chars(const string_view str, T &value) -> from_chars_result<char>
 {
     return from_chars(std::data(str), std::data(str) + std::size(str), value);
 }
 
 template <typename T>
-inline auto from_chars(const std::u8string_view str, T &value) -> from_chars_result<char8_t>
-{
-    return from_chars(std::data(str), std::data(str) + std::size(str), value);
-}
-
-template <typename T>
-inline auto from_chars(const std::string_view str, T &value, const int base) -> from_chars_result<char>
-{
-    return from_chars(std::data(str), std::data(str) + std::size(str), value, base);
-}
-
-template <typename T>
-inline auto from_chars(const std::u8string_view str, T &value, const int base) -> from_chars_result<char8_t>
+inline auto from_chars(const string_view str, T &value, const int base) -> from_chars_result<char>
 {
     return from_chars(std::data(str), std::data(str) + std::size(str), value, base);
 }
