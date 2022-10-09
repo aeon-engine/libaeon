@@ -96,6 +96,8 @@ public:
 
     constexpr auto erase(const_iterator first, const_iterator last) -> iterator;
 
+    [[nodiscard]] constexpr auto str() noexcept -> std::string &;
+
     [[nodiscard]] constexpr auto str() const noexcept -> const std::string &;
 
     [[nodiscard]] constexpr auto size() const noexcept -> size_type;

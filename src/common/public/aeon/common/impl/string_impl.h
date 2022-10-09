@@ -149,6 +149,11 @@ inline constexpr auto string::erase(const_iterator first, const_iterator last) -
     return str_.erase(first, last);
 }
 
+[[nodiscard]] inline constexpr auto string::str() noexcept -> std::string &
+{
+    return str_;
+}
+
 [[nodiscard]] inline constexpr auto string::str() const noexcept -> const std::string &
 {
     return str_;
