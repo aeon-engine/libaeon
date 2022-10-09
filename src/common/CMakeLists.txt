@@ -46,7 +46,7 @@ set(SOURCES
     public/aeon/common/hexdump.h
     public/aeon/common/impl/color_impl.h
     public/aeon/common/impl/general_tree_impl.h
-    public/aeon/common/impl/string_impl.h
+    public/aeon/common/impl/string_utils_impl.h
     public/aeon/common/impl/version_impl.h
     public/aeon/common/intrinsics.h
     public/aeon/common/intrusive_ptr.h
