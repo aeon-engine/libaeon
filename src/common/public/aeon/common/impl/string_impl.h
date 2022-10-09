@@ -229,7 +229,7 @@ inline constexpr void string::resize(const size_type count)
     return str_.compare(str);
 }
 
-[[nodiscard]] inline constexpr auto string::compare(const char8_t *const str) const noexcept -> int
+[[nodiscard]] inline auto string::compare(const char8_t *const str) const noexcept -> int
 {
     return str_.compare(reinterpret_cast<const char *const>(str));
 }
@@ -300,7 +300,7 @@ inline constexpr auto string::append(const value_type *const str) -> string &
     return *this;
 }
 
-inline constexpr auto string::append(const char8_t *const str) -> string &
+inline auto string::append(const char8_t *const str) -> string &
 {
     str_.append(reinterpret_cast<const char *const>(str));
     return *this;
@@ -336,7 +336,7 @@ inline constexpr auto string::operator+=(const std::string_view &str) -> string 
     return *this;
 }
 
-inline constexpr auto string::operator+=(const std::u8string_view &str) -> string &
+inline auto string::operator+=(const std::u8string_view &str) -> string &
 {
     str_ += reinterpret_cast<const char *const>(std::data(str));
     return *this;
@@ -536,8 +536,7 @@ inline constexpr void string::clear()
     return str_.find(str, pos);
 }
 
-[[nodiscard]] inline constexpr auto string::find(const std::u8string_view &str, const size_type pos) const noexcept
-    -> size_type
+[[nodiscard]] inline auto string::find(const std::u8string_view &str, const size_type pos) const noexcept -> size_type
 {
     return str_.find(reinterpret_cast<const char *const>(std::data(str)), pos);
 }
@@ -578,8 +577,7 @@ inline constexpr void string::clear()
     return str_.rfind(str, pos);
 }
 
-[[nodiscard]] inline constexpr auto string::rfind(const std::u8string_view &str, const size_type pos) const noexcept
-    -> size_type
+[[nodiscard]] inline auto string::rfind(const std::u8string_view &str, const size_type pos) const noexcept -> size_type
 {
     return str_.rfind(reinterpret_cast<const char *const>(std::data(str)), pos);
 }
@@ -621,8 +619,8 @@ inline constexpr void string::clear()
     return str_.find_first_of(str, pos);
 }
 
-[[nodiscard]] inline constexpr auto string::find_first_of(const std::u8string_view &str,
-                                                          const size_type pos) const noexcept -> size_type
+[[nodiscard]] inline auto string::find_first_of(const std::u8string_view &str, const size_type pos) const noexcept
+    -> size_type
 {
     return str_.find_first_of(reinterpret_cast<const char *const>(std::data(str)), pos);
 }
@@ -665,8 +663,8 @@ inline constexpr void string::clear()
     return str_.find_first_not_of(str, pos);
 }
 
-[[nodiscard]] inline constexpr auto string::find_first_not_of(const std::u8string_view &str,
-                                                              const size_type pos) const noexcept -> size_type
+[[nodiscard]] inline auto string::find_first_not_of(const std::u8string_view &str, const size_type pos) const noexcept
+    -> size_type
 {
     return str_.find_first_not_of(reinterpret_cast<const char *const>(std::data(str)), pos);
 }
@@ -711,8 +709,8 @@ inline constexpr void string::clear()
     return str_.find_last_of(str, pos);
 }
 
-[[nodiscard]] inline constexpr auto string::find_last_of(const std::u8string_view &str,
-                                                         const size_type pos) const noexcept -> size_type
+[[nodiscard]] inline auto string::find_last_of(const std::u8string_view &str, const size_type pos) const noexcept
+    -> size_type
 {
     return str_.find_last_of(reinterpret_cast<const char *const>(std::data(str)), pos);
 }
@@ -755,8 +753,8 @@ inline constexpr void string::clear()
     return str_.find_last_not_of(str, pos);
 }
 
-[[nodiscard]] inline constexpr auto string::find_last_not_of(const std::u8string_view &str,
-                                                             const size_type pos) const noexcept -> size_type
+[[nodiscard]] inline auto string::find_last_not_of(const std::u8string_view &str, const size_type pos) const noexcept
+    -> size_type
 {
     return str_.find_last_not_of(reinterpret_cast<const char *const>(std::data(str)), pos);
 }

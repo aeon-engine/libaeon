@@ -128,7 +128,7 @@ public:
 
     [[nodiscard]] constexpr auto compare(const value_type *const str) const noexcept -> int;
 
-    [[nodiscard]] constexpr auto compare(const char8_t *const str) const noexcept -> int;
+    [[nodiscard]] auto compare(const char8_t *const str) const noexcept -> int;
 
     constexpr auto operator==(const string &str) const -> bool;
 
@@ -156,7 +156,7 @@ public:
 
     constexpr auto append(const value_type *const str) -> string &;
 
-    constexpr auto append(const char8_t *const str) -> string &;
+    auto append(const char8_t *const str) -> string &;
 
     constexpr auto append(const std::string &str) -> string &;
 
@@ -168,7 +168,7 @@ public:
 
     constexpr auto operator+=(const std::string_view &str) -> string &;
 
-    constexpr auto operator+=(const std::u8string_view &str) -> string &;
+    auto operator+=(const std::u8string_view &str) -> string &;
 
     constexpr auto operator+=(const string &str) -> string &;
 
@@ -246,8 +246,7 @@ public:
 
     [[nodiscard]] auto find(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find(const std::u8string_view &str, const size_type pos = 0) const noexcept
-        -> size_type;
+    [[nodiscard]] auto find(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
     [[nodiscard]] constexpr auto find(const string &str, const size_type pos = 0) const noexcept -> size_type;
 
@@ -263,8 +262,7 @@ public:
 
     [[nodiscard]] auto rfind(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto rfind(const std::u8string_view &str, const size_type pos = 0) const noexcept
-        -> size_type;
+    [[nodiscard]] auto rfind(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
     [[nodiscard]] constexpr auto rfind(const string &str, const size_type pos = 0) const noexcept -> size_type;
 
@@ -280,7 +278,7 @@ public:
 
     [[nodiscard]] auto find_first_of(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto find_first_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
     [[nodiscard]] constexpr auto find_first_of(const string &str, const size_type pos = 0) const noexcept -> size_type;
@@ -299,8 +297,8 @@ public:
     [[nodiscard]] auto find_first_not_of(const std::string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_not_of(const std::u8string_view &str,
-                                                   const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto find_first_not_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
+        -> size_type;
 
     [[nodiscard]] constexpr auto find_first_not_of(const string &str, const size_type pos = 0) const noexcept
         -> size_type;
@@ -318,8 +316,7 @@ public:
 
     [[nodiscard]] auto find_last_of(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
-        -> size_type;
+    [[nodiscard]] auto find_last_of(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
     [[nodiscard]] constexpr auto find_last_of(const string &str, const size_type pos = 0) const noexcept -> size_type;
 
@@ -337,7 +334,7 @@ public:
     [[nodiscard]] auto find_last_not_of(const std::string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_not_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto find_last_not_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
     [[nodiscard]] constexpr auto find_last_not_of(const string &str, const size_type pos = 0) const noexcept
