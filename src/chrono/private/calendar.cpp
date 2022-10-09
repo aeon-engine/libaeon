@@ -108,6 +108,11 @@ calendar::calendar(timezone zone)
 {
 }
 
+calendar::calendar(const std::chrono::system_clock::time_point utc_time)
+    : calendar{timezone::gmt(), utc_time}
+{
+}
+
 calendar::calendar(timezone zone, const std::chrono::system_clock::time_point utc_time)
     : timezone_{std::move(zone)}
     , calendar_{internal::create_calendar(*timezone_.timezone_->get())}

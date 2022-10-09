@@ -44,6 +44,11 @@ public:
     explicit calendar(timezone zone);
 
     /*!
+     * Create a calendar in utc/gmt with a given utc/gmt time
+     */
+    explicit calendar(const std::chrono::system_clock::time_point utc_time);
+
+    /*!
      * Create a calendar with a given timezone and utc/gmt time
      */
     explicit calendar(timezone zone, const std::chrono::system_clock::time_point utc_time);
