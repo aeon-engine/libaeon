@@ -1,14 +1,14 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/common/from_chars.h>
+#include <aeon/common/string_view.h>
 #include <gtest/gtest.h>
-#include <string_view>
 
 using namespace aeon;
 using namespace std::literals;
 
 template <typename T>
-void test_basic_value(const std::string_view str, const T expected_value)
+void test_basic_value(const common::string_view str, const T expected_value)
 {
     T value{};
     const auto result = common::from_chars(str, value);
@@ -18,7 +18,7 @@ void test_basic_value(const std::string_view str, const T expected_value)
 }
 
 template <typename T>
-void test_basic_value(const std::string_view str, const T expected_value, const int base)
+void test_basic_value(const common::string_view str, const T expected_value, const int base)
 {
     T value{};
     const auto result = common::from_chars(str, value, base);
