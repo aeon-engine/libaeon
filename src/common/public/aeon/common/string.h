@@ -176,6 +176,10 @@ public:
 
     constexpr auto append(const string_view &str) -> string &;
 
+    constexpr auto operator+=(const char *str) -> string &;
+
+    auto operator+=(const char8_t *str) -> string &;
+
     constexpr auto operator+=(const std::string &str) -> string &;
 
     constexpr auto operator+=(const std::string_view &str) -> string &;

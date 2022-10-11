@@ -351,6 +351,18 @@ inline constexpr auto string::append(const string_view &str) -> string &
     return *this;
 }
 
+inline constexpr auto string::operator+=(const char *str) -> string &
+{
+    str_.append(str);
+    return *this;
+}
+
+inline auto string::operator+=(const char8_t *str) -> string &
+{
+    str_ += reinterpret_cast<const char *const>(str);
+    return *this;
+}
+
 inline constexpr auto string::operator+=(const std::string &str) -> string &
 {
     str_.append(str);
