@@ -22,12 +22,12 @@ inline constexpr string::string(const char8_t c) noexcept
 {
 }
 
-constexpr string::string(const size_type count, const value_type c) noexcept
+inline constexpr string::string(const size_type count, const value_type c) noexcept
     : str_(count, c)
 {
 }
 
-constexpr string::string(const size_type count, const char8_t c) noexcept
+inline constexpr string::string(const size_type count, const char8_t c) noexcept
     : str_(count, static_cast<value_type>(c))
 {
 }
