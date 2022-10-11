@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <ostream>
 
 namespace aeon::common
 {
@@ -408,6 +409,8 @@ inline constexpr auto operator+(const char *const lhs, const string_view &rhs) -
 inline auto operator+(const string_view &lhs, const char8_t *const rhs) -> string;
 
 inline auto operator+(const char8_t *const lhs, const string_view &rhs) -> string;
+
+inline auto operator<<(std::ostream &os, const string &str) -> std::ostream &;
 
 } // namespace aeon::common
 

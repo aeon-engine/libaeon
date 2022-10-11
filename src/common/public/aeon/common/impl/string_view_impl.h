@@ -593,4 +593,9 @@ constexpr void string_view::remove_suffix(const size_type n)
     str_.remove_suffix(n);
 }
 
+inline auto operator<<(std::ostream &os, const string_view &str) -> std::ostream &
+{
+    return os << str.as_std_string_view();
+}
+
 } // namespace aeon::common

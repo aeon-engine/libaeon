@@ -932,4 +932,9 @@ inline auto operator+(const char8_t *const lhs, const string_view &rhs) -> strin
     return reinterpret_cast<const char *const>(lhs) + rhs.as_std_string_view();
 }
 
+inline auto operator<<(std::ostream &os, const string &str) -> std::ostream &
+{
+    return os << str.str();
+}
+
 } // namespace aeon::common

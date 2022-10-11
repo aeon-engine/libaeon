@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string_view>
+#include <ostream>
 
 namespace aeon::common
 {
@@ -273,6 +274,8 @@ public:
 private:
     std::string_view str_;
 };
+
+inline auto operator<<(std::ostream &os, const string_view &str) -> std::ostream &;
 
 } // namespace aeon::common
 
