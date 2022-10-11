@@ -2,17 +2,16 @@
 
 #pragma once
 
-#include <aeon/common/string_utils.h>
+#include <aeon/common/string_view.h>
 #include <initializer_list>
 #include <regex>
 
 namespace aeon::rdp
 {
 
-template <common::concepts::string_view_like T>
 class cursor;
 
-template <common::concepts::string_view_like T, typename ResultT>
+template <typename ResultT>
 class parse_result;
 
 enum class eof_mode
@@ -33,21 +32,18 @@ enum class eof_mode
  * parse_* - The same as match, however the result is parsed into a pod type (for example parse_hex
  *           would parse to an integer)
  */
-template <common::concepts::string_view_like T>
 class parser
 {
-    template <common::concepts::string_view_like U>
     friend class scoped_state;
 
 public:
-    using string_view_type = common::string_utils::basic_string_view_type<T>;
-    using char_type = common::string_utils::char_type<T>;
-    using size_type = common::string_utils::size_type<T>;
-    using difference_type = common::string_utils::difference_type<T>;
-    using iterator = typename common::string_utils::basic_string_view_type<T>::const_iterator;
+    using char_type = common::string_view::value_type;
+    using size_type = common::string_view::size_type;
+    using difference_type = common::string_view::difference_type;
+    using iterator = common::string_view::const_iterator;
 
-    explicit parser(const T &v);
-    explicit parser(const T &v, const std::u8string_view filename);
+    explicit parser(const common::string_view &v);
+    explicit parser(const common::string_view &v, const common::string_view filename);
 
     template <std::contiguous_iterator iterator_t>
     explicit parser(iterator_t begin, iterator_t end);
@@ -75,7 +71,7 @@ public:
     /*!
      * Return a view on the internal string that is being parsed
      */
-    [[nodiscard]] auto str() const noexcept -> const string_view_type &;
+    [[nodiscard]] auto str() const noexcept -> const common::string_view &;
 
     /*!
      * Advance to the next character
@@ -141,27 +137,27 @@ public:
      * column. This class can help in forming user-friendly error messages. \return A cursor class containing
      * information of the current offset.
      */
-    [[nodiscard]] auto cursor() const noexcept -> rdp::cursor<T>;
+    [[nodiscard]] auto cursor() const noexcept -> rdp::cursor;
 
     /*!
      * Get the filename of the current object being parsed (if set during construction).
      * This can help in forming user-friendly error messages.
      * \return A filename, if set.
      */
-    [[nodiscard]] auto filename() const noexcept -> std::u8string_view;
+    [[nodiscard]] auto filename() const noexcept -> common::string_view;
 
     /*!
      * Get a range of characters based on given indices.
      * \return The string in the given range indices of characters. Returns error if the indices are out of range.
      */
     [[nodiscard]] auto get_range(const size_type begin, const size_type end) const noexcept
-        -> parse_result<T, string_view_type>;
+        -> parse_result<common::string_view>;
 
     /*!
      * Peek ahead to see if a certain string is at the current position. Unlike check(), it does not move the cursor.
      * In order to peek a single character, you should use the current() method.
      */
-    [[nodiscard]] auto peek(const string_view_type str) noexcept -> bool;
+    [[nodiscard]] auto peek(const common::string_view str) noexcept -> bool;
 
     /*!
      * Check if a certain character is at the current position. Moves the internal index 1 if matched.
@@ -174,7 +170,7 @@ public:
      * of the given string if matched.
      * \return True if character is at current position
      */
-    [[nodiscard]] auto check(const string_view_type str) noexcept -> bool;
+    [[nodiscard]] auto check(const common::string_view str) noexcept -> bool;
 
     /*!
      * Check if one of the given characters are the current position. Moves the internal index 1 if matched.
@@ -210,7 +206,7 @@ public:
      * Match each of the given characters. The match ends at the first character that isn't in the given list.
      */
     [[nodiscard]] auto match_each(const std::initializer_list<char_type> c) noexcept
-        -> parse_result<T, string_view_type>;
+        -> parse_result<common::string_view>;
 
     /*!
      * Match with a matcher.
@@ -218,7 +214,7 @@ public:
      * The matcher's signature is: auto pred(const char_type c) noexcept -> bool
      */
     template <typename matcher_t>
-    [[nodiscard]] auto match(matcher_t pred) noexcept -> parse_result<T, string_view_type>;
+    [[nodiscard]] auto match(matcher_t pred) noexcept -> parse_result<common::string_view>;
 
     /*!
      * Match with a matcher. The second argument given to the predicate is the index of the matched character.
@@ -228,48 +224,43 @@ public:
      * The matcher's signature is: auto pred(const char_type c, const size_type index) noexcept -> bool
      */
     template <typename matcher_t>
-    [[nodiscard]] auto match_indexed(matcher_t pred) noexcept -> parse_result<T, string_view_type>;
+    [[nodiscard]] auto match_indexed(matcher_t pred) noexcept -> parse_result<common::string_view>;
 
     /*!
      * Match any character until the given character. The result will not contain the given end character.
      * If eof is reached before the given character is found, unmatched will be returned.
      */
     [[nodiscard]] auto match_until(const char_type c, const eof_mode mode = eof_mode::fail) noexcept
-        -> parse_result<T, string_view_type>;
+        -> parse_result<common::string_view>;
 
     /*!
      * Match any character until the given string. The result will not contain the given end string.
      * If eof is reached before the given string is found, unmatched will be returned.
      */
-    [[nodiscard]] auto match_until(const string_view_type str) noexcept -> parse_result<T, string_view_type>;
+    [[nodiscard]] auto match_until(const common::string_view str) noexcept -> parse_result<common::string_view>;
 
     /*!
      * Match any character until the given characters. The result will not contain the given end characters.
      * If eof is reached before the given characters are found, unmatched will be returned.
      */
     [[nodiscard]] auto match_until(const std::initializer_list<char_type> c,
-                                   const eof_mode mode = eof_mode::fail) noexcept -> parse_result<T, string_view_type>;
+                                   const eof_mode mode = eof_mode::fail) noexcept -> parse_result<common::string_view>;
 
 private:
-    string_view_type view_;
+    common::string_view view_;
     iterator current_;
-    std::u8string_view filename_;
+    common::string_view filename_;
 };
 
-template <common::concepts::string_view_like T>
-auto eof(const rdp::parser<T> &parser) noexcept -> bool;
+auto eof(const parser &parser) noexcept -> bool;
 
-template <common::concepts::string_view_like T>
-auto bof(const rdp::parser<T> &parser) noexcept -> bool;
+auto bof(const parser &parser) noexcept -> bool;
 
-template <common::concepts::string_view_like T>
-auto current(const rdp::parser<T> &parser) noexcept -> typename rdp::parser<T>::char_type;
+auto current(const parser &parser) noexcept -> parser::char_type;
 
-template <common::concepts::string_view_like T>
-auto offset(const rdp::parser<T> &parser) noexcept -> typename rdp::parser<T>::size_type;
+auto offset(const rdp::parser &parser) noexcept -> parser::size_type;
 
-template <common::concepts::string_view_like T>
-auto filename(const rdp::parser<T> &parser) noexcept -> std::u8string_view;
+auto filename(const rdp::parser &parser) noexcept -> common::string_view;
 
 } // namespace aeon::rdp
 

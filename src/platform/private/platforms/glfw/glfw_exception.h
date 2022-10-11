@@ -10,7 +10,7 @@ namespace aeon::platform
 class glfw_platform_exception final : public platform_exception
 {
 public:
-    explicit glfw_platform_exception(std::u8string msg) noexcept
+    explicit glfw_platform_exception(common::string msg) noexcept
         : platform_exception{std::move(msg)}
     {
     }

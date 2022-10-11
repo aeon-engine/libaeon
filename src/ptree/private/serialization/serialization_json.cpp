@@ -11,7 +11,6 @@
 #include <aeon/common/type_traits.h>
 #include <aeon/common/lexical_parse.h>
 #include <variant>
-#include <string>
 #include <cctype>
 
 namespace aeon::ptree::serialization
@@ -23,7 +22,7 @@ namespace internal
 static void to_json(const std::monostate, streams::idynamic_stream &);
 static void to_json(const array &arr, streams::idynamic_stream &stream);
 static void to_json(const object &obj, streams::idynamic_stream &stream);
-static void to_json(const std::u8string &obj_str, streams::idynamic_stream &stream);
+static void to_json(const common::string &obj_str, streams::idynamic_stream &stream);
 static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_json(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_json(const double val, streams::idynamic_stream &stream);
@@ -88,12 +87,12 @@ static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream)
     to_json(uuid.str().u8str(), stream);
 }
 
-static void to_json(const std::u8string &obj_str, streams::idynamic_stream &stream)
+static void to_json(const common::string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << '"';
     // TODO: Add utf8 support to ptree
-    std::u8string str{std::cbegin(obj_str), std::cend(obj_str)};
+    common::string str{std::cbegin(obj_str), std::cend(obj_str)};
     writer << unicode::stringutils::escape(str);
     writer << '"';
 }
@@ -129,7 +128,7 @@ static void to_json([[maybe_unused]] const blob &val, [[maybe_unused]] streams::
 class json_parser final
 {
 public:
-    explicit json_parser(const std::u8string_view &view)
+    explicit json_parser(const common::string_view &view)
         : view_{view}
         , itr_{std::begin(view_)}
         , prev_itr_{itr_}
@@ -175,13 +174,13 @@ private:
     {
         if (token == 't')
         {
-            check(u8"true");
+            check("true");
             return true;
         }
 
         if (token == 'f')
         {
-            check(u8"false");
+            check("false");
             return false;
         }
 
@@ -190,7 +189,7 @@ private:
 
     [[nodiscard]] auto parse_null() -> property_tree
     {
-        check(u8"null");
+        check("null");
         return nullptr;
     }
 
@@ -268,7 +267,7 @@ private:
         return result.double_value();
     }
 
-    void check(const std::u8string_view &expected)
+    void check(const common::string_view &expected)
     {
         itr_ = prev_itr_;
         if (view_.str().compare(itr_.offset(), std::size(expected), expected) == 0)
@@ -281,9 +280,9 @@ private:
         }
     }
 
-    [[nodiscard]] auto parse_string() -> std::u8string
+    [[nodiscard]] auto parse_string() -> common::string
     {
-        std::u8string out;
+        common::string out;
 
         while (true)
         {
@@ -355,9 +354,9 @@ private:
         return *itr_++;
     }
 
-    unicode::utf_string_view<std::u8string_view> view_;
-    unicode::utf_string_view<std::u8string_view>::iterator itr_;
-    unicode::utf_string_view<std::u8string_view>::iterator prev_itr_;
+    unicode::utf_string_view<common::string_view> view_;
+    unicode::utf_string_view<common::string_view>::iterator itr_;
+    unicode::utf_string_view<common::string_view>::iterator prev_itr_;
 };
 
 } // namespace internal
@@ -367,9 +366,9 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
     internal::to_json(ptree, stream);
 }
 
-[[nodiscard]] auto to_json(const property_tree &ptree) -> std::u8string
+[[nodiscard]] auto to_json(const property_tree &ptree) -> common::string
 {
-    std::u8string str;
+    common::string str;
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     to_json(ptree, stream);
     return str;
@@ -378,7 +377,7 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
 void from_json(streams::idynamic_stream &stream, property_tree &ptree)
 {
     streams::stream_reader reader{stream};
-    const auto str = reader.read_to_u8string();
+    const auto str = reader.read_to_string();
     internal::json_parser parser{str};
     ptree = parser.parse();
 }
@@ -390,7 +389,7 @@ void from_json(streams::idynamic_stream &stream, property_tree &ptree)
     return pt;
 }
 
-[[nodiscard]] auto from_json(const std::u8string &str) -> property_tree
+[[nodiscard]] auto from_json(const common::string &str) -> property_tree
 {
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_json(stream);

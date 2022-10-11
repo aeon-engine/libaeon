@@ -15,24 +15,24 @@
 namespace aeon::web::http
 {
 
-auto detail::to_url_path(const std::u8string &path) -> std::u8string
+auto detail::to_url_path(const common::string &path) -> common::string
 {
-    return std::u8string{common::string_utils::replace_copy(path, u8"\\", u8"/").as_std_u8string_view()};
+    return common::string{common::string_utils::replace_copy(path, "\\", "/").as_std_u8string_view()};
 }
 
-auto detail::is_image_extension(const std::u8string &extension) -> bool
+auto detail::is_image_extension(const common::string &extension) -> bool
 {
     const auto extension_lower = common::string_utils::to_lower_copy(extension);
-    return extension_lower == u8".jpg" || extension_lower == u8".jpeg" || extension_lower == u8".png" ||
-           extension_lower == u8".gif";
+    return extension_lower == ".jpg" || extension_lower == ".jpeg" || extension_lower == ".png" ||
+           extension_lower == ".gif";
 }
 
-static_route::static_route(std::u8string mount_point, const std::filesystem::path &base_path)
+static_route::static_route(common::string mount_point, const std::filesystem::path &base_path)
     : static_route(std::move(mount_point), base_path, static_route_settings{})
 {
 }
 
-static_route::static_route(std::u8string mount_point, const std::filesystem::path &base_path,
+static_route::static_route(common::string mount_point, const std::filesystem::path &base_path,
                            static_route_settings settings)
     : route{std::move(mount_point)}
     , base_path_{std::filesystem::canonical(base_path)}
@@ -46,7 +46,7 @@ static_route::~static_route() = default;
 void static_route::on_http_request(http_server_socket &source, routable_http_server_session &session,
                                    const request &request)
 {
-    std::filesystem::path uri_path(request.get_uri());
+    std::filesystem::path uri_path(request.get_uri().str());
 
     // If a directory was given, check the default files.
     if (std::filesystem::is_directory(base_path_ / uri_path))
@@ -93,11 +93,11 @@ auto static_route::get_path_for_default_files(const std::filesystem::path &path)
     {
         for (const auto &default_file : settings_.default_files)
         {
-            const auto test_uri_path = base_path_ / path / default_file;
+            const auto test_uri_path = base_path_ / path / default_file.str();
 
             if (std::filesystem::exists(test_uri_path))
             {
-                uri_path = default_file;
+                uri_path = default_file.str();
                 break;
             }
         }
@@ -127,13 +127,13 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
     const auto header_name = get_current_directory_header_name(path);
     const auto entries = get_directory_listing_entries(path);
 
-    std::u8string reply = u8"<h1>";
+    common::string reply = "<h1>";
     reply += header_name;
-    reply += u8"</h1><hr><pre>";
+    reply += "</h1><hr><pre>";
 
     if (path != base_path_)
     {
-        reply += generate_hyperlink_html(u8"../", u8"../");
+        reply += generate_hyperlink_html("../", "../");
         reply += '\n';
     }
 
@@ -149,9 +149,9 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
         auto image_per_line_count = 0;
         for (const auto &entry : entries)
         {
-            std::u8string thumbnail_html = u8"<img src=\"";
+            common::string thumbnail_html = "<img src=\"";
             thumbnail_html += entry.display_name;
-            thumbnail_html += u8R"(" width="128" style="margin:10px">)";
+            thumbnail_html += R"(" width="128" style="margin:10px">)";
 
             reply += generate_hyperlink_html(thumbnail_html, entry.display_name);
 
@@ -171,12 +171,12 @@ void static_route::reply_folder(http_server_socket &source, [[maybe_unused]] rou
         }
     }
 
-    reply += u8"</pre><hr>";
+    reply += "</pre><hr>";
 
-    source.respond(u8"text/html", reply);
+    source.respond("text/html", reply);
 }
 
-auto static_route::get_current_directory_header_name(const std::filesystem::path &path) const -> std::u8string
+auto static_route::get_current_directory_header_name(const std::filesystem::path &path) const -> common::string
 {
     return path.stem().u8string();
 }
@@ -191,7 +191,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
 
         if (std::filesystem::is_regular_file(file_entry))
         {
-            const auto filename = file_entry.path().filename().u8string();
+            const auto filename = file_entry.path().filename().string();
 
             if (is_hidden_file(filename))
                 continue;
@@ -202,7 +202,7 @@ auto static_route::get_directory_listing_entries(const std::filesystem::path &pa
         else if (std::filesystem::is_directory(file_entry))
         {
             entry.is_directory = true;
-            entry.display_name = file_entry.path().filename().u8string() + u8"/";
+            entry.display_name = file_entry.path().filename().string() + "/";
         }
         else // If it's not a regular file or folder... carry on.
         {
@@ -221,7 +221,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
 
     for (const auto &entry : entries)
     {
-        if (!detail::is_image_extension(std::filesystem::path{entry.display_name}.extension().u8string()))
+        if (!detail::is_image_extension(std::filesystem::path{entry.display_name.str()}.extension().u8string()))
         {
             is_image_folder = false;
             break;
@@ -231,7 +231,7 @@ auto static_route::is_image_folder(const std::vector<directory_listing_entry> &e
     return is_image_folder;
 }
 
-auto static_route::is_hidden_file(const std::u8string &filename) const -> bool
+auto static_route::is_hidden_file(const common::string &filename) const -> bool
 {
     const auto filename_str = common::string_utils::to_lower_copy(filename);
 
@@ -244,14 +244,14 @@ auto static_route::is_hidden_file(const std::u8string &filename) const -> bool
     return false;
 }
 
-auto static_route::generate_hyperlink_html(const std::u8string &name, const std::u8string &destination) const
-    -> std::u8string
+auto static_route::generate_hyperlink_html(const common::string &name, const common::string &destination) const
+    -> common::string
 {
-    std::u8string reply = u8"<a href=\"";
+    common::string reply = "<a href=\"";
     reply += url_encode(destination);
-    reply += u8"\">";
+    reply += "\">";
     reply += name;
-    reply += u8"</a>";
+    reply += "</a>";
     return reply;
 }
 

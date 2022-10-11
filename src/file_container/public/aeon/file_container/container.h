@@ -7,9 +7,9 @@
 #include <aeon/streams/devices/memory_view_device.h>
 #include <aeon/common/uuid.h>
 #include <aeon/common/flags.h>
+#include <aeon/common/string.h>
 #include <filesystem>
 #include <vector>
-#include <string>
 #include <cstdint>
 
 namespace aeon::file_container
@@ -29,8 +29,8 @@ class container final
 {
 public:
     explicit container(streams::idynamic_stream &stream, const common::flags<read_items> items = read_items::all);
-    explicit container(std::u8string name) noexcept;
-    explicit container(std::u8string name, common::uuid id) noexcept;
+    explicit container(common::string name) noexcept;
+    explicit container(common::string name, common::uuid id) noexcept;
     ~container();
 
     container(container &&) = delete;
@@ -39,8 +39,8 @@ public:
     container(const container &) = delete;
     auto operator=(const container &) -> container & = delete;
 
-    void name(std::u8string name) noexcept;
-    [[nodiscard]] auto name() const noexcept -> const std::u8string &;
+    void name(common::string name) noexcept;
+    [[nodiscard]] auto name() const noexcept -> const common::string &;
 
     void id(common::uuid id) noexcept;
     [[nodiscard]] auto id() const noexcept -> const common::uuid &;
@@ -54,7 +54,7 @@ public:
     void write(streams::idynamic_stream &stream) const;
 
 private:
-    std::u8string name_;
+    common::string name_;
     common::uuid id_;
     std::vector<std::uint8_t> data_;
     ptree::property_tree metadata_;

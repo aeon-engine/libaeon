@@ -1,22 +1,22 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/common/container.h>
+#include <aeon/common/string.h>
 #include <gtest/gtest.h>
 #include <array>
-#include <string>
 
 using namespace aeon;
 using namespace std::string_literals;
 
 TEST(test_container, test_transform_string_to_char_ptr)
 {
-    const std::vector<std::string> data{"Hello", "1234", "testing"};
+    const std::vector<common::string> data{"Hello", "1234", "testing"};
     const auto data_ptr = common::container::transform<const char *>(data, [](const auto &str) { return str.c_str(); });
     ASSERT_EQ(std::size(data), std::size(data_ptr));
 
-    EXPECT_EQ(std::string_view{data_ptr.at(0)}, "Hello");
-    EXPECT_EQ(std::string_view{data_ptr.at(1)}, "1234");
-    EXPECT_EQ(std::string_view{data_ptr.at(2)}, "testing");
+    EXPECT_EQ(common::string_view{data_ptr.at(0)}, "Hello");
+    EXPECT_EQ(common::string_view{data_ptr.at(1)}, "1234");
+    EXPECT_EQ(common::string_view{data_ptr.at(2)}, "testing");
 }
 
 TEST(test_container, test_adjacent_execute)

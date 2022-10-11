@@ -12,8 +12,15 @@ converting_variant::converting_variant() noexcept
 {
 }
 
+converting_variant::converting_variant(const char *const str)
+    : data_{common::string{str}}
+    , type_{static_cast<std::uint32_t>(type::string)}
+    , user_index_{0}
+{
+}
+
 converting_variant::converting_variant(const char8_t *const str)
-    : data_{std::u8string{str}}
+    : data_{common::string{str}}
     , type_{static_cast<std::uint32_t>(type::string)}
     , user_index_{0}
 {

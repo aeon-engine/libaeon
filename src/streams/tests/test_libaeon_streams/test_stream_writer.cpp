@@ -42,7 +42,7 @@ TEST(test_streams, test_streams_stream_writer_stdstring_prefixed)
 
     ASSERT_EQ(0, std::size(device));
 
-    std::string val = "Hello! 12345";
+    common::string val = "Hello! 12345";
 
     writer << streams::length_prefix_string{val};
     ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + aeon_signed_sizeof(std::uint32_t), std::size(device));

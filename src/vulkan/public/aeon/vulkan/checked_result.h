@@ -87,7 +87,7 @@ public:
     {
 #if (defined(AEON_VULKAN_ENABLE_ERROR_CHECKING))
         if (result != VK_SUCCESS)
-            throw vulkan_exception{std::string{"Vulkan call failed: "} + result_to_string(result)};
+            throw vulkan_exception{common::string{"Vulkan call failed: "} + result_to_string(result)};
 #endif
     }
 

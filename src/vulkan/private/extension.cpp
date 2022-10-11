@@ -7,9 +7,9 @@
 namespace aeon::vulkan
 {
 
-extension::extension(std::string name, common::version3<uint32_t> version)
+extension::extension(common::string name, common::version3<uint32_t> version)
     : name_{std::move(name)}
-    , version_{std::move(version)}
+    , version_{version}
 {
 }
 
@@ -19,7 +19,7 @@ extension::extension(const VkExtensionProperties &extension_properties)
 {
 }
 
-auto extension::name() const noexcept -> const std::string &
+auto extension::name() const noexcept -> const common::string &
 {
     return name_;
 }

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
 #include <stdexcept>
 
 namespace aeon::vulkan
@@ -10,8 +11,8 @@ namespace aeon::vulkan
 class vulkan_exception : public std::runtime_error
 {
 public:
-    explicit vulkan_exception(const std::string &str)
-        : std::runtime_error{str}
+    explicit vulkan_exception(const common::string &str)
+        : std::runtime_error{str.c_str()}
     {
     }
 

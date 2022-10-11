@@ -29,8 +29,8 @@ namespace internal
     return layers;
 }
 
-[[nodiscard]] auto create_instance(const application_info &info, const std::vector<std::string> &required_layers,
-                                   const std::vector<std::string> &required_extensions) -> VkInstance
+[[nodiscard]] auto create_instance(const application_info &info, const std::vector<common::string> &required_layers,
+                                   const std::vector<common::string> &required_extensions) -> VkInstance
 {
     const auto available_extensions = instance::available_extensions();
     if (!are_available(available_extensions, required_extensions))
@@ -80,8 +80,8 @@ instance::instance(const application_info &info)
 {
 }
 
-instance::instance(const application_info &info, const std::vector<std::string> &required_layers,
-                   const std::vector<std::string> &required_extensions)
+instance::instance(const application_info &info, const std::vector<common::string> &required_layers,
+                   const std::vector<common::string> &required_extensions)
     : instance_{internal::create_instance(info, required_layers, required_extensions)}
     , physical_devices_{common::container::transform<physical_device>(internal::enumerate_physical_devices(instance_),
                                                                       [this](const auto &device) {

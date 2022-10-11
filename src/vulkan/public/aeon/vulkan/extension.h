@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/common/version.h>
-#include <string>
+#include <aeon/common/string.h>
 
 struct VkExtensionProperties;
 
@@ -13,7 +13,7 @@ namespace aeon::vulkan
 class extension final
 {
 public:
-    explicit extension(std::string name, common::version3<uint32_t> version);
+    explicit extension(common::string name, common::version3<uint32_t> version);
     explicit extension(const VkExtensionProperties &extension_properties);
     ~extension() = default;
 
@@ -23,14 +23,14 @@ public:
     extension(extension &&) noexcept = default;
     auto operator=(extension &&) noexcept -> extension & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const std::string &;
+    [[nodiscard]] auto name() const noexcept -> const common::string &;
     [[nodiscard]] auto version() const noexcept -> const common::version3<uint32_t> &;
 
     auto operator==(const extension &other) const noexcept -> bool;
     auto operator!=(const extension &other) const noexcept -> bool;
 
 private:
-    std::string name_;
+    common::string name_;
     common::version3<uint32_t> version_;
 };
 

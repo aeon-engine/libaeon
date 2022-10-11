@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/unicode/exception.h>
+#include <aeon/common/string_view.h>
 #include <unicode/ucnv.h>
 #include <string>
 
@@ -28,7 +29,7 @@ public:
             ucnv_close(converter_);
     }
 
-    [[nodiscard]] auto to_uchars(const std::u8string_view &str) const
+    [[nodiscard]] auto to_uchars(const common::string_view &str) const
     {
         UErrorCode status = U_ZERO_ERROR;
         const auto target_length = to_uchars_length(str);
@@ -36,8 +37,8 @@ public:
         std::u16string target;
         target.resize(target_length);
 
-        ucnv_toUChars(converter_, reinterpret_cast<UChar *>(std::data(target)), target_length,
-                      reinterpret_cast<const char *>(std::data(str)), static_cast<int32_t>(std::size(str)), &status);
+        ucnv_toUChars(converter_, reinterpret_cast<UChar *>(std::data(target)), target_length, std::data(str),
+                      static_cast<int32_t>(std::size(str)), &status);
 
         if (U_FAILURE(status))
             throw unicode_conversion_exception{};
@@ -50,11 +51,11 @@ public:
         UErrorCode status = U_ZERO_ERROR;
         const auto target_length = from_uchars_length(str);
 
-        std::u8string target;
+        common::string target;
         target.resize(target_length);
 
-        ucnv_fromUChars(converter_, reinterpret_cast<char *>(std::data(target)), target_length,
-                        reinterpret_cast<const UChar *>(std::data(str)), static_cast<int32_t>(std::size(str)), &status);
+        ucnv_fromUChars(converter_, std::data(target), target_length, std::data(str),
+                        static_cast<int32_t>(std::size(str)), &status);
 
         if (U_FAILURE(status))
             throw unicode_conversion_exception{};
@@ -69,11 +70,11 @@ public:
     auto operator=(const uconverter &) -> uconverter & = delete;
 
 private:
-    [[nodiscard]] auto to_uchars_length(const std::u8string_view &str) const -> int32_t
+    [[nodiscard]] auto to_uchars_length(const common::string_view &str) const -> int32_t
     {
         UErrorCode status = U_ZERO_ERROR;
-        const auto size = ucnv_toUChars(converter_, nullptr, 0, reinterpret_cast<const char *>(std::data(str)),
-                                        static_cast<int32_t>(std::size(str)), &status);
+        const auto size =
+            ucnv_toUChars(converter_, nullptr, 0, std::data(str), static_cast<int32_t>(std::size(str)), &status);
 
         if (status != U_BUFFER_OVERFLOW_ERROR)
             throw unicode_conversion_exception{};

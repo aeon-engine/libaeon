@@ -2,12 +2,13 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
+
 #ifdef ENABLE_TEMPORARY_FILE_FIXTURE
 #include <gtest/gtest.h>
 #endif // ENABLE_TEMPORARY_FILE_FIXTURE
 
 #include <filesystem>
-#include <string>
 
 namespace aeon::testutils
 {
@@ -16,7 +17,7 @@ class temporary_file
 {
 public:
     temporary_file();
-    explicit temporary_file(const std::string &extension);
+    explicit temporary_file(const common::string &extension);
 
     ~temporary_file();
 

@@ -12,10 +12,10 @@ temporary_file::temporary_file()
 {
 }
 
-temporary_file::temporary_file(const std::string &extension)
+temporary_file::temporary_file(const common::string &extension)
     : path_(common::generate_temporary_file_path())
 {
-    path_.replace_extension(extension);
+    path_.replace_extension(extension.str());
 }
 
 temporary_file::~temporary_file()

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/common/version.h>
-#include <string>
+#include <aeon/common/string.h>
 
 struct VkLayerProperties;
 
@@ -13,8 +13,8 @@ namespace aeon::vulkan
 class layer final
 {
 public:
-    explicit layer(std::string name, const common::version3<uint32_t> &spec_version,
-                   const common::version3<uint32_t> &implementation_version, std::string description);
+    explicit layer(common::string name, const common::version3<uint32_t> &spec_version,
+                   const common::version3<uint32_t> &implementation_version, common::string description);
     explicit layer(const VkLayerProperties &extension_properties);
     ~layer() = default;
 
@@ -24,19 +24,19 @@ public:
     layer(layer &&) noexcept = default;
     auto operator=(layer &&) noexcept -> layer & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const std::string &;
+    [[nodiscard]] auto name() const noexcept -> const common::string &;
     [[nodiscard]] auto spec_version() const noexcept -> const common::version3<uint32_t> &;
     [[nodiscard]] auto implementation_version() const noexcept -> const common::version3<uint32_t> &;
-    [[nodiscard]] auto description() const noexcept -> const std::string &;
+    [[nodiscard]] auto description() const noexcept -> const common::string &;
 
     auto operator==(const layer &other) const noexcept -> bool;
     auto operator!=(const layer &other) const noexcept -> bool;
 
 private:
-    std::string name_;
+    common::string name_;
     common::version3<uint32_t> spec_version_;
     common::version3<uint32_t> implementation_version_;
-    std::string description_;
+    common::string description_;
 };
 
 template <typename device_t>

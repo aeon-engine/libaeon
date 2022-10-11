@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include <string>
+#include <aeon/common/string.h>
 
 namespace aeon::web::http::detail
 {
 
-auto validate_http_version_string(const std::u8string &version_string) noexcept -> bool;
-auto validate_uri(const std::u8string &uri) noexcept -> bool;
+auto validate_http_version_string(const common::string &version_string) noexcept -> bool;
+auto validate_uri(const common::string &uri) noexcept -> bool;
 
 } // namespace aeon::web::http::detail

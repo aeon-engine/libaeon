@@ -5,7 +5,7 @@
 #include <aeon/web/jsonrpc/method.h>
 #include <aeon/web/jsonrpc/result.h>
 #include <aeon/ptree/ptree.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <map>
 
 namespace aeon::web::jsonrpc
@@ -27,14 +27,14 @@ public:
 
     void register_method(const method &method);
 
-    [[nodiscard]] auto request(const std::u8string &str) const -> std::u8string;
+    [[nodiscard]] auto request(const common::string &str) const -> common::string;
     [[nodiscard]] auto request(const ptree::property_tree &request) const -> ptree::property_tree;
 
 private:
     [[nodiscard]] auto handle_requests(const ptree::property_tree &request) const -> std::vector<result>;
     [[nodiscard]] auto handle_single_rpc_request(const ptree::property_tree &request) const -> result;
 
-    std::map<std::u8string, method> methods_;
+    std::map<common::string, method> methods_;
 };
 
 } // namespace aeon::web::jsonrpc

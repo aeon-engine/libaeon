@@ -17,14 +17,3 @@ TEST(test_string_literal, test_string_literal_create_char)
 
     EXPECT_EQ(string{s.c_str()}, string{s2.c_str()});
 }
-
-TEST(test_string_literal, test_string_literal_create_u8char)
-{
-    u8string_literal s{u8"Hello"};
-    u8string_literal s2 = u8"Hello";
-
-    EXPECT_EQ(s.size(), strlen("Hello") + 1);
-    EXPECT_EQ(s2.size(), strlen("Hello") + 1);
-
-    EXPECT_EQ(string{s.c_str()}, string{s2.c_str()});
-}

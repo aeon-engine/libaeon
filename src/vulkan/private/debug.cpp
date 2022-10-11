@@ -59,12 +59,12 @@ debug::~debug()
     destroy();
 }
 
-void debug::append_required_extensions(std::vector<std::string> &extensions)
+void debug::append_required_extensions(std::vector<common::string> &extensions)
 {
     extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 }
 
-void debug::append_required_layers(std::vector<std::string> &layers)
+void debug::append_required_layers(std::vector<common::string> &layers)
 {
     layers.emplace_back("VK_LAYER_KHRONOS_validation");
     // layers.emplace_back("VK_LAYER_LUNARG_api_dump");

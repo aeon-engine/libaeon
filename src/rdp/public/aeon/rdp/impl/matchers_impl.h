@@ -12,16 +12,14 @@
 namespace aeon::rdp
 {
 
-template <common::concepts::string_view_like T>
-inline auto match_regex(parser<T> &parser, const typename rdp::parser<T>::string_view_type regex,
-                        typename std::basic_regex<typename rdp::parser<T>::char_type>::flag_type flags)
-    -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_regex(parser &parser, const common::string_view regex,
+                        std::basic_regex<parser::char_type>::flag_type flags) -> parse_result<common::string_view>
 {
     if (eof(parser)) [[unlikely]]
         return unmatched{};
 
-    const std::basic_regex<typename rdp::parser<T>::char_type> r{std::data(regex), flags};
-    std::match_results<typename rdp::parser<T>::string_view_type::const_iterator> match;
+    const std::basic_regex r{std::data(regex), flags};
+    std::match_results<common::string_view::const_iterator> match;
 
     if (!std::regex_search(parser.current_iterator(), std::end(parser.str()), match, r,
                            std::regex_constants::match_not_null | std::regex_constants::match_continuous))
@@ -29,15 +27,14 @@ inline auto match_regex(parser<T> &parser, const typename rdp::parser<T>::string
 
     aeon_assert(!match.empty(), "Bug: expected at least 1 match result.");
 
-    const auto result = common::string_utils::make_string_view(match.begin()->first, match.begin()->second);
+    const auto result = common::string_view{match.begin()->first, match.begin()->second};
 
     parser.advance(std::size(result));
 
     return matched{result};
 }
 
-template <common::concepts::string_view_like T>
-inline auto check_whitespace(parser<T> &parser) noexcept -> bool
+inline auto check_whitespace(parser &parser) noexcept -> bool
 {
     if (eof(parser)) [[unlikely]]
         return false;
@@ -50,8 +47,7 @@ inline auto check_whitespace(parser<T> &parser) noexcept -> bool
     return true;
 }
 
-template <common::concepts::string_view_like T>
-inline auto check_newline(parser<T> &parser) noexcept -> bool
+inline auto check_newline(parser &parser) noexcept -> bool
 {
     if (eof(parser)) [[unlikely]]
         return false;
@@ -70,29 +66,25 @@ inline auto check_newline(parser<T> &parser) noexcept -> bool
     return true;
 }
 
-template <common::concepts::string_view_like T>
-inline void skip_whitespace(parser<T> &parser) noexcept
+inline void skip_whitespace(parser &parser) noexcept
 {
     while (!eof(parser) && (current(parser) == ' ' || current(parser) == '\t'))
         parser.advance();
 }
 
-template <common::concepts::string_view_like T>
-inline void skip_whitespace_and_newline(parser<T> &parser) noexcept
+inline void skip_whitespace_and_newline(parser &parser) noexcept
 {
     while (!eof(parser) &&
            (current(parser) == ' ' || current(parser) == '\t' || current(parser) == '\r' || current(parser) == '\n'))
         parser.advance();
 }
 
-template <common::concepts::string_view_like T>
-inline void skip_until_newline(parser<T> &parser) noexcept
+inline void skip_until_newline(parser &parser) noexcept
 {
     parser.skip_until('\n');
 }
 
-template <common::concepts::string_view_like T>
-inline void skip_byte_order_marker(parser<T> &parser) noexcept
+inline void skip_byte_order_marker(parser &parser) noexcept
 {
     scoped_state state{parser};
 
@@ -107,20 +99,17 @@ inline void skip_byte_order_marker(parser<T> &parser) noexcept
     state.accept();
 }
 
-template <common::concepts::string_view_like T>
-inline auto match_alpha(parser<T> &parser) noexcept -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_alpha(parser &parser) noexcept -> parse_result<common::string_view>
 {
     return parser.match([](const auto c) { return std::isalpha(c) != 0; });
 }
 
-template <common::concepts::string_view_like T>
-inline auto match_digit(parser<T> &parser) noexcept -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_digit(parser &parser) noexcept -> parse_result<common::string_view>
 {
     return parser.match([](const auto c) { return std::isdigit(c) != 0; });
 }
 
-template <common::concepts::string_view_like T>
-inline auto match_signed_digit(parser<T> &parser) noexcept -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_signed_digit(parser &parser) noexcept -> parse_result<common::string_view>
 {
     return parser.match_indexed(
         [](const auto c, const auto i)
@@ -132,35 +121,32 @@ inline auto match_signed_digit(parser<T> &parser) noexcept -> parse_result<T, ty
         });
 }
 
-template <common::concepts::string_view_like T>
-inline auto match_alnum(parser<T> &parser) noexcept -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_alnum(parser &parser) noexcept -> parse_result<common::string_view>
 {
     return parser.match([](const auto c) { return std::isalnum(c) != 0; });
 }
 
-template <common::concepts::string_view_like T>
-inline auto match_binary(parser<T> &parser) noexcept -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_binary(parser &parser) noexcept -> parse_result<common::string_view>
 {
     return parser.match([](const auto c) { return c == '0' || c == '1'; });
 }
 
-template <common::concepts::string_view_like T>
-inline auto match_hexadecimal(parser<T> &parser) noexcept -> parse_result<T, typename rdp::parser<T>::string_view_type>
+inline auto match_hexadecimal(parser &parser) noexcept -> parse_result<common::string_view>
 {
     return parser.match([](const auto c) { return std::isxdigit(c) != 0; });
 }
 
-template <common::concepts::string_view_like T, typename IntTypeT>
-inline auto parse_decimal(parser<T> &parser) noexcept -> parse_result<T, IntTypeT>
+template <typename IntTypeT>
+inline auto parse_decimal(parser &parser) noexcept -> parse_result<IntTypeT>
 {
     scoped_state state{parser};
 
-    parse_result<T, std::string_view> result;
+    parse_result<common::string_view> result;
 
     if constexpr (std::is_signed_v<IntTypeT>)
-        result = match_signed_digit<T>(parser);
+        result = match_signed_digit(parser);
     else
-        result = match_digit<T>(parser);
+        result = match_digit(parser);
 
     if (!result)
         return unmatched{};
@@ -175,20 +161,17 @@ inline auto parse_decimal(parser<T> &parser) noexcept -> parse_result<T, IntType
     return matched{value};
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_decimal_signed(parser<T> &parser) noexcept -> parse_result<T, std::int64_t>
+inline auto parse_decimal_signed(parser &parser) noexcept -> parse_result<std::int64_t>
 {
-    return parse_decimal<T, std::int64_t>(parser);
+    return parse_decimal<std::int64_t>(parser);
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_decimal_unsigned(parser<T> &parser) noexcept -> parse_result<T, std::uint64_t>
+inline auto parse_decimal_unsigned(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
-    return parse_decimal<T, std::uint64_t>(parser);
+    return parse_decimal<std::uint64_t>(parser);
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_floating_point(parser<T> &parser) noexcept -> parse_result<T, double>
+inline auto parse_floating_point(parser &parser) noexcept -> parse_result<double>
 {
     scoped_state state{parser};
 
@@ -207,12 +190,11 @@ inline auto parse_floating_point(parser<T> &parser) noexcept -> parse_result<T, 
     return matched{value};
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_binary(parser<T> &parser) noexcept -> parse_result<T, std::uint64_t>
+inline auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
     scoped_state state{parser};
 
-    const auto result = match_binary<T>(parser);
+    const auto result = match_binary(parser);
 
     if (!result)
         return unmatched{};
@@ -227,8 +209,7 @@ inline auto parse_binary(parser<T> &parser) noexcept -> parse_result<T, std::uin
     return matched{value};
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_binary(parser<T> &parser, const std::string_view prefix) noexcept -> parse_result<T, std::uint64_t>
+inline auto parse_binary(parser &parser, const common::string_view prefix) noexcept -> parse_result<std::uint64_t>
 {
     if (!parser.check(prefix))
         return unmatched{};
@@ -236,8 +217,7 @@ inline auto parse_binary(parser<T> &parser, const std::string_view prefix) noexc
     return parse_binary(parser);
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_hexadecimal(parser<T> &parser) noexcept -> parse_result<T, std::uint64_t>
+inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint64_t>
 {
     scoped_state state{parser};
 
@@ -256,9 +236,7 @@ inline auto parse_hexadecimal(parser<T> &parser) noexcept -> parse_result<T, std
     return matched{value};
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_hexadecimal(parser<T> &parser, const std::string_view prefix) noexcept
-    -> parse_result<T, std::uint64_t>
+inline auto parse_hexadecimal(parser &parser, const common::string_view prefix) noexcept -> parse_result<std::uint64_t>
 {
     if (!parser.check(prefix))
         return unmatched{};
@@ -266,8 +244,7 @@ inline auto parse_hexadecimal(parser<T> &parser, const std::string_view prefix) 
     return parse_hexadecimal(parser);
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_boolean(parser<T> &parser) noexcept -> parse_result<T, bool>
+inline auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
 {
     if (const auto result = match_regex(parser, "[t][r][u][e]", std::regex_constants::icase); result.result())
         return matched{true};
@@ -278,8 +255,7 @@ inline auto parse_boolean(parser<T> &parser) noexcept -> parse_result<T, bool>
     return unmatched{};
 }
 
-template <common::concepts::string_view_like T>
-inline auto parse_uuid(parser<T> &parser) noexcept -> parse_result<T, common::uuid>
+inline auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>
 {
     scoped_state state{parser};
 

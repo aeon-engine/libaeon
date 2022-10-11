@@ -9,18 +9,17 @@
 
 using namespace aeon;
 
-static const ptree::property_tree pt_simple{{{u8"test", 3}, {u8"test2", 2.0}, {u8"test3", u8"Hello"}}};
+static const ptree::property_tree pt_simple{{{"test", 3}, {"test2", 2.0}, {"test3", "Hello"}}};
 
 static const ptree::property_tree pt_complex{
-    {{u8"test", 3},
-     {u8"test2", 2.0},
-     {u8"test3",
-      ptree::object{
-          {u8"test3", 5},
-          {u8"he\\llo", ptree::array{1, 2, 3, 4}},
-          {u8"hello2", ptree::array{true, false, true, true}},
-          {u8"hello3", ptree::array{ptree::object{{u8"henk", true}}, ptree::object{{u8"henk", false}},
-                                    ptree::object{{u8"henk", true}, {u8"henk2", u8"string\ttest\nhello"}}}}}}}};
+    {{"test", 3},
+     {"test2", 2.0},
+     {"test3",
+      ptree::object{{"test3", 5},
+                    {"he\\llo", ptree::array{1, 2, 3, 4}},
+                    {"hello2", ptree::array{true, false, true, true}},
+                    {"hello3", ptree::array{ptree::object{{"henk", true}}, ptree::object{{"henk", false}},
+                                            ptree::object{{"henk", true}, {"henk2", "string\ttest\nhello"}}}}}}}};
 
 TEST(test_ptree, json_serialize_deserialize_simple)
 {
@@ -58,9 +57,8 @@ TEST(test_ptree, abf_serialize_deserialize_complex)
 
 TEST(test_ptree, shorthand_at)
 {
-    ASSERT_NO_THROW(const auto &result = pt_complex.at(u8"test");
-                    (void)result;); // NOLINT(cppcoreguidelines-avoid-goto)
-    EXPECT_TRUE(pt_complex.at(u8"test") == 3);
+    ASSERT_NO_THROW(const auto &result = pt_complex.at("test"); (void)result;); // NOLINT(cppcoreguidelines-avoid-goto)
+    EXPECT_TRUE(pt_complex.at("test") == 3);
 }
 
 TEST(test_ptree, compare_simple)
@@ -89,33 +87,33 @@ TEST(test_ptree, compare_after_change)
     EXPECT_TRUE(pt_complex == other);
     EXPECT_FALSE(pt_complex != other);
 
-    other.object_value().emplace(u8"test4", 5);
+    other.object_value().emplace("test4", 5);
     EXPECT_FALSE(pt_complex == other);
     EXPECT_TRUE(pt_complex != other);
 
-    other.object_value().erase(u8"test4");
+    other.object_value().erase("test4");
     EXPECT_TRUE(pt_complex == other);
     EXPECT_FALSE(pt_complex != other);
 }
 
 TEST(test_ptree, compare_int)
 {
-    EXPECT_TRUE(pt_complex.object_value().at(u8"test") == 3);
-    EXPECT_FALSE(pt_complex.object_value().at(u8"test") != 3);
-    EXPECT_TRUE(3 == pt_complex.object_value().at(u8"test"));
-    EXPECT_FALSE(3 != pt_complex.object_value().at(u8"test"));
+    EXPECT_TRUE(pt_complex.object_value().at("test") == 3);
+    EXPECT_FALSE(pt_complex.object_value().at("test") != 3);
+    EXPECT_TRUE(3 == pt_complex.object_value().at("test"));
+    EXPECT_FALSE(3 != pt_complex.object_value().at("test"));
 
-    EXPECT_FALSE(pt_complex.object_value().at(u8"test") == u8"testing");
-    EXPECT_FALSE(pt_complex.object_value().at(u8"test") == 3.0);
+    EXPECT_FALSE(pt_complex.object_value().at("test") == "testing");
+    EXPECT_FALSE(pt_complex.object_value().at("test") == 3.0);
 }
 
 TEST(test_ptree, compare_double)
 {
-    EXPECT_TRUE(pt_complex.object_value().at(u8"test2") == 2.0);
-    EXPECT_FALSE(pt_complex.object_value().at(u8"test2") != 2.0);
-    EXPECT_TRUE(2.0 == pt_complex.object_value().at(u8"test2"));
-    EXPECT_FALSE(2.0 != pt_complex.object_value().at(u8"test2"));
+    EXPECT_TRUE(pt_complex.object_value().at("test2") == 2.0);
+    EXPECT_FALSE(pt_complex.object_value().at("test2") != 2.0);
+    EXPECT_TRUE(2.0 == pt_complex.object_value().at("test2"));
+    EXPECT_FALSE(2.0 != pt_complex.object_value().at("test2"));
 
-    EXPECT_FALSE(pt_complex.object_value().at(u8"test2") == u8"testing");
-    EXPECT_FALSE(pt_complex.object_value().at(u8"test2") == 3);
+    EXPECT_FALSE(pt_complex.object_value().at("test2") == "testing");
+    EXPECT_FALSE(pt_complex.object_value().at("test2") == 3);
 }

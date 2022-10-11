@@ -16,7 +16,7 @@ request::request(const http_method method)
 {
 }
 
-request::request(const std::u8string &method, std::u8string uri)
+request::request(const common::string &method, common::string uri)
     : method_{string_to_method(method)}
     , uri_{std::move(uri)}
     , raw_headers_{}
@@ -33,24 +33,24 @@ auto request::get_content() const -> std::vector<std::uint8_t>
     return vec;
 }
 
-auto request::get_content_string() const -> std::u8string
+auto request::get_content_string() const -> common::string
 {
     streams::stream_reader reader{content_};
-    const auto data = reader.read_to_u8string();
+    const auto data = reader.read_to_string();
     return data;
 }
 
-auto request::get_content_type() const -> std::u8string
+auto request::get_content_type() const -> common::string
 {
     return content_type_;
 }
 
-auto request::get_raw_headers() const -> const std::vector<std::u8string> &
+auto request::get_raw_headers() const -> const std::vector<common::string> &
 {
     return raw_headers_;
 }
 
-void request::append_raw_http_header_line(const std::u8string &header_line)
+void request::append_raw_http_header_line(const common::string &header_line)
 {
     raw_headers_.push_back(header_line);
 }
@@ -60,20 +60,20 @@ void request::append_raw_content_data(const std::vector<std::byte> &data) const
     content_.write(std::data(data), std::size(data));
 }
 
-void request::set_content_type(const std::u8string &content_type)
+void request::set_content_type(const common::string &content_type)
 {
     content_type_ = content_type;
 }
 
-auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> std::map<std::u8string, std::u8string>
+auto parse_raw_http_headers(const std::vector<common::string> &raw_headers) -> std::map<common::string, common::string>
 {
-    std::map<std::u8string, std::u8string> headers;
+    std::map<common::string, common::string> headers;
 
     for (const auto &header_line : raw_headers)
     {
         const auto header_name_end = header_line.find_first_of(':');
 
-        if (header_name_end == std::string::npos)
+        if (header_name_end == common::string::npos)
             return {};
 
         if (header_name_end + 2 >= header_line.size())
@@ -82,7 +82,7 @@ auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> st
         const auto header_name = common::string_utils::to_lower_copy(header_line.substr(0, header_name_end));
         const auto header_value = header_line.substr(header_name_end + 2);
 
-        headers.insert({header_name.u8str(), header_value});
+        headers.insert({header_name, header_value});
     }
 
     return headers;

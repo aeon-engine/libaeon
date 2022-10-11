@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
+#include <aeon/common/string_view.h>
 #include <string>
 #include <type_traits>
 
@@ -21,7 +23,7 @@ concept basic_string =
  * convertible to one of them.
  */
 template <typename T>
-concept string_like = basic_string<T> || std::is_convertible_v<T, std::string> ||
+concept string_like = std::is_same_v<T, common::string> || basic_string<T> || std::is_convertible_v<T, std::string> ||
                       std::is_convertible_v<T, std::wstring> || std::is_convertible_v<T, std::u8string> ||
                       std::is_convertible_v<T, std::u16string> || std::is_convertible_v<T, std::u32string>;
 
@@ -30,9 +32,9 @@ concept string_like = basic_string<T> || std::is_convertible_v<T, std::string> |
  * std::u32string_view
  */
 template <typename T>
-concept basic_string_view = std::is_same_v<T, std::string_view> || std::is_same_v<T, std::wstring_view> ||
-                            std::is_same_v<T, std::u8string_view> || std::is_same_v<T, std::u16string_view> ||
-                            std::is_same_v<T, std::u32string_view>;
+concept basic_string_view = std::is_same_v<T, common::string_view> || std::is_same_v<T, std::string_view> ||
+                            std::is_same_v<T, std::wstring_view> || std::is_same_v<T, std::u8string_view> ||
+                            std::is_same_v<T, std::u16string_view> || std::is_same_v<T, std::u32string_view>;
 
 /*!
  * The given type must be any of std::string_view, std::wstring_view, std::u8string_view, std::u16string_view or
@@ -40,7 +42,8 @@ concept basic_string_view = std::is_same_v<T, std::string_view> || std::is_same_
  */
 template <typename T>
 concept string_view_like =
-    basic_string<T> || std::is_convertible_v<T, std::string_view> || std::is_convertible_v<T, std::wstring_view> ||
+    std::is_same_v<T, common::string> || std::is_same_v<T, common::string_view> || basic_string<T> ||
+    std::is_convertible_v<T, std::string_view> || std::is_convertible_v<T, std::wstring_view> ||
     std::is_convertible_v<T, std::u8string_view> || std::is_convertible_v<T, std::u16string_view> ||
     std::is_convertible_v<T, std::u32string_view>;
 

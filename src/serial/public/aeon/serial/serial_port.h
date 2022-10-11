@@ -3,8 +3,8 @@
 #pragma once
 
 #include <aeon/common/platform.h>
+#include <aeon/common/string.h>
 #include <exception>
-#include <string>
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
 #define WIN32_LEAN_AND_MEAN
@@ -56,10 +56,10 @@ public:
     void disconnect();
 
     auto read(char *data, const std::size_t len) const -> std::size_t;
-    [[nodiscard]] auto read(const std::size_t len) const -> std::string;
+    [[nodiscard]] auto read(const std::size_t len) const -> common::string;
 
     auto write(const char *data, const std::size_t len) const -> std::size_t;
-    void write(const std::string &data) const;
+    void write(const common::string &data) const;
 
 private:
     serial_port_handle handle_;

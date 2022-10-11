@@ -4,8 +4,8 @@
 
 #include <aeon/vulkan/flags.h>
 #include <vulkan/vulkan_core.h>
+#include <aeon/common/string.h>
 #include <vector>
-#include <string>
 #include <functional>
 
 namespace aeon::vulkan
@@ -31,8 +31,8 @@ public:
     debug(debug &&) noexcept = delete;
     auto operator=(debug &&) noexcept -> debug & = delete;
 
-    static void append_required_extensions(std::vector<std::string> &extensions);
-    static void append_required_layers(std::vector<std::string> &layers);
+    static void append_required_extensions(std::vector<common::string> &extensions);
+    static void append_required_layers(std::vector<common::string> &layers);
 
 private:
     void destroy() const noexcept;

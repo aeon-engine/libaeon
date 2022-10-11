@@ -5,9 +5,9 @@
 #include <aeon/vulkan/queue_indices.h>
 #include <aeon/vulkan/queue.h>
 #include <aeon/vulkan/vma/vma.h>
+#include <aeon/common/string.h>
 #include <vulkan/vulkan_core.h>
 #include <vector>
-#include <string>
 
 namespace aeon::vulkan
 {
@@ -19,8 +19,8 @@ class device final
 {
 public:
     device() noexcept;
-    explicit device(const vulkan::physical_device &d, const surface &surface, const std::vector<std::string> &layers,
-                    const std::vector<std::string> &extensions, const VkPhysicalDeviceFeatures &features);
+    explicit device(const vulkan::physical_device &d, const surface &surface, const std::vector<common::string> &layers,
+                    const std::vector<common::string> &extensions, const VkPhysicalDeviceFeatures &features);
 
     ~device();
 

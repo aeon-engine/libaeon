@@ -40,7 +40,7 @@ TEST(test_streams, test_streams_stream_reader_read_line)
     writer << "Hello! 12345\n";
 
     streams::stream_reader reader{device};
-    std::string line;
+    common::string line;
     reader >> line;
 
     EXPECT_EQ("Hello! 12345", line);
@@ -80,13 +80,13 @@ TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
 
     ASSERT_EQ(0u, std::size(device));
 
-    std::string val = "Hello! 12345";
+    common::string val = "Hello! 12345";
     writer << streams::length_prefix_string{val};
     ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + aeon_signed_sizeof(std::uint32_t), device.tellp());
 
     streams::stream_reader reader{device};
 
-    std::string val2;
+    common::string val2;
     reader >> streams::length_prefix_string{val2};
 
     EXPECT_EQ(val, val2);
@@ -123,21 +123,21 @@ TEST(test_streams, test_streams_stream_reader_varint)
     test_varint(268435456, 5);
 }
 
-void test_prefixed_varint_string(const std::string &str)
+void test_prefixed_varint_string(const common::string &str)
 {
     auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0u, std::size(device));
 
-    std::string val = str;
-    writer << streams::length_prefix_string<std::string, streams::varint>{val};
+    common::string val = str;
+    writer << streams::length_prefix_string<streams::varint>{val};
     ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + 1, device.tellp());
 
     streams::stream_reader reader{device};
 
-    std::string val2;
-    reader >> streams::length_prefix_string<std::string, streams::varint>{val2};
+    common::string val2;
+    reader >> streams::length_prefix_string<streams::varint>{val2};
 
     EXPECT_EQ(val, val2);
 }

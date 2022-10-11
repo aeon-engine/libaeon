@@ -58,7 +58,7 @@ namespace aeon
 {
 
 static constexpr auto window_size = math::size2d{800, 600};
-static constexpr auto window_title = u8"Aeon Vulkan - Triangle Example";
+static constexpr auto window_title = "Aeon Vulkan - Triangle Example";
 static constexpr auto enable_validation_layers = true;
 
 [[nodiscard]] auto create_window(platform::context &context)
@@ -93,15 +93,15 @@ public:
         : logfile_{"debug_log.txt", streams::file_mode::text, streams::file_flag::truncate}
         , platform_context_{platform::create_context()}
         , window_{create_window(*platform_context_)}
-        , app_info_{window_title, common::version3<std::uint32_t>{1, 0}, u8"libaeon",
+        , app_info_{window_title, common::version3<std::uint32_t>{1, 0}, "libaeon",
                     common::version3<std::uint32_t>{1, 0}}
     {
-        std::vector<std::string> layers;
+        std::vector<common::string> layers;
 
         if (enable_validation_layers)
             vulkan::debug::append_required_layers(layers);
 
-        std::vector<std::string> extensions;
+        std::vector<common::string> extensions;
         extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
 
 #if (AEON_PLATFORM_OS_WINDOWS)

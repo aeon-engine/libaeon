@@ -8,7 +8,6 @@
 #include <aeon/sockets/tcp_server.h>
 #include <aeon/sockets/tcp_client.h>
 #include <aeon/common/hexdump.h>
-#include <aeon/common/u8_stream.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -21,7 +20,7 @@ public:
     void on_connected() override
     {
         std::cout << "On Connected.\n";
-        request_async(u8"localhost", u8"/test");
+        request_async("localhost", "/test");
     }
 
     void on_error(const std::error_code &ec) override
@@ -36,7 +35,7 @@ public:
 
     void on_http_reply(web::http::reply &reply) override
     {
-        std::cout << "Reply: " << std::u8string_view{web::http::status_code_to_string(reply.get_status_code())} << "\n"
+        std::cout << "Reply: " << web::http::status_code_to_string(reply.get_status_code()) << "\n"
                   << reply.get_content_length() << "\n";
     }
 };
@@ -72,7 +71,7 @@ class test_server : public web::http::http_server_socket
             common::hexdump::pretty_print(stdout, content.data(), content.size());
         }
 
-        respond(u8"text/plain", u8"Hello!");
+        respond("text/plain", "Hello!");
     }
 };
 

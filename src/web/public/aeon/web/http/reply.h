@@ -4,9 +4,8 @@
 
 #include <aeon/web/http/status_code.h>
 #include <aeon/streams/devices/memory_device.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <vector>
-#include <map>
 
 namespace aeon::web::http
 {
@@ -31,14 +30,14 @@ public:
 
     [[nodiscard]] auto get_content() -> std::vector<std::byte>;
 
-    [[nodiscard]] auto get_raw_headers() const -> const std::vector<std::u8string> &;
+    [[nodiscard]] auto get_raw_headers() const -> const std::vector<common::string> &;
 
 private:
-    void append_raw_http_header_line(const std::u8string &header_line);
+    void append_raw_http_header_line(const common::string &header_line);
     void append_raw_content_data(const std::vector<std::byte> &data);
 
     status_code status_;
-    std::vector<std::u8string> raw_headers_;
+    std::vector<common::string> raw_headers_;
     streams::memory_device<std::vector<std::byte>> content_;
 };
 

@@ -72,6 +72,6 @@ enum class status_code
 };
 
 auto verify_status_code(const int code) noexcept -> bool;
-auto status_code_to_string(const status_code code) noexcept -> const char8_t *;
+auto status_code_to_string(const status_code code) noexcept -> const char *;
 
 } // namespace aeon::web::http

@@ -7,7 +7,7 @@
 #include <aeon/streams/stream_traits.h>
 #include <aeon/common/signed_sizeof.h>
 #include <aeon/common/assert.h>
-#include <string_view>
+#include <aeon/common/string_view.h>
 #include <vector>
 #include <array>
 
@@ -104,23 +104,11 @@ inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
 }
 
 template <stream_writable device_t>
-inline auto &operator<<(stream_writer<device_t> &writer, const std::string_view &val)
+inline auto &operator<<(stream_writer<device_t> &writer, const common::string_view &val)
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
 
     if (writer.device().write(reinterpret_cast<const std::byte *>(std::data(val)), size) != size)
-        throw stream_exception{};
-
-    return writer;
-}
-
-template <stream_writable device_t>
-inline auto &operator<<(stream_writer<device_t> &writer, const std::u8string_view &val)
-{
-    const auto size = static_cast<std::streamsize>(std::size(val));
-
-    if (writer.device().write(reinterpret_cast<const std::byte *>(std::data(val)), size) !=
-        static_cast<std::streamsize>(size))
         throw stream_exception{};
 
     return writer;

@@ -5,6 +5,7 @@
 #include <aeon/common/from_chars.h>
 #include <aeon/common/type_traits.h>
 #include <aeon/common/string_utils.h>
+#include <aeon/common/string.h>
 #include <cstdint>
 
 namespace aeon::variant
@@ -20,14 +21,14 @@ struct converting_variant_conversion
 };
 
 template <>
-struct converting_variant_conversion<std::u8string, bool>
+struct converting_variant_conversion<common::string, bool>
 {
-    [[nodiscard]] static auto convert([[maybe_unused]] const std::u8string &from) -> bool
+    [[nodiscard]] static auto convert([[maybe_unused]] const common::string &from) -> bool
     {
-        if (common::string_utils::iequals(from, u8"true") || from == u8"1")
+        if (common::string_utils::iequals(from, "true") || from == "1")
             return true;
 
-        if (common::string_utils::iequals(from, u8"false") || from == u8"0")
+        if (common::string_utils::iequals(from, "false") || from == "0")
             return false;
 
         throw std::bad_cast{};
@@ -35,19 +36,19 @@ struct converting_variant_conversion<std::u8string, bool>
 };
 
 template <>
-struct converting_variant_conversion<bool, std::u8string>
+struct converting_variant_conversion<bool, common::string>
 {
-    [[nodiscard]] static auto convert([[maybe_unused]] const bool &from) -> std::u8string
+    [[nodiscard]] static auto convert([[maybe_unused]] const bool &from) -> common::string
     {
-        return from ? u8"true" : u8"false";
+        return from ? "true" : "false";
     }
 };
 
 template <typename to_t>
-struct converting_variant_conversion<std::u8string, to_t,
+struct converting_variant_conversion<common::string, to_t,
                                      std::enable_if_t<std::is_integral_v<to_t> || std::is_floating_point_v<to_t>, int>>
 {
-    [[nodiscard]] static auto convert([[maybe_unused]] const std::u8string &from) -> to_t
+    [[nodiscard]] static auto convert([[maybe_unused]] const common::string &from) -> to_t
     {
         if constexpr (common::type_traits::is_any_same_v<to_t, std::int8_t, std::int16_t>)
         {
@@ -89,13 +90,13 @@ struct converting_variant_conversion<std::u8string, to_t,
 
 template <typename from_t>
 struct converting_variant_conversion<
-    from_t, std::u8string, std::enable_if_t<std::is_integral_v<from_t> || std::is_floating_point_v<from_t>, int>>
+    from_t, common::string, std::enable_if_t<std::is_integral_v<from_t> || std::is_floating_point_v<from_t>, int>>
 {
-    [[nodiscard]] static auto convert([[maybe_unused]] const from_t &from) -> std::u8string
+    [[nodiscard]] static auto convert([[maybe_unused]] const from_t &from) -> common::string
     {
         // TODO: Fix when a to_u8string exists.
         const auto str = std::to_string(from);
-        return std::u8string{std::cbegin(str), std::cend(str)};
+        return common::string{std::cbegin(str), std::cend(str)};
     }
 };
 
@@ -118,18 +119,18 @@ struct converting_variant_conversion<from_t, chrono::calendar>
 };
 
 template <>
-struct converting_variant_conversion<chrono::calendar, std::u8string>
+struct converting_variant_conversion<chrono::calendar, common::string>
 {
-    [[nodiscard]] static auto convert([[maybe_unused]] const chrono::calendar &from) -> std::u8string
+    [[nodiscard]] static auto convert([[maybe_unused]] const chrono::calendar &from) -> common::string
     {
-        return std::u8string{from.to_string().as_std_u8string_view()};
+        return common::string{from.to_string().as_std_u8string_view()};
     }
 };
 
 template <>
-struct converting_variant_conversion<std::u8string, chrono::calendar>
+struct converting_variant_conversion<common::string, chrono::calendar>
 {
-    [[nodiscard]] static auto convert([[maybe_unused]] const std::u8string &from) -> chrono::calendar
+    [[nodiscard]] static auto convert([[maybe_unused]] const common::string &from) -> chrono::calendar
     {
         return chrono::calendar{from};
     }

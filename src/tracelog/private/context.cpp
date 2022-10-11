@@ -3,7 +3,6 @@
 #include "context.h"
 #include <aeon/common/assert.h>
 #include <aeon/streams/stream_writer.h>
-#include <string>
 
 namespace aeon::tracelog::detail
 {

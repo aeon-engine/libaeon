@@ -6,7 +6,7 @@
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
 #include <aeon/math/rectangle.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <cstdint>
 
 namespace aeon::platform
@@ -46,7 +46,7 @@ public:
     [[nodiscard]] virtual auto position() const noexcept -> math::vector2<std::int32_t> = 0;
     virtual void position(const math::vector2<std::int32_t> &pos) = 0;
 
-    virtual void title(const std::u8string &str) = 0;
+    virtual void title(const common::string &str) = 0;
 
     [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::uint32_t> = 0;
     virtual void dimensions(const math::size2d<std::uint32_t> &size) = 0;

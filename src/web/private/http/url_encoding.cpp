@@ -7,9 +7,9 @@
 namespace aeon::web::http
 {
 
-auto url_encode(const std::u8string &str) -> std::u8string
+auto url_encode(const common::string &str) -> common::string
 {
-    std::u8string out;
+    common::string out;
     out.reserve(std::size(str));
 
     for (const auto t : str)
@@ -21,28 +21,23 @@ auto url_encode(const std::u8string &str) -> std::u8string
         }
         else
         {
-            const auto hex_str = common::string_utils::char_to_hex(t);
-
-            // TODO: Fix when char_to_hex supports utf8.
-            out += std::u8string_view{reinterpret_cast<const char8_t *>(std::data(hex_str)), std::size(hex_str)};
+            out += common::string_utils::char_to_hex(t);
         }
     }
 
     return out;
 }
 
-auto url_decode(const std::u8string &str) -> std::u8string
+auto url_decode(const common::string &str) -> common::string
 {
-    std::u8string out;
+    common::string out;
     out.reserve(std::size(str));
 
-    for (auto i = 0_size_t; i < str.length(); ++i)
+    for (auto i = 0_size_t; i < std::size(str); ++i)
     {
         if (str.at(i) == '%')
         {
-            // TODO: Fix when hex_to_char supports utf8.
-            const auto u8_str = str.substr(i + 1, 2);
-            out += common::string_utils::hex_to_char(std::string{std::begin(u8_str), std::end(u8_str)});
+            out += common::string_utils::hex_to_char(str.substr(i + 1, 2));
             i += 2;
         }
         else

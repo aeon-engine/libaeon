@@ -39,7 +39,7 @@ public:
     ~line_protocol_socket() override;
 
 protected:
-    virtual void on_line(const std::string &line) = 0;
+    virtual void on_line(const common::string &line) = 0;
 
 private:
     void on_data(const std::span<const std::byte> &data) override;

@@ -8,13 +8,13 @@
 namespace aeon::ptree::xml_dom
 {
 
-static constexpr auto attribute_placeholder_name = u8"<xmlattr>";
+static constexpr auto attribute_placeholder_name = "<xmlattr>";
 
 class xml_document final : public xml_node
 {
 public:
     explicit xml_document(const property_tree &pt,
-                          std::u8string attribute_placeholder = attribute_placeholder_name) noexcept;
+                          common::string attribute_placeholder = attribute_placeholder_name) noexcept;
     ~xml_document() noexcept final;
 
     xml_document(const xml_document &) = delete;
@@ -29,7 +29,7 @@ public:
     }
 
 private:
-    std::u8string attribute_placeholder_;
+    common::string attribute_placeholder_;
 };
 
 } // namespace aeon::ptree::xml_dom

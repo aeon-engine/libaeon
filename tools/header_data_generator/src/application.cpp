@@ -50,8 +50,8 @@ constexpr auto max_hex_bytes_per_line = 16;
 }
 
 void generate(const std::filesystem::path &source, const std::filesystem::path &destination,
-              const std::string_view namespace_name, const std::string_view data_name, const std::string_view data_type,
-              bool verbose)
+              const common::string_view namespace_name, const common::string_view data_name, const common::string_view data_type,
+              const bool verbose)
 {
     if (verbose)
         std::cout << "Reading source file.\n";

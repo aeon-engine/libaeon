@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <string_view>
+#include <aeon/common/string_view.h>
 
 namespace aeon::web::http
 {
@@ -19,6 +19,6 @@ enum class http_method
     patch
 };
 
-auto string_to_method(const std::u8string_view &str) noexcept -> http_method;
+[[nodiscard]] auto string_to_method(const common::string_view &str) noexcept -> http_method;
 
 } // namespace aeon::web::http

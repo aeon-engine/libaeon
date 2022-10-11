@@ -4,21 +4,21 @@
 
 #include <aeon/math/size2d.h>
 #include <aeon/math/vector2.h>
+#include <aeon/common/string.h>
 #include <optional>
-#include <string>
 #include <cstdint>
 
 namespace aeon::platform
 {
 
-static inline constexpr auto default_window_title = u8"Aeon";
-static inline constexpr auto default_window_size = math::size2d<std::int32_t>{1280, 720};
+static inline constexpr auto default_window_title = "Aeon";
+static inline constexpr auto default_window_size = math::size2d{1280, 720};
 
 class window_events;
 
 struct window_create_info final
 {
-    std::u8string title = default_window_title;
+    common::string title = default_window_title;
 
     /*!
      * The size of the window client area

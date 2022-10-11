@@ -4,7 +4,7 @@
 
 #include <aeon/web/http/method.h>
 #include <aeon/streams/devices/memory_device.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <vector>
 #include <map>
 
@@ -17,7 +17,7 @@ class request
 
 public:
     explicit request(const http_method method);
-    explicit request(const std::u8string &method, std::u8string uri);
+    explicit request(const common::string &method, common::string uri);
 
     auto get_method() const noexcept
     {
@@ -29,7 +29,7 @@ public:
         return uri_;
     }
 
-    void set_uri(const std::u8string &uri)
+    void set_uri(const common::string &uri)
     {
         uri_ = uri;
     }
@@ -46,25 +46,25 @@ public:
 
     auto get_content() const -> std::vector<std::uint8_t>;
 
-    auto get_content_string() const -> std::u8string;
+    auto get_content_string() const -> common::string;
 
-    auto get_content_type() const -> std::u8string;
+    auto get_content_type() const -> common::string;
 
-    auto get_raw_headers() const -> const std::vector<std::u8string> &;
+    auto get_raw_headers() const -> const std::vector<common::string> &;
 
 private:
-    void append_raw_http_header_line(const std::u8string &header_line);
+    void append_raw_http_header_line(const common::string &header_line);
     void append_raw_content_data(const std::vector<std::byte> &data) const;
-    void set_content_type(const std::u8string &content_type);
+    void set_content_type(const common::string &content_type);
 
     http_method method_;
-    std::u8string uri_;
-    std::vector<std::u8string> raw_headers_;
+    common::string uri_;
+    std::vector<common::string> raw_headers_;
 
-    std::u8string content_type_;
+    common::string content_type_;
     mutable streams::memory_device<std::vector<char>> content_;
 };
 
-auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> std::map<std::u8string, std::u8string>;
+auto parse_raw_http_headers(const std::vector<common::string> &raw_headers) -> std::map<common::string, common::string>;
 
 } // namespace aeon::web::http

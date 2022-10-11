@@ -13,22 +13,16 @@ TEST(test_encoding, test_encoding_convert)
     const auto converted = unicode::utf8::to_utf16(str);
     const auto converted2 = unicode::utf16::to_utf8(converted);
 
-    // TODO: Fix for C++20 migration.
-    const auto converted2_u8 = std::u8string{std::begin(converted2), std::end(converted2)};
-
-    EXPECT_TRUE(str == converted2_u8);
+    EXPECT_TRUE(str == converted2);
 }
 
 TEST(test_encoding, test_encoding_convert_with_bom)
 {
     const auto str = common::bom::utf8::string() + u8"I like Π, and らき☆すた, Raki☆Suta ";
-    const auto converted = unicode::utf8::to_utf16(str.as_std_u8string_view());
+    const auto converted = unicode::utf8::to_utf16(str);
     const auto converted2 = unicode::utf16::to_utf8(converted);
 
-    // TODO: Fix for C++20 migration.
-    const auto converted2_u8 = std::u8string{std::begin(converted2), std::end(converted2)};
-
-    EXPECT_TRUE(str == converted2_u8);
+    EXPECT_TRUE(str == converted2);
 }
 
 TEST(test_encoding, test_encoding_utf32)

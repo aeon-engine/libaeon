@@ -5,16 +5,16 @@
 namespace aeon::unicode::stringutils
 {
 
-[[nodiscard]] auto escape(const std::u8string_view &str) -> std::u8string
+[[nodiscard]] auto escape(const common::string_view &str) -> common::string
 {
     utf_string_view view{str};
     return escape(std::begin(view), std::end(view));
 }
 
-[[nodiscard]] auto escape(const utf_string_view<std::u8string_view>::iterator begin,
-                          const utf_string_view<std::u8string_view>::iterator end) -> std::u8string
+[[nodiscard]] auto escape(const utf_string_view<common::string_view>::iterator begin,
+                          const utf_string_view<common::string_view>::iterator end) -> common::string
 {
-    std::u8string result;
+    common::string result;
     result.reserve(std::distance(begin, end));
 
     for (auto itr = begin; itr != end; ++itr)
@@ -22,28 +22,28 @@ namespace aeon::unicode::stringutils
         switch (*itr)
         {
             case '\b':
-                result += u8"\\b";
+                result += "\\b";
                 break;
             case '\f':
-                result += u8"\\f";
+                result += "\\f";
                 break;
             case '\n':
-                result += u8"\\n";
+                result += "\\n";
                 break;
             case '\r':
-                result += u8"\\r";
+                result += "\\r";
                 break;
             case '\t':
-                result += u8"\\t";
+                result += "\\t";
                 break;
             case '\\':
-                result += u8"\\\\";
+                result += "\\\\";
                 break;
             case '"':
-                result += u8"\\\"";
+                result += "\\\"";
                 break;
             case '/':
-                result += u8"\\/";
+                result += "\\/";
                 break;
             default:
                 result += itr.character_str();
@@ -53,17 +53,17 @@ namespace aeon::unicode::stringutils
     return result;
 }
 
-[[nodiscard]] auto unescape(const std::u8string_view &str, const unescape_mode mode) -> std::u8string
+[[nodiscard]] auto unescape(const common::string_view &str, const unescape_mode mode) -> common::string
 {
     utf_string_view view{str};
     return unescape(std::begin(view), std::end(view), mode);
 }
 
-[[nodiscard]] auto unescape(const utf_string_view<std::u8string_view>::iterator begin,
-                            const utf_string_view<std::u8string_view>::iterator end, const unescape_mode mode)
-    -> std::u8string
+[[nodiscard]] auto unescape(const utf_string_view<common::string_view>::iterator begin,
+                            const utf_string_view<common::string_view>::iterator end, const unescape_mode mode)
+    -> common::string
 {
-    std::u8string result;
+    common::string result;
     result.reserve(std::distance(begin, end));
 
     for (auto itr = begin; itr != end; ++itr)

@@ -30,7 +30,7 @@ static constexpr std::uint8_t chunk_type_blob = 0x08;
 static void to_abf(const std::monostate, streams::idynamic_stream &);
 static void to_abf(const array &arr, streams::idynamic_stream &stream);
 static void to_abf(const object &obj, streams::idynamic_stream &stream);
-static void to_abf(const std::u8string &obj_str, streams::idynamic_stream &stream);
+static void to_abf(const common::string &obj_str, streams::idynamic_stream &stream);
 static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream);
 static void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_abf(const double val, streams::idynamic_stream &stream);
@@ -76,16 +76,16 @@ static void to_abf(const object &obj, streams::idynamic_stream &stream)
 
     for (const auto &[key, val] : obj)
     {
-        writer << streams::length_prefix_string<std::u8string, streams::varint>{key};
+        writer << streams::length_prefix_string<streams::varint>{key};
         to_abf(val, stream);
     }
 }
 
-static void to_abf(const std::u8string &obj_str, streams::idynamic_stream &stream)
+static void to_abf(const common::string &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_string;
-    writer << streams::length_prefix_string<std::u8string, streams::varint>{obj_str};
+    writer << streams::length_prefix_string<streams::varint>{obj_str};
 }
 
 static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream)
@@ -151,8 +151,8 @@ public:
                 return parse_object();
             case chunk_type_string:
             {
-                std::u8string str;
-                reader_ >> streams::length_prefix_string<std::u8string, streams::varint>{str};
+                common::string str;
+                reader_ >> streams::length_prefix_string<streams::varint>{str};
                 return str;
             }
             case chunk_type_integer:
@@ -227,8 +227,8 @@ private:
 
         while (count != 0)
         {
-            std::u8string key;
-            reader_ >> streams::length_prefix_string<std::u8string, streams::varint>{key};
+            common::string key;
+            reader_ >> streams::length_prefix_string<streams::varint>{key};
             data.emplace(std::move(key), parse());
             --count;
         }

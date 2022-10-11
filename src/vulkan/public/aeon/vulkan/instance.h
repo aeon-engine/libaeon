@@ -7,9 +7,9 @@
 #include <aeon/vulkan/extension.h>
 #include <aeon/vulkan/layer.h>
 #include <aeon/vulkan/physical_device.h>
+#include <aeon/common/string.h>
 #include <vulkan/vulkan_core.h>
 #include <vector>
-#include <string>
 
 namespace aeon::vulkan
 {
@@ -21,8 +21,8 @@ class instance final
 public:
     instance() noexcept;
     explicit instance(const application_info &info);
-    explicit instance(const application_info &info, const std::vector<std::string> &required_layers,
-                      const std::vector<std::string> &required_extensions);
+    explicit instance(const application_info &info, const std::vector<common::string> &required_layers,
+                      const std::vector<common::string> &required_extensions);
     ~instance();
 
     instance(const instance &) noexcept = delete;
@@ -81,7 +81,8 @@ private:
     return *best_device;
 }
 
-[[nodiscard]] inline auto is_available(const std::vector<layer> &layers, const std::string &layer_name) noexcept -> bool
+[[nodiscard]] inline auto is_available(const std::vector<layer> &layers, const common::string &layer_name) noexcept
+    -> bool
 {
     for (const auto &layer : layers)
     {
@@ -93,7 +94,7 @@ private:
 }
 
 [[nodiscard]] inline auto are_available(const std::vector<layer> &layers,
-                                        const std::vector<std::string> &layer_names) noexcept -> bool
+                                        const std::vector<common::string> &layer_names) noexcept -> bool
 {
     for (const auto &layer_name : layer_names)
     {
@@ -105,7 +106,7 @@ private:
 }
 
 [[nodiscard]] inline auto is_available(const std::vector<extension> &extensions,
-                                       const std::string &extension_name) noexcept -> bool
+                                       const common::string &extension_name) noexcept -> bool
 {
     for (const auto &extension : extensions)
     {
@@ -117,7 +118,7 @@ private:
 }
 
 [[nodiscard]] inline auto are_available(const std::vector<extension> &extensions,
-                                        const std::vector<std::string> &extension_names) noexcept -> bool
+                                        const std::vector<common::string> &extension_names) noexcept -> bool
 {
     for (const auto &extension_name : extension_names)
     {

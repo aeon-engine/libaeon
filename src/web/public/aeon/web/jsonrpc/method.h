@@ -4,7 +4,7 @@
 
 #include <aeon/web/jsonrpc/result.h>
 #include <aeon/ptree/ptree.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <functional>
 
 namespace aeon::web::jsonrpc
@@ -15,7 +15,7 @@ class method
 public:
     using signature = std::function<result(const ptree::property_tree &)>;
 
-    method(std::u8string name, signature func);
+    method(common::string name, signature func);
     ~method() = default;
 
     method(method &&) noexcept = default;
@@ -24,11 +24,11 @@ public:
     method(const method &) = default;
     auto operator=(const method &) -> method & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const std::u8string &;
+    [[nodiscard]] auto name() const noexcept -> const common::string &;
     auto operator()(const ptree::property_tree &params) const -> result;
 
 private:
-    std::u8string name_;
+    common::string name_;
     signature func_;
 };
 

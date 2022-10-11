@@ -22,62 +22,62 @@ namespace aeon::ptree
 
     for (const auto &field : field_info)
     {
-        const auto field_name_str = std::u8string{field.name()};
-        const auto result = pt_object.find(field_name_str);
+        const auto field_name_str = field.name();
+        const auto result = pt_object.find(common::string{field_name_str});
 
         if (result == std::end(pt_object))
             continue;
 
-        if (field.type() == u8"std::int64_t")
+        if (field.type() == "std::int64_t")
         {
             if (!result->second.is_integer())
                 throw ptree_exception{};
 
             field.set(*obj, result->second.integer_value());
         }
-        else if (field.type() == u8"int")
+        else if (field.type() == "int")
         {
             if (!result->second.is_integer())
                 throw ptree_exception{};
 
             field.set(*obj, static_cast<int>(result->second.integer_value()));
         }
-        else if (field.type() == u8"float")
+        else if (field.type() == "float")
         {
             if (!result->second.is_double())
                 throw ptree_exception{};
 
             field.set(*obj, static_cast<float>(result->second.double_value()));
         }
-        else if (field.type() == u8"double")
+        else if (field.type() == "double")
         {
             if (!result->second.is_double())
                 throw ptree_exception{};
 
             field.set(*obj, result->second.double_value());
         }
-        else if (field.type() == u8"bool")
+        else if (field.type() == "bool")
         {
             if (!result->second.is_bool())
                 throw ptree_exception{};
 
             field.set(*obj, result->second.bool_value());
         }
-        else if (field.type() == u8"std::string")
+        else if (field.type() == "aeon::common::string")
         {
             if (!result->second.is_string())
                 throw ptree_exception{};
 
             field.set(*obj, result->second.string_value());
         }
-        else if (field.type() == u8"aeon::common::uuid")
+        else if (field.type() == "aeon::common::uuid")
         {
             if (!result->second.is_uuid())
                 throw ptree_exception{};
 
             field.set(*obj, result->second.uuid_value());
         }
-        else if (field.type() == u8"std::vector<std::uint8_t>")
+        else if (field.type() == "std::vector<std::uint8_t>")
         {
             if (!result->second.is_blob())
                 throw ptree_exception{};
@@ -100,37 +100,37 @@ auto from_reflection_object(const reflection::reflection_object &obj,
 
     for (const auto &field : field_info)
     {
-        const auto field_name = std::u8string{field.name()};
+        const auto field_name = common::string{field.name()};
 
-        if (field.type() == u8"std::int64_t")
+        if (field.type() == "std::int64_t")
         {
             pt_obj.insert(field_name, field.get<std::int64_t>(obj));
         }
-        else if (field.type() == u8"int")
+        else if (field.type() == "int")
         {
             pt_obj.insert(field_name, field.get<int>(obj));
         }
-        else if (field.type() == u8"float")
+        else if (field.type() == "float")
         {
             pt_obj.insert(field_name, field.get<float>(obj));
         }
-        else if (field.type() == u8"double")
+        else if (field.type() == "double")
         {
             pt_obj.insert(field_name, field.get<double>(obj));
         }
-        else if (field.type() == u8"bool")
+        else if (field.type() == "bool")
         {
             pt_obj.insert(field_name, field.get<bool>(obj));
         }
-        else if (field.type() == u8"std::string")
+        else if (field.type() == "aeon::common::string")
         {
-            pt_obj.insert(field_name, field.get<std::u8string>(obj));
+            pt_obj.insert(field_name, field.get<common::string>(obj));
         }
-        else if (field.type() == u8"aeon::common::uuid")
+        else if (field.type() == "aeon::common::uuid")
         {
             pt_obj.insert(field_name, field.get<common::uuid>(obj));
         }
-        else if (field.type() == u8"std::vector<std::uint8_t>")
+        else if (field.type() == "std::vector<std::uint8_t>")
         {
             pt_obj.insert(field_name, field.get<std::vector<std::uint8_t>>(obj));
         }

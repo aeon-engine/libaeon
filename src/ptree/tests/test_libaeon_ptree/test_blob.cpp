@@ -9,7 +9,7 @@
 using namespace aeon;
 
 static const ptree::blob blob = {0x01, 0x02, 0x03, 0x04, 0x05, 0x04, 0x03, 0x02, 0x01};
-static const ptree::property_tree pt{{{u8"test", 3}, {u8"test2", 2.0}, {u8"data", blob}}};
+static const ptree::property_tree pt{{{"test", 3}, {"test2", 2.0}, {"data", blob}}};
 
 TEST(test_ptree, json_serialize_deserialize_blob)
 {
@@ -20,7 +20,7 @@ TEST(test_ptree, json_serialize_deserialize_blob)
     EXPECT_EQ(pt, pt2);
 
     ASSERT_TRUE(pt2.is_object());
-    const auto &data_blob = pt2.object_value().at(u8"data");
+    const auto &data_blob = pt2.object_value().at("data");
     ASSERT_TRUE(data_blob.is_blob());
     EXPECT_EQ(blob, data_blob.blob_value());
 }
@@ -33,7 +33,7 @@ TEST(test_ptree, json_serialize_deserialize_skip_blob)
     EXPECT_NE(pt, pt2);
 
     ASSERT_TRUE(pt2.is_object());
-    const auto &data_blob = pt2.object_value().at(u8"data");
+    const auto &data_blob = pt2.object_value().at("data");
     ASSERT_TRUE(data_blob.is_blob());
     EXPECT_TRUE(std::empty(data_blob.blob_value()));
 }

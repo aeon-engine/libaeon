@@ -7,11 +7,11 @@
 
 using namespace aeon;
 
-static const ptree::property_tree test_class_pt{{{u8"base_integer_value", 42},
-                                                 {u8"integer_value", 3},
-                                                 {u8"double_value", 2.0},
-                                                 {u8"string_value", u8"Hello"},
-                                                 {u8"blob_value", ptree::blob{0x10, 0x20, 0x30}}}};
+static const ptree::property_tree test_class_pt{{{"base_integer_value", 42},
+                                                 {"integer_value", 3},
+                                                 {"double_value", 2.0},
+                                                 {"string_value", "Hello"},
+                                                 {"blob_value", ptree::blob{0x10, 0x20, 0x30}}}};
 
 class test_class_base : public reflection::reflection_object
 {
@@ -34,7 +34,7 @@ class test_class final : public test_class_base
     AEON_REFLECTION_FIELD(std::int64_t, base_integer_value)
     AEON_REFLECTION_FIELD(std::int64_t, integer_value)
     AEON_REFLECTION_FIELD(double, double_value)
-    AEON_REFLECTION_FIELD(std::string, string_value)
+    AEON_REFLECTION_FIELD(aeon::common::string, string_value)
     AEON_REFLECTION_FIELD(std::vector<std::uint8_t>, blob_value)
     AEON_REFLECTION_END()
 
@@ -50,7 +50,7 @@ public:
 
     std::int64_t integer_value = 0;
     double double_value = 0.0;
-    std::string string_value;
+    common::string string_value;
     std::vector<std::uint8_t> blob_value;
 };
 

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/reflection/reflection_object.h>
-#include <string_view>
+#include <aeon/common/string.h>
 #include <cstddef>
 
 namespace aeon::reflection
@@ -12,7 +12,7 @@ namespace aeon::reflection
 class field_info final
 {
 public:
-    field_info(const std::u8string_view name, const std::u8string_view type, const std::ptrdiff_t offset)
+    field_info(const common::string_view name, const common::string_view type, const std::ptrdiff_t offset)
         : name_{name}
         , type_{type}
         , offset_{offset}
@@ -55,8 +55,8 @@ public:
     }
 
 private:
-    std::u8string_view name_;
-    std::u8string_view type_;
+    common::string_view name_;
+    common::string_view type_;
     std::ptrdiff_t offset_;
 };
 

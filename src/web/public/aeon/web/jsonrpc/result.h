@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/ptree/ptree.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <optional>
 
 namespace aeon::web::jsonrpc
@@ -31,7 +31,7 @@ class result
 
 public:
     explicit result(ptree::property_tree &&result);
-    explicit result(const int error_code, std::u8string description);
+    explicit result(const int error_code, common::string description);
 
     ~result() = default;
 
@@ -73,7 +73,7 @@ public:
 
 private:
     explicit result(ptree::property_tree &&result, const std::optional<int> id);
-    explicit result(const int error_code, std::u8string description, const std::optional<int> id);
+    explicit result(const int error_code, common::string description, const std::optional<int> id);
 
     void set_id(const int id) noexcept
     {
@@ -84,7 +84,7 @@ private:
     rpc_result_type result_type_;
     ptree::property_tree result_;
     int error_code_;
-    std::u8string error_description_;
+    common::string error_description_;
 };
 
 } // namespace aeon::web::jsonrpc

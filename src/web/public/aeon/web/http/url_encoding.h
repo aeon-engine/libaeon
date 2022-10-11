@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include <string>
+#include <aeon/common/string.h>
 
 namespace aeon::web::http
 {
 
-auto url_encode(const std::u8string &str) -> std::u8string;
-auto url_decode(const std::u8string &str) -> std::u8string;
+auto url_encode(const common::string &str) -> common::string;
+auto url_decode(const common::string &str) -> common::string;
 
 } // namespace aeon::web::http

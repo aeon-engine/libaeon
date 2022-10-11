@@ -5,6 +5,7 @@
 #include <aeon/unicode/utf8_iterator.h>
 #include <aeon/unicode/utf16_iterator.h>
 #include <aeon/unicode/concepts.h>
+#include <aeon/common/string_view.h>
 #include <string_view>
 
 struct UText;
@@ -28,6 +29,12 @@ template <>
 struct utf_iterator_traits<std::u16string_view>
 {
     using iterator_type = utf16_iterator;
+};
+
+template <>
+struct utf_iterator_traits<common::string_view>
+{
+    using iterator_type = utf8_iterator;
 };
 
 } // namespace internal

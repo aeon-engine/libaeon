@@ -8,7 +8,7 @@
 namespace aeon::streams
 {
 
-template <memory_viewable T = std::u8string>
+template <memory_viewable T = common::string>
 class string_stream
 {
 public:
@@ -39,7 +39,7 @@ public:
         device_.reserve(size);
     }
 
-    void append(const std::string_view &val)
+    void append(const common::string_view &val)
     {
         const auto size = static_cast<std::streamsize>(std::size(val));
 
@@ -47,21 +47,7 @@ public:
             throw stream_exception{};
     }
 
-    auto &operator<<(const std::string_view &val)
-    {
-        append(val);
-        return *this;
-    }
-
-    void append(const std::u8string_view &val)
-    {
-        const auto size = static_cast<std::streamsize>(std::size(val));
-
-        if (device_.write(reinterpret_cast<const std::byte *>(std::data(val)), size) != size)
-            throw stream_exception{};
-    }
-
-    auto &operator<<(const std::u8string_view &val)
+    auto &operator<<(const common::string_view &val)
     {
         append(val);
         return *this;

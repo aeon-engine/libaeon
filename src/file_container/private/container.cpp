@@ -25,7 +25,7 @@ struct header
     common::uuid id{};
     std::uint32_t flags = 0;
     std::uint64_t size = 0;
-    std::u8string name{};
+    common::string name{};
 };
 
 template <typename device_t>
@@ -35,7 +35,7 @@ inline auto &operator<<(streams::stream_writer<device_t> &writer, const header &
     writer << h.id;
     writer << h.flags;
     writer << h.size;
-    writer << streams::length_prefix_string<std::u8string, std::uint16_t>{h.name};
+    writer << streams::length_prefix_string<std::uint16_t>{h.name};
     return writer;
 }
 
@@ -46,7 +46,7 @@ inline auto &operator>>(streams::stream_reader<device_t> &reader, header &h)
     reader >> h.id;
     reader >> h.flags;
     reader >> h.size;
-    reader >> streams::length_prefix_string<std::u8string, std::uint16_t>{h.name};
+    reader >> streams::length_prefix_string<std::uint16_t>{h.name};
     return reader;
 }
 
@@ -78,12 +78,12 @@ container::container(streams::idynamic_stream &stream, const common::flags<read_
         ptree::serialization::from_abf(stream, metadata_);
 }
 
-container::container(std::u8string name) noexcept
+container::container(common::string name) noexcept
     : container{std::move(name), common::uuid::generate()}
 {
 }
 
-container::container(std::u8string name, common::uuid id) noexcept
+container::container(common::string name, common::uuid id) noexcept
     : name_{std::move(name)}
     , id_{std::move(id)}
     , data_{}
@@ -93,12 +93,12 @@ container::container(std::u8string name, common::uuid id) noexcept
 
 container::~container() = default;
 
-void container::name(std::u8string name) noexcept
+void container::name(common::string name) noexcept
 {
     name_ = std::move(name);
 }
 
-auto container::name() const noexcept -> const std::u8string &
+auto container::name() const noexcept -> const common::string &
 {
     return name_;
 }

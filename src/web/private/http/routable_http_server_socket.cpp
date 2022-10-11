@@ -17,8 +17,8 @@ routable_http_server_socket::~routable_http_server_socket() = default;
 
 void routable_http_server_socket::on_http_request(const request &request)
 {
-    std::u8string route_path;
-    auto route = session_.find_best_match_route(request.get_uri(), route_path);
+    common::string route_path;
+    const auto route = session_.find_best_match_route(request.get_uri(), route_path);
 
     if (!route)
     {

@@ -26,7 +26,7 @@ private:
     explicit glfw()
     {
         if (glfwInit() == GLFW_FALSE)
-            throw glfw_platform_exception{u8"Could not initialize GLFW"};
+            throw glfw_platform_exception{"Could not initialize GLFW"};
     }
 
     ~glfw()

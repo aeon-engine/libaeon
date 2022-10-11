@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
 #include <stdexcept>
-#include <string>
 
 namespace aeon::platform
 {
@@ -11,7 +11,7 @@ namespace aeon::platform
 class platform_exception : public std::exception
 {
 public:
-    explicit platform_exception(std::u8string msg) noexcept
+    explicit platform_exception(common::string msg) noexcept
         : msg_{std::move(msg)}
     {
     }
@@ -30,7 +30,7 @@ public:
     }
 
 private:
-    std::u8string msg_;
+    common::string msg_;
 };
 
 } // namespace aeon::platform

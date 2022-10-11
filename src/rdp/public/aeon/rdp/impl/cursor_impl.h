@@ -3,39 +3,35 @@
 #pragma once
 
 #include <aeon/rdp/parser.h>
+#include <aeon/common/string.h>
 #include <aeon/common/u8_stream.h>
 #include <iostream>
 
 namespace aeon::rdp
 {
 
-template <common::concepts::string_view_like T>
-inline auto cursor<T>::filename() const noexcept -> std::u8string_view
+inline auto cursor::filename() const noexcept -> common::string_view
 {
     return filename_;
 }
 
-template <common::concepts::string_view_like T>
-inline auto cursor<T>::line() const noexcept -> string_view_type
+inline auto cursor::line() const noexcept -> common::string_view
 {
     return line_;
 }
 
-template <common::concepts::string_view_like T>
-inline auto cursor<T>::line_number() const noexcept -> size_type
+inline auto cursor::line_number() const noexcept -> size_type
 {
     return line_number_;
 }
 
-template <common::concepts::string_view_like T>
-inline auto cursor<T>::column() const noexcept -> size_type
+inline auto cursor::column() const noexcept -> size_type
 {
     return column_;
 }
 
-template <common::concepts::string_view_like T>
-inline cursor<T>::cursor(const std::u8string_view filename, const string_view_type line,
-                         const difference_type line_number, const difference_type column) noexcept
+inline cursor::cursor(const common::string_view filename, const common::string_view line,
+                      const difference_type line_number, const difference_type column) noexcept
     : filename_{filename}
     , line_{line}
     , line_number_{static_cast<std::size_t>(line_number)}
@@ -43,34 +39,29 @@ inline cursor<T>::cursor(const std::u8string_view filename, const string_view_ty
 {
 }
 
-template <common::concepts::string_view_like T>
-inline auto line(const cursor<T> &cursor) noexcept -> typename rdp::cursor<T>::string_view_type
+inline auto line(const cursor &cursor) noexcept -> common::string_view
 {
     return cursor.line();
 }
 
-template <common::concepts::string_view_like T>
-inline auto line_number(const cursor<T> &cursor) noexcept -> typename rdp::cursor<T>::size_type
+inline auto line_number(const cursor &cursor) noexcept -> cursor::size_type
 {
     return cursor.line_number();
 }
 
-template <common::concepts::string_view_like T>
-inline auto column(const cursor<T> &cursor) noexcept -> typename rdp::cursor<T>::size_type
+inline auto column(const cursor &cursor) noexcept -> cursor::size_type
 {
     return cursor.column();
 }
 
-template <common::concepts::string_view_like T>
-inline void print_cursor_info(const cursor<T> &cursor)
+inline void print_cursor_info(const cursor &cursor)
 {
     print_cursor_info(cursor, std::cout);
 }
 
-template <common::concepts::string_view_like T>
-inline void print_cursor_info(const cursor<T> &cursor, std::ostream &stream)
+inline void print_cursor_info(const cursor &cursor, std::ostream &stream)
 {
-    const auto minimum_column_for_left_arrow = 8;
+    constexpr auto minimum_column_for_left_arrow = 8;
 
     stream << cursor.line();
     stream << '\n';
@@ -78,24 +69,22 @@ inline void print_cursor_info(const cursor<T> &cursor, std::ostream &stream)
     if (cursor.column() < minimum_column_for_left_arrow)
     {
         if (cursor.column() > 1)
-            stream << std::string(cursor.column() - 1, ' ');
+            stream << common::string(cursor.column() - 1, ' ');
 
         stream << "^~~~\n\n";
     }
     else
     {
-        stream << std::string(cursor.column() - 1, '~') << '^' << '\n' << '\n';
+        stream << common::string(cursor.column() - 1, '~') << '^' << '\n' << '\n';
     }
 }
 
-template <common::concepts::string_view_like T>
-inline void print_parse_error(const cursor<T> &cursor, const std::u8string_view message)
+inline void print_parse_error(const cursor &cursor, const common::string_view message)
 {
-    print_parse_error<T>(cursor, message, std::cerr);
+    print_parse_error(cursor, message, std::cerr);
 }
 
-template <common::concepts::string_view_like T>
-inline void print_parse_error(const cursor<T> &cursor, const std::u8string_view message, std::ostream &stream)
+inline void print_parse_error(const cursor &cursor, const common::string_view message, std::ostream &stream)
 {
     if (!cursor.filename().empty())
         stream << cursor.filename() << ':';

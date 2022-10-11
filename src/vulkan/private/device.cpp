@@ -16,8 +16,8 @@ namespace aeon::vulkan
 namespace internal
 {
 
-[[nodiscard]] auto create_device(const physical_device &device, const std::vector<std::string> &enabled_layers,
-                                 const std::vector<std::string> &required_extensions,
+[[nodiscard]] auto create_device(const physical_device &device, const std::vector<common::string> &enabled_layers,
+                                 const std::vector<common::string> &required_extensions,
                                  [[maybe_unused]] const VkPhysicalDeviceFeatures &required_features,
                                  const queue_indices &indices)
 {
@@ -138,8 +138,8 @@ device::device() noexcept
 {
 }
 
-device::device(const vulkan::physical_device &d, const surface &surface, const std::vector<std::string> &layers,
-               const std::vector<std::string> &extensions, const VkPhysicalDeviceFeatures &features)
+device::device(const vulkan::physical_device &d, const surface &surface, const std::vector<common::string> &layers,
+               const std::vector<common::string> &extensions, const VkPhysicalDeviceFeatures &features)
     : physical_device_{&d}
     , queue_indices_{d, surface}
     , device_{internal::create_device(d, layers, extensions, features, queue_indices_)}

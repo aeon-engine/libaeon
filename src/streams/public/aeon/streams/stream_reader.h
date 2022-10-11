@@ -8,7 +8,7 @@
 #include <aeon/streams/seek_direction.h>
 #include <aeon/common/signed_sizeof.h>
 #include <aeon/common/assert.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <vector>
 #include <cstring>
 
@@ -38,12 +38,9 @@ public:
     void device(device_t &device) noexcept;
     [[nodiscard]] auto device() const noexcept -> device_t &;
 
-    template <typename char_t>
-    void read_line(std::basic_string<char_t> &line) const;
+    void read_line(common::string &line) const;
 
-    [[nodiscard]] auto read_line() const -> std::string;
-
-    [[nodiscard]] auto read_u8line() const -> std::u8string;
+    [[nodiscard]] auto read_line() const -> common::string;
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec) const;
@@ -57,10 +54,8 @@ public:
     template <typename T>
     [[nodiscard]] auto read_to_vector(const std::streamoff size) const -> std::vector<T>;
 
-    void read_to_string(std::string &str) const;
-    void read_to_string(std::u8string &str) const;
-    [[nodiscard]] auto read_to_string() const -> std::string;
-    [[nodiscard]] auto read_to_u8string() const -> std::u8string;
+    void read_to_string(common::string &str) const;
+    [[nodiscard]] auto read_to_string() const -> common::string;
 
 private:
     device_t *device_;
@@ -93,18 +88,15 @@ template <stream_readable device_t>
 }
 
 template <stream_readable device_t>
-template <typename char_t>
-inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) const
+inline void stream_reader<device_t>::read_line(common::string &line) const
 {
-    static_assert(sizeof(char_t) == 1, "read_line requires a character type with size 1.");
-
     if constexpr (std::is_same_v<device_t, idynamic_stream>)
         aeon_assert(device_->is_input_seekable(), "read_line requires an input seekable device.");
     else
         static_assert(is_input_seekable_v<device_t>, "read_line requires an input seekable device.");
 
     std::streamsize peek_size = 0;
-    char_t peek_data[read_block_size] = {};
+    char peek_data[read_block_size] = {};
     while ((peek_size = device_->read(reinterpret_cast<std::byte *>(peek_data), read_block_size)) > 0)
     {
         // TODO: Replace strchr with something more modern. This should also fix the reinterpret cast
@@ -140,17 +132,9 @@ inline void stream_reader<device_t>::read_line(std::basic_string<char_t> &line) 
 }
 
 template <stream_readable device_t>
-[[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> std::string
+[[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> common::string
 {
-    std::string line;
-    read_line(line);
-    return line;
-}
-
-template <stream_readable device_t>
-auto stream_reader<device_t>::read_u8line() const -> std::u8string
-{
-    std::u8string line;
+    common::string line;
     read_line(line);
     return line;
 }
@@ -199,7 +183,7 @@ template <typename T>
 }
 
 template <stream_readable device_t>
-inline void stream_reader<device_t>::read_to_string(std::string &str) const
+inline void stream_reader<device_t>::read_to_string(common::string &str) const
 {
     aeon_assert(std::empty(str), "Expected given string to be empty.");
 
@@ -208,26 +192,9 @@ inline void stream_reader<device_t>::read_to_string(std::string &str) const
 }
 
 template <stream_readable device_t>
-inline void stream_reader<device_t>::read_to_string(std::u8string &str) const
+[[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> common::string
 {
-    aeon_assert(std::empty(str), "Expected given string to be empty.");
-
-    const auto vec = read_to_vector<char8_t>();
-    str.insert(std::begin(str), std::begin(vec), std::end(vec));
-}
-
-template <stream_readable device_t>
-[[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> std::string
-{
-    std::string str;
-    read_to_string(str);
-    return str;
-}
-
-template <stream_readable device_t>
-[[nodiscard]] inline auto stream_reader<device_t>::read_to_u8string() const -> std::u8string
-{
-    std::u8string str;
+    common::string str;
     read_to_string(str);
     return str;
 }
@@ -242,14 +209,7 @@ inline auto &operator>>(stream_reader<device_t> &reader, T &val)
 }
 
 template <stream_readable device_t>
-inline auto &operator>>(stream_reader<device_t> &reader, std::string &val)
-{
-    reader.read_line(val);
-    return reader;
-}
-
-template <stream_readable device_t>
-inline auto &operator>>(stream_reader<device_t> &reader, std::u8string &val)
+inline auto &operator>>(stream_reader<device_t> &reader, common::string &val)
 {
     reader.read_line(val);
     return reader;

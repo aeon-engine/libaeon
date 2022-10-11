@@ -27,8 +27,8 @@ struct test_output_filter : streams::filter
     auto write(sink_t &sink, const std::byte *data, const std::streamsize size) const -> std::streamsize
     {
         std::span data_span{data, static_cast<std::size_t>(size)};
-        const std::string prefix = "[PREFIX]";
-        const std::string postfix = "[POSTFIX]";
+        const common::string prefix = "[PREFIX]";
+        const common::string postfix = "[POSTFIX]";
 
         std::vector<std::byte> new_data(std::size(prefix) + std::size(data_span) + std::size(postfix));
         std::memcpy(std::data(new_data), std::data(prefix), std::size(prefix));
@@ -54,8 +54,8 @@ struct test_output_filter2 : streams::filter
     auto write(sink_t &sink, const std::byte *data, const std::streamsize size) const -> std::streamsize
     {
         std::span data_span{data, static_cast<std::size_t>(size)};
-        const std::string prefix = "<<<";
-        const std::string postfix = ">>>";
+        const common::string prefix = "<<<";
+        const common::string postfix = ">>>";
 
         std::vector<std::byte> new_data(std::size(prefix) + std::size(data_span) + std::size(postfix));
         std::memcpy(std::data(new_data), std::data(prefix), std::size(prefix));

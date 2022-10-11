@@ -14,7 +14,7 @@ result::result(ptree::property_tree &&result)
 {
 }
 
-result::result(const int error_code, std::u8string description)
+result::result(const int error_code, common::string description)
     : id_{std::nullopt}
     , result_type_{rpc_result_type::error}
     , result_{}
@@ -32,7 +32,7 @@ result::result(ptree::property_tree &&result, const std::optional<int> id)
 {
 }
 
-result::result(const int error_code, std::u8string description, const std::optional<int> id)
+result::result(const int error_code, common::string description, const std::optional<int> id)
     : id_{id}
     , result_type_{rpc_result_type::error}
     , result_{}

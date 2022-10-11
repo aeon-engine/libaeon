@@ -22,7 +22,7 @@ auto xml_node::has_name() const noexcept -> bool
     return name_ != nullptr;
 }
 
-auto xml_node::name() const -> const std::u8string &
+auto xml_node::name() const -> const common::string &
 {
     if (!name_)
         throw xml_dom_exception{};
@@ -37,10 +37,10 @@ auto xml_node::has_value() const noexcept -> bool
 
 auto xml_node::children() const -> std::vector<xml_node>
 {
-    return children(u8"");
+    return children("");
 }
 
-auto xml_node::children(const std::u8string_view child_name) const -> std::vector<xml_node>
+auto xml_node::children(const common::string_view child_name) const -> std::vector<xml_node>
 {
     if (type_ != xml_node_type::document && type_ != xml_node_type::element)
         return {};
@@ -83,10 +83,10 @@ auto xml_node::children(const std::u8string_view child_name) const -> std::vecto
 
 auto xml_node::child() const noexcept -> xml_node
 {
-    return child(u8"");
+    return child("");
 }
 
-auto xml_node::child(const std::u8string_view child_name) const noexcept -> xml_node
+auto xml_node::child(const common::string_view child_name) const noexcept -> xml_node
 {
     if (type_ != xml_node_type::document && type_ != xml_node_type::element)
         return xml_node{*document_};
@@ -121,12 +121,12 @@ auto xml_node::child(const std::u8string_view child_name) const noexcept -> xml_
     return xml_node{*document_};
 }
 
-auto xml_node::operator[](const std::u8string_view child_name) const noexcept -> xml_node
+auto xml_node::operator[](const common::string_view child_name) const noexcept -> xml_node
 {
     return child(child_name);
 }
 
-auto xml_node::attributes() const -> std::map<std::u8string, variant::converting_variant>
+auto xml_node::attributes() const -> std::map<common::string, variant::converting_variant>
 {
     if (type_ != xml_node_type::element)
         return {};
@@ -154,7 +154,7 @@ auto xml_node::attributes() const -> std::map<std::u8string, variant::converting
 
             const auto &pt_attributes = pt_attrib_value.object_value();
 
-            std::map<std::u8string, variant::converting_variant> attributes;
+            std::map<common::string, variant::converting_variant> attributes;
             for (const auto &[key, value] : pt_attributes)
             {
                 if (!value.is_string())
@@ -170,7 +170,7 @@ auto xml_node::attributes() const -> std::map<std::u8string, variant::converting
     return {};
 }
 
-auto xml_node::value_impl() const -> const std::u8string &
+auto xml_node::value_impl() const -> const common::string &
 {
     if (!pt_ || !pt_->is_string())
         throw xml_dom_exception{};
@@ -194,7 +194,7 @@ xml_node::xml_node(const xml_document &document, const property_tree &pt, const 
 {
 }
 
-xml_node::xml_node(const xml_document &document, const property_tree &pt, const std::u8string &name,
+xml_node::xml_node(const xml_document &document, const property_tree &pt, const common::string &name,
                    const xml_node_type type) noexcept
     : document_{&document}
     , pt_{&pt}

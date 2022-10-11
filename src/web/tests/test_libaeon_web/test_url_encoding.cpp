@@ -9,20 +9,20 @@ using namespace aeon;
 
 TEST(test_url_encoding, encode_regular_string)
 {
-    const std::u8string test_str = u8"ThisIsATestString123";
+    const common::string test_str = "ThisIsATestString123";
     ASSERT_EQ(test_str, web::http::url_encode(test_str));
 }
 
 TEST(test_url_encoding, encode_spaces)
 {
-    const std::u8string test_str = u8"This Is A Test String 123";
-    const std::u8string expected_str = u8"This%20Is%20A%20Test%20String%20123";
+    const common::string test_str = "This Is A Test String 123";
+    const common::string expected_str = "This%20Is%20A%20Test%20String%20123";
     ASSERT_EQ(expected_str, web::http::url_encode(test_str));
 }
 
-static auto generate_random_string(const int length) -> std::u8string
+static auto generate_random_string(const int length) -> common::string
 {
-    std::u8string str;
+    common::string str;
     str.reserve(length);
 
     std::random_device r;

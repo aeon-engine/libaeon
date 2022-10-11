@@ -12,19 +12,19 @@ namespace aeon::unicode
 namespace utf8
 {
 
-[[nodiscard]] auto to_utf16(const std::u8string_view &str) -> std::u16string
+[[nodiscard]] auto to_utf16(const common::string_view &str) -> std::u16string
 {
     const internal::uconverter converter{"utf-8"};
     return converter.to_uchars(str);
 }
 
-[[nodiscard]] auto to_utf32(const std::u8string_view &str) -> std::u32string
+[[nodiscard]] auto to_utf32(const common::string_view &str) -> std::u32string
 {
     utf_string_view view{str};
     return {std::begin(view), std::end(view)};
 }
 
-void append(const char32_t from, std::u8string &to)
+void append(const char32_t from, common::string &to)
 {
     std::array<std::uint8_t, 4> data;
     auto data_offset = 0u;
@@ -38,7 +38,7 @@ void append(const char32_t from, std::u8string &to)
     to.append(std::begin(data), std::begin(data) + data_offset);
 }
 
-void append(const std::u32string_view &from, std::u8string &to)
+void append(const std::u32string_view &from, common::string &to)
 {
     for (const auto c : from)
     {
@@ -51,7 +51,7 @@ void append(const std::u32string_view &from, std::u8string &to)
 namespace utf16
 {
 
-[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> std::u8string
+[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> common::string
 {
     const internal::uconverter converter{"utf-8"};
     return converter.from_uchars(str);
@@ -90,16 +90,16 @@ void append(const std::u32string_view &from, std::u16string &to)
 namespace utf32
 {
 
-[[nodiscard]] auto to_utf8(const char32_t c) -> std::u8string
+[[nodiscard]] auto to_utf8(const char32_t c) -> common::string
 {
-    std::u8string to;
+    common::string to;
     utf8::append(c, to);
     return to;
 }
 
-[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> std::u8string
+[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> common::string
 {
-    std::u8string to;
+    common::string to;
     utf8::append(str, to);
     return to;
 }

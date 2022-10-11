@@ -5,14 +5,15 @@
 #include <aeon/streams/devices/device.h>
 #include <aeon/streams/devices/span_device.h>
 #include <aeon/common/type_traits.h>
+#include <aeon/common/string.h>
 #include <string>
 
 namespace aeon::streams
 {
 
 template <typename T>
-concept memory_viewable =
-    common::type_traits::is_std_vector_v<T> || std::is_same_v<T, std::string> || std::is_same_v<T, std::u8string>;
+concept memory_viewable = common::type_traits::is_std_vector_v<T> || std::is_same_v<T, common::string> ||
+                          std::is_same_v<T, std::string> || std::is_same_v<T, std::u8string>;
 
 template <memory_viewable T>
 class memory_view_device : public device

@@ -52,17 +52,17 @@ TEST(test_reflection, test_reflection_rt)
 
     EXPECT_EQ(test->get_integer(), 0);
 
-    const auto integer = test_class::reflection_info().get_field<int>(*test, u8"private_integer");
+    const auto integer = test_class::reflection_info().get_field<int>(*test, "private_integer");
     *integer = 5;
 
     EXPECT_EQ(test->get_integer(), 5);
 
     EXPECT_EQ(test->get_float(), 0.0);
-    const auto flt = test_class::reflection_info().get_field<float>(*test, u8"some_float");
+    const auto flt = test_class::reflection_info().get_field<float>(*test, "some_float");
     *flt = 5.0;
     EXPECT_EQ(test->get_float(), 5.0);
 
-    const auto str = test_class::reflection_info().get_field<std::string>(*test, u8"a_string");
+    const auto str = test_class::reflection_info().get_field<std::string>(*test, "a_string");
     *str = "Hello";
     EXPECT_EQ(test->get_string(), "Hello");
 }

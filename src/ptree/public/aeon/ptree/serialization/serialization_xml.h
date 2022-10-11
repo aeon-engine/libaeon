@@ -13,7 +13,7 @@ namespace aeon::ptree::serialization
 class ptree_xml_deserialize_exception final : public ptree_serialization_exception
 {
 public:
-    explicit ptree_xml_deserialize_exception(std::u8string message)
+    explicit ptree_xml_deserialize_exception(common::string message)
         : message_{std::move(message)}
     {
     }
@@ -24,14 +24,14 @@ public:
     }
 
 private:
-    std::u8string message_;
+    common::string message_;
 };
 
 void from_xml(streams::idynamic_stream &stream, property_tree &ptree,
-              std::u8string attribute_placeholder = xml_dom::attribute_placeholder_name);
+              common::string attribute_placeholder = xml_dom::attribute_placeholder_name);
 auto from_xml(streams::idynamic_stream &stream,
-              std::u8string attribute_placeholder = xml_dom::attribute_placeholder_name) -> property_tree;
-auto from_xml(const std::string &str, std::u8string attribute_placeholder = xml_dom::attribute_placeholder_name)
+              common::string attribute_placeholder = xml_dom::attribute_placeholder_name) -> property_tree;
+auto from_xml(const common::string &str, common::string attribute_placeholder = xml_dom::attribute_placeholder_name)
     -> property_tree;
 
 } // namespace aeon::ptree::serialization

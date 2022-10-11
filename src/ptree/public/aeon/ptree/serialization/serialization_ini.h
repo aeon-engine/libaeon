@@ -30,10 +30,10 @@ class ptree_unsupported_ini_format final : public ptree_serialization_exception
  * the expected format as described above.
  */
 void to_ini(const property_tree &ptree, streams::idynamic_stream &stream);
-auto to_ini(const property_tree &ptree) -> std::string;
+auto to_ini(const property_tree &ptree) -> common::string;
 
 void from_ini(streams::idynamic_stream &stream, property_tree &ptree);
 auto from_ini(streams::idynamic_stream &stream) -> property_tree;
-auto from_ini(const std::string &str) -> property_tree;
+auto from_ini(const common::string &str) -> property_tree;
 
 } // namespace aeon::ptree::serialization

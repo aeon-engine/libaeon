@@ -15,7 +15,7 @@ class config_file_exception : public std::exception
 
 template <typename T>
 concept config_file_value = std::is_same_v<T, bool> || std::is_integral_v<T> || std::is_floating_point_v<T> ||
-                            std::is_same_v<T, std::u8string> || std::is_same_v<T, common::uuid>;
+                            std::is_same_v<T, common::string> || std::is_same_v<T, common::uuid>;
 
 /*!
  * Wrapper for reading and writing config file settings, for example for use in
@@ -47,7 +47,7 @@ public:
      * \param header The header to be checked
      * \returns True if the entry was found
      */
-    [[nodiscard]] auto has_header(const std::u8string &header) const noexcept -> bool;
+    [[nodiscard]] auto has_header(const common::string &header) const noexcept -> bool;
 
     /*!
      * Check if the loaded config file has a certain entry key
@@ -55,8 +55,8 @@ public:
      * \param key The entry key to be checked
      * \returns True if the entry was found
      */
-    [[nodiscard]] auto has_entry(const std::u8string &header,
-                                 const std::u8string &key) // NOLINT(bugprone-exception-escape)
+    [[nodiscard]] auto has_entry(const common::string &header,
+                                 const common::string &key) // NOLINT(bugprone-exception-escape)
         const noexcept -> bool;
 
     /*!
@@ -66,7 +66,7 @@ public:
      * \return Either the value of the entry of key, nullopt
      */
     template <config_file_value T>
-    [[nodiscard]] auto get(const std::u8string &header, const std::u8string &key) // NOLINT(bugprone-exception-escape)
+    [[nodiscard]] auto get(const common::string &header, const common::string &key) // NOLINT(bugprone-exception-escape)
         const noexcept -> std::optional<T>;
 
     /*!
@@ -77,7 +77,7 @@ public:
      * \return Either the value of the entry of key, or the default value.
      */
     template <config_file_value T>
-    [[nodiscard]] auto get(const std::u8string &header, const std::u8string &key, const T &default_val) -> T;
+    [[nodiscard]] auto get(const common::string &header, const common::string &key, const T &default_val) -> T;
 
     /*!
      * Get a value, or throw an exception if it does not exist
@@ -86,7 +86,7 @@ public:
      * \return Either the value of the entry of key, or throws std::invalid_argument
      */
     template <config_file_value T>
-    [[nodiscard]] auto get_or_except(const std::u8string &header, const std::u8string &key) const -> T;
+    [[nodiscard]] auto get_or_except(const common::string &header, const common::string &key) const -> T;
 
     /*!
      * Set a value
@@ -95,7 +95,7 @@ public:
      * \param val The value.
      */
     template <config_file_value T>
-    void set(const std::u8string &header, const std::u8string &key, const T &val);
+    void set(const common::string &header, const common::string &key, const T &val);
 
 private:
     property_tree *pt_;

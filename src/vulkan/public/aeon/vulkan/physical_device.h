@@ -65,7 +65,7 @@ private:
     return static_cast<physical_device_type>(device.properties().deviceType);
 }
 
-[[nodiscard]] inline auto name(const physical_device &device) -> std::string
+[[nodiscard]] inline auto name(const physical_device &device) -> common::string
 {
     return device.properties().deviceName;
 }
@@ -103,7 +103,7 @@ private:
 }
 
 [[nodiscard]] inline auto extension_supported(const std::vector<extension> &extensions,
-                                              const std::string &name) noexcept -> bool
+                                              const common::string &name) noexcept -> bool
 {
     for (const auto &extension : extensions)
     {

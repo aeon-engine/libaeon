@@ -339,9 +339,9 @@ auto serial_port::read(char *data, const std::size_t len) const -> std::size_t
     return detail::serial_port_read(handle_, data, len);
 }
 
-[[nodiscard]] auto serial_port::read(const std::size_t len) const -> std::string
+[[nodiscard]] auto serial_port::read(const std::size_t len) const -> common::string
 {
-    std::string value;
+    common::string value;
     value.resize(len);
 
     const auto actual_len = read(value.data(), len);
@@ -358,7 +358,7 @@ auto serial_port::write(const char *data, const std::size_t len) const -> std::s
     return detail::serial_port_write(handle_, data, len);
 }
 
-void serial_port::write(const std::string &data) const
+void serial_port::write(const common::string &data) const
 {
     const auto len = write(data.data(), data.size());
 

@@ -334,7 +334,7 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                                nullptr, nullptr);
 
     if (!window_)
-        throw glfw_platform_exception{u8"Could not create window."};
+        throw glfw_platform_exception{"Could not create window."};
 
     glfwSetWindowUserPointer(window_, this);
 
@@ -454,9 +454,9 @@ void glfw_window::position(const math::vector2<std::int32_t> &pos)
     glfwSetWindowPos(window_, pos.x, pos.y);
 }
 
-void glfw_window::title(const std::u8string &str)
+void glfw_window::title(const common::string &str)
 {
-    glfwSetWindowTitle(window_, reinterpret_cast<const char *>(str.c_str()));
+    glfwSetWindowTitle(window_, str.c_str());
 }
 
 auto glfw_window::dimensions() const noexcept -> math::size2d<std::uint32_t>

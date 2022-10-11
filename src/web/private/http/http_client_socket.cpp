@@ -25,7 +25,7 @@ http_client_socket::http_client_socket(asio::io_context &context)
 
 http_client_socket::~http_client_socket() = default;
 
-void http_client_socket::request_async(const std::u8string &host, const std::u8string &uri,
+void http_client_socket::request_async(const common::string &host, const common::string &uri,
                                        [[maybe_unused]] const http_method method)
 {
     // TODO: Use the given method for the request, instead of just GET
@@ -63,7 +63,7 @@ void http_client_socket::on_data(const std::span<const std::byte> &data)
         }
         else
         {
-            const auto result = __on_line(reader.read_u8line());
+            const auto result = __on_line(reader.read_line());
             if (!result)
             {
                 // TODO: Better error code here.
@@ -75,7 +75,7 @@ void http_client_socket::on_data(const std::span<const std::byte> &data)
     }
 }
 
-auto http_client_socket::__on_line(const std::u8string &line) -> bool
+auto http_client_socket::__on_line(const common::string &line) -> bool
 {
     /*
     HTTP/1.1 200 Ok
@@ -113,15 +113,13 @@ auto http_client_socket::__parse_expected_content_length() -> bool
     if (result == http_headers.end())
         return false;
 
-    // TODO: Fix when there is a way to convert utf8 strings to numbers
-    const auto str = std::string{std::begin(result->second), std::end(result->second)};
-    expected_content_length_ = std::stoll(str);
+    expected_content_length_ = std::stoll(result->second.str());
     return true;
 }
 
-auto http_client_socket::__handle_read_status_state(const std::u8string &line) -> bool
+auto http_client_socket::__handle_read_status_state(const common::string &line) -> bool
 {
-    auto status_line_split = common::string_utils::split(line, ' ');
+    const auto status_line_split = common::string_utils::split(line, ' ');
 
     // The line looks like this: "HTTP/1.1 200 Ok"
     // We only need to parse the version string and the status code.
@@ -136,9 +134,7 @@ auto http_client_socket::__handle_read_status_state(const std::u8string &line) -
 
     try
     {
-        // TODO: Fix when stoi supports utf8.
-        const auto str = std::string{std::cbegin(status_code_string), std::end(status_code_string)};
-        status_code_int = std::stoi(str);
+        status_code_int = std::stoi(status_code_string.str());
     }
     catch (const std::invalid_argument &)
     {
@@ -154,7 +150,7 @@ auto http_client_socket::__handle_read_status_state(const std::u8string &line) -
     return true;
 }
 
-auto http_client_socket::__handle_read_headers_state(const std::u8string &line) -> bool
+auto http_client_socket::__handle_read_headers_state(const common::string &line) -> bool
 {
     if (line.empty())
     {
