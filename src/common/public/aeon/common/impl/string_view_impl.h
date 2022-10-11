@@ -158,7 +158,7 @@ inline auto string_view::operator==(const char8_t *const str) const -> bool
 
 inline constexpr auto string_view::operator<=>(const string &str) const -> std::strong_ordering
 {
-    return str_ <=> str.str();
+    return str_ <=> str.str_;
 }
 
 constexpr auto string_view::operator<=>(const string_view &str) const -> std::strong_ordering
