@@ -6,9 +6,6 @@
 #include <cassert>
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
-#if (defined(UNICODE))
-#include <aeon/common/utf8_convert.h>
-#endif
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 static const std::string dll_extension = ".dll";
@@ -28,12 +25,7 @@ dll_handle get_dll_handle(const std::string &filename)
 {
     const auto real_filename = filename + dll_extension;
 
-#if (defined(UNICODE))
-    const auto wstr_filename = utf8::to_wstring(real_filename);
-    return LoadLibrary(wstr_filename.c_str());
-#else
     return LoadLibrary(real_filename.c_str());
-#endif
 }
 
 void free_dll_handle(const dll_handle handle)
