@@ -33,8 +33,8 @@ public:
         icu::UnicodeString id;
         timezone_->getID(id);
 
-        std::string id_str;
-        id.toUTF8String(id_str);
+        common::string id_str;
+        id.toUTF8String(id_str.str());
         return id_str;
     }
 

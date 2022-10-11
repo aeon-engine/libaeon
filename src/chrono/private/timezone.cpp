@@ -104,8 +104,8 @@ auto timezone::enumerate() -> std::vector<common::string>
         if (U_FAILURE(error))
             throw std::runtime_error{"Error enumerating timezones."};
 
-        std::string value;
-        timezone->toUTF8String(value);
+        common::string value;
+        timezone->toUTF8String(value.str());
         result.emplace_back(std::move(value));
     }
 

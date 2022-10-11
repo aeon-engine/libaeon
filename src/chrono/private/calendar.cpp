@@ -359,8 +359,8 @@ auto calendar::to_string() const -> common::string
     icu::FieldPosition fields;
     fmt.format(*calendar_, str, fields);
 
-    std::string std_str;
-    str.toUTF8String(std_str);
+    common::string std_str;
+    str.toUTF8String(std_str.str());
     return std_str;
 }
 
