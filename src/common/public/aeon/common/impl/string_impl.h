@@ -351,6 +351,13 @@ inline constexpr auto string::append(const string_view &str) -> string &
     return *this;
 }
 
+template <typename iterator_t>
+inline constexpr auto string::append(iterator_t begin, iterator_t end) noexcept -> string &
+{
+    str_.append(begin, end);
+    return *this;
+}
+
 inline constexpr auto string::operator+=(const char *str) -> string &
 {
     str_.append(str);

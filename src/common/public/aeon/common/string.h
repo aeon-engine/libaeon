@@ -176,6 +176,9 @@ public:
 
     constexpr auto append(const string_view &str) -> string &;
 
+    template <typename iterator_t>
+    constexpr auto append(iterator_t begin, iterator_t end) noexcept -> string &;
+
     constexpr auto operator+=(const char *str) -> string &;
 
     auto operator+=(const char8_t *str) -> string &;
