@@ -8,20 +8,20 @@
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-static const std::string dll_extension = ".dll";
+static const aeon::common::string dll_extension = ".dll";
 #elif (defined(AEON_PLATFORM_OS_LINUX))
 #include <dlfcn.h>
-static const std::string dll_extension = ".so";
+static const aeon::common::string dll_extension = ".so";
 #elif (defined(AEON_PLATFORM_OS_MACOS))
 #include <dlfcn.h>
-static const std::string dll_extension = ".dylib";
+static const aeon::common::string dll_extension = ".dylib";
 #endif
 
 namespace aeon::common::dll_loader
 {
 
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
-dll_handle get_dll_handle(const std::string &filename)
+dll_handle get_dll_handle(const string &filename)
 {
     const auto real_filename = filename + dll_extension;
 
@@ -40,7 +40,7 @@ void *get_dll_proc_address(const dll_handle handle, const char *proc)
 }
 
 #elif (defined(AEON_PLATFORM_OS_LINUX) || defined(AEON_PLATFORM_OS_MACOS))
-dll_handle get_dll_handle(const std::string &filename)
+dll_handle get_dll_handle(const string &filename)
 {
 #if (defined(AEON_PLATFORM_OS_LINUX))
     // On linux, the given path must be prepended by "./", otherwise

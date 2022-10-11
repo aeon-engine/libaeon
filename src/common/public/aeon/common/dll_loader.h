@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <string>
+#include <aeon/common/string.h>
 #include <cassert>
 
 namespace aeon::common::dll_loader
@@ -17,7 +17,7 @@ using dll_handle = void *;
  * The given filename should not contain any file extension
  * as it is added automatically based on the platform.
  */
-[[nodiscard]] dll_handle get_dll_handle(const std::string &filename);
+[[nodiscard]] dll_handle get_dll_handle(const string &filename);
 
 /*!
  * Free a dll by handle. If the given handle is nullptr, nothing
@@ -43,7 +43,7 @@ public:
      * Attempt to load a dll by filename. Be sure to check is_valid()
      * to see if the dll was loaded correctly.
      */
-    explicit scoped_dll_handle(const std::string &filename)
+    explicit scoped_dll_handle(const string &filename)
         : handle_(get_dll_handle(filename))
     {
     }
