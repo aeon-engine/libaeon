@@ -11,7 +11,7 @@ namespace aeon::common
 [[nodiscard]] inline auto generate_temporary_file_path()
 {
     const auto uuid = uuid::generate();
-    return std::filesystem::temp_directory_path() / uuid.str();
+    return std::filesystem::temp_directory_path() / uuid.str().str();
 }
 
 } // namespace aeon::common

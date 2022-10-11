@@ -21,7 +21,7 @@ namespace detail
     return static_cast<char>('a' + (i - 10));
 }
 
-[[nodiscard]] static auto get_next_char(std::string_view::const_iterator &begin, std::string_view::const_iterator &end,
+[[nodiscard]] static auto get_next_char(string_view::const_iterator &begin, string_view::const_iterator &end,
                                         char &c) noexcept
 {
     if (begin == end)
@@ -58,10 +58,9 @@ namespace detail
     return open_brace == '{' && c == '}';
 }
 
-template <typename T>
-[[nodiscard]] auto to_string(const uuid::data_type &data) -> T
+[[nodiscard]] auto to_string(const uuid::data_type &data) -> string
 {
-    T result;
+    string result;
     result.reserve(36);
 
     auto i = 0_size_t;
@@ -182,14 +181,9 @@ uuid::~uuid() noexcept = default;
     }
 }
 
-[[nodiscard]] auto uuid::str() const -> std::string
+[[nodiscard]] auto uuid::str() const -> string
 {
-    return detail::to_string<std::string>(data);
-}
-
-auto uuid::u8str() const -> std::u8string
-{
-    return detail::to_string<std::u8string>(data);
+    return detail::to_string(data);
 }
 
 [[nodiscard]] auto uuid::size() const noexcept -> std::size_t
@@ -237,7 +231,7 @@ auto uuid::u8str() const -> std::u8string
     return {};
 }
 
-auto uuid::parse(const std::string_view &str) -> uuid
+auto uuid::parse(const string_view &str) -> uuid
 {
     const auto result = try_parse(str);
 
@@ -247,7 +241,7 @@ auto uuid::parse(const std::string_view &str) -> uuid
     return *result;
 }
 
-auto uuid::try_parse(const std::string_view &str) noexcept -> std::optional<uuid>
+auto uuid::try_parse(const string_view &str) noexcept -> std::optional<uuid>
 {
     auto begin = str.begin();
     auto end = str.end();

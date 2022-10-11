@@ -85,7 +85,7 @@ static void to_json(const object &obj, streams::idynamic_stream &stream)
 
 static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream)
 {
-    to_json(uuid.u8str(), stream);
+    to_json(uuid.str().u8str(), stream);
 }
 
 static void to_json(const std::u8string &obj_str, streams::idynamic_stream &stream)

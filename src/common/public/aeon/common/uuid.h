@@ -2,9 +2,9 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
 #include <array>
 #include <cstdint>
-#include <string>
 #include <optional>
 #include <stdexcept>
 
@@ -63,9 +63,7 @@ public:
 
     [[nodiscard]] auto version() const noexcept -> version_type;
 
-    [[nodiscard]] auto str() const -> std::string;
-
-    [[nodiscard]] auto u8str() const -> std::u8string;
+    [[nodiscard]] auto str() const -> string;
 
     [[nodiscard]] auto size() const noexcept -> std::size_t;
 
@@ -73,8 +71,8 @@ public:
 
     [[nodiscard]] static auto nil() noexcept -> uuid;
 
-    [[nodiscard]] static auto parse(const std::string_view &str) -> uuid;
-    [[nodiscard]] static auto try_parse(const std::string_view &str) noexcept -> std::optional<uuid>;
+    [[nodiscard]] static auto parse(const string_view &str) -> uuid;
+    [[nodiscard]] static auto try_parse(const string_view &str) noexcept -> std::optional<uuid>;
 
     [[nodiscard]] operator bool() const noexcept;
 
