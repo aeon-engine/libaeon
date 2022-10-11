@@ -54,7 +54,7 @@ public:
     [[nodiscard]] static auto get_auto_wrap_assembly() -> mono_assembly &;
 
 private:
-    static void __add_internal_call(const std::string &name, const void *func);
+    static void add_internal_call(const std::string &name, const void *func);
     MonoDomain *domain_;
     static mono_assembly internal_call_assembly_;
 };
@@ -62,7 +62,7 @@ private:
 template <typename T>
 inline void mono_jit::add_internal_call(const std::string &name, T func)
 {
-    __add_internal_call(name, reinterpret_cast<const void *>(func));
+    add_internal_call(name, reinterpret_cast<const void *>(func));
 }
 
 template <typename signature_t, signature_t &signature, class enable = void>

@@ -54,7 +54,7 @@ void mono_jit::set_auto_wrap_assembly(const mono_assembly &assembly)
     return internal_call_assembly_;
 }
 
-void mono_jit::__add_internal_call(const std::string &name, const void *func)
+void mono_jit::add_internal_call(const std::string &name, const void *func)
 {
     mono_add_internal_call(name.c_str(), func);
 }
