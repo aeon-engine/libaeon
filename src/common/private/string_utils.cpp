@@ -12,7 +12,7 @@ namespace aeon::common::string_utils
 {
 
 // TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
-auto char_to_hex(const char c) -> std::string
+auto char_to_hex(const char c) -> string
 {
     std::ostringstream ss;
     ss << '%' << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<short>(c & 0xff);
@@ -20,12 +20,12 @@ auto char_to_hex(const char c) -> std::string
 }
 
 // TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
-auto hex_to_char(const std::string &str) -> char
+auto hex_to_char(const string &str) -> char
 {
     if (str.empty())
         return 0;
 
-    std::istringstream in(str);
+    std::istringstream in(str.str());
 
     short c = 0;
     in >> std::hex >> c;

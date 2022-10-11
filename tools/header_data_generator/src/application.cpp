@@ -34,7 +34,7 @@ constexpr auto max_hex_bytes_per_line = 16;
 
 [[nodiscard]] auto generate_variable_name(const std::filesystem::path &path)
 {
-    auto filename = path.filename().string();
+    auto filename = common::string{path.filename().string()};
     common::string_utils::trim(filename);
     common::string_utils::replace(filename, " ", "-");
     common::string_utils::replace(filename, ".", "_");
@@ -129,7 +129,7 @@ auto application::main(const int argc, char *argv[]) noexcept -> int // NOLINT(b
 
     const auto namespace_name = args.get_argument("n", default_namespace_name);
     const auto generated_variable_name = generate_variable_name(source_file);
-    const auto data_name = args.get_argument("d", generated_variable_name);
+    const auto data_name = args.get_argument("d", generated_variable_name.as_std_string_view());
     const auto data_type = args.get_argument("t", default_data_type);
     const auto verbose = args.has_option("v");
 

@@ -167,13 +167,14 @@ auto http_server_socket::__handle_read_method_state(const std::u8string &line) -
     const auto request_uri = method_line_split[1];
     const auto version_string = method_line_split[2];
 
-    if (!detail::validate_http_version_string(version_string))
+    if (!detail::validate_http_version_string(std::u8string{version_string.as_std_u8string_view()}))
         return status_code::http_version_not_supported;
 
-    if (!detail::validate_uri(request_uri))
+    if (!detail::validate_uri(std::u8string{request_uri.as_std_u8string_view()}))
         return status_code::bad_request;
 
-    const request request(method, url_decode(request_uri));
+    const request request(std::u8string{method.as_std_u8string_view()},
+                          url_decode(std::u8string{request_uri.as_std_u8string_view()}));
 
     if (request.get_method() == http_method::invalid)
         return status_code::method_not_allowed;

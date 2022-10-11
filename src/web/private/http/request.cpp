@@ -82,7 +82,7 @@ auto parse_raw_http_headers(const std::vector<std::u8string> &raw_headers) -> st
         const auto header_name = common::string_utils::to_lower_copy(header_line.substr(0, header_name_end));
         const auto header_value = header_line.substr(header_name_end + 2);
 
-        headers.insert({header_name, header_value});
+        headers.insert({header_name.u8str(), header_value});
     }
 
     return headers;

@@ -247,7 +247,7 @@ private:
         if (std::empty(value))
             return rdp::unmatched{};
 
-        return rdp::matched{property_tree{std::u8string{value}}};
+        return rdp::matched{property_tree{std::u8string{value.as_std_u8string_view()}}};
     }
 
     rdp::parser<std::u8string_view> parser_;

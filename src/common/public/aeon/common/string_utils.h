@@ -5,8 +5,8 @@
 #include <aeon/common/container.h>
 #include <aeon/common/string_concepts.h>
 #include <aeon/common/string_traits.h>
-#include <string>
-#include <string_view>
+#include <aeon/common/string.h>
+#include <aeon/common/string_view.h>
 #include <vector>
 #include <sstream>
 #include <algorithm>
@@ -19,384 +19,339 @@ namespace aeon::common::string_utils
  * Compare 2 strings case insensitive. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto iequals(const T &str1, const U &str2) noexcept -> bool;
+[[nodiscard]] inline auto iequals(const string_view &str1, const string_view &str2) noexcept -> bool;
 
 /*!
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Appends tokens to the given elements vector and returns it.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto split(const T &str, const char_type<T> delim, std::vector<basic_string_type<T>> &elements)
-    -> std::vector<basic_string_type<T>> &;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto split(const string &str, const T delim, std::vector<string> &elements)
+    -> std::vector<string> &;
 
 /*!
  * Split/tokenize a string into a vector of strings based on a delimiter.
  * Returns a vector of split elements.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto split(const T &str, const char_type<T> delim) -> std::vector<basic_string_type<T>>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto split(const string &str, const T delim) -> std::vector<string>;
 
 /*!
  * Split/tokenize a string_view into a vector of string_views based on a delimiter.
  * Appends tokens to the given elements vector and returns it.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto splitsv(const T &str, const char_type<T> delim,
-                                  std::vector<basic_string_view_type<T>> &elements)
-    -> std::vector<basic_string_view_type<T>>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto splitsv(const string_view &str, const T delim, std::vector<string_view> &elements)
+    -> std::vector<string_view>;
 
 /*!
  * Split/tokenize a string_view into a vector of string_views based on a delimiter.
  * Returns a vector of split elements.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto splitsv(const T &str, const char_type<T> delim) -> std::vector<basic_string_view_type<T>>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto splitsv(const string_view &str, const T delim) -> std::vector<string_view>;
 
 /*!
  * Trim from the start of a string. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::basic_string T>
-inline void ltrim(T &str);
+inline void ltrim(string &str);
 
 /*!
  * Trim from the start of a string_view. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T>
-inline void ltrimsv(T &str);
+inline void ltrimsv(string_view &str);
 
 /*!
  * Trim from the ending of a string. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::basic_string T>
-inline void rtrim(T &str);
+inline void rtrim(string &str);
 
 /*!
  * Trim from the ending of a string_view. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T>
-inline void rtrimsv(T &str);
+inline void rtrimsv(string_view &str);
 
 /*!
  * Trim a string at the start and end. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::basic_string T>
-inline void trim(T &str);
+inline void trim(string &str);
 
 /*!
  * Trim a string_view at the start and end. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T>
-inline void trimsv(T &str);
+inline void trimsv(string_view &str);
 
 /*!
  * Trim from the start of a string. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto ltrimmed(const T &str) -> basic_string_type<T>;
+[[nodiscard]] inline auto ltrimmed(const string_view &str) -> string;
 
 /*!
  * Trim from the start of a string_view. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto ltrimmedsv(const T &str) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto ltrimmedsv(const string_view &str) -> string_view;
 
 /*!
  * Trim from the ending of a string. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto rtrimmed(const T &str) -> basic_string_type<T>;
+[[nodiscard]] inline auto rtrimmed(const string_view &str) -> string;
 
 /*!
  * Trim from the ending of a string_view. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto rtrimmedsv(const T &str) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto rtrimmedsv(const string_view &str) -> string_view;
 
 /*!
  * Trim a string at the start and end. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto trimmed(const T &str) -> basic_string_type<T>;
+[[nodiscard]] inline auto trimmed(const string_view &str) -> string;
 
 /*!
  * Trim a string_view at the start and end. Note that this function does not take encoding or locale into account for
  * performance reasons.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto trimmedsv(const T &str) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto trimmedsv(const string_view &str) -> string_view;
 
 /*!
  * Get len characters from the left of the string.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto left(const T &str, const size_type<T> len) -> basic_string_type<T>;
+[[nodiscard]] inline auto left(const string_view &str, const string_view::size_type len) -> string;
 
 /*!
  * Get len characters from the left of the string_view.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto leftsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto leftsv(const string_view &str, const string_view::size_type len) -> string_view;
 
 /*!
  * Get len characters from the right of the string.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto right(const T &str, const size_type<T> len) -> basic_string_type<T>;
+[[nodiscard]] inline auto right(const string_view &str, const string_view::size_type len) -> string;
 
 /*!
  * Get len characters from the right of the string_view.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto rightsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto rightsv(const string_view &str, const string_view::size_type len) -> string_view;
 
 /*!
  * Strip len characters at the left of the string
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto stripped_left(const T &str, const size_type<T> len) -> basic_string_type<T>;
+[[nodiscard]] inline auto stripped_left(const string_view &str, const string_view::size_type len) -> string;
 
 /*!
  * Strip len characters at the left of the string_view
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto stripped_leftsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto stripped_leftsv(const string_view &str, const string_view::size_type len) -> string_view;
 
 /*!
  * Strip len characters at the right of the string
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto stripped_right(const T &str, const size_type<T> len) -> basic_string_type<T>;
+[[nodiscard]] inline auto stripped_right(const string_view &str, const string_view::size_type len) -> string;
 
 /*!
  * Strip len characters at the right of the string_view
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto stripped_rightsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto stripped_rightsv(const string_view &str, const string_view::size_type len) -> string_view;
 
 /*!
  * Strip len characters on both sides of the string.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto stripped_both(const T &str, const size_type<T> len) -> basic_string_type<T>;
+[[nodiscard]] inline auto stripped_both(const string_view &str, const string_view::size_type len) -> string;
 
 /*!
  * Strip len characters on both sides of the string_view.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto stripped_bothsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>;
+[[nodiscard]] inline auto stripped_bothsv(const string_view &str, const string_view::size_type len) -> string_view;
 
 /*!
  * Strip all characters equal to c on the left side of the string.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto char_stripped_left(const T &str, const char_type<T> c) -> basic_string_type<T>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_left(const string_view &str, const T c) -> string;
 
 /*!
  * Strip all characters equal to c on the left side of the string_view.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto char_stripped_leftsv(const T &str, const char_type<T> c) -> basic_string_view_type<T>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_leftsv(const string_view &str, const T c) -> string_view;
 
 /*!
  * Strip all characters equal to c on the right side of the string.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto char_stripped_right(const T &str, const char_type<T> c) -> basic_string_type<T>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_right(const string_view &str, const T c) -> string;
 
 /*!
  * Strip all characters equal to c on the right side of the string_view.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto char_stripped_rightsv(const T &str, const char_type<T> c) -> basic_string_view_type<T>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_rightsv(const string_view &str, const T c) -> string_view;
 
 /*!
  * Strip all characters equal to c on both sides of the string.
  */
-template <concepts::string_like T>
-[[nodiscard]] inline auto char_stripped_both(const T &str, const char_type<T> c) -> basic_string_type<T>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_both(const string_view &str, const T c) -> string;
 
 /*!
  * Strip all characters equal to c on both sides of the string_view.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto char_stripped_bothsv(const T &str, const char_type<T> c) -> basic_string_view_type<T>;
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_bothsv(const string_view &str, const T c) -> string_view;
 
 /*!
  * Strip len characters at the left of the string
  */
-template <concepts::basic_string T>
-inline void strip_left(T &str, const size_type<T> len);
+inline void strip_left(string &str, const string::size_type len);
 
 /*!
  * Strip len characters at the left of the string_view
  */
-template <concepts::basic_string_view T>
-inline void strip_leftsv(T &str, const size_type<T> len);
+inline void strip_leftsv(string_view &str, const string_view::size_type len);
 
 /*!
  * Strip len characters at the right of the string
  */
-template <concepts::basic_string T>
-inline void strip_right(T &str, const size_type<T> len);
+inline void strip_right(string &str, const string::size_type len);
 
 /*!
  * Strip len characters at the right of the string_view
  */
-template <concepts::basic_string_view T>
-inline void strip_rightsv(T &str, const size_type<T> len);
+inline void strip_rightsv(string_view &str, const string_view::size_type len);
 
 /*!
  * Strip len characters on both sides of the string.
  */
-template <concepts::basic_string T>
-inline void strip_both(T &str, const size_type<T> len);
+inline void strip_both(string &str, const string::size_type len);
 
 /*!
  * Strip len characters on both sides of the string_view.
  */
-template <concepts::basic_string_view T>
-inline void strip_bothsv(T &str, const size_type<T> len);
+inline void strip_bothsv(string_view &str, const string_view::size_type len);
 
 /*!
  * Strip all characters equal to c on the left side of the string.
  */
-template <concepts::basic_string T>
-inline void char_strip_left(T &str, const char_type<T> c);
+inline void char_strip_left(string &str, const string::value_type c);
 
 /*!
  * Strip all characters equal to c on the left side of the string_view.
  */
-template <concepts::basic_string_view T>
-inline void char_strip_leftsv(T &str, const char_type<T> c);
+inline void char_strip_leftsv(string_view &str, const string_view::value_type c);
 
 /*!
  * Strip all characters equal to c on the right side of the string.
  */
-template <concepts::basic_string T>
-inline void char_strip_right(T &str, const char_type<T> c);
+inline void char_strip_right(string &str, const string::value_type c);
 
 /*!
  * Strip all characters equal to c on the right side of the string_view.
  */
-template <concepts::basic_string_view T>
-inline void char_strip_rightsv(T &str, const char_type<T> c);
+inline void char_strip_rightsv(string_view &str, const string_view::value_type c);
 
 /*!
  * Strip all characters equal to c on both sides of the string.
  */
-template <concepts::basic_string T>
-inline void char_strip_both(T &str, const char_type<T> c);
+inline void char_strip_both(string &str, const string::value_type c);
 
 /*!
  * Strip all characters equal to c on both sides of the string_view.
  */
-template <concepts::basic_string_view T>
-inline void char_strip_bothsv(T &str, const char_type<T> c);
+inline void char_strip_bothsv(string_view &str, const string_view::value_type c);
 
 /*!
  * Replace all occurrences of a string with another string.
  */
-template <concepts::basic_string T, concepts::string_view_like U, concepts::string_view_like V>
-inline void replace(T &str, const U &from, const V &to);
+inline void replace(string &str, const string_view &from, const string_view &to);
 
 /*!
  * Replace all occurrences of a string with another string.
  */
-template <concepts::string_view_like T, concepts::string_view_like U, concepts::string_view_like V>
-[[nodiscard]] inline auto replace_copy(const T &str, const U &from, const V &to) -> basic_string_type<T>;
+[[nodiscard]] inline auto replace_copy(const string_view &str, const string_view &from, const string_view &to)
+    -> string;
 
 /*!
  * Convert the current string to lowercase based to the locale settings. This function does not take character encoding
  * into account for performance reasons.
  */
-template <concepts::basic_string T>
-inline void to_lower(T &str);
+inline void to_lower(string &str);
 
 /*!
  * Convert the current string to lowercase based to the locale settings. This function does not take character encoding
  * into account for performance reasons.
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto to_lower_copy(const T &str) -> basic_string_type<T>;
+[[nodiscard]] inline auto to_lower_copy(const string_view &str) -> string;
 
 /*!
  * Convert the current string to uppercase based to the locale settings. This function does not take character encoding
  * into account for performance reasons.
  */
-template <concepts::basic_string T>
-inline void to_upper(T &str);
+inline void to_upper(string &str);
 
 /*!
  * Convert the current string to uppercase based to the locale settings
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto to_upper_copy(const T &str) -> basic_string_type<T>;
+[[nodiscard]] inline auto to_upper_copy(const string_view &str) -> string;
 
 /*!
  * Check if a string begins with another string
  */
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto begins_with(const T &str, const U &val) -> bool;
+[[nodiscard]] inline auto begins_with(const string_view &str, const string_view &val) -> bool;
 
 /*!
  * Check if a string begins with another string
  */
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto ends_with(const T &str, const U &val) -> bool;
+[[nodiscard]] inline auto ends_with(const string_view &str, const string_view &val) -> bool;
 
 /*!
  * Check if the string "val" is found within "str".
  */
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto contains(const T &str, const U &val) -> bool;
+[[nodiscard]] inline auto contains(const string_view &str, const string_view &val) -> bool;
 
 /*!
  * Check if the character c is found within "str".
  */
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto contains(const T &str, const char_type<T> c) -> bool;
+[[nodiscard]] inline auto contains(const string_view &str, const string_view::value_type c) -> bool;
 
 /*!
  * Convert a character into a hex string.
  * For example: 'a' becomes "61".
  */
-[[nodiscard]] auto char_to_hex(const char c) -> std::string;
+[[nodiscard]] auto char_to_hex(const char c) -> string;
 
 /*
  * Convert a hex string into a char
  * For example: "61" becomes 'a'.
  */
-[[nodiscard]] auto hex_to_char(const std::string &str) -> char;
+[[nodiscard]] auto hex_to_char(const string &str) -> char;
 
 /*!
  * Convert a string in HEX format ("0x1234") to an integer.
  */
 template <typename T>
-[[nodiscard]] inline auto hex_string_to_int(const std::string &str)
+[[nodiscard]] inline auto hex_string_to_int(const string &str)
 {
     T value;
-    std::istringstream iss(str);
+    std::istringstream iss(str.str());
     iss >> std::hex >> value;
     return value;
 }
 
 template <>
-[[nodiscard]] inline auto hex_string_to_int<std::uint8_t>(const std::string &str)
+[[nodiscard]] inline auto hex_string_to_int<std::uint8_t>(const string &str)
 {
     int value;
-    std::istringstream iss(str);
+    std::istringstream iss(str.str());
     iss >> std::hex >> value;
     return static_cast<std::uint8_t>(value);
 }
@@ -405,11 +360,11 @@ template <>
  * Convert a value into HEX format (ie. 255 becomes "ff")
  */
 template <typename T>
-[[nodiscard]] inline auto int_to_hex_string(const T value) -> std::string
+[[nodiscard]] inline auto int_to_hex_string(const T value) -> string
 {
     std::stringstream stream;
     stream << std::setfill('0') << std::setw(sizeof(T) * 2) << std::hex << static_cast<std::int64_t>(value);
-    return stream.str();
+    return std::move(stream.str());
 }
 
 /*!

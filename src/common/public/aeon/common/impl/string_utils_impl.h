@@ -9,24 +9,20 @@
 namespace aeon::common::string_utils
 {
 
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto iequals(const T &str1, const U &str2) noexcept -> bool
+[[nodiscard]] inline auto iequals(const string_view &str1, const string_view &str2) noexcept -> bool
 {
-    const auto str1_view = basic_string_view_type<T>{str1};
-    const auto str2_view = basic_string_view_type<U>{str2};
-
-    return std::equal(std::cbegin(str1_view), std::cend(str1_view), std::cbegin(str2_view), std::cend(str2_view),
+    return std::equal(std::cbegin(str1), std::cend(str1), std::cbegin(str2), std::cend(str2),
                       [](const auto a, const auto b) { return std::tolower(a) == std::tolower(b); });
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto split(const T &str, const char_type<T> delim, std::vector<basic_string_type<T>> &elements)
-    -> std::vector<basic_string_type<T>> &
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto split(const string &str, const T delim, std::vector<string> &elements)
+    -> std::vector<string> &
 {
-    std::basic_stringstream ss{str};
-    basic_string_type<T> item;
+    std::basic_stringstream ss{str.str()};
+    string item;
 
-    while (std::getline(ss, item, delim))
+    while (std::getline(ss, item.str(), static_cast<char>(delim)))
     {
         elements.emplace_back(item);
     }
@@ -34,414 +30,354 @@ template <concepts::string_view_like T>
     return elements;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto split(const T &str, const char_type<T> delim) -> std::vector<basic_string_type<T>>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto split(const string &str, const T delim) -> std::vector<string>
 {
-    std::vector<basic_string_type<T>> elements;
+    std::vector<string> elements;
     return split(str, delim, elements);
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto splitsv(const T &str, const char_type<T> delim,
-                                  std::vector<basic_string_view_type<T>> &elements)
-    -> std::vector<basic_string_view_type<T>>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto splitsv(const string_view &str, const T delim, std::vector<string_view> &elements)
+    -> std::vector<string_view>
 {
-    auto start = size_type<T>{};
-    auto str_view = basic_string_view_type<T>{str};
-    auto pos = str_view.find_first_of(delim, start);
+    auto start = string_view::size_type{};
+    auto pos = str.find_first_of(delim, start);
 
-    while (pos != basic_string_view_type<T>::npos)
+    while (pos != string_view::npos)
     {
-        elements.emplace_back(str_view.substr(start, pos - start));
+        elements.emplace_back(str.substr(start, pos - start));
         start = pos + 1;
-        pos = str_view.find_first_of(delim, start);
+        pos = str.find_first_of(delim, start);
     }
 
-    if (start < str.length())
-        elements.emplace_back(str_view.substr(start, str_view.length() - start));
+    if (start < std::size(str))
+        elements.emplace_back(str.substr(start, std::size(str) - start));
 
     return elements;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto splitsv(const T &str, const char_type<T> delim) -> std::vector<basic_string_view_type<T>>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto splitsv(const string_view &str, const T delim) -> std::vector<string_view>
 {
-    std::vector<basic_string_view_type<T>> elements;
+    std::vector<string_view> elements;
     return splitsv(str, delim, elements);
 }
 
-template <concepts::basic_string T>
-inline void ltrim(T &str)
+inline void ltrim(string &str)
 {
     str.erase(std::begin(str), std::find_if(std::cbegin(str), std::cend(str),
                                             [](const auto c) { return !std::isspace(static_cast<int>(c)); }));
 }
 
-template <concepts::string_view_like T>
-inline void ltrimsv(T &str)
+inline void ltrimsv(string_view &str)
 {
     str.remove_prefix(container::count_until(std::cbegin(str), std::cend(str),
                                              [](const auto c) { return !std::isspace(static_cast<int>(c)); }));
 }
 
-template <concepts::basic_string T>
-inline void rtrim(T &str)
+inline void rtrim(string &str)
 {
-    str.erase(std::find_if(std::crbegin(str), std::crend(str),
-                           [](const auto c) { return !std::isspace(static_cast<int>(c)); })
-                  .base(),
-              std::end(str));
+    str.erase(
+        std::find_if(std::rbegin(str), std::rend(str), [](const auto c) { return !std::isspace(static_cast<int>(c)); })
+            .base(),
+        std::end(str));
 }
 
-template <concepts::string_view_like T>
-inline void rtrimsv(T &str)
+inline void rtrimsv(string_view &str)
 {
     str.remove_suffix(container::count_until(std::crbegin(str), std::crend(str),
                                              [](const auto c) { return !std::isspace(static_cast<int>(c)); }));
 }
 
-template <concepts::basic_string T>
-inline void trim(T &str)
+inline void trim(string &str)
 {
     ltrim(str);
     rtrim(str);
 }
 
-template <concepts::string_view_like T>
-inline void trimsv(T &str)
+inline void trimsv(string_view &str)
 {
     ltrimsv(str);
     rtrimsv(str);
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto ltrimmed(const T &str) -> basic_string_type<T>
+[[nodiscard]] inline auto ltrimmed(const string_view &str) -> string
 {
-    auto trimstr = basic_string_type<T>{str};
+    auto trimstr = string{str};
     ltrim(trimstr);
     return trimstr;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto ltrimmedsv(const T &str) -> basic_string_view_type<T>
+[[nodiscard]] inline auto ltrimmedsv(const string_view &str) -> string_view
 {
-    auto trimstr = basic_string_view_type<T>{str};
+    auto trimstr = string_view{str};
     ltrimsv(trimstr);
     return trimstr;
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto rtrimmed(const T &str) -> basic_string_type<T>
+[[nodiscard]] inline auto rtrimmed(const string_view &str) -> string
 {
-    auto trimstr = basic_string_type<T>{str};
+    auto trimstr = string{str};
     rtrim(trimstr);
     return trimstr;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto rtrimmedsv(const T &str) -> basic_string_view_type<T>
+[[nodiscard]] inline auto rtrimmedsv(const string_view &str) -> string_view
 {
-    auto trimstr = basic_string_view_type<T>{str};
+    auto trimstr = string_view{str};
     rtrimsv(trimstr);
     return trimstr;
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto trimmed(const T &str) -> basic_string_type<T>
+[[nodiscard]] inline auto trimmed(const string_view &str) -> string
 {
-    auto trimstr = basic_string_type<T>{str};
+    auto trimstr = string{str};
     trim(trimstr);
     return trimstr;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto trimmedsv(const T &str) -> basic_string_view_type<T>
+[[nodiscard]] inline auto trimmedsv(const string_view &str) -> string_view
 {
-    auto trimstr = basic_string_view_type<T>{str};
+    auto trimstr = string_view{str};
     trimsv(trimstr);
     return trimstr;
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto left(const T &str, const size_type<T> len) -> basic_string_type<T>
+[[nodiscard]] inline auto left(const string_view &str, const string_view::size_type len) -> string
 {
-    return basic_string_type<T>{leftsv(str, len)};
+    return string{leftsv(str, len)};
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto leftsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>
+[[nodiscard]] inline auto leftsv(const string_view &str, const string_view::size_type len) -> string_view
 {
-    return basic_string_view_type<T>{str}.substr(0, len);
+    return str.substr(0, len);
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto right(const T &str, const size_type<T> len) -> basic_string_type<T>
+[[nodiscard]] inline auto right(const string_view &str, const string_view::size_type len) -> string
 {
-    return basic_string_type<T>{rightsv(str, len)};
+    return string{rightsv(str, len)};
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto rightsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>
+[[nodiscard]] inline auto rightsv(const string_view &str, const string_view::size_type len) -> string_view
 {
-    return basic_string_view_type<T>{str}.substr(std::size(basic_string_view_type<T>{str}) - len);
+    return str.substr(std::size(str) - len);
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto stripped_left(const T &str, const size_type<T> len) -> basic_string_type<T>
+[[nodiscard]] inline auto stripped_left(const string_view &str, const string_view::size_type len) -> string
 {
-    return basic_string_type<T>{stripped_leftsv(str, len)};
+    return string{stripped_leftsv(str, len)};
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto stripped_leftsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>
+[[nodiscard]] inline auto stripped_leftsv(const string_view &str, const string_view::size_type len) -> string_view
 {
-    return basic_string_view_type<T>{str}.substr(len);
+    return str.substr(len);
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto stripped_right(const T &str, const size_type<T> len) -> basic_string_type<T>
+[[nodiscard]] inline auto stripped_right(const string_view &str, const string_view::size_type len) -> string
 {
-    return basic_string_type<T>{stripped_rightsv(str, len)};
+    return string{stripped_rightsv(str, len)};
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto stripped_rightsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>
+[[nodiscard]] inline auto stripped_rightsv(const string_view &str, const string_view::size_type len) -> string_view
 {
-    const auto str_view = basic_string_view_type<T>{str};
-    return str_view.substr(0, std::size(str_view) - len);
+    return str.substr(0, std::size(str) - len);
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto stripped_both(const T &str, const size_type<T> len) -> basic_string_type<T>
+[[nodiscard]] inline auto stripped_both(const string_view &str, const string_view::size_type len) -> string
 {
-    return basic_string_type<T>{stripped_bothsv(str, len)};
+    return string{stripped_bothsv(str, len)};
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto stripped_bothsv(const T &str, const size_type<T> len) -> basic_string_view_type<T>
+[[nodiscard]] inline auto stripped_bothsv(const string_view &str, const string_view::size_type len) -> string_view
 {
-    const auto str_view = basic_string_view_type<T>{str};
-    return str_view.substr(len, std::size(str_view) - len - len);
+    return str.substr(len, std::size(str) - len - len);
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto char_stripped_left(const T &str, const char_type<T> c) -> basic_string_type<T>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_left(const string_view &str, const T c) -> string
 {
-    auto stripstr = basic_string_type<T>{str};
+    auto stripstr = string{str};
     char_strip_left(stripstr, c);
     return stripstr;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto char_stripped_leftsv(const T &str, const char_type<T> c) -> basic_string_view_type<T>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_leftsv(const string_view &str, const T c) -> string_view
 {
-    auto stripstr = basic_string_view_type<T>{str};
+    auto stripstr = string_view{str};
     char_strip_leftsv(stripstr, c);
     return stripstr;
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto char_stripped_right(const T &str, const char_type<T> c) -> basic_string_type<T>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_right(const string_view &str, const T c) -> string
 {
-    auto stripstr = basic_string_type<T>{str};
+    auto stripstr = string{str};
     char_strip_right(stripstr, c);
     return stripstr;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto char_stripped_rightsv(const T &str, const char_type<T> c) -> basic_string_view_type<T>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_rightsv(const string_view &str, const T c) -> string_view
 {
-    auto stripstr = basic_string_view_type<T>{str};
+    auto stripstr = string_view{str};
     char_strip_rightsv(stripstr, c);
     return stripstr;
 }
 
-template <concepts::string_like T>
-[[nodiscard]] inline auto char_stripped_both(const T &str, const char_type<T> c) -> basic_string_type<T>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_both(const string_view &str, const T c) -> string
 {
-    auto stripstr = basic_string_type<T>{str};
+    auto stripstr = string{str};
     char_strip_both(stripstr, c);
     return stripstr;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto char_stripped_bothsv(const T &str, const char_type<T> c) -> basic_string_view_type<T>
+template <concepts::utf8_character_types T>
+[[nodiscard]] inline auto char_stripped_bothsv(const string_view &str, const T c) -> string_view
 {
-    auto stripstr = basic_string_view_type<T>{str};
+    auto stripstr = string_view{str};
     char_strip_bothsv(stripstr, c);
     return stripstr;
 }
 
-template <concepts::basic_string T>
-inline void strip_left(T &str, const size_type<T> len)
+inline void strip_left(string &str, const string::size_type len)
 {
     str = stripped_left(str, len);
 }
 
-template <concepts::basic_string_view T>
-inline void strip_leftsv(T &str, const size_type<T> len)
+inline void strip_leftsv(string_view &str, const string_view::size_type len)
 {
     str = stripped_leftsv(str, len);
 }
 
-template <concepts::basic_string T>
-inline void strip_right(T &str, const size_type<T> len)
+inline void strip_right(string &str, const string::size_type len)
 {
     str = stripped_right(str, len);
 }
 
-template <concepts::basic_string_view T>
-inline void strip_rightsv(T &str, const size_type<T> len)
+inline void strip_rightsv(string_view &str, const string_view::size_type len)
 {
     str = stripped_rightsv(str, len);
 }
 
-template <concepts::basic_string T>
-inline void strip_both(T &str, const size_type<T> len)
+inline void strip_both(string &str, const string::size_type len)
 {
     str = stripped_both(str, len);
 }
 
-template <concepts::basic_string_view T>
-inline void strip_bothsv(T &str, const size_type<T> len)
+inline void strip_bothsv(string_view &str, const string_view::size_type len)
 {
     str = stripped_bothsv(str, len);
 }
 
-template <concepts::basic_string T>
-inline void char_strip_left(T &str, const char_type<T> c)
+inline void char_strip_left(string &str, const string::value_type c)
 {
     str.erase(std::begin(str), std::find_if(std::cbegin(str), std::cend(str), [c](const auto ch) { return c != ch; }));
 }
 
-template <concepts::basic_string_view T>
-inline void char_strip_leftsv(T &str, const char_type<T> c)
+inline void char_strip_leftsv(string_view &str, const string_view::value_type c)
 {
     str.remove_prefix(container::count_until(std::cbegin(str), std::cend(str), [c](const auto ch) { return c != ch; }));
 }
 
-template <concepts::basic_string T>
-inline void char_strip_right(T &str, const char_type<T> c)
+inline void char_strip_right(string &str, const string::value_type c)
 {
     str.erase(std::find_if(std::crbegin(str), std::crend(str), [c](const auto ch) { return c != ch; }).base(),
               std::end(str));
 }
 
-template <concepts::basic_string_view T>
-inline void char_strip_rightsv(T &str, const char_type<T> c)
+inline void char_strip_rightsv(string_view &str, const string_view::value_type c)
 {
     str.remove_suffix(
         container::count_until(std::crbegin(str), std::crend(str), [c](const auto ch) { return c != ch; }));
 }
 
-template <concepts::basic_string T>
-inline void char_strip_both(T &str, const char_type<T> c)
+inline void char_strip_both(string &str, const string::value_type c)
 {
     char_strip_left(str, c);
     char_strip_right(str, c);
 }
 
-template <concepts::basic_string_view T>
-inline void char_strip_bothsv(T &str, const char_type<T> c)
+inline void char_strip_bothsv(string_view &str, const string_view::value_type c)
 {
     char_strip_leftsv(str, c);
     char_strip_rightsv(str, c);
 }
 
-template <concepts::basic_string T, concepts::string_view_like U, concepts::string_view_like V>
-inline void replace(T &str, const U &from, const V &to)
+inline void replace(string &str, const string_view &from, const string_view &to)
 {
-    const auto from_view = basic_string_view_type<U>{from};
-
-    if (std::empty(from_view))
+    if (std::empty(from))
         return;
 
-    const auto to_view = basic_string_view_type<U>{to};
-
-    auto start_pos = size_type<T>{};
-    while ((start_pos = str.find(from_view, start_pos)) != basic_string_type<T>::npos)
+    auto start_pos = string::size_type{};
+    while ((start_pos = str.find(from, start_pos)) != string::npos)
     {
-        str.replace(start_pos, std::size(from_view), to_view);
-        start_pos += std::size(to_view);
+        str.replace(start_pos, std::size(from), to);
+        start_pos += std::size(to);
     }
 }
 
-template <concepts::string_view_like T, concepts::string_view_like U, concepts::string_view_like V>
-[[nodiscard]] inline auto replace_copy(const T &str, const U &from, const V &to) -> basic_string_type<T>
+[[nodiscard]] inline auto replace_copy(const string_view &str, const string_view &from, const string_view &to) -> string
 {
-    auto copy = basic_string_type<T>{str};
+    auto copy = string{str};
     replace(copy, from, to);
     return copy;
 }
 
-template <concepts::basic_string T>
-inline void to_lower(T &str)
+inline void to_lower(string &str)
 {
     const auto to_lower_internal = [](const auto c)
-    { return std::use_facet<std::ctype<char_type<T>>>(std::locale()).tolower(c); };
+    { return std::use_facet<std::ctype<string::value_type>>(std::locale()).tolower(c); };
     std::transform(std::cbegin(str), std::cend(str), std::begin(str), to_lower_internal);
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto to_lower_copy(const T &str) -> basic_string_type<T>
+[[nodiscard]] inline auto to_lower_copy(const string_view &str) -> string
 {
-    auto result = basic_string_type<T>{str};
+    auto result = string{str};
     to_lower(result);
     return result;
 }
 
-template <concepts::basic_string T>
-inline void to_upper(T &str)
+inline void to_upper(string &str)
 {
     const auto to_upper_internal = [](const auto c)
-    { return std::use_facet<std::ctype<char_type<T>>>(std::locale()).toupper(c); };
+    { return std::use_facet<std::ctype<string::value_type>>(std::locale()).toupper(c); };
     std::transform(std::cbegin(str), std::cend(str), std::begin(str), to_upper_internal);
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto to_upper_copy(const T &str) -> basic_string_type<T>
+[[nodiscard]] inline auto to_upper_copy(const string_view &str) -> string
 {
-    auto result = basic_string_type<T>{str};
+    auto result = string{str};
     to_upper(result);
     return result;
 }
 
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto begins_with(const T &str, const U &val) -> bool
+[[nodiscard]] inline auto begins_with(const string_view &str, const string_view &val) -> bool
 {
-    const auto str_view = basic_string_view_type<T>{str};
-    const auto val_view = basic_string_view_type<T>{val};
-
-    if (std::size(str_view) < std::size(val_view))
+    if (std::size(str) < std::size(val))
         return false;
 
-    return leftsv(str_view, std::size(val_view)) == val_view;
+    return leftsv(str, std::size(val)) == val;
 }
 
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto ends_with(const T &str, const U &val) -> bool
+[[nodiscard]] inline auto ends_with(const string_view &str, const string_view &val) -> bool
 {
-    const auto str_view = basic_string_view_type<T>{str};
-    const auto val_view = basic_string_view_type<T>{val};
-
-    if (std::size(str_view) < std::size(val_view))
+    if (std::size(str) < std::size(val))
         return false;
 
-    return rightsv(str_view, std::size(val_view)) == val_view;
+    return rightsv(str, std::size(val)) == val;
 }
 
-template <concepts::string_view_like T, concepts::string_view_like U>
-[[nodiscard]] inline auto contains(const T &str, const U &val) -> bool
+[[nodiscard]] inline auto contains(const string_view &str, const string_view &val) -> bool
 {
-    const auto str_view = basic_string_view_type<T>{str};
-    return str_view.find(val) != basic_string_view_type<T>::npos;
+    return str.find(val) != string_view::npos;
 }
 
-template <concepts::string_view_like T>
-[[nodiscard]] inline auto contains(const T &str, const char_type<T> c) -> bool
+[[nodiscard]] inline auto contains(const string_view &str, const string_view::value_type c) -> bool
 {
-    const auto str_view = basic_string_view_type<T>{str};
-    return str_view.find(c) != basic_string_view_type<T>::npos;
+    return str.find(c) != string_view::npos;
 }
 
 [[nodiscard]] inline auto uint8_to_hex_string(const std::uint8_t value) noexcept -> const char *

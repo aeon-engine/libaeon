@@ -44,4 +44,10 @@ concept string_view_like =
     std::is_convertible_v<T, std::u8string_view> || std::is_convertible_v<T, std::u16string_view> ||
     std::is_convertible_v<T, std::u32string_view>;
 
+/*!
+ * The given type must be able to use used as a codepoint in an utf8 string context.
+ */
+template <typename T>
+concept utf8_character_types = std::is_same_v<T, char> || std::is_same_v<T, char8_t>;
+
 } // namespace aeon::common::concepts
