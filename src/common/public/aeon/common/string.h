@@ -179,6 +179,10 @@ public:
 
     auto append(const char8_t *const str) -> string &;
 
+    constexpr auto append(const value_type *const str, const size_type size) -> string &;
+
+    auto append(const char8_t *const str, const size_type size) -> string &;
+
     constexpr auto append(const std::string &str) -> string &;
 
     auto append(const std::u8string &str) -> string &;

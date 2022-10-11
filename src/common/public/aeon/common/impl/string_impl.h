@@ -345,6 +345,18 @@ inline constexpr auto string::append(const value_type *const str) -> string &
     return *this;
 }
 
+inline constexpr auto string::append(const value_type *const str, const size_type size) -> string &
+{
+    str_.append(str, size);
+    return *this;
+}
+
+inline auto string::append(const char8_t *const str, const size_type size) -> string &
+{
+    str_.append(reinterpret_cast<const char *const>(str), size);
+    return *this;
+}
+
 inline auto string::append(const char8_t *const str) -> string &
 {
     str_.append(reinterpret_cast<const char *const>(str));
