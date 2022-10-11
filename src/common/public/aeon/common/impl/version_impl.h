@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <tuple>
-
 namespace aeon::common
 {
 
@@ -38,9 +36,9 @@ inline constexpr version2<T>::version2(const U major, const U minor) noexcept
 }
 
 template <typename T>
-inline auto version2<T>::str() const -> std::string
+inline auto version2<T>::str() const -> string
 {
-    std::string version;
+    string version;
     version.reserve(3); // Typically 1.2
     version += std::to_string(major);
     version += '.';
@@ -119,9 +117,9 @@ inline constexpr version3<T>::version3(const version3<U> &ver) noexcept
 }
 
 template <typename T>
-inline auto version3<T>::str() const -> std::string
+inline auto version3<T>::str() const -> string
 {
-    std::string version;
+    string version;
     version.reserve(5); // Typically 1.2.3
     version += std::to_string(version2<T>::major);
     version += '.';
@@ -259,9 +257,9 @@ inline constexpr version4<T>::version4(const version4<U> &ver) noexcept
 }
 
 template <typename T>
-inline auto version4<T>::str() const -> std::string
+inline auto version4<T>::str() const -> string
 {
-    std::string version;
+    string version;
     version.reserve(7); // Typically 1.2.3.4
     version += std::to_string(version2<T>::major);
     version += '.';

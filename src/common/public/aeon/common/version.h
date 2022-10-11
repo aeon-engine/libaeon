@@ -2,9 +2,8 @@
 
 #pragma once
 
-#include <tuple>
+#include <aeon/common/string.h>
 #include <ostream>
-#include <string>
 
 namespace aeon::common
 {
@@ -31,7 +30,7 @@ public:
     constexpr version2(version2<T> &&) noexcept = default;
     constexpr auto operator=(version2<T> &&) noexcept -> version2<T> & = default;
 
-    [[nodiscard]] auto str() const -> std::string;
+    [[nodiscard]] auto str() const -> string;
 
     T major;
     T minor;
@@ -74,7 +73,7 @@ public:
     constexpr version3(version3<T> &&) noexcept = default;
     constexpr auto operator=(version3<T> &&) noexcept -> version3<T> & = default;
 
-    [[nodiscard]] auto str() const -> std::string;
+    [[nodiscard]] auto str() const -> string;
 
     T patch;
 };
@@ -136,7 +135,7 @@ public:
     constexpr version4(version4<T> &&) noexcept = default;
     constexpr auto operator=(version4<T> &&) noexcept -> version4<T> & = default;
 
-    [[nodiscard]] auto str() const -> std::string;
+    [[nodiscard]] auto str() const -> string;
 
     T build;
 };
