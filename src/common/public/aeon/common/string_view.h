@@ -103,6 +103,8 @@ public:
 
     constexpr auto operator<=>(const string &str) const -> std::strong_ordering;
 
+    constexpr auto operator<=>(const string_view &str) const -> std::strong_ordering;
+
     constexpr auto operator<=>(const std::string &str) const -> std::strong_ordering;
 
     auto operator<=>(const std::u8string &str) const -> std::strong_ordering;

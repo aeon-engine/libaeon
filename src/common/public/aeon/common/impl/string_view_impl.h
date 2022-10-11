@@ -161,6 +161,11 @@ inline constexpr auto string_view::operator<=>(const string &str) const -> std::
     return str_ <=> str.str();
 }
 
+constexpr auto string_view::operator<=>(const string_view &str) const -> std::strong_ordering
+{
+    return str_ <=> str.str_;
+}
+
 inline constexpr auto string_view::operator<=>(const std::string &str) const -> std::strong_ordering
 {
     return str_ <=> str;
