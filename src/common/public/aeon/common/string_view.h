@@ -93,6 +93,8 @@ public:
 
     constexpr auto operator==(const string &str) const -> bool;
 
+    constexpr auto operator==(const string_view &str) const -> bool;
+
     constexpr auto operator==(const std::string &str) const -> bool;
 
     auto operator==(const std::u8string &str) const -> bool;

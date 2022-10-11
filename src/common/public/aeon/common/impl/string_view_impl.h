@@ -136,6 +136,11 @@ inline constexpr auto string_view::operator==(const string &str) const -> bool
     return str_ == str.str_;
 }
 
+inline constexpr auto string_view::operator==(const string_view &str) const -> bool
+{
+    return str_ == str.str_;
+}
+
 inline constexpr auto string_view::operator==(const std::string &str) const -> bool
 {
     return str_ == str;
