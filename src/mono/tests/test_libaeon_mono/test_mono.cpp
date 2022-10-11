@@ -27,9 +27,9 @@ TEST(test_mono, test_mono_jit_load_assembly)
 TEST(test_mono, test_mono_jit_get_class_fail)
 {
     const auto &jit = mono_jit_fixture::get_jit();
-    EXPECT_NO_THROW(const auto assembly = jit.load_assembly("MonoTests.dll");
-                    EXPECT_THROW(const auto cls = assembly.get_class("SomeClassThatDoesntExist12345"),
-                                 aeon::mono::mono_exception););
+    aeon::mono::mono_assembly assembly;
+    EXPECT_NO_THROW(assembly = jit.load_assembly("MonoTests.dll"));
+    EXPECT_THROW(const auto cls = assembly.get_class("SomeClassThatDoesntExist12345"), aeon::mono::mono_exception);
 }
 
 TEST(test_mono, test_mono_jit_get_class)
