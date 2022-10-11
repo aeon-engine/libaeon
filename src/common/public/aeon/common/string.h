@@ -365,6 +365,8 @@ public:
 
     [[nodiscard]] constexpr auto find_last_not_of(const char8_t c, const size_type pos = 0) const -> size_type;
 
+    void replace(const size_type pos, const size_type count, const string_view &str);
+
 private:
     std::string str_;
 };

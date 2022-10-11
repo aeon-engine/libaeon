@@ -821,6 +821,11 @@ inline constexpr void string::clear()
     return str_.find_last_not_of(reinterpret_cast<const char *const>(str), pos);
 }
 
+inline void string::replace(const size_type pos, const size_type count, const string_view &str)
+{
+    str_.replace(pos, count, str.str_);
+}
+
 [[nodiscard]] inline constexpr auto string::find_last_not_of(const value_type c, const size_type pos) const -> size_type
 {
     return str_.find_last_not_of(c, pos);
