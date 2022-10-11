@@ -28,7 +28,7 @@ inline constexpr string_view::string_view(const std::string &str) noexcept
 }
 
 inline string_view::string_view(const std::u8string &str)
-    : str_{reinterpret_cast<const char *const>(std::data(str))}
+    : str_{reinterpret_cast<const char *const>(std::data(str)), std::size(str)}
 {
 }
 
@@ -43,7 +43,7 @@ inline constexpr string_view::string_view(const string &str) noexcept
 }
 
 inline string_view::string_view(const std::u8string_view &str)
-    : str_{reinterpret_cast<const char *const>(std::data(str))}
+    : str_{reinterpret_cast<const char *const>(std::data(str)), std::size(str)}
 {
 }
 
@@ -88,7 +88,7 @@ inline void string_view::assign(const char8_t *const str)
 
 inline void string_view::assign(const std::u8string &str)
 {
-    str_ = reinterpret_cast<const char *const>(std::data(str));
+    str_ = std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
 }
 
 inline constexpr void string_view::assign(const string &str)
@@ -118,7 +118,7 @@ inline constexpr void string_view::assign(const string &str)
 
 [[nodiscard]] inline auto string_view::compare(const std::u8string &str) const noexcept -> int
 {
-    return str_.compare(reinterpret_cast<const char *const>(std::data(str)));
+    return str_.compare(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)});
 }
 
 [[nodiscard]] inline constexpr auto string_view::compare(const value_type *const str) const noexcept -> int
@@ -143,7 +143,7 @@ inline constexpr auto string_view::operator==(const std::string &str) const -> b
 
 inline auto string_view::operator==(const std::u8string &str) const -> bool
 {
-    return str_ == reinterpret_cast<const char *const>(std::data(str));
+    return str_ == std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
 }
 
 inline constexpr auto string_view::operator==(const value_type *const str) const -> bool
@@ -173,7 +173,7 @@ inline constexpr auto string_view::operator<=>(const std::string &str) const -> 
 
 inline auto string_view::operator<=>(const std::u8string &str) const -> std::strong_ordering
 {
-    return str_ <=> reinterpret_cast<const char *const>(std::data(str));
+    return str_ <=> std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
 }
 
 inline constexpr auto string_view::operator<=>(const value_type *const str) const -> std::strong_ordering
@@ -288,7 +288,7 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 
 [[nodiscard]] inline auto string_view::starts_with(const std::u8string_view &str) const noexcept -> bool
 {
-    return str_.starts_with(reinterpret_cast<const char *const>(std::data(str)));
+    return str_.starts_with(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)});
 }
 
 [[nodiscard]] inline constexpr auto string_view::starts_with(const string &str) const noexcept -> bool
@@ -313,7 +313,7 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 
 [[nodiscard]] inline auto string_view::ends_with(const std::u8string_view &str) const noexcept -> bool
 {
-    return str_.ends_with(reinterpret_cast<const char *const>(std::data(str)));
+    return str_.ends_with(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)});
 }
 
 [[nodiscard]] inline constexpr auto string_view::ends_with(const string &str) const noexcept -> bool
@@ -345,7 +345,7 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 [[nodiscard]] inline auto string_view::find(const std::u8string_view &str, const size_type pos) const noexcept
     -> size_type
 {
-    return str_.find(reinterpret_cast<const char *const>(std::data(str)), pos);
+    return str_.find(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)}, pos);
 }
 
 [[nodiscard]] inline constexpr auto string_view::find(const string &str, const size_type pos) const noexcept
@@ -383,7 +383,7 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 [[nodiscard]] inline auto string_view::rfind(const std::u8string_view &str, const size_type pos) const noexcept
     -> size_type
 {
-    return str_.rfind(reinterpret_cast<const char *const>(std::data(str)), pos);
+    return str_.rfind(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)}, pos);
 }
 
 [[nodiscard]] inline constexpr auto string_view::rfind(const string &str, const size_type pos) const noexcept
@@ -421,7 +421,8 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 [[nodiscard]] inline auto string_view::find_first_of(const std::u8string_view &str, const size_type pos) const noexcept
     -> size_type
 {
-    return str_.find_first_of(reinterpret_cast<const char *const>(std::data(str)), pos);
+    return str_.find_first_of(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)},
+                              pos);
 }
 
 [[nodiscard]] inline constexpr auto string_view::find_first_of(const string &str, const size_type pos) const noexcept
@@ -461,7 +462,8 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 [[nodiscard]] inline auto string_view::find_first_not_of(const std::u8string_view &str,
                                                          const size_type pos) const noexcept -> size_type
 {
-    return str_.find_first_not_of(reinterpret_cast<const char *const>(std::data(str)), pos);
+    return str_.find_first_not_of(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)},
+                                  pos);
 }
 
 [[nodiscard]] inline constexpr auto string_view::find_first_not_of(const string &str,
@@ -502,7 +504,8 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 [[nodiscard]] inline auto string_view::find_last_of(const std::u8string_view &str, const size_type pos) const noexcept
     -> size_type
 {
-    return str_.find_last_of(reinterpret_cast<const char *const>(std::data(str)), pos);
+    return str_.find_last_of(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)},
+                             pos);
 }
 
 [[nodiscard]] inline constexpr auto string_view::find_last_of(const string &str, const size_type pos) const noexcept
@@ -542,7 +545,8 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
 [[nodiscard]] inline auto string_view::find_last_not_of(const std::u8string_view &str,
                                                         const size_type pos) const noexcept -> size_type
 {
-    return str_.find_last_not_of(reinterpret_cast<const char *const>(std::data(str)), pos);
+    return str_.find_last_not_of(std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)},
+                                 pos);
 }
 
 [[nodiscard]] inline constexpr auto string_view::find_last_not_of(const string &str, const size_type pos) const noexcept
