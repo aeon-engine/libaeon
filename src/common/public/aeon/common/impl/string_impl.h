@@ -159,6 +159,11 @@ inline constexpr auto string::erase(const_iterator first, const_iterator last) -
     return str_;
 }
 
+[[nodiscard]] inline auto string::u8str() const noexcept -> std::u8string
+{
+    return std::u8string{reinterpret_cast<const char8_t *const>(std::data(str_)), std::size(str_)};
+}
+
 [[nodiscard]] inline constexpr auto string::size() const noexcept -> size_type
 {
     return std::size(str_);

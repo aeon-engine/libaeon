@@ -100,6 +100,8 @@ public:
 
     [[nodiscard]] constexpr auto str() const noexcept -> const std::string &;
 
+    [[nodiscard]] auto u8str() const noexcept -> std::u8string;
+
     [[nodiscard]] constexpr auto size() const noexcept -> size_type;
 
     [[nodiscard]] constexpr auto capacity() const noexcept -> size_type;
