@@ -50,7 +50,7 @@ TEST(test_reflection, test_reflection_parse_methods)
 
     const auto ctors = cls.constructors();
     EXPECT_EQ(1u, std::size(ctors.find(0)));
-    EXPECT_EQ(1u, std::size(ctors.find(std::vector<std::string_view>{"int", "float"})));
+    EXPECT_EQ(1u, std::size(ctors.find(std::vector<common::string_view>{"int", "float"})));
 }
 
 TEST(test_reflection, test_reflection_enum)
@@ -66,11 +66,12 @@ TEST(test_reflection, test_reflection_enum)
     const auto &test_enum = result["aeon"]["testing"]["test_enum"].as<ast::ast_enum>();
     EXPECT_EQ(test_enum.constants_count(), 3u);
     EXPECT_TRUE((test_enum.constants() ==
-                 std::vector<std::string>{"test_enum_member1", "test_enum_member2", "test_enum_member3"}));
+                 std::vector<common::string>{"test_enum_member1", "test_enum_member2", "test_enum_member3"}));
 
     const auto &test_enum_class = result["aeon"]["testing"]["test_enum_class"].as<ast::ast_enum>();
     EXPECT_EQ(test_enum_class.constants_count(), 4u);
-    EXPECT_TRUE((test_enum_class.constants() == std::vector<std::string>{"member1", "member2", "member3", "member4"}));
+    EXPECT_TRUE(
+        (test_enum_class.constants() == std::vector<common::string>{"member1", "member2", "member3", "member4"}));
 }
 
 TEST(test_reflection, test_reflection_static_function)

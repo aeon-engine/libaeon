@@ -59,7 +59,7 @@ inline auto ast_entity_collection<T>::children(const ast_entity_type type) const
 }
 
 template <typename T>
-inline auto ast_entity_collection<T>::find(const std::string_view name) const noexcept ->
+inline auto ast_entity_collection<T>::find(const common::string_view name) const noexcept ->
     typename common::collection<T>::const_iterator
 {
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
@@ -72,7 +72,7 @@ inline auto ast_entity_collection<T>::find(const std::string_view name) const no
 }
 
 template <typename T>
-auto ast_entity_collection<T>::find(const std::string_view name, const ast_entity_type type) const noexcept ->
+auto ast_entity_collection<T>::find(const common::string_view name, const ast_entity_type type) const noexcept ->
     typename common::collection<T>::const_iterator
 {
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
@@ -85,7 +85,7 @@ auto ast_entity_collection<T>::find(const std::string_view name, const ast_entit
 }
 
 template <typename T>
-auto ast_entity_collection<T>::find_recursive(const std::string_view name) const noexcept -> ast_entity *
+auto ast_entity_collection<T>::find_recursive(const common::string_view name) const noexcept -> ast_entity *
 {
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
     {
@@ -107,7 +107,7 @@ auto ast_entity_collection<T>::find_recursive(const std::string_view name) const
 }
 
 template <typename T>
-auto ast_entity_collection<T>::find_recursive(const std::string_view name, const ast_entity_type type) const noexcept
+auto ast_entity_collection<T>::find_recursive(const common::string_view name, const ast_entity_type type) const noexcept
     -> ast_entity *
 {
     for (auto itr = std::begin(common::collection<T>::data_); itr != std::end(common::collection<T>::data_); ++itr)
@@ -148,7 +148,7 @@ inline auto ast_entity_collection<T>::find_recursive_typed() const -> std::vecto
 }
 
 template <typename T>
-inline auto ast_entity_collection<T>::contains(const std::string_view name) const noexcept -> bool
+inline auto ast_entity_collection<T>::contains(const common::string_view name) const noexcept -> bool
 {
     for (const auto &child : common::collection<T>::data_)
     {
@@ -160,7 +160,8 @@ inline auto ast_entity_collection<T>::contains(const std::string_view name) cons
 }
 
 template <typename T>
-auto ast_entity_collection<T>::contains(const std::string_view name, const ast_entity_type type) const noexcept -> bool
+auto ast_entity_collection<T>::contains(const common::string_view name, const ast_entity_type type) const noexcept
+    -> bool
 {
     for (const auto &child : common::collection<T>::data_)
     {
@@ -172,7 +173,7 @@ auto ast_entity_collection<T>::contains(const std::string_view name, const ast_e
 }
 
 template <typename T>
-inline auto ast_entity_collection<T>::operator[](const std::string_view name) const -> const ast_entity &
+inline auto ast_entity_collection<T>::operator[](const common::string_view name) const -> const ast_entity &
 {
     for (const auto &child : common::collection<T>::data_)
     {

@@ -3,8 +3,8 @@
 #pragma once
 
 #include <aeon/ast/entity.h>
+#include <aeon/common/string.h>
 #include <vector>
-#include <string>
 
 namespace aeon::ast
 {
@@ -23,7 +23,7 @@ enum class exception_specification
 class ast_function_parameter final
 {
 public:
-    explicit ast_function_parameter(std::string name, std::string type) noexcept
+    explicit ast_function_parameter(common::string name, common::string type) noexcept
         : name_{std::move(name)}
         , type_{std::move(type)}
     {
@@ -48,14 +48,14 @@ public:
     }
 
 private:
-    std::string name_;
-    std::string type_;
+    common::string name_;
+    common::string type_;
 };
 
 class ast_function : public ast_entity
 {
 public:
-    explicit ast_function(std::string name, std::string return_type, const ast::linkage_kind linkage_kind,
+    explicit ast_function(common::string name, common::string return_type, const ast::linkage_kind linkage_kind,
                           const ast::exception_specification exception_specification,
                           ast_source_location location) noexcept
         : ast_function{ast_entity_type::function_t, std::move(name),    std::move(return_type), linkage_kind,
@@ -71,7 +71,7 @@ public:
     ast_function(ast_function &&) noexcept = default;
     auto operator=(ast_function &&) noexcept -> ast_function & = default;
 
-    void add_parameter(std::string name, std::string type)
+    void add_parameter(common::string name, common::string type)
     {
         add_parameter(ast_function_parameter{std::move(name), std::move(type)});
     }
@@ -107,14 +107,14 @@ public:
     }
 
 protected:
-    explicit ast_function(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+    explicit ast_function(const ast_entity_type type, common::string name, const ast::linkage_kind linkage_kind,
                           const ast::exception_specification exception_specification,
                           ast_source_location location) noexcept
         : ast_function{type, std::move(name), {}, linkage_kind, exception_specification, std::move(location)}
     {
     }
 
-    explicit ast_function(const ast_entity_type type, std::string name, std::string return_type,
+    explicit ast_function(const ast_entity_type type, common::string name, common::string return_type,
                           const ast::linkage_kind linkage_kind,
                           const ast::exception_specification exception_specification,
                           ast_source_location location) noexcept
@@ -127,7 +127,7 @@ protected:
 
 private:
     std::vector<ast_function_parameter> parameters_;
-    std::string return_type_;
+    common::string return_type_;
     ast::exception_specification exception_specification_;
 };
 

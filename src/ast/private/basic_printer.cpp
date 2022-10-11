@@ -11,6 +11,8 @@
 #include <aeon/ast/function.h>
 #include <aeon/ast/constructor.h>
 #include <aeon/ast/destructor.h>
+#include <aeon/common/string.h>
+#include <iostream>
 
 namespace aeon::ast
 {
@@ -159,11 +161,11 @@ struct ast_basic_print_visitor
 private:
     void indent() const
     {
-        stream_ << std::string(depth_ * 4, ' ');
+        stream_ << common::string{depth_ * 4u, ' '};
     }
 
     std::ostream &stream_;
-    int depth_;
+    unsigned int depth_;
 };
 
 void print_basic(const ast::ast_entity &entity)

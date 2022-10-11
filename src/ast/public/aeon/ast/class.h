@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/ast/struct.h>
+#include <aeon/common/string.h>
 
 namespace aeon::ast
 {
@@ -10,7 +11,7 @@ namespace aeon::ast
 class ast_class final : public ast_struct
 {
 public:
-    explicit ast_class(std::string name, const ast::linkage_kind linkage_kind, ast_source_location location) noexcept
+    explicit ast_class(common::string name, const ast::linkage_kind linkage_kind, ast_source_location location) noexcept
         : ast_struct{ast_entity_type::class_t, std::move(name), linkage_kind, std::move(location)}
     {
     }

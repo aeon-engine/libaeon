@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/ast/entity_collection.h>
+#include <aeon/common/string_view.h>
 
 namespace aeon::ast
 {
@@ -23,26 +24,27 @@ public:
     ast_function_collection(ast_function_collection &&) noexcept = default;
     auto operator=(ast_function_collection &&) noexcept -> ast_function_collection & = default;
 
-    [[nodiscard]] auto find(const std::string_view name) const noexcept -> ast_function_collection<T>;
+    [[nodiscard]] auto find(const common::string_view name) const noexcept -> ast_function_collection<T>;
 
-    [[nodiscard]] auto find(const std::string_view name, const unsigned int parameter_count) const noexcept
+    [[nodiscard]] auto find(const common::string_view name, const unsigned int parameter_count) const noexcept
         -> ast_function_collection<T>;
 
-    [[nodiscard]] auto find(const std::string_view name,
-                            const std::vector<std::string_view> &parameter_types) const noexcept ->
+    [[nodiscard]] auto find(const common::string_view name,
+                            const std::vector<common::string_view> &parameter_types) const noexcept ->
         typename common::collection<T>::const_iterator;
 
     [[nodiscard]] auto find(const unsigned int parameter_count) const noexcept -> ast_function_collection<T>;
 
-    [[nodiscard]] auto find(const std::vector<std::string_view> &parameter_types) const noexcept
+    [[nodiscard]] auto find(const std::vector<common::string_view> &parameter_types) const noexcept
         -> ast_function_collection<T>;
 
-    [[nodiscard]] auto contains(const std::string_view name) const noexcept -> bool;
+    [[nodiscard]] auto contains(const common::string_view name) const noexcept -> bool;
 
-    [[nodiscard]] auto contains(const std::string_view name, const unsigned int parameter_count) const noexcept -> bool;
+    [[nodiscard]] auto contains(const common::string_view name, const unsigned int parameter_count) const noexcept
+        -> bool;
 
-    [[nodiscard]] auto contains(const std::string_view name,
-                                const std::vector<std::string_view> &parameter_types) const noexcept -> bool;
+    [[nodiscard]] auto contains(const common::string_view name,
+                                const std::vector<common::string_view> &parameter_types) const noexcept -> bool;
 };
 
 } // namespace aeon::ast

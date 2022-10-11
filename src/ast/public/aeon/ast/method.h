@@ -5,6 +5,7 @@
 #include <aeon/ast/function.h>
 #include <aeon/ast/access_specifier.h>
 #include <aeon/common/flags.h>
+#include <aeon/common/string.h>
 #include <cstdint>
 
 namespace aeon::ast
@@ -24,7 +25,7 @@ aeon_declare_flag_operators(method_flag)
 class ast_method final : public ast_function
 {
 public:
-    explicit ast_method(std::string name, std::string return_type, const access_specifier access,
+    explicit ast_method(common::string name, common::string return_type, const access_specifier access,
                         common::flags<method_flag> flags, const ast::linkage_kind linkage_kind,
                         const ast::exception_specification exception_specification,
                         ast_source_location location) noexcept

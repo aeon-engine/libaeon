@@ -5,8 +5,8 @@
 #include <aeon/ast/entity_type.h>
 #include <aeon/ast/entity_collection.h>
 #include <aeon/ast/source_location.h>
+#include <aeon/common/string.h>
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace aeon::ast
@@ -34,7 +34,7 @@ public:
 
     [[nodiscard]] auto entity_type() const noexcept -> ast_entity_type;
 
-    [[nodiscard]] auto name() const noexcept -> const std::string &;
+    [[nodiscard]] auto name() const noexcept -> const common::string &;
 
     template <typename T>
     [[nodiscard]] auto as() -> T &;
@@ -44,26 +44,26 @@ public:
 
     [[nodiscard]] auto linkage_kind() const noexcept -> ast::linkage_kind;
 
-    void add_annotation(std::string annotation);
+    void add_annotation(common::string annotation);
 
     [[nodiscard]] auto has_annotations() const noexcept -> bool;
 
-    [[nodiscard]] auto has_annotation(const std::string &annotation) const noexcept -> bool;
+    [[nodiscard]] auto has_annotation(const common::string &annotation) const noexcept -> bool;
 
-    [[nodiscard]] auto annotations() const noexcept -> const std::vector<std::string> &;
+    [[nodiscard]] auto annotations() const noexcept -> const std::vector<common::string> &;
 
     [[nodiscard]] auto source_location() const noexcept -> const ast_source_location &;
 
 protected:
     explicit ast_entity(const ast_entity_type type, const ast::linkage_kind linkage_kind,
                         ast_source_location location) noexcept;
-    explicit ast_entity(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+    explicit ast_entity(const ast_entity_type type, common::string name, const ast::linkage_kind linkage_kind,
                         ast_source_location location) noexcept;
 
     ast_entity_type entity_type_;
-    std::string name_;
+    common::string name_;
     ast::linkage_kind linkage_kind_;
-    std::vector<std::string> annotations_;
+    std::vector<common::string> annotations_;
 
     ast_source_location source_location_;
 };

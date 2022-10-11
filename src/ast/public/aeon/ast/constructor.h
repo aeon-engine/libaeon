@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/ast/function.h>
+#include <aeon/common/string.h>
 
 namespace aeon::ast
 {
@@ -10,7 +11,7 @@ namespace aeon::ast
 class ast_constructor final : public ast_function
 {
 public:
-    explicit ast_constructor(std::string name, const ast::linkage_kind linkage_kind,
+    explicit ast_constructor(common::string name, const ast::linkage_kind linkage_kind,
                              const ast::exception_specification exception_specification,
                              ast_source_location location) noexcept
         : ast_function{ast_entity_type::constructor_t, std::move(name), linkage_kind, exception_specification,

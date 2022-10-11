@@ -9,6 +9,7 @@
 #include <aeon/ast/access_specifier.h>
 #include <aeon/ast/field.h>
 #include <aeon/common/assert.h>
+#include <aeon/common/string.h>
 
 namespace aeon::ast
 {
@@ -16,7 +17,8 @@ namespace aeon::ast
 class ast_struct : public ast_entity
 {
 public:
-    explicit ast_struct(std::string name, const ast::linkage_kind linkage_kind, ast_source_location location) noexcept
+    explicit ast_struct(common::string name, const ast::linkage_kind linkage_kind,
+                        ast_source_location location) noexcept
         : ast_struct{ast_entity_type::struct_t, std::move(name), linkage_kind, std::move(location)}
     {
     }
@@ -98,7 +100,7 @@ public:
     }
 
 protected:
-    explicit ast_struct(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+    explicit ast_struct(const ast_entity_type type, common::string name, const ast::linkage_kind linkage_kind,
                         ast_source_location location) noexcept
         : ast_entity{type, std::move(name), linkage_kind, std::move(location)}
     {

@@ -5,6 +5,7 @@
 #include <aeon/ast/entity.h>
 #include <aeon/ast/access_specifier.h>
 #include <aeon/common/flags.h>
+#include <aeon/common/string.h>
 #include <cstdint>
 
 namespace aeon::ast
@@ -21,7 +22,7 @@ aeon_declare_flag_operators(field_flag)
 class ast_field final : public ast_entity
 {
 public:
-    explicit ast_field(std::string name, std::string type, const access_specifier access,
+    explicit ast_field(common::string name, common::string type, const access_specifier access,
                        const common::flags<field_flag> flags, const ast::linkage_kind linkage_kind,
                        ast_source_location location) noexcept
         : ast_entity{ast_entity_type::field_t, std::move(name), linkage_kind, std::move(location)}
@@ -60,7 +61,7 @@ public:
     }
 
 private:
-    std::string type_;
+    common::string type_;
     access_specifier access_;
     common::flags<field_flag> flags_;
 };

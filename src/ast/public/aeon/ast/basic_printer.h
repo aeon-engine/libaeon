@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/ast/entity.h>
-#include <iostream>
+#include <ostream>
 
 namespace aeon::ast
 {

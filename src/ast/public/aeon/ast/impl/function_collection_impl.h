@@ -12,7 +12,8 @@ inline ast_function_collection<T>::ast_function_collection(std::vector<T> vec) n
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::find(const std::string_view name) const noexcept -> ast_function_collection<T>
+inline auto ast_function_collection<T>::find(const common::string_view name) const noexcept
+    -> ast_function_collection<T>
 {
     std::vector<T> entities;
     for (const auto &entity : common::collection<T>::data_)
@@ -25,7 +26,7 @@ inline auto ast_function_collection<T>::find(const std::string_view name) const 
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::find(const std::string_view name,
+inline auto ast_function_collection<T>::find(const common::string_view name,
                                              const unsigned int parameter_count) const noexcept
     -> ast_function_collection<T>
 {
@@ -40,8 +41,8 @@ inline auto ast_function_collection<T>::find(const std::string_view name,
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::find(const std::string_view name,
-                                             const std::vector<std::string_view> &parameter_types) const noexcept ->
+inline auto ast_function_collection<T>::find(const common::string_view name,
+                                             const std::vector<common::string_view> &parameter_types) const noexcept ->
     typename common::collection<T>::const_iterator
 {
     const auto parameter_count = std::size(parameter_types);
@@ -76,7 +77,7 @@ inline auto ast_function_collection<T>::find(const unsigned int parameter_count)
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::find(const std::vector<std::string_view> &parameter_types) const noexcept
+inline auto ast_function_collection<T>::find(const std::vector<common::string_view> &parameter_types) const noexcept
     -> ast_function_collection<T>
 {
     std::vector<T> entities;
@@ -99,13 +100,13 @@ inline auto ast_function_collection<T>::find(const std::vector<std::string_view>
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::contains(const std::string_view name) const noexcept -> bool
+inline auto ast_function_collection<T>::contains(const common::string_view name) const noexcept -> bool
 {
     return ast_entity_collection<T>::contains(name);
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::contains(const std::string_view name,
+inline auto ast_function_collection<T>::contains(const common::string_view name,
                                                  const unsigned parameter_count) const noexcept -> bool
 {
     for (const auto &entity : common::collection<T>::data_)
@@ -118,8 +119,8 @@ inline auto ast_function_collection<T>::contains(const std::string_view name,
 }
 
 template <typename T>
-inline auto ast_function_collection<T>::contains(const std::string_view name,
-                                                 const std::vector<std::string_view> &parameter_types) const noexcept
+inline auto ast_function_collection<T>::contains(const common::string_view name,
+                                                 const std::vector<common::string_view> &parameter_types) const noexcept
     -> bool
 {
     return find(name, parameter_types) != std::end(common::collection<T>::data_);

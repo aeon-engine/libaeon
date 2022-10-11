@@ -12,7 +12,7 @@ inline auto ast_entity::entity_type() const noexcept -> ast_entity_type
     return entity_type_;
 }
 
-inline auto ast_entity::name() const noexcept -> const std::string &
+inline auto ast_entity::name() const noexcept -> const common::string &
 {
     return name_;
 }
@@ -40,7 +40,7 @@ inline ast_entity::ast_entity(const ast_entity_type type, const ast::linkage_kin
 {
 }
 
-inline ast_entity::ast_entity(const ast_entity_type type, std::string name, const ast::linkage_kind linkage_kind,
+inline ast_entity::ast_entity(const ast_entity_type type, common::string name, const ast::linkage_kind linkage_kind,
                               ast_source_location location) noexcept
     : ast_entity_collection<std::unique_ptr<ast_entity>>{}
     , entity_type_{type}
@@ -56,7 +56,7 @@ inline auto ast_entity::linkage_kind() const noexcept -> ast::linkage_kind
     return linkage_kind_;
 }
 
-inline void ast_entity::add_annotation(std::string annotation)
+inline void ast_entity::add_annotation(common::string annotation)
 {
     annotations_.push_back(std::move(annotation));
 }
@@ -66,12 +66,12 @@ inline auto ast_entity::has_annotations() const noexcept -> bool
     return !std::empty(annotations_);
 }
 
-inline auto ast_entity::has_annotation(const std::string &annotation) const noexcept -> bool
+inline auto ast_entity::has_annotation(const common::string &annotation) const noexcept -> bool
 {
     return std::find(std::begin(annotations_), std::end(annotations_), annotation) != std::end(annotations_);
 }
 
-inline auto ast_entity::annotations() const noexcept -> const std::vector<std::string> &
+inline auto ast_entity::annotations() const noexcept -> const std::vector<common::string> &
 {
     return annotations_;
 }
