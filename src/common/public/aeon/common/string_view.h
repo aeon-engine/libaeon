@@ -193,6 +193,8 @@ public:
 
     [[nodiscard]] constexpr auto find(const string &str, const size_type pos = 0) const noexcept -> size_type;
 
+    [[nodiscard]] constexpr auto find(const string_view &str, const size_type pos = 0) const noexcept -> size_type;
+
     [[nodiscard]] constexpr auto find(const value_type *str, const size_type pos = 0) const -> size_type;
 
     [[nodiscard]] auto find(const char8_t *str, const size_type pos = 0) const -> size_type;

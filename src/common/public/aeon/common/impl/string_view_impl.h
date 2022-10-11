@@ -387,6 +387,12 @@ inline auto string_view::operator<=>(const char8_t *const str) const -> std::str
     return str_.find(str.str_, pos);
 }
 
+[[nodiscard]] inline constexpr auto string_view::find(const string_view &str, const size_type pos) const noexcept
+    -> size_type
+{
+    return str_.find(str.str_, pos);
+}
+
 [[nodiscard]] inline constexpr auto string_view::find(const value_type *str, const size_type pos) const -> size_type
 {
     return str_.find(str, pos);
