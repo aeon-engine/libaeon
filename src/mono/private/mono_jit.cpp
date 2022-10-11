@@ -34,7 +34,7 @@ mono_jit::~mono_jit()
         mono_jit_cleanup(domain_);
 }
 
-[[nodiscard]] auto mono_jit::load_assembly(const std::string &path) const -> mono_assembly
+[[nodiscard]] auto mono_jit::load_assembly(const std::filesystem::path &path) const -> mono_assembly
 {
     auto assembly = mono_assembly{domain_, path};
 
