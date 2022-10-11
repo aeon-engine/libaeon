@@ -3,7 +3,7 @@
 #pragma once
 
 #include <clang-c/CXString.h>
-#include <string>
+#include <aeon/common/string.h>
 
 namespace aeon::clang
 {
@@ -21,7 +21,7 @@ public:
     scoped_cxstring(scoped_cxstring &&other) noexcept;
     auto operator=(scoped_cxstring &&other) noexcept -> scoped_cxstring &;
 
-    [[nodiscard]] auto to_std_string() const -> std::string;
+    [[nodiscard]] auto to_string() const -> common::string;
 
 private:
     void dispose() noexcept;
@@ -30,12 +30,12 @@ private:
 };
 
 /*!
- * Convert the given CXString to an std::string and dispose it
+ * Convert the given CXString to a common::string and dispose it
  */
-[[nodiscard]] inline auto to_std_string(const CXString str) -> std::string
+[[nodiscard]] inline auto to_string(const CXString str) -> common::string
 {
     const scoped_cxstring string{str};
-    return string.to_std_string();
+    return string.to_string();
 }
 
 } // namespace aeon::clang

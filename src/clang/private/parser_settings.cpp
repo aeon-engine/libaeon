@@ -29,9 +29,9 @@ parser_settings::parser_settings(const cpp_standard standard)
     add_include_path(AEON_REFLECTION_INCLUDE_DIR);
 }
 
-void parser_settings::add_argument(std::string arg)
+void parser_settings::add_argument(common::string arg)
 {
-    args_.push_back(std::move(arg));
+    args_.emplace_back(std::move(arg));
 }
 
 void parser_settings::add_include_path(const std::filesystem::path &path)
@@ -45,7 +45,7 @@ void parser_settings::add_include_paths(const std::vector<std::filesystem::path>
         add_include_path(path);
 }
 
-void parser_settings::add_define(const std::string &define)
+void parser_settings::add_define(const common::string &define)
 {
     args_.emplace_back("-D" + define);
 }

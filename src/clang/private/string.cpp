@@ -31,7 +31,7 @@ auto scoped_cxstring::operator=(scoped_cxstring &&other) noexcept -> scoped_cxst
     return *this;
 }
 
-auto scoped_cxstring::to_std_string() const -> std::string
+auto scoped_cxstring::to_string() const -> common::string
 {
     if (!str_.data)
         return {};

@@ -3,9 +3,9 @@
 #pragma once
 
 #include <aeon/common/container.h>
+#include <aeon/common/string.h>
 #include <filesystem>
 #include <vector>
-#include <string>
 
 namespace aeon::clang
 {
@@ -30,10 +30,10 @@ public:
     parser_settings(parser_settings &&o) noexcept = default;
     auto operator=(parser_settings &&o) noexcept -> parser_settings & = default;
 
-    void add_argument(std::string arg);
+    void add_argument(common::string arg);
     void add_include_path(const std::filesystem::path &path);
     void add_include_paths(const std::vector<std::filesystem::path> &include_paths);
-    void add_define(const std::string &define);
+    void add_define(const common::string &define);
 
     [[nodiscard]] auto args() const
     {
@@ -41,7 +41,7 @@ public:
     }
 
 private:
-    std::vector<std::string> args_;
+    std::vector<common::string> args_;
 };
 
 } // namespace aeon::clang
