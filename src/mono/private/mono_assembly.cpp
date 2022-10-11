@@ -10,6 +10,23 @@
 namespace aeon::mono
 {
 
+namespace internal
+{
+
+[[nodiscard]] auto open_assembly(MonoDomain *domain, const std::filesystem::path &path)
+{
+    const auto path_string = path.string();
+
+    const auto assembly = mono_domain_assembly_open(domain, path_string.c_str());
+
+    if (!assembly)
+        throw mono_exception{};
+
+    return assembly;
+}
+
+} // namespace internal
+
 mono_assembly::mono_assembly() noexcept
     : domain_{nullptr}
     , assembly_{nullptr}
@@ -24,17 +41,9 @@ mono_assembly::mono_assembly(MonoDomain *domain, MonoAssembly *assembly) noexcep
 {
 }
 
-mono_assembly::mono_assembly(MonoDomain *domain, const std::string &path)
-    : domain_{domain}
-    , assembly_{nullptr}
-    , image_{nullptr}
+mono_assembly::mono_assembly(MonoDomain *domain, const std::filesystem::path &path)
+    : mono_assembly{domain, internal::open_assembly(domain, path)}
 {
-    assembly_ = mono_domain_assembly_open(domain, path.c_str());
-
-    if (!assembly_)
-        throw mono_exception{};
-
-    image_ = mono_assembly_get_image(assembly_);
 }
 
 mono_assembly::~mono_assembly() = default;

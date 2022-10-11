@@ -14,7 +14,7 @@ AEON_IGNORE_VS_WARNING_PUSH(4201)
 #include <mono/jit/jit.h>
 AEON_IGNORE_VS_WARNING_POP()
 
-#include <string>
+#include <filesystem>
 
 namespace aeon::mono
 {
@@ -28,7 +28,7 @@ class mono_assembly
 public:
     mono_assembly() noexcept;
     explicit mono_assembly(MonoDomain *domain, MonoAssembly *assembly) noexcept;
-    explicit mono_assembly(MonoDomain *domain, const std::string &path);
+    explicit mono_assembly(MonoDomain *domain, const std::filesystem::path &path);
     ~mono_assembly();
 
     mono_assembly(const mono_assembly &) = delete;
