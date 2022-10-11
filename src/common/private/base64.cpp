@@ -46,32 +46,32 @@ static constexpr unsigned char decode_lookup[] =
 };
 // clang-format on
 
-auto decode_part(const std::string_view &str, unsigned int &i)
+auto decode_part(const string_view &str, unsigned int &i)
 {
     return str[i] == '=' ? 0 & i++ : decode_lookup[static_cast<int>(str[i++])];
 }
 
 } // namespace internal
 
-auto encode(const std::string_view &data) -> std::string
+auto encode(const string_view &data) -> string
 {
     return encode(reinterpret_cast<const std::uint8_t *>(std::data(data)),
                   static_cast<std::streamsize>(std::size(data)));
 }
 
-auto encode(const std::vector<std::uint8_t> &data) -> std::string
+auto encode(const std::vector<std::uint8_t> &data) -> string
 {
     return encode(std::data(data), static_cast<std::streamsize>(std::size(data)));
 }
 
-auto encode(const std::uint8_t *data, const std::streamsize size) -> std::string
+auto encode(const std::uint8_t *data, const std::streamsize size) -> string
 {
     const auto output_length = 4 * ((size + 2) / 3);
 
     if (output_length == 0)
         return "";
 
-    std::string result(output_length, '\0');
+    string result(output_length, '\0');
 
     auto p = std::data(result);
 
@@ -103,7 +103,7 @@ auto encode(const std::uint8_t *data, const std::streamsize size) -> std::string
     return result;
 }
 
-auto decode(const std::string_view &str) -> std::vector<std::uint8_t>
+auto decode(const string_view &str) -> std::vector<std::uint8_t>
 {
     if (std::empty(str))
         return {};
@@ -141,7 +141,7 @@ auto decode(const std::string_view &str) -> std::vector<std::uint8_t>
     return result;
 }
 
-auto decode_string(const std::string_view &str) -> std::string
+auto decode_string(const string_view &str) -> string
 {
     const auto result = decode(str);
     return {std::begin(result), std::end(result)};

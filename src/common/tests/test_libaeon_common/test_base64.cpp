@@ -14,7 +14,7 @@ TEST(test_bits, test_base64_encode)
     EXPECT_EQ(common::base64::encode("This is a test"), "VGhpcyBpcyBhIHRlc3Q=");
 }
 
-void check_decode(const std::string_view input)
+void check_decode(const common::string_view input)
 {
     const auto result = common::base64::encode(input);
     EXPECT_EQ(common::base64::decode_string(result), input);
