@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <string_view>
+#include <aeon/common/string_view.h>
 #include <array>
 #include <cstdint>
 
@@ -27,7 +27,7 @@ public:
 
     void write(const std::byte *data, const std::streamsize size) noexcept;
     void write(const char *data, const std::streamsize size) noexcept;
-    void write(const std::string_view str) noexcept;
+    void write(const common::string_view str) noexcept;
 
     [[nodiscard]] auto finalize() noexcept -> sha256_hash;
     void reset() noexcept;

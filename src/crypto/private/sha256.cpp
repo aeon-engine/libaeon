@@ -83,7 +83,7 @@ void sha256::write(const char *data, const std::streamsize size) noexcept
     total_size_ += (block_nb + 1) << 6;
 }
 
-void sha256::write(const std::string_view str) noexcept
+void sha256::write(const common::string_view str) noexcept
 {
     write(std::data(str), static_cast<std::streamsize>(std::size(str)));
 }
