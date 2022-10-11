@@ -22,6 +22,16 @@ inline string_view::string_view(const char8_t *const str)
 {
 }
 
+inline constexpr string_view::string_view(const char *const str, const size_type size)
+    : str_{str, size}
+{
+}
+
+inline string_view::string_view(const char8_t *const str, const size_type size)
+    : str_{reinterpret_cast<const char *const>(str), size}
+{
+}
+
 inline constexpr string_view::string_view(const std::string &str) noexcept
     : str_{str}
 {

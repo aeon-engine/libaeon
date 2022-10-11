@@ -43,6 +43,10 @@ public:
 
     string_view(const char8_t *const str);
 
+    constexpr string_view(const char *const str, const size_type size);
+
+    string_view(const char8_t *const str, const size_type size);
+
     constexpr string_view(const std::string &str) noexcept;
 
     string_view(const std::u8string &str);
