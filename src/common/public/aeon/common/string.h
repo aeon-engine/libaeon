@@ -39,6 +39,10 @@ public:
 
     constexpr string() noexcept;
 
+    constexpr string(const value_type c) noexcept;
+
+    constexpr string(const char8_t c) noexcept;
+
     constexpr string(const size_type count, const value_type c) noexcept;
 
     constexpr string(const size_type count, const char8_t c) noexcept;

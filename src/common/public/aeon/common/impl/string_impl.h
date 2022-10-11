@@ -12,6 +12,16 @@ inline constexpr string::string() noexcept
 {
 }
 
+inline constexpr string::string(const value_type c) noexcept
+    : str_{c}
+{
+}
+
+inline constexpr string::string(const char8_t c) noexcept
+    : str_{static_cast<value_type>(c)}
+{
+}
+
 constexpr string::string(const size_type count, const value_type c) noexcept
     : str_(count, c)
 {
