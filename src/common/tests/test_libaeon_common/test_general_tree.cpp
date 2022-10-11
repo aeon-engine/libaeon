@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/common/general_tree.h>
+#include <aeon/common/string.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -8,7 +9,7 @@ using namespace aeon;
 TEST(test_general_tree, test_create_empty)
 {
     common::general_tree tree{123};
-    common::general_tree<std::string> tree2{"hello"};
+    common::general_tree<common::string> tree2{"hello"};
 }
 
 TEST(test_general_tree, test_tree_interface)

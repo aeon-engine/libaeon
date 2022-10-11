@@ -5,7 +5,6 @@
 #include <type_traits>
 #include <limits>
 #include <vector>
-
 #include <forward_list>
 
 namespace aeon::common
