@@ -4,10 +4,10 @@
 
 #include <aeon/common/unordered_flatmap.h>
 #include <aeon/common/unordered_flatset.h>
-#include <string>
+#include <aeon/common/string.h>
+#include <aeon/common/string_view.h>
 #include <vector>
 #include <tuple>
-#include <string_view>
 #include <stdexcept>
 
 namespace aeon::common
@@ -24,9 +24,8 @@ public:
     {
     }
 
-    explicit commandline_parse_result(std::vector<std::string_view> positional,
-                                      unordered_flatset<std::string_view> options,
-                                      unordered_flatmap<std::string_view, std::string_view> arguments) noexcept
+    explicit commandline_parse_result(std::vector<string_view> positional, unordered_flatset<string_view> options,
+                                      unordered_flatmap<string_view, string_view> arguments) noexcept
         : result_{true}
         , positional_{std::move(positional)}
         , options_{std::move(options)}
@@ -57,7 +56,7 @@ public:
         return success();
     }
 
-    [[nodiscard]] auto positional(const std::size_t i) const -> std::string_view
+    [[nodiscard]] auto positional(const std::size_t i) const -> string_view
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -68,7 +67,7 @@ public:
         return positional_[i];
     }
 
-    [[nodiscard]] auto has_option(const std::string_view option) const -> bool
+    [[nodiscard]] auto has_option(const string_view option) const -> bool
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -76,7 +75,7 @@ public:
         return options_.contains(option);
     }
 
-    [[nodiscard]] auto has_argument(const std::string_view arg) const -> bool
+    [[nodiscard]] auto has_argument(const string_view arg) const -> bool
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -84,7 +83,7 @@ public:
         return arguments_.contains(arg);
     }
 
-    [[nodiscard]] auto get_argument(const std::string_view arg) const -> std::string_view
+    [[nodiscard]] auto get_argument(const string_view arg) const -> string_view
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -97,8 +96,7 @@ public:
         throw std::out_of_range{"Argument not found."};
     }
 
-    [[nodiscard]] auto get_argument(const std::string_view arg, const std::string_view default_value) const
-        -> std::string_view
+    [[nodiscard]] auto get_argument(const string_view arg, const string_view default_value) const -> string_view
     {
         if (failed())
             throw std::logic_error{"Parse result failed."};
@@ -113,9 +111,9 @@ public:
 
 private:
     bool result_;
-    std::vector<std::string_view> positional_;
-    unordered_flatset<std::string_view> options_;
-    unordered_flatmap<std::string_view, std::string_view> arguments_;
+    std::vector<string_view> positional_;
+    unordered_flatset<string_view> options_;
+    unordered_flatmap<string_view, string_view> arguments_;
 };
 
 class commandline_parser final
@@ -130,22 +128,22 @@ public:
     commandline_parser(commandline_parser &&) noexcept = default;
     commandline_parser &operator=(commandline_parser &&) noexcept = default;
 
-    void add_positional(std::string name, std::string description);
-    void add_option(const std::string &name, std::string description);
-    void add_argument(const std::string &name, std::string description);
+    void add_positional(string name, string description);
+    void add_option(const string &name, string description);
+    void add_argument(const string &name, string description);
 
     auto parse(const int argc, char *argv[]) const -> commandline_parse_result;
-    auto parse(const std::vector<std::string_view> &args) const -> commandline_parse_result;
+    auto parse(const std::vector<string_view> &args) const -> commandline_parse_result;
 
-    void print_help_text(const std::string_view exe_name) const;
+    void print_help_text(const string_view exe_name) const;
 
 private:
-    [[nodiscard]] auto is_option(const std::string_view arg) const noexcept -> bool;
-    [[nodiscard]] auto is_argument(const std::string_view arg) const noexcept -> bool;
+    [[nodiscard]] auto is_option(const string_view arg) const noexcept -> bool;
+    [[nodiscard]] auto is_argument(const string_view arg) const noexcept -> bool;
 
-    unordered_flatmap<std::string, std::string> positional_;
-    unordered_flatmap<std::string, std::string> options_;
-    unordered_flatmap<std::string, std::string> arguments_;
+    unordered_flatmap<string, string> positional_;
+    unordered_flatmap<string, string> options_;
+    unordered_flatmap<string, string> arguments_;
 };
 
 } // namespace aeon::common

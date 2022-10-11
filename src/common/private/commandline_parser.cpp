@@ -10,14 +10,14 @@ commandline_parser::commandline_parser() = default;
 
 commandline_parser::~commandline_parser() = default;
 
-void commandline_parser::add_positional(std::string name, std::string description)
+void commandline_parser::add_positional(string name, string description)
 {
     positional_.emplace(std::move(name), std::move(description));
 }
 
-void commandline_parser::add_option(const std::string &name, std::string description)
+void commandline_parser::add_option(const string &name, string description)
 {
-    std::string arg_name;
+    string arg_name;
 
     if (std::size(name) == 1)
         arg_name = "-" + name;
@@ -27,9 +27,9 @@ void commandline_parser::add_option(const std::string &name, std::string descrip
     options_.emplace(std::move(arg_name), std::move(description));
 }
 
-void commandline_parser::add_argument(const std::string &name, std::string description)
+void commandline_parser::add_argument(const string &name, string description)
 {
-    std::string arg_name;
+    string arg_name;
 
     if (std::size(name) == 1)
         arg_name = "-" + name;
@@ -41,7 +41,7 @@ void commandline_parser::add_argument(const std::string &name, std::string descr
 
 auto commandline_parser::parse(const int argc, char *argv[]) const -> commandline_parse_result
 {
-    std::vector<std::string_view> arguments;
+    std::vector<string_view> arguments;
 
     arguments.reserve(argc - 1);
     for (auto i = 1; i < argc; ++i)
@@ -50,22 +50,22 @@ auto commandline_parser::parse(const int argc, char *argv[]) const -> commandlin
     return parse(arguments);
 }
 
-auto commandline_parser::parse(const std::vector<std::string_view> &args) const -> commandline_parse_result
+auto commandline_parser::parse(const std::vector<string_view> &args) const -> commandline_parse_result
 {
     if (std::size(args) < std::size(positional_))
         return {};
 
     auto itr = std::begin(args);
 
-    std::vector<std::string_view> positional;
+    std::vector<string_view> positional;
     for (auto i = 0u; i < std::size(positional_); ++i)
     {
         positional.emplace_back(*itr);
         ++itr;
     }
 
-    unordered_flatset<std::string_view> options;
-    unordered_flatmap<std::string_view, std::string_view> arguments;
+    unordered_flatset<string_view> options;
+    unordered_flatmap<string_view, string_view> arguments;
 
     for (; itr != std::end(args); ++itr)
     {
@@ -92,7 +92,7 @@ auto commandline_parser::parse(const std::vector<std::string_view> &args) const 
     return commandline_parse_result{std::move(positional), std::move(options), std::move(arguments)};
 }
 
-void commandline_parser::print_help_text(const std::string_view exe_name) const
+void commandline_parser::print_help_text(const string_view exe_name) const
 {
     scoped_fmtflags flags{std::cout};
 
@@ -151,14 +151,14 @@ void commandline_parser::print_help_text(const std::string_view exe_name) const
     }
 }
 
-auto commandline_parser::is_option(const std::string_view arg) const noexcept -> bool
+auto commandline_parser::is_option(const string_view arg) const noexcept -> bool
 {
-    return options_.contains(std::string{arg});
+    return options_.contains(string{arg});
 }
 
-auto commandline_parser::is_argument(const std::string_view arg) const noexcept -> bool
+auto commandline_parser::is_argument(const string_view arg) const noexcept -> bool
 {
-    return arguments_.contains(std::string{arg});
+    return arguments_.contains(string{arg});
 }
 
 } // namespace aeon::common

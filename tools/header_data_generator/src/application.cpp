@@ -118,8 +118,8 @@ auto application::main(const int argc, char *argv[]) noexcept -> int // NOLINT(b
         return 0;
     }
 
-    const auto source_file = std::filesystem::path{args.positional(0)};
-    const auto destination_file = std::filesystem::path{args.positional(1)};
+    const auto source_file = std::filesystem::path{args.positional(0).as_std_string_view()};
+    const auto destination_file = std::filesystem::path{args.positional(1).as_std_string_view()};
 
     if (!std::filesystem::exists(source_file))
     {
