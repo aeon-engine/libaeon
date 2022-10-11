@@ -1,13 +1,14 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/common/unordered_flatset.h>
+#include <aeon/common/string.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
 
 TEST(test_unordered_flatset, test_unordered_flatset_unique_insert)
 {
-    common::unordered_flatset<std::string> set;
+    common::unordered_flatset<common::string> set;
 
     EXPECT_EQ(0u, std::size(set));
     EXPECT_TRUE(std::empty(set));
@@ -35,7 +36,7 @@ TEST(test_unordered_flatset, test_unordered_flatset_unique_insert)
 
 TEST(test_unordered_flatset, test_unordered_flatset_unique_emplace)
 {
-    common::unordered_flatset<std::string> set;
+    common::unordered_flatset<common::string> set;
 
     EXPECT_EQ(0u, std::size(set));
     EXPECT_TRUE(std::empty(set));
@@ -63,7 +64,7 @@ TEST(test_unordered_flatset, test_unordered_flatset_unique_emplace)
 
 TEST(test_unordered_flatset, test_unordered_flatset_unique_insert_emplace_mixed)
 {
-    common::unordered_flatset<std::string> set;
+    common::unordered_flatset<common::string> set;
 
     EXPECT_EQ(0u, std::size(set));
     EXPECT_TRUE(std::empty(set));
@@ -95,7 +96,7 @@ TEST(test_unordered_flatset, test_unordered_flatset_unique_insert_emplace_mixed)
 
 TEST(test_unordered_flatset, test_unordered_flatset_remove_by_value)
 {
-    common::unordered_flatset<std::string> set;
+    common::unordered_flatset<common::string> set;
     set.emplace("A");
     set.emplace("B");
     set.emplace("C");
@@ -114,7 +115,7 @@ TEST(test_unordered_flatset, test_unordered_flatset_remove_by_value)
 
 TEST(test_unordered_flatset, test_unordered_flatset_remove_by_iterator)
 {
-    common::unordered_flatset<std::string> set;
+    common::unordered_flatset<common::string> set;
     set.emplace("A");
     set.emplace("B");
     set.emplace("C");
@@ -145,12 +146,12 @@ TEST(test_unordered_flatset, test_unordered_flatset_remove_by_iterator)
 
 TEST(test_unordered_flatset, test_unordered_flatset_compare)
 {
-    common::unordered_flatset<std::string> set;
+    common::unordered_flatset<common::string> set;
     set.emplace("A");
     set.emplace("B");
     set.emplace("C");
 
-    common::unordered_flatset<std::string> set2;
+    common::unordered_flatset<common::string> set2;
     set2.emplace("A");
     set2.emplace("B");
     set2.emplace("C");
