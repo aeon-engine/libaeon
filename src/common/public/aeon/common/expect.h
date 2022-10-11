@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/string_view.h>
 #include <iostream>
-#include <string_view>
 #include <cassert>
 #include <type_traits>
 #include <exception>
@@ -53,8 +53,7 @@ constexpr void expect([[maybe_unused]] condition_t c,
 
 template <expect_action action_t = expect_action::terminate, typename condition_t>
 constexpr void expect([[maybe_unused]] condition_t c,
-                      [[maybe_unused]] const std::string_view error_message) noexcept(action_t !=
-                                                                                      expect_action::exception)
+                      [[maybe_unused]] const string_view error_message) noexcept(action_t != expect_action::exception)
 {
     expect<action_t>(std::forward<condition_t>(c), std::data(error_message));
 }
