@@ -4,23 +4,24 @@
 #include <aeon/streams/stream.h>
 #include <aeon/streams/devices/memory_device.h>
 #include <aeon/streams/stream_writer.h>
+#include <aeon/common/string.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 using namespace aeon;
 
 static void test_decompress_data(const std::vector<char> &buffer, const int read_chunk_size,
-                                 const std::string &expected)
+                                 const common::string &expected)
 {
     auto decompress_pipeline = streams::memory_device{buffer} | compression::stream_filters::zlib_decompress_filter{};
 
-    std::string read_data;
+    common::string read_data;
     read_data.resize(read_chunk_size);
 
     std::streamsize offset = 0;
     std::streamsize result = 0;
 
-    std::string total_string;
+    common::string total_string;
 
     do
     {
@@ -39,7 +40,7 @@ TEST(test_streams, test_zlib_compress_filter_read_write_basic)
     auto pipeline = streams::memory_device<std::vector<char>>{} | compression::stream_filters::zlib_compress_filter{};
     EXPECT_EQ(pipeline.size(), 0);
 
-    const std::string data =
+    const common::string data =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
         "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco "
         "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
