@@ -47,6 +47,12 @@ inline constexpr string::string(const string_view &str) noexcept
 {
 }
 
+template <typename iterator_t>
+constexpr string::string(iterator_t begin, iterator_t end) noexcept
+    : str_{begin, end}
+{
+}
+
 inline constexpr auto string::operator=(const value_type *const str) -> string &
 {
     assign(str);

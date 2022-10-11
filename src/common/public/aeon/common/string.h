@@ -53,6 +53,9 @@ public:
 
     constexpr explicit string(const string_view &str) noexcept;
 
+    template <typename iterator_t>
+    constexpr string(iterator_t begin, iterator_t end) noexcept;
+
     constexpr string(const string &other) = default;
     constexpr auto operator=(const string &other) -> string & = default;
 
