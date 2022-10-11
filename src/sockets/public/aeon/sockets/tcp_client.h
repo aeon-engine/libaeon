@@ -71,7 +71,7 @@ inline void tcp_client<socket_handler_t>::connect(const common::string &host, co
 template <typename socket_handler_t>
 inline void tcp_client<socket_handler_t>::connect(const common::string &host, const common::string &service)
 {
-    auto result = resolver_.resolve(host, service);
+    auto result = resolver_.resolve(host.as_std_string_view(), service.as_std_string_view());
     socket_->internal_connect(result);
 }
 
