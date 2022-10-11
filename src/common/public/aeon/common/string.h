@@ -103,6 +103,9 @@ public:
 
     auto insert(const size_type index, const string_view &str) -> string &;
 
+    template <typename position_iterator_t, typename input_iterator_t>
+    auto insert(const position_iterator_t pos, const input_iterator_t first, const input_iterator_t last) -> string &;
+
     constexpr auto erase(const size_type index = 0, const size_type count = npos) -> string &;
 
     constexpr auto erase(const_iterator position) -> iterator;

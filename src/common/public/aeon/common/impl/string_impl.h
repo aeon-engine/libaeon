@@ -159,6 +159,14 @@ inline auto string::insert(const size_type index, const string_view &str) -> str
     return *this;
 }
 
+template <typename position_iterator_t, typename input_iterator_t>
+inline auto string::insert(const position_iterator_t pos, const input_iterator_t first, const input_iterator_t last)
+    -> string &
+{
+    str_.insert(pos, first, last);
+    return *this;
+}
+
 inline constexpr auto string::erase(const size_type index, const size_type count) -> string &
 {
     str_.erase(index, count);
