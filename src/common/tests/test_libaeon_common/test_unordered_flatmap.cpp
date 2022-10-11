@@ -1,6 +1,7 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
 #include <aeon/common/unordered_flatmap.h>
+#include <aeon/common/string.h>
 #include <gtest/gtest.h>
 
 using namespace aeon;
@@ -21,7 +22,7 @@ struct test_fixture_unordered_flatmap_default_data : ::testing::Test
         ASSERT_EQ(5u, std::size(unordered_flatmap_));
     }
 
-    common::unordered_flatmap<std::string, int> unordered_flatmap_;
+    common::unordered_flatmap<common::string, int> unordered_flatmap_;
 };
 
 TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_at)
@@ -178,32 +179,32 @@ TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_size)
 {
-    const common::unordered_flatmap<std::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::unordered_flatmap<std::string, int> map2{{"hello", 3}, {"bye", 4}, {"another", 6}};
+    const common::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const common::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye", 4}, {"another", 6}};
     EXPECT_FALSE(map1 == map2);
     EXPECT_TRUE(map1 != map2);
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_key)
 {
-    const common::unordered_flatmap<std::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::unordered_flatmap<std::string, int> map2{{"hello", 3}, {"bye2", 4}};
+    const common::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const common::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye2", 4}};
     EXPECT_FALSE(map1 == map2);
     EXPECT_TRUE(map1 != map2);
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_value)
 {
-    const common::unordered_flatmap<std::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::unordered_flatmap<std::string, int> map2{{"hello", 3}, {"bye", 5}};
+    const common::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const common::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye", 5}};
     EXPECT_FALSE(map1 == map2);
     EXPECT_TRUE(map1 != map2);
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_equal)
 {
-    const common::unordered_flatmap<std::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::unordered_flatmap<std::string, int> map2{{"hello", 3}, {"bye", 4}};
+    const common::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
+    const common::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye", 4}};
     EXPECT_TRUE(map1 == map2);
     EXPECT_FALSE(map1 != map2);
 }
