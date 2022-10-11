@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <string>
+#include <aeon/common/string.h>
 #include <array>
 
 namespace aeon::common::bom
@@ -17,19 +17,11 @@ namespace utf8
 static constexpr std::array<const char8_t, 3> signature{0xef, 0xbb, 0xbf};
 
 /*!
- * Generate a UTF-8 byte order marker as u8string.
- */
-inline auto u8string()
-{
-    return std::u8string{std::begin(signature), std::end(signature)};
-}
-
-/*!
  * Generate a UTF-8 byte order marker as regular string.
  */
 inline auto string()
 {
-    return std::string{std::begin(signature), std::end(signature)};
+    return common::string{std::begin(signature), std::end(signature)};
 }
 
 } // namespace utf8

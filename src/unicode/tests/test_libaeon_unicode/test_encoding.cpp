@@ -21,8 +21,8 @@ TEST(test_encoding, test_encoding_convert)
 
 TEST(test_encoding, test_encoding_convert_with_bom)
 {
-    const auto str = common::bom::utf8::u8string() + u8"I like Π, and らき☆すた, Raki☆Suta ";
-    const auto converted = unicode::utf8::to_utf16(str);
+    const auto str = common::bom::utf8::string() + u8"I like Π, and らき☆すた, Raki☆Suta ";
+    const auto converted = unicode::utf8::to_utf16(str.as_std_u8string_view());
     const auto converted2 = unicode::utf16::to_utf8(converted);
 
     // TODO: Fix for C++20 migration.
