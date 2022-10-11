@@ -50,6 +50,8 @@ public:
 
     string_view(const std::u8string_view &str);
 
+    constexpr string_view(const string &str) noexcept;
+
     constexpr string_view(const string_view &other) = default;
     constexpr auto operator=(const string_view &other) -> string_view & = default;
 

@@ -37,6 +37,11 @@ inline constexpr string_view::string_view(const std::string_view &str) noexcept
 {
 }
 
+inline constexpr string_view::string_view(const string &str) noexcept
+    : str_{str.str_}
+{
+}
+
 inline string_view::string_view(const std::u8string_view &str)
     : str_{reinterpret_cast<const char *const>(std::data(str))}
 {
