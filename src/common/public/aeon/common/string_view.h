@@ -4,6 +4,7 @@
 
 #include <string_view>
 #include <ostream>
+#include <concepts>
 
 namespace aeon::common
 {
@@ -56,6 +57,9 @@ public:
     string_view(const std::u8string_view &str);
 
     constexpr string_view(const string &str) noexcept;
+
+    template <std::contiguous_iterator iterator_t>
+    constexpr string_view(iterator_t begin, iterator_t end) noexcept;
 
     constexpr string_view(const string_view &other) = default;
     constexpr auto operator=(const string_view &other) -> string_view & = default;

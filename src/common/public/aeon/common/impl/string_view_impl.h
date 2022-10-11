@@ -57,6 +57,18 @@ inline string_view::string_view(const std::u8string_view &str)
 {
 }
 
+template <std::contiguous_iterator iterator_t>
+inline constexpr string_view::string_view(iterator_t begin, iterator_t end) noexcept
+{
+    using result_type = std::basic_string_view<typename std::iterator_traits<iterator_t>::value_type>;
+
+    if (begin == end)
+        return;
+
+    str_ = {&*begin, static_cast<typename result_type::size_type>(
+                         std::max(std::distance(begin, end), typename result_type::difference_type{}))};
+}
+
 inline constexpr auto string_view::operator=(const value_type *const str) -> string_view &
 {
     assign(str);
