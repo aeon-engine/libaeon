@@ -176,6 +176,8 @@ public:
 
     constexpr auto append(const string_view &str) -> string &;
 
+    constexpr auto operator+=(const std::string &str) -> string &;
+
     constexpr auto operator+=(const std::string_view &str) -> string &;
 
     auto operator+=(const std::u8string_view &str) -> string &;
