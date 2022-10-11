@@ -255,6 +255,12 @@ inline constexpr void string::resize(const size_type count)
     return str_.compare(reinterpret_cast<const char *const>(str));
 }
 
+[[nodiscard]] inline constexpr auto string::compare(const size_type pos, const size_type count,
+                                                    const string_view str) const -> int
+{
+    return str_.compare(pos, count, str.str_);
+}
+
 inline constexpr auto string::operator==(const string &str) const -> bool
 {
     return str_ == str.str_;

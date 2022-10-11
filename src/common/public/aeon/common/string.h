@@ -140,6 +140,9 @@ public:
 
     [[nodiscard]] auto compare(const char8_t *const str) const noexcept -> int;
 
+    [[nodiscard]] constexpr auto compare(const size_type pos, const size_type count, const string_view str) const
+        -> int;
+
     constexpr auto operator==(const string &str) const -> bool;
 
     constexpr auto operator==(const string_view &str) const -> bool;
