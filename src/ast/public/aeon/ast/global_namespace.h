@@ -15,7 +15,7 @@ public:
     {
     }
 
-    virtual ~global_namespace() = default;
+    virtual ~global_namespace() final = default;
 
     global_namespace(const global_namespace &) noexcept = delete;
     auto operator=(const global_namespace &) noexcept -> global_namespace & = delete;
