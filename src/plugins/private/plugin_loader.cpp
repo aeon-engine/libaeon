@@ -30,9 +30,9 @@ plugin_loader::~plugin_loader()
     return false;
 }
 
-[[nodiscard]] auto plugin_loader::is_loaded(const std::string_view &name) const -> bool
+[[nodiscard]] auto plugin_loader::is_loaded(const common::string_view &name) const -> bool
 {
-    const auto result = cache_.find(std::string{name});
+    const auto result = cache_.find(common::string{name});
     return result != cache_.end();
 }
 
@@ -48,9 +48,9 @@ void plugin_loader::unload(const plugin *p)
     }
 }
 
-void plugin_loader::unload(const std::string_view &name)
+void plugin_loader::unload(const common::string_view &name)
 {
-    const auto result = cache_.find(std::string{name});
+    const auto result = cache_.find(common::string{name});
 
     if (result == cache_.end())
         return;
@@ -63,7 +63,7 @@ void plugin_loader::unload_all()
     cache_.clear();
 }
 
-[[nodiscard]] auto plugin_loader::load(const std::string &name) -> plugin *
+[[nodiscard]] auto plugin_loader::load(const common::string &name) -> plugin *
 {
     const auto result = find_in_cache(name);
 
@@ -73,7 +73,7 @@ void plugin_loader::unload_all()
     return load_plugin(name);
 }
 
-[[nodiscard]] auto plugin_loader::load_plugin(const std::string &name) -> plugin *
+[[nodiscard]] auto plugin_loader::load_plugin(const common::string &name) -> plugin *
 {
     common::dll_loader::scoped_dll_handle handle(name);
 
@@ -101,7 +101,7 @@ void plugin_loader::unload_all()
     return plugin_instance_ptr;
 }
 
-[[nodiscard]] auto plugin_loader::find_in_cache(const std::string &name) -> plugin *
+[[nodiscard]] auto plugin_loader::find_in_cache(const common::string &name) -> plugin *
 {
     const auto result = cache_.find(name);
 
@@ -111,7 +111,7 @@ void plugin_loader::unload_all()
     return result->second.plugin_instance.get();
 }
 
-void plugin_loader::unload(std::map<std::string, plugin_cache>::iterator itr)
+void plugin_loader::unload(std::map<common::string, plugin_cache>::iterator itr)
 {
     const auto &cache = itr->second;
     cache.plugin_instance->plugin_on_unload();

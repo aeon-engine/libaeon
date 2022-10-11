@@ -3,16 +3,15 @@
 #pragma once
 
 #include <aeon/plugins/plugin.h>
+#include <aeon/common/string_view.h>
 #include <functional>
-#include <string>
 #include <vector>
-#include <string_view>
 
 struct test_data
 {
-    test_data(const std::string_view &a, const std::vector<int> &b)
-        : a(a)
-        , b(b)
+    test_data(aeon::common::string a, std::vector<int> b) noexcept
+        : a{std::move(a)}
+        , b{std::move(b)}
     {
     }
 
@@ -28,7 +27,7 @@ struct test_data
     test_data(const test_data &) = delete;
     auto operator=(const test_data &) -> test_data & = delete;
 
-    std::string a;
+    aeon::common::string a;
     std::vector<int> b;
     std::function<void()> deleted_callback;
 };

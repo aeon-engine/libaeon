@@ -4,10 +4,11 @@
 
 #include <aeon/plugins/plugin.h>
 #include <aeon/common/dll_loader.h>
+#include <aeon/common/string.h>
+#include <aeon/common/string_view.h>
 #include <memory>
 #include <map>
 #include <functional>
-#include <string>
 
 namespace aeon::plugins
 {
@@ -46,7 +47,7 @@ public:
     /*!
      * Check if a given plugin is loaded by name.
      */
-    [[nodiscard]] auto is_loaded(const std::string_view &name) const -> bool;
+    [[nodiscard]] auto is_loaded(const common::string_view &name) const -> bool;
 
     /*!
      * Unload a plugin by pointer. If the given plugin pointer is unknown,
@@ -58,7 +59,7 @@ public:
      * Unload a plugin by name. If the given name is unknown,
      * nothing will happen.
      */
-    void unload(const std::string_view &name);
+    void unload(const common::string_view &name);
 
     /*!
      * Unload all loaded plugins.
@@ -97,27 +98,27 @@ private:
     /*!
      * Load a plugin by name.
      */
-    [[nodiscard]] auto load(const std::string &name) -> plugin *;
+    [[nodiscard]] auto load(const common::string &name) -> plugin *;
 
     /*!
      * Actually load the plugin by loading in the dll, getting the proc addresses
      * and calling them. Returns nullptr in case of an error.
      */
-    [[nodiscard]] auto load_plugin(const std::string &name) -> plugin *;
+    [[nodiscard]] auto load_plugin(const common::string &name) -> plugin *;
 
     /*!
      * Get a previously loaded plugin by name from the cache. Returns nullptr if
      * not found.
      */
-    [[nodiscard]] auto find_in_cache(const std::string &name) -> plugin *;
+    [[nodiscard]] auto find_in_cache(const common::string &name) -> plugin *;
 
     /*!
      * Unload a plugin based on iterator. This is a helper method called by the
      * public unload methods.
      */
-    void unload(std::map<std::string, plugin_cache>::iterator itr);
+    void unload(std::map<common::string, plugin_cache>::iterator itr);
 
-    std::map<std::string, plugin_cache> cache_;
+    std::map<common::string, plugin_cache> cache_;
 };
 
 template <typename T>
