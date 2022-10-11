@@ -3,7 +3,7 @@
 #pragma once
 
 #include <ostream>
-#include <string>
+#include <string_view>
 
 /*!
  * Write an u8string to an ostream. This assumes that the output stream (for example the terminal, in case of std::out)
