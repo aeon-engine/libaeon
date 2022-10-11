@@ -4,7 +4,7 @@
 
 #include <aeon/logger/base_backend.h>
 #include <aeon/logger/log_level.h>
-#include <string>
+#include <aeon/common/string.h>
 #include <sstream>
 
 #define AEON_LOG(log, level) log(level)
@@ -21,7 +21,7 @@ namespace aeon::logger
 class logger_stream final
 {
 public:
-    logger_stream(base_backend &backend, std::string module, const log_level level)
+    logger_stream(base_backend &backend, common::string module, const log_level level)
         : backend_{backend}
         , module_{std::move(module)}
         , level_{level}
@@ -39,7 +39,7 @@ public:
     void operator<<(std::ostream &(std::ostream &)) const
     {
         const auto message = stream_.str();
-        backend_.__handle_log(message, module_, level_);
+        backend_.handle_log(message, module_, level_);
     }
 
     template <typename T>
@@ -51,7 +51,7 @@ public:
 
 private:
     base_backend &backend_;
-    std::string module_;
+    common::string module_;
     log_level level_;
     std::stringstream stream_;
 };
@@ -59,7 +59,7 @@ private:
 class logger final
 {
 public:
-    logger(base_backend &backend, std::string module)
+    logger(base_backend &backend, common::string module)
         : backend_{&backend}
         , module_{std::move(module)}
     {
@@ -69,7 +69,7 @@ public:
 
     auto operator()(const log_level level) const -> logger_stream
     {
-        return logger_stream(*backend_, module_, level);
+        return {*backend_, module_, level};
     }
 
     logger(const logger &) noexcept = delete;
@@ -80,7 +80,7 @@ public:
 
 private:
     base_backend *backend_;
-    std::string module_;
+    common::string module_;
 };
 
 } // namespace aeon::logger

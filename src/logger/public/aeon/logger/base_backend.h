@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/logger/log_level.h>
-#include <string>
+#include <aeon/common/string.h>
 
 namespace aeon::logger
 {
@@ -27,12 +27,12 @@ public:
 
     void set_log_level(const log_level level);
 
-    auto get_log_level() const -> log_level;
+    [[nodiscard]] auto get_log_level() const -> log_level;
 
-    virtual void log(const std::string &message, const std::string &module, const log_level level) = 0;
+    virtual void log(const common::string &message, const common::string &module, const log_level level) = 0;
 
 private:
-    void __handle_log(const std::string &message, const std::string &module, const log_level level);
+    void handle_log(const common::string &message, const common::string &module, const log_level level);
 
     log_level level_;
 };

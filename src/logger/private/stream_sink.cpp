@@ -11,7 +11,7 @@ stream_sink::stream_sink(streams::idynamic_stream &stream)
 {
 }
 
-void stream_sink::log(const std::string &message, const std::string &module, log_level level)
+void stream_sink::log(const common::string &message, const common::string &module, const log_level level)
 {
     streams::stream_writer writer(stream_);
 
@@ -19,8 +19,7 @@ void stream_sink::log(const std::string &message, const std::string &module, log
     writer << module;
     writer << "] [";
 
-    const std::string log_level_string = log_level_str[static_cast<int>(level)];
-    writer << log_level_string;
+    writer << log_level_str[static_cast<int>(level)];
 
     writer << "]: ";
 

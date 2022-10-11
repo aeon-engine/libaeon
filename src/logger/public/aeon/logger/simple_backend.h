@@ -11,7 +11,7 @@ class simple_backend final : public base_backend
 {
 public:
     simple_backend() = default;
-    virtual ~simple_backend() = default;
+    ~simple_backend() final = default;
 
     simple_backend(const simple_backend &) = delete;
     auto operator=(const simple_backend &) noexcept -> simple_backend & = delete;
@@ -19,7 +19,7 @@ public:
     simple_backend(simple_backend &&) = delete;
     auto operator=(simple_backend &&) noexcept -> simple_backend & = delete;
 
-    void log(const std::string &message, const std::string &module, const log_level level) override;
+    void log(const common::string &message, const common::string &module, const log_level level) final;
 };
 
 } // namespace aeon::logger

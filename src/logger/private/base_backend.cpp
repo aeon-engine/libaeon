@@ -25,7 +25,7 @@ auto base_backend::get_log_level() const -> log_level
     return level_;
 }
 
-void base_backend::__handle_log(const std::string &message, const std::string &module, const log_level level)
+void base_backend::handle_log(const common::string &message, const common::string &module, const log_level level)
 {
     if (level >= level_)
         log(message, module, level);

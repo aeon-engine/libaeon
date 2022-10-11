@@ -10,14 +10,14 @@ multithreaded_sink_backend::multithreaded_sink_backend()
     : base_backend(log_level::message)
     , running_(true)
 {
-    handle_background_thread_();
+    handle_background_thread();
 }
 
-multithreaded_sink_backend::multithreaded_sink_backend(log_level level)
+multithreaded_sink_backend::multithreaded_sink_backend(const log_level level)
     : base_backend(level)
     , running_(true)
 {
-    handle_background_thread_();
+    handle_background_thread();
 }
 
 multithreaded_sink_backend::~multithreaded_sink_backend()
@@ -47,7 +47,7 @@ void multithreaded_sink_backend::stop()
     thread_.join();
 }
 
-void multithreaded_sink_backend::handle_background_thread_()
+void multithreaded_sink_backend::handle_background_thread()
 {
     running_ = true;
 
@@ -78,11 +78,11 @@ void multithreaded_sink_backend::handle_background_thread_()
                     sink_mutex_.unlock();
 
                     // Handle all messages
-                    for (auto &msg : log_queue)
+                    for (auto &[message, module, level] : log_queue)
                     {
                         for (auto &sink : sinks)
                         {
-                            sink->log(msg.message, msg.module, msg.level);
+                            sink->log(message, module, level);
                         }
                     }
 
@@ -103,7 +103,7 @@ void multithreaded_sink_backend::handle_background_thread_()
         });
 }
 
-void multithreaded_sink_backend::log(const std::string &message, const std::string &module, const log_level level)
+void multithreaded_sink_backend::log(const common::string &message, const common::string &module, const log_level level)
 {
     std::scoped_lock lock(queue_mutex_);
     log_queue_.push_back({message, module, level});

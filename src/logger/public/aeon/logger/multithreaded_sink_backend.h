@@ -19,8 +19,8 @@ class multithreaded_sink_backend final : public base_backend
 private:
     struct log_message_queue_entry
     {
-        std::string message;
-        std::string module;
+        common::string message;
+        common::string module;
         log_level level;
     };
 
@@ -30,9 +30,9 @@ private:
 public:
     multithreaded_sink_backend();
 
-    explicit multithreaded_sink_backend(log_level level);
+    explicit multithreaded_sink_backend(const log_level level);
 
-    virtual ~multithreaded_sink_backend();
+    ~multithreaded_sink_backend() final;
 
     multithreaded_sink_backend(const multithreaded_sink_backend &) = delete;
     auto operator=(const multithreaded_sink_backend &) noexcept -> multithreaded_sink_backend & = delete;
@@ -47,9 +47,9 @@ public:
     void stop();
 
 private:
-    void handle_background_thread_();
+    void handle_background_thread();
 
-    void log(const std::string &message, const std::string &module, const log_level level) override;
+    void log(const common::string &message, const common::string &module, const log_level level) final;
 
     std::thread thread_;
     std::mutex signal_mutex_;

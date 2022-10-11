@@ -5,7 +5,6 @@
 #include <aeon/logger/log_sink.h>
 #include <aeon/logger/log_level.h>
 #include <aeon/streams/idynamic_stream.h>
-#include <string>
 
 namespace aeon::logger
 {
@@ -14,7 +13,7 @@ class stream_sink : public log_sink
 {
 public:
     explicit stream_sink(streams::idynamic_stream &stream);
-    virtual ~stream_sink() = default;
+    ~stream_sink() override = default;
 
     stream_sink(const stream_sink &) = delete;
     auto operator=(const stream_sink &) noexcept -> stream_sink & = delete;
@@ -23,7 +22,7 @@ public:
     auto operator=(stream_sink &&) noexcept -> stream_sink & = delete;
 
 private:
-    void log(const std::string &message, const std::string &module, log_level level) override;
+    void log(const common::string &message, const common::string &module, const log_level level) override;
 
     streams::idynamic_stream &stream_;
 };

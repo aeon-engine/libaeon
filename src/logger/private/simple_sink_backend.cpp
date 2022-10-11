@@ -25,9 +25,9 @@ void simple_sink_backend::remove_all_sinks()
     sinks_.clear();
 }
 
-void simple_sink_backend::log(const std::string &message, const std::string &module, const log_level level)
+void simple_sink_backend::log(const common::string &message, const common::string &module, const log_level level)
 {
-    for (auto sink : sinks_)
+    for (const auto sink : sinks_)
     {
         sink->log(message, module, level);
     }

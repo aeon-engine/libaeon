@@ -3,7 +3,7 @@
 #pragma once
 
 #include <aeon/logger/log_level.h>
-#include <string>
+#include <aeon/common/string.h>
 
 namespace aeon::logger
 {
@@ -20,7 +20,7 @@ public:
     log_sink(log_sink &&) = delete;
     auto operator=(log_sink &&) noexcept -> log_sink & = delete;
 
-    virtual void log(const std::string &message, const std::string &module, log_level level) = 0;
+    virtual void log(const common::string &message, const common::string &module, const log_level level) = 0;
 };
 
 } // namespace aeon::logger
