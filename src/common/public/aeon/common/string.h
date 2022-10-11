@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <concepts>
 #include <string>
 #include <ostream>
 
@@ -57,7 +58,7 @@ public:
 
     constexpr explicit string(const string_view &str) noexcept;
 
-    template <typename iterator_t>
+    template <std::contiguous_iterator iterator_t>
     constexpr string(iterator_t begin, iterator_t end) noexcept;
 
     constexpr string(const string &other) = default;
@@ -183,7 +184,7 @@ public:
 
     constexpr auto append(const string_view &str) -> string &;
 
-    template <typename iterator_t>
+    template <std::contiguous_iterator iterator_t>
     constexpr auto append(iterator_t begin, iterator_t end) noexcept -> string &;
 
     constexpr auto operator+=(const char *str) -> string &;

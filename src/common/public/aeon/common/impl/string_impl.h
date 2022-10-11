@@ -57,8 +57,8 @@ inline constexpr string::string(const string_view &str) noexcept
 {
 }
 
-template <typename iterator_t>
-constexpr string::string(iterator_t begin, iterator_t end) noexcept
+template <std::contiguous_iterator iterator_t>
+inline constexpr string::string(iterator_t begin, iterator_t end) noexcept
     : str_{begin, end}
 {
 }
@@ -367,7 +367,7 @@ inline constexpr auto string::append(const string_view &str) -> string &
     return *this;
 }
 
-template <typename iterator_t>
+template <std::contiguous_iterator iterator_t>
 inline constexpr auto string::append(iterator_t begin, iterator_t end) noexcept -> string &
 {
     str_.append(begin, end);
