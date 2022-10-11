@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <aeon/common/string.h>
 #include <vector>
-#include <string>
 #include <cstring>
 
 namespace aeon::common
@@ -13,7 +13,7 @@ namespace aeon::common
 class parameters
 {
 public:
-    explicit parameters(std::vector<std::string> &params)
+    explicit parameters(std::vector<string> &params)
         : argc_(0)
         , argv_(new char *[params.size()])
     {
