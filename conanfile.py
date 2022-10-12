@@ -27,7 +27,6 @@ class LibAeonConan(ConanFile):
         'with_imaging': [True, False],
         'with_logger': [True, False],
         'with_math': [True, False],
-        'with_mono': [True, False],
         'with_platform': [True, False],
         'with_plugins': [True, False],
         'with_ptree': [True, False],
@@ -59,7 +58,6 @@ class LibAeonConan(ConanFile):
         'with_imaging': True,
         'with_logger': True,
         'with_math': True,
-        'with_mono': False,
         'with_platform': True,
         'with_plugins': True,
         'with_ptree': True,
@@ -160,7 +158,6 @@ class LibAeonConan(ConanFile):
         cmake.definitions['AEON_COMPONENT_IMAGING'] = self.options.get_safe('with_imaging', default=False)
         cmake.definitions['AEON_COMPONENT_LOGGER'] = self.options.get_safe('with_logger', default=False)
         cmake.definitions['AEON_COMPONENT_MATH'] = self.options.get_safe('with_math', default=False)
-        cmake.definitions['AEON_COMPONENT_MONO'] = self.options.get_safe('with_mono', default=False)
         cmake.definitions['AEON_COMPONENT_PLATFORM'] = self.options.get_safe('with_platform', default=False)
         cmake.definitions['AEON_COMPONENT_PLUGINS'] = self.options.get_safe('with_plugins', default=False)
         cmake.definitions['AEON_COMPONENT_PTREE'] = self.options.get_safe('with_ptree', default=False)
