@@ -16,6 +16,8 @@ class dynamic_library_load_exception final : public std::exception
 class dynamic_library final
 {
 public:
+    explicit dynamic_library() noexcept;
+
     /*!
      * Wrap an already loaded platform-specific dynamic library handle
      */

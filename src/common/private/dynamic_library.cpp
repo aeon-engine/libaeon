@@ -50,6 +50,11 @@ void free_library(void *handle) noexcept
 
 } // namespace internal
 
+dynamic_library::dynamic_library() noexcept
+    : handle_{nullptr}
+{
+}
+
 dynamic_library::dynamic_library(void *handle) noexcept
     : handle_{handle}
 {
