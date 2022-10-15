@@ -59,7 +59,17 @@ public:
      * if it was not found.
      */
     template <typename T>
-    [[nodiscard]] auto get_proc_address(const char *proc) const noexcept -> T *
+    [[nodiscard]] auto get_proc_address(const char *proc) const noexcept -> T
+    {
+        return reinterpret_cast<T>(get_proc_address(proc));
+    }
+
+    /*!
+     * Get the address of a proc inside of the loaded dll or nullptr
+     * if it was not found.
+     */
+    template <typename T>
+    [[nodiscard]] auto get_proc_address_ptr(const char *proc) const noexcept -> T *
     {
         return reinterpret_cast<T *>(get_proc_address(proc));
     }
