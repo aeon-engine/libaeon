@@ -28,7 +28,6 @@ set(SOURCES
     public/aeon/common/deprecated.h
     public/aeon/common/dispatcher.h
     public/aeon/common/dispatcher_fwd.h
-    public/aeon/common/dll_export.h
     public/aeon/common/dynamic_library.h
     public/aeon/common/element_type.h
     public/aeon/common/endianness.h
