@@ -21,7 +21,7 @@ namespace internal
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
     auto result = LoadLibraryW(path.wstring().c_str());
 #else
-    auto result = dlopen(path.wstring().c_str(), RTLD_LAZY | RTLD_LOCAL)
+    auto result = dlopen(reinterpret_cast<const char *>(path.u8string().c_str()), RTLD_LAZY | RTLD_LOCAL)
 #endif
 
     if (result == nullptr)
