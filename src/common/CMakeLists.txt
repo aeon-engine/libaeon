@@ -3,7 +3,7 @@
 set(SOURCES
     private/base64.cpp
     private/commandline_parser.cpp
-    private/dll_loader.cpp
+    private/dynamic_library.cpp
     private/from_chars.cpp
     private/hexdump.cpp
     private/lexical_parse.cpp
@@ -29,7 +29,7 @@ set(SOURCES
     public/aeon/common/dispatcher.h
     public/aeon/common/dispatcher_fwd.h
     public/aeon/common/dll_export.h
-    public/aeon/common/dll_loader.h
+    public/aeon/common/dynamic_library.h
     public/aeon/common/element_type.h
     public/aeon/common/endianness.h
     public/aeon/common/expect.h
