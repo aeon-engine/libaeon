@@ -259,6 +259,16 @@ template <std::unsigned_integral T>
     return {std::bit_floor(width(val)), std::bit_floor(height(val))};
 }
 
+template <common::concepts::arithmetic_convertible T, std::floating_point U>
+[[nodiscard]] inline constexpr auto interpolate(const size2d<T> &val1, const size2d<T> &val2, const U ratio) noexcept
+    -> size2d<T>
+{
+    const auto inverted = (U(1.0) - ratio);
+
+    return size2d<T>{static_cast<U>(width(val1)) * inverted + static_cast<U>(width(val2)) * ratio,
+                     static_cast<U>(height(val1)) * inverted + static_cast<U>(height(val2)) * ratio};
+}
+
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto round(const size2d<T> &val) noexcept -> size2d<T>
 {
