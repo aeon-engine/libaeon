@@ -350,6 +350,30 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_xy_by(const vector3<T> &vec, const unitf<radian> angle,
+                                                 const vector3<T> &center) noexcept -> vector3<T>
+{
+    const auto result = rotate_by({vec.x, vec.y}, angle, {center.x, center.y});
+    return {result.x, result.y, vec.z};
+}
+
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_xz_by(const vector3<T> &vec, const unitf<radian> angle,
+                                                 const vector3<T> &center) noexcept -> vector3<T>
+{
+    const auto result = rotate_by({vec.x, vec.z}, angle, {center.x, center.z});
+    return {result.x, vec.y, result.y};
+}
+
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_yz_by(const vector3<T> &vec, const unitf<radian> angle,
+                                                 const vector3<T> &center) noexcept -> vector3<T>
+{
+    const auto result = rotate_by({vec.y, vec.z}, angle, {center.y, center.z});
+    return {vec.x, result.x, result.y};
+}
+
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ptr(vector3<T> &vec) noexcept -> T *
 {
     return &vec.x;

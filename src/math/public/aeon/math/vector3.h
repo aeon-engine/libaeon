@@ -466,6 +466,39 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto round(const vector3<T> &vec) noexcept -> vector3<T>;
 
 /*!
+ * Rotate a point over the X, Y axis counterclockwise around a center point by a given angle
+ * \param[in] vec - The point to rotate
+ * \param[in] angle - The angle to rotate by
+ * \param[in] center - The center point to rotate the point around
+ * \return The rotated point
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_xy_by(const vector3<T> &vec, const unitf<radian> angle,
+                                                 const vector3<T> &center = {}) noexcept -> vector3<T>;
+
+/*!
+ * Rotate a point over the X, Z axis counterclockwise around a center point by a given angle
+ * \param[in] vec - The point to rotate
+ * \param[in] angle - The angle to rotate by
+ * \param[in] center - The center point to rotate the point around
+ * \return The rotated point
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_xz_by(const vector3<T> &vec, const unitf<radian> angle,
+                                                 const vector3<T> &center = {}) noexcept -> vector3<T>;
+
+/*!
+ * Rotate a point over the Y, Z axis counterclockwise around a center point by a given angle
+ * \param[in] vec - The point to rotate
+ * \param[in] angle - The angle to rotate by
+ * \param[in] center - The center point to rotate the point around
+ * \return The rotated point
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_yz_by(const vector3<T> &vec, const unitf<radian> angle,
+                                                 const vector3<T> &center = {}) noexcept -> vector3<T>;
+
+/*!
  * Get a pointer into the underlying data structure of a given vector.
  * The vector data layout is [X Y Z]
  * \param[in] vec - Vector
