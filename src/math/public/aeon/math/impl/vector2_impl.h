@@ -307,6 +307,17 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_by(const vector2<T> &vec, const unitf<radian> angle,
+                                              const vector2<T> &center) noexcept -> vector2<T>
+{
+    const auto c = std::cos(angle);
+    const auto s = std::sin(angle);
+
+    const auto norm_vec = vector2<float>{vec - center};
+    return vector2<T>{norm_vec.x * c - norm_vec.y * s, norm_vec.x * s + norm_vec.y * c} + center;
+}
+
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ptr(vector2<T> &vec) noexcept -> T *
 {
     return &vec.x;

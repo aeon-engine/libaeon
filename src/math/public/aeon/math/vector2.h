@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <aeon/math/units.h>
 #include <aeon/common/concepts.h>
 #include <cstddef>
 #include <compare>
@@ -455,6 +456,17 @@ template <common::concepts::arithmetic_convertible T>
  */
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto angle(const vector2<T> &vec) -> T;
+
+/*!
+ * Rotate a point counterclockwise around a center point by a given angle
+ * \param[in] vec - The point to rotate
+ * \param[in] angle - The angle to rotate by
+ * \param[in] center - The center point to rotate the point around
+ * \return The rotated point
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto rotate_by(const vector2<T> &vec, const unitf<radian> angle,
+                                              const vector2<T> &center = {}) noexcept -> vector2<T>;
 
 /*!
  * Get a pointer into the underlying data structure of a given vector.
