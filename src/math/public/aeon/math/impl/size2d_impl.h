@@ -235,6 +235,30 @@ inline constexpr auto ratio(const size2d<T> &val) noexcept -> float
     return static_cast<float>(width(val)) / static_cast<float>(height(val));
 }
 
+template <std::unsigned_integral T>
+inline constexpr void bit_ceil(size2d<T> &val) noexcept
+{
+    val = bit_ceiled(val);
+}
+
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_ceiled(const size2d<T> &val) noexcept -> size2d<T>
+{
+    return {std::bit_ceil(width(val)), std::bit_ceil(height(val))};
+}
+
+template <std::unsigned_integral T>
+inline constexpr void bit_floor(size2d<T> &val) noexcept
+{
+    val = bit_floored(val);
+}
+
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_floored(const size2d<T> &val) noexcept -> size2d<T>
+{
+    return {std::bit_floor(width(val)), std::bit_floor(height(val))};
+}
+
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto round(const size2d<T> &val) noexcept -> size2d<T>
 {

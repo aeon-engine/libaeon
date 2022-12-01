@@ -328,6 +328,38 @@ template <common::concepts::arithmetic_convertible T>
 inline constexpr auto ratio(const size2d<T> &val) noexcept -> float;
 
 /*!
+ * Calculates the smallest power of two that is not smaller than the given size.
+ * \param[in] val - Size2d value
+ */
+template <std::unsigned_integral T>
+inline constexpr void bit_ceil(size2d<T> &val) noexcept;
+
+/*!
+ * Calculates the smallest power of two that is not smaller than the given size.
+ * \param[in] val - Size2d value
+ * \return Size of the smallest power of two that is not smaller than the given size
+ */
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_ceiled(const size2d<T> &val) noexcept -> size2d<T>;
+
+/*!
+ * If the size is not zero, calculates the largest integral power of two that is not greater than the given size. If the
+ * size is zero, the result is also zero.
+ * \param[in] val - Size2d value
+ */
+template <std::unsigned_integral T>
+inline constexpr void bit_floor(size2d<T> &val) noexcept;
+
+/*!
+ * If the size is not zero, calculates the largest integral power of two that is not greater than the given size. If the
+ * size is zero, the result is also zero.
+ * \param[in] val - Size2d value
+ * \return Size of the largest integral power of two that is not greater than the given size
+ */
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_floored(const size2d<T> &val) noexcept -> size2d<T>;
+
+/*!
  * Calculate rounded values of a given size
  * \param[in] val - Size2d
  * \return Rounded values of a given size
