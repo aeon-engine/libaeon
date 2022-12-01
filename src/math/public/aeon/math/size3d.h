@@ -352,6 +352,17 @@ template <std::unsigned_integral T>
 [[nodiscard]] inline constexpr auto bit_floored(const size3d<T> &val) noexcept -> size3d<T>;
 
 /*!
+ * Interpolate between the given sizes with a ratio
+ * \param[in] val1 - Size3d value
+ * \param[in] val2 - Size3d value
+ * \param[in] ratio - A ratio between 0.0 and 1.0
+ * \return Interpolated size
+ */
+template <common::concepts::arithmetic_convertible T, std::floating_point U>
+[[nodiscard]] inline constexpr auto interpolate(const size3d<T> &val1, const size3d<T> &val2, const U ratio) noexcept
+    -> size3d<T>;
+
+/*!
  * Calculate rounded values of a given size
  * \param[in] val - Size3d
  * \return Rounded values of a given size
