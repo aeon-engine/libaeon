@@ -5,6 +5,7 @@
 #include <aeon/math/vector3.h>
 #include <aeon/math/size2d.h>
 #include <algorithm>
+#include <bit>
 
 namespace aeon::math
 {

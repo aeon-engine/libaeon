@@ -5,6 +5,7 @@
 #include <aeon/math/rectangle.h>
 #include <aeon/math/vector2.h>
 #include <algorithm>
+#include <bit>
 
 namespace aeon::math
 {
