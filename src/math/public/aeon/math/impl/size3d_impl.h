@@ -226,6 +226,30 @@ inline constexpr auto clamp(const size3d<T> &val, const size3d<T> &min_size, con
     return max(min_size, min(max_size, val));
 }
 
+template <std::unsigned_integral T>
+inline constexpr void bit_ceil(size3d<T> &val) noexcept
+{
+    val = bit_ceiled(val);
+}
+
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_ceiled(const size3d<T> &val) noexcept -> size3d<T>
+{
+    return {std::bit_ceil(width(val)), std::bit_ceil(height(val)), std::bit_ceil(depth(val))};
+}
+
+template <std::unsigned_integral T>
+inline constexpr void bit_floor(size3d<T> &val) noexcept
+{
+    val = bit_floored(val);
+}
+
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_floored(const size3d<T> &val) noexcept -> size3d<T>
+{
+    return {std::bit_floor(width(val)), std::bit_floor(height(val)), std::bit_floor(depth(val))};
+}
+
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto round(const size3d<T> &val) noexcept -> size3d<T>
 {

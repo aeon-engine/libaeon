@@ -318,6 +318,38 @@ inline constexpr auto clamp(const size3d<T> &val, const size3d<T> &min_size, con
     -> size3d<T>;
 
 /*!
+ * Calculates the smallest power of two that is not smaller than the given size.
+ * \param[in] val - Size3d value
+ */
+template <std::unsigned_integral T>
+inline constexpr void bit_ceil(size3d<T> &val) noexcept;
+
+/*!
+ * Calculates the smallest power of two that is not smaller than the given size.
+ * \param[in] val - Size3d value
+ * \return Size of the smallest power of two that is not smaller than the given size
+ */
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_ceiled(const size3d<T> &val) noexcept -> size3d<T>;
+
+/*!
+ * If the size is not zero, calculates the largest integral power of two that is not greater than the given size. If the
+ * size is zero, the result is also zero.
+ * \param[in] val - Size3d value
+ */
+template <std::unsigned_integral T>
+inline constexpr void bit_floor(size3d<T> &val) noexcept;
+
+/*!
+ * If the size is not zero, calculates the largest integral power of two that is not greater than the given size. If the
+ * size is zero, the result is also zero.
+ * \param[in] val - Size3d value
+ * \return Size of the largest integral power of two that is not greater than the given size
+ */
+template <std::unsigned_integral T>
+[[nodiscard]] inline constexpr auto bit_floored(const size3d<T> &val) noexcept -> size3d<T>;
+
+/*!
  * Calculate rounded values of a given size
  * \param[in] val - Size3d
  * \return Rounded values of a given size
