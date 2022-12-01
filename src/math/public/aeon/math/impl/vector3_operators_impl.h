@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <tuple>
+
 namespace aeon::math
 {
 
@@ -196,21 +198,9 @@ inline constexpr auto operator==(const vector3<T> &lhs, const vector3<T> &rhs) n
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator!=(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool
+inline constexpr auto operator<=>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> std::strong_ordering
 {
-    return !(lhs == rhs);
-}
-
-template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator<(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool
-{
-    return (lhs.x < rhs.x && lhs.y < rhs.y && lhs.z < rhs.z);
-}
-
-template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool
-{
-    return (lhs.x > rhs.x && lhs.y > rhs.y && lhs.z > rhs.z);
+    return std::tie(lhs.x, lhs.y, lhs.z) <=> std::tie(rhs.x, rhs.y, rhs.z);
 }
 
 } // namespace aeon::math

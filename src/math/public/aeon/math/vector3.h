@@ -10,6 +10,7 @@
 #include <aeon/math/math_fwd.h>
 #include <aeon/common/concepts.h>
 #include <cstddef>
+#include <compare>
 
 namespace aeon::math
 {
@@ -197,13 +198,7 @@ template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator==(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator!=(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
-
-template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator<(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
-
-template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> bool;
+inline constexpr auto operator<=>(const vector3<T> &lhs, const vector3<T> &rhs) noexcept -> std::strong_ordering;
 
 /*!
  * Translate (move) an existing vector.
