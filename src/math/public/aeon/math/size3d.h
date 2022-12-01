@@ -142,7 +142,7 @@ inline constexpr void inflate(size3d<T> &size, const T val) noexcept;
  * \return Inflated size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto inflated(const size3d<T> &size, const T val) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto inflated(const size3d<T> &size, const T val) noexcept -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all directions by a given value.
@@ -185,7 +185,7 @@ inline constexpr void scale(size3d<T> &size, const size3d<T> &val) noexcept;
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size3d<T> &size, const T val) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const T val) noexcept -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
@@ -196,7 +196,8 @@ inline constexpr auto scaled(const size3d<T> &size, const T val) noexcept -> siz
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size3d<T> &size, const T x, const T y, const T z) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const T x, const T y, const T z) noexcept
+    -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
@@ -205,7 +206,7 @@ inline constexpr auto scaled(const size3d<T> &size, const T x, const T y, const 
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size3d<T> &size, const vector3<T> &vec) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const vector3<T> &vec) noexcept -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
@@ -214,7 +215,7 @@ inline constexpr auto scaled(const size3d<T> &size, const vector3<T> &vec) noexc
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size3d<T> &size, const size3d<T> &val) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const size3d<T> &val) noexcept -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all directions by a given value.
@@ -257,7 +258,7 @@ inline constexpr void scale(size3d<T> &size, const size3d<U> &val) noexcept;
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
-inline constexpr auto scaled(const size3d<T> &size, const U val) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const U val) noexcept -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
@@ -268,7 +269,8 @@ inline constexpr auto scaled(const size3d<T> &size, const U val) noexcept -> siz
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
-inline constexpr auto scaled(const size3d<T> &size, const U x, const U y, const U z) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const U x, const U y, const U z) noexcept
+    -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
@@ -277,7 +279,7 @@ inline constexpr auto scaled(const size3d<T> &size, const U x, const U y, const 
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
-inline constexpr auto scaled(const size3d<T> &size, const vector3<U> &vec) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const vector3<U> &vec) noexcept -> size3d<T>;
 
 /*!
  * Scale (multiply) a size in all two directions by a given value to a copy.
@@ -286,7 +288,7 @@ inline constexpr auto scaled(const size3d<T> &size, const vector3<U> &vec) noexc
  * \return A scaled size copy based on the given one.
  */
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
-inline constexpr auto scaled(const size3d<T> &size, const size3d<U> &val) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto scaled(const size3d<T> &size, const size3d<U> &val) noexcept -> size3d<T>;
 
 /*!
  * Get the minimum values from the given size3d for both width, height and depth.
@@ -295,7 +297,7 @@ inline constexpr auto scaled(const size3d<T> &size, const size3d<U> &val) noexce
  * \return The minimum values for width, height and depth.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto min(const size3d<T> &a, const size3d<T> &b) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto min(const size3d<T> &a, const size3d<T> &b) noexcept -> size3d<T>;
 
 /*!
  * Get the maximum values from the given size3d for both width, height and depth.
@@ -304,7 +306,7 @@ inline constexpr auto min(const size3d<T> &a, const size3d<T> &b) noexcept -> si
  * \return The maximum values for width, height and depth.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto max(const size3d<T> &a, const size3d<T> &b) noexcept -> size3d<T>;
+[[nodiscard]] inline constexpr auto max(const size3d<T> &a, const size3d<T> &b) noexcept -> size3d<T>;
 
 /*!
  * Clamp the values of the given width, height and depth in val to min and max.
@@ -314,8 +316,8 @@ inline constexpr auto max(const size3d<T> &a, const size3d<T> &b) noexcept -> si
  * \return Clamped value between min and max.
  */
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto clamp(const size3d<T> &val, const size3d<T> &min_size, const size3d<T> &max_size) noexcept
-    -> size3d<T>;
+[[nodiscard]] inline constexpr auto clamp(const size3d<T> &val, const size3d<T> &min_size,
+                                          const size3d<T> &max_size) noexcept -> size3d<T>;
 
 /*!
  * Calculates the smallest power of two that is not smaller than the given size.
@@ -358,10 +360,10 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto round(const size3d<T> &val) noexcept -> size3d<T>;
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator==(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
+[[nodiscard]] inline constexpr auto operator==(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator!=(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
+[[nodiscard]] inline constexpr auto operator!=(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> bool;
 
 template <common::concepts::arithmetic_convertible T>
 inline constexpr auto operator+(const size3d<T> &lhs, const size3d<T> &rhs) noexcept -> size3d<T>;
