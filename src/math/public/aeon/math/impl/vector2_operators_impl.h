@@ -90,6 +90,12 @@ inline constexpr auto operator*(const vector2<T> &lhs, const U rhs) noexcept -> 
 }
 
 template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+inline constexpr auto operator*(const T lhs, const vector2<U> &rhs) noexcept -> vector2<T>
+{
+    return {static_cast<T>(lhs * static_cast<T>(rhs.x)), static_cast<T>(lhs * static_cast<T>(rhs.y))};
+}
+
+template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
 inline constexpr auto operator/(const vector2<T> &lhs, const vector2<U> &rhs) noexcept -> vector2<T>
 {
     return {static_cast<T>(static_cast<U>(lhs.x) / rhs.x), static_cast<T>(static_cast<U>(lhs.y) / rhs.y)};
