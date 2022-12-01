@@ -109,7 +109,7 @@ inline constexpr void inflate(size2d<T> &size, const T val) noexcept
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto inflated(const size2d<T> &size, const T val) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto inflated(const size2d<T> &size, const T val) noexcept -> size2d<T>
 {
     return size + val;
 }
@@ -139,7 +139,7 @@ inline constexpr void scale(size2d<T> &size, const size2d<T> &val) noexcept
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size2d<T> &size, const T val) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const T val) noexcept -> size2d<T>
 {
     return size * val;
 }
@@ -151,13 +151,13 @@ inline constexpr auto scaled(const size2d<T> &size, const T x, const T y) noexce
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size2d<T> &size, const vector2<T> &vec) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const vector2<T> &vec) noexcept -> size2d<T>
 {
     return size * vec;
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const size2d<T> &val) noexcept -> size2d<T>
 {
     return size * val;
 }
@@ -187,50 +187,50 @@ inline constexpr void scale(size2d<T> &size, const size2d<U> &val) noexcept
 }
 
 template <common::concepts::arithmetic_convertible T, typename U>
-inline constexpr auto scaled(const size2d<T> &size, const U val) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const U val) noexcept -> size2d<T>
 {
     return size * val;
 }
 
 template <common::concepts::arithmetic_convertible T, typename U>
-inline constexpr auto scaled(const size2d<T> &size, const U x, const U y) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const U x, const U y) noexcept -> size2d<T>
 {
     return scaled(size, {x, y});
 }
 
 template <common::concepts::arithmetic_convertible T, typename U>
-inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const vector2<U> &vec) noexcept -> size2d<T>
 {
     return size * vec;
 }
 
 template <common::concepts::arithmetic_convertible T, typename U>
-inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto scaled(const size2d<T> &size, const size2d<U> &val) noexcept -> size2d<T>
 {
     return size * val;
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto min(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
 {
     return {std::min(width(a), width(b)), std::min(height(a), height(b))};
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
+[[nodiscard]] inline constexpr auto max(const size2d<T> &a, const size2d<T> &b) noexcept -> size2d<T>
 {
     return {std::max(width(a), width(b)), std::max(height(a), height(b))};
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size, const size2d<T> &max_size) noexcept
-    -> size2d<T>
+[[nodiscard]] inline constexpr auto clamp(const size2d<T> &val, const size2d<T> &min_size,
+                                          const size2d<T> &max_size) noexcept -> size2d<T>
 {
     return max(min_size, min(max_size, val));
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto ratio(const size2d<T> &val) noexcept -> float
+[[nodiscard]] inline constexpr auto ratio(const size2d<T> &val) noexcept -> float
 {
     return static_cast<float>(width(val)) / static_cast<float>(height(val));
 }
@@ -266,13 +266,13 @@ template <common::concepts::arithmetic_convertible T>
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
+[[nodiscard]] inline constexpr auto operator==(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
     return width(lhs) == width(rhs) && height(lhs) == height(rhs);
 }
 
 template <common::concepts::arithmetic_convertible T>
-inline constexpr auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
+[[nodiscard]] inline constexpr auto operator!=(const size2d<T> &lhs, const size2d<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
