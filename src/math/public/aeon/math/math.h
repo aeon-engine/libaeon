@@ -235,4 +235,13 @@ template <std::uint64_t row>
     return values;
 }
 
+/*!
+ * Round to the nearest integer value, rounding halfway cases away from zero, is returned
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto round(const T val) noexcept
+{
+    return std::round(val);
+}
+
 } // namespace aeon::math
