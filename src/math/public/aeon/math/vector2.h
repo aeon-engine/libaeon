@@ -8,6 +8,7 @@
 #pragma once
 
 #include <aeon/math/units.h>
+#include <aeon/math/winding_order.h>
 #include <aeon/common/concepts.h>
 #include <cstddef>
 #include <compare>
@@ -478,6 +479,17 @@ template <common::concepts::arithmetic_convertible T>
 template <common::concepts::arithmetic_convertible T, std::floating_point U>
 [[nodiscard]] inline constexpr auto interpolate(const vector2<T> &val1, const vector2<T> &val2, const U ratio) noexcept
     -> vector2<T>;
+
+/*!
+ * Determine the winding order of three given vectors. If the given vectors are colinear, the behavior is undefined.
+ * \param[in] vec1 - Vector
+ * \param[in] vec2 - Vector
+ * \param[in] vec3 - Vector
+ * \return The winding order of the 3 given vectors
+ */
+template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto winding(const vector2<T> &vec1, const vector2<T> &vec2,
+                                            const vector2<T> &vec3) noexcept -> winding_order;
 
 /*!
  * Get a pointer into the underlying data structure of a given vector.

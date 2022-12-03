@@ -328,6 +328,18 @@ template <common::concepts::arithmetic_convertible T, std::floating_point U>
 }
 
 template <common::concepts::arithmetic_convertible T>
+[[nodiscard]] inline constexpr auto winding(const vector2<T> &vec1, const vector2<T> &vec2,
+                                            const vector2<T> &vec3) noexcept -> winding_order
+{
+    const auto val = (vec2.y - vec1.y) * (vec3.x - vec2.x) - (vec2.x - vec1.x) * (vec3.y - vec2.y);
+
+    if (val > 0)
+        return winding_order::clockwise;
+
+    return winding_order::counter_clockwise;
+}
+
+template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ptr(vector2<T> &vec) noexcept -> T *
 {
     return &vec.x;
