@@ -54,3 +54,12 @@ TEST(test_range, test_range_equals2)
     EXPECT_NE(range2, range3);
     EXPECT_EQ(range, range3);
 }
+
+TEST(test_range, test_range_round)
+{
+    const math::range range{10.4f, 25.4f};
+    const math::range range2{25.8f, 10.9f};
+
+    EXPECT_EQ(math::round(range), (math::range{10.0f, 25.0f}));
+    EXPECT_EQ(math::round(range2), (math::range{26.0f, 11.0f}));
+}
