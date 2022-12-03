@@ -373,6 +373,17 @@ template <common::concepts::arithmetic_convertible T>
     return {vec.x, result.x, result.y};
 }
 
+template <common::concepts::arithmetic_convertible T, std::floating_point U>
+[[nodiscard]] inline constexpr auto interpolate(const vector3<T> &val1, const vector3<T> &val2, const U ratio) noexcept
+    -> vector3<T>
+{
+    const auto inverted = (U(1.0) - ratio);
+
+    return vector3<T>{static_cast<U>(val1.x) * inverted + static_cast<U>(val2.x) * ratio,
+                      static_cast<U>(val1.y) * inverted + static_cast<U>(val2.y) * ratio,
+                      static_cast<U>(val1.z) * inverted + static_cast<U>(val2.z) * ratio};
+}
+
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ptr(vector3<T> &vec) noexcept -> T *
 {

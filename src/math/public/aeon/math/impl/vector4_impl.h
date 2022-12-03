@@ -424,6 +424,18 @@ template <common::concepts::arithmetic_convertible T>
     return {std::round(vec.x), std::round(vec.y), std::round(vec.z), std::round(vec.w)};
 }
 
+template <common::concepts::arithmetic_convertible T, std::floating_point U>
+[[nodiscard]] inline constexpr auto interpolate(const vector4<T> &val1, const vector4<T> &val2, const U ratio) noexcept
+    -> vector4<T>
+{
+    const auto inverted = (U(1.0) - ratio);
+
+    return vector4<T>{static_cast<U>(val1.x) * inverted + static_cast<U>(val2.x) * ratio,
+                      static_cast<U>(val1.y) * inverted + static_cast<U>(val2.y) * ratio,
+                      static_cast<U>(val1.z) * inverted + static_cast<U>(val2.z) * ratio,
+                      static_cast<U>(val1.w) * inverted + static_cast<U>(val2.w) * ratio};
+}
+
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto ptr(vector4<T> &vec) noexcept -> T *
 {

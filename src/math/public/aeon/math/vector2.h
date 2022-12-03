@@ -469,6 +469,17 @@ template <common::concepts::arithmetic_convertible T>
                                               const vector2<T> &center = {}) noexcept -> vector2<T>;
 
 /*!
+ * Interpolate between the given vectors with a ratio
+ * \param[in] val1 - Vector (result at 0.0 ratio)
+ * \param[in] val2 - Vector (result at 1.0 ratio)
+ * \param[in] ratio - A ratio between 0.0 and 1.0
+ * \return Interpolated vector
+ */
+template <common::concepts::arithmetic_convertible T, std::floating_point U>
+[[nodiscard]] inline constexpr auto interpolate(const vector2<T> &val1, const vector2<T> &val2, const U ratio) noexcept
+    -> vector2<T>;
+
+/*!
  * Get a pointer into the underlying data structure of a given vector.
  * The vector data layout is [X Y]
  * \param[in] vec - Vector

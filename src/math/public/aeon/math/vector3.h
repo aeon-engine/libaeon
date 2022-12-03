@@ -8,6 +8,7 @@
 #pragma once
 
 #include <aeon/math/math_fwd.h>
+#include <aeon/math/units.h>
 #include <aeon/common/concepts.h>
 #include <cstddef>
 #include <compare>
@@ -497,6 +498,17 @@ template <common::concepts::arithmetic_convertible T>
 template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto rotate_yz_by(const vector3<T> &vec, const unitf<radian> angle,
                                                  const vector3<T> &center = {}) noexcept -> vector3<T>;
+
+/*!
+ * Interpolate between the given vectors with a ratio
+ * \param[in] val1 - Vector (result at 0.0 ratio)
+ * \param[in] val2 - Vector (result at 1.0 ratio)
+ * \param[in] ratio - A ratio between 0.0 and 1.0
+ * \return Interpolated vector
+ */
+template <common::concepts::arithmetic_convertible T, std::floating_point U>
+[[nodiscard]] inline constexpr auto interpolate(const vector3<T> &val1, const vector3<T> &val2, const U ratio) noexcept
+    -> vector3<T>;
 
 /*!
  * Get a pointer into the underlying data structure of a given vector.
