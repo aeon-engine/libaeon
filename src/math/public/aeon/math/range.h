@@ -71,6 +71,14 @@ template <typename T>
 [[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T;
 
 /*!
+ * Get the middle of a range
+ * \param[in] range - Range
+ * \return Middle of a range
+ */
+template <typename T>
+[[nodiscard]] inline constexpr auto middle(const range<T> &range) noexcept -> T;
+
+/*!
  * Calculate rounded values of a given range
  * \param[in] range - Range
  * \return Rounded values of a given range

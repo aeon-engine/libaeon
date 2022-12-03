@@ -47,6 +47,12 @@ template <typename T>
 }
 
 template <typename T>
+[[nodiscard]] inline constexpr auto middle(const range<T> &range) noexcept -> T
+{
+    return static_cast<T>((range.begin + range.end) / 2);
+}
+
+template <typename T>
 [[nodiscard]] inline constexpr auto round(const range<T> &range) noexcept -> math::range<T>
 {
     return {round(begin(range)), round(end(range))};
