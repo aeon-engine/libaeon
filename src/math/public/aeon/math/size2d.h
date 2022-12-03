@@ -361,8 +361,8 @@ template <std::unsigned_integral T>
 
 /*!
  * Interpolate between the given sizes with a ratio
- * \param[in] val1 - Size2d value
- * \param[in] val2 - Size2d value
+ * \param[in] val1 - Size2d value (result at 0.0 ratio)
+ * \param[in] val2 - Size2d value (result at 1.0 ratio)
  * \param[in] ratio - A ratio between 0.0 and 1.0
  * \return Interpolated size
  */
