@@ -67,7 +67,7 @@ template <typename T>
  * \param[in] range - Range
  * \return Size of a range (end-begin)
  */
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T;
 
 /*!
@@ -75,7 +75,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] range - Range
  * \return Rounded values of a given range
  */
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto round(const range<T> &range) noexcept -> math::range<T>;
 
 template <typename T>

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <cmath>
+#include <aeon/math/math.h>
 
 namespace aeon::math
 {
@@ -40,16 +40,16 @@ template <typename T>
     return range.end;
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto size(const range<T> &range) noexcept -> T
 {
     return range.end - range.begin;
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <typename T>
 [[nodiscard]] inline constexpr auto round(const range<T> &range) noexcept -> math::range<T>
 {
-    return {std::round(begin(range)), std::round(end(range))};
+    return {round(begin(range)), round(end(range))};
 }
 
 template <typename T>
