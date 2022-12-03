@@ -4,17 +4,12 @@
 
 #include <aeon/math/vector3.h>
 #include <aeon/math/ray3d.h>
+#include <aeon/math/winding_order.h>
 #include <aeon/common/concepts.h>
 #include <optional>
 
 namespace aeon::math
 {
-
-enum class winding_order
-{
-    clockwise,
-    counter_clockwise
-};
 
 template <common::concepts::arithmetic_convertible T>
 class plane
