@@ -10,6 +10,6 @@ namespace aeon::math
 {
 
 template <common::concepts::arithmetic_convertible T>
-using line_segment = range<vector2<T>>;
+using line_segment2d = range<vector2<T>>;
 
 } // namespace aeon::math
