@@ -8,6 +8,7 @@ add_unit_test_suite(
     SOURCES
         main.cpp
         test_circle.cpp
+        test_line_segment2d.cpp
         test_mat.cpp
         test_mat3.cpp
         test_mat3_sse.cpp

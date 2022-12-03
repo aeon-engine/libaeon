@@ -9,6 +9,7 @@ set(SOURCES
     public/aeon/math/clipping_space.h
     public/aeon/math/hash.h
     public/aeon/math/impl/circle_impl.h
+    public/aeon/math/impl/line_segment2d_impl.h
     public/aeon/math/impl/mat3_impl.h
     public/aeon/math/impl/mat3_operators_impl.h
     public/aeon/math/impl/mat4_impl.h
