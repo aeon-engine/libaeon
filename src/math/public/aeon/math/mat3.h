@@ -88,7 +88,7 @@ public:
      * Create an identity matrix.
      * \return An identity matrix.
      */
-    [[nodiscard]] static constexpr auto indentity() noexcept -> mat3;
+    [[nodiscard]] static constexpr auto identity() noexcept -> mat3;
 
     /*!
      * Create a scaling matrix based on a given value.

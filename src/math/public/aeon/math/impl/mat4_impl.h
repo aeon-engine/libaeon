@@ -61,7 +61,7 @@ inline mat4::mat4(const quaternion &q) noexcept
     return {};
 }
 
-[[nodiscard]] inline constexpr auto mat4::indentity() noexcept -> mat4
+[[nodiscard]] inline constexpr auto mat4::identity() noexcept -> mat4
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f, 0.0f,
@@ -154,7 +154,7 @@ template <common::concepts::arithmetic_convertible T>
     const auto axis = normalized(vec);
     const auto tmp = (1.0f - c) * axis;
 
-    auto result = indentity();
+    auto result = identity();
     result[0][0] = c + tmp.x * axis.x;
     result[0][1] = tmp.x * axis.y + s * axis.z;
     result[0][2] = tmp.x * axis.z - s * axis.y;
@@ -178,7 +178,7 @@ template <common::concepts::arithmetic_convertible T>
 [[nodiscard]] inline constexpr auto mat4::ortho(const float left, const float right, const float bottom,
                                                 const float top) noexcept -> mat4
 {
-    auto result = indentity();
+    auto result = identity();
     result[0][0] = 2.0f / (right - left);
     result[1][1] = 2.0f / (top - bottom);
     result[2][2] = -1.0;
@@ -194,7 +194,7 @@ template <clipping_space clipping_space>
 {
     const auto far_minus_near = far_value - near_value;
 
-    auto result = indentity();
+    auto result = identity();
 
     if constexpr (clipping_space == clipping_space::minus_one_to_one)
     {
@@ -225,7 +225,7 @@ template <clipping_space clipping_space>
 {
     const auto far_minus_near = far_value - near_value;
 
-    auto result = indentity();
+    auto result = identity();
 
     if constexpr (clipping_space == clipping_space::minus_one_to_one)
     {

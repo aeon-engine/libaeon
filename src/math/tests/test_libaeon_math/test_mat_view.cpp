@@ -30,7 +30,7 @@ TEST(test_mat_view, test_const_mat_view_default)
 
 TEST(test_mat_view, test_mat_view_from_mat3)
 {
-    auto mat3 = math::mat3::indentity();
+    auto mat3 = math::mat3::identity();
     const auto mat = math::make_view(mat3);
 
     EXPECT_FALSE(math::null(mat));
@@ -44,7 +44,7 @@ TEST(test_mat_view, test_mat_view_from_mat3)
 
 TEST(test_mat_view, test_mat_view_from_mat4)
 {
-    auto mat4 = math::mat4::indentity();
+    auto mat4 = math::mat4::identity();
     const auto mat = math::make_view(mat4);
 
     EXPECT_FALSE(math::null(mat));

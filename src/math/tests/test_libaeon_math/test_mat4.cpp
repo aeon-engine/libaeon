@@ -19,31 +19,31 @@ TEST(test_mat4, test_mat4_zero)
 
 TEST(test_mat4, test_mat4_identity)
 {
-    [[maybe_unused]] const auto mat = math::mat4::indentity();
+    [[maybe_unused]] const auto mat = math::mat4::identity();
 }
 
 TEST(test_mat4, test_mat4_multiply_identity)
 {
-    const auto mat = math::mat4::indentity();
-    const auto mat2 = mat * math::mat4::indentity();
-    const auto mat3 = math::mat4::indentity() * mat2;
-    EXPECT_EQ(mat2, math::mat4::indentity());
-    EXPECT_EQ(mat3, math::mat4::indentity());
+    const auto mat = math::mat4::identity();
+    const auto mat2 = mat * math::mat4::identity();
+    const auto mat3 = math::mat4::identity() * mat2;
+    EXPECT_EQ(mat2, math::mat4::identity());
+    EXPECT_EQ(mat3, math::mat4::identity());
 }
 
 TEST(test_mat4, test_mat4_multiply_position_with_identity)
 {
     const auto mat = math::mat4::translate(math::vector3<float>{400, 300, 0});
-    const auto mat2 = mat * math::mat4::indentity();
-    const auto mat3 = math::mat4::indentity() * mat2;
+    const auto mat2 = mat * math::mat4::identity();
+    const auto mat3 = math::mat4::identity() * mat2;
     EXPECT_EQ(mat2, mat);
     EXPECT_EQ(mat3, mat);
 }
 
 TEST(test_mat4, test_mat4_equals)
 {
-    EXPECT_EQ(math::mat4::indentity(), math::mat4::indentity());
-    EXPECT_NE((math::mat4{}), math::mat4::indentity());
+    EXPECT_EQ(math::mat4::identity(), math::mat4::identity());
+    EXPECT_NE((math::mat4{}), math::mat4::identity());
 }
 
 TEST(test_mat4, test_mat4_at)
@@ -96,8 +96,8 @@ TEST(test_mat4, test_mat4_decompose)
 
 TEST(test_mat4, test_mat4_identity_quaternion)
 {
-    const auto mat = math::mat4{math::quaternion::indentity()};
-    EXPECT_EQ(mat, math::mat4::indentity());
+    const auto mat = math::mat4{math::quaternion::identity()};
+    EXPECT_EQ(mat, math::mat4::identity());
 }
 
 TEST(test_mat4, test_mat4_multiply_vector)
@@ -126,7 +126,7 @@ TEST(test_mat4, test_mat4_multiply_multiple_with_vector)
 
 TEST(test_mat4, test_mat4_determinant)
 {
-    EXPECT_EQ(1, math::determinant(math::mat4::indentity()));
+    EXPECT_EQ(1, math::determinant(math::mat4::identity()));
 
     const auto mat = math::mat4::scale(2);
     EXPECT_EQ(8, math::determinant(mat));

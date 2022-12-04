@@ -84,7 +84,7 @@ inline quaternion::quaternion(const mat3 &mat) noexcept
     }
 }
 
-[[nodiscard]] inline constexpr auto quaternion::indentity() noexcept -> quaternion
+[[nodiscard]] inline constexpr auto quaternion::identity() noexcept -> quaternion
 {
     return {1.0f, 0.0f, 0.0f, 0.0f};
 }

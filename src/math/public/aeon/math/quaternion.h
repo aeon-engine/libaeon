@@ -60,7 +60,7 @@ public:
      * Create an identity quaternion.
      * \return An identity quaternion.
      */
-    [[nodiscard]] static constexpr auto indentity() noexcept -> quaternion;
+    [[nodiscard]] static constexpr auto identity() noexcept -> quaternion;
 
     /*!
      * Set new values for an existing quaternion.

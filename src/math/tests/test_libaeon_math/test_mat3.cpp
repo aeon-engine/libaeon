@@ -18,29 +18,29 @@ TEST(test_mat3, test_mat3_zero)
 
 TEST(test_mat3, test_mat3_identity)
 {
-    [[maybe_unused]] const auto mat = math::mat3::indentity();
+    [[maybe_unused]] const auto mat = math::mat3::identity();
 }
 
 TEST(test_mat3, test_mat3_equals)
 {
-    EXPECT_EQ(math::mat3::indentity(), math::mat3::indentity());
-    EXPECT_NE((math::mat3{}), math::mat3::indentity());
+    EXPECT_EQ(math::mat3::identity(), math::mat3::identity());
+    EXPECT_NE((math::mat3{}), math::mat3::identity());
 }
 
 TEST(test_mat3, test_mat3_multiply_identity)
 {
-    const auto mat = math::mat3::indentity();
-    const auto mat2 = mat * math::mat3::indentity();
-    const auto mat3 = math::mat3::indentity() * mat2;
-    EXPECT_EQ(mat2, math::mat3::indentity());
-    EXPECT_EQ(mat3, math::mat3::indentity());
+    const auto mat = math::mat3::identity();
+    const auto mat2 = mat * math::mat3::identity();
+    const auto mat3 = math::mat3::identity() * mat2;
+    EXPECT_EQ(mat2, math::mat3::identity());
+    EXPECT_EQ(mat3, math::mat3::identity());
 }
 
 TEST(test_mat3, test_mat3_multiply_rotation_with_identity)
 {
     const auto mat = math::mat3::rotate(45.0f);
-    const auto mat2 = mat * math::mat3::indentity();
-    const auto mat3 = math::mat3::indentity() * mat2;
+    const auto mat2 = mat * math::mat3::identity();
+    const auto mat3 = math::mat3::identity() * mat2;
     EXPECT_EQ(mat2, mat);
     EXPECT_EQ(mat3, mat);
 }
@@ -71,7 +71,7 @@ TEST(test_mat3, test_mat3_at)
 
 TEST(test_mat3, test_mat3_determinant)
 {
-    EXPECT_EQ(1, math::determinant(math::mat3::indentity()));
+    EXPECT_EQ(1, math::determinant(math::mat3::identity()));
 
     const auto mat = math::mat3::scale(2);
     EXPECT_EQ(4, math::determinant(mat));

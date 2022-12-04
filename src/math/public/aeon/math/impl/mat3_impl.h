@@ -68,7 +68,7 @@ inline mat3::mat3(const quaternion &q) noexcept
     return {};
 }
 
-[[nodiscard]] inline constexpr auto mat3::indentity() noexcept -> mat3
+[[nodiscard]] inline constexpr auto mat3::identity() noexcept -> mat3
 {
     // clang-format off
     return {1.0f, 0.0f, 0.0f,

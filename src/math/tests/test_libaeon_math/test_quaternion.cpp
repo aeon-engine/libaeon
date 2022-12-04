@@ -14,6 +14,6 @@ TEST(test_quaternion, test_quaternion_default)
 TEST(test_quaternion, test_quaternion_equals)
 {
     EXPECT_EQ((math::quaternion{}), (math::quaternion{}));
-    EXPECT_EQ(math::quaternion::indentity(), math::quaternion::indentity());
-    EXPECT_NE((math::quaternion{}), math::quaternion::indentity());
+    EXPECT_EQ(math::quaternion::identity(), math::quaternion::identity());
+    EXPECT_NE((math::quaternion{}), math::quaternion::identity());
 }
