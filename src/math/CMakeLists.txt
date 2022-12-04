@@ -10,6 +10,7 @@ set(SOURCES
     public/aeon/math/hash.h
     public/aeon/math/impl/circle_impl.h
     public/aeon/math/impl/line_segment2d_impl.h
+    public/aeon/math/impl/line_segment3d_impl.h
     public/aeon/math/impl/mat3_impl.h
     public/aeon/math/impl/mat3_operators_impl.h
     public/aeon/math/impl/mat4_impl.h
@@ -38,6 +39,7 @@ set(SOURCES
     public/aeon/math/impl/vector4_impl.h
     public/aeon/math/impl/vector4_operators_impl.h
     public/aeon/math/line_segment2d.h
+    public/aeon/math/line_segment3d.h
     public/aeon/math/mat.h
     public/aeon/math/mat3.h
     public/aeon/math/mat3_stream.h
