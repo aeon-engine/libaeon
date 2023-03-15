@@ -14,7 +14,7 @@ using sha256_hash = std::array<std::uint8_t, 32>;
 class sha256 final
 {
 public:
-    static constexpr auto block_size = (512 / 8);
+    static constexpr auto block_size = (512ull / 8ull);
 
     sha256() noexcept;
     ~sha256() = default;
@@ -36,7 +36,7 @@ private:
     void transform(const unsigned char *message, const std::streamsize size) noexcept;
 
     std::array<std::uint32_t, 8> hash_;
-    std::array<unsigned char, 2 * block_size> block_;
+    std::array<unsigned char, 2ull * block_size> block_;
     std::streamsize size_;
     std::streamsize total_size_;
 };
