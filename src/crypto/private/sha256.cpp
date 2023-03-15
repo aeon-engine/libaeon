@@ -62,10 +62,10 @@ void sha256::write(const std::byte *data, const std::streamsize size) noexcept
 void sha256::write(const char *data, const std::streamsize size) noexcept
 {
     const auto tmp_len = block_size - size_;
-    auto rem_len = size < tmp_len ? size : tmp_len;
+    auto rem_len = static_cast<std::size_t>(size) < tmp_len ? size : tmp_len;
 
     memcpy(&block_[size_], data, rem_len);
-    if (size_ + size < block_size)
+    if (static_cast<std::size_t>(size_ + size) < block_size)
     {
         size_ += size;
         return;
@@ -76,11 +76,11 @@ void sha256::write(const char *data, const std::streamsize size) noexcept
     const auto shifted_message = reinterpret_cast<const unsigned char *>(data) + rem_len;
 
     transform(std::data(block_), 1);
-    transform(shifted_message, block_nb);
+    transform(shifted_message, static_cast<std::streamsize>(block_nb));
     rem_len = new_len % block_size;
     memcpy(std::data(block_), &shifted_message[block_nb << 6], rem_len);
-    size_ = rem_len;
-    total_size_ += (block_nb + 1) << 6;
+    size_ = static_cast<std::streamsize>(rem_len);
+    total_size_ += static_cast<std::streamsize>((block_nb + 1) << 6);
 }
 
 void sha256::write(const common::string_view str) noexcept
