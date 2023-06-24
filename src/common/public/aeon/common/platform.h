@@ -35,7 +35,7 @@
 #define AEON_PLATFORM_OS_BSD 1
 #endif
 
-#if (__ANDROID__)
+#if (defined(__ANDROID__))
 #define AEON_PLATFORM_OS_ANDROID 1
 #endif
 
