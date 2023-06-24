@@ -20,10 +20,14 @@ set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
 option(AEON_ENABLE_CONAN_INTEGRATION "Enable automatic installation of Conan packages as part of the CMake configure step." ON)
 
+set(CMAKE_CXX_STANDARD 23)
+
 if (AEON_ENABLE_CONAN_INTEGRATION)
     include(Conan)
     conan_install()
 endif ()
+
+include(CompilerFlags)
 
 option(AEON_ENABLE_TESTING "Enable testing." ON)
 
@@ -34,10 +38,6 @@ if (AEON_ENABLE_TESTING)
     include(CTest)
     enable_testing()
 endif ()
-
-include(CompilerFlags)
-
-set(CMAKE_CXX_STANDARD 23)
 
 ################################################################################
 
