@@ -6,7 +6,7 @@ libAeon
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/00148aa1097f467b93ebcb4262a8fcf1)](https://www.codacy.com/gh/aeon-engine/libaeon/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/aeon-engine/libaeon/badge)](https://www.codefactor.io/repository/github/aeon-engine/libaeon)
 
-A general purpose C++20 support library.
+A general purpose C++23 support library.
 
 How to build
 --------------
@@ -81,7 +81,7 @@ style as established in the existing code. When in doubt, ask Robin Degen.
 
 In short:
 
--   Prefer C++20 standards above any other library
+-   Prefer C++23 standards above any other library
 -   4 spaces, no tabs.
 -   No CamelCase. Variables and types must be named_like_this.
 -   120 character maximum line length.
