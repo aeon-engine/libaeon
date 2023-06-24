@@ -37,7 +37,7 @@ target_include_directories(aeon_vulkan_vma
 
 target_link_libraries(aeon_vulkan_vma
     aeon_common
-    LunarGVulkanSDK
+    Vulkan::Vulkan
     vulkan-memory-allocator::vulkan-memory-allocator
 )
 

@@ -134,7 +134,7 @@ target_link_libraries(aeon_vulkan
     aeon_platform
     aeon_imaging
     aeon_vulkan_vma
-    LunarGVulkanSDK
+    Vulkan::Vulkan
 )
 
 install(

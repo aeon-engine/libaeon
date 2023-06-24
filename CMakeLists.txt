@@ -1,6 +1,6 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.27)
 
 if (DEFINED ENV{LIBAEON_PROJECT_NAME})
     project($ENV{LIBAEON_PROJECT_NAME})
@@ -80,8 +80,8 @@ enable_component(variant)
 enable_component(web)
 
 # If the LunarG Vulkan SDK is found on the system; attempt to build the vulkan subsystem
-find_package(LunarGVulkanSDK)
-if (VULKAN_FOUND)
+find_package(Vulkan)
+if (Vulkan_FOUND)
     enable_component(vulkan)
 endif ()
 
