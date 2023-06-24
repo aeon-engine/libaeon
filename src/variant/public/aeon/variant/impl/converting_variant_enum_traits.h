@@ -85,12 +85,6 @@ struct converting_variant_enum_traits<common::string>
     static constexpr auto type = converting_variant::type::string;
 };
 
-template <>
-struct converting_variant_enum_traits<chrono::calendar>
-{
-    static constexpr auto type = converting_variant::type::calendar;
-};
-
 template <typename T>
 struct converting_variant_object_traits
 {
@@ -161,12 +155,6 @@ template <>
 struct converting_variant_object_traits<common::string>
 {
     using type = common::string;
-};
-
-template <>
-struct converting_variant_object_traits<chrono::calendar>
-{
-    using type = chrono::calendar;
 };
 
 template <>

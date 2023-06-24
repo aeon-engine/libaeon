@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <aeon/chrono/calendar.h>
 #include <aeon/common/string.h>
 #include <variant>
 #include <cstdint>
@@ -29,7 +28,6 @@ public:
         double_t,
         boolean,
         string,
-        calendar,
         user
     };
 
@@ -46,12 +44,6 @@ public:
     converting_variant(const char *const str);
 
     converting_variant(const char8_t *const str);
-
-    /*!
-     * Assumes a gmt/utc timezone. If another timezone is required, construct the variant with an explicit calendar
-     * instance.
-     */
-    converting_variant(const std::chrono::system_clock::time_point utc_time);
 
     ~converting_variant() = default;
 
@@ -118,7 +110,7 @@ private:
     [[nodiscard]] auto get_user_value_internal() const -> to_t;
 
     std::variant<std::monostate, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t, std::uint32_t,
-                 std::int64_t, std::uint64_t, float, double, common::string, chrono::calendar, std::any, bool>
+                 std::int64_t, std::uint64_t, float, double, common::string, std::any, bool>
         data_;
 
     std::uint32_t type_ : 8;

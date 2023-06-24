@@ -100,40 +100,4 @@ struct converting_variant_conversion<
     }
 };
 
-template <typename to_t>
-struct converting_variant_conversion<chrono::calendar, to_t>
-{
-    [[nodiscard]] static auto convert([[maybe_unused]] const chrono::calendar &from) -> to_t
-    {
-        throw std::bad_cast{};
-    }
-};
-
-template <typename from_t>
-struct converting_variant_conversion<from_t, chrono::calendar>
-{
-    [[nodiscard]] static auto convert([[maybe_unused]] const from_t &from) -> chrono::calendar
-    {
-        throw std::bad_cast{};
-    }
-};
-
-template <>
-struct converting_variant_conversion<chrono::calendar, common::string>
-{
-    [[nodiscard]] static auto convert([[maybe_unused]] const chrono::calendar &from) -> common::string
-    {
-        return common::string{from.to_string().as_std_u8string_view()};
-    }
-};
-
-template <>
-struct converting_variant_conversion<common::string, chrono::calendar>
-{
-    [[nodiscard]] static auto convert([[maybe_unused]] const common::string &from) -> chrono::calendar
-    {
-        return chrono::calendar{from};
-    }
-};
-
 } // namespace aeon::variant

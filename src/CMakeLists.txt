@@ -5,7 +5,6 @@ include(ComponentUtils)
 initialize_components()
 
 register_component_auto(ast)
-register_component_auto(chrono)
 register_component_auto(clang)
 register_component_auto(common)
 register_component_auto(compression)

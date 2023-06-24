@@ -184,32 +184,3 @@ TEST(test_converting_variant, convert_to_custom_type_with_convert_value)
     EXPECT_TRUE(v.is_user_type());
     EXPECT_EQ(42, (v.get_value<custom_user_type>().value));
 }
-
-TEST(test_converting_variant, datetime_variant)
-{
-    variant::converting_variant v{std::chrono::system_clock::now()};
-    EXPECT_FALSE(v.is_user_type());
-    EXPECT_EQ(variant::converting_variant::type::calendar, v.type());
-    ASSERT_NO_THROW(v.convert_value<common::string>());
-    EXPECT_EQ(variant::converting_variant::type::string, v.type());
-}
-
-TEST(test_converting_variant, datetime_variant_to_string_is_iso8601)
-{
-    variant::converting_variant v{chrono::calendar{chrono::timezone::create("Etc/GMT+2"), 2015, 1, 7, 12, 32, 21}};
-    EXPECT_FALSE(v.is_user_type());
-    EXPECT_EQ(variant::converting_variant::type::calendar, v.type());
-    ASSERT_NO_THROW(v.convert_value<common::string>());
-    EXPECT_EQ(v.get_value<common::string>(), "2015-01-07T12:32:21.000-02:00");
-}
-
-TEST(test_converting_variant, iso8601_string_to_datetime)
-{
-    variant::converting_variant v{"2015-01-07T12:32:21.000-02:00"};
-    EXPECT_FALSE(v.is_user_type());
-    EXPECT_EQ(variant::converting_variant::type::string, v.type());
-    ASSERT_NO_THROW(v.convert_value<chrono::calendar>());
-    EXPECT_EQ(variant::converting_variant::type::calendar, v.type());
-    EXPECT_EQ(v.get_value<chrono::calendar>(),
-              (chrono::calendar{chrono::timezone::create("Etc/GMT+2"), 2015, 1, 7, 12, 32, 21}));
-}

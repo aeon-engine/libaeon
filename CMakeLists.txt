@@ -58,7 +58,6 @@ option(BUILD_SHARED_LIBS "Build shared libraries if possible" ON)
 
 include(ComponentUtils)
 enable_component(ast)
-enable_component(chrono)
 enable_component(clang)
 enable_component(common)
 enable_component(compression)

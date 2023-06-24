@@ -15,8 +15,7 @@ namespace internal
 template <typename T>
 static constexpr auto is_supported_variant_type_v =
     common::type_traits::is_any_same_v<T, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
-                                       std::uint32_t, std::int64_t, std::uint64_t, float, double, common::string,
-                                       chrono::calendar, bool>;
+                                       std::uint32_t, std::int64_t, std::uint64_t, float, double, common::string, bool>;
 
 } // namespace internal
 
@@ -82,8 +81,6 @@ inline auto converting_variant::get_value() const -> T
                 return get_value_internal<bool, T>();
             case type::string:
                 return get_value_internal<common::string, T>();
-            case type::calendar:
-                return get_value_internal<chrono::calendar, T>();
             case type::user:
             case type::unknown:
             default:

@@ -25,7 +25,6 @@ target_include_directories(aeon_variant
 
 target_link_libraries(aeon_variant
     aeon_common
-    aeon_chrono
 )
 
 install(

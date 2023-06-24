@@ -26,13 +26,6 @@ converting_variant::converting_variant(const char8_t *const str)
 {
 }
 
-converting_variant::converting_variant(const std::chrono::system_clock::time_point utc_time)
-    : data_{chrono::calendar{chrono::timezone::gmt(), utc_time}}
-    , type_{static_cast<std::uint32_t>(type::calendar)}
-    , user_index_{0}
-{
-}
-
 converting_variant::converting_variant(const enum type t) noexcept
     : data_{}
     , type_{static_cast<std::uint32_t>(t)}
