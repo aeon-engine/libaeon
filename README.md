@@ -14,7 +14,7 @@ How to build
 You must first install Conan. libAeon will pull in packages from both conan center and a private repository.
 
 The following remote must be added:
-https://artifactory.aeons.dev/artifactory/api/conan/aeon
+https://artifactory.aleya.dev/artifactory/api/conan/aleya-group-conan
 
 ### Windows (Visual Studio 2022)
 
