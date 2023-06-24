@@ -21,7 +21,14 @@ namespace internal
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
     auto result = LoadLibraryW(path.wstring().c_str());
 #else
-    auto result = dlopen(reinterpret_cast<const char *>(path.u8string().c_str()), RTLD_LAZY | RTLD_LOCAL);
+    auto p = u8"./" + path.u8string();
+
+#if (defined(AEON_PLATFORM_OS_LINUX))
+    p += u8".so";
+#elif (defined(AEON_PLATFORM_OS_MACOS))
+    p += u8".dylib";
+#endif
+    auto result = dlopen(reinterpret_cast<const char *>(p.c_str()), RTLD_LAZY | RTLD_LOCAL);
 #endif
 
     return result;
