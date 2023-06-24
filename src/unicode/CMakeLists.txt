@@ -1,17 +1,12 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
 
-find_package(ICU CONFIG)
-
 set(SOURCES
-    private/ctypes.cpp
     private/encoding.cpp
     private/stringutils.cpp
-    private/ucnv_wrapper.h
     private/utf16_iterator.cpp
     private/utf8_iterator.cpp
     public/aeon/unicode/base_utf_iterator.h
     public/aeon/unicode/concepts.h
-    public/aeon/unicode/ctypes.h
     public/aeon/unicode/encoding.h
     public/aeon/unicode/exception.h
     public/aeon/unicode/stringutils.h
@@ -38,7 +33,6 @@ target_include_directories(aeon_unicode
 
 target_link_libraries(aeon_unicode
     aeon_common
-    ICU::uc
 )
 
 install(

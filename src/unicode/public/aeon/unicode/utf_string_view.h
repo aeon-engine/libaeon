@@ -115,16 +115,16 @@ private:
     std::u32string_view str_;
 };
 
-utf_string_view(char8_t *const)->utf_string_view<std::u8string_view>;
-utf_string_view(const char8_t *const)->utf_string_view<std::u8string_view>;
-utf_string_view(const std::u8string &)->utf_string_view<std::u8string_view>;
+utf_string_view(char8_t *const) -> utf_string_view<std::u8string_view>;
+utf_string_view(const char8_t *const) -> utf_string_view<std::u8string_view>;
+utf_string_view(const std::u8string &) -> utf_string_view<std::u8string_view>;
 
-utf_string_view(char16_t *const)->utf_string_view<std::u16string_view>;
-utf_string_view(const char16_t *const)->utf_string_view<std::u16string_view>;
-utf_string_view(const std::u16string &)->utf_string_view<std::u16string_view>;
+utf_string_view(char16_t *const) -> utf_string_view<std::u16string_view>;
+utf_string_view(const char16_t *const) -> utf_string_view<std::u16string_view>;
+utf_string_view(const std::u16string &) -> utf_string_view<std::u16string_view>;
 
-utf_string_view(char32_t *const)->utf_string_view<std::u32string_view>;
-utf_string_view(const char32_t *const)->utf_string_view<std::u32string_view>;
-utf_string_view(const std::u32string &)->utf_string_view<std::u32string_view>;
+utf_string_view(char32_t *const) -> utf_string_view<std::u32string_view>;
+utf_string_view(const char32_t *const) -> utf_string_view<std::u32string_view>;
+utf_string_view(const std::u32string &) -> utf_string_view<std::u32string_view>;
 
 } // namespace aeon::unicode

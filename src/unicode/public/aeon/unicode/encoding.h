@@ -14,9 +14,6 @@ namespace utf8
 [[nodiscard]] auto to_utf16(const common::string_view &str) -> std::u16string;
 [[nodiscard]] auto to_utf32(const common::string_view &str) -> std::u32string;
 
-void append(const char32_t from, common::string &to);
-void append(const std::u32string_view &from, common::string &to);
-
 } // namespace utf8
 
 namespace utf16
@@ -24,9 +21,6 @@ namespace utf16
 
 [[nodiscard]] auto to_utf8(const std::u16string_view &str) -> common::string;
 [[nodiscard]] auto to_utf32(const std::u16string_view &str) -> std::u32string;
-
-void append(const char32_t from, std::u16string &to);
-void append(const std::u32string_view &from, std::u16string &to);
 
 } // namespace utf16
 
