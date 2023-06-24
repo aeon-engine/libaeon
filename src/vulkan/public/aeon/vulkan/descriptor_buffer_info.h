@@ -29,7 +29,7 @@ public:
 };
 
 inline descriptor_buffer_info::descriptor_buffer_info() noexcept
-    : descriptor_buffer_info{nullptr, 0, 0}
+    : descriptor_buffer_info{VK_NULL_HANDLE, 0, 0}
 {
 }
 

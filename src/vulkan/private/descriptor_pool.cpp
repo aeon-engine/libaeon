@@ -21,7 +21,7 @@ namespace internal
 
 descriptor_pool::descriptor_pool() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -40,7 +40,7 @@ descriptor_pool::descriptor_pool(descriptor_pool &&other) noexcept
     : device_{other.device_}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto descriptor_pool::operator=(descriptor_pool &&other) noexcept -> descriptor_pool &
@@ -52,7 +52,7 @@ auto descriptor_pool::operator=(descriptor_pool &&other) noexcept -> descriptor_
         device_ = other.device_;
         handle_ = other.handle_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

@@ -15,7 +15,7 @@ namespace internal
 {
     const auto create_info = initializers::semaphore_create_info();
 
-    VkSemaphore handle = nullptr;
+    VkSemaphore handle = VK_NULL_HANDLE;
     checked_result{vkCreateSemaphore(device, &create_info, nullptr, &handle)};
     return handle;
 }
@@ -50,7 +50,7 @@ semaphore::~semaphore() noexcept
 semaphore::semaphore(semaphore &&other) noexcept
     : semaphore_ref{other}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto semaphore::operator=(semaphore &&other) noexcept -> semaphore &
@@ -61,7 +61,7 @@ auto semaphore::operator=(semaphore &&other) noexcept -> semaphore &
 
         device_ = other.device_;
         handle_ = other.handle_;
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

@@ -42,7 +42,7 @@ namespace internal
 
 image::image() noexcept
     : device_memory{}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -96,7 +96,7 @@ image::image(image &&other) noexcept
     : device_memory{std::move(other)}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
     other.allocation_ = nullptr;
 }
 
@@ -111,7 +111,7 @@ auto image::operator=(image &&other) noexcept -> image &
         size_ = other.size_;
         handle_ = other.handle_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
         other.allocation_ = nullptr;
     }
 

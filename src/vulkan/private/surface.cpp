@@ -34,7 +34,7 @@ namespace internal
     info.hwnd = handles.hwnd;
     info.hinstance = GetModuleHandle(nullptr);
 
-    VkSurfaceKHR surface = nullptr;
+    VkSurfaceKHR surface = VK_NULL_HANDLE;
     checked_result{vkCreateWin32SurfaceKHR(handle(instance), &info, nullptr, &surface)};
     return surface;
 }
@@ -49,7 +49,7 @@ namespace internal
     info.window = handles.window;
     info.dpy = handles.display;
 
-    VkSurfaceKHR surface = nullptr;
+    VkSurfaceKHR surface = VK_NULL_HANDLE;
     checked_result{vkCreateXlibSurfaceKHR(handle(instance), &info, nullptr, &surface)};
     return surface;
 }
@@ -65,7 +65,7 @@ namespace internal
 
 surface::surface() noexcept
     : instance_{nullptr}
-    , surface_{nullptr}
+    , surface_{VK_NULL_HANDLE}
 {
 }
 
@@ -100,7 +100,7 @@ auto surface::operator=(surface &&other) noexcept -> surface &
         instance_ = other.instance_;
         surface_ = other.surface_;
         other.instance_ = nullptr;
-        other.surface_ = nullptr;
+        other.surface_ = VK_NULL_HANDLE;
     }
 
     return *this;

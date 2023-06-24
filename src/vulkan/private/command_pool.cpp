@@ -26,7 +26,7 @@ namespace internal
 
 command_pool::command_pool() noexcept
     : device_{nullptr}
-    , pool_{nullptr}
+    , pool_{VK_NULL_HANDLE}
 {
 }
 
@@ -53,7 +53,7 @@ command_pool::command_pool(command_pool &&other) noexcept
     , pool_{other.pool_}
 {
     other.device_ = nullptr;
-    other.pool_ = nullptr;
+    other.pool_ = VK_NULL_HANDLE;
 }
 
 auto command_pool::operator=(command_pool &&other) noexcept -> command_pool &
@@ -65,7 +65,7 @@ auto command_pool::operator=(command_pool &&other) noexcept -> command_pool &
         device_ = other.device_;
         pool_ = other.pool_;
         other.device_ = nullptr;
-        other.pool_ = nullptr;
+        other.pool_ = VK_NULL_HANDLE;
     }
 
     return *this;

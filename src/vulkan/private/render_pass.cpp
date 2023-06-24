@@ -97,7 +97,7 @@ namespace internal
 
 render_pass::render_pass() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -116,7 +116,7 @@ render_pass::render_pass(render_pass &&other) noexcept
     : device_{other.device_}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto render_pass::operator=(render_pass &&other) noexcept -> render_pass &
@@ -128,7 +128,7 @@ auto render_pass::operator=(render_pass &&other) noexcept -> render_pass &
         device_ = other.device_;
         handle_ = other.handle_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

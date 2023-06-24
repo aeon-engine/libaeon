@@ -64,7 +64,7 @@ image_view::~image_view()
 image_view::image_view(image_view &&other) noexcept
     : image_view_ref{other}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto image_view::operator=(image_view &&other) noexcept -> image_view &
@@ -75,7 +75,7 @@ auto image_view::operator=(image_view &&other) noexcept -> image_view &
 
         device_ = other.device_;
         handle_ = other.handle_;
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

@@ -59,7 +59,7 @@ void queue::submit(const VkCommandBuffer command_buffer) const
 {
     const VkPipelineStageFlags flags = 0;
     const auto submit_info = initializers::submit_info(&command_buffer, flags);
-    checked_result{vkQueueSubmit(queue_, 1, &submit_info, nullptr)};
+    checked_result{vkQueueSubmit(queue_, 1, &submit_info, VK_NULL_HANDLE)};
 }
 
 void queue::submit(const command_buffer &command_buffer) const
@@ -87,7 +87,7 @@ void queue::submit(const VkCommandBuffer command_buffer, const semaphore_ref &wa
     const auto submit_info =
         initializers::submit_info(&wait_semaphore_handle, &command_buffer, &signal_semaphore_handle, flags);
 
-    checked_result{vkQueueSubmit(queue_, 1, &submit_info, nullptr)};
+    checked_result{vkQueueSubmit(queue_, 1, &submit_info, VK_NULL_HANDLE)};
 }
 
 void queue::submit(const command_buffer &command_buffer, const semaphore_ref &wait, const semaphore_ref &signal) const
@@ -102,7 +102,7 @@ void queue::submit(const VkCommandBuffer command_buffer, const semaphore_ref &wa
     const auto signal_semaphore_handle = vulkan::handle(signal);
     const auto submit_info =
         initializers::submit_info(&wait_semaphore_handle, &command_buffer, &signal_semaphore_handle, wait_stage);
-    checked_result{vkQueueSubmit(queue_, 1, &submit_info, nullptr)};
+    checked_result{vkQueueSubmit(queue_, 1, &submit_info, VK_NULL_HANDLE)};
 }
 
 void queue::submit(const command_buffer &command_buffer, const semaphore_ref &wait,

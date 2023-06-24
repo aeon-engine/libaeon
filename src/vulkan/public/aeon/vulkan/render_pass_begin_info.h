@@ -51,7 +51,7 @@ inline render_pass_begin_info::render_pass_begin_info(const vulkan::render_pass 
     : VkRenderPassBeginInfo{VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
                             nullptr,
                             handle(render_pass),
-                            nullptr,
+                            VK_NULL_HANDLE,
                             {},
                             0,
                             nullptr}

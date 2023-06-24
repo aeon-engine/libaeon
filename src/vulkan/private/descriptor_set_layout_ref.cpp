@@ -8,7 +8,7 @@ namespace aeon::vulkan
 
 descriptor_set_layout_ref::descriptor_set_layout_ref() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -33,7 +33,7 @@ void descriptor_set_layout_ref::destroy() noexcept
     if (handle_)
         vkDestroyDescriptorSetLayout(vulkan::handle(device_), handle_, nullptr);
 
-    handle_ = nullptr;
+    handle_ = VK_NULL_HANDLE;
 }
 
 } // namespace aeon::vulkan

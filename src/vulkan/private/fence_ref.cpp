@@ -10,7 +10,7 @@ namespace aeon::vulkan
 
 fence_ref::fence_ref() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -82,7 +82,7 @@ void fence_ref::destroy() noexcept
     if (handle_)
         vkDestroyFence(device_, handle_, nullptr);
 
-    handle_ = nullptr;
+    handle_ = VK_NULL_HANDLE;
 }
 
 } // namespace aeon::vulkan

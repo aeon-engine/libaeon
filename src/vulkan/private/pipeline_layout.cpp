@@ -37,7 +37,7 @@ namespace internal
 
 pipeline_layout::pipeline_layout() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -56,7 +56,7 @@ pipeline_layout::pipeline_layout(pipeline_layout &&other) noexcept
     : device_{other.device_}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto pipeline_layout::operator=(pipeline_layout &&other) noexcept -> pipeline_layout &
@@ -68,7 +68,7 @@ auto pipeline_layout::operator=(pipeline_layout &&other) noexcept -> pipeline_la
         device_ = other.device_;
         handle_ = other.handle_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

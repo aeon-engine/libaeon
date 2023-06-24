@@ -26,7 +26,7 @@ public:
 };
 
 inline descriptor_image_info::descriptor_image_info() noexcept
-    : VkDescriptorImageInfo{nullptr, nullptr, VK_IMAGE_LAYOUT_UNDEFINED}
+    : VkDescriptorImageInfo{VK_NULL_HANDLE, VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED}
 {
 }
 

@@ -7,7 +7,7 @@ namespace aeon::vulkan
 
 semaphore_ref::semaphore_ref() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -32,7 +32,7 @@ void semaphore_ref::destroy() noexcept
     if (handle_)
         vkDestroySemaphore(device_, handle_, nullptr);
 
-    handle_ = nullptr;
+    handle_ = VK_NULL_HANDLE;
 }
 
 } // namespace aeon::vulkan

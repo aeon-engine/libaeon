@@ -8,7 +8,7 @@ namespace aeon::vulkan
 
 image_view_ref::image_view_ref() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -28,7 +28,7 @@ void image_view_ref::destroy() noexcept
     if (handle_)
         vkDestroyImageView(vulkan::handle(*device_), handle_, nullptr);
 
-    handle_ = nullptr;
+    handle_ = VK_NULL_HANDLE;
 }
 
 } // namespace aeon::vulkan

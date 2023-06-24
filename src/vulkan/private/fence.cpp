@@ -15,7 +15,7 @@ namespace internal
 {
     const auto create_info = initializers::fence_create_info(create_state);
 
-    VkFence handle = nullptr;
+    VkFence handle = VK_NULL_HANDLE;
     checked_result{vkCreateFence(device, &create_info, nullptr, &handle)};
     return handle;
 }
@@ -50,7 +50,7 @@ fence::~fence() noexcept
 fence::fence(fence &&other) noexcept
     : fence_ref{other}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto fence::operator=(fence &&other) noexcept -> fence &
@@ -61,7 +61,7 @@ auto fence::operator=(fence &&other) noexcept -> fence &
 
         device_ = other.device_;
         handle_ = other.handle_;
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

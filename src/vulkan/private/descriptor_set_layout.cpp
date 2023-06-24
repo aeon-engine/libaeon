@@ -49,7 +49,7 @@ descriptor_set_layout::~descriptor_set_layout()
 descriptor_set_layout::descriptor_set_layout(descriptor_set_layout &&other) noexcept
     : descriptor_set_layout_ref{other}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto descriptor_set_layout::operator=(descriptor_set_layout &&other) noexcept -> descriptor_set_layout &
@@ -60,7 +60,7 @@ auto descriptor_set_layout::operator=(descriptor_set_layout &&other) noexcept ->
 
         device_ = other.device_;
         handle_ = other.handle_;
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

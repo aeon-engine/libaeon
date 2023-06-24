@@ -40,7 +40,7 @@ namespace internal
 
 shader_module::shader_module() noexcept
     : device_{nullptr}
-    , shader_module_{nullptr}
+    , shader_module_{VK_NULL_HANDLE}
 {
 }
 
@@ -72,7 +72,7 @@ shader_module::shader_module(shader_module &&other) noexcept
     , shader_module_{other.shader_module_}
 {
     other.device_ = nullptr;
-    other.shader_module_ = nullptr;
+    other.shader_module_ = VK_NULL_HANDLE;
 }
 
 auto shader_module::operator=(shader_module &&other) noexcept -> shader_module &
@@ -84,7 +84,7 @@ auto shader_module::operator=(shader_module &&other) noexcept -> shader_module &
         device_ = other.device_;
         shader_module_ = other.shader_module_;
         other.device_ = nullptr;
-        other.shader_module_ = nullptr;
+        other.shader_module_ = VK_NULL_HANDLE;
     }
 
     return *this;

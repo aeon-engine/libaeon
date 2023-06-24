@@ -38,7 +38,7 @@ namespace internal
     info.subpass = description.subpass();
 
     VkPipeline handle{};
-    checked_result{vkCreateGraphicsPipelines(vulkan::handle(device), nullptr, 1, &info, nullptr, &handle)};
+    checked_result{vkCreateGraphicsPipelines(vulkan::handle(device), VK_NULL_HANDLE, 1, &info, nullptr, &handle)};
     return handle;
 }
 
@@ -46,7 +46,7 @@ namespace internal
 
 pipeline::pipeline() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -65,7 +65,7 @@ pipeline::pipeline(pipeline &&other) noexcept
     : device_{other.device_}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto pipeline::operator=(pipeline &&other) noexcept -> pipeline &
@@ -77,7 +77,7 @@ auto pipeline::operator=(pipeline &&other) noexcept -> pipeline &
         device_ = other.device_;
         handle_ = other.handle_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

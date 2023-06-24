@@ -12,7 +12,7 @@ namespace internal
 
 [[nodiscard]] auto create_sampler(const device &device, const sampler_create_info &info)
 {
-    VkSampler handle = nullptr;
+    VkSampler handle = VK_NULL_HANDLE;
     checked_result{vkCreateSampler(vulkan::handle(device), &info, nullptr, &handle)};
     return handle;
 }
@@ -20,7 +20,7 @@ namespace internal
 } // namespace internal
 
 sampler::sampler() noexcept
-    : handle_{nullptr}
+    : handle_{VK_NULL_HANDLE}
     , device_{nullptr}
 {
 }
@@ -40,7 +40,7 @@ sampler::sampler(sampler &&other) noexcept
     : handle_{other.handle_}
     , device_{other.device_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto sampler::operator=(sampler &&other) noexcept -> sampler &
@@ -52,7 +52,7 @@ auto sampler::operator=(sampler &&other) noexcept -> sampler &
         handle_ = other.handle_;
         device_ = other.device_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

@@ -51,7 +51,7 @@ namespace internal
 
 framebuffer::framebuffer() noexcept
     : device_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -79,7 +79,7 @@ framebuffer::framebuffer(framebuffer &&other) noexcept
     : device_{other.device_}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto framebuffer::operator=(framebuffer &&other) noexcept -> framebuffer &
@@ -90,7 +90,7 @@ auto framebuffer::operator=(framebuffer &&other) noexcept -> framebuffer &
 
         device_ = other.device_;
         handle_ = other.handle_;
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

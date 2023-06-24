@@ -39,14 +39,14 @@ void destroy_debug_utils_messenger(VkInstance instance, VkDebugUtilsMessengerEXT
 
 debug::debug() noexcept
     : instance_{nullptr}
-    , messenger_{nullptr}
+    , messenger_{VK_NULL_HANDLE}
 {
 }
 
 debug::debug(const instance &instance, std::function<debug_callback_type> callback,
              const common::flags<message_severity> severity, const common::flags<message_type> type)
     : instance_{instance.handle()}
-    , messenger_{nullptr}
+    , messenger_{VK_NULL_HANDLE}
     , callback_{std::move(callback)}
 {
     const auto debug_messenger_info =

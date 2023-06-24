@@ -53,7 +53,7 @@ namespace internal
 
 descriptor_set::descriptor_set() noexcept
     : pool_{nullptr}
-    , handle_{nullptr}
+    , handle_{VK_NULL_HANDLE}
 {
 }
 
@@ -86,7 +86,7 @@ descriptor_set::descriptor_set(descriptor_set &&other) noexcept
     : pool_{other.pool_}
     , handle_{other.handle_}
 {
-    other.handle_ = nullptr;
+    other.handle_ = VK_NULL_HANDLE;
 }
 
 auto descriptor_set::operator=(descriptor_set &&other) noexcept -> descriptor_set &
@@ -98,7 +98,7 @@ auto descriptor_set::operator=(descriptor_set &&other) noexcept -> descriptor_se
         pool_ = other.pool_;
         handle_ = other.handle_;
 
-        other.handle_ = nullptr;
+        other.handle_ = VK_NULL_HANDLE;
     }
 
     return *this;

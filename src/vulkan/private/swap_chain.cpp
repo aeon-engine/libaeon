@@ -167,7 +167,7 @@ swap_chain::swap_chain() noexcept
     , present_mode_{}
     , extent_{}
     , surface_format_{}
-    , swapchain_{nullptr}
+    , swapchain_{VK_NULL_HANDLE}
     , images_{}
     , image_views_{}
     , current_index_{0}
@@ -184,7 +184,7 @@ swap_chain::swap_chain(const vulkan::device &device, const surface &surface,
     , surface_format_{internal::choose_swap_chain_surface_format(device.physical_device().surface_formats(surface),
                                                                  preferred_surface_format)}
     , swapchain_{internal::create_swap_chain(device.physical_device(), device, surface, surface_format_, present_mode_,
-                                             extent_, nullptr)}
+                                             extent_, VK_NULL_HANDLE)}
     , images_{internal::get_swap_chain_images(device, swapchain_)}
     , image_views_{internal::create_image_views(images_, *device_, surface_format_)}
     , current_index_{0}
@@ -207,7 +207,7 @@ swap_chain::swap_chain(swap_chain &&other) noexcept
     , image_views_{std::move(other.image_views_)}
     , current_index_{other.current_index_}
 {
-    other.swapchain_ = nullptr;
+    other.swapchain_ = VK_NULL_HANDLE;
 }
 
 auto swap_chain::operator=(swap_chain &&other) noexcept -> swap_chain &
@@ -225,7 +225,7 @@ auto swap_chain::operator=(swap_chain &&other) noexcept -> swap_chain &
         images_ = std::move(other.images_);
         image_views_ = std::move(other.image_views_);
         current_index_ = other.current_index_;
-        other.swapchain_ = nullptr;
+        other.swapchain_ = VK_NULL_HANDLE;
     }
 
     return *this;
@@ -291,7 +291,7 @@ auto swap_chain::acquire_next_image(const semaphore_ref &present_complete_semaph
     -> std::uint32_t
 {
     checked_result{vkAcquireNextImageKHR(vulkan::handle(device_), swapchain_, timeout,
-                                         vulkan::handle(present_complete_semaphore), nullptr, &current_index_)};
+                                         vulkan::handle(present_complete_semaphore), VK_NULL_HANDLE, &current_index_)};
     return current_index_;
 }
 
