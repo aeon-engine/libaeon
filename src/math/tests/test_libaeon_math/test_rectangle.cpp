@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
 #include <aeon/math/rectangle.h>
 #include <aeon/math/rectangle_stream.h>

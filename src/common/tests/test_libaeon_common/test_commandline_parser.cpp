@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
 #include <aeon/common/commandline_parser.h>
 #include <gtest/gtest.h>

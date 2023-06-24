@@ -1,4 +1,4 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
+// Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
 #include <aeon/imaging/file/file.h>
 #include "imaging_unittest_data.h"

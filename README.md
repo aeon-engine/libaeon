@@ -55,7 +55,7 @@ License
 --------------
 The Aeon Library is released under the 2-Clause BSD license.
 
-Copyright 2012-2022 Robin Degen
+Copyright 2012-2023 Robin Degen
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
 following conditions are met:
