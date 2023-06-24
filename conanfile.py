@@ -17,8 +17,6 @@ class LibAeonConan(ConanFile):
         'fPIC': [True, False],
         'enable_unittests': [True, False],
         'enable_benchmarks': [True, False],
-        'with_ast': [True, False],
-        'with_clang': [True, False],
         'with_common': [True, False],
         'with_compression': [True, False],
         'with_crypto': [True, False],
@@ -48,8 +46,6 @@ class LibAeonConan(ConanFile):
         'fPIC': True,
         'enable_unittests': True,
         'enable_benchmarks': True,
-        'with_ast': True,
-        'with_clang': True,
         'with_common': True,
         'with_compression': True,
         'with_crypto': True,
@@ -89,9 +85,6 @@ class LibAeonConan(ConanFile):
         if self.options.get_safe('enable_benchmarks', True):
             self.requires('benchmark/v1.8.0-8-g1d25c2e')
 
-        #if self.options.get_safe('with_clang', True):
-        #    self.requires('libclang/12.0.1.2@aeon/stable')
-
         if self.options.get_safe('with_compression', True):
             self.requires('zlib/v1.2.13')
 
@@ -120,8 +113,6 @@ class LibAeonConan(ConanFile):
         tc.variables['AEON_ENABLE_TESTING'] = self.options.enable_unittests
         tc.variables['AEON_ENABLE_BENCHMARK'] = self.options.enable_benchmarks
 
-        tc.variables['AEON_COMPONENT_AST'] = self.options.get_safe('with_ast', default=False)
-        tc.variables['AEON_COMPONENT_CLANG'] = self.options.get_safe('with_clang', default=False)
         tc.variables['AEON_COMPONENT_COMMON'] = self.options.get_safe('with_common', default=False)
         tc.variables['AEON_COMPONENT_COMPRESSION'] = self.options.get_safe('with_compression', default=False)
         tc.variables['AEON_COMPONENT_CRYPTO'] = self.options.get_safe('with_crypto', default=False)

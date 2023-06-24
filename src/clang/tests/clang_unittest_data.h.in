@@ -1,5 +1,0 @@
-// Distributed under the BSD 2-Clause License - Copyright 2012-2022 Robin Degen
-
-// This is a generated file. Do not modify.
-
-#define AEON_CLANG_UNITTEST_DATA_PATH "@AEON_CLANG_UNITTEST_DATA_PATH@"
