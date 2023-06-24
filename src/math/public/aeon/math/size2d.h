@@ -15,9 +15,9 @@ namespace aeon::math
 
 template <typename T>
 concept external_size2d = requires(T val) {
-                              val.width;
-                              val.height;
-                          };
+    val.width;
+    val.height;
+};
 
 /*!
  * Class that represents a size (width and height).

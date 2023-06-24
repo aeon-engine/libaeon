@@ -11,9 +11,9 @@ namespace aeon::common
 
 template <typename T>
 concept intrusive_reference_countable = requires(T val) {
-                                            val.intrusive_ptr_add_ref();
-                                            val.intrusive_ptr_release();
-                                        };
+    val.intrusive_ptr_add_ref();
+    val.intrusive_ptr_release();
+};
 
 template <concepts::integral_or_atomic_integral T, typename derived_t,
           typename deleter_t = std::default_delete<derived_t>>

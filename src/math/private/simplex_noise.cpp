@@ -370,7 +370,7 @@ void scaled_octave_noise(mat_view &matrix, const float octaves, const float pers
     // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
     // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
     // c = (3-sqrt(3))/6
-    const auto x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
+    const auto x1 = x0 - i1 + G2;          // Offsets for middle corner in (x,y) unskewed coords
     const auto y1 = y0 - j1 + G2;
     const auto x2 = x0 - 1.0f + 2.0f * G2; // Offsets for last corner in (x,y) unskewed coords
     const auto y2 = y0 - 1.0f + 2.0f * G2;
@@ -440,7 +440,7 @@ void scaled_octave_noise(mat_view &matrix, const float octaves, const float pers
 
     const auto G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
     const auto t = (i + j + k) * G3;
-    const auto X0 = i - t; // Unskew the cell origin back to (x,y,z) space
+    const auto X0 = i - t;       // Unskew the cell origin back to (x,y,z) space
     const auto Y0 = j - t;
     const auto Z0 = k - t;
     const auto x0 = x - X0; // The x,y,z distances from the cell origin

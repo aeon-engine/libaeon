@@ -68,7 +68,7 @@ public:
     void unload_all();
 
 private:
-    using initialize_plugin_proc = auto(*)() -> plugin *;
+    using initialize_plugin_proc = auto (*)() -> plugin *;
     using cleanup_plugin_proc = void (*)(const plugin *);
 
     /*!

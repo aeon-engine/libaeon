@@ -148,26 +148,26 @@ struct element_type final
     static constexpr auto s8_4 = element_type_info<std::int8_t, 4ull>{}; // 4 elements of int8_t
 
     static constexpr auto us8_1_stride_4 =
-        element_type_info<std::int8_t, 1ull, 4ull>{}; // 1 element of int8_t, with a stride of 4
+        element_type_info<std::int8_t, 1ull, 4ull>{};                       // 1 element of int8_t, with a stride of 4
     static constexpr auto s8_3_stride_4 =
-        element_type_info<std::int8_t, 3ull, 4ull>{}; // 3 elements of uint8_t, with a stride of 4
+        element_type_info<std::int8_t, 3ull, 4ull>{};                       // 3 elements of uint8_t, with a stride of 4
 
     static constexpr auto u16_1 = element_type_info<std::uint16_t, 1ull>{}; // 1 element of uint16_t
 
     static constexpr auto u16_1_stride_4 =
-        element_type_info<std::uint16_t, 1ull, 4ull>{}; // 1 element of uint16_t, with a stride of 4
+        element_type_info<std::uint16_t, 1ull, 4ull>{};                     // 1 element of uint16_t, with a stride of 4
 
     static constexpr auto u16_2 = element_type_info<std::uint16_t, 2ull>{}; // 2 elements of uint16_t
     static constexpr auto u16_3 = element_type_info<std::uint16_t, 3ull>{}; // 3 elements of uint16_t
     static constexpr auto u16_4 = element_type_info<std::uint16_t, 4ull>{}; // 4 elements of uint16_t
 
-    static constexpr auto s16_1 = element_type_info<std::int16_t, 1ull>{}; // 1 element of int16_t
-    static constexpr auto s16_2 = element_type_info<std::int16_t, 2ull>{}; // 2 elements of int16_t
-    static constexpr auto s16_3 = element_type_info<std::int16_t, 3ull>{}; // 3 elements of int16_t
-    static constexpr auto s16_4 = element_type_info<std::int16_t, 4ull>{}; // 4 elements of int16_t
+    static constexpr auto s16_1 = element_type_info<std::int16_t, 1ull>{};  // 1 element of int16_t
+    static constexpr auto s16_2 = element_type_info<std::int16_t, 2ull>{};  // 2 elements of int16_t
+    static constexpr auto s16_3 = element_type_info<std::int16_t, 3ull>{};  // 3 elements of int16_t
+    static constexpr auto s16_4 = element_type_info<std::int16_t, 4ull>{};  // 4 elements of int16_t
 
     static constexpr auto s16_1_stride_4 =
-        element_type_info<std::int16_t, 1ull, 4ull>{}; // 1 element of int16_t, with a stride of 4
+        element_type_info<std::int16_t, 1ull, 4ull>{};                      // 1 element of int16_t, with a stride of 4
 
     static constexpr auto u32_1 = element_type_info<std::uint32_t, 1ull>{}; // 1 element of uint32_t
     static constexpr auto u32_2 = element_type_info<std::uint32_t, 2ull>{}; // 2 elements of uint32_t
@@ -175,7 +175,7 @@ struct element_type final
     static constexpr auto u32_4 = element_type_info<std::uint32_t, 4ull>{}; // 4 elements of uint32_t
 
     static constexpr auto u32_1_stride_8 =
-        element_type_info<std::uint32_t, 1ull, 8ull>{}; // 1 element of uint32_t, with a stride of 8
+        element_type_info<std::uint32_t, 1ull, 8ull>{};                    // 1 element of uint32_t, with a stride of 8
 
     static constexpr auto s32_1 = element_type_info<std::int32_t, 1ull>{}; // 1 element of int32_t
     static constexpr auto s32_2 = element_type_info<std::int32_t, 2ull>{}; // 2 elements of int32_t
@@ -183,25 +183,25 @@ struct element_type final
     static constexpr auto s32_4 = element_type_info<std::int32_t, 4ull>{}; // 4 elements of int32_t
 
     static constexpr auto s32_1_stride_8 =
-        element_type_info<std::int32_t, 1ull, 8ull>{}; // 1 element of int32_t, with a stride of 8
+        element_type_info<std::int32_t, 1ull, 8ull>{};                      // 1 element of int32_t, with a stride of 8
 
     static constexpr auto u64_1 = element_type_info<std::uint64_t, 1ull>{}; // 1 element of uint64_t
     static constexpr auto u64_2 = element_type_info<std::uint64_t, 2ull>{}; // 2 elements of uint64_t
     static constexpr auto u64_3 = element_type_info<std::uint64_t, 3ull>{}; // 3 elements of uint64_t
     static constexpr auto u64_4 = element_type_info<std::uint64_t, 4ull>{}; // 4 elements of uint64_t
 
-    static constexpr auto s64_1 = element_type_info<std::int64_t, 1ull>{}; // 1 element of int64_t
-    static constexpr auto s64_2 = element_type_info<std::int64_t, 2ull>{}; // 2 elements of int64_t
-    static constexpr auto s64_3 = element_type_info<std::int64_t, 3ull>{}; // 3 elements of int64_t
-    static constexpr auto s64_4 = element_type_info<std::int64_t, 4ull>{}; // 4 elements of int64_t
+    static constexpr auto s64_1 = element_type_info<std::int64_t, 1ull>{};  // 1 element of int64_t
+    static constexpr auto s64_2 = element_type_info<std::int64_t, 2ull>{};  // 2 elements of int64_t
+    static constexpr auto s64_3 = element_type_info<std::int64_t, 3ull>{};  // 3 elements of int64_t
+    static constexpr auto s64_4 = element_type_info<std::int64_t, 4ull>{};  // 4 elements of int64_t
 
-    static constexpr auto f32_1 = element_type_info<float, 1ull>{}; // 1 element of float
-    static constexpr auto f32_2 = element_type_info<float, 2ull>{}; // 2 elements of float
-    static constexpr auto f32_3 = element_type_info<float, 3ull>{}; // 3 elements of float
-    static constexpr auto f32_4 = element_type_info<float, 4ull>{}; // 4 elements of float
+    static constexpr auto f32_1 = element_type_info<float, 1ull>{};         // 1 element of float
+    static constexpr auto f32_2 = element_type_info<float, 2ull>{};         // 2 elements of float
+    static constexpr auto f32_3 = element_type_info<float, 3ull>{};         // 3 elements of float
+    static constexpr auto f32_4 = element_type_info<float, 4ull>{};         // 4 elements of float
 
     static constexpr auto f32_1_stride_8 =
-        element_type_info<float, 1ull, 8ull>{}; // 1 element of float, with a stride of 8
+        element_type_info<float, 1ull, 8ull>{};                      // 1 element of float, with a stride of 8
 
     static constexpr auto f64_1 = element_type_info<double, 1ull>{}; // 1 element of double
     static constexpr auto f64_2 = element_type_info<double, 2ull>{}; // 2 elements of double

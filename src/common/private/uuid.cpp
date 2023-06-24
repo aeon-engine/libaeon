@@ -133,7 +133,7 @@ uuid::~uuid() noexcept = default;
     // which is index 8, since indexes count backwards
     const auto octet7 = data[8]; // octet 7 is array index 8
     if ((octet7 & 0x80) == 0x00)
-    { // 0b0xxxxxxx
+    {                            // 0b0xxxxxxx
         return variant_type::variant_ncs;
     }
     else if ((octet7 & 0xC0) == 0x80)

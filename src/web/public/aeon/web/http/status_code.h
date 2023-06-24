@@ -9,8 +9,8 @@ enum class status_code
 {
     continue_100 = 100, // Continue is a reserved keyword...
     switching_protocols = 101,
-    processing = 102,  // WebDAV, RF 2518
-    early_hints = 103, // RFC 8297
+    processing = 102,   // WebDAV, RF 2518
+    early_hints = 103,  // RFC 8297
     ok = 200,
     created = 201,
     accepted = 202,
@@ -31,7 +31,7 @@ enum class status_code
     temporary_redirect = 307,
     permanent_redirect = 308, // RFC 7538
     bad_request = 400,
-    unauthorized = 401, // RFC 7235
+    unauthorized = 401,       // RFC 7235
     payment_required = 402,
     forbidden = 403,
     not_found = 404,
@@ -42,17 +42,17 @@ enum class status_code
     conflict = 409,
     gone = 410,
     length_required = 411,
-    precondition_failed = 412, // RFC 7232
-    payload_too_large = 413,   // RFC 7231
-    uri_too_long = 414,        // RFC 7231
+    precondition_failed = 412,             // RFC 7232
+    payload_too_large = 413,               // RFC 7231
+    uri_too_long = 414,                    // RFC 7231
     unsupported_media_type = 415,
-    range_not_satisfiable = 416, // RFC 7233
+    range_not_satisfiable = 416,           // RFC 7233
     expectation_failed = 417,
-    im_a_teapot = 418,          // RFC 2324
-    misdirected_request = 421,  // RFC 7540
-    unprocessable_entity = 422, // WebDAV, RFC 4918
-    locked = 423,               // WebDAV, RFC 4918
-    failed_dependency = 424,    // WebDAV, RFC 4918
+    im_a_teapot = 418,                     // RFC 2324
+    misdirected_request = 421,             // RFC 7540
+    unprocessable_entity = 422,            // WebDAV, RFC 4918
+    locked = 423,                          // WebDAV, RFC 4918
+    failed_dependency = 424,               // WebDAV, RFC 4918
     upgrade_required = 426,
     precondition_required = 428,           // RFC 6585
     too_many_requests = 429,               // RFC 6585
