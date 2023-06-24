@@ -15,7 +15,7 @@ set(CMAKE_DEBUG_POSTFIX _d)
 # analysis tools.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}/dep/cmake")
+set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}/dep/devops/CMake")
 set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
 option(AEON_ENABLE_CONAN_INTEGRATION "Enable automatic installation of Conan packages as part of the CMake configure step." ON)
