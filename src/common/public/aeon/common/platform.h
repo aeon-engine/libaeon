@@ -12,7 +12,16 @@
  * AEON_PLATFORM_OS_ANDROID
  * AEON_PLATFORM_OS_IOS
  * AEON_PLATFORM_OS_UNIX
+ *
+ * AEON_ARCHITECTURE_32BIT
+ * AEON_ARCHITECTURE_64BIT
  */
+
+#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(_M_X64)
+#define AEON_ARCHITECTURE_64BIT 1
+#else
+#define AEON_ARCHITECTURE_32BIT 1
+#endif
 
 #if (defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__))
 #define AEON_PLATFORM_OS_WINDOWS 1
