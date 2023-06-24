@@ -1,5 +1,6 @@
-from conans.errors import ConanInvalidConfiguration
-from conans import ConanFile, CMake, tools
+from conan import ConanFile
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.files import rmdir
 import os
 
 
@@ -10,14 +11,13 @@ class LibAeonConan(ConanFile):
     homepage = 'https://git.aeons.dev/aeon-engine/libaeon'
     url = 'https://git.aeons.dev/aeon-engine/libaeon'
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake_find_package_multi"
+
     options = {
         'shared': [True, False],
         'fPIC': [True, False],
         'enable_unittests': [True, False],
         'enable_benchmarks': [True, False],
         'with_ast': [True, False],
-        'with_chrono': [True, False],
         'with_clang': [True, False],
         'with_common': [True, False],
         'with_compression': [True, False],
@@ -42,13 +42,13 @@ class LibAeonConan(ConanFile):
         'with_vulkan': [True, False],
         'with_web': [True, False]
     }
+
     default_options = {
         'shared': False,
         'fPIC': True,
         'enable_unittests': True,
         'enable_benchmarks': True,
         'with_ast': True,
-        'with_chrono': True,
         'with_clang': True,
         'with_common': True,
         'with_compression': True,
@@ -74,20 +74,9 @@ class LibAeonConan(ConanFile):
         'with_web': True
     }
 
-    def _supports_compiler(self):
-        compiler = self.settings.compiler.value
-        version = tools.Version(self.settings.compiler.version)
-        major_rev, minor_rev = int(version.major), int(version.minor)
-
-        unsupported_combinations = [
-            [compiler == 'gcc', major_rev < 11],
-            [compiler == 'clang', major_rev < 12],
-            [compiler == 'Visual Studio', major_rev < 16],
-            # [compiler == 'apple-clang', major_rev < 9],
-        ]
-        if any(all(combination) for combination in unsupported_combinations):
-            message = 'unsupported compiler: "{}", version "{}"'
-            raise ConanInvalidConfiguration(message.format(compiler, version))
+    def configure(self):
+        if self.options.shared:
+            del self.options.fPIC
 
     def config_options(self):
         if self.settings.os == 'Windows':
@@ -95,93 +84,77 @@ class LibAeonConan(ConanFile):
 
     def requirements(self):
         if self.options.get_safe('enable_unittests', True):
-            self.requires('gtest/1.12.1@aeon/stable')
+            self.requires('gtest/v1.13.0-168-gec4fed93')
 
         if self.options.get_safe('enable_benchmarks', True):
-            self.requires('benchmark/1.7.0@aeon/stable')
+            self.requires('benchmark/v1.8.0-8-g1d25c2e')
 
-        if self.options.get_safe('with_chrono', True) or self.options.get_safe('with_unicode', True):
-            self.requires('icu/71.1@aeon/stable')
-
-        if self.options.get_safe('with_clang', True):
-            self.requires('libclang/12.0.1.2@aeon/stable')
+        #if self.options.get_safe('with_clang', True):
+        #    self.requires('libclang/12.0.1.2@aeon/stable')
 
         if self.options.get_safe('with_compression', True):
-            self.requires('zlib/1.2.12@aeon/stable')
+            self.requires('zlib/v1.2.13')
 
         if self.options.get_safe('with_fonts', True):
-            self.requires('freetype/2.12.1@aeon/stable')
+            self.requires('freetype/ver-2-13-0-150-g5c00a4680')
 
         if self.options.get_safe('with_imaging', True):
-            self.requires('libpng/1.6.38@aeon/stable')
-            self.requires('libjpeg-turbo/2.1.4@aeon/stable')
+            self.requires('libpng/v1.6.40')
+            self.requires('libjpeg-turbo/2.1.91-27-g6b9e3b04')
 
         if self.options.get_safe('with_platform', True):
-            if self.settings.os in ["Linux", "FreeBSD"]:
-                self.requires("xorg/system@aeon/stable")
-
-            self.requires('glfw/3.3.8@aeon/stable')
+            self.requires('glfw/3.3-778-g3fa23607')
 
         if self.options.get_safe('with_sockets', True):
-            self.requires('asio/1.24.0@aeon/stable')
+            self.requires('asio/asio-1-28-0')
 
         if self.options.get_safe('with_vulkan', True):
-            self.requires('vulkan-memory-allocator/3.0.1@aeon/stable')
+            self.requires('vulkan-memory-allocator/v3.0.1-81-g0aa3989')
 
-    def imports(self):
-        if self.settings.compiler.value == 'Visual Studio':
-            self.copy("*.dll", src="bin", dst=os.path.join("bin", str(self.settings.build_type)))
-
-    def configure(self):
-        if self.options.shared:
-            del self.options.fPIC
-
-        self._supports_compiler()
-
-    def _configure_cmake(self):
-        cmake = CMake(self)
-        cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
-        cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = \
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.variables['BUILD_SHARED_LIBS'] = self.options.shared
+        tc.variables['CMAKE_POSITION_INDEPENDENT_CODE'] = \
             self.options.get_safe('fPIC', default=False) or self.options.shared
 
-        cmake.definitions['AEON_ENABLE_TESTING'] = self.options.enable_unittests
-        cmake.definitions['AEON_ENABLE_BENCHMARK'] = self.options.enable_benchmarks
+        tc.variables['AEON_ENABLE_TESTING'] = self.options.enable_unittests
+        tc.variables['AEON_ENABLE_BENCHMARK'] = self.options.enable_benchmarks
 
-        cmake.definitions['AEON_COMPONENT_AST'] = self.options.get_safe('with_ast', default=False)
-        cmake.definitions['AEON_COMPONENT_CHRONO'] = self.options.get_safe('with_chrono', default=False)
-        cmake.definitions['AEON_COMPONENT_CLANG'] = self.options.get_safe('with_clang', default=False)
-        cmake.definitions['AEON_COMPONENT_COMMON'] = self.options.get_safe('with_common', default=False)
-        cmake.definitions['AEON_COMPONENT_COMPRESSION'] = self.options.get_safe('with_compression', default=False)
-        cmake.definitions['AEON_COMPONENT_CRYPTO'] = self.options.get_safe('with_crypto', default=False)
-        cmake.definitions['AEON_COMPONENT_FILE_CONTAINER'] = self.options.get_safe('with_file_container', default=False)
-        cmake.definitions['AEON_COMPONENT_FONTS'] = self.options.get_safe('with_fonts', default=False)
-        cmake.definitions['AEON_COMPONENT_IMAGING'] = self.options.get_safe('with_imaging', default=False)
-        cmake.definitions['AEON_COMPONENT_LOGGER'] = self.options.get_safe('with_logger', default=False)
-        cmake.definitions['AEON_COMPONENT_MATH'] = self.options.get_safe('with_math', default=False)
-        cmake.definitions['AEON_COMPONENT_PLATFORM'] = self.options.get_safe('with_platform', default=False)
-        cmake.definitions['AEON_COMPONENT_PLUGINS'] = self.options.get_safe('with_plugins', default=False)
-        cmake.definitions['AEON_COMPONENT_PTREE'] = self.options.get_safe('with_ptree', default=False)
-        cmake.definitions['AEON_COMPONENT_RDP'] = self.options.get_safe('with_rdp', default=False)
-        cmake.definitions['AEON_COMPONENT_REFLECTION'] = self.options.get_safe('with_reflection', default=False)
-        cmake.definitions['AEON_COMPONENT_SERIAL'] = self.options.get_safe('with_serial', default=False)
-        cmake.definitions['AEON_COMPONENT_SOCKETS'] = self.options.get_safe('with_sockets', default=False)
-        cmake.definitions['AEON_COMPONENT_STREAMS'] = self.options.get_safe('with_streams', default=False)
-        cmake.definitions['AEON_COMPONENT_TESTING'] = self.options.get_safe('with_testing', default=False)
-        cmake.definitions['AEON_COMPONENT_TRACELOG'] = self.options.get_safe('with_tracelog', default=False)
-        cmake.definitions['AEON_COMPONENT_UNICODE'] = self.options.get_safe('with_unicode', default=False)
-        cmake.definitions['AEON_COMPONENT_VARIANT'] = self.options.get_safe('with_variant', default=False)
-        cmake.definitions['AEON_COMPONENT_VULKAN'] = self.options.get_safe('with_vulkan', default=False)
-        cmake.definitions['AEON_COMPONENT_WEB'] = self.options.get_safe('with_web', default=False)
-
-        return cmake
+        tc.variables['AEON_COMPONENT_AST'] = self.options.get_safe('with_ast', default=False)
+        tc.variables['AEON_COMPONENT_CLANG'] = self.options.get_safe('with_clang', default=False)
+        tc.variables['AEON_COMPONENT_COMMON'] = self.options.get_safe('with_common', default=False)
+        tc.variables['AEON_COMPONENT_COMPRESSION'] = self.options.get_safe('with_compression', default=False)
+        tc.variables['AEON_COMPONENT_CRYPTO'] = self.options.get_safe('with_crypto', default=False)
+        tc.variables['AEON_COMPONENT_FILE_CONTAINER'] = self.options.get_safe('with_file_container', default=False)
+        tc.variables['AEON_COMPONENT_FONTS'] = self.options.get_safe('with_fonts', default=False)
+        tc.variables['AEON_COMPONENT_IMAGING'] = self.options.get_safe('with_imaging', default=False)
+        tc.variables['AEON_COMPONENT_LOGGER'] = self.options.get_safe('with_logger', default=False)
+        tc.variables['AEON_COMPONENT_MATH'] = self.options.get_safe('with_math', default=False)
+        tc.variables['AEON_COMPONENT_PLATFORM'] = self.options.get_safe('with_platform', default=False)
+        tc.variables['AEON_COMPONENT_PLUGINS'] = self.options.get_safe('with_plugins', default=False)
+        tc.variables['AEON_COMPONENT_PTREE'] = self.options.get_safe('with_ptree', default=False)
+        tc.variables['AEON_COMPONENT_RDP'] = self.options.get_safe('with_rdp', default=False)
+        tc.variables['AEON_COMPONENT_REFLECTION'] = self.options.get_safe('with_reflection', default=False)
+        tc.variables['AEON_COMPONENT_SERIAL'] = self.options.get_safe('with_serial', default=False)
+        tc.variables['AEON_COMPONENT_SOCKETS'] = self.options.get_safe('with_sockets', default=False)
+        tc.variables['AEON_COMPONENT_STREAMS'] = self.options.get_safe('with_streams', default=False)
+        tc.variables['AEON_COMPONENT_TESTING'] = self.options.get_safe('with_testing', default=False)
+        tc.variables['AEON_COMPONENT_TRACELOG'] = self.options.get_safe('with_tracelog', default=False)
+        tc.variables['AEON_COMPONENT_UNICODE'] = self.options.get_safe('with_unicode', default=False)
+        tc.variables['AEON_COMPONENT_VARIANT'] = self.options.get_safe('with_variant', default=False)
+        tc.variables['AEON_COMPONENT_VULKAN'] = self.options.get_safe('with_vulkan', default=False)
+        tc.variables['AEON_COMPONENT_WEB'] = self.options.get_safe('with_web', default=False)
+        tc.generate()
+        deps = CMakeDeps(self)
+        deps.generate()
 
     def build(self):
-        cmake = self._configure_cmake()
+        cmake = CMake(self)
         cmake.configure()
         cmake.build()
 
     def package(self):
-        cmake = self._configure_cmake()
+        cmake = CMake(self)
         cmake.install()
 
         tools.remove_files_by_mask(self.package_folder, "*.pdb")
