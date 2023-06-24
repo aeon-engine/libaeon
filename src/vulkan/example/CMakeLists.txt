@@ -1,6 +1,6 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-include(CompileLunarGVulkanGLSL)
+include(AddVulkanGLSLProgram)
 
 set(SOURCES
     private/main.cpp
