@@ -25,9 +25,8 @@ public:
 
     /*!
      * Load a dynamic library from the given path.
-     * \throws dynamic_library_load_exception if the library could not be loaded
      */
-    explicit dynamic_library(const std::filesystem::path &path);
+    explicit dynamic_library(const std::filesystem::path &path) noexcept;
 
     ~dynamic_library();
 

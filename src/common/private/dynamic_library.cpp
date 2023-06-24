@@ -16,16 +16,13 @@ namespace aeon::common
 namespace internal
 {
 
-[[nodiscard]] static auto load_library(const std::filesystem::path &path) -> void *
+[[nodiscard]] static auto load_library(const std::filesystem::path &path) noexcept -> void *
 {
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
     auto result = LoadLibraryW(path.wstring().c_str());
 #else
     auto result = dlopen(reinterpret_cast<const char *>(path.u8string().c_str()), RTLD_LAZY | RTLD_LOCAL);
 #endif
-
-    if (result == nullptr)
-        throw dynamic_library_load_exception{};
 
     return result;
 }
@@ -60,7 +57,7 @@ dynamic_library::dynamic_library(void *handle) noexcept
 {
 }
 
-dynamic_library::dynamic_library(const std::filesystem::path &path)
+dynamic_library::dynamic_library(const std::filesystem::path &path) noexcept
     : handle_{internal::load_library(path)}
 {
 }
